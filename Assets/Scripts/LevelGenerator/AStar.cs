@@ -23,41 +23,47 @@ namespace LevelGenerator
         static int sizeX;
         static int sizeY;
         //The A* algorithm
-        public static int FindRoute(Dungeon dun)
+        public int FindRoute(Dungeon dun, int matrixOffset)
         {
-
+            //The path through the dungeon
             List<Location> path = new List<Location>();
 
-
+            //Current, starting and target locations
             Location current = null;
             Location start;
             Location target = null;
-            //Location of the locks that were still not opened
+            //List of locations of the locks that were still not opened
             List<Location> locksLocation = new List<Location>();
-            //Location of all the locks since the start of the algorithm
+            //List of locations of all the locks since the start of the algorithm
             List<Location> allLocksLocation = new List<Location>();
+            
+            /*
+             *  TODO: Make the A* (or another algorithm) use only the really needed ones, the A* in the search phase opens some unecessary locked doors, but this could be prevented
+             *  By making partial A* from the start to the key of the first locked door found, then from the key to the door, from the door to the key to the next locked one, and so on
+             */
+
             //Counter for all the locks that were opened during the A* execution
-            //TODO: Make the A* (or another algorithm) use only the really needed ones, the A* in the search phase opens some unecessary locked doors, but this could be prevented
-            //By making partial A* from the start to the key of the first locked door found, then from the key to the door, from the door to the key to the next locked one, and so on
             int neededLocks = 0;
+            //The actual room being visited and its parent, to search for locks
             Room actualRoom, parent;
             //The grid with the rooms
             RoomGrid grid = dun.roomGrid;
             //Type of the room
             Type type;
-            //X and Y coordinates
+            //X and Y coordinates and their respective conversion to only-positive values
             int x, y, iPositive, jPositive;
             //List of all the locked rooms
             List<int> lockedRooms = new List<int>();
             //List of all the keys
             List<int> keys = new List<int>();
-            //int nLockedRooms = 0;
+
             //Min and max boundaries of the grid based on the original grid
             int minX, minY, maxX, maxY;
-            minX = Constants.MATRIXOFFSET;
-            minY = Constants.MATRIXOFFSET;
-            maxX = -Constants.MATRIXOFFSET;
-            maxY = -Constants.MATRIXOFFSET;
+            minX = matrixOffset;
+            minY = matrixOffset;
+            maxX = -matrixOffset;
+            maxY = -matrixOffset;
+            
             //Check all the rooms and add them to the keys and locks lists if they are one of them
             foreach (Room room in dun.RoomList)
             {
@@ -79,16 +85,19 @@ namespace LevelGenerator
                 if (room.Y > maxY)
                     maxY = room.Y;
             }
+
             //The starting location is room (0,0)
             start = new Location { X = -2*minX, Y = -2*minY };
             //List of visited rooms that are not closed yet
             var openList = new List<Location>();
             //List of closed rooms. They were visited and all neighboors explored.
             var closedList = new List<Location>();
+            //g score
             int g = 0;
             //Size of the new grid
             sizeX = maxX - minX + 1;
             sizeY = maxY - minY + 1;
+            //Instantiate the grid
             int[,] map = new int[2*sizeX, 2*sizeY];
 
             //101 is EMPTY
@@ -99,6 +108,7 @@ namespace LevelGenerator
                     map[i, j] = 101;
                 }
             }
+
             //Fill the new grid
             for (int i = minX; i < maxX + 1; ++i)
             {
@@ -224,23 +234,20 @@ namespace LevelGenerator
                         break;
                     }
                 }
-                // show current square on the map
-                //Console.SetCursorPosition(current.Y, current.X + 20);
-                //Console.Write('.');
-                //Console.SetCursorPosition(current.Y, current.X + 20);
-                //System.Threading.Thread.Sleep(100);
-
+                
                 // remove it from the open list
                 openList.Remove(current);
-                //Console.WriteLine("Check Path");
+
                 // if we added the destination to the closed list, we've found a path
                 if(closedList != null)
                     if (closedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
                         break;
 
+                // Get adjacent squares to the current one
                 var adjacentSquares = GetWalkableAdjacentSquares(current.X, current.Y, map);
                 g++;
 
+                //Visit each adjacent node
                 foreach (var adjacentSquare in adjacentSquares)
                 {
                     // if this adjacent square is already in the closed list, ignore it
@@ -275,18 +282,7 @@ namespace LevelGenerator
                     }
                 }
             }
-            // assume path was found; let's show it
-            /*while (current != null)
-            {
-                Console.SetCursorPosition(current.Y+20, current.X + 20);
-                Console.Write('_');
-                Console.SetCursorPosition(current.Y+20, current.X + 20);
-                current = current.Parent;
-                System.Threading.Thread.Sleep(10);
-            }*/
-            // end
-            //Console.WriteLine("NRooms: " + dun.RoomList.Count);
-            //Console.WriteLine("OpenList: "+openList.Count + "  Closed List:"+ closedList.Count);
+
             return neededLocks;
         }
         //Check what adjacent rooms exits and can be visited and return the valid ones

@@ -142,6 +142,8 @@ public class CSVManager
             return (row.Count > 0);
         }
     }
+
+    //Create e CSV file with all desired columns
     static void createCSV(String filename)
     {
         using (CsvFileWriter writer = new CsvFileWriter(filename, false))
@@ -159,6 +161,8 @@ public class CSVManager
             writer.WriteRow(row);
         }
     }
+
+    //Save a whole level in the csv file
     public static void SaveCSVLevel(int id, int nkeys, int nlocks, int nrooms, float lc, int openlocks, float openRooms, double fitness, long time, string filename)
     {
         try

@@ -15,6 +15,8 @@ namespace LevelGenerator
     {
         private readonly object crossoverLock = new object();
         private readonly object addChildLock = new object();
+        private readonly object fitnessLock = new object();
+        private readonly object minFitnessLock = new object();
         double min;
         double actual;
         public bool hasFinished;
@@ -43,6 +45,7 @@ namespace LevelGenerator
 
         public IEnumerator CreateDungeon(TextMeshProUGUI progressText = null)
         {
+            int matrixOffset = Constants.MATRIXOFFSET;
             hasFinished = false;
             min = Double.MaxValue;
             //Console.WriteLine("New round!");
@@ -75,7 +78,7 @@ namespace LevelGenerator
                 foreach (Dungeon dun in dungeons)
                 {
                     //Interface.PrintNumericalGridWithConnections(dun);
-                    dun.fitness = gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef);
+                    dun.fitness = gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef, matrixOffset);
                     //Console.ReadKey();
                     //Console.Clear();
                     yield return null;
@@ -94,6 +97,7 @@ namespace LevelGenerator
                     }
                 }
 
+                
                 //Create the child population by doing the crossover and mutation
                 List<Dungeon> childPop = new List<Dungeon>(dungeons.Count);
                 for (int i = 0; i < (dungeons.Count / 2); ++i)
@@ -161,7 +165,7 @@ namespace LevelGenerator
             aux = dungeons[0];
             foreach (Dungeon dun in dungeons)
             {
-                gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef);
+                gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef, matrixOffset);
                 actual = dun.fitness;
                 if (min > actual)
                 {
@@ -196,7 +200,8 @@ namespace LevelGenerator
 
         public IEnumerator CreateDungeonParallel(TextMeshProUGUI progressText = null)
         {
-
+            int matrixOffset = Constants.MATRIXOFFSET;
+            float startTime = Time.realtimeSinceStartup;
             hasFinished = false;
             min = Double.MaxValue;
             //Console.WriteLine("New round!");
@@ -219,23 +224,67 @@ namespace LevelGenerator
 
                 foreach (Dungeon dun in dungeons)
                 {
-                    dun.fitness = gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef);
+                    dun.fitness = gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef, matrixOffset);
+                    yield return null;
                 }
+
+                //Something is wrong with the indexes here... TODO: fix
+                /*Parallel.ForEach(dungeons, (dun) =>
+                {
+                    Dungeon tempDun;
+                    int _nV, _nK, _nL;
+                    float _lCoef;
+                    lock (fitnessLock)
+                    {
+                        tempDun = dun.Copy();
+                        _nV = Constants.nV;
+                        _nK = Constants.nK;
+                        _nL = Constants.nL;
+                        _lCoef = Constants.lCoef;
+                    }
+                    tempDun.fitness = gaObj.Fitness(tempDun, _nV, _nK, _nL, _lCoef, matrixOffset);
+                    lock (minFitnessLock)
+                    {
+                        dun.fitness = tempDun.fitness;
+                    }
+                });*/
                 yield return null;
 
                 //Elitism
                 aux = dungeons[0];
-                foreach (Dungeon dun in dungeons)
+                /*Parallel.ForEach(dungeons, (dun) =>
                 {
-                    actual = dun.fitness;
+                    Dungeon tempDun;
+                    lock (fitnessLock)
+                    {
+                        tempDun = dun.Copy();
+                    }
+                    actual = tempDun.fitness;
+                    if (min > actual)
+                    {
+                        min = actual;
+                        lock (minFitnessLock)
+                        {
+                            aux = dun;
+                        }
+                    }
+                });*/
+
+                foreach(Dungeon dun in dungeons)
+                {
+                    Dungeon tempDun;
+                    
+                    tempDun = dun.Copy();
+                    
+                    actual = tempDun.fitness;
                     if (min > actual)
                     {
                         min = actual;
                         aux = dun;
                     }
-                    yield return null;
-                }
+                };
 
+                yield return null;
                 //Create the child population by doing the crossover and mutation
                 List<Dungeon> childPop = new List<Dungeon>(dungeons.Count);
                 Parallel.For(0, (dungeons.Count / 2), (i) =>
@@ -249,7 +298,7 @@ namespace LevelGenerator
 
                         parent1 = dungeons[parentIdx1].Copy();
                         parent2 = dungeons[parentIdx2].Copy();
-                        Debug.Log("Copied Parents");
+                        //Debug.Log("Copied Parents");
                     }
                     try
                     {
@@ -258,7 +307,7 @@ namespace LevelGenerator
                         GA.Mutation(ref parent2);
                         parent1.FixRoomList();
                         parent2.FixRoomList();
-                        Debug.Log("Crossed and Fixed");
+                        //Debug.Log("Crossed and Fixed");
                     }
                     catch (System.Exception e)
                     {
@@ -274,7 +323,7 @@ namespace LevelGenerator
                     {
                         childPop.Add(parent1);
                         childPop.Add(parent2);
-                        Debug.Log("Added");
+                        //Debug.Log("Added");
                     }
                     
                 });
@@ -289,20 +338,23 @@ namespace LevelGenerator
             aux = dungeons[0];
             foreach (Dungeon dun in dungeons)
             {
-                gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef);
+                gaObj.Fitness(dun, Constants.nV, Constants.nK, Constants.nL, Constants.lCoef, matrixOffset);
                 actual = dun.fitness;
                 if (min > actual)
                 {
                     min = actual;
                     aux = dun;
                 }
-                Debug.Log("Got Fitness");
+                //Debug.Log("Got Fitness");
             }
             watch.Stop();
             long time = watch.ElapsedMilliseconds;
 
             hasFinished = true;
+            Debug.Log(((Time.realtimeSinceStartup - startTime)*1000f)+"ms");
+
             Debug.Log("Dungeon has been generated");
+            Debug.Log("Fitness = " + actual);
         }
     }
 }

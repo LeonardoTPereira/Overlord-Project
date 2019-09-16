@@ -392,16 +392,17 @@ namespace LevelGenerator
             parent2 = pop[parentPosL[2]].fitness < pop[parentPosL[3]].fitness ? parentPosL[2] : parentPosL[3];
         }
         //Fitness is based in the number of rooms, number of keys and locks, the linear coefficient and the number of locks used by the A*
-        public float Fitness(Dungeon ind, int nV, int nK, int nL, float lCoef)
+        public float Fitness(Dungeon ind, int nV, int nK, int nL, float lCoef, int matrixOffset)
         {
             
             float avgUsedRoom = 0.0f;
             DFS[] dfs = new DFS[3];
+            AStar astar = new AStar();
             //Only use the A* if there is a lock in the dungeon
             if (ind.nLocks > 0)
             {
                 //System.Console.WriteLine("Begin A*");
-                ind.neededLocks = AStar.FindRoute(ind);
+                ind.neededLocks = astar.FindRoute(ind, matrixOffset);
                 Parallel.For(0, 3, (i) =>
                 {
                     

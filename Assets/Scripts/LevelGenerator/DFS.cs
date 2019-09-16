@@ -7,7 +7,7 @@ namespace LevelGenerator
 {
     class DFS : PathFinding
     {
-        
+        //Calls the parent constructor
         public DFS(Dungeon dun)
             : base(dun)
         {
@@ -16,39 +16,32 @@ namespace LevelGenerator
         //The DFS Algorithm
         public int FindRoute()
         {
+            //Puts the starting node in the list of open nodes and in the path
             openList.Add(start);
             path.Add(start);
+            //Visit all open nodes until none is left
             while (openList.Count > 0)
             {
                 // get the first
                 current = openList.First();
-
+                //Handles key rooms and their locks, if it is one
                 validateKeyRoom(current);
 
                 // add the current square to the closed list
                 ClosedList.Add(current);
                 if (((map[current.X, current.Y] >= 0) && (map[current.X, current.Y] < 100)) || (map[current.X, current.Y] == 102))
                 {
-                    //Console.SetCursorPosition(0, 15+auxoffset);
-                    //auxoffset += 1;
                     NVisitedRooms++;
-                    //Console.WriteLine("NVisitedRooms:" + NVisitedRooms);
                 }
                 //Check if the actual room is a locked one. If it is, add 1 to the number of locks needed to reach the goal
                 foreach (var locked in allLocksLocation)
                 {
                     if (locked.X == current.X && locked.Y == current.Y)
                     {
-                        //Console.WriteLine("NEED A LOCK");
                         NeededLocks++;
                         break;
                     }
                 }
-                // show current square on the map
-                /*Console.SetCursorPosition(60+current.Y, current.X);
-                Console.Write('.');
-                Console.SetCursorPosition(60+current.Y, current.X);
-                System.Threading.Thread.Sleep(2);*/
 
                 // remove it from the open list
                 openList.Remove(current);
@@ -58,18 +51,19 @@ namespace LevelGenerator
                     if(ClosedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
                         break;
 
+                //Check all adjacent squares from the curret node
                 var adjacentSquares = GetWalkableAdjacentSquares(current.X, current.Y, sizeX, sizeY, map);
 
+                //Adds the adjacent squares in a random order
                 Random rand = new Random();
-
                 adjacentSquares = adjacentSquares.OrderBy(X => rand.Next()).ToList();
  
+
                 foreach (var adjacentSquare in adjacentSquares)
                 {
                     if (current.Parent == adjacentSquare)
                     {
                         adjacentSquares.Remove(adjacentSquare);
-                        adjacentSquares.Add(adjacentSquare);
                         break;
                     }
                 }
