@@ -3,15 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Bullet
-  - Enemy
-  - EnemyBullet
-  - Bomb
-  - Sword
-  - Shield
-  - Collectible
-  - Block
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -21,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - Minimap
-  - Bomb
+  - 
+  - 
   - 
   - 
   - 
@@ -48,10 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Characters
-    uniqueID: 2603867999
-    locked: 0
-  - name: Bullets
-    uniqueID: 3097021071
     locked: 0

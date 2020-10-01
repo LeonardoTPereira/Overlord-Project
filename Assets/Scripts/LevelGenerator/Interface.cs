@@ -1,11 +1,9 @@
 ﻿using LevelGenerator;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using UnityEditor;
 
 namespace LevelGenerator
 {
@@ -13,7 +11,6 @@ namespace LevelGenerator
     {
         /*
          * Prints the tree in the command line in a pretty structure
-         * Not being used anymore for quite some time, but is useful if any changes in the tree structure are made
          */
         public static void PrintTree(Room root)
         {
@@ -77,36 +74,166 @@ namespace LevelGenerator
             Console.Write("\n");
         }
 
-       /**
-        * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
-        * We now save it directly into a Unity's Resource Directory
-        */
+        public static void PrintGrid(RoomGrid grid)
+        {
+            Room actualRoom;
+            Type type;
+            for (int i = -Constants.MATRIXOFFSET; i < Constants.MATRIXOFFSET; ++i)
+            {
+                for (int j = -Constants.MATRIXOFFSET; j < Constants.MATRIXOFFSET; ++j)
+                {
+                    actualRoom = grid[i, j];
+                    if (actualRoom != null)
+                    {
+                        type = actualRoom.Type;
+                        if (type == Type.normal)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.Write("N-");
+                        }
+                        else if (type == Type.key)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.Write("K-");
+                        }
+                        else if (type == Type.locked)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("L-");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Something went wrong printing the tree!\n");
+                            Console.WriteLine("This Room type does not exist!\n\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("O-");
+                    }
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void PrintGridWithConnections(RoomGrid grid)
+        {
+            int size = Constants.MATRIXOFFSET * 4;
+            int gridSize = Constants.MATRIXOFFSET * 2;
+            char[,] map = new char[size, size];
+            Room actualRoom, parent;
+            Type type;
+            int x, y, iPositive, jPositive;
+
+            for (int i = 0; i < size; ++i)
+            {
+                for (int j = 0; j < size; ++j)
+                {
+                    map[i, j] = ' ';
+                }
+            }
+
+            for (int i = -Constants.MATRIXOFFSET; i < Constants.MATRIXOFFSET; ++i)
+            {
+                for (int j = -Constants.MATRIXOFFSET; j < Constants.MATRIXOFFSET; ++j)
+                {
+                    iPositive = i + Constants.MATRIXOFFSET;
+                    jPositive = j + Constants.MATRIXOFFSET;
+                    actualRoom = grid[i, j];
+                    if (actualRoom != null)
+                    {
+                        type = actualRoom.Type;
+                        if (type == Type.normal)
+                        {
+                            map[iPositive * 2, jPositive * 2] = 'N';
+                        }
+                        else if (type == Type.key)
+                        {
+                            map[iPositive * 2, jPositive * 2] = 'K';
+                        }
+                        else if (type == Type.locked)
+                        {
+                            map[iPositive * 2, jPositive * 2] = 'L';
+                        }
+                        else
+                        {
+                            Console.WriteLine("Something went wrong printing the tree!\n");
+                            Console.WriteLine("This Room type does not exist!\n\n");
+                        }
+                        parent = actualRoom.Parent;
+                        if (parent != null)
+                        {
+
+                            x = parent.X - actualRoom.X + 2 * iPositive;
+                            y = parent.Y - actualRoom.Y + 2 * jPositive;
+                            map[x, y] = 'c';
+                        }
+                    }
+                    else
+                    {
+                        //map[iPositive * 2, jPositive * 2] = 'O';
+                    }
+                }
+            }
+            for (int i = 0; i < size; ++i)
+            {
+                for (int j = 0; j < size; ++j)
+                {
+                    if (map[i, j] == 'N')
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+                    }
+                    else if (map[i, j] == 'K')
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    }
+                    else if (map[i, j] == 'L')
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                    }
+                    else if (map[i, j] == 'c')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                    }
+                    else if (map[i, j] == 's')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    if (i == Constants.MATRIXOFFSET * 2 && j == Constants.MATRIXOFFSET * 2)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    }
+                    Console.Write(map[i, j]);
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+        }
         public static void PrintNumericalGridWithConnections(Dungeon dun)
         {
-            //Data to navigate the dungeon to print
             Room actualRoom, parent;
             RoomGrid grid = dun.roomGrid;
             Type type;
             int x, y, iPositive, jPositive;
+            string filename = "..\\data.txt";
+            string filenameRG = "..\\dataRoomGenerator.txt";
             bool isRoom;
 
-            //List of keys and locked rooms in the level
             List<int> lockedRooms = new List<int>();
             List<int> keys = new List<int>();
-
-            //The boundaries of the level's grid
             int minX, minY, maxX, maxY;
             minX = Constants.MATRIXOFFSET;
             minY = Constants.MATRIXOFFSET;
             maxX = -Constants.MATRIXOFFSET;
             maxY = -Constants.MATRIXOFFSET;
-
-            //Where to save the new dungeon in Unity
-            string foldername = "Assets/Resources/Levels/";
-            string filename, dungeonData = "";
-            filename = "R" + Constants.nV + "-K" + Constants.nK + "-L" + Constants.nL + "-L" + Constants.lCoef;
-            
-            //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.RoomList)
             {
                 if (room.Type == Type.key)
@@ -123,262 +250,222 @@ namespace LevelGenerator
                     maxY = room.Y;
             }
 
-            //The size is normalized to be always positive (easier to handle a matrix)
+            //IEnumerable<Dictionary> orderedKeys;
+            //System.Console.Write("XMin: " + minX + " Xmax: "+maxX+ " YMin: "+minY+" YMax: "+maxY+"\n");
             int sizeX = maxX - minX + 1;
             int sizeY = maxY - minY + 1;
-
-            //Creates a matrix to hold each room and corridor (there may be a corridor between each room, that must be saved
-            //hence 2*size
             int[,] map = new int[2 * sizeX, 2 * sizeY];
-            //The top of the dungeon's file in unity must contain its dimensions
-            dungeonData += 2*sizeX + "\n";
-            dungeonData += 2*sizeY + "\n";
 
-            //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * sizeX; ++i)
             {
                 for (int j = 0; j < 2 * sizeY; ++j)
                 {
-                    map[i, j] = Util.RoomType.NOTHING;
+                    map[i, j] = 101;
                 }
             }
 
-            //Now we visit each room and save the info on the corresponding cell of the matrix
+            /*foreach (KeyValuePair<int, int> keys in orderKeys)
+            {
+                //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+                Console.WriteLine(string.Format("Key = {0}, Value = {1}", keys.Key, keys.Value));
+            }*/
+
             for (int i = minX; i < maxX + 1; ++i)
             {
                 for (int j = minY; j < maxY + 1; ++j)
                 {
-                    //Converts the coordinate of the original grid (can be negative) to the positive ones used in the matrix
                     iPositive = i - minX;
                     jPositive = j - minY;
-                    //Gets the actual room
                     actualRoom = grid[i, j];
-                    //If there is something in this position in the grid:
                     if (actualRoom != null)
                     {
                         type = actualRoom.Type;
-                        //If it is a normal room, check if is a leaf node. We are currently placing treasures there
-                        //If not a leaf, just save as an empty room for now
-                        //TODO: change to handle the new format of having the room's Key ID followed by amount of treasure and them enemy difficulty
-                        //Will have to change to an array or something, with 0 treasures and 0 difficulty meaning no treasure and no enemy inside
                         if (type == Type.normal)
                         {
-                            if(actualRoom.IsLeafNode())
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
-                            else
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.EMPTY;
+                            map[iPositive * 2, jPositive * 2] = 0;
                         }
-                        //If the room has a key, saves the corresponding key index in the matrix
-                        //TODO: Must also change to allow the generation of treasures and enemies
                         else if (type == Type.key)
                         {
                             map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.KeyToOpen) + 1;
                         }
-                        //If the room is locked from its parent, check if it is a boss room by checking if the key to open is the last one created
-                        //It guarantees at least that is the deepest key in the tree, but not the longest route
-                        //TODO: Must also change to allow the generation of treasures and enemies
                         else if (type == Type.locked)
                         {
                             if (lockedRooms.IndexOf(actualRoom.KeyToOpen) == lockedRooms.Count - 1)
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.BOSS;
+                                map[iPositive * 2, jPositive * 2] = 102;
                             else
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
+                                map[iPositive * 2, jPositive * 2] = 0;
                         }
-                        //If it is not a room, something is wrong
                         else
                         {
                             Console.WriteLine("Something went wrong printing the tree!\n");
                             Console.WriteLine("This Room type does not exist!\n\n");
                         }
-                        //As (for now) every room must be connected to its parent or children
-                        //We need only to check its parent to create the corridors
                         parent = actualRoom.Parent;
                         if (parent != null)
                         {
+
                             x = parent.X - actualRoom.X + 2 * iPositive;
                             y = parent.Y - actualRoom.Y + 2 * jPositive;
-                            //If corridor is lockes, save the index of the key that opens it
-                            //But as a negative value. A negative corridor is locked!
-                            //If not, save it only as a normal corridor
                             if (type == Type.locked)
                                 map[x, y] = -(keys.IndexOf(actualRoom.KeyToOpen) + 1);
                             else
-                                map[x, y] = Util.RoomType.CORRIDOR;
+                                map[x, y] = 100;
                         }
                     }
-                    //Else the room is empty, do nothing
                     else
                     {
                         //map[iPositive * 2, jPositive * 2] = 'O';
                     }
                 }
             }
-
-            //Now we print it/save to a file/whatever
-            for (int i = 0; i < sizeX * 2; ++i)
-            {
-                for (int j = 0; j < sizeY * 2; ++j)
-                {
-                    isRoom = false;
-
-                    //This whole block was to print in a console
-                    if (map[i, j] == Util.RoomType.EMPTY)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-
-                    }
-                    else if (map[i, j] == Util.RoomType.CORRIDOR)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                    }
-                    else if (map[i, j] == 7)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                    }
-                    else if (map[i, j] == Util.RoomType.NOTHING)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else if (map[i, j] == Util.RoomType.BOSS)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                    }
-                    else if (map[i, j] > 0)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    }
-                    else if (map[i, j] < 0)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                    }
-
-                    //If cell is empty, do nothing (or print empty space in console)
-                    if (map[i, j] == Util.RoomType.NOTHING)
-                    {
-                        Console.Write("  ");
-                        //writer.WriteLine(" ");
-                    }
-                    //If there is something (room or corridor) print/save
-                    else
-                    {
-                        //For Unity's dungeon file we need to save the x and y position of the room
-                        dungeonData += i + "\n";
-                        dungeonData += j + "\n";
-                        //this writerRG was used in the CSV pre-Unity, ignore it as legacy
-                        //writerRG.WriteLine(i);
-                        //writerRG.WriteLine(j);
-                        //If room is in (0,0) it is the starting one, we mark it with an "s" and save the "s"
-                        if (i + minX * 2 == 0 && j + minY * 2 == 0)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Cyan;
-                            Console.Write(" s");
-                            dungeonData += "s\n";
-                            //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
-                            //writerRG.WriteLine("s");
-                            //Marks that it is a room
-                            isRoom = true;
-                        }
-                        //If it is a corridor, writes "c" in the file
-                        else if (map[i, j] == Util.RoomType.CORRIDOR)
-                        {
-                            Console.Write(" c");
-                            dungeonData += "c\n";
-                            //writerRG.WriteLine("c");
-                        }
-                        //If is the boss room, writes "B". Currently is where the Triforce is located
-                        else if (map[i, j] == Util.RoomType.BOSS)
-                        {
-                            Console.Write(" B");
-                            dungeonData += "B\n";
-                            //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
-                            //writerRG.WriteLine("B");
-                            //Marks that it is a room
-                            isRoom = true;
-                        }
-                        //If negative, is a locked corridor, save it as the negative number of the key that opens it
-                        else if (map[i, j] < 0)
-                        {
-                            Console.Write("{0,2}", map[i, j]);
-                            dungeonData += map[i, j] + "\n";
-                            //writerRG.WriteLine(map[i, j]);
-                        }
-                        //If it was a room with treasure, save it as a "T"
-                        //TODO: change this as now every room may contain treasures, enemies and/or keys
-                        else if (map[i, j] == Util.RoomType.TREASURE)
-                        {
-                            Console.Write("{0,2}", map[i, j]);
-                            dungeonData += "T\n";
-                            //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "50\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
-                            //writerRG.WriteLine("T");
-                            isRoom = true;
-                        }
-                        //If the room has a positive value, it holds a key.
-                        //Save the key index so we know what key it is
-                        else if (map[i, j] > 0)
-                        {
-                            Console.Write("{0,2}", map[i, j]);
-                            dungeonData += map[i, j] + "\n";
-                            //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
-                            //writerRG.WriteLine(map[i, j]);
-                            isRoom = true;
-                        }
-                        //If the cell was none of the above, it must be an empty room
-                        else
-                        {
-                            Console.Write("{0,2}", map[i, j]);
-                            dungeonData += map[i, j] + "\n";
-                            //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
-                            //writerRG.WriteLine(map[i, j]);
-                            isRoom = true;
-                        }
-
-                    }
-                }
-                Console.Write("\n");
-                //writer.Write("\r\n");
-            }
-            //The assetdatabase stuff only works in the Unity's Editor
-            //As is, we can't save a level file in a released build of the game
-#if UNITY_EDITOR
-            int count = 0;
-            string path;
-
-            //Saves the file with the name of its input for the EA and adds a number at the end if a file with the same name exists
-            //This prevents the file is overwritten
-            path = AssetDatabase.AssetPathToGUID(foldername + filename + ".txt");
-            while (path != "")
-            {
-                count++;
-                path = AssetDatabase.AssetPathToGUID(foldername + filename +"-"+ count + ".txt");
-            }
-            if (count > 0)
-                filename += "-"+count;
-            filename = foldername + filename + ".txt";
-            //UnityEngine.Debug.Log("Filename: " + filename);
-
-            //Finally, saves the data
             using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
             {
-                UnityEngine.Debug.Log("Writing dungeon data");
-                writer.Write(dungeonData);
-                writer.Flush();
-                writer.Close();
-                //writerRG.Flush();
-                //writerRG.Close();
-                Console.Write("\n");
+                using (StreamWriter writerRG = new StreamWriter(filenameRG, false, Encoding.UTF8))
+                {
+                    writer.WriteLine(sizeX * 2);
+                    writer.WriteLine(sizeY * 2);
+                    writerRG.WriteLine(sizeX * 2);
+                    writerRG.WriteLine(sizeY * 2);
+                    for (int i = 0; i < sizeX * 2; ++i)
+                    {
+                        for (int j = 0; j < sizeY * 2; ++j)
+                        {
+                            isRoom = false;
+                            if (map[i, j] == 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+                            }
+                            else if (map[i, j] == 100)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                            }
+                            else if (map[i, j] == 7)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                            }
+                            else if (map[i, j] == 101)
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            else if (map[i, j] == 102)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                            }
+                            else if (map[i, j] > 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            }
+                            else if (map[i, j] < 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                            }
+
+
+                            if (map[i, j] == 101)
+                            {
+                                Console.Write("  ");
+                                //writer.WriteLine(" ");
+                            }
+                            else
+                            {
+                                writer.WriteLine(i);
+                                writer.WriteLine(j);
+                                writerRG.WriteLine(i);
+                                writerRG.WriteLine(j);
+                                if (i + minX * 2 == 0 && j + minY * 2 == 0)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+                                    Console.Write(" s");
+                                    writer.WriteLine("s");
+                                    writerRG.WriteLine("s");
+                                    isRoom = true;
+                                }
+                                else if (map[i, j] == 100)
+                                {
+                                    Console.Write(" c");
+                                    writer.WriteLine("c");
+                                    writerRG.WriteLine("c");
+                                }
+                                else if (map[i, j] == 102)
+                                {
+                                    Console.Write(" B");
+                                    writer.WriteLine("B");
+                                    writerRG.WriteLine("B");
+                                    isRoom = true;
+                                }
+                                else if (map[i, j] < 0)
+                                {
+                                    Console.Write("{0,2}", map[i, j]);
+                                    writer.WriteLine(map[i, j]);
+                                    writerRG.WriteLine(map[i, j]);
+                                }
+                                else if (map[i, j] > 0)
+                                {
+                                    Console.Write("{0,2}", map[i, j]);
+                                    writer.WriteLine(map[i, j]);
+                                    writerRG.WriteLine(map[i, j]);
+                                    isRoom = true;
+                                }
+                                else
+                                {
+                                    Console.Write("{0,2}", map[i, j]);
+                                    writer.WriteLine(map[i, j]);
+                                    writerRG.WriteLine(map[i, j]);
+                                    isRoom = true;
+                                }
+
+                                if (isRoom)
+                                {
+                                    if (j > 0)
+                                    {
+                                        if (map[i, j - 1] < 0 || map[i, j - 1] == 100)
+                                            writerRG.WriteLine(1);
+                                        else
+                                            writerRG.WriteLine(0);
+                                    }
+                                    else
+                                        writerRG.WriteLine(0);
+                                    if (i < sizeX * 2 - 1)
+                                    {
+                                        if (map[i + 1, j] < 0 || map[i + 1, j] == 100)
+                                            writerRG.WriteLine(1);
+                                        else
+                                            writerRG.WriteLine(0);
+                                    }
+                                    else
+                                        writerRG.WriteLine(0);
+                                    if (j < sizeY * 2 - 1)
+                                    {
+                                        if (map[i, j + 1] < 0 || map[i, j + 1] == 100)
+                                            writerRG.WriteLine(1);
+                                        else
+                                            writerRG.WriteLine(0);
+                                    }
+                                    else
+                                        writerRG.WriteLine(0);
+                                    if (i > 0)
+                                    {
+                                        if (map[i - 1, j] < 0 || map[i - 1, j] == 100)
+                                            writerRG.WriteLine(1);
+                                        else
+                                            writerRG.WriteLine(0);
+                                    }
+                                    else
+                                        writerRG.WriteLine(0);
+                                }
+                            }
+                        }
+                        Console.Write("\n");
+                        //writer.Write("\r\n");
+                    }
+                    writer.Flush();
+                    writer.Close();
+                    writerRG.Flush();
+                    writerRG.Close();
+                    Console.Write("\n");
+                }
             }
-            UnityEngine.Debug.Log("Finished Writing dungeon data");
-#endif
         }
     }
 }
