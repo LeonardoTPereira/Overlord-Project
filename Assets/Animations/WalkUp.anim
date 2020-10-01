@@ -3,8 +3,9 @@
 --- !u!74 &7400000
 AnimationClip:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: WalkUp
   serializedVersion: 6
   m_Legacy: 0
@@ -19,11 +20,14 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300030, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
+      value: {fileID: -317771678647371661, guid: b92c1c44f604d074595ba5ee0e831239,
+        type: 3}
     - time: 0.083333336
-      value: {fileID: 21300032, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
+      value: {fileID: -2426843357703420916, guid: b92c1c44f604d074595ba5ee0e831239,
+        type: 3}
     - time: 0.16666667
-      value: {fileID: 21300034, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
+      value: {fileID: -3642208251427772964, guid: b92c1c44f604d074595ba5ee0e831239,
+        type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -43,9 +47,9 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300030, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
-    - {fileID: 21300032, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
-    - {fileID: 21300034, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
+    - {fileID: -317771678647371661, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
+    - {fileID: -2426843357703420916, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
+    - {fileID: -3642208251427772964, guid: b92c1c44f604d074595ba5ee0e831239, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -70,5 +74,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_GenerateMotionCurves: 0
   m_Events: []
