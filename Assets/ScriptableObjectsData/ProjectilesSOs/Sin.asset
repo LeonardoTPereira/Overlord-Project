@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b449ed77b5369748bcf3a8b20bda548, type: 3}
+  m_Name: Sin
+  m_EditorClassIdentifier: 
+  multiplier: 1
+  projectilePrefab: {fileID: 1699235863348634, guid: 7c6443c3f53cfcb42b8bf65f9e8b56f5,
+    type: 3}
+  damage: 1
+  atkSpeed: 1.7
+  moveSpeed: 10
+  projectileBehaviorIndex: 1
+  projectileName: Senoidal
+  description: "Atira um proj\xE9til comum em trajet\xF3ria senoidal"
+  color: {r: 0.49475312, g: 1, b: 0, a: 1}

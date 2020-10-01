@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b449ed77b5369748bcf3a8b20bda548, type: 3}
+  m_Name: Arrow
+  m_EditorClassIdentifier: 
+  multiplier: 1
+  projectilePrefab: {fileID: 1699235863348634, guid: da52802c0295cf84f8ba4c2fee2ba6b4,
+    type: 3}
+  damage: 1
+  atkSpeed: 0.5
+  moveSpeed: 10
+  projectileBehaviorIndex: 0
+  projectileName: 
+  description: "Atira um proj\xE9til \xE0 sua frente."
+  color: {r: 0, g: 0, b: 0, a: 0}

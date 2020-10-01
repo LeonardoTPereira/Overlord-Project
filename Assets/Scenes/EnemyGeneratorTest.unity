@@ -224,6 +224,22 @@ MonoBehaviour:
   shieldPrefab: {fileID: 0}
   bombPrefab: {fileID: 0}
   projectilePrefab: {fileID: 0}
+  generationCounter: 0
+  startTime: 0
+  enemyGenerated: 0
+  enemyPrinted: 0
+  enemyReady: 0
+  enemySorted: 0
+  bestIdx: 0
+  projectileSet: {fileID: 11400000, guid: fd434a2423766d64bbde424b0396009a, type: 2}
+  movementSet: {fileID: 11400000, guid: 41a11a660db4ab245943b826556cf0af, type: 2}
+  behaviorSet: {fileID: 11400000, guid: be34bae1919ce2c458128eba2838077a, type: 2}
+  weaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
+  projectileMultipliers: 
+  movementMultipliers: []
+  behaviorMultipliers: []
+  weaponMultipliers: []
+  weaponHasProjectile: 
 --- !u!1 &1371007583
 GameObject:
   m_ObjectHideFlags: 0

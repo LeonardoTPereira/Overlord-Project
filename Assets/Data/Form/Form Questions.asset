@@ -3,12 +3,13 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 088409d5bda787643864745fc6bb1d57, type: 3}
+  m_Script: {fileID: 11500000, guid: dc8fa552f7f24ee4ea0c29813d5f5756, type: 3}
   m_Name: Form Questions
   m_EditorClassIdentifier: 
   questions:

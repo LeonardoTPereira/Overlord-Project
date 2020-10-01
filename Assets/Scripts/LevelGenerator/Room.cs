@@ -481,6 +481,20 @@ namespace LevelGenerator
             return null;
         }
 
+
+        /// <summary>
+        /// Check if room is a leaf node by checking if it has any children.
+        /// </summary>
+        /// <returns>Bool is true if it is a leaf node.</returns>
+        public bool IsLeafNode()
+        {
+            if (bottomChild == null)
+                if (leftChild == null)
+                    if (rightChild == null)
+                        return true;
+            return false;
+        }
+
         public int Depth { get => depth; set => depth = value; }
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }

@@ -1,0 +1,16 @@
+Usar servidor da USP para hospedar web player e salvar dados dos jogadores
+
+- Solicitar servidor (finalidade web) para o STI, tendo um professor como responsável
+- STI deve fornecer um nome de usuário e senha para acesso SSH ao servidor (em VM)
+- Solicitar para abrir o acesso SSH à VPN da USP (para acessar de casa, por exemplo)
+- Para acesso de Windows ao servidor Ubuntu, utilizar o software PuTTy
+- Tendo acesso ao servidor, instalar apache e php
+	- sudo apt-get install apache2 php libapache2-mod-php
+- Pode-se utilizar o WinSCP para transferência de arquivos para pastas do servidor
+- O caminho para o endereço do site é a pasta (ubuntu) var/www/http/
+- É possível mudar permissões com o comando chmod
+
+
+É preciso criar um WWWForm na Unity para postar os dados no php (ver PlayerProfile.cs)
+
+E usar um .php na pasta de coleção de dados do jogo designada para receber o que for postado (ver upload.php)
