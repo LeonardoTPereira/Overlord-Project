@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
   m_Name: Breno - PostQuestion1
   m_EditorClassIdentifier: 
-  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Esse n\uFDE5\xEDvel
-    foi divertido de jogar\"?"
+  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Esse n\xEDvel foi
+    divertido de jogar\"?"
   description: 1 = Discordo Fortemente       <->      5 = Concordo Fortemente
