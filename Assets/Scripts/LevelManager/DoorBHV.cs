@@ -48,22 +48,22 @@ public class DoorBHV : MonoBehaviour
         }
         else if (firstKeyID > 0)
         {
-            
+
             //Debug.Log("Positive key id");
             //Render the locked door sprite with the color relative to its ID
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             sr.sprite = lockedSprite;
             sr.material = gradientMaterial;
             sr.material.SetColor("gradientColor1", Util.colorId[firstKeyID - 1]);
-            if(keyID.Count > 1)
+            if (keyID.Count > 1)
                 sr.material.SetColor("gradientColor2", Util.colorId[keyID[1] - 1]);
             else
                 sr.material.SetColor("gradientColor2", Util.colorId[firstKeyID - 1]);
-            
+
 
             //sr.color = Util.colorId[firstKeyID - 1];
             //text.text = keyID.ToString ();
-            
+
         }
         if (parentRoom.hasEnemies)
         {
@@ -74,7 +74,7 @@ public class DoorBHV : MonoBehaviour
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
                 sr.sprite = closedSprite;
             }
-            
+
         }
         //gm = GameManager.instance;
     }
@@ -117,18 +117,18 @@ public class DoorBHV : MonoBehaviour
                         if (!Player.instance.usedKeys.Contains(key))
                             Player.instance.usedKeys.Add(key);
                     }
-                    
+
                     GameManager.instance.UpdateKeyGUI();
                     GameManager.instance.UpdateRoomGUI(destination.parentRoom.x, destination.parentRoom.y);
                     OpenDoor();
-                    if(!destination.parentRoom.hasEnemies)
+                    if (!destination.parentRoom.hasEnemies)
                         destination.OpenDoor();
                     isOpen = true;
                     destination.isOpen = true;
                     OnKeyUsed(commonKeys.First());
                     MovePlayerToNextRoom();
                 }
-            } 
+            }
             else
             {
                 OnRoomFailExit();
@@ -145,7 +145,7 @@ public class DoorBHV : MonoBehaviour
         }
     }
 
-    private void MovePlayerToNextRoom ()
+    private void MovePlayerToNextRoom()
     {
         OnRoomExit(Player.instance.GetComponent<PlayerController>().GetHealth());
         //Enemy spawning logic here TODO make it better and work with the variable enemies SOs
@@ -168,7 +168,7 @@ public class DoorBHV : MonoBehaviour
         RoomBHV parent = destination.parentRoom;
         Player.instance.AdjustCamera(parent.x, parent.y);
         destination.transform.parent.GetComponent<RoomBHV>().OnRoomEnter();
-        
+
     }
 
     public void SetDestination(DoorBHV other)
@@ -182,7 +182,7 @@ public class DoorBHV : MonoBehaviour
         PlayerProfile.instance.OnRoomFailEnter(new Vector2Int(destination.parentRoom.x, destination.parentRoom.y));
     }
 
-    
+
 
     private void OnRoomFailExit()
     {

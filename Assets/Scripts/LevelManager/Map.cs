@@ -4,7 +4,8 @@ using UnityEngine;
 using System.IO;
 using LevelGenerator;
 
-public class Map {
+public class Map
+{
 
     private static class MapFileType
     {
@@ -12,17 +13,28 @@ public class Map {
         public const int N_KEYS_N_DOORS = 1;
     }
 
-    public static int sizeX;
-	public static int sizeY;
-    public static int index;
+    public const string CORRIDOR = "c";
 
-	public Room[,] rooms;
-	public int startX, startY;
-	public int endX, endY;
+    protected static class RoomType
+    {
+        public const string START_ROOM = "s";
+        public const string FINAL_ROOM = "B";
+        public const string TREASURE_ROOM = "T";
+    }
+
+    public static int sizeX;
+    public static int sizeY;
+    public static int index; // Não é utilizada
+
+    // Usar variáveis acima do escopo das funções de interpretação de arquivos
+    // (parser) torna a compreensão de terceiros mais difícil
+    public Room[,] rooms;
+    public int startX, startY;
+    public int endX, endY;
     private int currentRoomXPos, currentRoomYPos;
     private string currentRoomCode;
-
     private string currentMapFile;
+
     private string[] currentMapParsedFile;
     private int currentMapFileLineIndex;
 
@@ -33,17 +45,26 @@ public class Map {
     /**
      * Constructor of the Map object that uses an input file for the dungeon
      */
-	public Map(string text, string roomsFilePath = null, int mode = 0){
-		ReadMapFile (text, mode); // lê o mapa global
-        if (roomsFilePath != null){ // dá a opção de gerar o mapa com ou sem os tiles
-            //Debug.Log("Has Room File");
-            ReadRoomsFile (roomsFilePath); // lê cada sala, com seus tiles
-			Room.tiled = true; // o arquivo de tiles das salas foi lido; função de tiles ativada
-		} else { // sala vazia padrão
-            //Debug.Log("Doesn't Have Room File");
+    public Map(string text, string roomsFilePath = null, int mode = 0)
+    {
+        ReadMapFile(text, mode); // lê o mapa global
+        if (roomsFilePath != null)
+        {
+            // Dá a opção de gerar o mapa com ou sem os tiles
+            // Debug.Log("Has Room File");
+            // Lê cada sala, com seus tiles
+            ReadRoomsFile(roomsFilePath);
+            // O arquivo de tiles das salas foi lido; função de tiles ativada
+            Room.tiled = true;
+        }
+        else
+        {
+            // Sala vazia padrão
+            // Debug.Log("Doesn't Have Room File");
             BuildDefaultRooms();
         }
-	}
+    }
+
     private void ReadMapFile(string text, int mode)
     {
         currentMapFile = text;
@@ -57,161 +78,47 @@ public class Map {
                 break;
         }
     }
-    /**
-     * Reads the Map File Generated from the EA by the "PrintNumericalGridWithConnections" method
-     * Not to be confused with the Map constructor that "reads" the created dungeon in real-time by the EA
-     */
 
-    private void ReadRoomDataFromMapFile()
+    private void ReadOneKeyOneDoorMapFile()
     {
-        GameManager.instance.maxRooms += 1;
-        switch (currentRoomCode)
-        {
-            case "s": //This is the starting room
-                startX = currentRoomXPos;
-                startY = currentRoomYPos;
-                break;
-            case "B": //This room has the final item
-                endX = currentRoomXPos;
-                endY = currentRoomYPos;
-                break;
-            case "T": //This room has a treasure
-                      //"gambiarra" to give a predefined enemy difficulty for the room and always place the most valuable treasure
-                rooms[currentRoomXPos, currentRoomYPos].difficulty = GameManager.instance.dungeonDifficulty;
-                rooms[currentRoomXPos, currentRoomYPos].Treasure = GameManager.instance.treasureSet.Items.Count - 1;
-                GameManager.instance.maxTreasure += 50;
-                break;
-            default: //This is an empty room
-                rooms[currentRoomXPos, currentRoomYPos].keyID.Add(int.Parse(currentRoomCode));
-                //"gambiarra" to give a predefined enemy difficulty for the room
-                rooms[currentRoomXPos, currentRoomYPos].difficulty = GameManager.instance.dungeonDifficulty;
-                break;
-        }
-    }
-    private void CheckIfStartOrFinishRoom()
-    {
-        switch (currentRoomCode)
-        {
-            case "s": //This is the starting room
-                startX = currentRoomXPos;
-                startY = currentRoomYPos;
-                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
-                break;
-            case "B": //This room has the final item
-                endX = currentRoomXPos;
-                endY = currentRoomYPos;
-                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
-                break;
-            default: //This is an empty room
-                break;
-        }
-    }
-
-
-    private void ReadCompleteRoomDataFromMapFile()
-    {
-        GameManager.instance.maxRooms += 1;
-        bool roomHasKey;
-
-        CheckIfStartOrFinishRoom();
-
-        rooms[currentRoomXPos, currentRoomYPos].difficulty = int.Parse(currentRoomCode) *(GameManager.instance.dungeonDifficulty/3);
-        currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
-        Debug.Log("Enemies: " + rooms[currentRoomXPos, currentRoomYPos].difficulty);
-        rooms[currentRoomXPos, currentRoomYPos].Treasure = Mathf.Min(int.Parse(currentRoomCode) -1, 4);
-        Debug.Log("Treasures: " + rooms[currentRoomXPos, currentRoomYPos].Treasure);
-        if (currentMapFileLineIndex < (currentMapParsedFile.Length - 1))
-        {
-            currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
-
-            roomHasKey = (currentRoomCode[0] == '+') ? true : false;
-            if (roomHasKey)
-                rooms[currentRoomXPos, currentRoomYPos].keyID.Clear();
-            while (roomHasKey && (currentMapFileLineIndex < (currentMapParsedFile.Length - 1)))
-            {
-                Debug.Log("Key: " + int.Parse(currentRoomCode));
-                rooms[currentRoomXPos, currentRoomYPos].keyID.Add(int.Parse(currentRoomCode));
-                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
-                roomHasKey = (currentRoomCode[0] == '+') ? true : false;
-            }
-            currentMapFileLineIndex--;
-        }
-   }
-
-    private void ReadCorridorDataFromMapFile()
-    {
-        int lockID;
-        bool roomHasLock;
-        if (currentRoomCode != "c")
-        {
-            //As in Breno's case, a lock can have many keys to open it, so we read until a positive number (not lock id) is found
-            //But this is not yet available in the "PrintNumericalGridWithConnections" method. Only with the files he provided us
-            rooms[currentRoomXPos, currentRoomYPos].lockID.Clear();
-
-            roomHasLock = true;
-            while (roomHasLock && (currentMapFileLineIndex < (currentMapParsedFile.Length - 1)))
-            {
-                Debug.Log("Lock: " + int.Parse(currentRoomCode));
-                rooms[currentRoomXPos, currentRoomYPos].lockID.Add(-int.Parse(currentRoomCode));
-                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
-                roomHasLock = (currentRoomCode[0] == '-') ? true : false;
-            }
-            currentMapFileLineIndex--;
-        }
-    }
-
-    private void InitializeMapFileReader()
-    {
-        currentMapFileLineIndex = 0;
-        GameManager.instance.maxTreasure = 0;
-        GameManager.instance.maxRooms = 0;
-        string[] splitFile = new string[] { "\r\n", "\r", "\n" };
-
-        //Split the file in lines. A readLine method could also be used
-        currentMapParsedFile = currentMapFile.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
-
-        //The first two lines are the matrix sizes
-        sizeX = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
-        sizeY = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
-        //currentMapFileLineIndex++;
-        //Create a Room grid with the sizes read
-        rooms = new Room[sizeX, sizeY];
-    }
-
-    private void ReadOneKeyOneDoorMapFile(){
-
         InitializeMapFileReader();
-        //Read all the other lines in the file
-        while(currentMapFileLineIndex < currentMapParsedFile.Length)
+        // Read all the other lines in the file
+        while (currentMapFileLineIndex < currentMapParsedFile.Length)
         {
-            //For now, every room/corridor has its x and y coordinates and code (identifies as a normal room, normal corridor, locked corridor, room with key, room with treasure, etc.
-            //TODO: change so the code now has up to 3 lines (if it is a room only): the first for the possible key in the room, the second for the possible treasure, and the third for the possible enemy difficulty
+            // For now, every room/corridor has its x and y coordinates and code (identifies as a normal room, normal
+            // corridor, locked corridor, room with key, room with treasure, etc.
+            // TODO: change so the code now has up to 3 lines (if it is a room only): the first for the possible key in
+            // the room, the second for the possible treasure, and the third for the possible enemy difficulty
             currentRoomXPos = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
             currentRoomYPos = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
             currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
 
             rooms[currentRoomXPos, currentRoomYPos] = new Room(currentRoomXPos, currentRoomYPos);
-            //Sala ou corredor(link)?
+            // Sala ou corredor(link)?
             if (((currentRoomXPos % 2) + (currentRoomYPos % 2)) == 0)
-            { // ambos pares: sala
+            {
+                // Ambos pares: sala
                 ReadRoomDataFromMapFile();
             }
             else
-            { //if not corridor, is a locked corridor
+            {
+                // If not corridor, is a locked corridor
                 ReadCorridorDataFromMapFile();
             }
-            //currentMapFileLineIndex++; //There is a dashed line before the info
+            // currentMapFileLineIndex++; // There is a dashed line before the info
         }
     }
 
     private void ReadNKeysNDoorsMapFile()
     {
         InitializeMapFileReader();
-        //Read all the other lines in the file
-        while (currentMapFileLineIndex < (currentMapParsedFile.Length-1))
+        // Read all the other lines in the file
+        while (currentMapFileLineIndex < (currentMapParsedFile.Length - 1))
         {
-            //For now, every room/corridor has its x and y coordinates and code (identifies as a normal room, normal corridor, locked corridor, room with key, room with treasure, etc.
-            //TODO: change so the code now has up to 3 lines (if it is a room only): the first for the possible key in the room, the second for the possible treasure, and the third for the possible enemy difficulty
+            // For now, every room/corridor has its x and y coordinates and code (identifies as a normal room, normal
+            // corridor, locked corridor, room with key, room with treasure, etc.
+            // TODO: change so the code now has up to 3 lines (if it is a room only): the first for the possible key in
+            // the room, the second for the possible treasure, and the third for the possible enemy difficulty
             currentRoomXPos = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
             Debug.Log("Room X Pos: " + currentRoomXPos);
             currentRoomYPos = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
@@ -219,21 +126,183 @@ public class Map {
             currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
 
             rooms[currentRoomXPos, currentRoomYPos] = new Room(currentRoomXPos, currentRoomYPos);
-            //Sala ou corredor(link)?
+            // Sala ou corredor(link)?
             if (((currentRoomXPos % 2) + (currentRoomYPos % 2)) == 0)
-            { // ambos pares: sala
-                
+            {
+                // Ambos pares: sala
                 ReadCompleteRoomDataFromMapFile();
             }
             else
-            { //if not corridor, is a locked corridor
+            {
+                // If not corridor, is a locked corridor
                 ReadCorridorDataFromMapFile();
             }
-            //currentMapFileLineIndex++;
+            // currentMapFileLineIndex++;
         }
     }
-	//Recebe os dados de tiles das salas
-	private void ReadRoomsFile(string text){
+
+    private void InitializeMapFileReader()
+    {
+        //
+        GameManager.instance.maxTreasure = 0;
+        GameManager.instance.maxRooms = 0;
+
+        //
+        currentMapFileLineIndex = 0;
+
+        // Split the file in lines. A readLine method could also be used
+        string[] splitFile = new string[] { "\r\n", "\r", "\n" };
+        currentMapParsedFile = currentMapFile.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
+
+        // The first two lines are the matrix sizes
+        sizeX = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
+        sizeY = int.Parse(currentMapParsedFile[currentMapFileLineIndex++]);
+
+        // currentMapFileLineIndex++;
+
+        // Create a Room grid with the sizes read
+        rooms = new Room[sizeX, sizeY];
+    }
+
+    private void ReadCompleteRoomDataFromMapFile()
+    {
+        //
+        GameManager.instance.maxRooms += 1;
+
+        //
+        CheckIfStartOrFinishRoom();
+
+        //
+        rooms[currentRoomXPos, currentRoomYPos].difficulty =
+            int.Parse(currentRoomCode) * (GameManager.instance.dungeonDifficulty / 3);
+        Debug.Log("Enemies: " + rooms[currentRoomXPos, currentRoomYPos].difficulty);
+
+        // Já lê o código da sala na função chamada anteriormente e já adiciona um indice e aqui de novo
+        currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
+        rooms[currentRoomXPos, currentRoomYPos].Treasure = Mathf.Min(int.Parse(currentRoomCode) - 1, 4);
+        Debug.Log("Treasures: " + rooms[currentRoomXPos, currentRoomYPos].Treasure);
+
+        //
+        if (currentMapFileLineIndex < (currentMapParsedFile.Length - 1))
+        {
+            currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
+
+            // Has the room a locked corridor?
+            bool hasKey = currentRoomCode[0] == '+';
+
+            //
+            if (hasKey)
+                rooms[currentRoomXPos, currentRoomYPos].keyID.Clear();
+
+            //
+            while (hasKey && (currentMapFileLineIndex < (currentMapParsedFile.Length - 1)))
+            {
+                // Print log
+                Debug.Log("Key: " + int.Parse(currentRoomCode));
+
+                // Add lock to the room
+                rooms[currentRoomXPos, currentRoomYPos].keyID.Add(int.Parse(currentRoomCode));
+                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
+
+                // Has the room a locked corridor?
+                hasKey = currentRoomCode[0] == '+';
+            }
+            // Step back
+            currentMapFileLineIndex--;
+        }
+    }
+
+    private void CheckIfStartOrFinishRoom()
+    {
+        switch (currentRoomCode)
+        {
+            case RoomType.START_ROOM: // This is the starting room
+                startX = currentRoomXPos;
+                startY = currentRoomYPos;
+                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
+                break;
+            case RoomType.FINAL_ROOM: // This room has the final item
+                endX = currentRoomXPos;
+                endY = currentRoomYPos;
+                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
+                break;
+            default: // This is an empty room
+                break;
+        }
+    }
+
+    private void ReadCorridorDataFromMapFile()
+    {
+        if (currentRoomCode != CORRIDOR)
+        {
+            // As in Breno's case, a lock can have many keys to open it, so we read until a positive number
+            // (not lock id) is found
+            // But this is not yet available in the "PrintNumericalGridWithConnections" method.
+            // Only with the files he provided us
+            rooms[currentRoomXPos, currentRoomYPos].lockID.Clear();
+
+            // Auxiliary variable that checks if there are still locks to be read
+            bool hasLock = true;
+
+            // Get all the keys needed to unlock the room
+            while (hasLock && (currentMapFileLineIndex < (currentMapParsedFile.Length - 1)))
+            {
+                // Print log
+                Debug.Log("Lock: " + int.Parse(currentRoomCode));
+
+                // Add lock to the corridor
+                rooms[currentRoomXPos, currentRoomYPos].lockID.Add(-int.Parse(currentRoomCode));
+                currentRoomCode = currentMapParsedFile[currentMapFileLineIndex++];
+
+                // Has the room a locked corridor?
+                hasLock = currentRoomCode[0] == '-';
+            }
+            // Step back
+            currentMapFileLineIndex--;
+        }
+    }
+
+    /**
+     * Reads the Map File Generated from the EA by the "PrintNumericalGridWithConnections" method
+     * Not to be confused with the Map constructor that "reads" the created dungeon in real-time by the EA
+     */
+    private void ReadRoomDataFromMapFile()
+    {
+        GameManager.instance.maxRooms += 1;
+        switch (currentRoomCode)
+        {
+            case RoomType.START_ROOM: // This is the starting room
+                startX = currentRoomXPos;
+                startY = currentRoomYPos;
+                break;
+            case RoomType.FINAL_ROOM: // This room has the final item
+                endX = currentRoomXPos;
+                endY = currentRoomYPos;
+                break;
+            case RoomType.TREASURE_ROOM: // This room has a treasure
+                                         // "gambiarra" to give a predefined enemy difficulty for the room
+                                         // and always place the most valuable treasure
+                rooms[currentRoomXPos, currentRoomYPos].difficulty = GameManager.instance.dungeonDifficulty;
+                rooms[currentRoomXPos, currentRoomYPos].Treasure = GameManager.instance.treasureSet.Items.Count - 1;
+                GameManager.instance.maxTreasure += 50;
+                break;
+            default: // This is an empty room
+                rooms[currentRoomXPos, currentRoomYPos].keyID.Add(int.Parse(currentRoomCode));
+                // "gambiarra" to give a predefined enemy difficulty for the room
+                rooms[currentRoomXPos, currentRoomYPos].difficulty = GameManager.instance.dungeonDifficulty;
+                break;
+        }
+    }
+
+
+
+    // ============================================================================================================== //
+
+
+
+    //Recebe os dados de tiles das salas
+    private void ReadRoomsFile(string text)
+    {
         var splitFile = new string[] { "\r\n", "\r", "\n" };
 
         //StreamReader streamReaderMap = new StreamReader(filepath);
@@ -248,30 +317,31 @@ public class Map {
         for (uint i = 2; i < NameLines.Length;)
         {
             int roomX, roomY;
-			roomX = int.Parse(NameLines[i++]);
-			roomY = int.Parse(NameLines[i++]);
-			txtLine += 2;
-			//Debug.Log ("roomX " + roomX + "   roomY " + roomY + "   Line: " + txtLine);
-			rooms [roomX, roomY].InitializeTiles (); // aloca memória para os tiles
-			for (int x = 0; x < Room.sizeX; x++){
+            roomX = int.Parse(NameLines[i++]);
+            roomY = int.Parse(NameLines[i++]);
+            txtLine += 2;
+            //Debug.Log ("roomX " + roomX + "   roomY " + roomY + "   Line: " + txtLine);
+            rooms[roomX, roomY].InitializeTiles(); // aloca memória para os tiles
+            for (int x = 0; x < Room.sizeX; x++)
+            {
                 for (int y = 0; y < Room.sizeY; y++)
                 {
-                    rooms[roomX, roomY].tiles [x, y] = int.Parse(NameLines[i++]); // FIXME Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
-					txtLine++;
-				}
-			}
-		}
-		Debug.Log ("Rooms read.");
-	}
+                    rooms[roomX, roomY].tiles[x, y] = int.Parse(NameLines[i++]); // FIXME Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
+                    txtLine++;
+                }
+            }
+        }
+        Debug.Log("Rooms read.");
+    }
 
     //Cria salas vazias no tamanho padrão
-    private void BuildDefaultRooms ()
+    private void BuildDefaultRooms()
     {
         Room.sizeX = Util.defaultRoomSizeX;
         Room.sizeY = Util.defaultRoomSizeY;
-        for (int roomX = 0; roomX < sizeX; roomX+=2)
+        for (int roomX = 0; roomX < sizeX; roomX += 2)
         {
-            for (int roomY = 0; roomY < sizeY; roomY+=2)
+            for (int roomY = 0; roomY < sizeY; roomY += 2)
             {
                 if (rooms[roomX, roomY] == null)
                     continue;
@@ -286,6 +356,12 @@ public class Map {
             }
         }
     }
+
+
+
+    // ============================================================================================================== //
+
+
 
     //Constructs a Map based on the Dungeon created in "real-time" from the EA
     //For now, we aren't changing this to the new method that adds treasures and enemies, but is the same principle.
@@ -320,8 +396,8 @@ public class Map {
             if (room.Y > maxY)
                 maxY = room.Y;
         }
-        sizeX = 2*(maxX - minX + 1);
-        sizeY = 2*(maxY - minY + 1);
+        sizeX = 2 * (maxX - minX + 1);
+        sizeY = 2 * (maxY - minY + 1);
 
         rooms = new Room[sizeX, sizeY];
 
@@ -337,7 +413,7 @@ public class Map {
                 {
                     rooms[iPositive * 2, jPositive * 2] = new Room(iPositive * 2, jPositive * 2);
                     type = actualRoom.Type;
-                    
+
                     if (i == 0 && j == 0)
                     {
                         Debug.Log("Found start");
@@ -346,10 +422,10 @@ public class Map {
                     }
                     else if (type == Type.normal)
                     {
-                        if(actualRoom.IsLeafNode())
+                        if (actualRoom.IsLeafNode())
                         {
                             rooms[iPositive * 2, jPositive * 2].Treasure = Random.Range(0, GameManager.instance.treasureSet.Items.Count);
-                            Debug.Log("This is a Leaf Node Room! "+ (iPositive * 2) + " - " + (jPositive * 2));
+                            Debug.Log("This is a Leaf Node Room! " + (iPositive * 2) + " - " + (jPositive * 2));
                         }
                         //rooms[iPositive * 2, jPositive * 2].keyID = 0;
                     }

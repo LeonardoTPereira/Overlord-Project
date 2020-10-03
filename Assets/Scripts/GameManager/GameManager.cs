@@ -252,7 +252,7 @@ public class GameManager : MonoBehaviour
                 roomBHVMap[x, y - 2].doorSouth.SetDestination(roomBHVMap[x, y].doorNorth);
             }
         }
-        if (x < Map.sizeX)
+        if (x < Map.sizeX - 1)
         { // east
             if (map.rooms[x + 1, y] != null)
             {
@@ -260,7 +260,7 @@ public class GameManager : MonoBehaviour
                 newRoom.eastDoor = map.rooms[x + 1, y].lockID;
             }
         }
-        if (y < Map.sizeY)
+        if (y < Map.sizeY - 1)
         { // south
             if (map.rooms[x, y + 1] != null)
             {
