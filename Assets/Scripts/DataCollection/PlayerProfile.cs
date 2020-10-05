@@ -195,8 +195,8 @@ public class PlayerProfile : MonoBehaviour {
     {
         //Log
         //Mais métricas - organiza em TAD
-        heatMap[x / 2, y / 2]++;
         visitedRooms.Add(new Vector2Int(x, y));
+        Debug.Log("VISITED: (x=" + x + ",y=" + y);
         if (hasEnemies)
         {
             actualRoomInfo.roomId = 10 * x + y;
@@ -208,6 +208,7 @@ public class PlayerProfile : MonoBehaviour {
         }
         else
             actualRoomInfo.roomId = -1;
+        heatMap[x / 2, y / 2]++;
     }
 
     //From DoorBHV

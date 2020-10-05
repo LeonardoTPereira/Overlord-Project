@@ -273,6 +273,9 @@ public class GameManager : MonoBehaviour
         newRoom.availableKeyID = room.keyID; // Avaiable key to be collected in that room
         if (room.Treasure > -1)
             newRoom.treasureID = room.Treasure;
+            if (newRoom.treasureID > -1) {
+                maxTreasure += treasureSet.Items[newRoom.treasureID].value;
+            }
 
         if (x == map.startX && y == map.startY)
         { // sala é a inicial
