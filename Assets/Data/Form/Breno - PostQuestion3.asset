@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Breno - PostQuestion3
   m_EditorClassIdentifier: 
   question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"O desafio deste n\xEDvel
-    for na medida certa\"?"
+    foi na medida certa\"?"
   description: 1 = Discordo Fortemente       <->      5 = Concordo Fortemente
