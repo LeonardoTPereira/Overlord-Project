@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
 
     public int maxTreasure, maxRooms;
     public int mapFileMode;
+    public GameObject panelIntro;
     void Awake()
     {
         //Singleton
@@ -167,6 +168,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerProfile.instance.OnGameStart();
         //LoadNewLevel();
+        panelIntro.SetActive(true);
     }
 
     void InstantiateRooms()
@@ -653,7 +655,7 @@ public class GameManager : MonoBehaviour
     //TODO display something about the player losing and call a continue screen os something like this.
     public void GameOver()
     {
-        Time.timeScale = 0f;
+        Time.timeScale = 1f;
         gameUI.SetActive(false);
         gameOverScreen.SetActive(true);
     }

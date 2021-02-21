@@ -9,6 +9,7 @@ public class GameOverPanelBHV : MonoBehaviour, IMenuPanel
     GameObject WeaponSelectPanel;
     [SerializeField]
     bool hasWon;
+    public GameObject gm;
 
     public void GoToNext()
     {
@@ -18,8 +19,10 @@ public class GameOverPanelBHV : MonoBehaviour, IMenuPanel
 
     public void GoToPrevious()
     {
-        PlayerProfile.instance.OnMapComplete();
-        WeaponSelectPanel.SetActive(true);
-        gameObject.SetActive(false);
+        //PlayerProfile.instance.OnMapComplete();
+        //WeaponSelectPanel.SetActive(true);
+        //gameObject.SetActive(false);
+        SceneManager.LoadScene("LuanaPaolo");
+        Destroy(gm);
     }
 }
