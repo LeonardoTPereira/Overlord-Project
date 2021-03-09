@@ -86,6 +86,8 @@ namespace LevelGenerator
             //Data to navigate the dungeon to print
             Room actualRoom, parent;
             RoomGrid grid = dun.roomGrid;
+            Boundaries boundaries;
+            Dimensions dimensions;
             Type type;
             int x, y, iPositive, jPositive;
             bool isRoom;
@@ -93,13 +95,6 @@ namespace LevelGenerator
             //List of keys and locked rooms in the level
             List<int> lockedRooms = new List<int>();
             List<int> keys = new List<int>();
-
-            //The boundaries of the level's grid
-            int minX, minY, maxX, maxY;
-            minX = Constants.MATRIXOFFSET;
-            minY = Constants.MATRIXOFFSET;
-            maxX = -Constants.MATRIXOFFSET;
-            maxY = -Constants.MATRIXOFFSET;
 
             //Where to save the new dungeon in Unity
             string foldername = "Assets/Resources/Levels/";
@@ -113,44 +108,36 @@ namespace LevelGenerator
                     keys.Add(room.KeyToOpen);
                 else if (room.Type == Type.locked)
                     lockedRooms.Add(room.KeyToOpen);
-                if (room.X < minX)
-                    minX = room.X;
-                if (room.Y < minY)
-                    minY = room.Y;
-                if (room.X > maxX)
-                    maxX = room.X;
-                if (room.Y > maxY)
-                    maxY = room.Y;
             }
+            dun.SetBoundariesFromRoomList();
 
             //The size is normalized to be always positive (easier to handle a matrix)
-            int sizeX = maxX - minX + 1;
-            int sizeY = maxY - minY + 1;
+            dun.SetDimensionsFromBoundaries();
 
             //Creates a matrix to hold each room and corridor (there may be a corridor between each room, that must be saved
             //hence 2*size
-            int[,] map = new int[2 * sizeX, 2 * sizeY];
+            int[,] map = new int[2 * dun.dimensions.Width, 2 * dun.dimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
-            dungeonData += 2*sizeX + "\n";
-            dungeonData += 2*sizeY + "\n";
+            dungeonData += 2* dun.dimensions.Width + "\n";
+            dungeonData += 2* dun.dimensions.Height + "\n";
 
             //We initialize the map with the equivalent of an empty cell
-            for (int i = 0; i < 2 * sizeX; ++i)
+            for (int i = 0; i < 2 * dun.dimensions.Width; ++i)
             {
-                for (int j = 0; j < 2 * sizeY; ++j)
+                for (int j = 0; j < 2 * dun.dimensions.Height; ++j)
                 {
                     map[i, j] = Util.RoomType.NOTHING;
                 }
             }
 
             //Now we visit each room and save the info on the corresponding cell of the matrix
-            for (int i = minX; i < maxX + 1; ++i)
+            for (int i = dun.boundaries.MinBoundaries.X; i < dun.boundaries.MaxBoundaries.X + 1; ++i)
             {
-                for (int j = minY; j < maxY + 1; ++j)
+                for (int j = dun.boundaries.MinBoundaries.Y; j < dun.boundaries.MaxBoundaries.Y + 1; ++j)
                 {
                     //Converts the coordinate of the original grid (can be negative) to the positive ones used in the matrix
-                    iPositive = i - minX;
-                    jPositive = j - minY;
+                    iPositive = i - dun.boundaries.MinBoundaries.X;
+                    jPositive = j - dun.boundaries.MinBoundaries.Y;
                     //Gets the actual room
                     actualRoom = grid[i, j];
                     //If there is something in this position in the grid:
@@ -215,9 +202,9 @@ namespace LevelGenerator
             }
 
             //Now we print it/save to a file/whatever
-            for (int i = 0; i < sizeX * 2; ++i)
+            for (int i = 0; i < dun.dimensions.Width * 2; ++i)
             {
-                for (int j = 0; j < sizeY * 2; ++j)
+                for (int j = 0; j < dun.dimensions.Height * 2; ++j)
                 {
                     isRoom = false;
 
@@ -268,14 +255,14 @@ namespace LevelGenerator
                         //writerRG.WriteLine(i);
                         //writerRG.WriteLine(j);
                         //If room is in (0,0) it is the starting one, we mark it with an "s" and save the "s"
-                        if (i + minX * 2 == 0 && j + minY * 2 == 0)
+                        if (i + dun.boundaries.MinBoundaries.X * 2 == 0 && j + dun.boundaries.MinBoundaries.Y * 2 == 0)
                         {
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.Write(" s");
                             dungeonData += "s\n";
                             //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += "0\n"; //Difficulty
                             //writerRG.WriteLine("s");
                             //Marks that it is a room
                             isRoom = true;
@@ -293,8 +280,8 @@ namespace LevelGenerator
                             Console.Write(" B");
                             dungeonData += "B\n";
                             //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += "0\n"; //Difficulty
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -313,8 +300,8 @@ namespace LevelGenerator
                             Console.Write("{0,2}", map[i, j]);
                             dungeonData += "T\n";
                             //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "50\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
+                            dungeonData += "50\n"; //Treasure
+                            dungeonData += "0\n"; //Difficulty
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -325,8 +312,8 @@ namespace LevelGenerator
                             Console.Write("{0,2}", map[i, j]);
                             dungeonData += map[i, j] + "\n";
                             //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += "0\n"; //Difficulty
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
@@ -336,8 +323,8 @@ namespace LevelGenerator
                             Console.Write("{0,2}", map[i, j]);
                             dungeonData += map[i, j] + "\n";
                             //TODO: save the info about the treasure and difficulty
-                            //dungeonData += "0\n"; //Treasure
-                            //dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += "0\n"; //Difficulty
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }

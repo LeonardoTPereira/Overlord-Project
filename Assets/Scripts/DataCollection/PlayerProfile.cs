@@ -240,7 +240,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From GameManager
-    public void OnMapStart (string name, int batch, Room[,] rooms, int difficulty, int weapon)
+    public void OnMapStart (string name, int batch, DungeonPart[,] rooms, int difficulty, int weapon)
     {
         HasFinished = false;
         mapCount++;
@@ -399,9 +399,9 @@ public class PlayerProfile : MonoBehaviour {
         heatMapString += "map,attempt,cumulativeAttempt\n";
         heatMapString += curMapName + "," + attemptOnLevelNumber + "," + cumulativeAttempts + "\n";
         heatMapString += "Heatmap:\n";
-        for (int i = 0; i < Map.sizeX / 2; ++i)
+        for (int i = 0; i < Map.width / 2; ++i)
         {
-            for (int j = 0; j < Map.sizeY / 2; ++j)
+            for (int j = 0; j < Map.height / 2; ++j)
             {
                 heatMapString += heatMap[i, j].ToString()+",";
             }
@@ -493,13 +493,13 @@ public class PlayerProfile : MonoBehaviour {
         }
     }
 
-    public int[,] CreateHeatMap(Room[,] rooms)
+    public int[,] CreateHeatMap(DungeonPart[,] rooms)
     {
-        int[,] heatMap = new int[Map.sizeX / 2, Map.sizeY / 2];
-        for (int i = 0; i < Map.sizeX / 2; ++i)
+        int[,] heatMap = new int[Map.width / 2, Map.height / 2];
+        for (int i = 0; i < Map.width / 2; ++i)
         {
             //string aux = "";
-            for (int j = 0; j < Map.sizeY / 2; ++j)
+            for (int j = 0; j < Map.height / 2; ++j)
             {
                 if (rooms[i * 2, j * 2] == null)
                 {

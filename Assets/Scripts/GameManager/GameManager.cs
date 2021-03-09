@@ -173,11 +173,11 @@ public class GameManager : MonoBehaviour
 
     void InstantiateRooms()
     {
-        for (int y = 0; y < Map.sizeY; y += 2)
+        foreach (DungeonPart currentPart in map.dungeonPartByCoordinates)
         {
-            for (int x = 0; x < Map.sizeX; x += 2)
+            if(currentPart is DungeonRoom)
             {
-                InstantiateRoom(x, y);
+                InstantiateRoom(currentPart);
             }
         }
     }
@@ -223,51 +223,46 @@ public class GameManager : MonoBehaviour
         return map;
     }
 
-    void InstantiateRoom(int x, int y)
+    void InstantiateRoom(DungeonRoom dungeonRoom)
     {
-        if (map.rooms[x, y] == null)
-        {
-            return;
-        }
-        Room room = map.rooms[x, y];
         RoomBHV newRoom = Instantiate(roomPrefab, roomsParent);
-        roomBHVMap[x, y] = newRoom;
-        if (x > 1)
+        roomBHVMap[dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y] = newRoom;
+        if (dungeonRoom.coordinates.X > 1)
         { // west
-            if (map.rooms[x - 1, y] != null)
+            if (map.dungeonPartByCoordinates[dungeonRoom.coordinates.X - 1, dungeonRoom.coordinates.Y] != null)
             {
                 //Sets door
-                newRoom.westDoor = map.rooms[x - 1, y].lockID;
+                newRoom.westDoor = map.dungeonPartByCoordinates[x - 1, dungeonRoom.coordinates.Y].lockID;
                 //Links room doors - assumes the rooms are given in a specific order from data: incr X, incr Y
-                roomBHVMap[x, y].doorWest.SetDestination(roomBHVMap[x - 2, y].doorEast);
-                roomBHVMap[x - 2, y].doorEast.SetDestination(roomBHVMap[x, y].doorWest);
+                roomBHVMap[x, y].doorWest.SetDestination(roomBHVMap[dungeonRoom.coordinates.X - 2, dungeonRoom.coordinates.Y].doorEast);
+                roomBHVMap[x - 2, y].doorEast.SetDestination(roomBHVMap[dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y].doorWest);
             }
         }
         if (y > 1)
         { // north
-            if (map.rooms[x, y - 1] != null)
+            if (map.dungeonPartByCoordinates[x, y - 1] != null)
             {
                 //Sets door
-                newRoom.northDoor = map.rooms[x, y - 1].lockID;
+                newRoom.northDoor = map.dungeonPartByCoordinates[x, y - 1].lockID;
                 //Links room doors - assumes the rooms are given in a specific order from data: incr X, incr Y
                 roomBHVMap[x, y].doorNorth.SetDestination(roomBHVMap[x, y - 2].doorSouth);
                 roomBHVMap[x, y - 2].doorSouth.SetDestination(roomBHVMap[x, y].doorNorth);
             }
         }
-        if (x < Map.sizeX - 1)
+        if (x < Map.width - 1)
         { // east
-            if (map.rooms[x + 1, y] != null)
+            if (map.dungeonPartByCoordinates[x + 1, y] != null)
             {
                 //Sets door
-                newRoom.eastDoor = map.rooms[x + 1, y].lockID;
+                newRoom.eastDoor = map.dungeonPartByCoordinates[x + 1, y].lockID;
             }
         }
-        if (y < Map.sizeY - 1)
+        if (y < Map.height - 1)
         { // south
-            if (map.rooms[x, y + 1] != null)
+            if (map.dungeonPartByCoordinates[x, y + 1] != null)
             {
                 //Sets door
-                newRoom.southDoor = map.rooms[x, y + 1].lockID;
+                newRoom.southDoor = map.dungeonPartByCoordinates[x, y + 1].lockID;
             }
         }
         newRoom.x = x; //TODO: check use
@@ -364,10 +359,10 @@ public class GameManager : MonoBehaviour
         //NEED TO CALL ANALYTICS?
         //AnalyticsEvent.LevelStart(randomLevelList[currentMapId]);
 
-        roomBHVMap = new RoomBHV[Map.sizeX, Map.sizeY];
-        for (int x = 0; x < Map.sizeX; x++)
+        roomBHVMap = new RoomBHV[map.dimensions.Width, map.dimensions.Height];
+        for (int x = 0; x < map.dimensions.Width; x++)
         {
-            for (int y = 0; y < Map.sizeY; y++)
+            for (int y = 0; y < map.dimensions.Height; y++)
             {
                 roomBHVMap[x, y] = null;
             }
@@ -375,18 +370,18 @@ public class GameManager : MonoBehaviour
         InstantiateRooms();
         Player.instance.keys.Clear();
         Player.instance.usedKeys.Clear();
-        Player.instance.AdjustCamera(map.startX, map.startY);
-        Player.instance.SetRoom(map.startX, map.startY);
+        Player.instance.AdjustCamera(map.startRoomCoordinates.X, map.startRoomCoordinates.Y, (map.dungeonPartByCoordinates[0] as DungeonRoom).Dimensions.Width);
+        Player.instance.SetRoom(map.startRoomCoordinates.X, map.startRoomCoordinates.Y);
 
         UpdateLevelGUI();
-        UpdateRoomGUI(map.startX, map.startY);
+        UpdateRoomGUI(map.startRoomCoordinates.X, map.startRoomCoordinates.Y);
         OnStartMap(mapFile.name, currentTestBatchId, map, difficulty);
     }
 
     private void OnStartMap(string mapName, int batch, Map map, int difficulty)
     {
         //Debug.Log("Map Name: " + mapName);
-        PlayerProfile.instance.OnMapStart(mapName, batch, map.rooms, difficulty, projectileSet.Items.IndexOf(projectileType));
+        PlayerProfile.instance.OnMapStart(mapName, batch, map.dungeonPartByCoordinates, difficulty, projectileSet.Items.IndexOf(projectileType));
         PlayerProfile.instance.OnRoomEnter(map.startX, map.startY, roomBHVMap[map.startX, map.startY].hasEnemies, roomBHVMap[map.startX, map.startY].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth());
         //Debug.Log("Started Profiling");
     }

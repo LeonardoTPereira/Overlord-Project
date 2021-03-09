@@ -188,7 +188,7 @@ public class TimSortSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         JobHandle handle;
-        if (GameManager.instance.createEnemy)
+        if (GameManager.instance && GameManager.instance.createEnemy)
         {
             if (GameManagerTest.instance.enemyReady && !GameManagerTest.instance.enemySorted)
             {

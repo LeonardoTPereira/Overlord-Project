@@ -354,15 +354,12 @@ public class EASystem : JobComponentSystem
     {
         JobHandle handle;
         GetFitnessJob getFitnessJob;
-        //if (GameManager.instance.createEnemy)
-        if (true)
+        if (GameManager.instance && GameManager.instance.createEnemy)
         {
             //Debug.Log("Creating Enemies");
-            //if (GameManagerTest.instance.generationCounter < EnemyUtil.maxGenerations)
-            if (true)
+            if (GameManagerTest.instance && GameManagerTest.instance.generationCounter < EnemyUtil.maxGenerations)
             {
-                //if (GameManagerTest.instance.generationCounter == 0)
-                if (true)
+                if (GameManagerTest.instance.generationCounter == 0)
                 {
 
                     FitnessJob fitJob = new FitnessJob
@@ -535,7 +532,6 @@ public class EASystem : JobComponentSystem
         { };
         handle = emptyJob.Schedule();
         return handle;
-
     }
 }
 #endif
@@ -545,11 +541,9 @@ public class SignalEAEnding : ComponentSystem
 
     protected override void OnUpdate()
     {
-        //if (GameManager.instance.createEnemy)
-        if (true)
+        if (GameManager.instance && GameManager.instance.createEnemy)
         {
-            //if ((GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
-            if (true)
+            if (GameManagerTest.instance && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
             {
                 //Debug.Log("This different update!");
 

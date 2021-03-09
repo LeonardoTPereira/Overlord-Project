@@ -59,10 +59,10 @@ public class Player : PlaceableRoomObject {
 		keys.Add (keyID);
 	}
 
-	public void AdjustCamera(int x, int y){
+	public void AdjustCamera(int x, int y, int roomWidth){
 		GameManager gm = GameManager.instance;
 		Transform roomTransf = gm.roomBHVMap [x, y].transform;
-		cam.transform.position = new Vector3 (roomTransf.position.x + Room.sizeX/3.5f, roomTransf.position.y, -5f);
+		cam.transform.position = new Vector3 (roomTransf.position.x + roomWidth / 3.5f, roomTransf.position.y, -5f);
 		//minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
 	}
 

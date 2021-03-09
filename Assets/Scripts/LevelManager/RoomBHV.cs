@@ -102,7 +102,7 @@ public class RoomBHV : MonoBehaviour {
             else
                 hasEnemies = false;
         }
-        minimapIcon.transform.localScale = new Vector3(Room.sizeX, Room.sizeY, 1);
+        minimapIcon.transform.localScale = new Vector3(DungeonPart.sizeX, DungeonPart.sizeY, 1);
     }
 
     // Update is called once per frame
@@ -116,8 +116,8 @@ public class RoomBHV : MonoBehaviour {
 		doorEast.keyID = eastDoor;
 		doorWest.keyID = westDoor;
 
-        float centerX = Room.sizeX / 2.0f - 0.5f;
-		float centerY = Room.sizeY / 2.0f - 0.5f;
+        float centerX = DungeonPart.sizeX / 2.0f - 0.5f;
+		float centerY = DungeonPart.sizeY / 2.0f - 0.5f;
 		const float delta = 0.0f; //para que os colisores das portas e das paredes não se sobreponham completamente
 		//Posiciona as portas - são somados/subtraídos 1 para que as portas e colisores estejam periféricos à sala
 		doorNorth.transform.localPosition = new Vector2 (0.0f, centerY + 1 - delta);
@@ -130,22 +130,22 @@ public class RoomBHV : MonoBehaviour {
 		colSouth.transform.localPosition = new Vector2 (0.0f, -centerY - 1);
 		colEast.transform.localPosition = new Vector2 (centerX + 1, 0.0f);
 		colWest.transform.localPosition = new Vector2 (-centerX -1, 0.0f);
-		colNorth.GetComponent<BoxCollider2D> ().size = new Vector2(Room.sizeX + 2, 1);
-		colSouth.GetComponent<BoxCollider2D> ().size = new Vector2(Room.sizeX + 2, 1);
-		colEast.GetComponent<BoxCollider2D> ().size = new Vector2 (1, Room.sizeY + 2);
-		colWest.GetComponent<BoxCollider2D> ().size = new Vector2 (1, Room.sizeY + 2);
+		colNorth.GetComponent<BoxCollider2D> ().size = new Vector2(DungeonPart.sizeX + 2, 1);
+		colSouth.GetComponent<BoxCollider2D> ().size = new Vector2(DungeonPart.sizeX + 2, 1);
+		colEast.GetComponent<BoxCollider2D> ().size = new Vector2 (1, DungeonPart.sizeY + 2);
+		colWest.GetComponent<BoxCollider2D> ().size = new Vector2 (1, DungeonPart.sizeY + 2);
 
 		//Ajusta sprites das paredes
-		colNorth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(Room.sizeX + 2, 1);
-		colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(Room.sizeX + 2, 1);
-		colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2 (1, Room.sizeY + 2);
-		colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2 (1, Room.sizeY + 2);
+		colNorth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(DungeonPart.sizeX + 2, 1);
+		colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(DungeonPart.sizeX + 2, 1);
+		colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2 (1, DungeonPart.sizeY + 2);
+		colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2 (1, DungeonPart.sizeY + 2);
         
         GameObject auxObj;
 		//Posiciona os tiles
-		Room thisRoom = GameManager.instance.GetMap().rooms[x, y]; //TODO fazer de forma similar para tirar construção de salas do GameManager
-		for (int ix = 0; ix < Room.sizeX; ix++){
-			for (int iy = 0; iy < Room.sizeY; iy++){
+		DungeonPart thisRoom = GameManager.instance.GetMap().dungeonPartByCoordinates[x, y]; //TODO fazer de forma similar para tirar construção de salas do GameManager
+		for (int ix = 0; ix < DungeonPart.sizeX; ix++){
+			for (int iy = 0; iy < DungeonPart.sizeY; iy++){
 				int tileID = thisRoom.tiles [ix, iy];
                 TileBHV tileObj;
                 if (tileID == 1)
@@ -157,13 +157,13 @@ public class RoomBHV : MonoBehaviour {
                         {
                             auxObj = Instantiate(NWCollumn);
                             auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, Room.sizeY - 1 - iy - centerY);
+                            auxObj.transform.localPosition = new Vector2(ix - centerX, DungeonPart.sizeY - 1 - iy - centerY);
                         }
-                        if(iy == (Room.sizeY-1))
+                        if(iy == (DungeonPart.sizeY-1))
                         {
                             auxObj = Instantiate(SWCollumn);
                             auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, Room.sizeY - 1 - iy - centerY);
+                            auxObj.transform.localPosition = new Vector2(ix - centerX, DungeonPart.sizeY - 1 - iy - centerY);
                         }
                         tileObj.GetComponent<SpriteRenderer>().sprite = westWall;
                     }
@@ -171,19 +171,19 @@ public class RoomBHV : MonoBehaviour {
                     {
                         tileObj.GetComponent<SpriteRenderer>().sprite = northWall;
                     }
-                    else if(ix == (Room.sizeX - 1))
+                    else if(ix == (DungeonPart.sizeX - 1))
                     {
                         if (iy == 0)
                         {
                             auxObj = Instantiate(NECollumn);
                             auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, Room.sizeY - 1 - iy - centerY);
+                            auxObj.transform.localPosition = new Vector2(ix - centerX, DungeonPart.sizeY - 1 - iy - centerY);
                         }
-                        if (iy == (Room.sizeY - 1))
+                        if (iy == (DungeonPart.sizeY - 1))
                         {
                             auxObj = Instantiate(SECollumn);
                             auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, Room.sizeY - 1 - iy - centerY);
+                            auxObj.transform.localPosition = new Vector2(ix - centerX, DungeonPart.sizeY - 1 - iy - centerY);
                         }
                         tileObj.GetComponent<SpriteRenderer>().sprite = eastWall;
                     }
@@ -195,7 +195,7 @@ public class RoomBHV : MonoBehaviour {
                 else
                     tileObj = Instantiate(tilePrefab);
 				tileObj.transform.SetParent (transform);
-				tileObj.transform.localPosition = new Vector2 (ix - centerX, Room.sizeY -1 - iy - centerY);
+				tileObj.transform.localPosition = new Vector2 (ix - centerX, DungeonPart.sizeY -1 - iy - centerY);
 				tileObj.GetComponent<SpriteRenderer> (); //FIXME provisório para diferenciar sprites
 				tileObj.id = tileID;
 				tileObj.x = ix;
@@ -205,13 +205,13 @@ public class RoomBHV : MonoBehaviour {
 
         auxObj = Instantiate(NWCollumn);
         auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(- 0.5f - centerX, Room.sizeY - 0.5f - centerY);
+        auxObj.transform.localPosition = new Vector2(- 0.5f - centerX, DungeonPart.sizeY - 0.5f - centerY);
         auxObj = Instantiate(SECollumn);
         auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(Room.sizeX - 0.5f - centerX, - 0.5f - centerY);
+        auxObj.transform.localPosition = new Vector2(DungeonPart.sizeX - 0.5f - centerX, - 0.5f - centerY);
         auxObj = Instantiate(NECollumn);
         auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(Room.sizeX - 0.5f - centerX, Room.sizeY - 0.5f - centerY); 
+        auxObj.transform.localPosition = new Vector2(DungeonPart.sizeX - 0.5f - centerX, DungeonPart.sizeY - 0.5f - centerY); 
         auxObj = Instantiate(SWCollumn);
         auxObj.transform.SetParent(transform);
         auxObj.transform.localPosition = new Vector2(- 0.5f - centerX, - 0.5f - centerY);
@@ -220,30 +220,30 @@ public class RoomBHV : MonoBehaviour {
         float xOffset = transform.position.x;
         float yOffset = transform.position.y;
 
-        int lowerHalfVer = (Room.sizeY / Util.nSpawnPointsHor);
-        int upperHalfVer = (3*Room.sizeY / Util.nSpawnPointsHor);
-        int lowerHalfHor = (Room.sizeX / Util.nSpawnPointsVer);
-        int upperHalfHor = (3*Room.sizeX / Util.nSpawnPointsVer);
-        int topHor = (margin + (Room.sizeX * (Util.nSpawnPointsVer - 1) / Util.nSpawnPointsVer));
-        int topVer = (margin + (Room.sizeY * (Util.nSpawnPointsHor - 1) / Util.nSpawnPointsHor));
+        int lowerHalfVer = (DungeonPart.sizeY / Util.nSpawnPointsHor);
+        int upperHalfVer = (3*DungeonPart.sizeY / Util.nSpawnPointsHor);
+        int lowerHalfHor = (DungeonPart.sizeX / Util.nSpawnPointsVer);
+        int upperHalfHor = (3*DungeonPart.sizeX / Util.nSpawnPointsVer);
+        int topHor = (margin + (DungeonPart.sizeX * (Util.nSpawnPointsVer - 1) / Util.nSpawnPointsVer));
+        int topVer = (margin + (DungeonPart.sizeY * (Util.nSpawnPointsHor - 1) / Util.nSpawnPointsHor));
 
         //Create spawn points avoiding the points close to doors.
-        for (int ix = margin; ix < (Room.sizeX - margin); ix+= (Room.sizeX/Util.nSpawnPointsVer))
+        for (int ix = margin; ix < (DungeonPart.sizeX - margin); ix+= (DungeonPart.sizeX/Util.nSpawnPointsVer))
         {
-            for (int iy = margin; iy < (Room.sizeY - margin); iy += (Room.sizeY / Util.nSpawnPointsHor))
+            for (int iy = margin; iy < (DungeonPart.sizeY - margin); iy += (DungeonPart.sizeY / Util.nSpawnPointsHor))
             {
                 if ((ix <= margin) || (ix >= topHor))
                 {
                     if (iy < lowerHalfVer || iy > upperHalfVer)
-                        spawnPoints.Add(new Vector3(ix - centerX + xOffset, Room.sizeY - 1 - iy - centerY + yOffset, 0));
+                        spawnPoints.Add(new Vector3(ix - centerX + xOffset, DungeonPart.sizeY - 1 - iy - centerY + yOffset, 0));
                 }
                 else if ((iy <= margin) || (iy >= topVer))
                 {
                     if (ix < lowerHalfHor || ix > upperHalfHor)
-                        spawnPoints.Add(new Vector3(ix - centerX + xOffset, Room.sizeY - 1 - iy - centerY + yOffset, 0));
+                        spawnPoints.Add(new Vector3(ix - centerX + xOffset, DungeonPart.sizeY - 1 - iy - centerY + yOffset, 0));
                 }
                 else
-                    spawnPoints.Add(new Vector3(ix - centerX + xOffset, Room.sizeY - 1 - iy - centerY + yOffset, 0));
+                    spawnPoints.Add(new Vector3(ix - centerX + xOffset, DungeonPart.sizeY - 1 - iy - centerY + yOffset, 0));
             }
         }
         
@@ -260,7 +260,7 @@ public class RoomBHV : MonoBehaviour {
 
     private void SelectEnemies()
     {
-        difficultyLevel = GameManager.instance.GetMap().rooms[x, y].difficulty;
+        difficultyLevel = GameManager.instance.GetMap().dungeonPartByCoordinates[x, y].difficulty;
         if (difficultyLevel == 0)
             hasEnemies = false;
         else

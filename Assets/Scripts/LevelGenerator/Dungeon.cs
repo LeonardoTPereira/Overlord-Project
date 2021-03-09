@@ -11,6 +11,8 @@ namespace LevelGenerator
         public float neededRooms;
         private int desiredKeys;
         private float avgChildren;
+        public Boundaries boundaries;
+        public Dimensions dimensions;
         //Queue with the notes that need to be visited
         public Queue toVisit;
         //List of Nodes (easier to add neighbors)
@@ -518,5 +520,38 @@ namespace LevelGenerator
         {
             fitness = fitness_;
         }
+
+        public void SetBoundariesFromRoomList()
+        {
+            int minX, minY, maxX, maxY;
+            minX = Constants.MATRIXOFFSET;
+            minY = Constants.MATRIXOFFSET;
+            maxX = -Constants.MATRIXOFFSET;
+            maxY = -Constants.MATRIXOFFSET;
+
+            foreach (Room room in roomList)
+            {
+                if (room.X < minX)
+                    minX = room.X;
+                if (room.Y < minY)
+                    minY = room.Y;
+                if (room.X > maxX)
+                    maxX = room.X;
+                if (room.Y > maxY)
+                    maxY = room.Y;
+            }
+            Coordinates minBoundaries, maxBoundaries;
+            minBoundaries = new Coordinates(minX, minY);
+            maxBoundaries = new Coordinates(maxX, maxY);
+            boundaries = new Boundaries(minBoundaries, maxBoundaries);
+        }
+
+        public void SetDimensionsFromBoundaries()
+        {
+            int width = boundaries.MaxBoundaries.X - boundaries.MinBoundaries.X + 1;
+            int height = boundaries.MaxBoundaries.Y - boundaries.MinBoundaries.Y + 1;
+            dimensions = new Dimensions(width, height);
+        }
     }
+    
 }
