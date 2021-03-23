@@ -191,15 +191,15 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From DoorBHV
-    public void OnRoomEnter (int x, int y, bool hasEnemies, List<int> enemyList, int playerHealth)
+    public void OnRoomEnter (Coordinates coordinates, bool hasEnemies, List<int> enemyList, int playerHealth)
     {
         //Log
         //Mais métricas - organiza em TAD
-        visitedRooms.Add(new Vector2Int(x, y));
-        Debug.Log("VISITED: (x=" + x + ",y=" + y);
+        visitedRooms.Add(new Vector2Int(coordinates.X, coordinates.Y));
+        Debug.Log("VISITED: (x=" + coordinates.X + ",y=" + coordinates.Y);
         if (hasEnemies)
         {
-            actualRoomInfo.roomId = 10 * x + y;
+            actualRoomInfo.roomId = 10 * coordinates.X + coordinates.Y;
             actualRoomInfo.hasEnemies = hasEnemies;
             actualRoomInfo.playerInitHealth = playerHealth;
             actualRoomInfo.nEnemies = enemyList.Count;
@@ -208,7 +208,7 @@ public class PlayerProfile : MonoBehaviour {
         }
         else
             actualRoomInfo.roomId = -1;
-        heatMap[x / 2, y / 2]++;
+        heatMap[coordinates.X / 2, coordinates.Y / 2]++;
     }
 
     //From DoorBHV
@@ -240,7 +240,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From GameManager
-    public void OnMapStart (string name, int batch, DungeonPart[,] rooms, int difficulty, int weapon)
+    public void OnMapStart (string name, int batch, Map currentMap, int difficulty, int weapon)
     {
         HasFinished = false;
         mapCount++;
@@ -256,7 +256,7 @@ public class PlayerProfile : MonoBehaviour {
         curMapName = name;
         curBatchId = batch;
         stopWatch.Start();
-        heatMap = CreateHeatMap(rooms);
+        heatMap = CreateHeatMap(currentMap);
         combatInfoList = new List<CombatRoomInfo>();
         damageDoneByEnemy = new int[EnemyUtil.nBestEnemies].ToList();
         difficultyLevel = difficulty;
@@ -274,7 +274,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From TriforceBHV
-    public void OnMapComplete ()
+    public void OnMapComplete (Map currentMap)
     {
         stopWatch.Stop();
         secondsToFinish = stopWatch.Elapsed.Seconds;
@@ -288,7 +288,7 @@ public class PlayerProfile : MonoBehaviour {
 
         //HasFinished = victory;
         //Save to remote file
-        SendProfileToServer();
+        SendProfileToServer(currentMap);
         //Reset all values
         visitedRooms.Clear();
         postFormAnswers.Clear();
@@ -393,15 +393,15 @@ public class PlayerProfile : MonoBehaviour {
     }
 
 
-    private void WrapHeatMapToString()
+    private void WrapHeatMapToString(Map currentMap)
     {
         heatMapString = "";
         heatMapString += "map,attempt,cumulativeAttempt\n";
         heatMapString += curMapName + "," + attemptOnLevelNumber + "," + cumulativeAttempts + "\n";
         heatMapString += "Heatmap:\n";
-        for (int i = 0; i < Map.width / 2; ++i)
+        for (int i = 0; i < currentMap.dimensions.Width / 2; ++i)
         {
-            for (int j = 0; j < Map.height / 2; ++j)
+            for (int j = 0; j < currentMap.dimensions.Height / 2; ++j)
             {
                 heatMapString += heatMap[i, j].ToString()+",";
             }
@@ -411,10 +411,10 @@ public class PlayerProfile : MonoBehaviour {
     }
     //File name: BatchId, MapId, SessionUID
     //Player profile: N Visited Rooms, N Unique Visited Rooms, N Keys Taken, N Keys Used, Form Answer 1, Form Answer 2,Form Answer 3
-    private void SendProfileToServer ()
+    private void SendProfileToServer (Map currentMap)
     {
         WrapProfileToString();
-        WrapHeatMapToString();
+        WrapHeatMapToString(currentMap);
         WrapLevelProfileToString();
         WrapLevelDetailedCombatProfileToString();
         StartCoroutine(PostData("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
@@ -493,23 +493,21 @@ public class PlayerProfile : MonoBehaviour {
         }
     }
 
-    public int[,] CreateHeatMap(DungeonPart[,] rooms)
+    public int[,] CreateHeatMap(Map currentMap)
     {
-        int[,] heatMap = new int[Map.width / 2, Map.height / 2];
-        for (int i = 0; i < Map.width / 2; ++i)
+        int[,] heatMap = new int[currentMap.dimensions.Width / 2, currentMap.dimensions.Height / 2];
+        for (int i = 0; i < currentMap.dimensions.Width / 2; ++i)
         {
             //string aux = "";
-            for (int j = 0; j < Map.height / 2; ++j)
+            for (int j = 0; j < currentMap.dimensions.Height / 2; ++j)
             {
-                if (rooms[i * 2, j * 2] == null)
+                if (currentMap.dungeonPartByCoordinates.ContainsKey(new Coordinates(i * 2, j * 2)))
                 {
-                    heatMap[i, j] = -1;
-                    //aux += "-1";
+                    heatMap[i, j] = 0;
                 }
                 else
                 {
-                    heatMap[i, j] = 0;
-                    //aux += "0";
+                    heatMap[i, j] = -1;
                 }
             }
             //Debug.Log(aux);
@@ -534,8 +532,8 @@ public class PlayerProfile : MonoBehaviour {
         timesPlayerDied++;
     }
 
-    public void OnRetry()
+    public void OnRetry(Map currentMap)
     {
-        OnMapComplete();
+        OnMapComplete(currentMap);
     }
 }

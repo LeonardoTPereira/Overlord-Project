@@ -49,7 +49,7 @@ public class Map
         else
         {
             // Sala vazia padrão
-            // Debug.Log("Doesn't Have Room File");
+            Debug.Log("Doesn't Have Room File");
             BuildDefaultRooms();
         }
     }
@@ -125,17 +125,16 @@ public class Map
     private void BuildDefaultRooms()
     {
         Dimensions dimensions = new Dimensions(Util.defaultRoomSizeX, Util.defaultRoomSizeY);
-        DungeonRoom currentRoom;
         foreach (DungeonPart currentPart in dungeonPartByCoordinates.Values )
         {
-            if(currentPart is DungeonRoom)
-            { 
-                currentRoom = (DungeonRoom) currentPart;
-                currentRoom.Dimensions = dimensions;
-                currentRoom.InitializeTiles(); // aloca memória para os tiles
-                for (int x = 0; x < currentRoom.Dimensions.Width; x++)
-                    for (int y = 0; y < currentRoom.Dimensions.Height; y++)
-                        currentRoom.tiles[x, y] = defaultTileID; 
+            if(currentPart is DungeonRoom room)
+            {
+                Debug.Log("building a default room");
+                room.Dimensions = dimensions;
+                room.InitializeTiles(); // aloca memória para os tiles
+                for (int x = 0; x < room.Dimensions.Width; x++)
+                    for (int y = 0; y < room.Dimensions.Height; y++)
+                        room.tiles[x, y] = defaultTileID; 
             }
         }
     }

@@ -19,4 +19,14 @@ public class Coordinates
         Coordinates coordinates = (Coordinates) obj;
         return ((coordinates.x == x) && (coordinates.y == y));
     }
+
+    public override string ToString()
+    {
+        return $"Coordinates X = {X}, Y = {Y}";
+    }
+
+    public override int GetHashCode()
+    {
+        return x ^ y;
+    }
 }

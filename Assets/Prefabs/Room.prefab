@@ -50,6 +50,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -135,7 +136,8 @@ MonoBehaviour:
     type: 3}
   teleportTransform: {fileID: 4757452092410706}
   gradientMaterial: {fileID: 2100000, guid: c88c6a03d73d70a43a9d8c26c177ed75, type: 2}
-  destination: {fileID: 0}
+  destination: {fileID: 2111537569747417202, guid: 6493f5f9ec583344d9eee647ad947f21,
+    type: 3}
   unlockSnd: {fileID: 8300000, guid: f7987142c1aaefa498b7748d83e0f77f, type: 3}
 --- !u!82 &82771547812302412
 AudioSource:
@@ -307,6 +309,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -435,6 +438,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -520,7 +524,8 @@ MonoBehaviour:
     type: 3}
   teleportTransform: {fileID: 4191061800590270}
   gradientMaterial: {fileID: 2100000, guid: 5af165038c57488488a10367446e405f, type: 2}
-  destination: {fileID: 0}
+  destination: {fileID: 3761539166365797510, guid: 33bc69aee992c69439b5f20d84f43731,
+    type: 3}
   unlockSnd: {fileID: 8300000, guid: f7987142c1aaefa498b7748d83e0f77f, type: 3}
 --- !u!82 &82236141939253266
 AudioSource:
@@ -668,10 +673,11 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8f79ab74a235e69408fd36c02bb99811, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -753,7 +759,8 @@ MonoBehaviour:
     type: 3}
   teleportTransform: {fileID: 4178795282519426}
   gradientMaterial: {fileID: 2100000, guid: 8f79ab74a235e69408fd36c02bb99811, type: 2}
-  destination: {fileID: 0}
+  destination: {fileID: 8690080842966673077, guid: 754960a2ab7dfaa498c71bbee6dab635,
+    type: 3}
   unlockSnd: {fileID: 8300000, guid: f7987142c1aaefa498b7748d83e0f77f, type: 3}
 --- !u!82 &82423396311077630
 AudioSource:
@@ -955,6 +962,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1113,6 +1121,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1222,6 +1231,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1320,6 +1330,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1394,7 +1405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf8378b01e52be43958c231943c2f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyID: 
+  keyID: 03000000
   isOpen: 0
   isClosedByEnemies: 0
   lockedSprite: {fileID: -2804735369662088147, guid: 29269b331c7bd2e4ca9b20f2eb3d526d,
@@ -1405,7 +1416,8 @@ MonoBehaviour:
     type: 3}
   teleportTransform: {fileID: 4317141115486034}
   gradientMaterial: {fileID: 2100000, guid: 5db105d0bbe6bfa4fbcc1197e12afd7b, type: 2}
-  destination: {fileID: 0}
+  destination: {fileID: 2760642564320694933, guid: 1846683e8ac887748a9d6f0f49dd5fd7,
+    type: 3}
   unlockSnd: {fileID: 8300000, guid: f7987142c1aaefa498b7748d83e0f77f, type: 3}
 --- !u!82 &82943865087853100
 AudioSource:
@@ -1553,18 +1565,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eebd30311a6e4ae4686e3bcf02963395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
   northDoor: 
   southDoor: 
   eastDoor: 
   westDoor: 
-  availableKeyID: 
-  treasureID: -1
-  isStart: 0
-  isEnd: 0
   hasEnemies: 0
-  difficultyLevel: 0
   enemiesIndex: 
   doorNorth: {fileID: 114081829205008226}
   doorSouth: {fileID: 114023979573330110}
@@ -1706,6 +1711,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1800,6 +1806,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

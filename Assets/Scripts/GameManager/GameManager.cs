@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI keyText, roomText, levelText;
     public RoomBHV roomPrefab;
     public Transform roomsParent;  //Transform to hold rooms for leaner hierarchy view
-    public RoomBHV[,] roomBHVMap; //2D array for easy room indexing
+    public Dictionary<Coordinates, RoomBHV> roomBHVMap; //2D array for easy room indexing
     public float roomSpacingX = 30f; //Spacing between rooms: X
     public float roomSpacingY = 20f; //Spacing between rooms: Y
     private string mapDirectory;
@@ -173,11 +173,11 @@ public class GameManager : MonoBehaviour
 
     void InstantiateRooms()
     {
-        foreach (DungeonPart currentPart in map.dungeonPartByCoordinates)
+        foreach (DungeonPart currentPart in map.dungeonPartByCoordinates.Values)
         {
             if(currentPart is DungeonRoom)
             {
-                InstantiateRoom(currentPart);
+                InstantiateRoom(currentPart as DungeonRoom);
             }
         }
     }
@@ -186,14 +186,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         secondsElapsed += Time.deltaTime;
-        if (!isInGame)
+        if (!isInGame && generator != null)
+        {
             if (generator.hasFinished)
             {
                 instance.createdDungeon = generator.aux;
                 if (startButton != null)
                     startButton.interactable = true;
             }
-        if (isCompleted)
+        }
+        if (isCompleted && generator != null)
         {
             if (generator.hasFinished)
             {
@@ -226,111 +228,67 @@ public class GameManager : MonoBehaviour
     void InstantiateRoom(DungeonRoom dungeonRoom)
     {
         RoomBHV newRoom = Instantiate(roomPrefab, roomsParent);
-        roomBHVMap[dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y] = newRoom;
-        if (dungeonRoom.coordinates.X > 1)
+        newRoom.roomData = dungeonRoom;
+        Coordinates targetCoordinates;
+        Debug.Log($"Now instantiating room: {dungeonRoom.coordinates}");
+        newRoom.westDoor = null;
+        newRoom.eastDoor = null;
+        newRoom.northDoor = null;
+        newRoom.southDoor = null;
+        if (IsLeftEdge(dungeonRoom.coordinates))
         { // west
-            if (map.dungeonPartByCoordinates[dungeonRoom.coordinates.X - 1, dungeonRoom.coordinates.Y] != null)
-            {
-                //Sets door
-                newRoom.westDoor = map.dungeonPartByCoordinates[x - 1, dungeonRoom.coordinates.Y].lockID;
-                //Links room doors - assumes the rooms are given in a specific order from data: incr X, incr Y
-                roomBHVMap[x, y].doorWest.SetDestination(roomBHVMap[dungeonRoom.coordinates.X - 2, dungeonRoom.coordinates.Y].doorEast);
-                roomBHVMap[x - 2, y].doorEast.SetDestination(roomBHVMap[dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y].doorWest);
-            }
+            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X - 1, dungeonRoom.coordinates.Y);
+            newRoom.westDoor = CheckCorridor(targetCoordinates);
         }
-        if (y > 1)
+        if (IsBottomEdge(dungeonRoom.coordinates))
         { // north
-            if (map.dungeonPartByCoordinates[x, y - 1] != null)
-            {
-                //Sets door
-                newRoom.northDoor = map.dungeonPartByCoordinates[x, y - 1].lockID;
-                //Links room doors - assumes the rooms are given in a specific order from data: incr X, incr Y
-                roomBHVMap[x, y].doorNorth.SetDestination(roomBHVMap[x, y - 2].doorSouth);
-                roomBHVMap[x, y - 2].doorSouth.SetDestination(roomBHVMap[x, y].doorNorth);
-            }
+            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y - 1);
+            newRoom.northDoor = CheckCorridor(targetCoordinates);
         }
-        if (x < Map.width - 1)
-        { // east
-            if (map.dungeonPartByCoordinates[x + 1, y] != null)
-            {
-                //Sets door
-                newRoom.eastDoor = map.dungeonPartByCoordinates[x + 1, y].lockID;
-            }
+        if (IsRightEdge(dungeonRoom.coordinates))
+        {
+            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X + 1, dungeonRoom.coordinates.Y);
+            newRoom.eastDoor = CheckCorridor(targetCoordinates);
         }
-        if (y < Map.height - 1)
-        { // south
-            if (map.dungeonPartByCoordinates[x, y + 1] != null)
-            {
-                //Sets door
-                newRoom.southDoor = map.dungeonPartByCoordinates[x, y + 1].lockID;
-            }
+        if(IsTopEdge(dungeonRoom.coordinates))
+        {
+            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y + 1);
+            newRoom.southDoor = CheckCorridor(targetCoordinates);
         }
-        newRoom.x = x; //TODO: check use
-        newRoom.y = y; //TODO: check use
-        newRoom.availableKeyID = room.keyID; // Avaiable key to be collected in that room
-        if (room.Treasure > -1)
-            newRoom.treasureID = room.Treasure;
-            if (newRoom.treasureID > -1) {
-                maxTreasure += treasureSet.Items[newRoom.treasureID].value;
-            }
-
-        if (x == map.startX && y == map.startY)
-        { // sala é a inicial
-            newRoom.isStart = true;
-        }
-        if (x == map.endX && y == map.endY)
-        { // sala é a final
-            newRoom.isEnd = true;
+        if (dungeonRoom.Treasure > -1)
+        {
+#if UNITY_EDITOR
+            Debug.Log($"We have a treasure with ID: {dungeonRoom.Treasure}");
+#endif
+            maxTreasure += treasureSet.Items[dungeonRoom.Treasure].value;
         }
         //Sets room transform position
-        newRoom.gameObject.transform.position = new Vector2(roomSpacingX * x, -roomSpacingY * y);
+        newRoom.gameObject.transform.position = new Vector2(roomSpacingX * dungeonRoom.coordinates.X, -roomSpacingY * dungeonRoom.coordinates.Y);
+        roomBHVMap.Add(dungeonRoom.coordinates, newRoom);
     }
 
-    //TODO REMOVE THIS METHOD SAFELY
-    /*public void LoadNewLevel()
+    public void CreateConnectionsBetweenRooms(RoomBHV currentRoom)
     {
-        Time.timeScale = 1f;
-        ChangeMusic(bgMusic);
-        if (createMaps)
-        {
-            map = new Map(instance.createdDungeon);
+        Coordinates targetCoordinates;
+        if (currentRoom.westDoor != null)
+        { // west
+            targetCoordinates = new Coordinates(currentRoom.roomData.coordinates.X - 2, currentRoom.roomData.coordinates.Y);
+            SetDestinations(targetCoordinates, currentRoom.roomData.coordinates, 1);
         }
-        else
-        {
-            if (maps != null)
-            {
-                Debug.Log("MapSize: " + maps.Count);
-                foreach (TextAsset file in maps)
-                {
-                    Debug.Log("Map: " + file.text);
-                }
+        if (currentRoom.northDoor != null)
+        { // west
+            targetCoordinates = new Coordinates(currentRoom.roomData.coordinates.X, currentRoom.roomData.coordinates.Y - 2);
+            SetDestinations(targetCoordinates, currentRoom.roomData.coordinates, 2);
+        }
+    }
 
-                //AnalyticsEvent.LevelStart(randomLevelList[currentMapId]);
-                //Loads map from data
-                //LoadMap(randomLevelList[currentMapId]);
-            }
-            else
-            {
-                Debug.Log("Something is wrong with the map directory!");
-            }
-        }
-        roomBHVMap = new RoomBHV[Map.sizeX, Map.sizeY];
-        for (int x = 0; x < Map.sizeX; x++)
+    public void ConnectRoooms()
+    {
+        foreach (RoomBHV currentRoom in roomBHVMap.Values)
         {
-            for (int y = 0; y < Map.sizeY; y++)
-            {
-                roomBHVMap[x, y] = null;
-            }
+            CreateConnectionsBetweenRooms(currentRoom);
         }
-        InstantiateRooms();
-        Player.instance.keys.Clear();
-        Player.instance.usedKeys.Clear();
-        Player.instance.AdjustCamera(map.startX, map.startY);
-        Player.instance.SetRoom(map.startX, map.startY);
-        UpdateLevelGUI();
-        UpdateRoomGUI(map.startX, map.startY);
-        //OnStartMap(randomLevelList[currentMapId], currentTestBatchId, map);
-    }*/
+    }
 
     public void LoadNewLevel(TextAsset mapFile, int difficulty = 1)
     {
@@ -359,19 +317,14 @@ public class GameManager : MonoBehaviour
         //NEED TO CALL ANALYTICS?
         //AnalyticsEvent.LevelStart(randomLevelList[currentMapId]);
 
-        roomBHVMap = new RoomBHV[map.dimensions.Width, map.dimensions.Height];
-        for (int x = 0; x < map.dimensions.Width; x++)
-        {
-            for (int y = 0; y < map.dimensions.Height; y++)
-            {
-                roomBHVMap[x, y] = null;
-            }
-        }
+        roomBHVMap = new Dictionary<Coordinates, RoomBHV>();
+
         InstantiateRooms();
+        ConnectRoooms();
         Player.instance.keys.Clear();
         Player.instance.usedKeys.Clear();
-        Player.instance.AdjustCamera(map.startRoomCoordinates.X, map.startRoomCoordinates.Y, (map.dungeonPartByCoordinates[0] as DungeonRoom).Dimensions.Width);
-        Player.instance.SetRoom(map.startRoomCoordinates.X, map.startRoomCoordinates.Y);
+        Player.instance.AdjustCamera(map.startRoomCoordinates, (map.dungeonPartByCoordinates[map.startRoomCoordinates] as DungeonRoom).Dimensions.Width);
+        
 
         UpdateLevelGUI();
         UpdateRoomGUI(map.startRoomCoordinates.X, map.startRoomCoordinates.Y);
@@ -381,8 +334,8 @@ public class GameManager : MonoBehaviour
     private void OnStartMap(string mapName, int batch, Map map, int difficulty)
     {
         //Debug.Log("Map Name: " + mapName);
-        PlayerProfile.instance.OnMapStart(mapName, batch, map.dungeonPartByCoordinates, difficulty, projectileSet.Items.IndexOf(projectileType));
-        PlayerProfile.instance.OnRoomEnter(map.startX, map.startY, roomBHVMap[map.startX, map.startY].hasEnemies, roomBHVMap[map.startX, map.startY].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth());
+        PlayerProfile.instance.OnMapStart(mapName, batch, map, difficulty, projectileSet.Items.IndexOf(projectileType));
+        PlayerProfile.instance.OnRoomEnter(map.startRoomCoordinates, roomBHVMap[map.startRoomCoordinates].hasEnemies, roomBHVMap[map.startRoomCoordinates].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth());
         //Debug.Log("Started Profiling");
     }
 
@@ -439,7 +392,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckEndOfBatch()
     {
-        PlayerProfile.instance.OnMapComplete();
+        PlayerProfile.instance.OnMapComplete(map);
         /*if (!createMaps && survivalMode)
         {
             if (currentMapId < (maps.Count - 1))
@@ -463,7 +416,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        PlayerProfile.instance.OnMapComplete();
+        PlayerProfile.instance.OnMapComplete(map);
         //endingScreen.SetActive(true);
     }
 
@@ -566,52 +519,6 @@ public class GameManager : MonoBehaviour
     {
 
     }
-    //Load a new batch of levels, if it exists
-    /*public void LoadNewBatch()
-    {
-        formMenu.SetActive(false);
-        currentTestBatchId++;
-        currentMapId = 0;
-        if (currentTestBatchId == 1)
-        {
-            readRooms = true;
-
-            maps.Clear();
-            maps = new List<TextAsset>();
-            rooms.Clear();
-            rooms = new List<TextAsset>();
-
-            maps.Add(Resources.Load<TextAsset>("Batch1/Eagle"));
-            maps.Add(Resources.Load<TextAsset>("Batch1/MyEagle"));
-            maps.Add(Resources.Load<TextAsset>("Batch1/Lion"));
-            maps.Add(Resources.Load<TextAsset>("Batch1/Snake"));
-            maps.Add(Resources.Load<TextAsset>("Batch1/MyLion"));
-            maps.Add(Resources.Load<TextAsset>("Batch1/MySnake"));
-
-            rooms.Add(Resources.Load<TextAsset>("Batch1/EagleRoom"));
-            rooms.Add(Resources.Load<TextAsset>("Batch1/MyEagleRoom"));
-            rooms.Add(Resources.Load<TextAsset>("Batch1/LionRoom"));
-            rooms.Add(Resources.Load<TextAsset>("Batch1/SnakeRoom"));
-            rooms.Add(Resources.Load<TextAsset>("Batch1/MyLionRoom"));
-            rooms.Add(Resources.Load<TextAsset>("Batch1/MySnakeRoom"));
-            */
-            /*if (Directory.Exists(mapDirectory))
-            {
-                // This path is a directory
-                ProcessDirectory(mapDirectory+currentTestBatchId, "map*", ref maps);
-                ProcessDirectory(mapDirectory+currentTestBatchId, "room*", ref rooms);
-            }*/
-        /*    Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
-            //LoadNewLevel();
-        }
-        else
-        {
-            //keyText.gameObject.SetActive(false);
-            //roomText.gameObject.SetActive(false);
-            endingScreen.SetActive(true);
-        }
-    }*/
 
     public void UpdateKeyGUI()
     {
@@ -828,4 +735,68 @@ public class GameManager : MonoBehaviour
         newLevelLoadedEvent();
     }
 
+    public bool IsLeftEdge(Coordinates coordinates)
+    {
+        return coordinates.X > 1;
+    }
+
+    public bool IsRightEdge(Coordinates coordinates)
+    {
+        return coordinates.X < (map.dimensions.Width - 1);
+    }
+
+    public bool IsBottomEdge(Coordinates coordinates)
+    {
+        return coordinates.Y > 1;
+    }
+    public bool IsTopEdge(Coordinates coordinates)
+    {
+        return coordinates.Y < (map.dimensions.Height - 1);
+    }
+
+    public List<int> CheckCorridor(Coordinates targetCoordinates)
+    {
+        if (map.dungeonPartByCoordinates.ContainsKey(targetCoordinates))
+        {
+            //Sets door
+            Debug.Log($"The door exists at {targetCoordinates}");
+            DungeonLockedCorridor lockedCorridor = map.dungeonPartByCoordinates[targetCoordinates] as DungeonLockedCorridor;
+            Debug.Log($"Is Locked Corridor? {lockedCorridor}");
+
+            if (lockedCorridor != null)
+            {
+                Debug.Log($"There are {(lockedCorridor).lockIDs.Count} locks in this door");
+                foreach (int locks in (lockedCorridor).lockIDs)
+                {
+                    Debug.Log($"Lock ID: {locks}");
+                }
+                return lockedCorridor.lockIDs;
+            }
+            else
+            {
+                Debug.Log("Is only a corridor");
+                return new List<int>();
+            }
+        }
+        else
+        {
+            Debug.Log($"Corridor not found {targetCoordinates}");
+        }
+        return null;
+    }
+
+    public void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
+    {
+        if(orientation == 1)
+        {
+            roomBHVMap[sourceCoordinates].doorWest.SetDestination(roomBHVMap[targetCoordinates].doorEast);
+            roomBHVMap[targetCoordinates].doorEast.SetDestination(roomBHVMap[sourceCoordinates].doorWest);
+        }
+        else if(orientation == 2)
+        {
+            roomBHVMap[sourceCoordinates].doorNorth.SetDestination(roomBHVMap[targetCoordinates].doorSouth);
+            roomBHVMap[targetCoordinates].doorSouth.SetDestination(roomBHVMap[sourceCoordinates].doorNorth);
+        }
+    }
 }
+

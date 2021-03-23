@@ -27,7 +27,6 @@ public class DoorBHV : MonoBehaviour
 
     private void Awake()
     {
-        keyID = new List<int>();
         isOpen = false;
         parentRoom = transform.parent.GetComponent<RoomBHV>();
         audioSrc = GetComponent<AudioSource>();
@@ -39,17 +38,21 @@ public class DoorBHV : MonoBehaviour
         //TODO arrumar essa gambiarra e dar um jeito da porta representar as 2
         //Chaves que a abrem
         int firstKeyID = -1;
-        if (keyID.Count > 0)
-            firstKeyID = keyID[0];
-        if (keyID.Count == 0)
+        if (keyID != null)
         {
-            //Debug.Log("No Key");
-            Destroy(gameObject);
+            if (keyID.Count > 0)
+                firstKeyID = keyID[0];
         }
-        else if (firstKeyID > 0)
+        else
+        {
+            Debug.Log("Door shouldn't exist");
+            Destroy(gameObject);
+            return;
+        }
+        if (firstKeyID > 0)
         {
 
-            //Debug.Log("Positive key id");
+            Debug.Log("There is a key for this door, lock it");
             //Render the locked door sprite with the color relative to its ID
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             sr.sprite = lockedSprite;
@@ -59,22 +62,18 @@ public class DoorBHV : MonoBehaviour
                 sr.material.SetColor("gradientColor2", Util.colorId[keyID[1] - 1]);
             else
                 sr.material.SetColor("gradientColor2", Util.colorId[firstKeyID - 1]);
-
-
             //sr.color = Util.colorId[firstKeyID - 1];
             //text.text = keyID.ToString ();
-
         }
         if (parentRoom.hasEnemies)
         {
             isClosedByEnemies = true;
-            if (firstKeyID == 0 || isOpen)
+            if (keyID.Count == 0 || isOpen)
             {
                 //Debug.Log("Negative key id");
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
                 sr.sprite = closedSprite;
             }
-
         }
         //gm = GameManager.instance;
     }
@@ -87,27 +86,21 @@ public class DoorBHV : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.tag == "Player")
         {
-            int firstKeyID = -1;
-            if (keyID.Count > 0)
-                firstKeyID = keyID[0];
-            /*foreach (int id in keyID)
-                Debug.Log("Lock Key: "+ id);
-            foreach (int id in Player.instance.keys)
-                Debug.Log("Player Key: " + id);*/
             List<int> commonKeys = keyID.Intersect(Player.instance.keys).ToList();
-            if (firstKeyID == 0 || isOpen)
+            if (keyID.Count == 0 || isOpen)
             {
                 if (!isClosedByEnemies)
                 {
                     audioSrc.PlayOneShot(audioSrc.clip, 0.8f);
                     MovePlayerToNextRoom();
-                    GameManager.instance.UpdateRoomGUI(destination.parentRoom.x, destination.parentRoom.y);
+                    GameManager.instance.UpdateRoomGUI(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y);
                 }
             }
-            else if (commonKeys.Count() == keyID.Count)
-            {
+            else if(commonKeys.Count() == keyID.Count)
+            {                
                 if (!isClosedByEnemies)
                 {
                     audioSrc.PlayOneShot(unlockSnd, 0.7f);
@@ -119,7 +112,7 @@ public class DoorBHV : MonoBehaviour
                     }
 
                     GameManager.instance.UpdateKeyGUI();
-                    GameManager.instance.UpdateRoomGUI(destination.parentRoom.x, destination.parentRoom.y);
+                    GameManager.instance.UpdateRoomGUI(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y);
                     OpenDoor();
                     if (!destination.parentRoom.hasEnemies)
                         destination.OpenDoor();
@@ -166,7 +159,8 @@ public class DoorBHV : MonoBehaviour
         //The normal room transition
         Player.instance.transform.position = destination.teleportTransform.position;
         RoomBHV parent = destination.parentRoom;
-        Player.instance.AdjustCamera(parent.x, parent.y);
+        Coordinates cameraCoordinates = new Coordinates(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y);
+        Player.instance.AdjustCamera(cameraCoordinates, parent.roomData.Dimensions.Width);
         destination.transform.parent.GetComponent<RoomBHV>().OnRoomEnter();
 
     }
@@ -179,19 +173,19 @@ public class DoorBHV : MonoBehaviour
     //Methods to Player Profile
     private void OnRoomFailEnter()
     {
-        PlayerProfile.instance.OnRoomFailEnter(new Vector2Int(destination.parentRoom.x, destination.parentRoom.y));
+        PlayerProfile.instance.OnRoomFailEnter(new Vector2Int(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y));
     }
 
 
 
     private void OnRoomFailExit()
     {
-        PlayerProfile.instance.OnRoomFailExit(new Vector2Int(parentRoom.x, parentRoom.y));
+        PlayerProfile.instance.OnRoomFailExit(new Vector2Int(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y));
     }
 
     private void OnRoomExit(int playerHealth)
     {
-        PlayerProfile.instance.OnRoomExit(new Vector2Int(parentRoom.x, parentRoom.y), playerHealth);
+        PlayerProfile.instance.OnRoomExit(new Vector2Int(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y), playerHealth);
     }
 
     private void OnKeyUsed(int id)
@@ -207,10 +201,7 @@ public class DoorBHV : MonoBehaviour
 
     public void OpenDoorAfterKilling()
     {
-        int firstKeyID = -1;
-        if (keyID.Count > 0)
-            firstKeyID = keyID[0];
-        if (firstKeyID == 0 || isOpen)
+        if ((keyID?.Count ?? -1) == 0 || isOpen)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             sr.sprite = openedSprite;

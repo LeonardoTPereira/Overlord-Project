@@ -18,8 +18,8 @@ public class TriforceBHV : PlaceableRoomObject {
         }
 	}
 
-    private void OnMapComplete ()
+    private void OnMapComplete (Map currentMap)
     {
-        PlayerProfile.instance.OnMapComplete();
+        PlayerProfile.instance.OnMapComplete(currentMap);
     }
 }

@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &32265376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1649,6 +1649,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1659,6 +1663,10 @@ PrefabInstance:
     - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1672,19 +1680,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114422053890188650, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 826402172}
+    - target: {fileID: 114422053890188650, guid: 8fea4dd3f18348d42a4a32bb977123cd,
+        type: 3}
+      propertyPath: npc
+      value: 
+      objectReference: {fileID: 912414392}
     - target: {fileID: 114422053890188650, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
       propertyPath: minimap
@@ -1696,11 +1701,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c48fd973ae42b1749bbc26a2cf958bba,
         type: 2}
-    - target: {fileID: 114422053890188650, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: npc
-      value: 
-      objectReference: {fileID: 912414392}
     - target: {fileID: 212597136606239852, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
       propertyPath: m_Sprite

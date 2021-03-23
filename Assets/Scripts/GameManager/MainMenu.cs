@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
-    /*public GameObject introScreen, introScreen2, gameOverScreen, levelSelect, weaponSelect, preTestForm;
+    public GameObject introScreen, introScreen2, gameOverScreen, levelSelect, weaponSelect, preTestForm;
 
     public void IntroScreen()
     {
@@ -37,7 +37,6 @@ public class MainMenu : MonoBehaviour {
     public void RetryLevel()
     {
         GameManager.instance.createMaps = false;
-        PlayerProfile.instance.OnRetry();
         SceneManager.LoadScene("LevelWithEnemies");
     }
 
@@ -57,5 +56,5 @@ public class MainMenu : MonoBehaviour {
     {
         introScreen.SetActive(false);
         introScreen2.SetActive(true);
-    }*/
+    }
 }

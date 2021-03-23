@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MapFileHandler
 {
@@ -22,6 +23,9 @@ public class MapFileHandler
         int width, height;
         width = int.Parse(parsedMapFile[0]);
         height = int.Parse(parsedMapFile[1]);
+#if UNITY_EDITOR
+        Debug.Log($"Map Dimensions: Width {width}, Height {height}");
+#endif
         return new Dimensions(width, height);
     }
     public Coordinates GetNextDungeonPartCoordinates()
@@ -29,6 +33,9 @@ public class MapFileHandler
         int xCoordinate, yCoordinate;
         xCoordinate = int.Parse(parsedMapFile[currentIndex++]);
         yCoordinate = int.Parse(parsedMapFile[currentIndex++]);
+#if UNITY_EDITOR
+        Debug.Log($"Coordinates: X {xCoordinate}, Y {yCoordinate}");
+#endif
         return new Coordinates(xCoordinate, yCoordinate);
     }
 
@@ -76,7 +83,7 @@ public class MapFileHandler
 
     public int GetNextTreasure()
     {
-        return int.Parse(parsedMapFile[currentIndex++]);
+        return int.Parse(parsedMapFile[currentIndex++])-1;
     }
 
     public List<int> GetNextKeyIDs()
@@ -84,14 +91,37 @@ public class MapFileHandler
         string code;
         bool currentCodeIsAKey;
         List<int> keyIDs = new List<int>();
-        do
+        if (HasMoreLines())
         {
-            code = parsedMapFile[currentIndex++];
-            currentCodeIsAKey = IsKey(code);
-            if (currentCodeIsAKey)
-                keyIDs.Add(-int.Parse(code));
-        } while (currentCodeIsAKey && HasMoreLines());
-        currentIndex--;
+            do
+            {
+                code = parsedMapFile[currentIndex++];
+                currentCodeIsAKey = IsKey(code);
+                if (currentCodeIsAKey)
+                    keyIDs.Add(int.Parse(code));
+            } while (currentCodeIsAKey && HasMoreLines());
+            currentIndex--;
+        }
         return keyIDs;
+    }
+
+    public bool IsStart(string code)
+    {
+        if (code[0] == 's')
+        {
+            Debug.Log($"We have a starting room: {code}");
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsFinal(string code)
+    {
+        if (code[0] == 'B')
+        {
+            Debug.Log($"We have a final room: {code}");
+            return true;
+        }
+        return false;
     }
 }

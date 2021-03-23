@@ -248,6 +248,7 @@ namespace LevelGenerator
                     //If there is something (room or corridor) print/save
                     else
                     {
+                        Random random = new Random();
                         //For Unity's dungeon file we need to save the x and y position of the room
                         dungeonData += i + "\n";
                         dungeonData += j + "\n";
@@ -261,8 +262,8 @@ namespace LevelGenerator
                             Console.Write(" s");
                             dungeonData += "s\n";
                             //TODO: save the info about the treasure and difficulty
-                            dungeonData += "0\n"; //Treasure
                             dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
                             //writerRG.WriteLine("s");
                             //Marks that it is a room
                             isRoom = true;
@@ -280,8 +281,8 @@ namespace LevelGenerator
                             Console.Write(" B");
                             dungeonData += "B\n";
                             //TODO: save the info about the treasure and difficulty
-                            dungeonData += "0\n"; //Treasure
                             dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -298,10 +299,10 @@ namespace LevelGenerator
                         else if (map[i, j] == Util.RoomType.TREASURE)
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            dungeonData += "T\n";
                             //TODO: save the info about the treasure and difficulty
-                            dungeonData += "50\n"; //Treasure
-                            dungeonData += "0\n"; //Difficulty
+                            dungeonData += random.Next(1, 5)+"\n"; //Difficulty
+                            int value = random.Next(1, GameManager.instance.treasureSet.Items.Count+1);
+                            dungeonData += value+"\n"; //Treasure
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -310,10 +311,11 @@ namespace LevelGenerator
                         else if (map[i, j] > 0)
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            dungeonData += map[i, j] + "\n";
                             //TODO: save the info about the treasure and difficulty
+                            dungeonData += random.Next(1, 5) + "\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
-                            dungeonData += "0\n"; //Difficulty
+
+                            dungeonData += "+" + map[i, j] + "\n";
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
@@ -321,10 +323,9 @@ namespace LevelGenerator
                         else
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            dungeonData += map[i, j] + "\n";
                             //TODO: save the info about the treasure and difficulty
+                            dungeonData += random.Next(4)+"\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
-                            dungeonData += "0\n"; //Difficulty
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }

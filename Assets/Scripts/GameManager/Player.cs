@@ -31,22 +31,24 @@ public class Player : PlaceableRoomObject {
 	private void OnEnable()
 	{
 		GameManager.newLevelLoadedEvent += ResetValues;
+		RoomBHV.StartRoomInstantiated += PlacePlayerInStartRoom;
 	}
 
 	private void OnDisable()
 	{
 		GameManager.newLevelLoadedEvent -= ResetValues;
+		RoomBHV.StartRoomInstantiated -= PlacePlayerInStartRoom;
 	}
 
 	// Use this for initialization
 	void Start () {
         cam = Camera.main;
 		npc.SetActive(false);
-		if(mission.type[mission.index1] == 0){
+		/*if(mission.type[mission.index1] == 0){
 			npc.SetActive(true);
 			mission.index1++;
 			mission.index2++;
-		}
+		}*/
     }
 	
 	// Update is called once per frame
@@ -59,11 +61,16 @@ public class Player : PlaceableRoomObject {
 		keys.Add (keyID);
 	}
 
-	public void AdjustCamera(int x, int y, int roomWidth){
+	public void AdjustCamera(Coordinates coordinates, int roomWidth){
 		GameManager gm = GameManager.instance;
-		Transform roomTransf = gm.roomBHVMap [x, y].transform;
+		Transform roomTransf = gm.roomBHVMap [coordinates].transform;
 		cam.transform.position = new Vector3 (roomTransf.position.x + roomWidth / 3.5f, roomTransf.position.y, -5f);
 		//minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
+	}
+
+	private void PlacePlayerInStartRoom(Object sender, StartRoomEventArgs e)
+    {
+		instance.transform.position = e.position;
 	}
 
 	void ResetValues()

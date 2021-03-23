@@ -8,5 +8,4 @@ public class DungeonLockedCorridor : DungeonCorridor
     {
         this.lockIDs = lockIDs;
     }
-    public override bool HasLock => true;
 }
