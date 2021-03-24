@@ -9,7 +9,6 @@ public class Player_Movement : MonoBehaviour
     public float move_ver;
     public float speed = 2000f;
     public Rigidbody rigidBody;
-    public int col = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -25,11 +24,5 @@ public class Player_Movement : MonoBehaviour
 
         move_ver = Input.GetAxis("Vertical");
         rigidBody.velocity = new Vector2 (rigidBody.velocity.x, move_ver * speed);
-    }
-
-    void OnTriggerEnter(Collider other){
-        if(other.tag == "Npc") col = 0;
-        if(other.tag == "Mission") col = 1;
-        Debug.Log(col);
     }
 }

@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class kill{
-    int r;
+    float r, b;
+    public void option(Manager m, int lim, int[] pesos){
+        r = ((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16) * Random.Range(0f, 3f);
+        if(lim == 3) r = 2.5f;
 
-    public void option(Manager m, int lim){
-        r = Random.Range(0, 2);
-        if(lim == 3) r = 1;
+        b = Random.Range(0, 100);
 
         lim++;
 
         kill_ter k = new kill_ter();
 
-        if(r == 0){
+        if(r <= 2.5){
             k.choose(m);
             talk t = new talk();
-            t.option(m, lim);
-            this.option(m, lim);
+            t.option(m, lim, pesos);
+            this.option(m, lim, pesos);
         }
-        if(r == 1) k.choose(m);
+        if(r > 2.5) k.choose(m);
     }
 }

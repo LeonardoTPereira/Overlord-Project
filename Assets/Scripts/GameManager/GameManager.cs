@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
     //private List<TextAsset> maps = new List<TextAsset>();
-    protected TextAsset mapFile;
+    public TextAsset mapFile;
     private List<TextAsset> rooms = new List<TextAsset>();
     private List<int> randomLevelList = new List<int>();
     private Map map = null;

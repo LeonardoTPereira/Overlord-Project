@@ -5,27 +5,41 @@ using UnityEngine;
 //classe que seleciona a linha de missões de acordo com os pesos do perfil do jogador
 public class Selector{
 
-    private int r;
+    private float r;
+    public int parent = -1;
     public int[] pesos = new int[4]; //vetor de pesos
 
-    public void select(Manager m){
-        r = Random.Range(0, 4);
+    /*
+    [7][5][1][3]
+    [3][7][1][5]
+    [1][5][7][3]
+    [1][5][3][7]
+    */
 
-        if(r == 0){
+    public void select(Manager m){
+        pesos[0] = 1;
+        pesos[1] = 5;
+        pesos[2] = 3;
+        pesos[3] = 7;
+
+        //r = Random.Range(0, 4);
+        r = 2.9f;//((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16);// * Random.Range(0f, 3f);
+
+        if(r <= 2.35){
             talk t = new talk();
-            t.option(m, 0);
+            t.option(m, 0, pesos);
         }
-        if(r == 1){
+        if(r > 2.35 && r <= 2.6){
             get g = new get();
-            g.option(m, 0);
+            g.option(m, 0, pesos);
         }
-        if(r == 2){
+        if(r > 2.6 && r <= 2.85){
             kill k = new kill();
-            k.option(m, 0);
+            k.option(m, 0, pesos);
         }
-        if(r == 3){
+        if(r > 2.85){
             explore e = new explore();
-            e.option(m, 0);
+            e.option(m, 0, pesos);
         }
     }
 }

@@ -12,9 +12,9 @@ public class Player : PlaceableRoomObject {
 	public Camera cam;
 	public Camera minimap;
     private AudioSource audioSrc;
-	public Mission_Log mission;
-	public GameObject npc;
-	public bool isColliding = false;
+	//public Mission_Log mission;
+	//public GameObject npc;
+	//public bool isColliding = false;
 
 	void Awake(){
 		if (instance == null){
@@ -43,7 +43,7 @@ public class Player : PlaceableRoomObject {
 	// Use this for initialization
 	void Start () {
         cam = Camera.main;
-		npc.SetActive(false);
+		//npc.SetActive(false);
 		/*if(mission.type[mission.index1] == 0){
 			npc.SetActive(true);
 			mission.index1++;
@@ -77,13 +77,5 @@ public class Player : PlaceableRoomObject {
 	{
 		keys.Clear();
 		usedKeys.Clear();
-	}
-
-	void OnTriggerEnter(Collider other){
-		if(other.tag == "Npc") isColliding = true;
-	}
-
-	void OnTriggerExit(Collider other){
-		if(other.tag == "Npc") isColliding = false;
 	}
 }
