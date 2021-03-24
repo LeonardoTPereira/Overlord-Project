@@ -738,17 +738,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbae3eaaeceb47740b8516d1233ce73f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nRooms: 18
+  nRooms: 10
   nKeys: 4
   nLocks: 4
-  linearity: 1.5
+  linearity: 1.1
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 0}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 714001a36672c8747b10738c78789140, type: 2}
-  createMaps: 0
+  createMaps: 1
   audioSource: {fileID: 0}
   bgMusic: {fileID: 8300000, guid: 1aa95e0fec72b734ba2baed670245abf, type: 3}
   fanfarreMusic: {fileID: 8300000, guid: 2710e444135703844b1e08e71e2ea0e5, type: 3}
@@ -2343,7 +2343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &328329803
 RectTransform:
   m_ObjectHideFlags: 0
