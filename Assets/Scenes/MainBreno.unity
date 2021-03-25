@@ -748,7 +748,7 @@ MonoBehaviour:
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 714001a36672c8747b10738c78789140, type: 2}
-  createMaps: 1
+  createMaps: 0
   audioSource: {fileID: 0}
   bgMusic: {fileID: 8300000, guid: 1aa95e0fec72b734ba2baed670245abf, type: 3}
   fanfarreMusic: {fileID: 8300000, guid: 2710e444135703844b1e08e71e2ea0e5, type: 3}

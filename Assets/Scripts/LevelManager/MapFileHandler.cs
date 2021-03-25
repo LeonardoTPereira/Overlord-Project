@@ -57,7 +57,8 @@ public class MapFileHandler
             if(currentCodeIsALock)
                 lockIDs.Add(-int.Parse(code));
         } while (currentCodeIsALock && HasMoreLines());
-        currentIndex--;
+        if (!currentCodeIsALock)
+            currentIndex--;
         return lockIDs;
     }
 
@@ -73,7 +74,7 @@ public class MapFileHandler
 
     public bool HasMoreLines()
     {
-        return (currentIndex < (parsedMapFile.Length - 1));
+        return (currentIndex < (parsedMapFile.Length));
     }
 
     public int GetNextDifficulty()
@@ -100,7 +101,8 @@ public class MapFileHandler
                 if (currentCodeIsAKey)
                     keyIDs.Add(int.Parse(code));
             } while (currentCodeIsAKey && HasMoreLines());
-            currentIndex--;
+            if(!currentCodeIsAKey)
+                currentIndex--;
         }
         return keyIDs;
     }
