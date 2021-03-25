@@ -446,22 +446,6 @@ public class GameManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        /*Debug.Log("Level Loaded");
-        Debug.Log(scene.name);
-        Debug.Log(mode);*/
-        /*if (scene.name == "Level" || scene.name == "LevelGenerator" || scene.name == "LevelWithEnemies")
-        {
-            if (createMaps && survivalMode)
-            {
-                Constants.nV = nRooms;
-                Constants.nK = nKeys;
-                Constants.nL = nLocks;
-                Constants.lCoef = linearity;
-                generator.CreateDungeon();
-                StartCoroutine(coroutine);
-            }
-        }*/
-
         if (scene.name == "LevelGenerator")
         {
             if (createMaps && !survivalMode)
@@ -492,17 +476,9 @@ public class GameManager : MonoBehaviour
 
             Player pl = Player.instance;
             pl.cam = Camera.main;
-            //pl.minimap = GameObject.Find("MinimapCamera").GetComponent<Camera>();
             //Recover health
             pl.gameObject.GetComponent<PlayerController>().ResetHealth();
-            //formMenu = GameObject.Find("Canvas").transform.Find("Form Questions").gameObject;
-            //keyText = GameObject.Find("KeyUIText").GetComponent<TextMeshProUGUI>();
-            //roomText = GameObject.Find("RoomUI").GetComponent<TextMeshProUGUI>();
-            //levelText = GameObject.Find("LevelUI").GetComponent<TextMeshProUGUI>();
-            //endingScreen = GameObject.Find("Canvas").transform.Find("FormPanel").gameObject;
-            //gameOverScreen = GameObject.Find("Canvas").transform.Find("GameOverPanel").gameObject;
-            //victoryScreen = GameObject.Find("Canvas").transform.Find("VictoryPanel").gameObject;
-            //introScreen = GameObject.Find("Canvas").transform.Find("PanelIntro").gameObject;
+
             gameUI.SetActive(true);
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
