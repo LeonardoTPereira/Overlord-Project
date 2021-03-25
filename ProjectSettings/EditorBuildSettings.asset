@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Dungeons/1A.unity
     guid: 5d3e5f334dbd39b4cae22b473ac252d8
   - enabled: 1
+    path: Assets/Scenes/Dungeons/1B.unity
+    guid: e0ea5feeaff2cd64997e88e326f9eff4
+  - enabled: 1
     path: Assets/Scenes/Dungeons/2A.unity
     guid: a616dc61427997444a713697ff78ead8
   - enabled: 1

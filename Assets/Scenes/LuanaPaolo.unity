@@ -1317,6 +1317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: 2A
+  fileName: Level02-A
 --- !u!1 &141022930
 GameObject:
   m_ObjectHideFlags: 0
@@ -3172,6 +3173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: 1A
+  fileName: Level01-A
 --- !u!1 &704154949
 GameObject:
   m_ObjectHideFlags: 0
@@ -3817,6 +3819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: 3A
+  fileName: Level03-A
 --- !u!1 &796986727
 GameObject:
   m_ObjectHideFlags: 0
@@ -6643,7 +6646,7 @@ MonoBehaviour:
   gameUI: {fileID: 1659143057}
   createEnemy: 0
   survivalMode: 0
-  enemyMode: 1
+  enemyMode: 0
   enemyLoader: {fileID: 0}
   dungeonDifficulty: 0
   chosenDifficulty: 0
@@ -6655,6 +6658,7 @@ MonoBehaviour:
   maxRooms: 0
   mapFileMode: 1
   panelIntro: {fileID: 0}
+  levelFile: 
 --- !u!4 &1150970483
 Transform:
   m_ObjectHideFlags: 0

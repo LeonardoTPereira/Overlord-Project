@@ -76,6 +76,10 @@ public class GameManager : MonoBehaviour
     public int maxTreasure, maxRooms;
     public int mapFileMode;
     public GameObject panelIntro;
+
+    /*Luana e Paolo*/
+    public string levelFile;
+
     void Awake()
     {
         //Singleton
@@ -291,7 +295,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadNewLevel(TextAsset mapFile, int difficulty = 1)
-    {
+    {   
+        PlayGameOnDifficulty(levelFile, 1);
+
         switch (difficulty)
         {
             case 0:
@@ -427,6 +433,8 @@ public class GameManager : MonoBehaviour
         LevelLoaderBHV.loadLevelButtonEvent += PlayGameOnDifficulty;
         WeaponLoaderBHV.loadWeaponButtonEvent += SetProjectileSO;
         PostFormMenuBHV.postFormButtonEvent += PlayGameOnDifficulty;
+
+        dungeonEntrance.enemies += PlayGameOnDifficulty;
     }
     void OnDisable()
     {
@@ -435,6 +443,8 @@ public class GameManager : MonoBehaviour
         LevelLoaderBHV.loadLevelButtonEvent -= PlayGameOnDifficulty;
         WeaponLoaderBHV.loadWeaponButtonEvent -= SetProjectileSO;
         PostFormMenuBHV.postFormButtonEvent -= PlayGameOnDifficulty;
+
+        dungeonEntrance.enemies -= PlayGameOnDifficulty;
     }
 
     void SetProjectileSO(ProjectileTypeSO type)
