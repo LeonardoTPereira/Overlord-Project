@@ -1317,7 +1317,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: 2A
-  mapFile: {fileID: 4900000, guid: d18ad25aed91df1478876b9fc377dc92, type: 3}
 --- !u!1 &141022930
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,7 +3172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: 1A
-  mapFile: {fileID: 4900000, guid: dd83cde32dc8fc14db8703267cd3d664, type: 3}
 --- !u!1 &704154949
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,7 +3817,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: 3A
-  mapFile: {fileID: 4900000, guid: 9a8500b601b44b945a9726b477bd1703, type: 3}
 --- !u!1 &796986727
 GameObject:
   m_ObjectHideFlags: 0
@@ -6623,11 +6620,10 @@ MonoBehaviour:
   linearity: 1.5
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
-  projectileType: {fileID: 0}
+  projectileType: {fileID: 11400000, guid: 177b949aebafbc04db5ae7b0d17aa11f, type: 2}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
-  levelSet: {fileID: 11400000, guid: 714001a36672c8747b10738c78789140, type: 2}
-  mapFile: {fileID: 0}
+  levelSet: {fileID: 11400000, guid: 04462e4169ee42b4fad5143c2ae3f5af, type: 2}
   createMaps: 0
   audioSource: {fileID: 0}
   bgMusic: {fileID: 8300000, guid: 1aa95e0fec72b734ba2baed670245abf, type: 3}

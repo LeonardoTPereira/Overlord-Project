@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
     //private List<TextAsset> maps = new List<TextAsset>();
-    public TextAsset mapFile;
+    protected TextAsset mapFile;
     private List<TextAsset> rooms = new List<TextAsset>();
     private List<int> randomLevelList = new List<int>();
     private Map map = null;
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerProfile.instance.OnGameStart();
         //LoadNewLevel();
-        panelIntro.SetActive(true);
+        //panelIntro.SetActive(true);   foi comentado
     }
 
     void InstantiateRooms()
@@ -533,8 +533,8 @@ public class GameManager : MonoBehaviour
     public void UpdateLevelGUI()
     {
         //int aux = currentMapId + 1 + (currentTestBatchId * maps.Count);
-        healthUI.CreateHeartImage();
-        keyUI.CreateKeyImage();
+        //healthUI.CreateHeartImage(); foi comentado
+        //keyUI.CreateKeyImage(); foi comentado
         //levelText.text = "Nível: " + aux + "/12";
     }
 

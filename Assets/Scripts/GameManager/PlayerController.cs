@@ -208,10 +208,10 @@ public class PlayerController : MonoBehaviour {
     public void SetProjectileSO(ProjectileTypeSO projectile)
     {
         projectileType = projectile;
-        bulletPrefab = projectileType.projectilePrefab;
+        bulletPrefab = projectileType.projectilePrefab; 
         bulletPrefab.GetComponent<ProjectileController>().ProjectileSO = projectileType;
-        atkSpeed = projectileType.atkSpeed;
-        bulletPrefab.GetComponent<SpriteRenderer>().color = projectile.color;
+        atkSpeed = projectileType.atkSpeed;  
+        bulletPrefab.GetComponent<SpriteRenderer>().color = projectile.color;  
     }
 
     public void ResetHealth()
