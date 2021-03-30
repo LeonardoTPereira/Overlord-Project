@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     /*Luana e Paolo*/
     public string levelFile;
 
-    void Awake()
+    public void Awake()
     {
         //Singleton
         if (instance == null)
