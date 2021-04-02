@@ -5,13 +5,10 @@ using UnityEngine;
 
 namespace LevelGenerator
 {
-    class GA
+    class EvolutionaryAlgorithm
     {
-        /**
-         * Locks for multi-thread operations
-         */
-        private readonly object dfsLock = new object();
-        private readonly object avgRoomLock = new object();
+        //Fitness parameters
+        Fitness fitness;
 
         /**
          * Enum to choose between mutation operations
@@ -77,7 +74,7 @@ namespace LevelGenerator
                         break;
                 }
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Debug.Log("Something went wrong while changing the children!");
                 throw e;
@@ -128,7 +125,7 @@ namespace LevelGenerator
                             isImpossible = true;
                         FindNKLR(ref nRooms2, ref specialRooms2, roomCut2);
                     } while ((specialRooms2.Count > nRooms1 || specialRooms1.Count > nRooms2) && !isImpossible);
-                    
+
                     //Changes the children of the parent's and neighbor's nodes to the node of the other branch if it is not an impossible trade
                     if (!isImpossible)
                     {
@@ -148,7 +145,7 @@ namespace LevelGenerator
                         auxRoom = roomCut1.Parent;
                         roomCut1.Parent = roomCut2.Parent;
                         roomCut2.Parent = auxRoom;
-                        
+
                         //Remove the node and their children from the grid of the old dungeon
                         ind1.RemoveFromGrid(roomCut1);
                         ind2.RemoveFromGrid(roomCut2);
@@ -188,7 +185,7 @@ namespace LevelGenerator
                     roomCut1.FixBranch(specialRooms2);
                     //Fix the list of rooms
                     ind1.FixRoomList();
-                    ind2.FixRoomList();       
+                    ind2.FixRoomList();
                 }
                 //Make a copy of the individual and finish the crossover
                 indOriginal1 = ind1.Copy();
@@ -216,11 +213,11 @@ namespace LevelGenerator
                             break;
                         case MutationOp.removeLeaf:
                             individual.RemoveLockAndKey();
-                            break;  
+                            break;
                     }
                     individual.FixRoomList();
                 }
-            
+
             }
             catch (System.Exception e)
             {
@@ -232,7 +229,7 @@ namespace LevelGenerator
          * Selects two random members from the population and picks the better one.
          * Do it again and breed both champions.
          */
-        static public void Tournament(List<Dungeon>pop, ref int parent1, ref int parent2)
+        static public void Tournament(List<Dungeon> pop, ref int parent1, ref int parent2)
         {
             HashSet<int> posHash = new HashSet<int>();
             List<int> parentPosL = new List<int>();
@@ -247,58 +244,5 @@ namespace LevelGenerator
             parent1 = pop[parentPosL[0]].fitness < pop[parentPosL[1]].fitness ? parentPosL[0] : parentPosL[1];
             parent2 = pop[parentPosL[2]].fitness < pop[parentPosL[3]].fitness ? parentPosL[2] : parentPosL[3];
         }
-
-        /* 
-         * Calculates the fitness function
-         * Fitness is based in the number of rooms, number of keys and locks, the linear coefficient and the number of locks used by the A* and DFS
-         */
-        public float Fitness(Dungeon ind, int nV, int nK, int nL, float lCoef, int matrixOffset)
-        {
-            
-            float avgUsedRoom = 0.0f;
-            DFS[] dfs = new DFS[3];
-            AStar astar = new AStar();
-            //Only use the A* and DFS if there is a lock in the dungeon
-            if (ind.nLocks > 0)
-            {
-                //The A* finds the number of locks needed to finish the dungeon using the heuristic that is close to optimal.
-                ind.neededLocks = astar.FindRoute(ind, matrixOffset);
-                //Execute 3 times the DFS to minimize the randomness
-                //Execute them in parallel to make things faster
-                //The DFS finds the number of rooms needed to finish the dungeon be exploring blindly.
-                Parallel.For(0, 3, (i) =>
-                {
-                    
-                    lock (dfsLock)
-                    {
-                        dfs[i] = new DFS(ind);
-                    }
-                    dfs[i].FindRoute();
-                    lock (avgRoomLock)
-                    {
-                        avgUsedRoom += dfs[i].NVisitedRooms;
-                    }
-                });
-                ind.neededRooms = avgUsedRoom / 3.0f;
-
-                //If we need more rooms than the rooms that really exist, something is wrong.
-                if (ind.neededRooms > ind.RoomList.Count)
-                {
-                    Debug.Log("SOMETHING IS REALLY WRONG! Nrooms: " + ind.RoomList.Count + "  Used: " + ind.neededRooms);
-                    System.Console.ReadKey();
-                }
-                //Also, if we find more locks that really exist
-                if (ind.neededLocks > ind.nLocks)
-                    Debug.Log("SOMETHING IS REALLY WRONG!");
-                //If everything is ok, return the fitness. We are currently giving 5 times more emphasis to the linearity as a small difference results in very different dungeons
-                //We also are trying to make 80% of the rooms needed to finish, the rest are optional.
-                return (2*(System.Math.Abs(nV - ind.RoomList.Count) + System.Math.Abs(nK - ind.nKeys) + System.Math.Abs(nL - ind.nLocks) 
-                    + System.Math.Abs(lCoef - ind.AvgChildren)*5) + (ind.nLocks - ind.neededLocks) + System.Math.Abs(ind.RoomList.Count*0.8f - ind.neededRooms));
-            }
-            //If there are no locks, the fitness is based only in the map layout
-            else
-                return (2*(System.Math.Abs(nV - ind.RoomList.Count) + System.Math.Abs(nK - ind.nKeys) + System.Math.Abs(nL - ind.nLocks) + System.Math.Abs(lCoef - ind.AvgChildren)));
-        }
-
     }
 }

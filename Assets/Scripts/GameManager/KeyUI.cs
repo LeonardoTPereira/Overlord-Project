@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +25,12 @@ public class KeyUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.newLevelLoadedEvent += ResetKeyGUI;
+        GameManager.newLevelLoadedEventHandler += ResetKeyGUI;
     }
 
     private void OnDisable()
     {
-        GameManager.newLevelLoadedEvent -= ResetKeyGUI;
+        GameManager.newLevelLoadedEventHandler -= ResetKeyGUI;
     }
 
 
@@ -86,7 +87,7 @@ public class KeyUI : MonoBehaviour
         }
 
     }
-    public void ResetKeyGUI()
+    public void ResetKeyGUI(object sender, EventArgs eventArgs)
     {
         playerKeys.Clear();
         clearKeyImages();

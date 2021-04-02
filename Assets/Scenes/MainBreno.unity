@@ -738,10 +738,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbae3eaaeceb47740b8516d1233ce73f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nRooms: 10
-  nKeys: 4
-  nLocks: 4
-  linearity: 1.1
+  fitness:
+    desiredRooms: 2
+    desiredKeys: 0
+    desiredLocks: 0
+    desiredLinearity: 1
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 0}
@@ -5672,7 +5673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   button: {fileID: 402569152}
-  nextPanel: LevelWithEnemies
+  levelToLoad: 
 --- !u!1 &870713373
 GameObject:
   m_ObjectHideFlags: 0

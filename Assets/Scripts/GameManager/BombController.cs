@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,8 +19,7 @@ public class BombController : MonoBehaviour
     protected float bombLifetime;
     protected float bombCountdown;
 
-    public delegate void HitPlayerEvent();
-    public static event HitPlayerEvent hitPlayerEvent;
+    public static event EventHandler playerHitEventHandler;
 
     protected bool isColliding;
 
@@ -78,7 +78,7 @@ public class BombController : MonoBehaviour
 
     protected virtual void OnPlayerHit()
     {
-        hitPlayerEvent();
+        playerHitEventHandler(this, EventArgs.Empty);
     }
 
     public void Shoot(Vector2 facingDirection)

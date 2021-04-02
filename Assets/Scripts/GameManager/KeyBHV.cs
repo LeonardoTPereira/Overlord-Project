@@ -21,7 +21,6 @@ public class KeyBHV : PlaceableRoomObject {
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Player"){
             Player.instance.GetKey (keyID);
-            GameManager.instance.UpdateKeyGUI();
             //TODO: Analytics to flag when the player got a key
             OnGetKey();
 			Destroy (gameObject);

@@ -4,16 +4,6 @@ using UnityEngine;
 using EnemyGenerator;
 using UnityEngine.Tilemaps;
 
-public class StartRoomEventArgs : System.EventArgs
-{
-    public Vector3 position;
-    public StartRoomEventArgs(Vector3 position)
-    {
-        this.position = position;
-    }
-}
-
-public delegate void StartRoomEventHandler(Object sender, StartRoomEventArgs e);
 public class RoomBHV : MonoBehaviour {
 
     public static event StartRoomEventHandler StartRoomInstantiated;
