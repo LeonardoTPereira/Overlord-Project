@@ -242,7 +242,6 @@ public class RoomBHV : MonoBehaviour {
 
     private void SelectEnemies()
     {
-        roomData.Difficulty = roomData.Difficulty;
         if (roomData.Difficulty == 0)
             hasEnemies = false;
         else

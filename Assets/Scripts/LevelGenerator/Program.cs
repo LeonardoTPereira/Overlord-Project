@@ -84,7 +84,7 @@ namespace LevelGenerator
             fitness = eventArgs.Fitness;
             Thread t = new Thread(new ThreadStart(Evolve));
             t.Start();
-            
+            StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
         }
 
         IEnumerator PrintAndSaveDungeonWhenFinished(Thread t)
@@ -92,6 +92,7 @@ namespace LevelGenerator
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
             Interface.PrintNumericalGridWithConnections(aux, fitness, treasureRuntimeSetSO);
+            Debug.Log("Printed the dungeon");
         }
 
         public void Evolve()
