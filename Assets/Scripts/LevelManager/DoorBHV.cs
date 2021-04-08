@@ -96,7 +96,6 @@ public class DoorBHV : MonoBehaviour
                 {
                     audioSrc.PlayOneShot(audioSrc.clip, 0.8f);
                     MovePlayerToNextRoom();
-                    GameManager.instance.UpdateRoomGUI(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y);
                 }
             }
             else if(commonKeys.Count() == keyID.Count)
@@ -111,8 +110,6 @@ public class DoorBHV : MonoBehaviour
                             Player.instance.usedKeys.Add(key);
                     }
 
-                    GameManager.instance.UpdateKeyGUI();
-                    GameManager.instance.UpdateRoomGUI(destination.parentRoom.roomData.coordinates.X, destination.parentRoom.roomData.coordinates.Y);
                     OpenDoor();
                     if (!destination.parentRoom.hasEnemies)
                         destination.OpenDoor();

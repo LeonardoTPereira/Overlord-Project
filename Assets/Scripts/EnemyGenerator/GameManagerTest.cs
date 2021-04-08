@@ -256,7 +256,6 @@ public class GameManagerTest : MonoBehaviour
                 behaviorMultipliers.Dispose();
                 weaponMultipliers.Dispose();
                 weaponHasProjectile.Dispose();
-                GameManager.instance.Rezero();
 #endif
             }
         }

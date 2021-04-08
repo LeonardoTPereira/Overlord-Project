@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
         healthCtrl = gameObject.GetComponent<HealthController>();
         healthCtrl.SetOriginalColor(originalColor);
         rb = gameObject.GetComponent<Rigidbody2D>();
-        SetProjectileSO(GameManager.instance.projectileType);
+        SetProjectileSO(null, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
     }
 
     // Use this for initialization
@@ -57,11 +57,11 @@ public class PlayerController : MonoBehaviour {
 
     private void OnEnable()
     {
-        WeaponLoaderBHV.loadWeaponButtonEvent += SetProjectileSO;
+        WeaponLoaderBHV.loadWeaponButtonEventHandler += SetProjectileSO;
     }
     private void OnDisable()
     {
-        WeaponLoaderBHV.loadWeaponButtonEvent -= SetProjectileSO;
+        WeaponLoaderBHV.loadWeaponButtonEventHandler -= SetProjectileSO;
     }
 
     void FixedUpdate(){
@@ -205,13 +205,13 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void SetProjectileSO(ProjectileTypeSO projectile)
+    public void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
     {
-        projectileType = projectile;
-        bulletPrefab = projectileType.projectilePrefab; 
+        projectileType = eventArgs.ProjectileSO;
+        bulletPrefab = projectileType.projectilePrefab;
         bulletPrefab.GetComponent<ProjectileController>().ProjectileSO = projectileType;
-        atkSpeed = projectileType.atkSpeed;  
-        bulletPrefab.GetComponent<SpriteRenderer>().color = projectile.color;  
+        atkSpeed = projectileType.atkSpeed;
+        bulletPrefab.GetComponent<SpriteRenderer>().color = eventArgs.ProjectileSO.color;
     }
 
     public void ResetHealth()
@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour {
     {
         actualProjectile = (actualProjectile + 1)% GameManager.instance.projectileSet.Items.Count;
         projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
-        SetProjectileSO(projectileType);
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs( projectileType));
     }
 
 }
