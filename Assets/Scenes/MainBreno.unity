@@ -4042,7 +4042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0612e60c07adfe44db1a63dba7ee9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelConfigSO: {fileID: 11400000, guid: a065a04cbc6672e429a58cb862504c17, type: 2}
+  levelConfigSO: {fileID: 11400000, guid: a64d01b6c6e4c6246bf16945b82c137b, type: 2}
 --- !u!114 &606854428
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,23 +30,6 @@ namespace LevelGenerator
         //The aux the Game Manager will access to load the created dungeon
         public Dungeon aux;
 
-        public Program()
-        {
-            evolutionaryAlgorithm = new EvolutionaryAlgorithm();
-            hasFinished = false;
-            min = Double.MaxValue;
-            watch = System.Diagnostics.Stopwatch.StartNew();
-            dungeons = new List<Dungeon>(Constants.POP_SIZE);
-            // Generate the first population
-            for (int i = 0; i < dungeons.Capacity; ++i)
-            {
-                Dungeon individual = new Dungeon();
-                individual.GenerateRooms();
-                dungeons.Add(individual);
-            }
-            aux = dungeons[0];
-        }
-
         /**
          * The constructor of the "Main" behind the EA
          */

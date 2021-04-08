@@ -1405,7 +1405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf8378b01e52be43958c231943c2f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyID: 03000000
+  keyID: 
   isOpen: 0
   isClosedByEnemies: 0
   lockedSprite: {fileID: -2804735369662088147, guid: 29269b331c7bd2e4ca9b20f2eb3d526d,

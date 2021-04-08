@@ -30,12 +30,12 @@ public abstract class DungeonPart
 
     public bool IsStartRoom()
     {
-        return type.Equals(Type.START_ROOM);
+        return type?.Equals(Type.START_ROOM) ?? false;
     }
 
     public bool IsFinalRoom()
     {
-        return type.Equals(Type.FINAL_ROOM);
+        return type?.Equals(Type.FINAL_ROOM) ?? false;
     }
 
 }
