@@ -14,11 +14,15 @@ public class TreasureController : PlaceableRoomObject
     public delegate void CollectTreasureEvent(int value);
     public static event CollectTreasureEvent collectTreasureEvent;
 
+    private Quantities quantities; //Luana e Paolo
+
     // Start is called before the first frame update
     void Awake()
     {
         canDestroy = false;
         audioSrc = GetComponent<AudioSource>();
+
+        quantities = FindObjectOfType<Quantities>();
     }
 
     private void Start()
@@ -55,8 +59,9 @@ public class TreasureController : PlaceableRoomObject
 
     protected void OnTreasureCollect()
     {
+        quantities.numberTreasures++;
         Debug.Log("Collected the treasure");
-        collectTreasureEvent(Treasure.value);
+        collectTreasureEvent(Treasure.value); //Luana e Paolo
     }
 
 }

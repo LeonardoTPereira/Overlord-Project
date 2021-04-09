@@ -304,14 +304,14 @@ public class RoomBHV : MonoBehaviour {
     public void CheckIfAllEnemiesDead()
     {
         enemiesDead++;
-        if(enemiesDead == enemiesIndex.Count)
-        {
+        //if(enemiesDead == enemiesIndex.Count) comentado por Luana e Paolo
+        //{
             hasEnemies = false;
             doorEast.OpenDoorAfterKilling();
             doorWest.OpenDoorAfterKilling();
             doorNorth.OpenDoorAfterKilling();
             doorSouth.OpenDoorAfterKilling();
-        }
+        //}
     }
 
     public void SetKeysToDoors()

@@ -78,11 +78,12 @@ public class HealthUI : MonoBehaviour
 
     public void OnDamage(int health)
     {
-        if (health < 0)
+        /*if (health < 0)
             health = 0;
         for (int i = 0; i < health; ++i)
             heartList[i].sprite = fullheartSprite;
         for (int i = health; i < heartList.Count; ++i)
-            heartList[i].sprite = emptyheartSprite;
+            heartList[i].sprite = emptyheartSprite;*/
+            //foi comentado
     }
 }

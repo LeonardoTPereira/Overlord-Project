@@ -135,12 +135,13 @@ public class PlayerController : MonoBehaviour {
         {
 
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+            bullet.tag = "Bullet"; //adicionado por Luana e Paolo
             bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
             bullet.SendMessage("Shoot", shootForce + movementDir);
             bulletSpawn.transform.RotateAround(transform.position, Vector3.forward, rotatedAngle+90);
-            //bullet.GetComponent<Rigidbody2D>().AddForce(shootForce + movementDir, ForceMode2D.Impulse);
+            bullet.GetComponent<Rigidbody2D>().AddForce(shootForce + movementDir, ForceMode2D.Impulse);
             //bullet.GetComponent<ProjectileController>().damage = this.shootDmg;
-            //bulletSpawn.transform.RotateAround(transform.position, Vector3.forward, -rotatedAngle);
+            bulletSpawn.transform.RotateAround(transform.position, Vector3.forward, -rotatedAngle);
             coolDownTime = 1.0f / atkSpeed;
         }
     }

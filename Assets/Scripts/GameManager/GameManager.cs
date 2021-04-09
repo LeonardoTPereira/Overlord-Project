@@ -475,7 +475,7 @@ public class GameManager : MonoBehaviour
             startButton.interactable = false;
         }
 
-        if (scene.name == "Level" || scene.name == "LevelWithEnemies")
+        if (scene.name == "Level" || scene.name == "LevelWithEnemies" || scene.name == "1A"|| scene.name == "1B"|| scene.name == "1C"|| scene.name == "2A" || scene.name == "2B" || scene.name == "2C" || scene.name == "2D" || scene.name == "3A" || scene.name == "3B" || scene.name == "3C" || scene.name == "3D")
         {
             isInGame = true;
             startButton = null;
@@ -543,9 +543,9 @@ public class GameManager : MonoBehaviour
     //TODO display something about the player losing and call a continue screen os something like this.
     public void GameOver()
     {
-        Time.timeScale = 1f;
-        gameUI.SetActive(false);
-        gameOverScreen.SetActive(true);
+        //Time.timeScale = 1f; comentado por Luana e Paolo
+        //gameUI.SetActive(false);
+        //gameOverScreen.SetActive(true);
     }
 
     public void MainMenu()

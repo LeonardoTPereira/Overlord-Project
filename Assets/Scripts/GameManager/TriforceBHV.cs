@@ -11,10 +11,10 @@ public class TriforceBHV : PlaceableRoomObject {
     }
     void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Player"){
-            GameManager.state = GameManager.LevelPlayState.Won;
+            //GameManager.state = GameManager.LevelPlayState.Won; comentado por Luana e Paolo
             //TODO change this to when the sierpinsk-force is taken
             //OnMapComplete();
-            gm.LevelComplete();
+            //gm.LevelComplete(); comentado por Luana e Paolo
         }
 	}
 
