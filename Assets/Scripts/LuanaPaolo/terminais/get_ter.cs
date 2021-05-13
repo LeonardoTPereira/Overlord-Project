@@ -7,7 +7,7 @@ public class get_ter{
     public void choose(Manager m){
         Quest quest = new Quest();
         quest.tipo = 3;
-        quest.n = Random.Range(0, 10);
+        quest.n1 = Random.Range(0, 10);
         quest.c1 = -1;
         quest.c2 = -1;
         quest.parent = -1;

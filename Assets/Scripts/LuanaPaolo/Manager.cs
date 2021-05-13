@@ -13,8 +13,12 @@ public class Manager : MonoBehaviour{
     
     public Player_Movement player; //jogador
 
+    private JSonWriter writer;
+
     void Start(){
         player = FindObjectOfType<Player_Movement>();
+
+        writer = new JSonWriter();
     }
 
     void Update(){
@@ -23,6 +27,8 @@ public class Manager : MonoBehaviour{
             sel.select(this);
 
             makeBranches();
+
+            writer.writeJSon(graph);
 
             for(int i = 0; i < graph.Count; i++) Debug.Log(graph[i].tipo + ", " + graph[i].c1 + ", " + graph[i].c2);
 

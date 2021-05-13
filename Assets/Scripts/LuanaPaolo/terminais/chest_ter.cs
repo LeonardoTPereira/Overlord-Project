@@ -7,7 +7,7 @@ public class chest_ter{
     public void choose(Manager m){
         Quest quest = new Quest();
         quest.tipo = 0;
-        quest.n = Random.Range(0, 3);
+        quest.n1 = Random.Range(0, 3);
         quest.c1 = -1;
         quest.c2 = -1;
         quest.parent = -1;

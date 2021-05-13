@@ -17,13 +17,13 @@ public class Selector{
     */
 
     public void select(Manager m){
-        pesos[0] = 1;
-        pesos[1] = 5;
-        pesos[2] = 3;
-        pesos[3] = 7;
+        pesos[0] = 3;
+        pesos[1] = 7;
+        pesos[2] = 1;
+        pesos[3] = 5;
 
         //r = Random.Range(0, 4);
-        r = 2.9f;//((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16);// * Random.Range(0f, 3f);
+        r = 2.7f;//((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16);// * Random.Range(0f, 3f);
 
         if(r <= 2.35){
             talk t = new talk();
