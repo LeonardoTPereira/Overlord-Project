@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,13 +28,13 @@ public class Player : PlaceableRoomObject {
 
 	private void OnEnable()
 	{
-		GameManager.newLevelLoadedEvent += ResetValues;
+		GameManager.newLevelLoadedEventHandler += ResetValues;
 		RoomBHV.StartRoomInstantiated += PlacePlayerInStartRoom;
 	}
 
 	private void OnDisable()
 	{
-		GameManager.newLevelLoadedEvent -= ResetValues;
+		GameManager.newLevelLoadedEventHandler -= ResetValues;
 		RoomBHV.StartRoomInstantiated -= PlacePlayerInStartRoom;
 	}
 
@@ -59,12 +60,12 @@ public class Player : PlaceableRoomObject {
 		//minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
 	}
 
-	private void PlacePlayerInStartRoom(Object sender, StartRoomEventArgs e)
+	private void PlacePlayerInStartRoom(object sender, StartRoomEventArgs e)
     {
 		instance.transform.position = e.position;
 	}
 
-	void ResetValues()
+	void ResetValues(object sender, EventArgs eventArgs)
 	{
 		keys.Clear();
 		usedKeys.Clear();

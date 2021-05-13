@@ -33,8 +33,7 @@ public class EnemyController : MonoBehaviour
     protected SpriteRenderer sr;
     protected Rigidbody2D rb;
 
-    public delegate void HitPlayerEvent();
-    public static event HitPlayerEvent hitPlayerEvent;
+    public static event EventHandler playerHitEventHandler;
 
     /// <summary>
     /// Awakes this instance.
@@ -52,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnPlayerHit()
     {
-        hitPlayerEvent();
+        playerHitEventHandler(this, EventArgs.Empty);
     }
     /// <summary>
     /// 

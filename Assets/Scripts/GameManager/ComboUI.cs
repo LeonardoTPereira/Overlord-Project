@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -51,29 +52,29 @@ public class ComboUI : MonoBehaviour
 
     protected void OnEnable()
     {
-        ProjectileController.hitEnemyEvent += IncrementCombo;
-        BombController.hitPlayerEvent += ResetCombo;
-        ProjectileController.hitPlayerEvent += ResetCombo;
-        EnemyController.hitPlayerEvent += ResetCombo;
-        GameManager.newLevelLoadedEvent += ResetCombo;
+        ProjectileController.enemyHitEventHandler += IncrementCombo;
+        BombController.playerHitEventHandler += ResetCombo;
+        ProjectileController.playerHitEventHandler += ResetCombo;
+        EnemyController.playerHitEventHandler += ResetCombo;
+        GameManager.newLevelLoadedEventHandler += ResetCombo;
     }
 
     protected void OnDisable()
     {
-        ProjectileController.hitEnemyEvent -= IncrementCombo;
-        BombController.hitPlayerEvent -= ResetCombo;
-        ProjectileController.hitPlayerEvent -= ResetCombo;
-        EnemyController.hitPlayerEvent -= ResetCombo;
-        GameManager.newLevelLoadedEvent -= ResetCombo;
+        ProjectileController.playerHitEventHandler -= IncrementCombo;
+        BombController.playerHitEventHandler -= ResetCombo;
+        ProjectileController.playerHitEventHandler -= ResetCombo;
+        EnemyController.playerHitEventHandler -= ResetCombo;
+        GameManager.newLevelLoadedEventHandler -= ResetCombo;
     }
 
-    public void IncrementCombo()
+    public void IncrementCombo(object sender, EventArgs eventArgs)
     {
         actualCombo++;
         UpdateComboGUI();
     }
 
-    public void ResetCombo()
+    public void ResetCombo(object sender, EventArgs eventArgs)
     {
         actualCombo = 0;
         UpdateComboGUI();

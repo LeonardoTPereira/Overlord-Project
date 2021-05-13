@@ -1,5 +1,6 @@
 ﻿
 using EnemyGenerator;
+using System;
 using UnityEngine;
 using static Util;
 
@@ -14,10 +15,8 @@ public class ProjectileController : MonoBehaviour
     private bool canDestroy, isSin;
     public int enemyThatShot;
 
-    public delegate void HitEnemyEvent();
-    public static event HitEnemyEvent hitEnemyEvent;
-    public delegate void HitPlayerEvent();
-    public static event HitPlayerEvent hitPlayerEvent;
+    public static event EventHandler enemyHitEventHandler;
+    public static event EventHandler playerHitEventHandler;
 
     private Vector2 pos, moveDir;
     private float MoveSpeed { get; set; }
@@ -75,12 +74,12 @@ public class ProjectileController : MonoBehaviour
 
     protected virtual void OnEnemyHit()
     {
-        hitEnemyEvent();
+        enemyHitEventHandler(this, EventArgs.Empty);
     }
 
     protected virtual void OnPlayerHit()
     {
-        hitPlayerEvent();
+        playerHitEventHandler(this, EventArgs.Empty);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

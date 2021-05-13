@@ -40,7 +40,7 @@ public class JSonWriter
 
     private void conversorDungeon(parametersDungeon pD, List<Quest> graph){
         for(int i = 0; i < graph.Count; i++){
-            if(graph[i].tipo == 1 || graph[i].tipo == 3 || graph[i].tipo == 4) pD.size++;
+            if(graph[i].tipo == 1 || graph[i].tipo == 3 || graph[i].tipo == 4 || graph[i].tipo == 6) pD.size++;
             if(graph[i].n1 == 0 || graph[i].n1 == 1 || graph[i].n1 == 4) pD.linearity++;
         }
 
@@ -64,6 +64,15 @@ public class JSonWriter
                 pM.p1 = graph[i].n1;
                 pM.p2 = graph[i].n2;
                 pM.p3 = graph[i].n3;
+
+                if(pM.p1 >= 5) pM.f1 = Random.Range(10, 21);
+                else pM.f1 = Random.Range(1, 10);
+
+                if(pM.p2 >= 5) pM.f2 = Random.Range(5, 21);
+                else pM.f2 = Random.Range(1, 5);
+
+                if(pM.p3 >= 5) pM.f3 = Random.Range(1, 10);
+                else pM.f3 = Random.Range(10, 21);
             }
         }
     }

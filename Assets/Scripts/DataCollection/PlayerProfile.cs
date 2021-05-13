@@ -5,6 +5,7 @@ using System.Linq;
 using EnemyGenerator;
 using System.IO;
 using System.Text;
+using System;
 
 public struct CombatRoomInfo
 {
@@ -98,7 +99,7 @@ public class PlayerProfile : MonoBehaviour {
         dateTime = dateTime.Replace("/", "-");
         dateTime = dateTime.Replace(" ", "-");
         dateTime = dateTime.Replace(":", "-");
-        sessionUID = Random.Range(0, 9999).ToString("00");
+        sessionUID = UnityEngine.Random.Range(0, 9999).ToString("00");
         sessionUID += "_";
         sessionUID += dateTime;
 
@@ -113,38 +114,38 @@ public class PlayerProfile : MonoBehaviour {
 
     protected void OnEnable()
     {
-        ProjectileController.hitEnemyEvent += IncrementCombo;
-        ProjectileController.hitPlayerEvent += ResetCombo;
-        BombController.hitPlayerEvent += ResetCombo;
-        EnemyController.hitPlayerEvent += ResetCombo;
+        ProjectileController.enemyHitEventHandler += IncrementCombo;
+        ProjectileController.playerHitEventHandler += ResetCombo;
+        BombController.playerHitEventHandler += ResetCombo;
+        EnemyController.playerHitEventHandler += ResetCombo;
         TreasureController.collectTreasureEvent += GetTreasure;
-        GameManager.newLevelLoadedEvent += ResetMaxCombo;
-        GameManager.newLevelLoadedEvent += ResetTreasure;
+        GameManager.newLevelLoadedEventHandler += ResetMaxCombo;
+        GameManager.newLevelLoadedEventHandler += ResetTreasure;
     }
 
     protected void OnDisable()
     {
-        ProjectileController.hitEnemyEvent -= IncrementCombo;
-        ProjectileController.hitPlayerEvent -= ResetCombo;
-        BombController.hitPlayerEvent -= ResetCombo;
-        EnemyController.hitPlayerEvent -= ResetCombo;
+        ProjectileController.enemyHitEventHandler -= IncrementCombo;
+        ProjectileController.playerHitEventHandler -= ResetCombo;
+        BombController.playerHitEventHandler -= ResetCombo;
+        EnemyController.playerHitEventHandler -= ResetCombo;
         TreasureController.collectTreasureEvent -= GetTreasure;
-        GameManager.newLevelLoadedEvent -= ResetMaxCombo;
-        GameManager.newLevelLoadedEvent -= ResetTreasure;
+        GameManager.newLevelLoadedEventHandler -= ResetMaxCombo;
+        GameManager.newLevelLoadedEventHandler -= ResetTreasure;
     }
-    public void IncrementCombo()
+    public void IncrementCombo(object sender, EventArgs eventArgs)
     {
         actualCombo++;
     }
 
-    public void ResetCombo()
+    public void ResetCombo(object sender, EventArgs eventArgs)
     {
         if (actualCombo > maxCombo)
             maxCombo = actualCombo;
         actualCombo = 0;
     }
 
-    public void ResetMaxCombo()
+    public void ResetMaxCombo(object sender, EventArgs eventArgs)
     {
         actualCombo = 0;
         maxCombo = 0;
@@ -155,7 +156,7 @@ public class PlayerProfile : MonoBehaviour {
         treasureCollected += value;
     }
 
-    public void ResetTreasure()
+    public void ResetTreasure(object sender, EventArgs eventArgs)
     {
         treasureCollected = 0;
     }
@@ -284,7 +285,7 @@ public class PlayerProfile : MonoBehaviour {
         //visitedRooms = visitedRooms.Distinct();
         mapVisitedCount = visitedRooms.Count;
         mapVisitedCountUnique = visitedRooms.Distinct().Count();
-        ResetCombo();
+        ResetCombo(this, EventArgs.Empty);
 
         //HasFinished = victory;
         //Save to remote file
@@ -495,7 +496,7 @@ public class PlayerProfile : MonoBehaviour {
 
     public int[,] CreateHeatMap(Map currentMap)
     {
-        int[,] heatMap = new int[currentMap.dimensions.Width / 2, currentMap.dimensions.Height / 2];
+        int[,] heatMap = new int[(currentMap.dimensions.Width + 1) / 2, (currentMap.dimensions.Height+1) / 2];
         for (int i = 0; i < currentMap.dimensions.Width / 2; ++i)
         {
             //string aux = "";
