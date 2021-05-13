@@ -9,17 +9,19 @@ using LevelGenerator;
 using UnityEngine.UI;
 using EnemyGenerator;
 using System;
+using MyBox;
 
 public class GameManager : MonoBehaviour
 {
-    public int nRooms, nKeys, nLocks;
-    public float linearity;
-
+    [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
     public TreasureRuntimeSetSO treasureSet;
+    [Foldout("Scriptable Objects"), Header("Set With All Possible Projectiles")] 
     public ProjectileTypeRuntimeSetSO projectileSet;
+    [Foldout("Scriptable Objects"), ReadOnly, Header("Current Projectile")]
     public ProjectileTypeSO projectileType;
-    Program generator;
+    protected Program generator;
     public Dungeon createdDungeon;
+    [Separator("Other Stuff")]
     [SerializeField]
     Button startButton;
     [SerializeField]
@@ -33,7 +35,6 @@ public class GameManager : MonoBehaviour
     private string currentLevel;
 
     public static GameManager instance = null;
-    //private List<TextAsset> maps = new List<TextAsset>();
     protected TextAsset mapFile;
     private List<TextAsset> rooms = new List<TextAsset>();
     private List<int> randomLevelList = new List<int>();
@@ -48,18 +49,11 @@ public class GameManager : MonoBehaviour
     public float roomSpacingX = 30f; //Spacing between rooms: X
     public float roomSpacingY = 20f; //Spacing between rooms: Y
     private string mapDirectory;
-    //private static string[] maps = null;
-    //private static string[] rooms = null;
     private int currentMapId = 0;
     private int currentTestBatchId = 0;
-    //public string mapFilePath = "Assets/Data/map.txt"; //Path to load map data from
-    //public string roomsFilePath = "Assets/Data/rooms.txt";
     public bool readRooms = true;
     public GameObject gameOverScreen, victoryScreen, introScreen, gameUI;
-    //public MainMenu mainMenu;
 
-    public enum LevelPlayState { InProgress, Won, Lost, Skip, Quit }
-    public static LevelPlayState state = LevelPlayState.InProgress;
     private static float secondsElapsed = 0;
 
     public bool createEnemy, survivalMode, enemyMode;
@@ -70,8 +64,7 @@ public class GameManager : MonoBehaviour
 
     public int nExecutions, nBatches;
 
-    public delegate void NewLevelLoadedEvent();
-    public static event NewLevelLoadedEvent newLevelLoadedEvent;
+    public static event EventHandler newLevelLoadedEventHandler;
 
     public int maxTreasure, maxRooms;
     public int mapFileMode;
@@ -94,11 +87,8 @@ public class GameManager : MonoBehaviour
             //TODO Apply selected difficulty in this
             dungeonDifficulty = 50;
 
-            //readRooms = false;
-            //createEnemy = false;
             DontDestroyOnLoad(gameObject);
             AnalyticsEvent.GameStart();
-            //Debug.Log("Level Order");
             for (int i = 0; i < 6; ++i)
             {
                 int aux;
@@ -108,18 +98,7 @@ public class GameManager : MonoBehaviour
                 }
                 while (randomLevelList.Contains(aux));
                 randomLevelList.Add(aux);
-                //Debug.Log(aux);
             }
-            //Used for the level generator experiments
-            /*maps.Add(Resources.Load<TextAsset>("Batch0/Lizard"));
-            maps.Add(Resources.Load<TextAsset>("Batch0/MyMoon"));
-            maps.Add(Resources.Load<TextAsset>("Batch0/MyLizard"));
-            maps.Add(Resources.Load<TextAsset>("Batch0/Dragon"));
-            maps.Add(Resources.Load<TextAsset>("Batch0/MyDragon"));
-            maps.Add(Resources.Load<TextAsset>("Batch0/Moon"));
-            maps.Add(Resources.Load<TextAsset>("Levels/Easy"));
-            maps.Add(Resources.Load<TextAsset>("Levels/Medium"));
-            maps.Add(Resources.Load<TextAsset>("Levels/Hard"));*/
 
             nExecutions = 0;
             nBatches = 0;
@@ -134,22 +113,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //mapDirectory = Application.dataPath + "/Data/Batch";
-
-
-
-        /*if (Directory.Exists(mapDirectory + currentTestBatchId))
-        {
-            Debug.Log(mapDirectory + currentTestBatchId);
-            // This path is a directory
-            ProcessDirectory(mapDirectory + currentTestBatchId, "map*txt", ref maps);
-            ProcessDirectory(mapDirectory + currentTestBatchId, "room*txt", ref rooms);
-        }
-        else
-        {
-            Debug.Log("Something is wrong with the map directory!");
-        }*/
-
 
     }
 
@@ -161,9 +124,7 @@ public class GameManager : MonoBehaviour
         files = Directory.GetFiles(targetDirectory, search);
         foreach (string file in files)
         {
-            //AssetDatabase.ImportAsset(file);
             TextAsset asset = Resources.Load<TextAsset>("test");
-            //Debug.Log("File: " + file);
         }
     }
 
@@ -214,14 +175,7 @@ public class GameManager : MonoBehaviour
 
     void LoadMap(TextAsset mapFile)
     {
-        /*if (readRooms)
-        { //deve ler também os tiles das salas?
-            map = new Map(mapFile.text, rooms[mapId].text);
-        }*/
-        //else
-        //{ //apenas as salas, sem tiles
         map = new Map(mapFile.text, null, mapFileMode);
-        //}
     }
 
     public Map GetMap()
@@ -295,9 +249,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadNewLevel(TextAsset mapFile, int difficulty = 1)
-    {   
-        PlayGameOnDifficulty(levelFile, 1);
-
+    {
         switch (difficulty)
         {
             case 0:
@@ -320,8 +272,6 @@ public class GameManager : MonoBehaviour
         }
         else
             LoadMap(mapFile);
-        //NEED TO CALL ANALYTICS?
-        //AnalyticsEvent.LevelStart(randomLevelList[currentMapId]);
 
         roomBHVMap = new Dictionary<Coordinates, RoomBHV>();
 
@@ -333,26 +283,18 @@ public class GameManager : MonoBehaviour
         
 
         UpdateLevelGUI();
-        UpdateRoomGUI(map.startRoomCoordinates.X, map.startRoomCoordinates.Y);
         OnStartMap(mapFile.name, currentTestBatchId, map, difficulty);
     }
 
     private void OnStartMap(string mapName, int batch, Map map, int difficulty)
     {
-        //Debug.Log("Map Name: " + mapName);
         PlayerProfile.instance.OnMapStart(mapName, batch, map, difficulty, projectileSet.Items.IndexOf(projectileType));
         PlayerProfile.instance.OnRoomEnter(map.startRoomCoordinates, roomBHVMap[map.startRoomCoordinates].hasEnemies, roomBHVMap[map.startRoomCoordinates].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth());
-        //Debug.Log("Started Profiling");
     }
 
     void OnApplicationQuit()
     {
         AnalyticsEvent.GameOver();
-    }
-
-    public void SetLevelPlayState(LevelPlayState newState)
-    {
-        state = newState;
     }
 
     public void LevelComplete()
@@ -362,8 +304,6 @@ public class GameManager : MonoBehaviour
         gameUI.SetActive(false);
         //TODO save every gameplay data
         //TODO make it load a new level
-        //Debug.Log("MapID:" + randomLevelList[currentMapId]);
-        //Debug.Log("MapsLength:" + maps.Count);
 
         //Analytics for the level
         Dictionary<string, object> customParams = new Dictionary<string, object>();
@@ -376,54 +316,17 @@ public class GameManager : MonoBehaviour
         else
             CheckEndOfBatch();
 
-        switch (state)
-        {
-            case LevelPlayState.Won:
-                AnalyticsEvent.LevelComplete(currentTestBatchId + randomLevelList[currentMapId], customParams);
-                break;
-            case LevelPlayState.Lost:
-                AnalyticsEvent.LevelFail(currentTestBatchId + randomLevelList[currentMapId], customParams);
-                break;
-            case LevelPlayState.Skip:
-                AnalyticsEvent.LevelSkip(currentTestBatchId + randomLevelList[currentMapId], customParams);
-                break;
-            case LevelPlayState.InProgress:
-            case LevelPlayState.Quit:
-            default:
-                AnalyticsEvent.LevelQuit(currentTestBatchId + randomLevelList[currentMapId], customParams);
-                break;
-        }
-
     }
 
     public void CheckEndOfBatch()
     {
         PlayerProfile.instance.OnMapComplete(map);
-        /*if (!createMaps && survivalMode)
-        {
-            if (currentMapId < (maps.Count - 1))
-            {
-                Debug.Log("Next map");
-                currentMapId++;
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
-            }
-            else
-            {
-                Debug.Log("Load New Batch");
-                LoadNewBatch();
-            }
-        }
-        else
-        {*/
-            isCompleted = true;
-        //}
+        isCompleted = true;
     }
 
     public void EndGame()
     {
         PlayerProfile.instance.OnMapComplete(map);
-        //endingScreen.SetActive(true);
     }
 
     void OnEnable()
@@ -431,7 +334,7 @@ public class GameManager : MonoBehaviour
         //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         LevelLoaderBHV.loadLevelButtonEvent += PlayGameOnDifficulty;
-        WeaponLoaderBHV.loadWeaponButtonEvent += SetProjectileSO;
+        WeaponLoaderBHV.loadWeaponButtonEventHandler += SetProjectileSO;
         PostFormMenuBHV.postFormButtonEvent += PlayGameOnDifficulty;
 
         dungeonEntrance.enemies += PlayGameOnDifficulty;
@@ -441,21 +344,22 @@ public class GameManager : MonoBehaviour
         //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         LevelLoaderBHV.loadLevelButtonEvent -= PlayGameOnDifficulty;
-        WeaponLoaderBHV.loadWeaponButtonEvent -= SetProjectileSO;
+        WeaponLoaderBHV.loadWeaponButtonEventHandler -= SetProjectileSO;
         PostFormMenuBHV.postFormButtonEvent -= PlayGameOnDifficulty;
 
         dungeonEntrance.enemies -= PlayGameOnDifficulty;
     }
 
-    void SetProjectileSO(ProjectileTypeSO type)
+    void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
     {
-        projectileType = type;
+        projectileType = eventArgs.ProjectileSO;
     }
 
 
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+<<<<<<< HEAD
         if (scene.name == "LevelGenerator")
         {
             if (createMaps && !survivalMode)
@@ -476,6 +380,9 @@ public class GameManager : MonoBehaviour
         }
 
         if (scene.name == "Level" || scene.name == "LevelWithEnemies" || scene.name == "1A"|| scene.name == "1B"|| scene.name == "1C"|| scene.name == "2A" || scene.name == "2B" || scene.name == "2C" || scene.name == "2D" || scene.name == "3A" || scene.name == "3B" || scene.name == "3C" || scene.name == "3D")
+=======
+        if (scene.name == "Level" || scene.name == "LevelWithEnemies")
+>>>>>>> LuanaPaolo
         {
             isInGame = true;
             startButton = null;
@@ -488,7 +395,6 @@ public class GameManager : MonoBehaviour
             pl.cam = Camera.main;
             //Recover health
             pl.gameObject.GetComponent<PlayerController>().ResetHealth();
-
             gameUI.SetActive(true);
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
@@ -501,27 +407,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnDestroy()
-    {
-
-    }
-
-    public void UpdateKeyGUI()
-    {
-        //keyText.text = "x" + Player.instance.keys.Count;
-    }
-
-    public void UpdateRoomGUI(int x, int y)
-    {
-        //roomText.text = "Sala: " + x/2 + "," + y/2;
-    }
-
     public void UpdateLevelGUI()
     {
-        //int aux = currentMapId + 1 + (currentTestBatchId * maps.Count);
-        //healthUI.CreateHeartImage(); foi comentado
-        //keyUI.CreateKeyImage(); foi comentado
-        //levelText.text = "Nível: " + aux + "/12";
+        healthUI.CreateHeartImage();
+        keyUI.CreateKeyImage();
     }
 
     public void ChangeMusic(AudioClip music)
@@ -530,7 +419,6 @@ public class GameManager : MonoBehaviour
             audioSource.Stop();
         if (music == fanfarreMusic)
         {
-            //Debug.Log("Decreasing volume");
             audioSource.volume = 0.3f;
         }
         else
@@ -557,78 +445,9 @@ public class GameManager : MonoBehaviour
     public void SetLevelMode(string fileName, int difficulty)
     {
         chosenDifficulty = difficulty;
-        //Debug.Log("Nome do Arquivo: " + fileName);
         mapFile = Resources.Load<TextAsset>("Levels/"+fileName);
         currentLevel = fileName;
-        //Debug.Log("Mapa: " + mapFile);
         levelSetNames.Remove(fileName);
-        //SceneManager.LoadScene("LevelWithEnemies");
-    }
-
-        
-
-    public void Rezero()
-    {
-        /*if (nBatches < 9)
-        {*/
-        instance.createEnemy = false;
-
-        /*if (nExecutions < 201)
-        {
-            GameManagerTest.instance.AwakeInit();
-            GameManagerTest.instance.StartInit();
-            nExecutions++;
-        }*/
-        /*else
-        {
-            switch (nBatches)
-            {
-                case 0:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    break;
-                case 1:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.hard;
-                    break;
-                case 2:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    EnemyUtil.maxGenerations = 100;
-                    break;
-                case 3:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    EnemyUtil.maxGenerations = 10;
-                    break;
-                case 4:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    EnemyUtil.maxGenerations = 30;
-                    EnemyUtil.popSize = 1000;
-                    break;
-                case 5:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    EnemyUtil.maxGenerations = 30;
-                    EnemyUtil.popSize = 100000;
-                    break;
-                case 6:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    EnemyUtil.maxGenerations = 10;
-                    EnemyUtil.popSize = 1000;
-                    break;
-                case 7:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.medium;
-                    EnemyUtil.maxGenerations = 10;
-                    EnemyUtil.popSize = 100;
-                    break;
-                case 8:
-                    GameManagerTest.instance.difficulty = GameManagerTest.DifficultyEnum.easy;
-                    EnemyUtil.maxGenerations = 30;
-                    EnemyUtil.popSize = 10000;
-                    break;
-            }
-            nExecutions = 0;
-            nBatches++;
-            GameManagerTest.instance.AwakeInit();
-            GameManagerTest.instance.StartInit();
-        }*/
-        //}
     }
 
     public void PlayGameOnDifficulty(string fileName, int difficulty)
@@ -718,7 +537,7 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelLoadedEvents()
     {
-        newLevelLoadedEvent();
+        newLevelLoadedEventHandler(this, EventArgs.Empty);
     }
 
     public bool IsLeftEdge(Coordinates coordinates)

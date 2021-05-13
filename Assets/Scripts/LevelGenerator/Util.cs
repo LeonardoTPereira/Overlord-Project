@@ -70,9 +70,6 @@ namespace LevelGenerator
         public const int PROB_SHORTCUT = 0;
         public const int MATRIXOFFSET = 150;
         public const string RESULTSFILE = "RESULTS";
-        //Fitness parameters
-        public static int nV, nK, nL;
-        public static float lCoef;
     }
 
 

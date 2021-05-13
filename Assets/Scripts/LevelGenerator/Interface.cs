@@ -1,4 +1,5 @@
-﻿using LevelGenerator;
+﻿using EnemyGenerator;
+using LevelGenerator;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -81,7 +82,7 @@ namespace LevelGenerator
         * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
         * We now save it directly into a Unity's Resource Directory
         */
-        public static void PrintNumericalGridWithConnections(Dungeon dun)
+        public static void PrintNumericalGridWithConnections(Dungeon dun, Fitness fitness, TreasureRuntimeSetSO treasureRuntimeSetSO)
         {
             //Data to navigate the dungeon to print
             Room actualRoom, parent;
@@ -99,7 +100,7 @@ namespace LevelGenerator
             //Where to save the new dungeon in Unity
             string foldername = "Assets/Resources/Levels/";
             string filename, dungeonData = "";
-            filename = "R" + Constants.nV + "-K" + Constants.nK + "-L" + Constants.nL + "-L" + Constants.lCoef;
+            filename = "R" + fitness.DesiredRooms + "-K" + fitness.DesiredKeys + "-L" + fitness.DesiredLocks + "-L" + fitness.DesiredLinearity;
             
             //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.RoomList)
@@ -301,7 +302,7 @@ namespace LevelGenerator
                             Console.Write("{0,2}", map[i, j]);
                             //TODO: save the info about the treasure and difficulty
                             dungeonData += random.Next(1, 5)+"\n"; //Difficulty
-                            int value = random.Next(1, GameManager.instance.treasureSet.Items.Count+1);
+                            int value = random.Next(1, treasureRuntimeSetSO.Items.Count+1);
                             dungeonData += value+"\n"; //Treasure
                             //writerRG.WriteLine("T");
                             isRoom = true;
