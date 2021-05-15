@@ -65,8 +65,8 @@ namespace LevelGenerator
         public const float MUTATION_RATE = 5f;
         public const float MUTATION0_RATE = 50f;
         public const float MUTATION1_RATE = 50f;
-        public const int POP_SIZE = 100;
-        public const int GENERATIONS = 150;
+        public const int POP_SIZE = 10;
+        public const int GENERATIONS = 10;
         public const int PROB_SHORTCUT = 0;
         public const int MATRIXOFFSET = 150;
         public const string RESULTSFILE = "RESULTS";

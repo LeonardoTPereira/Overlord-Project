@@ -1,5 +1,10 @@
-﻿public class Dimensions
+﻿using System;
+using UnityEngine;
+
+[Serializable]
+public class Dimensions
 {
+    [SerializeField]
     private int width, height;
     public Dimensions(int width, int height)
     {

@@ -57,20 +57,37 @@ public class Map
 
     private void ReadMapFile(string text, int mode)
     {
-        MapFileHandler mapFileHandler = new MapFileHandler(text);
-        dimensions = mapFileHandler.GetMapDimensions();
-        string dungeonPartCode;
-        DungeonPart currentDungeonPart;
-        while (mapFileHandler.HasMoreLines())
+        if (mode == 1)
         {
-            currentDungeonPart = DungeonPartFactory.CreateDungeonPartFromFile(mapFileHandler);
-            if (currentDungeonPart.IsStartRoom())
-                startRoomCoordinates = currentDungeonPart.GetCoordinates();
-            else if (currentDungeonPart.IsFinalRoom())
+            JSONMapFileHandler mapFileHandler = new JSONMapFileHandler(text);
+            dimensions = mapFileHandler.GetDimensions();
+            DungeonPart currentDungeonPart;
+            while ( (currentDungeonPart = mapFileHandler.GetNextPart()) != null)
             {
-                finalRoomCoordinates = currentDungeonPart.GetCoordinates();
+                if (currentDungeonPart.IsStartRoom())
+                    startRoomCoordinates = currentDungeonPart.GetCoordinates();
+                else if (currentDungeonPart.IsFinalRoom())
+                    finalRoomCoordinates = currentDungeonPart.GetCoordinates();
+                dungeonPartByCoordinates.Add(currentDungeonPart.coordinates, currentDungeonPart);
             }
-            dungeonPartByCoordinates.Add(currentDungeonPart.coordinates, currentDungeonPart);
+        }
+        else
+        {
+            MapFileHandler mapFileHandler = new MapFileHandler(text);
+            dimensions = mapFileHandler.GetMapDimensions();
+            string dungeonPartCode;
+            DungeonPart currentDungeonPart;
+            while (mapFileHandler.HasMoreLines())
+            {
+                currentDungeonPart = DungeonPartFactory.CreateDungeonPartFromFile(mapFileHandler);
+                if (currentDungeonPart.IsStartRoom())
+                    startRoomCoordinates = currentDungeonPart.GetCoordinates();
+                else if (currentDungeonPart.IsFinalRoom())
+                {
+                    finalRoomCoordinates = currentDungeonPart.GetCoordinates();
+                }
+                dungeonPartByCoordinates.Add(currentDungeonPart.coordinates, currentDungeonPart);
+            }
         }
     }
 

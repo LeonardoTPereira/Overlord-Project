@@ -1,5 +1,6 @@
 ﻿using EnemyGenerator;
 using LevelGenerator;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -101,7 +102,9 @@ namespace LevelGenerator
             string foldername = "Assets/Resources/Levels/";
             string filename, dungeonData = "";
             filename = "R" + fitness.DesiredRooms + "-K" + fitness.DesiredKeys + "-L" + fitness.DesiredLocks + "-L" + fitness.DesiredLinearity;
-            
+
+            DungeonFile dungeonFile = new DungeonFile();
+
             //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.RoomList)
             {
@@ -121,7 +124,8 @@ namespace LevelGenerator
             //The top of the dungeon's file in unity must contain its dimensions
             dungeonData += 2* dun.dimensions.Width + "\n";
             dungeonData += 2* dun.dimensions.Height + "\n";
-
+            dungeonFile.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
+            DungeonFile.Room roomDataInFile = null;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.dimensions.Width; ++i)
             {
@@ -201,7 +205,6 @@ namespace LevelGenerator
                     }
                 }
             }
-
             //Now we print it/save to a file/whatever
             for (int i = 0; i < dun.dimensions.Width * 2; ++i)
             {
@@ -245,6 +248,7 @@ namespace LevelGenerator
                     {
                         Console.Write("  ");
                         //writer.WriteLine(" ");
+                        roomDataInFile = null;
                     }
                     //If there is something (room or corridor) print/save
                     else
@@ -253,6 +257,10 @@ namespace LevelGenerator
                         //For Unity's dungeon file we need to save the x and y position of the room
                         dungeonData += i + "\n";
                         dungeonData += j + "\n";
+                        roomDataInFile = new DungeonFile.Room
+                        {
+                            coordinates = new Coordinates(i, j)
+                        };
                         //this writerRG was used in the CSV pre-Unity, ignore it as legacy
                         //writerRG.WriteLine(i);
                         //writerRG.WriteLine(j);
@@ -262,9 +270,12 @@ namespace LevelGenerator
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.Write(" s");
                             dungeonData += "s\n";
+                            roomDataInFile.type = "s";
                             //TODO: save the info about the treasure and difficulty
                             dungeonData += "0\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
+                            roomDataInFile.Enemies = 0;
+                            roomDataInFile.Treasures = 0;
                             //writerRG.WriteLine("s");
                             //Marks that it is a room
                             isRoom = true;
@@ -274,6 +285,7 @@ namespace LevelGenerator
                         {
                             Console.Write(" c");
                             dungeonData += "c\n";
+                            roomDataInFile.type = "c";
                             //writerRG.WriteLine("c");
                         }
                         //If is the boss room, writes "B". Currently is where the Triforce is located
@@ -281,9 +293,12 @@ namespace LevelGenerator
                         {
                             Console.Write(" B");
                             dungeonData += "B\n";
+                            roomDataInFile.type = "B";
                             //TODO: save the info about the treasure and difficulty
                             dungeonData += "0\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
+                            roomDataInFile.Enemies = 0;
+                            roomDataInFile.Treasures = 0;
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -293,6 +308,9 @@ namespace LevelGenerator
                         {
                             Console.Write("{0,2}", map[i, j]);
                             dungeonData += map[i, j] + "\n";
+
+                            roomDataInFile.locks = new List<int>();
+                            roomDataInFile.locks.Add(map[i, j]);
                             //writerRG.WriteLine(map[i, j]);
                         }
                         //If it was a room with treasure, save it as a "T"
@@ -301,9 +319,12 @@ namespace LevelGenerator
                         {
                             Console.Write("{0,2}", map[i, j]);
                             //TODO: save the info about the treasure and difficulty
-                            dungeonData += random.Next(1, 5)+"\n"; //Difficulty
-                            int value = random.Next(1, treasureRuntimeSetSO.Items.Count+1);
-                            dungeonData += value+"\n"; //Treasure
+                            int difficulty = random.Next(1, 5);
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            int treasureValue = random.Next(1, treasureRuntimeSetSO.Items.Count+1);
+                            dungeonData += treasureValue + "\n"; //Treasure
+                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.Treasures = treasureValue;
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -312,11 +333,18 @@ namespace LevelGenerator
                         else if (map[i, j] > 0)
                         {
                             Console.Write("{0,2}", map[i, j]);
+                            int difficulty = random.Next(1, 5);
                             //TODO: save the info about the treasure and difficulty
-                            dungeonData += random.Next(1, 5) + "\n"; //Difficulty
+                            dungeonData += difficulty + "\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
 
+                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.Treasures = 0;
+
                             dungeonData += "+" + map[i, j] + "\n";
+
+                            roomDataInFile.keys = new List<int>();
+                            roomDataInFile.keys.Add(map[i, j]);
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
@@ -325,13 +353,18 @@ namespace LevelGenerator
                         {
                             Console.Write("{0,2}", map[i, j]);
                             //TODO: save the info about the treasure and difficulty
+                            int difficulty = random.Next(4);
                             dungeonData += random.Next(4)+"\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
+                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.Treasures = 0;
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
 
                     }
+                    if (roomDataInFile != null)
+                        dungeonFile.rooms.Add(roomDataInFile);
                 }
                 Console.Write("\n");
                 //writer.Write("\r\n");
@@ -352,11 +385,17 @@ namespace LevelGenerator
             }
             if (count > 0)
                 filename += "-"+count;
-            filename = foldername + filename + ".txt";
+            filename = foldername + filename;
+
+            string json = JsonConvert.SerializeObject(dungeonFile, Formatting.Indented, new JsonSerializerSettings { 
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore
+            });
             //UnityEngine.Debug.Log("Filename: " + filename);
 
+            File.WriteAllText(filename+".json", json);
             //Finally, saves the data
-            using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(filename + ".txt", false, Encoding.UTF8))
             {
                 UnityEngine.Debug.Log("Writing dungeon data");
                 writer.Write(dungeonData);

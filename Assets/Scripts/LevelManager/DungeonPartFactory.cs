@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class DungeonPartFactory
 {
-    int partType;
-
     public static DungeonPart CreateDungeonPartFromFile(MapFileHandler mapFileHandler)
     {
         Coordinates coordinates = mapFileHandler.GetNextDungeonPartCoordinates();
@@ -74,5 +72,18 @@ public class DungeonPartFactory
         if (partCode == DungeonPart.Type.CORRIDOR)
             return new DungeonCorridor(coordinates, partCode);
         return new DungeonLockedCorridor(coordinates, lockIDs);
+    }
+
+    public static DungeonPart CreateDungeonPartFromDungeonFileJSON(DungeonFile.Room dungeonRoom)
+    {
+        if (dungeonRoom.type?.Equals("c") ?? false)
+            return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
+        if (dungeonRoom.locks != null)
+        {
+            for (int i = 0; i < dungeonRoom.locks.Count; ++i)
+                dungeonRoom.locks[i] = -dungeonRoom.locks[i];
+            return new DungeonLockedCorridor(dungeonRoom.coordinates, dungeonRoom.locks);
+        }
+        return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom?.keys ?? new List<int>(), dungeonRoom.Enemies, dungeonRoom.Treasures);
     }
 }

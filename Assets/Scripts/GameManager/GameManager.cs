@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
 
-            generator = new Program();
             enemyLoader = gameObject.GetComponent<EnemyLoader>();
             audioSource = GetComponent<AudioSource>();
 
@@ -173,9 +172,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void LoadMap(TextAsset mapFile)
+    void LoadMap(string mapFile)
     {
-        map = new Map(mapFile.text, null, mapFileMode);
+        map = new Map(mapFile, null, mapFileMode);
     }
 
     public Map GetMap()
@@ -248,7 +247,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadNewLevel(TextAsset mapFile, int difficulty = 1)
+    public void LoadNewLevel(string mapFile, int difficulty = 1)
     {
         switch (difficulty)
         {
@@ -283,7 +282,7 @@ public class GameManager : MonoBehaviour
         
 
         UpdateLevelGUI();
-        OnStartMap(mapFile.name, currentTestBatchId, map, difficulty);
+        OnStartMap(mapFile, currentTestBatchId, map, difficulty);
     }
 
     private void OnStartMap(string mapName, int batch, Map map, int difficulty)
@@ -399,7 +398,7 @@ public class GameManager : MonoBehaviour
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
             OnLevelLoadedEvents();
-            LoadNewLevel(mapFile, chosenDifficulty);
+            LoadNewLevel(currentLevel, chosenDifficulty);
         }
         if (scene.name == "Main")
         {
@@ -445,7 +444,6 @@ public class GameManager : MonoBehaviour
     public void SetLevelMode(string fileName, int difficulty)
     {
         chosenDifficulty = difficulty;
-        mapFile = Resources.Load<TextAsset>("Levels/"+fileName);
         currentLevel = fileName;
         levelSetNames.Remove(fileName);
     }
