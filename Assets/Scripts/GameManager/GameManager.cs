@@ -358,30 +358,7 @@ public class GameManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-<<<<<<< HEAD
-        if (scene.name == "LevelGenerator")
-        {
-            if (createMaps && !survivalMode)
-            {
-                Constants.nV = nRooms;
-                Constants.nK = nKeys;
-                Constants.nL = nLocks;
-                Constants.lCoef = linearity;
-                //coroutine = generator.CreateDungeonParallel(progressText);
-                //coroutine = generator.CreateDungeon();
-                //StartCoroutine(coroutine);
-                generator.CreateDungeon();
-            }
-            isInGame = false;
-            startButton = GameObject.Find("StartButton").GetComponent<Button>();
-            //Level Generator Stuff
-            startButton.interactable = false;
-        }
-
-        if (scene.name == "Level" || scene.name == "LevelWithEnemies" || scene.name == "1A"|| scene.name == "1B"|| scene.name == "1C"|| scene.name == "2A" || scene.name == "2B" || scene.name == "2C" || scene.name == "2D" || scene.name == "3A" || scene.name == "3B" || scene.name == "3C" || scene.name == "3D")
-=======
         if (scene.name == "Level" || scene.name == "LevelWithEnemies")
->>>>>>> LuanaPaolo
         {
             isInGame = true;
             startButton = null;
