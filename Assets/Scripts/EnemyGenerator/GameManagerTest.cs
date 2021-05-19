@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Entities;
-using Unity.Transforms;
-using Unity.Collections;
-using Unity.Mathematics;
-using Unity.Rendering;
-using EnemyGenerator;
-using UnityEditor;
+﻿using EnemyGenerator;
 using System.IO;
+using Unity.Collections;
+using Unity.Entities;
+using Unity.Mathematics;
+using UnityEditor;
+using UnityEngine;
 
 public class GameManagerTest : MonoBehaviour
 {
@@ -224,7 +220,7 @@ public class GameManagerTest : MonoBehaviour
             timeAfterSort = Time.realtimeSinceStartup - startTime;
             if (!enemyPrinted)
             {
-                
+
                 /*Debug.Log("Fitness: " + enemyPop[bestIdx].fitness);
                 Debug.Log("Health: " + enemyPop[bestIdx].health);
                 Debug.Log("damage: " + enemyPop[bestIdx].damage);

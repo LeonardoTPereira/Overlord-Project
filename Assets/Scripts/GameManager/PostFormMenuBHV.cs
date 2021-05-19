@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +12,7 @@ public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
     Button playMoreButton;
     LevelConfigSO nextLevel;
     //TODO FIX THE GAMBIARRA
-    public delegate void PostFormButtonEvent(string fileName, int difficulty);
-    public static event PostFormButtonEvent postFormButtonEvent;
+    public static event LevelLoadEvent postFormButtonEventHandler;
     private const string noMoreLevelsText = "Você jogou todos os níveis.\n Incrível!\n" +
         "Infelizmente não temos mais níveis para jogar\n" +
         "Mas agradecemos muito a sua colaboração neste experimento\n" +
@@ -24,7 +21,7 @@ public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
 
     private void OnEnable()
     {
-        
+
         hasMoreLevels = GameManager.instance.HasMoreLevels();
         if (!hasMoreLevels)
         {
@@ -34,13 +31,14 @@ public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
     }
     public void GoToNext()
     {
-        if (hasMoreLevels)
+        //TODO Fix PickNextLevel()!
+        /*if (hasMoreLevels)
         {
             nextLevel = GameManager.instance.PickNextLevel();
-            postFormButtonEvent(nextLevel.fileName, nextLevel.enemy);
+            postFormButtonEventHandler(this, new LevelLoadEventArgs(nextLevel.fileName, nextLevel.enemyDifficultyFile));
             nextPanel.SetActive(true);
             gameObject.SetActive(false);
-        }
+        }*/
     }
 
     public void GoToPrevious()

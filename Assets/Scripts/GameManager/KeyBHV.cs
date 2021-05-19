@@ -1,35 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class KeyBHV : PlaceableRoomObject {
+public class KeyBHV : PlaceableRoomObject
+{
 
-	public int keyID;
+    public int keyID;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         //Render the key sprite with the color relative to its ID
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.color = Util.colorId[keyID - 1];
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	void OnTriggerEnter2D(Collider2D other){
-		if (other.tag == "Player"){
-            Player.instance.GetKey (keyID);
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            Player.instance.GetKey(keyID);
             //TODO: Analytics to flag when the player got a key
             OnGetKey();
-			Destroy (gameObject);
-		}
-	}
+            Destroy(gameObject);
+        }
+    }
 
-    private void OnGetKey ()
+    private void OnGetKey()
     {
         PlayerProfile.instance.OnGetKey(keyID);
-		GameManager.instance.keyUI.CreateKeyImage();
+        GameManager.instance.keyUI.CreateKeyImage();
     }
 }

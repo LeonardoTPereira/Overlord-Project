@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LevelGenerator
 {
@@ -8,10 +7,10 @@ namespace LevelGenerator
         //List of currently available keys
         private static List<int> availableLockId = new List<int>();
         private static List<int> usedLockId = new List<int>();
-        
+
         public static List<int> AvailableLockId { get => availableLockId; set => availableLockId = value; }
         public static List<int> UsedLockId { get => usedLockId; set => usedLockId = value; }
-        
+
         /*
          * Creates the root room of the dungeon
          */
@@ -33,7 +32,7 @@ namespace LevelGenerator
             int keyToOpen;
             //int lockId;
             Room room;
-            
+
             int prob = Util.rnd.Next(101);
             //If there are too many keys without locks, raises the chance to create a lock
             if (AvailableLockId.Count > 0)
@@ -93,7 +92,7 @@ namespace LevelGenerator
             int keyToOpen;
 
             int prob = Util.rnd.Next(101);
-            desiredPenalty = (desiredKeys - availableLockId.Count + usedLockId.Count)*0.1f;
+            desiredPenalty = (desiredKeys - availableLockId.Count + usedLockId.Count) * 0.1f;
             //If there are too many keys without locks, raises the chance to create a lock
             if (AvailableLockId.Count > 0)
             {

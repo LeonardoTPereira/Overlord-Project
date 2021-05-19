@@ -23,7 +23,7 @@ public class JSONMapFileHandler
 
     public DungeonPart GetNextPart()
     {
-        if(currentIndex < dungeonFile.rooms.Count)
+        if (currentIndex < dungeonFile.rooms.Count)
             return DungeonPartFactory.CreateDungeonPartFromDungeonFileJSON(dungeonFile.rooms[currentIndex++]);
         else
             return null;

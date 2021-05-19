@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class explore_ter{
-    
-    public void choose(Manager m){
+public class explore_ter
+{
+
+    public void choose(Manager m)
+    {
         Quest quest = new Quest();
         quest.tipo = 4;
         quest.n1 = Random.Range(100, 200);

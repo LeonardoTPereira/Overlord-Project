@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -98,8 +97,8 @@ public class DoorBHV : MonoBehaviour
                     MovePlayerToNextRoom();
                 }
             }
-            else if(commonKeys.Count() == keyID.Count)
-            {                
+            else if (commonKeys.Count() == keyID.Count)
+            {
                 if (!isClosedByEnemies)
                 {
                     audioSrc.PlayOneShot(unlockSnd, 0.7f);

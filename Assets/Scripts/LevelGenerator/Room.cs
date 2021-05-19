@@ -7,12 +7,13 @@ namespace LevelGenerator
      * Key is a room containing a key
      * Locker is a room that has a lock
      */
-    public enum Type{
+    public enum Type
+    {
         normal = 1 << 0,
         key = 1 << 1,
         locked = 1 << 2
     };
-  
+
     public class Room
     {
 
@@ -90,11 +91,11 @@ namespace LevelGenerator
             toVisit.Enqueue(actualRoom);
             //System.Console.WriteLine("Start Conversion");
             //If both lock and keys are in the branch, give them new ids also, add all the special rooms in the new special rooms list
-            for(int i = 0; i < specialRooms.Count-1; ++i)
+            for (int i = 0; i < specialRooms.Count - 1; ++i)
             {
-                for(int j = i+1; j < specialRooms.Count; ++j)
+                for (int j = i + 1; j < specialRooms.Count; ++j)
                 {
-                    if(specialRooms[i] == -specialRooms[j])
+                    if (specialRooms[i] == -specialRooms[j])
                     {
                         int aux = Util.getNextId();
                         if (specialRooms[i] > 0)
@@ -107,8 +108,8 @@ namespace LevelGenerator
                 newSpecialRooms.Enqueue(specialRooms[i]);
             }
             //Add the last special room, which normally wouldn't be added, but only if it exists
-            if(specialRooms.Count > 0)
-                newSpecialRooms.Enqueue(specialRooms[specialRooms.Count-1]);
+            if (specialRooms.Count > 0)
+                newSpecialRooms.Enqueue(specialRooms[specialRooms.Count - 1]);
 
             //Enqueue all the rooms
             while (toVisit.Count > 0)
@@ -136,12 +137,12 @@ namespace LevelGenerator
             }
 
             //try to place all the special rooms in the branch randomly. If the number of remaining rooms is the same as the number of special rooms, every room must be a special one, so we finish this while loop.
-            while(visited.Count > newSpecialRooms.Count)
+            while (visited.Count > newSpecialRooms.Count)
             {
                 actualRoom = visited.Dequeue();
 
                 int prob = Util.rnd.Next(101);
-                
+
                 //If there is a special room left, check the random number and see if it will be placed in the actual room or not
                 if (newSpecialRooms.Count > 0)
                 {
@@ -177,7 +178,7 @@ namespace LevelGenerator
                 }
             }
             //If there are rooms not visited, then all the next rooms must be special ones
-            while(visited.Count > 0)
+            while (visited.Count > 0)
             {
                 actualRoom = visited.Dequeue();
                 specialId = newSpecialRooms.Dequeue();
@@ -197,10 +198,10 @@ namespace LevelGenerator
             if (newSpecialRooms.Count > 0)
                 System.Console.WriteLine("STOOOOOP");
         }
-    /*
-     * Validates if a child node can be created in the given position or not
-     */
-    public bool ValidateChild(Util.Direction dir, RoomGrid roomGrid)
+        /*
+         * Validates if a child node can be created in the given position or not
+         */
+        public bool ValidateChild(Util.Direction dir, RoomGrid roomGrid)
         {
             int X, Y;
             Room roomInGrid;
@@ -328,12 +329,12 @@ namespace LevelGenerator
         {
             Room roomInGrid;
             int shortcutChance;
-            
+
             switch (dir)
             {
                 case Util.Direction.right:
                     //Calculates the X and Y based on the parent's rotation
-                    if (((this.Rotation / 90) % 2)!=0)
+                    if (((this.Rotation / 90) % 2) != 0)
                     {
                         child.X = this.X;
                         if (this.Rotation == 90)
@@ -438,9 +439,9 @@ namespace LevelGenerator
          */
         public void FindChildren(ref List<Room> roomList)
         {
-            if(rightChild!=null)
+            if (rightChild != null)
             {
-                if (rightChild.parent!= null && rightChild.parent.Equals(this))
+                if (rightChild.parent != null && rightChild.parent.Equals(this))
                 {
                     roomList.Add(rightChild);
                     rightChild.FindChildren(ref roomList);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +7,13 @@ public class HealthUI : MonoBehaviour
     private List<Image> heartList;
     // Start is called before the first frame update
 
-    [SerializeField] 
+    [SerializeField]
     protected Sprite fullheartSprite, emptyheartSprite;
     protected float multiplier = 1.7f;
     protected int scale = 3;
     protected int delta = 35;
 
-      
+
     private void Awake()
     {
     }
@@ -38,7 +37,7 @@ public class HealthUI : MonoBehaviour
 
         heartList = new List<Image>();
 
-        float rowColSize = fullheartSprite.rect.size.x* multiplier;
+        float rowColSize = fullheartSprite.rect.size.x * multiplier;
         int actualHealth = Player.instance.GetComponent<HealthController>().GetHealth();
 
         for (int i = 0; i < Player.instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
@@ -84,6 +83,6 @@ public class HealthUI : MonoBehaviour
             heartList[i].sprite = fullheartSprite;
         for (int i = health; i < heartList.Count; ++i)
             heartList[i].sprite = emptyheartSprite;*/
-            //foi comentado
+        //foi comentado
     }
 }

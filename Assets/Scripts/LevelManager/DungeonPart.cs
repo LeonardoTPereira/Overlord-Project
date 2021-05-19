@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public abstract class DungeonPart
+﻿public abstract class DungeonPart
 {
     public string type;
     public Coordinates coordinates;

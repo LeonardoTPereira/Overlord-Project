@@ -1,12 +1,10 @@
 ﻿using EnemyGenerator;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
-using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine;
 
 #if UNITY_EDITOR
 public class TimSort : MonoBehaviour

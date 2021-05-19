@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class chest_ter{
-    
-    public void choose(Manager m){
+public class chest_ter
+{
+
+    public void choose(Manager m)
+    {
         Quest quest = new Quest();
         quest.tipo = 0;
         quest.n1 = Random.Range(0, 3);

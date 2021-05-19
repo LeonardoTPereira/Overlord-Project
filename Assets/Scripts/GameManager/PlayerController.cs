@@ -1,9 +1,8 @@
 ﻿using EnemyGenerator;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     [SerializeField]
     protected float speed, shootSpeed, coolDownTime, atkSpeed;
@@ -11,7 +10,7 @@ public class PlayerController : MonoBehaviour {
     protected int shootDmg, maxHealth;
     [SerializeField]
     protected GameObject bulletSpawn, bulletPrefab;
-    
+
 
     Animator anim;
     float lastX, lastY;
@@ -45,13 +44,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         healthCtrl.SetHealth(maxHealth);
-        anim = GetComponent<Animator>();	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        anim = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
     }
 
@@ -64,11 +65,12 @@ public class PlayerController : MonoBehaviour {
         WeaponLoaderBHV.loadWeaponButtonEventHandler -= SetProjectileSO;
     }
 
-    void FixedUpdate(){
-		float moveHorizontal = Input.GetAxisRaw ("Horizontal");
-		float moveVertical = Input.GetAxisRaw ("Vertical");
-		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
-		movement.Normalize ();
+    void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        movement.Normalize();
 
         float shootHorizontal = Input.GetAxisRaw("HorizontalShoot");
         float shootVertical = Input.GetAxisRaw("VerticalShoot");
@@ -138,7 +140,7 @@ public class PlayerController : MonoBehaviour {
             bullet.tag = "Bullet"; //adicionado por Luana e Paolo
             bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
             bullet.SendMessage("Shoot", shootForce + movementDir);
-            bulletSpawn.transform.RotateAround(transform.position, Vector3.forward, rotatedAngle+90);
+            bulletSpawn.transform.RotateAround(transform.position, Vector3.forward, rotatedAngle + 90);
             bullet.GetComponent<Rigidbody2D>().AddForce(shootForce + movementDir, ForceMode2D.Impulse);
             //bullet.GetComponent<ProjectileController>().damage = this.shootDmg;
             bulletSpawn.transform.RotateAround(transform.position, Vector3.forward, -rotatedAngle);
@@ -232,9 +234,9 @@ public class PlayerController : MonoBehaviour {
 
     public void NextProjectileSO()
     {
-        actualProjectile = (actualProjectile + 1)% GameManager.instance.projectileSet.Items.Count;
+        actualProjectile = (actualProjectile + 1) % GameManager.instance.projectileSet.Items.Count;
         projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
-        SetProjectileSO(this, new LoadWeaponButtonEventArgs( projectileType));
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
     }
 
 }

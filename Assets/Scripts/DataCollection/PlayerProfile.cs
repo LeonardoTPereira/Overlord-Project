@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using EnemyGenerator;
-using System.IO;
-using System.Text;
+﻿using EnemyGenerator;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using UnityEngine;
 
 public struct CombatRoomInfo
 {
@@ -18,7 +18,8 @@ public struct CombatRoomInfo
     public int timeToExit;
 }
 
-public class PlayerProfile : MonoBehaviour {
+public class PlayerProfile : MonoBehaviour
+{
 
     public static PlayerProfile instance = null;
 
@@ -93,7 +94,8 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         // FIXME: utilizar uma ID única corretamente
         string dateTime = System.DateTime.Now.ToString();
         dateTime = dateTime.Replace("/", "-");
@@ -106,11 +108,12 @@ public class PlayerProfile : MonoBehaviour {
         attemptOnLevelNumber = 0;
         cumulativeAttempts = 0;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     protected void OnEnable()
     {
@@ -192,7 +195,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From DoorBHV
-    public void OnRoomEnter (Coordinates coordinates, bool hasEnemies, List<int> enemyList, int playerHealth)
+    public void OnRoomEnter(Coordinates coordinates, bool hasEnemies, List<int> enemyList, int playerHealth)
     {
         //Log
         //Mais métricas - organiza em TAD
@@ -222,7 +225,7 @@ public class PlayerProfile : MonoBehaviour {
     //From DoorBHV
     public void OnRoomExit(Vector2Int offset, int playerHealth)
     {
-        if(actualRoomInfo.roomId != -1)
+        if (actualRoomInfo.roomId != -1)
         {
             actualRoomInfo.playerFinalHealth = playerHealth;
             actualRoomInfo.timeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds) - actualRoomInfo.timeToExit;
@@ -241,7 +244,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From GameManager
-    public void OnMapStart (string name, int batch, Map currentMap, int difficulty, int weapon)
+    public void OnMapStart(string name, int batch, Map currentMap, int difficulty, int weapon)
     {
         HasFinished = false;
         mapCount++;
@@ -265,7 +268,7 @@ public class PlayerProfile : MonoBehaviour {
         weaponUsed = weapon;
         //Log
         //Mais métricas - organiza em TAD
-        
+
     }
 
     //From inheritance
@@ -275,7 +278,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From TriforceBHV
-    public void OnMapComplete (Map currentMap)
+    public void OnMapComplete(Map currentMap)
     {
         stopWatch.Stop();
         secondsToFinish = stopWatch.Elapsed.Seconds;
@@ -300,7 +303,7 @@ public class PlayerProfile : MonoBehaviour {
     }
 
     //From KeyBHV
-    public void OnGetKey (int id)
+    public void OnGetKey(int id)
     {
         //Log
         keysTaken++;
@@ -313,13 +316,13 @@ public class PlayerProfile : MonoBehaviour {
         //Log
         //TODO FIX THIS WITH AN ENUM OR SOMETHING
         //0 PreTest 1 PostTest
-        if(formID == 0)
+        if (formID == 0)
             preFormAnswers.Add(answer);
-        else if(formID == 1)
+        else if (formID == 1)
             postFormAnswers.Add(answer);
     }
 
-    private void WrapProfileToString ()
+    private void WrapProfileToString()
     {
         profileString = "";
         if (preFormAnswers.Count > 0)
@@ -327,7 +330,7 @@ public class PlayerProfile : MonoBehaviour {
             int i = 0;
             foreach (int answer in preFormAnswers)
             {
-                profileString += "PreQuestion "+i+",";
+                profileString += "PreQuestion " + i + ",";
                 i++;
             }
             profileString += "\n";
@@ -343,7 +346,7 @@ public class PlayerProfile : MonoBehaviour {
         levelProfileString = "";
         levelProfileString += "map,attempt,cumulativeAttempt,mapCount,uniquemap,keys,locks,time,maxCombo,treasure,weapon,difficulty,deaths,Victory?,";
         for (int i = 0; i < EnemyUtil.nBestEnemies; ++i)
-            levelProfileString += "Enemy"+i+"Damage,";
+            levelProfileString += "Enemy" + i + "Damage,";
         if (postFormAnswers.Count > 0)
         {
             int i = 0;
@@ -357,8 +360,8 @@ public class PlayerProfile : MonoBehaviour {
             levelProfileString += "NoPostQuestions,";
         levelProfileString += "\n";
 
-        levelProfileString += curMapName+","+ attemptOnLevelNumber + ","+ cumulativeAttempts + "," + mapVisitedCount + ","+ mapVisitedCountUnique + "," + keysTaken +
-            "," + keysUsed + "," + secondsToFinish + "," + maxCombo + "," + 
+        levelProfileString += curMapName + "," + attemptOnLevelNumber + "," + cumulativeAttempts + "," + mapVisitedCount + "," + mapVisitedCountUnique + "," + keysTaken +
+            "," + keysUsed + "," + secondsToFinish + "," + maxCombo + "," +
             treasureCollected + "," + weaponUsed + "," + difficultyLevel + "," + timesPlayerDied + "," + HasFinished + ",";
         for (int i = 0; i < EnemyUtil.nBestEnemies; ++i)
             levelProfileString += damageDoneByEnemy[i] + ",";
@@ -404,7 +407,7 @@ public class PlayerProfile : MonoBehaviour {
         {
             for (int j = 0; j < currentMap.dimensions.Height / 2; ++j)
             {
-                heatMapString += heatMap[i, j].ToString()+",";
+                heatMapString += heatMap[i, j].ToString() + ",";
             }
             heatMapString += "\n";
         }
@@ -412,7 +415,7 @@ public class PlayerProfile : MonoBehaviour {
     }
     //File name: BatchId, MapId, SessionUID
     //Player profile: N Visited Rooms, N Unique Visited Rooms, N Keys Taken, N Keys Used, Form Answer 1, Form Answer 2,Form Answer 3
-    private void SendProfileToServer (Map currentMap)
+    private void SendProfileToServer(Map currentMap)
     {
         WrapProfileToString();
         WrapHeatMapToString(currentMap);
@@ -427,7 +430,7 @@ public class PlayerProfile : MonoBehaviour {
 
     void saveToLocalFile(string name, string stringData, string heatMapData, string levelData, string levelDetailedData)
     {
-        if (!Directory.Exists(Application.streamingAssetsPath+"/PlayerData"))
+        if (!Directory.Exists(Application.streamingAssetsPath + "/PlayerData"))
             Directory.CreateDirectory(Application.streamingAssetsPath + "/PlayerData");
         if (cumulativeAttempts == 1)
         {
@@ -472,11 +475,11 @@ public class PlayerProfile : MonoBehaviour {
         //This connects to a server side php script that will write the data
         //string post_url = postDataURL + "name=" + WWW.EscapeURL(name) + "&data=" + data ;
         string post_url = PostDataURL;
-        Debug.Log("LogName:"+name);
+        Debug.Log("LogName:" + name);
         WWWForm form = new WWWForm();
         form.AddField("name", sessionUID);
         form.AddBinaryData("data", data, name + ".csv", "text/csv");
-        form.AddBinaryData("heatmap", heatMapBinary, "HM"+name + ".csv", "text/csv");
+        form.AddBinaryData("heatmap", heatMapBinary, "HM" + name + ".csv", "text/csv");
         form.AddBinaryData("level", levelBinary, "Level" + name + ".csv", "text/csv");
         form.AddBinaryData("detailed", levelDetailedBinary, "Detailed" + name + ".csv", "text/csv");
 
@@ -496,7 +499,7 @@ public class PlayerProfile : MonoBehaviour {
 
     public int[,] CreateHeatMap(Map currentMap)
     {
-        int[,] heatMap = new int[(currentMap.dimensions.Width + 1) / 2, (currentMap.dimensions.Height+1) / 2];
+        int[,] heatMap = new int[(currentMap.dimensions.Width + 1) / 2, (currentMap.dimensions.Height + 1) / 2];
         for (int i = 0; i < currentMap.dimensions.Width / 2; ++i)
         {
             //string aux = "";
@@ -519,7 +522,7 @@ public class PlayerProfile : MonoBehaviour {
 
     public void OnEnemyDoesDamage(int index, int damage)
     {
-        damageDoneByEnemy[index]+=damage;
+        damageDoneByEnemy[index] += damage;
     }
 
     public void OnDeath()

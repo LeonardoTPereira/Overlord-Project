@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -18,8 +16,8 @@ public class ScoreBHV : MonoBehaviour
             maxCombo = PlayerProfile.instance.maxCombo;
         health.text = "Vida: " + PlayerProfile.instance.actualRoomInfo.playerFinalHealth + "/10";
         combo.text = "Maior Combo: " + maxCombo;
-        treasure.text = "Ouro: " + PlayerProfile.instance.treasureCollected + "/"+ GameManager.instance.maxTreasure;
-        rooms.text = "Salas Exploradas: " + PlayerProfile.instance.visitedRooms.Distinct().Count() +"/" +GameManager.instance.maxRooms;
+        treasure.text = "Ouro: " + PlayerProfile.instance.treasureCollected + "/" + GameManager.instance.maxTreasure;
+        rooms.text = "Salas Exploradas: " + PlayerProfile.instance.visitedRooms.Distinct().Count() + "/" + GameManager.instance.maxRooms;
     }
 
 

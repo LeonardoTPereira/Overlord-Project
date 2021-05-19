@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MapFileHandler
 {
-    private readonly string [] parsedMapFile;
+    private readonly string[] parsedMapFile;
     private int currentIndex;
 
     public MapFileHandler(string mapFile)
@@ -54,7 +54,7 @@ public class MapFileHandler
         {
             code = parsedMapFile[currentIndex++];
             currentCodeIsALock = IsLock(code);
-            if(currentCodeIsALock)
+            if (currentCodeIsALock)
                 lockIDs.Add(-int.Parse(code));
         } while (currentCodeIsALock && HasMoreLines());
         if (!currentCodeIsALock)
@@ -84,7 +84,7 @@ public class MapFileHandler
 
     public int GetNextTreasure()
     {
-        return int.Parse(parsedMapFile[currentIndex++])-1;
+        return int.Parse(parsedMapFile[currentIndex++]) - 1;
     }
 
     public List<int> GetNextKeyIDs()
@@ -101,7 +101,7 @@ public class MapFileHandler
                 if (currentCodeIsAKey)
                     keyIDs.Add(int.Parse(code));
             } while (currentCodeIsAKey && HasMoreLines());
-            if(!currentCodeIsAKey)
+            if (!currentCodeIsAKey)
                 currentIndex--;
         }
         return keyIDs;

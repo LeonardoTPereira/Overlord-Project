@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using LevelGenerator;
+﻿using LevelGenerator;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Map
 {
@@ -53,7 +53,7 @@ public class Map
             BuildDefaultRooms();
         }
     }
-    
+
 
     private void ReadMapFile(string text, int mode)
     {
@@ -62,7 +62,7 @@ public class Map
             JSONMapFileHandler mapFileHandler = new JSONMapFileHandler(text);
             dimensions = mapFileHandler.GetDimensions();
             DungeonPart currentDungeonPart;
-            while ( (currentDungeonPart = mapFileHandler.GetNextPart()) != null)
+            while ((currentDungeonPart = mapFileHandler.GetNextPart()) != null)
             {
                 if (currentDungeonPart.IsStartRoom())
                     startRoomCoordinates = currentDungeonPart.GetCoordinates();
@@ -118,7 +118,7 @@ public class Map
             txtLine += 2;
             try
             {
-                currentRoom = (DungeonRoom) dungeonPartByCoordinates[currentRoomCoordinates];
+                currentRoom = (DungeonRoom)dungeonPartByCoordinates[currentRoomCoordinates];
                 currentRoom.Dimensions = new Dimensions(roomWidth, roomHeight);
                 currentRoom.InitializeTiles(); // aloca memória para os tiles
                 for (int x = 0; x < currentRoom.Dimensions.Width; x++)
@@ -130,7 +130,7 @@ public class Map
                     }
                 }
             }
-            catch(InvalidCastException)
+            catch (InvalidCastException)
             {
                 Debug.LogError($"One of the rooms in the file has the wrong coordinates - x = {currentRoomCoordinates.X}, y = {currentRoomCoordinates.Y}");
             }
@@ -142,16 +142,16 @@ public class Map
     private void BuildDefaultRooms()
     {
         Dimensions dimensions = new Dimensions(Util.defaultRoomSizeX, Util.defaultRoomSizeY);
-        foreach (DungeonPart currentPart in dungeonPartByCoordinates.Values )
+        foreach (DungeonPart currentPart in dungeonPartByCoordinates.Values)
         {
-            if(currentPart is DungeonRoom room)
+            if (currentPart is DungeonRoom room)
             {
                 Debug.Log("building a default room");
                 room.Dimensions = dimensions;
                 room.InitializeTiles(); // aloca memória para os tiles
                 for (int x = 0; x < room.Dimensions.Width; x++)
                     for (int y = 0; y < room.Dimensions.Height; y++)
-                        room.tiles[x, y] = defaultTileID; 
+                        room.tiles[x, y] = defaultTileID;
             }
         }
     }
@@ -172,7 +172,8 @@ public class Map
         LevelGenerator.Type type;
         string dungeonPartCode;
         int iPositive, jPositive;
-        int treasure, difficulty;
+        int treasure;
+        string difficultyFileName;
 
         List<int> lockedRooms = new List<int>();
         List<int> keys = new List<int>();
@@ -202,7 +203,7 @@ public class Map
                 jPositive = j - dun.boundaries.MinBoundaries.Y;
                 actualRoom = grid[i, j];
                 treasure = 0;
-                difficulty = 0;
+                difficultyFileName = null;
                 keyIDs = null;
                 lockIDs = null;
                 dungeonPartCode = null;
@@ -226,14 +227,14 @@ public class Map
                             Debug.Log("This is a Leaf Node Room! " + (iPositive * 2) + " - " + (jPositive * 2));
                         }
                         else
-                            difficulty = GameManager.instance.dungeonDifficulty;
+                            difficultyFileName = GameManager.instance.chosenDifficultyFileName;
                         //rooms[iPositive * 2, jPositive * 2].keyID = 0;
                     }
                     else if (type == LevelGenerator.Type.key)
                     {
                         keyIDs = new List<int>();
                         keyIDs.Add(keys.IndexOf(actualRoom.KeyToOpen) + 1);
-                        difficulty = GameManager.instance.dungeonDifficulty;
+                        difficultyFileName = GameManager.instance.chosenDifficultyFileName;
                     }
                     else if (type == LevelGenerator.Type.locked)
                     {
@@ -244,9 +245,9 @@ public class Map
                         }
                         else
                         {
-                            difficulty = GameManager.instance.dungeonDifficulty;
+                            difficultyFileName = GameManager.instance.chosenDifficultyFileName;
                         }
-                            
+
                         /*else
                             rooms[iPositive * 2, jPositive * 2].keyID = 0;*/
                     }
@@ -255,7 +256,8 @@ public class Map
                         Debug.Log("Something went wrong printing the tree!\n");
                         Debug.Log("This Room type does not exist!\n\n");
                     }
-                    dungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonRoomFromEARoom(currentRoomCoordinates, dungeonPartCode, keyIDs, difficulty, treasure));
+                    //TODO fix the difficulty parameter
+                    dungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonRoomFromEARoom(currentRoomCoordinates, dungeonPartCode, keyIDs, -10, treasure));
 
                     parent = actualRoom.Parent;
                     if (parent != null)

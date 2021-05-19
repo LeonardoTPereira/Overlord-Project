@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class drop_ter{
-    
-    public void choose(Manager m){
+public class drop_ter
+{
+
+    public void choose(Manager m)
+    {
         Quest quest = new Quest();
         quest.tipo = 5;
 

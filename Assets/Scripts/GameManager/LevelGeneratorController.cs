@@ -2,7 +2,6 @@
 using MyBox;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +9,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Program))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
-    public static event CreateEADungeonEventHandler createEADungeonEventHandler;
+    public static event CreateEADungeonEvent createEADungeonEventHandler;
 
     protected Dictionary<string, TMP_InputField> inputFields;
     [SerializeField]

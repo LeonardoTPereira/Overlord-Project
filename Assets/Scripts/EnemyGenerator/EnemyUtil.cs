@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace EnemyGenerator
+﻿namespace EnemyGenerator
 {
     public static class EnemyUtil
     {

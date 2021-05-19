@@ -1,40 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelLoaderBHV : MonoBehaviour, IMenuPanel
 {
-    string levelFile;
-    int levelDifficulty;
+    string levelFile, levelEnemyFile;
     [SerializeField]
     GameObject previousPanel, nextPanel;
     [SerializeField]
     Button button;
-    public delegate void LoadLevelButtonEvent(string fileName, int difficulty);
-    public static event LoadLevelButtonEvent loadLevelButtonEvent;
+    public static event LevelLoadEvent loadLevelButtonEventHandler;
 
     protected void OnEnable()
     {
         button.interactable = false;
-        LevelSelectButtonBHV.selectLevelButtonEvent += PrepareLevel;
+        LevelSelectButtonBHV.selectLevelButtonEventHandler += PrepareLevel;
     }
 
     protected void OnDisable()
     {
-        LevelSelectButtonBHV.selectLevelButtonEvent -= PrepareLevel;
+        LevelSelectButtonBHV.selectLevelButtonEventHandler -= PrepareLevel;
     }
 
-    protected void PrepareLevel(LevelConfigSO levelConfigSO)
+    protected void PrepareLevel(object sender, LevelSelectEventArgs args)
     {
-        levelFile = levelConfigSO.fileName;
-        levelDifficulty = levelConfigSO.enemy;
+        levelFile = args.LevelSO.fileName;
+        levelEnemyFile = args.LevelSO.enemyDifficultyFile;
         button.interactable = true;
     }
 
     public void GoToNext()
     {
-        loadLevelButtonEvent(levelFile, levelDifficulty);
+        loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile, levelEnemyFile));
         nextPanel.SetActive(true);
         gameObject.SetActive(false);
     }

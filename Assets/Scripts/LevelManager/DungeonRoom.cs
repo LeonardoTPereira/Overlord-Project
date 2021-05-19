@@ -13,7 +13,7 @@ public class DungeonRoom : DungeonPart
     public RoomBHV roomBHV;
 
     public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int difficulty, int treasure) : base(coordinates, code)
-    {        
+    {
         this.keyIDs = keyIDs;
         Treasure = treasure;
         Difficulty = difficulty;

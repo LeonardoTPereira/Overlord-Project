@@ -19,9 +19,9 @@ public class Coordinates
 
     public override bool Equals(object obj)
     {
-        if((obj == null) || (! GetType().Equals(obj.GetType())))
+        if ((obj == null) || (!GetType().Equals(obj.GetType())))
             return false;
-        Coordinates coordinates = (Coordinates) obj;
+        Coordinates coordinates = (Coordinates)obj;
         return ((coordinates.x == x) && (coordinates.y == y));
     }
 
