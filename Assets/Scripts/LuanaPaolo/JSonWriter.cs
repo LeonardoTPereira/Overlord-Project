@@ -5,11 +5,13 @@ using System.IO;
 
 public class JSonWriter
 {
+    [System.Serializable]
     class parametersDungeon{
         public
-            int size = 0, linearity = 0, nKeys = 0;
+            int size = 0, linearity = 0, nKeys = 0, enemyType = -1;
     };
 
+    [System.Serializable]
     class parametersMonsters{
         public
             int nEnemies = 0, p1 = 0, p2 = 0, p3 = 0, f1 = 0, f2 = 0, f3 = 0;
@@ -23,19 +25,19 @@ public class JSonWriter
 
         for(int i = 0; i < graph.Count; i++) outString += JsonUtility.ToJson(graph[i]) + "\n";
 
-        File.WriteAllText(Application.dataPath + "/narrative.txt", outString);
+        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/narrative.json", outString);
 
         conversorDungeon(pD, graph);
 
         outString = JsonUtility.ToJson(pD) + "\n";
 
-        File.WriteAllText(Application.dataPath + "/dungeonGenerator.txt", outString);
+        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/dungeonGenerator.json", outString);
 
         conversorMonsters(pM, graph);
 
         outString = JsonUtility.ToJson(pM) + "\n";
 
-        File.WriteAllText(Application.dataPath + "/enemyGenerator.txt", outString);
+        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/enemyGenerator.json", outString);
     }
 
     private void conversorDungeon(parametersDungeon pD, List<Quest> graph){
@@ -55,6 +57,8 @@ public class JSonWriter
         if(pD.nKeys < 3) pD.nKeys = 200;
         else if(pD.nKeys >= 3 && pD.nKeys < 7) pD.nKeys = 201;
         else pD.nKeys = 202;
+
+        pD.enemyType = Random.Range(0, 3);
     }
 
     private void conversorMonsters(parametersMonsters pM, List<Quest> graph){

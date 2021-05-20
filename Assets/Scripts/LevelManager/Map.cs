@@ -172,7 +172,7 @@ public class Map
         LevelGenerator.Type type;
         string dungeonPartCode;
         int iPositive, jPositive;
-        int treasure, difficulty;
+        int treasure, difficulty, enemyType;
 
         List<int> lockedRooms = new List<int>();
         List<int> keys = new List<int>();
@@ -203,6 +203,7 @@ public class Map
                 actualRoom = grid[i, j];
                 treasure = 0;
                 difficulty = 0;
+                enemyType = -1;
                 keyIDs = null;
                 lockIDs = null;
                 dungeonPartCode = null;
@@ -255,7 +256,7 @@ public class Map
                         Debug.Log("Something went wrong printing the tree!\n");
                         Debug.Log("This Room type does not exist!\n\n");
                     }
-                    dungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonRoomFromEARoom(currentRoomCoordinates, dungeonPartCode, keyIDs, difficulty, treasure));
+                    dungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonRoomFromEARoom(currentRoomCoordinates, dungeonPartCode, keyIDs, difficulty, treasure, enemyType));
 
                     parent = actualRoom.Parent;
                     if (parent != null)

@@ -6,6 +6,11 @@ public class MapFileHandler
     private readonly string [] parsedMapFile;
     private int currentIndex;
 
+    class parametersDungeon{
+        public
+            int size = 0, linearity = 0, nKeys = 0, enemyType = -1;
+    };
+
     public MapFileHandler(string mapFile)
     {
         parsedMapFile = SplitMapFileInLines(mapFile);
@@ -85,6 +90,10 @@ public class MapFileHandler
     public int GetNextTreasure()
     {
         return int.Parse(parsedMapFile[currentIndex++])-1;
+    }
+
+    public int GetNextEnemyType(){
+        return int.Parse(parsedMapFile[currentIndex++])-2;
     }
 
     public List<int> GetNextKeyIDs()

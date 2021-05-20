@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEditor;
+using UnityEngine;
 
 namespace LevelGenerator
 {
@@ -17,6 +18,12 @@ namespace LevelGenerator
          * Prints the tree in the command line in a pretty structure
          * Not being used anymore for quite some time, but is useful if any changes in the tree structure are made
          */
+
+        class parametersDungeon{
+            public
+                int size = 0, linearity = 0, nKeys = 0, enemyType = -1;
+        };
+
         public static void PrintTree(Room root)
         {
             string typeString = "?";
@@ -253,7 +260,7 @@ namespace LevelGenerator
                     //If there is something (room or corridor) print/save
                     else
                     {
-                        Random random = new Random();
+                        System.Random random = new System.Random();
                         //For Unity's dungeon file we need to save the x and y position of the room
                         dungeonData += i + "\n";
                         dungeonData += j + "\n";
@@ -319,7 +326,7 @@ namespace LevelGenerator
                         {
                             Console.Write("{0,2}", map[i, j]);
                             //TODO: save the info about the treasure and difficulty
-                            int difficulty = random.Next(1, 5);
+                            int difficulty = random.Next(1, 5);                            
                             dungeonData += difficulty + "\n"; //Difficulty
                             int treasureValue = random.Next(1, treasureRuntimeSetSO.Items.Count+1);
                             dungeonData += treasureValue + "\n"; //Treasure
@@ -358,6 +365,12 @@ namespace LevelGenerator
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = 0;
+
+                            string narrativePath = "NarrativeJSon/narrative.json"; 
+                            string narrativeText =  Resources.Load<TextAsset>(narrativePath).text;
+                            parametersDungeon pD = JsonConvert.DeserializeObject<parametersDungeon>(narrativeText);
+
+                            roomDataInFile.EnemiesType = pD.enemyType;
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
