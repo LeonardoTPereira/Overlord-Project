@@ -6,9 +6,10 @@ public class DungeonRoom : DungeonPart
     protected Dimensions dimensions; // inicializar valores antes de acessar os tiles
     public int[,] tiles = null;
     public List<int> keyIDs;
-    protected int difficulty, treasure;
+    protected int difficulty, treasure, enemyType;
     public int Treasure { get => treasure; set => treasure = value; }
     public int Difficulty { get => difficulty; set => difficulty = value; }
+    public int EnemyType { get => enemyType; set => enemyType = value; }
     public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
     public RoomBHV roomBHV;
 
@@ -17,6 +18,7 @@ public class DungeonRoom : DungeonPart
         this.keyIDs = keyIDs;
         Treasure = treasure;
         Difficulty = difficulty;
+        EnemyType = enemyType;
     }
 
     public void InitializeTiles()

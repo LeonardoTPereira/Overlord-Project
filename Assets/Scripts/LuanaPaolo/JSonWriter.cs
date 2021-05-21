@@ -7,7 +7,7 @@ public class JSonWriter
     class parametersDungeon
     {
         public
-            int size = 0, linearity = 0, nKeys = 0;
+            int size = 0, linearity = 0, nKeys = 0, enemyType = -1;
     };
 
     class parametersMonsters
@@ -25,19 +25,19 @@ public class JSonWriter
 
         for (int i = 0; i < graph.Count; i++) outString += JsonUtility.ToJson(graph[i]) + "\n";
 
-        File.WriteAllText(Application.dataPath + "/narrative.txt", outString);
+        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/narrative.json", outString);
 
         conversorDungeon(pD, graph);
 
         outString = JsonUtility.ToJson(pD) + "\n";
 
-        File.WriteAllText(Application.dataPath + "/dungeonGenerator.txt", outString);
+        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/dungeonGenerator.json", outString);
 
         conversorMonsters(pM, graph);
 
         outString = JsonUtility.ToJson(pM) + "\n";
 
-        File.WriteAllText(Application.dataPath + "/enemyGenerator.txt", outString);
+        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/enemyGenerator.json", outString);
     }
 
     private void conversorDungeon(parametersDungeon pD, List<Quest> graph)
