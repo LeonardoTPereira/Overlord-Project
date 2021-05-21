@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class TreasureUI : MonoBehaviour
 {
@@ -34,7 +30,7 @@ public class TreasureUI : MonoBehaviour
     public void IncrementTreasure(int amount)
     {
         treasureAmount += amount;
-        treasureText.text = "x "+treasureAmount.ToString();
+        treasureText.text = "x " + treasureAmount.ToString();
     }
 
     public void ResetTreasure(object sender, EventArgs eventArgs)

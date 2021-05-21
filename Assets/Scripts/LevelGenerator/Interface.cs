@@ -1,11 +1,8 @@
 ﻿using EnemyGenerator;
-using LevelGenerator;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -86,10 +83,10 @@ namespace LevelGenerator
             Console.Write("\n");
         }
 
-       /**
-        * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
-        * We now save it directly into a Unity's Resource Directory
-        */
+        /**
+         * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
+         * We now save it directly into a Unity's Resource Directory
+         */
         public static void PrintNumericalGridWithConnections(Dungeon dun, Fitness fitness, TreasureRuntimeSetSO treasureRuntimeSetSO)
         {
             //Data to navigate the dungeon to print
@@ -129,8 +126,8 @@ namespace LevelGenerator
             //hence 2*size
             int[,] map = new int[2 * dun.dimensions.Width, 2 * dun.dimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
-            dungeonData += 2* dun.dimensions.Width + "\n";
-            dungeonData += 2* dun.dimensions.Height + "\n";
+            dungeonData += 2 * dun.dimensions.Width + "\n";
+            dungeonData += 2 * dun.dimensions.Height + "\n";
             dungeonFile.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
             DungeonFile.Room roomDataInFile = null;
             //We initialize the map with the equivalent of an empty cell
@@ -162,7 +159,7 @@ namespace LevelGenerator
                         //Will have to change to an array or something, with 0 treasures and 0 difficulty meaning no treasure and no enemy inside
                         if (type == Type.normal)
                         {
-                            if(actualRoom.IsLeafNode())
+                            if (actualRoom.IsLeafNode())
                                 map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
                             else
                                 map[iPositive * 2, jPositive * 2] = Util.RoomType.EMPTY;
@@ -328,7 +325,7 @@ namespace LevelGenerator
                             //TODO: save the info about the treasure and difficulty
                             int difficulty = random.Next(1, 5);                            
                             dungeonData += difficulty + "\n"; //Difficulty
-                            int treasureValue = random.Next(1, treasureRuntimeSetSO.Items.Count+1);
+                            int treasureValue = random.Next(1, treasureRuntimeSetSO.Items.Count + 1);
                             dungeonData += treasureValue + "\n"; //Treasure
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = treasureValue;
@@ -361,7 +358,7 @@ namespace LevelGenerator
                             Console.Write("{0,2}", map[i, j]);
                             //TODO: save the info about the treasure and difficulty
                             int difficulty = random.Next(4);
-                            dungeonData += random.Next(4)+"\n"; //Difficulty
+                            dungeonData += random.Next(4) + "\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = 0;
@@ -394,19 +391,20 @@ namespace LevelGenerator
             while (path != "")
             {
                 count++;
-                path = AssetDatabase.AssetPathToGUID(foldername + filename +"-"+ count + ".txt");
+                path = AssetDatabase.AssetPathToGUID(foldername + filename + "-" + count + ".txt");
             }
             if (count > 0)
-                filename += "-"+count;
+                filename += "-" + count;
             filename = foldername + filename;
 
-            string json = JsonConvert.SerializeObject(dungeonFile, Formatting.Indented, new JsonSerializerSettings { 
+            string json = JsonConvert.SerializeObject(dungeonFile, Formatting.Indented, new JsonSerializerSettings
+            {
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore
             });
             //UnityEngine.Debug.Log("Filename: " + filename);
 
-            File.WriteAllText(filename+".json", json);
+            File.WriteAllText(filename + ".json", json);
             //Finally, saves the data
             using (StreamWriter writer = new StreamWriter(filename + ".txt", false, Encoding.UTF8))
             {

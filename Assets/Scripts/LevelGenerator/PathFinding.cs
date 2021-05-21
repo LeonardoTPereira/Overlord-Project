@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace LevelGenerator
@@ -31,7 +30,7 @@ namespace LevelGenerator
 
         protected List<int> lockedRooms = new List<int>();
         protected List<int> keys = new List<int>();
-        
+
         protected List<Location> openList = new List<Location>();
         private List<Location> closedList = new List<Location>();
 
@@ -47,10 +46,10 @@ namespace LevelGenerator
         public int NeededLocks { get => neededLocks; set => neededLocks = value; }
 
         // Constructor
-        public PathFinding (Dungeon _dun)
+        public PathFinding(Dungeon _dun)
         {
             dun = _dun.Copy();
-            neededLocks= 0;
+            neededLocks = 0;
 
             grid = dun.roomGrid;
             minX = Constants.MATRIXOFFSET;

@@ -56,7 +56,7 @@ public class ProjectileController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(isSin)
+        if (isSin)
         {
             pos += moveDir * Time.deltaTime * MoveSpeed;
             transform.position = pos + Vector2.Perpendicular(moveDir).normalized * Mathf.Sin(Time.time * frequency) * magnitude;
@@ -93,9 +93,9 @@ public class ProjectileController : MonoBehaviour
                 DestroyBullet();
             }
         }
-        else if(CompareTag("Bullet"))
+        else if (CompareTag("Bullet"))
         {
-            if(collision.gameObject.CompareTag("Enemy"))
+            if (collision.gameObject.CompareTag("Enemy"))
             {
                 quantities.numberEnemies++;
 

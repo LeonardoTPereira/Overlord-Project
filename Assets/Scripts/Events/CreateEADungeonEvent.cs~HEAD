@@ -1,6 +1,6 @@
 ﻿using System;
 
-public delegate void CreateEADungeonEventHandler(object sender, CreateEADungeonEventArgs e);
+public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
 public class CreateEADungeonEventArgs : EventArgs
 {
     protected Fitness fitness;

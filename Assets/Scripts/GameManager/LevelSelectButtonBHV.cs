@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +9,7 @@ public class LevelSelectButtonBHV : MonoBehaviour
     TextMeshProUGUI buttonName;
     Button button;
     Outline outline;
-    public delegate void SelectLevelButtonEvent(LevelConfigSO levelSO);
-    public static event SelectLevelButtonEvent selectLevelButtonEvent;
+    public static event LevelSelectEvent selectLevelButtonEventHandler;
 
     // Start is called before the first frame update
     void Start()
@@ -29,23 +24,23 @@ public class LevelSelectButtonBHV : MonoBehaviour
     }
     protected void OnEnable()
     {
-        selectLevelButtonEvent += DisableOutline;
+        selectLevelButtonEventHandler += DisableOutline;
     }
 
     protected void OnDisable()
     {
-        selectLevelButtonEvent -= DisableOutline;
+        selectLevelButtonEventHandler -= DisableOutline;
     }
 
-    protected void DisableOutline(LevelConfigSO level)
+    protected void DisableOutline(object sender, LevelSelectEventArgs args)
     {
-        if(!level.Equals(levelConfigSO))
+        if (!args.LevelSO.Equals(levelConfigSO))
             outline.enabled = false;
     }
 
     void OnSelectLevel()
     {
         outline.enabled = true;
-        selectLevelButtonEvent(levelConfigSO);
+        selectLevelButtonEventHandler(this, new LevelSelectEventArgs(levelConfigSO));
     }
 }

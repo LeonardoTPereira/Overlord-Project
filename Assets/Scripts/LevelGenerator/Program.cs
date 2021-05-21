@@ -3,12 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
-using TMPro;
-using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace LevelGenerator
 {
@@ -41,7 +36,7 @@ namespace LevelGenerator
             watch = System.Diagnostics.Stopwatch.StartNew();
             dungeons = new List<Dungeon>(Constants.POP_SIZE);
             // Generate the first population
-            for (int i = 0; i < dungeons.Capacity; ++i) 
+            for (int i = 0; i < dungeons.Capacity; ++i)
             {
                 Dungeon individual = new Dungeon();
                 individual.GenerateRooms();

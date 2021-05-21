@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using EnemyGenerator;
+﻿using EnemyGenerator;
 using System.Linq;
+using UnityEngine;
 
 public class EnemyLoader : MonoBehaviour
 {
@@ -14,10 +12,15 @@ public class EnemyLoader : MonoBehaviour
     {
     }
 
-    public void LoadEnemies(int difficulty)
+    public void LoadEnemies(string difficultyFileName)
     {
         string foldername = "Enemies/";
-        switch (difficulty)
+        //TODO definir o nome da subpasta correta de acordo com o que o
+        //arquivo de configuração de inimigos passado como parâmetro definir
+
+        //PAOLO precisa marcar na dungeon qual o inimigo que vai ser escolhido depois dessa etapa
+
+        /*switch (difficulty)
         {
             case 0:
                 foldername += "Easy/";
@@ -28,7 +31,7 @@ public class EnemyLoader : MonoBehaviour
             case 2:
                 foldername += "Hard/";
                 break;
-        }
+        }*/
         bestEnemies = Resources.LoadAll(foldername, typeof(EnemySO)).Cast<EnemySO>().ToArray();
         ApplyDelegates();
     }
@@ -37,7 +40,7 @@ public class EnemyLoader : MonoBehaviour
     {
         //Debug.Log("Begin instantiating");
         GameObject enemy;
-        if(bestEnemies[index].weapon.name == "BombThrower")
+        if (bestEnemies[index].weapon.name == "BombThrower")
             enemy = Instantiate(bomberEnemyPrefab, position, rotation);
         else
             enemy = Instantiate(enemyPrefab, position, rotation);

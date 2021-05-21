@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class FormBHV : MonoBehaviour {
+public class FormBHV : MonoBehaviour
+{
 
     public FormQuestionsData questionsData;
     public GameObject questionPrefab;
@@ -11,10 +11,11 @@ public class FormBHV : MonoBehaviour {
     public float extraQuestionsPanelHeight = 100;
     private List<FormQuestionBHV> questions = new List<FormQuestionBHV>();
     public int formID; //0 for pretest, 1 for posttest
-    
+
     // Use this for initialization
-    void Start () {
-		foreach (FormQuestionData q in questionsData.questions)
+    void Start()
+    {
+        foreach (FormQuestionData q in questionsData.questions)
         {
             GameObject g = (GameObject)Instantiate(questionPrefab);
             g.GetComponent<FormQuestionBHV>().LoadData(q);
@@ -26,16 +27,17 @@ public class FormBHV : MonoBehaviour {
         panelHeight += extraQuestionsPanelHeight;
         questionsPanel.sizeDelta = new Vector2(0.0f, panelHeight);
         submitButton.SetAsLastSibling();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 
-    public void Submit ()
+    // Update is called once per frame
+    void Update()
     {
-        
+
+    }
+
+    public void Submit()
+    {
+
         /*bool isAnswered = true;
         foreach (FormQuestionBHV q in questions)
         {
@@ -44,7 +46,7 @@ public class FormBHV : MonoBehaviour {
         }*/
         /*if (isAnswered)
         {*/
-            //Debug.Log("Answered Correctly");
+        //Debug.Log("Answered Correctly");
         foreach (FormQuestionBHV q in questions)
         {
             int answer = q.value;
@@ -56,12 +58,12 @@ public class FormBHV : MonoBehaviour {
             q.value = 0;
             q.ResetToggles();
         }
-        if(formID == 1)
+        if (formID == 1)
             GameManager.instance.EndGame();
 
-            
 
-            
+
+
         //}
     }
 

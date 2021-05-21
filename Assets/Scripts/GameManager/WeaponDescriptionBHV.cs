@@ -1,6 +1,4 @@
 ﻿using EnemyGenerator;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -33,7 +31,7 @@ public class WeaponDescriptionBHV : MonoBehaviour
     protected string WeaponToString()
     {
         string str = "";
-        str += "\""+ weaponSO.description +"\"\n";
+        str += "\"" + weaponSO.description + "\"\n";
         str += "Dano: " + weaponSO.damage + "\n";
         str += "Velocidade do projétil: " + weaponSO.moveSpeed + "\n";
         str += "Velocidade de ataque: " + weaponSO.atkSpeed + "\n";

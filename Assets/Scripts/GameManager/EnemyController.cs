@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using EnemyGenerator;
+﻿using EnemyGenerator;
 using System;
+using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
@@ -130,7 +128,7 @@ public class EnemyController : MonoBehaviour
             else
                 yOffset = 0;
             targetMoveDir = new Vector3((targetMoveDir.x + xOffset), (targetMoveDir.y + yOffset), 0f);
-            if(hasFixedMoveDir)
+            if (hasFixedMoveDir)
                 hasMoveDirBeenChosen = true;
         }
         transform.position += new Vector3(targetMoveDir.x * movementSpeed * Time.fixedDeltaTime, targetMoveDir.y * movementSpeed * Time.fixedDeltaTime, 0f);
@@ -200,12 +198,12 @@ public class EnemyController : MonoBehaviour
         restTime = enemyData.restTime;
         activeTime = enemyData.activeTime;
         attackSpeed = enemyData.attackSpeed;
-        projectileSpeed = enemyData.projectileSpeed*4;
+        projectileSpeed = enemyData.projectileSpeed * 4;
 
 
         if (enemyData.weapon.name == "Shield")
             weaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, shieldSpawn.transform);
-        else if(enemyData.weapon.name != "None")
+        else if (enemyData.weapon.name != "None")
             weaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, weaponSpawn.transform);
         hasProjectile = enemyData.weapon.hasProjectile;
         if (hasProjectile)
@@ -239,7 +237,7 @@ public class EnemyController : MonoBehaviour
 
     private void ApplyEnemyColors()
     {
-        
+
         originalColor = Color.HSVToRGB(0.0f, Util.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 0, 1.0f) / 1.0f, 1.0f);
         //originalColor = new Color(, 0, 1 - Util.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 30, 225)/225f);
         armsColor = Color.HSVToRGB(0.0f, Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 0, 1.0f) / 1.0f, 1.0f);
@@ -279,7 +277,7 @@ public class EnemyController : MonoBehaviour
             //Debug.Log("It's a bomb");
             bullet.GetComponent<BombController>().damage = damage;
             bullet.GetComponent<BombController>().SetEnemyThatShot(indexOnEnemyList);
-            
+
         }
         else
         {

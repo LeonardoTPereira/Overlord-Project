@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BombController : MonoBehaviour
@@ -40,19 +38,19 @@ public class BombController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hasBeenThrown && !hasTimerBeenSet)
+        if (hasBeenThrown && !hasTimerBeenSet)
         {
             bombCountdown = bombLifetime;
             hasTimerBeenSet = true;
         }
-        if(hasTimerBeenSet && !isExploding)
+        if (hasTimerBeenSet && !isExploding)
         {
             if (bombCountdown >= 0.01f)
                 bombCountdown -= Time.deltaTime;
             else
                 ExplodeBomb();
-            if(!isColliding)
-                if (bombCountdown < (bombLifetime-0.2f))
+            if (!isColliding)
+                if (bombCountdown < (bombLifetime - 0.2f))
                 {
                     isColliding = true;
                     collider.enabled = isColliding;
@@ -85,14 +83,14 @@ public class BombController : MonoBehaviour
     {
         isColliding = false;
         collider.enabled = isColliding;
-        
+
         rb.AddForce(facingDirection, ForceMode2D.Impulse);
         hasBeenThrown = true;
     }
 
     private bool CheckIfStopped()
     {
-        if(rb.velocity.magnitude < 5f)
+        if (rb.velocity.magnitude < 5f)
         {
             return true;
         }
@@ -105,8 +103,8 @@ public class BombController : MonoBehaviour
         audioSrc.PlayOneShot(popSnd, 0.3f);
         isExploding = true;
         Vector3 currScale = transform.localScale;
-        transform.localScale = new Vector3(currScale.x*4, currScale.y*4, currScale.z*1);
-        Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(new Vector2 (rb.position.x, rb.position.y), 1.8f);
+        transform.localScale = new Vector3(currScale.x * 4, currScale.y * 4, currScale.z * 1);
+        Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(new Vector2(rb.position.x, rb.position.y), 1.8f);
         foreach (Collider2D col in objectsInRange)
         {
             if (col.gameObject.CompareTag("Player"))

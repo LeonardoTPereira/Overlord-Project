@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -34,24 +33,25 @@ public class LevelDescriptionDialogueBHV : MonoBehaviour
 
     protected void OnEnable()
     {
-        LevelSelectButtonBHV.selectLevelButtonEvent += ShowLevelInfo;
+        LevelSelectButtonBHV.selectLevelButtonEventHandler += ShowLevelInfo;
     }
 
     protected void OnDisable()
     {
-        LevelSelectButtonBHV.selectLevelButtonEvent -= ShowLevelInfo;
+        LevelSelectButtonBHV.selectLevelButtonEventHandler -= ShowLevelInfo;
     }
 
-    protected void ShowLevelInfo(LevelConfigSO levelConfigSO)
+    protected void ShowLevelInfo(object sender, LevelSelectEventArgs args)
     {
-        levelSelectData = new LevelSelectData(levelConfigSO.enemy, levelConfigSO.size, levelConfigSO.linearity);
+        //TODO Fix this configuration
+        //levelSelectData = new LevelSelectData((int)levelConfigSO.enemyDifficultyInDungeon, (int)levelConfigSO.dungeonSize, (int)levelConfigSO.dungeonLinearity);
         levelDialogue.text = LevelToString();
     }
 
     protected string LevelToString()
     {
         string str = "";
-        str += "Inimigos: " + "<gradient=\"" + levelSelectData.enemyDifficulty.gradient.name + "\">"+ levelSelectData.enemyDifficulty.text + "</gradient>\n";
+        str += "Inimigos: " + "<gradient=\"" + levelSelectData.enemyDifficulty.gradient.name + "\">" + levelSelectData.enemyDifficulty.text + "</gradient>\n";
         str += "Calabouço: " + "<gradient=\"" + levelSelectData.dungeonSize.gradient.name + "\">" + levelSelectData.dungeonSize.text + "</gradient>\n";
         str += "Exploração: " + "<gradient=\"" + levelSelectData.dungeonLinearity.gradient.name + "\">" + levelSelectData.dungeonLinearity.text + "</gradient>\n";
         return str;

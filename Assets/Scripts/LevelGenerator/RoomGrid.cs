@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LevelGenerator
+﻿namespace LevelGenerator
 {
     public class RoomGrid
     {
@@ -18,7 +13,7 @@ namespace LevelGenerator
 
         public RoomGrid()
         {
-            roomGrid = new Room[Constants.MATRIXOFFSET*2, Constants.MATRIXOFFSET*2];
+            roomGrid = new Room[Constants.MATRIXOFFSET * 2, Constants.MATRIXOFFSET * 2];
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 //Thanks to https://bitbucket.org/dandago/experimental/src/7adeb5f8cdfb054b540887d53cabf27e22a10059/AStarPathfinding/?at=master
 namespace LevelGenerator
@@ -36,7 +35,7 @@ namespace LevelGenerator
             List<Location> locksLocation = new List<Location>();
             //List of locations of all the locks since the start of the algorithm
             List<Location> allLocksLocation = new List<Location>();
-            
+
             /*
              *  TODO: Make the A* (or another algorithm) use only the really needed ones, the A* in the search phase opens some unecessary locked doors, but this could be prevented
              *  By making partial A* from the start to the key of the first locked door found, then from the key to the door, from the door to the key to the next locked one, and so on
@@ -63,7 +62,7 @@ namespace LevelGenerator
             minY = matrixOffset;
             maxX = -matrixOffset;
             maxY = -matrixOffset;
-            
+
             //Check all the rooms and add them to the keys and locks lists if they are one of them
             foreach (Room room in dun.RoomList)
             {
@@ -87,7 +86,7 @@ namespace LevelGenerator
             }
 
             //The starting location is room (0,0)
-            start = new Location { X = -2*minX, Y = -2*minY };
+            start = new Location { X = -2 * minX, Y = -2 * minY };
             //List of visited rooms that are not closed yet
             var openList = new List<Location>();
             //List of closed rooms. They were visited and all neighboors explored.
@@ -98,12 +97,12 @@ namespace LevelGenerator
             sizeX = maxX - minX + 1;
             sizeY = maxY - minY + 1;
             //Instantiate the grid
-            int[,] map = new int[2*sizeX, 2*sizeY];
+            int[,] map = new int[2 * sizeX, 2 * sizeY];
 
             //101 is EMPTY
-            for (int i = 0; i < 2*sizeX; ++i)
+            for (int i = 0; i < 2 * sizeX; ++i)
             {
-                for (int j = 0; j < 2*sizeY; ++j)
+                for (int j = 0; j < 2 * sizeY; ++j)
                 {
                     map[i, j] = 101;
                 }
@@ -130,12 +129,12 @@ namespace LevelGenerator
                         //The sequential, positivie index of the key is its representation
                         else if (type == Type.key)
                         {
-                            map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.KeyToOpen)+1;
+                            map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.KeyToOpen) + 1;
                         }
                         //If the room is locked, the room is a normal room, only the corridor is locked. But is the lock is the last one in the sequential order, than the room is the objective
                         else if (type == Type.locked)
                         {
-                            if (lockedRooms.IndexOf(actualRoom.KeyToOpen) == lockedRooms.Count -1)
+                            if (lockedRooms.IndexOf(actualRoom.KeyToOpen) == lockedRooms.Count - 1)
                             {
                                 map[iPositive * 2, jPositive * 2] = 102;
                                 target = new Location { X = iPositive * 2, Y = jPositive * 2 };
@@ -157,8 +156,8 @@ namespace LevelGenerator
                             y = parent.Y - actualRoom.Y + 2 * jPositive;
                             if (type == Type.locked)
                             {
-                                locksLocation.Add(new Location { X = x, Y = y, Parent = new Location { X = 2*(parent.X-actualRoom.X) +2*iPositive, Y = 2 * (parent.Y - actualRoom.Y) + 2 * jPositive } });
-                                map[x, y] = -(keys.IndexOf(actualRoom.KeyToOpen)+1);
+                                locksLocation.Add(new Location { X = x, Y = y, Parent = new Location { X = 2 * (parent.X - actualRoom.X) + 2 * iPositive, Y = 2 * (parent.Y - actualRoom.Y) + 2 * jPositive } });
+                                map[x, y] = -(keys.IndexOf(actualRoom.KeyToOpen) + 1);
                             }
                             //If the connection is open, 100 represents a normal corridor
                             else
@@ -168,11 +167,11 @@ namespace LevelGenerator
                 }
             }
             //Add all the locks location to the list that will hold their values through the execution of the algorithm
-            foreach(var locked in locksLocation)
+            foreach (var locked in locksLocation)
             {
                 allLocksLocation.Add(locked);
             }
-           
+
 
             //start by adding the original position to the open list
             openList.Add(start);
@@ -225,21 +224,21 @@ namespace LevelGenerator
                 // add the current square to the closed list
                 closedList.Add(current);
                 //Check if the actual room is a locked one. If it is, add 1 to the number of locks needed to reach the goal
-                foreach(var locked in allLocksLocation)
+                foreach (var locked in allLocksLocation)
                 {
-                    if(locked.X == current.X && locked.Y == current.Y)
+                    if (locked.X == current.X && locked.Y == current.Y)
                     {
                         //Console.WriteLine("NEED A LOCK");
                         neededLocks++;
                         break;
                     }
                 }
-                
+
                 // remove it from the open list
                 openList.Remove(current);
 
                 // if we added the destination to the closed list, we've found a path
-                if(closedList != null)
+                if (closedList != null)
                     if (closedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
                         break;
 
@@ -291,14 +290,14 @@ namespace LevelGenerator
             var proposedLocations = new List<Location>();
             if (y > 0)
                 proposedLocations.Add(new Location { X = x, Y = y - 1 });
-            if (y < (2 * sizeY)-1)
+            if (y < (2 * sizeY) - 1)
                 proposedLocations.Add(new Location { X = x, Y = y + 1 });
             if (x > 0)
                 proposedLocations.Add(new Location { X = x - 1, Y = y });
-            if (x < (2 * sizeX)-1)
+            if (x < (2 * sizeX) - 1)
                 proposedLocations.Add(new Location { X = x + 1, Y = y });
 
-            return proposedLocations.Where(l => (map[l.X,l.Y] >= 0 && map[l.X,l.Y] != 101)).ToList();
+            return proposedLocations.Where(l => (map[l.X, l.Y] >= 0 && map[l.X, l.Y] != 101)).ToList();
         }
         //Compute the heuristic score, in this case, a Manhattan Distance
         static int ComputeHScore(int x, int y, int targetX, int targetY)

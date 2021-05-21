@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Entities;
-using Unity.Transforms;
-using Unity.Mathematics;
-using EnemyGenerator;
-using UnityEngine.Jobs;
+﻿using EnemyGenerator;
 using Unity.Burst;
 using Unity.Collections;
+using Unity.Entities;
 using Unity.Jobs;
+using Unity.Mathematics;
+using UnityEngine;
+using UnityEngine.Jobs;
 
 #if UNITY_EDITOR
 public class EnemySystem : ComponentSystem
@@ -50,7 +47,7 @@ public class EASystem : JobComponentSystem
         public NativeArray<EnemyComponent> enemyPopulationCopy;
         public NativeArray<WeaponComponent> weaponPopulationCopy;
 
-        public void Execute(Entity entity, int index, [ReadOnly]ref EnemyComponent enemy, [ReadOnly]ref WeaponComponent weapon)
+        public void Execute(Entity entity, int index, [ReadOnly] ref EnemyComponent enemy, [ReadOnly] ref WeaponComponent weapon)
         {
             enemyPopulationCopy[index] = enemy;
             weaponPopulationCopy[index] = weapon;
@@ -65,7 +62,7 @@ public class EASystem : JobComponentSystem
         public NativeArray<WeaponComponent> weaponPopulationCopy;
         [ReadOnly] public int popSize;
 
-        public void Execute(Entity entity, int index, [ReadOnly]ref EnemyComponent enemy, [ReadOnly]ref WeaponComponent weapon)
+        public void Execute(Entity entity, int index, [ReadOnly] ref EnemyComponent enemy, [ReadOnly] ref WeaponComponent weapon)
         {
             enemyPopulationCopy[index - popSize] = enemy;
             weaponPopulationCopy[index - popSize] = weapon;
@@ -92,7 +89,7 @@ public class EASystem : JobComponentSystem
     {
         public NativeArray<float> fitness;
 
-        public void Execute(Entity entity, int index, [ReadOnly]ref EnemyComponent enemy)
+        public void Execute(Entity entity, int index, [ReadOnly] ref EnemyComponent enemy)
         {
             fitness[index] = enemy.fitness;
         }
@@ -331,7 +328,7 @@ public class EASystem : JobComponentSystem
         public float bestFitness;
         public int bestIndex;
         [ReadOnly] public float desiredFitness;
-        public void Execute(Entity entity, int index, [ReadOnly]ref EnemyComponent enemy, [ReadOnly]ref WeaponComponent weapon)
+        public void Execute(Entity entity, int index, [ReadOnly] ref EnemyComponent enemy, [ReadOnly] ref WeaponComponent weapon)
         {
             float auxFitness = math.abs(enemy.fitness - desiredFitness);
             if (auxFitness < bestFitness)

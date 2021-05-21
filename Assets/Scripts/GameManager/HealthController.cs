@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HealthController : MonoBehaviour
 {
@@ -37,7 +35,7 @@ public class HealthController : MonoBehaviour
             }
     }
 
-    public void ApplyDamage(int damage, int enemyIndex =-1)
+    public void ApplyDamage(int damage, int enemyIndex = -1)
     {
         if (!isInvincible)
         {
@@ -45,14 +43,14 @@ public class HealthController : MonoBehaviour
             health -= damage;
             isInvincible = true;
             invincibilityCount = 0f;
-            if(gameObject.CompareTag("Player"))
+            if (gameObject.CompareTag("Player"))
             {
                 if (enemyIndex > -1)
                     PlayerProfile.instance.OnEnemyDoesDamage(enemyIndex, damage);
                 GameManager.instance.healthUI.OnDamage(health);
                 gameObject.GetComponent<PlayerController>().CheckDeath();
             }
-            else if(gameObject.CompareTag("Enemy"))
+            else if (gameObject.CompareTag("Enemy"))
             {
                 gameObject.GetComponent<EnemyController>().CheckDeath();
             }

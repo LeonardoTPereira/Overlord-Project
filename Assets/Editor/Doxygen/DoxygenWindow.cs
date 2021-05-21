@@ -3,28 +3,27 @@ Permission is hereby granted, free of charge, to any person  obtaining a copy of
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using UnityEngine;
-using UnityEditor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using UnityEditor;
+using UnityEngine;
 
 /// <summary> 
 /// <para>A small data structure class hold values for making Doxygen config files </para>
 /// </summary>
 public class DoxygenConfig
 {
-	public string Project = PlayerSettings.productName;
-	public string Synopsis = "";
-	public string Version = "";
-	public string ScriptsDirectory = Application.dataPath;
-	public string DocDirectory = Application.dataPath.Replace("Assets", "Docs");
-	public string PathtoDoxygen = "";
+    public string Project = PlayerSettings.productName;
+    public string Synopsis = "";
+    public string Version = "";
+    public string ScriptsDirectory = Application.dataPath;
+    public string DocDirectory = Application.dataPath.Replace("Assets", "Docs");
+    public string PathtoDoxygen = "";
 
 }
 
@@ -33,244 +32,244 @@ public class DoxygenConfig
 /// <para> Author: Jacob Pennock (http://Jacobpennock.com)</para>
 /// <para> Version: 1.0</para>	 
 /// </summary>
-public class DoxygenWindow : EditorWindow 
+public class DoxygenWindow : EditorWindow
 {
-	public static DoxygenWindow Instance;
-	public enum WindowModes{Generate,Configuration,About}
-	public string UnityProjectID;
-	public string AssestsFolder;
-	public string[] Themes = new string[3] {"Default", "Dark and Colorful", "Light and Clean"};
-	public int SelectedTheme = 1;
-	WindowModes DisplayMode = WindowModes.Generate;
-	static DoxygenConfig Config;
-	static bool DoxyFileExists = false;
-	StringReader reader;
-	TextAsset basefile;
-	float DoxyfileCreateProgress = -1.0f;
-	float DoxyoutputProgress = -1.0f;
-	string CreateProgressString = "Creating Doxyfile..";
-	public string BaseFileString = null;
-	public string DoxygenOutputString = null;
-	public string CurentOutput = null;
-	DoxyThreadSafeOutput DoxygenOutput = null; 
-	List<string> DoxygenLog = null;
-	bool ViewLog = false;
-	Vector2 scroll;
-	bool DocsGenerated = false;
+    public static DoxygenWindow Instance;
+    public enum WindowModes { Generate, Configuration, About }
+    public string UnityProjectID;
+    public string AssestsFolder;
+    public string[] Themes = new string[3] { "Default", "Dark and Colorful", "Light and Clean" };
+    public int SelectedTheme = 1;
+    WindowModes DisplayMode = WindowModes.Generate;
+    static DoxygenConfig Config;
+    static bool DoxyFileExists = false;
+    StringReader reader;
+    TextAsset basefile;
+    float DoxyfileCreateProgress = -1.0f;
+    float DoxyoutputProgress = -1.0f;
+    string CreateProgressString = "Creating Doxyfile..";
+    public string BaseFileString = null;
+    public string DoxygenOutputString = null;
+    public string CurentOutput = null;
+    DoxyThreadSafeOutput DoxygenOutput = null;
+    List<string> DoxygenLog = null;
+    bool ViewLog = false;
+    Vector2 scroll;
+    bool DocsGenerated = false;
 
-	[MenuItem( "Window/Documentation with Doxygen" )]
-	public static void Init()
-	{
-		Instance = (DoxygenWindow)EditorWindow.GetWindow( typeof( DoxygenWindow ), false, "Documentation" );
-		Instance.minSize = new Vector2( 420, 245 );
-		Instance.maxSize = new Vector2( 420, 720 );
+    [MenuItem("Window/Documentation with Doxygen")]
+    public static void Init()
+    {
+        Instance = (DoxygenWindow)EditorWindow.GetWindow(typeof(DoxygenWindow), false, "Documentation");
+        Instance.minSize = new Vector2(420, 245);
+        Instance.maxSize = new Vector2(420, 720);
 
-	}
+    }
 
-	void OnEnable()
-	{
-		UnityProjectID = PlayerSettings.productName + ":";
-		AssestsFolder = Application.dataPath;
-		LoadConfig();
-		DoxyoutputProgress = 0;
-	}
+    void OnEnable()
+    {
+        UnityProjectID = PlayerSettings.productName + ":";
+        AssestsFolder = Application.dataPath;
+        LoadConfig();
+        DoxyoutputProgress = 0;
+    }
 
-	void OnDisable()
-	{
-		DoxyoutputProgress = 0;
-		DoxygenLog = null;
-	}
+    void OnDisable()
+    {
+        DoxyoutputProgress = 0;
+        DoxygenLog = null;
+    }
 
-	void OnGUI()
-	{
-		DisplayHeadingToolbar();
-		switch(DisplayMode)
-		{
-			case WindowModes.Generate:
-				GenerateGUI();
-			break;
+    void OnGUI()
+    {
+        DisplayHeadingToolbar();
+        switch (DisplayMode)
+        {
+            case WindowModes.Generate:
+                GenerateGUI();
+                break;
 
-			case WindowModes.Configuration:
-				ConfigGUI();
-			break;
+            case WindowModes.Configuration:
+                ConfigGUI();
+                break;
 
-			case WindowModes.About:
-				AboutGUI();
-			break;
-		}
-	}
+            case WindowModes.About:
+                AboutGUI();
+                break;
+        }
+    }
 
-	void DisplayHeadingToolbar()
-	{
-		GUIStyle normalButton = new GUIStyle( EditorStyles.toolbarButton );
-		normalButton.fixedWidth = 140;
-		GUILayout.Space (5);
-		EditorGUILayout.BeginHorizontal( EditorStyles.toolbar );
-		{
-			if( GUILayout.Toggle( DisplayMode == WindowModes.Generate, "Generate Documentation", normalButton ) )
-			{
-				DoxyfileCreateProgress = -1;
-				DisplayMode = WindowModes.Generate;
-			}
-			if( GUILayout.Toggle( DisplayMode == WindowModes.Configuration, "Settings/Configuration", normalButton ) )
-			{
-				DisplayMode = WindowModes.Configuration;
-			}
-			if( GUILayout.Toggle( DisplayMode == WindowModes.About, "About", normalButton ) )
-			{
-				DoxyfileCreateProgress = -1;
-				DisplayMode = WindowModes.About;
-			}
-		}
-		EditorGUILayout.EndHorizontal();
-	}	
+    void DisplayHeadingToolbar()
+    {
+        GUIStyle normalButton = new GUIStyle(EditorStyles.toolbarButton);
+        normalButton.fixedWidth = 140;
+        GUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        {
+            if (GUILayout.Toggle(DisplayMode == WindowModes.Generate, "Generate Documentation", normalButton))
+            {
+                DoxyfileCreateProgress = -1;
+                DisplayMode = WindowModes.Generate;
+            }
+            if (GUILayout.Toggle(DisplayMode == WindowModes.Configuration, "Settings/Configuration", normalButton))
+            {
+                DisplayMode = WindowModes.Configuration;
+            }
+            if (GUILayout.Toggle(DisplayMode == WindowModes.About, "About", normalButton))
+            {
+                DoxyfileCreateProgress = -1;
+                DisplayMode = WindowModes.About;
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+    }
 
-	void ConfigGUI()
-	{
-		GUILayout.Space (10);
-		if(Config.Project == "Enter your Project name (Required)" || Config.Project == "" || Config.PathtoDoxygen == "" )
-			GUI.enabled = false;
-		if(GUILayout.Button ("Save Configuration and Build new DoxyFile", GUILayout.Height(40)))
-		{
-			MakeNewDoxyFile(Config);
-		}
-		if(DoxyfileCreateProgress >= 0)
-		{
-			Rect r = EditorGUILayout.BeginVertical();
-			EditorGUI.ProgressBar(r, DoxyfileCreateProgress, CreateProgressString);
-			GUILayout.Space(16);
-			EditorGUILayout.EndVertical();
-		}
-		GUI.enabled = true;
+    void ConfigGUI()
+    {
+        GUILayout.Space(10);
+        if (Config.Project == "Enter your Project name (Required)" || Config.Project == "" || Config.PathtoDoxygen == "")
+            GUI.enabled = false;
+        if (GUILayout.Button("Save Configuration and Build new DoxyFile", GUILayout.Height(40)))
+        {
+            MakeNewDoxyFile(Config);
+        }
+        if (DoxyfileCreateProgress >= 0)
+        {
+            Rect r = EditorGUILayout.BeginVertical();
+            EditorGUI.ProgressBar(r, DoxyfileCreateProgress, CreateProgressString);
+            GUILayout.Space(16);
+            EditorGUILayout.EndVertical();
+        }
+        GUI.enabled = true;
 
-		GUILayout.Space (20);
-		GUILayout.Label("Set Path to Doxygen Install",EditorStyles.boldLabel);
-		GUILayout.Space (5);
-		EditorGUILayout.BeginHorizontal();
-		Config.PathtoDoxygen = EditorGUILayout.TextField("Doxygen.exe : ",Config.PathtoDoxygen);
-		if(GUILayout.Button ("...",EditorStyles.miniButtonRight, GUILayout.Width(22)))
-			 Config.PathtoDoxygen = EditorUtility.OpenFilePanel  ("Where is doxygen.exe installed?","", "");
-		EditorGUILayout.EndHorizontal();
+        GUILayout.Space(20);
+        GUILayout.Label("Set Path to Doxygen Install", EditorStyles.boldLabel);
+        GUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal();
+        Config.PathtoDoxygen = EditorGUILayout.TextField("Doxygen.exe : ", Config.PathtoDoxygen);
+        if (GUILayout.Button("...", EditorStyles.miniButtonRight, GUILayout.Width(22)))
+            Config.PathtoDoxygen = EditorUtility.OpenFilePanel("Where is doxygen.exe installed?", "", "");
+        EditorGUILayout.EndHorizontal();
 
 
-		GUILayout.Space (20);
-		GUILayout.Label("Provide some details about the project",EditorStyles.boldLabel);
-		GUILayout.Space (5);
-		Config.Project = EditorGUILayout.TextField("Project Name: ",Config.Project);
-		Config.Synopsis = EditorGUILayout.TextField("Project Brief: ",Config.Synopsis);
-		Config.Version = EditorGUILayout.TextField("Project Version: ",Config.Version);
-		
-		GUILayout.Space (15);
-		GUILayout.Label("Select Theme",EditorStyles.boldLabel);
-		GUILayout.Space (5);
-		SelectedTheme = EditorGUILayout.Popup(SelectedTheme,Themes) ;		
+        GUILayout.Space(20);
+        GUILayout.Label("Provide some details about the project", EditorStyles.boldLabel);
+        GUILayout.Space(5);
+        Config.Project = EditorGUILayout.TextField("Project Name: ", Config.Project);
+        Config.Synopsis = EditorGUILayout.TextField("Project Brief: ", Config.Synopsis);
+        Config.Version = EditorGUILayout.TextField("Project Version: ", Config.Version);
 
-		GUILayout.Space (20);
-		GUILayout.Label("Setup the Directories",EditorStyles.boldLabel);
-		GUILayout.Space (5);
-		EditorGUILayout.BeginHorizontal();
-		Config.ScriptsDirectory = EditorGUILayout.TextField("Scripts folder: ",Config.ScriptsDirectory);
-		if(GUILayout.Button ("...",EditorStyles.miniButtonRight, GUILayout.Width(22)))
-			 Config.ScriptsDirectory = EditorUtility.OpenFolderPanel("Select your scripts folder", Config.ScriptsDirectory, "");
-		EditorGUILayout.EndHorizontal();
-		GUILayout.Space (5);
-		EditorGUILayout.BeginHorizontal();
-		Config.DocDirectory = EditorGUILayout.TextField("Output folder: ",Config.DocDirectory);
-		if(GUILayout.Button ("...",EditorStyles.miniButtonRight, GUILayout.Width(22)))
-			 Config.DocDirectory = EditorUtility.OpenFolderPanel("Select your ouput Docs folder", Config.DocDirectory, "");
-		EditorGUILayout.EndHorizontal();
-		GUILayout.Space (5);
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Space (5);
-		GUILayout.Space (30);
-		GUILayout.Label("By default Doxygen will search through your whole Assets folder for C# script files to document. Then it will output the documentation it generates into a folder called \"Docs\" that is placed in your project folder next to the Assets folder. If you would like to set a specific script or output folder you can do so above. ",EditorStyles.wordWrappedMiniLabel);
-		GUILayout.Space (30);
-		EditorGUILayout.EndHorizontal();
-	}
+        GUILayout.Space(15);
+        GUILayout.Label("Select Theme", EditorStyles.boldLabel);
+        GUILayout.Space(5);
+        SelectedTheme = EditorGUILayout.Popup(SelectedTheme, Themes);
 
-	void AboutGUI()
-	{
-		GUIStyle CenterLable = new GUIStyle(EditorStyles.largeLabel);
-		GUIStyle littletext = new GUIStyle(EditorStyles.miniLabel) ;
-		CenterLable.alignment = TextAnchor.MiddleCenter;
-		GUILayout.Space (20);
-		GUILayout.Label( "Automatic C# Documentation Generation through Doxygen",CenterLable);
-		GUILayout.Label( "Version: 1.0",CenterLable);
-		GUILayout.Label( "By: Jacob Pennock",CenterLable);
+        GUILayout.Space(20);
+        GUILayout.Label("Setup the Directories", EditorStyles.boldLabel);
+        GUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal();
+        Config.ScriptsDirectory = EditorGUILayout.TextField("Scripts folder: ", Config.ScriptsDirectory);
+        if (GUILayout.Button("...", EditorStyles.miniButtonRight, GUILayout.Width(22)))
+            Config.ScriptsDirectory = EditorUtility.OpenFolderPanel("Select your scripts folder", Config.ScriptsDirectory, "");
+        EditorGUILayout.EndHorizontal();
+        GUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal();
+        Config.DocDirectory = EditorGUILayout.TextField("Output folder: ", Config.DocDirectory);
+        if (GUILayout.Button("...", EditorStyles.miniButtonRight, GUILayout.Width(22)))
+            Config.DocDirectory = EditorUtility.OpenFolderPanel("Select your ouput Docs folder", Config.DocDirectory, "");
+        EditorGUILayout.EndHorizontal();
+        GUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(5);
+        GUILayout.Space(30);
+        GUILayout.Label("By default Doxygen will search through your whole Assets folder for C# script files to document. Then it will output the documentation it generates into a folder called \"Docs\" that is placed in your project folder next to the Assets folder. If you would like to set a specific script or output folder you can do so above. ", EditorStyles.wordWrappedMiniLabel);
+        GUILayout.Space(30);
+        EditorGUILayout.EndHorizontal();
+    }
 
-		GUILayout.Space (20);
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Space (20);
-		GUILayout.Label( "Follow me for more Unity tips and tricks",littletext);
-		GUILayout.Space (15);
-		if(GUILayout.Button( "twitter"))
-			Application.OpenURL("http://twitter.com/@JacobPennock");
-		GUILayout.Space (20);
-		EditorGUILayout.EndHorizontal();
+    void AboutGUI()
+    {
+        GUIStyle CenterLable = new GUIStyle(EditorStyles.largeLabel);
+        GUIStyle littletext = new GUIStyle(EditorStyles.miniLabel);
+        CenterLable.alignment = TextAnchor.MiddleCenter;
+        GUILayout.Space(20);
+        GUILayout.Label("Automatic C# Documentation Generation through Doxygen", CenterLable);
+        GUILayout.Label("Version: 1.0", CenterLable);
+        GUILayout.Label("By: Jacob Pennock", CenterLable);
 
-		GUILayout.Space (10);
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Space (20);
-		GUILayout.Label( "Visit my site for more plugins and tutorials",littletext);
-		if(GUILayout.Button( "JacobPennock.com"))
-			Application.OpenURL("http://www.jacobpennock.com/Blog/?cat=19");
-		GUILayout.Space (20);
-		EditorGUILayout.EndHorizontal();
-	}
+        GUILayout.Space(20);
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(20);
+        GUILayout.Label("Follow me for more Unity tips and tricks", littletext);
+        GUILayout.Space(15);
+        if (GUILayout.Button("twitter"))
+            Application.OpenURL("http://twitter.com/@JacobPennock");
+        GUILayout.Space(20);
+        EditorGUILayout.EndHorizontal();
 
-	void GenerateGUI()
-	{
-		if(DoxyFileExists)
-		{
-			//UnityEngine.Debug.Log(DoxyoutputProgress);
-			GUILayout.Space (10);
-			if(!DocsGenerated)
-				GUI.enabled = false;
-			if(GUILayout.Button ("Browse Documentation", GUILayout.Height(40)))
-				Application.OpenURL("File://"+Config.DocDirectory+"/html/annotated.html");
-			GUI.enabled = true;	
+        GUILayout.Space(10);
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(20);
+        GUILayout.Label("Visit my site for more plugins and tutorials", littletext);
+        if (GUILayout.Button("JacobPennock.com"))
+            Application.OpenURL("http://www.jacobpennock.com/Blog/?cat=19");
+        GUILayout.Space(20);
+        EditorGUILayout.EndHorizontal();
+    }
 
-			if(DoxygenOutput == null)
-			{
-				if(GUILayout.Button ("Run Doxygen", GUILayout.Height(40)))
-				{
-					DocsGenerated = false;
-					RunDoxygen();
-				}
-					
-				if(DocsGenerated && DoxygenLog != null)
-				{
-					if(GUILayout.Button( "View Doxygen Log",EditorStyles.toolbarDropDown))
-						ViewLog = !ViewLog;
-					if(ViewLog)
-					{
-						scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.ExpandHeight(true));
-						foreach(string logitem in DoxygenLog)
-						{
-							EditorGUILayout.SelectableLabel(logitem,EditorStyles.miniLabel,GUILayout.ExpandWidth(true));
-						}
-		            	EditorGUILayout.EndScrollView();
-					}
-				}
-			}
-			else
-			{
-				if(DoxygenOutput.isStarted() && !DoxygenOutput.isFinished())
-				{
-					string currentline = DoxygenOutput.ReadLine();
-					DoxyoutputProgress = DoxyoutputProgress + 0.1f;
-					if(DoxyoutputProgress >= 0.9f)
-						DoxyoutputProgress = 0.75f;
-					Rect r = EditorGUILayout.BeginVertical();
-					EditorGUI.ProgressBar(r, DoxyoutputProgress,currentline );
-					GUILayout.Space(40);
-					EditorGUILayout.EndVertical();
-				}
-	        	if(DoxygenOutput.isFinished())
-	        	{
-	        		if (Event.current.type == EventType.Repaint)
-					{
-						/*
+    void GenerateGUI()
+    {
+        if (DoxyFileExists)
+        {
+            //UnityEngine.Debug.Log(DoxyoutputProgress);
+            GUILayout.Space(10);
+            if (!DocsGenerated)
+                GUI.enabled = false;
+            if (GUILayout.Button("Browse Documentation", GUILayout.Height(40)))
+                Application.OpenURL("File://" + Config.DocDirectory + "/html/annotated.html");
+            GUI.enabled = true;
+
+            if (DoxygenOutput == null)
+            {
+                if (GUILayout.Button("Run Doxygen", GUILayout.Height(40)))
+                {
+                    DocsGenerated = false;
+                    RunDoxygen();
+                }
+
+                if (DocsGenerated && DoxygenLog != null)
+                {
+                    if (GUILayout.Button("View Doxygen Log", EditorStyles.toolbarDropDown))
+                        ViewLog = !ViewLog;
+                    if (ViewLog)
+                    {
+                        scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.ExpandHeight(true));
+                        foreach (string logitem in DoxygenLog)
+                        {
+                            EditorGUILayout.SelectableLabel(logitem, EditorStyles.miniLabel, GUILayout.ExpandWidth(true));
+                        }
+                        EditorGUILayout.EndScrollView();
+                    }
+                }
+            }
+            else
+            {
+                if (DoxygenOutput.isStarted() && !DoxygenOutput.isFinished())
+                {
+                    string currentline = DoxygenOutput.ReadLine();
+                    DoxyoutputProgress = DoxyoutputProgress + 0.1f;
+                    if (DoxyoutputProgress >= 0.9f)
+                        DoxyoutputProgress = 0.75f;
+                    Rect r = EditorGUILayout.BeginVertical();
+                    EditorGUI.ProgressBar(r, DoxyoutputProgress, currentline);
+                    GUILayout.Space(40);
+                    EditorGUILayout.EndVertical();
+                }
+                if (DoxygenOutput.isFinished())
+                {
+                    if (Event.current.type == EventType.Repaint)
+                    {
+                        /*
 						If you look at what SetTheme is doing, I know, it seems a little scary to be 
 						calling file moving operations from inside a an OnGUI call like this. And 
 						maybe it would be a better choice to call SetTheme and update these other vars
@@ -286,166 +285,166 @@ public class DoxygenWindow : EditorWindow
 
 						Doing them here seems to work every time and the Repaint event check ensures that they will only be done once.
 						*/
-						SetTheme(SelectedTheme);
-		        		DoxygenLog = DoxygenOutput.ReadFullLog();
-		        		DoxyoutputProgress = -1.0f;
-		        		DoxygenOutput = null;
-	        			DocsGenerated = true;
-	        			EditorPrefs.SetBool(UnityProjectID+"DocsGenerated",DocsGenerated);
-					}
-	        	}
-			}
-		}
-		else
-		{
-			GUIStyle ErrorLabel = new GUIStyle(EditorStyles.largeLabel);
-			ErrorLabel.alignment = TextAnchor.MiddleCenter;
-			GUILayout.Space(20);
-			GUI.contentColor = Color.red;
-			GUILayout.Label("You must set the path to your Doxygen install and \nbuild a new Doxyfile before you can generate documentation",ErrorLabel);
-		}
-	}
+                        SetTheme(SelectedTheme);
+                        DoxygenLog = DoxygenOutput.ReadFullLog();
+                        DoxyoutputProgress = -1.0f;
+                        DoxygenOutput = null;
+                        DocsGenerated = true;
+                        EditorPrefs.SetBool(UnityProjectID + "DocsGenerated", DocsGenerated);
+                    }
+                }
+            }
+        }
+        else
+        {
+            GUIStyle ErrorLabel = new GUIStyle(EditorStyles.largeLabel);
+            ErrorLabel.alignment = TextAnchor.MiddleCenter;
+            GUILayout.Space(20);
+            GUI.contentColor = Color.red;
+            GUILayout.Label("You must set the path to your Doxygen install and \nbuild a new Doxyfile before you can generate documentation", ErrorLabel);
+        }
+    }
 
-	public void readBaseConfig()
-	{
-		basefile = (TextAsset)Resources.Load("BaseDoxyfile", typeof(TextAsset));
-		reader = new StringReader(basefile.text);
-		if ( reader == null )
-		   UnityEngine.Debug.LogError("BaseDoxyfile not found or not readable");
-		else
-		   BaseFileString = reader.ReadToEnd();
-	}
+    public void readBaseConfig()
+    {
+        basefile = (TextAsset)Resources.Load("BaseDoxyfile", typeof(TextAsset));
+        reader = new StringReader(basefile.text);
+        if (reader == null)
+            UnityEngine.Debug.LogError("BaseDoxyfile not found or not readable");
+        else
+            BaseFileString = reader.ReadToEnd();
+    }
 
-	public void MakeNewDoxyFile(DoxygenConfig config)
-	{
-		SaveConfigtoEditor(config);
-		CreateProgressString = "Creating Output Folder";
-		DoxyfileCreateProgress = 0.1f;
-		System.IO.Directory.CreateDirectory(config.DocDirectory);
+    public void MakeNewDoxyFile(DoxygenConfig config)
+    {
+        SaveConfigtoEditor(config);
+        CreateProgressString = "Creating Output Folder";
+        DoxyfileCreateProgress = 0.1f;
+        System.IO.Directory.CreateDirectory(config.DocDirectory);
 
-		DoxyfileCreateProgress = 0.1f;
-		string newfile = BaseFileString.Replace("PROJECT_NAME           =", "PROJECT_NAME           = "+"\""+config.Project+"\"");
-		DoxyfileCreateProgress = 0.2f;
-		newfile = newfile.Replace("PROJECT_NUMBER         =", "PROJECT_NUMBER         = "+config.Version);
-		DoxyfileCreateProgress = 0.3f;
-		newfile = newfile.Replace("PROJECT_BRIEF          =", "PROJECT_BRIEF          = "+"\""+config.Synopsis+"\"");
-		DoxyfileCreateProgress = 0.4f;
-		newfile = newfile.Replace("OUTPUT_DIRECTORY       =", "OUTPUT_DIRECTORY       = "+"\""+config.DocDirectory+"\"");
-		DoxyfileCreateProgress = 0.5f;
-		newfile = newfile.Replace("INPUT                  =", "INPUT                  = "+"\""+config.ScriptsDirectory+"\"");
-		DoxyfileCreateProgress = 0.6f;
+        DoxyfileCreateProgress = 0.1f;
+        string newfile = BaseFileString.Replace("PROJECT_NAME           =", "PROJECT_NAME           = " + "\"" + config.Project + "\"");
+        DoxyfileCreateProgress = 0.2f;
+        newfile = newfile.Replace("PROJECT_NUMBER         =", "PROJECT_NUMBER         = " + config.Version);
+        DoxyfileCreateProgress = 0.3f;
+        newfile = newfile.Replace("PROJECT_BRIEF          =", "PROJECT_BRIEF          = " + "\"" + config.Synopsis + "\"");
+        DoxyfileCreateProgress = 0.4f;
+        newfile = newfile.Replace("OUTPUT_DIRECTORY       =", "OUTPUT_DIRECTORY       = " + "\"" + config.DocDirectory + "\"");
+        DoxyfileCreateProgress = 0.5f;
+        newfile = newfile.Replace("INPUT                  =", "INPUT                  = " + "\"" + config.ScriptsDirectory + "\"");
+        DoxyfileCreateProgress = 0.6f;
 
-		switch(SelectedTheme)
-		{
-			case 0:
-				newfile = newfile.Replace("GENERATE_TREEVIEW      = NO", "GENERATE_TREEVIEW      = YES");
-			break;
-			case 1:
-				newfile = newfile.Replace("SEARCHENGINE           = YES", "SEARCHENGINE           = NO");
-				newfile = newfile.Replace("CLASS_DIAGRAMS         = YES", "CLASS_DIAGRAMS         = NO");
-			break;
-		}
+        switch (SelectedTheme)
+        {
+            case 0:
+                newfile = newfile.Replace("GENERATE_TREEVIEW      = NO", "GENERATE_TREEVIEW      = YES");
+                break;
+            case 1:
+                newfile = newfile.Replace("SEARCHENGINE           = YES", "SEARCHENGINE           = NO");
+                newfile = newfile.Replace("CLASS_DIAGRAMS         = YES", "CLASS_DIAGRAMS         = NO");
+                break;
+        }
 
-		CreateProgressString = "New Options Set";
+        CreateProgressString = "New Options Set";
 
-		StringBuilder sb = new StringBuilder();
-		sb.Append(newfile);
+        StringBuilder sb = new StringBuilder();
+        sb.Append(newfile);
         StreamWriter NewDoxyfile = new StreamWriter(config.DocDirectory + @"\Doxyfile");
-        
+
         NewDoxyfile.Write(sb.ToString());
         NewDoxyfile.Close();
         DoxyfileCreateProgress = 1.0f;
         CreateProgressString = "New Doxyfile Created!";
         DoxyFileExists = true;
-        EditorPrefs.SetBool(UnityProjectID+"DoxyFileExists",DoxyFileExists);
-	}
+        EditorPrefs.SetBool(UnityProjectID + "DoxyFileExists", DoxyFileExists);
+    }
 
-	void SaveConfigtoEditor(DoxygenConfig config)
-	{
-		EditorPrefs.SetString(UnityProjectID+"DoxyProjectName",config.Project);
-		EditorPrefs.SetString(UnityProjectID+"DoxyProjectNumber",config.Version);
-		EditorPrefs.SetString(UnityProjectID+"DoxyProjectBrief",config.Synopsis);
-		EditorPrefs.SetString(UnityProjectID+"DoxyProjectFolder",config.ScriptsDirectory);
-		EditorPrefs.SetString(UnityProjectID+"DoxyProjectOutput",config.DocDirectory);
-		EditorPrefs.SetString("DoxyEXE", config.PathtoDoxygen);
-		EditorPrefs.SetInt(UnityProjectID+"DoxyTheme", SelectedTheme);
-	}
+    void SaveConfigtoEditor(DoxygenConfig config)
+    {
+        EditorPrefs.SetString(UnityProjectID + "DoxyProjectName", config.Project);
+        EditorPrefs.SetString(UnityProjectID + "DoxyProjectNumber", config.Version);
+        EditorPrefs.SetString(UnityProjectID + "DoxyProjectBrief", config.Synopsis);
+        EditorPrefs.SetString(UnityProjectID + "DoxyProjectFolder", config.ScriptsDirectory);
+        EditorPrefs.SetString(UnityProjectID + "DoxyProjectOutput", config.DocDirectory);
+        EditorPrefs.SetString("DoxyEXE", config.PathtoDoxygen);
+        EditorPrefs.SetInt(UnityProjectID + "DoxyTheme", SelectedTheme);
+    }
 
-	void LoadConfig()
-	{
-		if(BaseFileString == null)
-			readBaseConfig();
-		if(Config == null)
-		{
-			if(!LoadSavedConfig())
-				Config = new DoxygenConfig();
-		}	
-		if(EditorPrefs.HasKey(UnityProjectID+"DoxyFileExists"))
-			DoxyFileExists = EditorPrefs.GetBool(UnityProjectID+"DoxyFileExists");
-		if(EditorPrefs.HasKey(UnityProjectID+"DocsGenerated"))
-			DocsGenerated = EditorPrefs.GetBool(UnityProjectID+"DocsGenerated");
-		if(EditorPrefs.HasKey(UnityProjectID+"DoxyTheme"))
-			SelectedTheme = EditorPrefs.GetInt(UnityProjectID+"DoxyTheme");
-		if(EditorPrefs.HasKey("DoxyEXE"))
-			Config.PathtoDoxygen = EditorPrefs.GetString("DoxyEXE");
-	}
+    void LoadConfig()
+    {
+        if (BaseFileString == null)
+            readBaseConfig();
+        if (Config == null)
+        {
+            if (!LoadSavedConfig())
+                Config = new DoxygenConfig();
+        }
+        if (EditorPrefs.HasKey(UnityProjectID + "DoxyFileExists"))
+            DoxyFileExists = EditorPrefs.GetBool(UnityProjectID + "DoxyFileExists");
+        if (EditorPrefs.HasKey(UnityProjectID + "DocsGenerated"))
+            DocsGenerated = EditorPrefs.GetBool(UnityProjectID + "DocsGenerated");
+        if (EditorPrefs.HasKey(UnityProjectID + "DoxyTheme"))
+            SelectedTheme = EditorPrefs.GetInt(UnityProjectID + "DoxyTheme");
+        if (EditorPrefs.HasKey("DoxyEXE"))
+            Config.PathtoDoxygen = EditorPrefs.GetString("DoxyEXE");
+    }
 
-	bool LoadSavedConfig()
-	{
-		if( EditorPrefs.HasKey (UnityProjectID+"DoxyProjectName"))
-		{
-			Config = new DoxygenConfig();
-			Config.Project = EditorPrefs.GetString(UnityProjectID+"DoxyProjectName");
-			Config.Version = EditorPrefs.GetString(UnityProjectID+"DoxyProjectNumber");
-			Config.Synopsis = EditorPrefs.GetString(UnityProjectID+"DoxyProjectBrief");
-			Config.DocDirectory = EditorPrefs.GetString(UnityProjectID+"DoxyProjectOutput");
-			Config.ScriptsDirectory = EditorPrefs.GetString(UnityProjectID+"DoxyProjectFolder");				
-			return true;
-		}
-		return false;
-	}
+    bool LoadSavedConfig()
+    {
+        if (EditorPrefs.HasKey(UnityProjectID + "DoxyProjectName"))
+        {
+            Config = new DoxygenConfig();
+            Config.Project = EditorPrefs.GetString(UnityProjectID + "DoxyProjectName");
+            Config.Version = EditorPrefs.GetString(UnityProjectID + "DoxyProjectNumber");
+            Config.Synopsis = EditorPrefs.GetString(UnityProjectID + "DoxyProjectBrief");
+            Config.DocDirectory = EditorPrefs.GetString(UnityProjectID + "DoxyProjectOutput");
+            Config.ScriptsDirectory = EditorPrefs.GetString(UnityProjectID + "DoxyProjectFolder");
+            return true;
+        }
+        return false;
+    }
 
-	public static void OnDoxygenFinished(int code)
-	{
-		if(code != 0)
-		{
-			UnityEngine.Debug.LogError("Doxygen finsished with Error: return code " + code +"\nCheck the Doxgen Log for Errors.\nAlso try regenerating your Doxyfile,\nyou will new to close and reopen the\ndocumentation window before regenerating.");
-		}
-	}
+    public static void OnDoxygenFinished(int code)
+    {
+        if (code != 0)
+        {
+            UnityEngine.Debug.LogError("Doxygen finsished with Error: return code " + code + "\nCheck the Doxgen Log for Errors.\nAlso try regenerating your Doxyfile,\nyou will new to close and reopen the\ndocumentation window before regenerating.");
+        }
+    }
 
-	void SetTheme(int theme)
-	{
-		switch(theme)
-		{
-			case 1:
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/DarkTheme/doxygen.css", Config.DocDirectory+"/html/doxygen.css");
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/DarkTheme/tabs.css", Config.DocDirectory+"/html/tabs.css");
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/DarkTheme/img_downArrow.png", Config.DocDirectory+"/html/img_downArrow.png");
-			break;
-			case 2:
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/doxygen.css", Config.DocDirectory+"/html/doxygen.css");
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/tabs.css", Config.DocDirectory+"/html/tabs.css");
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/img_downArrow.png", Config.DocDirectory+"/html/img_downArrow.png");
-    			FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/background_navigation.png", Config.DocDirectory+"/html/background_navigation.png");
-			break;
-		}
-	}
+    void SetTheme(int theme)
+    {
+        switch (theme)
+        {
+            case 1:
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/DarkTheme/doxygen.css", Config.DocDirectory + "/html/doxygen.css");
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/DarkTheme/tabs.css", Config.DocDirectory + "/html/tabs.css");
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/DarkTheme/img_downArrow.png", Config.DocDirectory + "/html/img_downArrow.png");
+                break;
+            case 2:
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/doxygen.css", Config.DocDirectory + "/html/doxygen.css");
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/tabs.css", Config.DocDirectory + "/html/tabs.css");
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/img_downArrow.png", Config.DocDirectory + "/html/img_downArrow.png");
+                FileUtil.ReplaceFile(AssestsFolder + "/Editor/Doxygen/Resources/LightTheme/background_navigation.png", Config.DocDirectory + "/html/background_navigation.png");
+                break;
+        }
+    }
 
-	public void RunDoxygen()
-	{
-		string[] Args = new string[1];
-		Args[0] = Config.DocDirectory + "/Doxyfile";
+    public void RunDoxygen()
+    {
+        string[] Args = new string[1];
+        Args[0] = Config.DocDirectory + "/Doxyfile";
 
-      	DoxygenOutput = new DoxyThreadSafeOutput();
-      	DoxygenOutput.SetStarted();
+        DoxygenOutput = new DoxyThreadSafeOutput();
+        DoxygenOutput.SetStarted();
 
-      	Action<int> setcallback = (int returnCode) => OnDoxygenFinished(returnCode);
+        Action<int> setcallback = (int returnCode) => OnDoxygenFinished(returnCode);
 
-      	DoxyRunner Doxygen = new DoxyRunner(Config.PathtoDoxygen,Args,DoxygenOutput,setcallback);
+        DoxyRunner Doxygen = new DoxyRunner(Config.PathtoDoxygen, Args, DoxygenOutput, setcallback);
 
-      	Thread DoxygenThread = new Thread(new ThreadStart(Doxygen.RunThreadedDoxy));
-      	DoxygenThread.Start();
-	}
+        Thread DoxygenThread = new Thread(new ThreadStart(Doxygen.RunThreadedDoxy));
+        DoxygenThread.Start();
+    }
 
 }
 
@@ -455,37 +454,37 @@ public class DoxygenWindow : EditorWindow
 /// </summary>
 public class DoxyRunner
 {
-	DoxyThreadSafeOutput SafeOutput;
-	public Action<int> onCompleteCallBack;
-	List<string> DoxyLog = new List<string>();
-	public string EXE = null;
-	public string[] Args;
-	static string WorkingFolder;
+    DoxyThreadSafeOutput SafeOutput;
+    public Action<int> onCompleteCallBack;
+    List<string> DoxyLog = new List<string>();
+    public string EXE = null;
+    public string[] Args;
+    static string WorkingFolder;
 
-	public DoxyRunner(string exepath, string[] args,DoxyThreadSafeOutput safeoutput,Action<int> callback)
-	{
-		EXE = exepath;
-		Args = args;
-		SafeOutput = safeoutput;
-		onCompleteCallBack = callback;
-		WorkingFolder = FileUtil.GetUniqueTempPathInProject();
-		System.IO.Directory.CreateDirectory(WorkingFolder);
-	}
+    public DoxyRunner(string exepath, string[] args, DoxyThreadSafeOutput safeoutput, Action<int> callback)
+    {
+        EXE = exepath;
+        Args = args;
+        SafeOutput = safeoutput;
+        onCompleteCallBack = callback;
+        WorkingFolder = FileUtil.GetUniqueTempPathInProject();
+        System.IO.Directory.CreateDirectory(WorkingFolder);
+    }
 
-	public void updateOuputString(string output)
-	{
-		SafeOutput.WriteLine(output);
-		DoxyLog.Add(output);
-	}
+    public void updateOuputString(string output)
+    {
+        SafeOutput.WriteLine(output);
+        DoxyLog.Add(output);
+    }
 
-	public void RunThreadedDoxy()
-	{
-		Action<string> GetOutput = (string output) => updateOuputString(output);
-		int ReturnCode = Run(GetOutput,null,EXE,Args);
-		SafeOutput.WriteFullLog(DoxyLog);
-		SafeOutput.SetFinished();
-		onCompleteCallBack(ReturnCode);
-	}
+    public void RunThreadedDoxy()
+    {
+        Action<string> GetOutput = (string output) => updateOuputString(output);
+        int ReturnCode = Run(GetOutput, null, EXE, Args);
+        SafeOutput.WriteFullLog(DoxyLog);
+        SafeOutput.SetFinished();
+        onCompleteCallBack(ReturnCode);
+    }
 
     /// <summary>
     /// Runs the specified executable with the provided arguments and returns the process' exit code.
@@ -514,17 +513,17 @@ public class DoxyRunner
         psi.CreateNoWindow = true;
         psi.ErrorDialog = false;
         psi.WorkingDirectory = WorkingFolder;
-        psi.FileName = FindExePath(exe); 
-        psi.Arguments = EscapeArguments(args); 
+        psi.FileName = FindExePath(exe);
+        psi.Arguments = EscapeArguments(args);
 
         using (Process process = Process.Start(psi))
         using (ManualResetEvent mreOut = new ManualResetEvent(false),
                mreErr = new ManualResetEvent(false))
         {
             process.OutputDataReceived += (o, e) => { if (e.Data == null) mreOut.Set(); else output(e.Data); };
-        process.BeginOutputReadLine();
+            process.BeginOutputReadLine();
             process.ErrorDataReceived += (o, e) => { if (e.Data == null) mreErr.Set(); else output(e.Data); };
-        process.BeginErrorReadLine();
+            process.BeginErrorReadLine();
 
             string line;
             while (input != null && null != (line = input.ReadLine()))
@@ -611,8 +610,8 @@ public class DoxyRunner
             throw new FileNotFoundException(new FileNotFoundException().Message, exe);
         }
         return Path.GetFullPath(exe);
-    }	
-}	
+    }
+}
 
 
 /// <summary>
@@ -620,14 +619,14 @@ public class DoxyRunner
 /// </summary>
 public class DoxyThreadSafeOutput
 {
-   private ReaderWriterLockSlim outputLock = new ReaderWriterLockSlim();
-   private string CurrentOutput = "";  
-   private List<string> FullLog = new List<string>();
-   private bool Finished = false;
-   private bool Started = false;
+    private ReaderWriterLockSlim outputLock = new ReaderWriterLockSlim();
+    private string CurrentOutput = "";
+    private List<string> FullLog = new List<string>();
+    private bool Finished = false;
+    private bool Started = false;
 
-   public string ReadLine( )
-   {
+    public string ReadLine()
+    {
         outputLock.EnterReadLock();
         try
         {
@@ -639,8 +638,8 @@ public class DoxyThreadSafeOutput
         }
     }
 
-   public void SetFinished( )
-   {
+    public void SetFinished()
+    {
         outputLock.EnterWriteLock();
         try
         {
@@ -652,8 +651,8 @@ public class DoxyThreadSafeOutput
         }
     }
 
-   public void SetStarted( )
-   {
+    public void SetStarted()
+    {
         outputLock.EnterWriteLock();
         try
         {
@@ -665,8 +664,8 @@ public class DoxyThreadSafeOutput
         }
     }
 
-   public bool isStarted( )
-   {
+    public bool isStarted()
+    {
         outputLock.EnterReadLock();
         try
         {
@@ -678,8 +677,8 @@ public class DoxyThreadSafeOutput
         }
     }
 
-   public bool isFinished( )
-   {
+    public bool isFinished()
+    {
         outputLock.EnterReadLock();
         try
         {
@@ -690,9 +689,9 @@ public class DoxyThreadSafeOutput
             outputLock.ExitReadLock();
         }
     }
-   
-   public List<string> ReadFullLog()
-   {
+
+    public List<string> ReadFullLog()
+    {
         outputLock.EnterReadLock();
         try
         {
@@ -701,23 +700,23 @@ public class DoxyThreadSafeOutput
         finally
         {
             outputLock.ExitReadLock();
-        } 
-   }
+        }
+    }
 
-   public void WriteFullLog(List<string> newLog)
-   {
+    public void WriteFullLog(List<string> newLog)
+    {
         outputLock.EnterWriteLock();
         try
         {
-           FullLog = newLog;
+            FullLog = newLog;
         }
         finally
         {
             outputLock.ExitWriteLock();
-        } 
-   }
+        }
+    }
 
-   public void WriteLine(string newOutput)
+    public void WriteLine(string newOutput)
     {
         outputLock.EnterWriteLock();
         try

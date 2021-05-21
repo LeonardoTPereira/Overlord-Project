@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ public class KeyUI : MonoBehaviour
     private List<Image> keyList;
     // Start is called before the first frame update
 
-    [SerializeField] 
+    [SerializeField]
     protected Sprite keySprite;
     List<int> playerKeys;
 
@@ -46,7 +45,7 @@ public class KeyUI : MonoBehaviour
 
         float rowColSize = keySprite.rect.size.x * 2.0f;
 
-        foreach(int key in Player.instance.GetComponent<Player>().keys)
+        foreach (int key in Player.instance.GetComponent<Player>().keys)
         {
             if (!playerKeys.Contains(key))
                 playerKeys.Add(key);

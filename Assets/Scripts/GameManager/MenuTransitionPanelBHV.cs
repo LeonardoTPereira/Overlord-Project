@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuTransitionPanelBHV : MonoBehaviour, IMenuPanel
@@ -12,7 +10,7 @@ public class MenuTransitionPanelBHV : MonoBehaviour, IMenuPanel
     public void GoToNext()
     {
         SceneManager.LoadScene(nextPanel);
-    }    
+    }
     public void GoToPrevious()
     {
         previousPanel.SetActive(true);

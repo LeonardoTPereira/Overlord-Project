@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace EnemyGenerator
 {
@@ -21,7 +19,7 @@ namespace EnemyGenerator
         public float attackSpeed;
         public float projectileSpeed;
 
-        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, int weaponIndex, 
+        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, int weaponIndex,
             int movementIndex, int behaviorIndex, float _fitness, float _attackSpeed, float _projectileSpeed)
         {
             health = _health;
@@ -38,5 +36,5 @@ namespace EnemyGenerator
         }
     }
 
-    
+
 }

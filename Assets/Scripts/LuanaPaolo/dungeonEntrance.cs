@@ -1,24 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class dungeonEntrance : MonoBehaviour
+public class DungeonEntrance : MonoBehaviour
 {
     public string nameScene;
-    public string fileName;
+    LevelConfigSO levelConfig;
     private GameManager gameManager;
 
-    public delegate void LoadEnemies(string levelFile, int difficulty);
-    public static event LoadEnemies enemies; 
+    public static event LevelLoadEvent loadLevelEventHandler;
 
-    void Start(){
+    void Start()
+    {
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    void OnTriggerEnter(Collider other){
-        if(other.tag == "Player"){
-            enemies(fileName, 1);
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            loadLevelEventHandler(this, new LevelLoadEventArgs(levelConfig.fileName, levelConfig.enemyDifficultyFile));
             SceneManager.LoadScene(nameScene);
         }
     }

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
@@ -20,9 +17,9 @@ public class Player_Movement : MonoBehaviour
     void FixedUpdate()
     {
         move_hor = Input.GetAxis("Horizontal");
-        rigidBody.velocity = new Vector2 (move_hor * speed, rigidBody.velocity.y);
+        rigidBody.velocity = new Vector2(move_hor * speed, rigidBody.velocity.y);
 
         move_ver = Input.GetAxis("Vertical");
-        rigidBody.velocity = new Vector2 (rigidBody.velocity.x, move_ver * speed);
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, move_ver * speed);
     }
 }

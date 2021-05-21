@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Loader : MonoBehaviour
 {
     private GameManager gameManager;
 
-    public string mapFile;
-
+    LevelConfigSO levelConfig;
     // Start is called before the first frame update
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        gameManager.LoadNewLevel(mapFile);
+        gameManager.LoadNewLevel(levelConfig.fileName, levelConfig.enemyDifficultyFile);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LevelGenerator
 {
@@ -48,7 +46,7 @@ namespace LevelGenerator
 
                 // if we added the destination to the closed list, we've found a path
                 if (ClosedList.Count > 0)
-                    if(ClosedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
+                    if (ClosedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
                         break;
 
                 //Check all adjacent squares from the curret node
@@ -57,7 +55,7 @@ namespace LevelGenerator
                 //Adds the adjacent squares in a random order
                 Random rand = new Random();
                 adjacentSquares = adjacentSquares.OrderBy(X => rand.Next()).ToList();
- 
+
 
                 foreach (var adjacentSquare in adjacentSquares)
                 {

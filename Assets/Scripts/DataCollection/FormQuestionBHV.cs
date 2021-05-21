@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
-public class FormQuestionBHV : MonoBehaviour {
+public class FormQuestionBHV : MonoBehaviour
+{
 
     public int value;
     public Toggle[] toggles;
@@ -21,14 +20,16 @@ public class FormQuestionBHV : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void ChangeValue(Toggle selected)
     {

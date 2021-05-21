@@ -1,21 +1,21 @@
-﻿using System.Collections;
+﻿using EnemyGenerator;
+using LevelGenerator;
+using MyBox;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
-using TMPro;
-using LevelGenerator;
 using UnityEngine.UI;
-using EnemyGenerator;
-using System;
-using MyBox;
 
 public class GameManager : MonoBehaviour
 {
     [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
     public TreasureRuntimeSetSO treasureSet;
-    [Foldout("Scriptable Objects"), Header("Set With All Possible Projectiles")] 
+    [Foldout("Scriptable Objects"), Header("Set With All Possible Projectiles")]
     public ProjectileTypeRuntimeSetSO projectileSet;
     [Foldout("Scriptable Objects"), ReadOnly, Header("Current Projectile")]
     public ProjectileTypeSO projectileType;
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     public bool createEnemy, survivalMode, enemyMode;
     public EnemyLoader enemyLoader;
-    public int dungeonDifficulty, chosenDifficulty;
+    public string chosenDifficultyFileName;
     public HealthUI healthUI;
     public KeyUI keyUI;
 
@@ -82,9 +82,6 @@ public class GameManager : MonoBehaviour
 
             enemyLoader = gameObject.GetComponent<EnemyLoader>();
             audioSource = GetComponent<AudioSource>();
-
-            //TODO Apply selected difficulty in this
-            dungeonDifficulty = 50;
 
             DontDestroyOnLoad(gameObject);
             AnalyticsEvent.GameStart();
@@ -139,7 +136,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (DungeonPart currentPart in map.dungeonPartByCoordinates.Values)
         {
-            if(currentPart is DungeonRoom)
+            if (currentPart is DungeonRoom)
             {
                 InstantiateRoom(currentPart as DungeonRoom);
             }
@@ -207,7 +204,7 @@ public class GameManager : MonoBehaviour
             targetCoordinates = new Coordinates(dungeonRoom.coordinates.X + 1, dungeonRoom.coordinates.Y);
             newRoom.eastDoor = CheckCorridor(targetCoordinates);
         }
-        if(IsTopEdge(dungeonRoom.coordinates))
+        if (IsTopEdge(dungeonRoom.coordinates))
         {
             targetCoordinates = new Coordinates(dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y + 1);
             newRoom.southDoor = CheckCorridor(targetCoordinates);
@@ -247,20 +244,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadNewLevel(string mapFile, int difficulty = 1)
+    public void LoadNewLevel(string mapFile, string difficultyFileName)
     {
-        switch (difficulty)
-        {
-            case 0:
-                dungeonDifficulty = (int)(EnemyUtil.easyFitness * 3f);
-                break;
-            case 1:
-                dungeonDifficulty = (int)(EnemyUtil.mediumFitness * 3f);
-                break;
-            case 2:
-                dungeonDifficulty = (int)(EnemyUtil.hardFitness * 3f);
-                break;
-        }
+        //TODO fazer alguma lógica no arquivo de dificuldade para definir uma dificuldade geral do dungeon?
+        int difficulty = 10; //DELETAR ISSO DEPOIS
         Time.timeScale = 1f;
         ChangeMusic(bgMusic);
         //Loads map from data
@@ -279,10 +266,10 @@ public class GameManager : MonoBehaviour
         Player.instance.keys.Clear();
         Player.instance.usedKeys.Clear();
         Player.instance.AdjustCamera(map.startRoomCoordinates, (map.dungeonPartByCoordinates[map.startRoomCoordinates] as DungeonRoom).Dimensions.Width);
-        
+
 
         UpdateLevelGUI();
-        OnStartMap(mapFile, currentTestBatchId, map, difficulty);
+        OnStartMap(mapFile, currentTestBatchId, map, difficulty = 10);
     }
 
     private void OnStartMap(string mapName, int batch, Map map, int difficulty)
@@ -332,21 +319,21 @@ public class GameManager : MonoBehaviour
     {
         //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
-        LevelLoaderBHV.loadLevelButtonEvent += PlayGameOnDifficulty;
+        LevelLoaderBHV.loadLevelButtonEventHandler += PlayGameOnDifficulty;
         WeaponLoaderBHV.loadWeaponButtonEventHandler += SetProjectileSO;
-        PostFormMenuBHV.postFormButtonEvent += PlayGameOnDifficulty;
+        PostFormMenuBHV.postFormButtonEventHandler += PlayGameOnDifficulty;
 
-        dungeonEntrance.enemies += PlayGameOnDifficulty;
+        DungeonEntrance.loadLevelEventHandler += PlayGameOnDifficulty;
     }
     void OnDisable()
     {
         //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-        LevelLoaderBHV.loadLevelButtonEvent -= PlayGameOnDifficulty;
+        LevelLoaderBHV.loadLevelButtonEventHandler -= PlayGameOnDifficulty;
         WeaponLoaderBHV.loadWeaponButtonEventHandler -= SetProjectileSO;
-        PostFormMenuBHV.postFormButtonEvent -= PlayGameOnDifficulty;
+        PostFormMenuBHV.postFormButtonEventHandler -= PlayGameOnDifficulty;
 
-        dungeonEntrance.enemies -= PlayGameOnDifficulty;
+        DungeonEntrance.loadLevelEventHandler -= PlayGameOnDifficulty;
     }
 
     void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
@@ -364,8 +351,8 @@ public class GameManager : MonoBehaviour
             startButton = null;
             isCompleted = false;
 
-            if(enemyMode)
-                enemyLoader.LoadEnemies(chosenDifficulty);
+            if (enemyMode)
+                enemyLoader.LoadEnemies(chosenDifficultyFileName);
 
             Player pl = Player.instance;
             pl.cam = Camera.main;
@@ -375,7 +362,7 @@ public class GameManager : MonoBehaviour
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
             OnLevelLoadedEvents();
-            LoadNewLevel(currentLevel, chosenDifficulty);
+            LoadNewLevel(currentLevel, chosenDifficultyFileName);
         }
         if (scene.name == "Main")
         {
@@ -418,16 +405,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void SetLevelMode(string fileName, int difficulty)
+    public void SetLevelMode(string fileName, string difficultyFileName)
     {
-        chosenDifficulty = difficulty;
+        chosenDifficultyFileName = difficultyFileName;
         currentLevel = fileName;
         levelSetNames.Remove(fileName);
     }
 
-    public void PlayGameOnDifficulty(string fileName, int difficulty)
+    public void PlayGameOnDifficulty(object sender, LevelLoadEventArgs args)
     {
-        instance.SetLevelMode(fileName, difficulty);
+        instance.SetLevelMode(args.LevelFile, args.EnemyFile);
     }
 
     public bool HasMoreLevels()
@@ -437,7 +424,9 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public LevelConfigSO PickNextLevel()
+    //TODO checar se experimento vai ser continuo ou não
+    //Se for, precisa mudar essa lógica pra carregar o arquivo de inimigos
+    /*public LevelConfigSO PickNextLevel()
     {
         LevelConfigSO curLevel = null;
         string nextLevelCandidate = levelSetNames[0];
@@ -447,19 +436,19 @@ public class GameManager : MonoBehaviour
             foreach (string levelName in levelSetNames)
             {
                 curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                if (curLevel.enemy == chosenDifficulty)
+                if ((int)curLevel.enemyDifficultyInDungeon == chosenDifficulty)
                 {
                     nextLevelCandidate = curLevel.fileName;
                     hasFound = true;
                     break;
                 }
             }
-            if(!hasFound)
+            if (!hasFound)
             {
                 foreach (string levelName in levelSetNames)
                 {
                     curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                    if (Math.Abs(curLevel.enemy - chosenDifficulty) == 1)
+                    if (Math.Abs((int)curLevel.enemyDifficultyInDungeon - chosenDifficulty) == 1)
                     {
                         nextLevelCandidate = curLevel.fileName;
                         hasFound = true;
@@ -467,7 +456,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            if(!hasFound)
+            if (!hasFound)
             {
                 nextLevelCandidate = levelSetNames[0];
                 hasFound = true;
@@ -478,19 +467,19 @@ public class GameManager : MonoBehaviour
             foreach (string levelName in levelSetNames)
             {
                 curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                if ((chosenDifficulty - 1) == curLevel.enemy)
+                if ((chosenDifficulty - 1) == (int)curLevel.enemyDifficultyInDungeon)
                 {
                     nextLevelCandidate = curLevel.fileName;
                     hasFound = true;
                     break;
                 }
             }
-            if(!hasFound)
+            if (!hasFound)
             {
                 foreach (string levelName in levelSetNames)
                 {
                     curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                    if ((chosenDifficulty - 2) == curLevel.enemy)
+                    if ((chosenDifficulty - 2) == (int)curLevel.enemyDifficultyInDungeon)
                     {
                         nextLevelCandidate = curLevel.fileName;
                         hasFound = true;
@@ -508,7 +497,7 @@ public class GameManager : MonoBehaviour
         levelSetNames.Remove(nextLevelCandidate);
 
         return levelSet.Items.Find(x => (x.fileName.CompareTo(nextLevelCandidate) == 0));
-    }
+    }*/
 
     public void OnLevelLoadedEvents()
     {
@@ -567,12 +556,12 @@ public class GameManager : MonoBehaviour
 
     public void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
     {
-        if(orientation == 1)
+        if (orientation == 1)
         {
             roomBHVMap[sourceCoordinates].doorWest.SetDestination(roomBHVMap[targetCoordinates].doorEast);
             roomBHVMap[targetCoordinates].doorEast.SetDestination(roomBHVMap[sourceCoordinates].doorWest);
         }
-        else if(orientation == 2)
+        else if (orientation == 2)
         {
             roomBHVMap[sourceCoordinates].doorNorth.SetDestination(roomBHVMap[targetCoordinates].doorSouth);
             roomBHVMap[targetCoordinates].doorSouth.SetDestination(roomBHVMap[sourceCoordinates].doorNorth);

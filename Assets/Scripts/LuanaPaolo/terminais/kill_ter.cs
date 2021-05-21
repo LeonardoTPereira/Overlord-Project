@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class kill_ter{
-    
-    public void choose(Manager m){
+public class kill_ter
+{
+
+    public void choose(Manager m)
+    {
         Quest quest = new Quest();
         quest.tipo = 2;
-        
+
         quest.n1 = Random.Range(0, 11);
         quest.n2 = Random.Range(0, 11 - quest.n1);
         quest.n3 = 10 - quest.n1 - quest.n2;

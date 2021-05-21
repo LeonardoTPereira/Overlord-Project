@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TreasureController : PlaceableRoomObject
 {
@@ -27,7 +25,7 @@ public class TreasureController : PlaceableRoomObject
 
     private void Start()
     {
-        if(Treasure != null)
+        if (Treasure != null)
             GetComponent<SpriteRenderer>().sprite = Treasure.sprite;
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -85,7 +84,8 @@ public class ComboUI : MonoBehaviour
         // When a program often has to try keys that turn out not to
         // be in the dictionary, TryGetValue can be a more efficient
         // way to retrieve values.
-        if (COMBOMAP.TryGetValue(actualCombo, out actualComboStruct)){
+        if (COMBOMAP.TryGetValue(actualCombo, out actualComboStruct))
+        {
             comboText.text = actualComboStruct.name;
             comboText.colorGradient = new VertexGradient(actualComboStruct.topColor, actualComboStruct.topColor, actualComboStruct.bottomColor, actualComboStruct.bottomColor);
         }

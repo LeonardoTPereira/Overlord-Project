@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class talk_ter{
+public class talk_ter
+{
 
-    public void choose(Manager m){
+    public void choose(Manager m)
+    {
         Quest quest = new Quest();
         quest.tipo = 6;
         quest.n1 = Random.Range(0, 3);

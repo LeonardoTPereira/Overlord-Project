@@ -511,7 +511,7 @@ namespace LevelGenerator
                     }
 
             }
-            
+
             nKeys -= Convert.ToInt32(hasKey);
             nLocks -= Convert.ToInt32(hasLock);
         }
@@ -553,5 +553,5 @@ namespace LevelGenerator
             dimensions = new Dimensions(width, height);
         }
     }
-    
+
 }
