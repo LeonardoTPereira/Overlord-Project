@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,14 +21,25 @@ public class DungeonEntrance : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + 
-                "\\Resources\\NarrativeJSon" + narrativeSO.narrativeFileName + "\\Dungeon");
-            FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-            loadLevelEventHandler(this, new LevelLoadEventArgs(
-                fileInfos[0].FullName,
-                Application.dataPath + "\\Resources\\NarrativeJSon" + narrativeSO.narrativeFileName + "\\Enemy"));
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath +
+            "\\Resources\\" + narrativeSO.narrativeFileName + "\\Dungeon");
+            FileInfo []fileInfos = directoryInfo.GetFiles("*.*");
+            string narrativeText = Resources.Load<TextAsset>(narrativeSO.narrativeFileName +
+                "/Dungeon/" + fileInfos[0].Name.Replace(".json", "")).text;
+            JSonWriter.parametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.parametersDungeon>(narrativeText);
+
+            //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName +
+            //   "/Dungeon/" + fileInfos[0].Name.Replace(".json", "")).text;
+            TextAsset []levelAssets = Resources.LoadAll<TextAsset>("Levels/");
+            string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
+            Debug.Log(levelName);
+            Debug.Log(levelAssets[0].name);
+            TextAsset []availableDungeons = levelAssets.Where(l => l.name.Contains(levelName)).ToArray();
+
+            Debug.Log("DungeonFileName: " + availableDungeons[0].name);
+            loadLevelEventHandler(this, new LevelLoadEventArgs(availableDungeons[0].name, "Enemies/Hard/"));
             SceneManager.LoadScene("LevelWithEnemies");
-            SceneManager.LoadScene(nameScene);
         }
     }
 }

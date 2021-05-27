@@ -298,6 +298,8 @@ namespace LevelGenerator
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = 0;
                             roomDataInFile.Treasures = 0;
+
+                            roomDataInFile.EnemiesType = 0;
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -324,6 +326,8 @@ namespace LevelGenerator
                             dungeonData += treasureValue + "\n"; //Treasure
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = treasureValue;
+
+                            roomDataInFile.EnemiesType = 0;
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -341,6 +345,8 @@ namespace LevelGenerator
                             roomDataInFile.Treasures = 0;
 
                             dungeonData += "+" + map[i, j] + "\n";
+
+                            roomDataInFile.EnemiesType = 0;
 
                             roomDataInFile.keys = new List<int>();
                             roomDataInFile.keys.Add(map[i, j]);
@@ -399,7 +405,7 @@ namespace LevelGenerator
 
             File.WriteAllText(filename + ".json", json);
             //Finally, saves the data
-            using (StreamWriter writer = new StreamWriter(filename + ".txt", false, Encoding.UTF8))
+            /*using (StreamWriter writer = new StreamWriter(filename + ".txt", false, Encoding.UTF8))
             {
                 UnityEngine.Debug.Log("Writing dungeon data");
                 writer.Write(dungeonData);
@@ -408,7 +414,7 @@ namespace LevelGenerator
                 //writerRG.Flush();
                 //writerRG.Close();
                 Console.Write("\n");
-            }
+            }*/
             UnityEngine.Debug.Log("Finished Writing dungeon data");
 #endif
         }

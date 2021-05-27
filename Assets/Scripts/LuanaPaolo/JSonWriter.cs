@@ -6,11 +6,35 @@ public class JSonWriter
 {
     [System.Serializable]
     public class parametersDungeon{
-        public
-            int size = 0, linearity = 0, nKeys = 0, nEnemies = -1;
+        public int size = 0, nKeys = 0, nEnemies = -1;
+        public float linearity;
+        private int linearityMetric = 0;
+        private int linearityEnum;
+
+        public int Linearity
+        {
+            get => linearityMetric; 
+            set => linearityMetric = value;
+        }
+
+        public int LinearityEnum
+        {
+            get => linearityEnum;
+            set
+            {
+                linearityEnum = value;
+                linearity = getLinearity();
+            }
+        }
+
         public override string ToString()
         {
-            return "Size=" + size + "_Keys=" + nKeys + "_lin=" + linearity + "_NEnemies=" + nEnemies;
+            return "Size=" + size + "_Keys=" + nKeys + "_lin=" + getLinearity() + "_NEnemies=" + nEnemies;
+        }
+
+        public float getLinearity()
+        {
+            return DungeonLinearityConverter.ToFloat((DungeonLinearity)Linearity);
         }
     }
     [System.Serializable]
@@ -50,6 +74,7 @@ public class JSonWriter
         outString = JsonUtility.ToJson(pM) + "\n";
 
         File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/Enemy/"+pM.ToString()+".json", outString);
+
     }
 
     private void conversorDungeon(parametersDungeon pD, List<Quest> graph)
@@ -57,16 +82,16 @@ public class JSonWriter
         for (int i = 0; i < graph.Count; i++)
         {
             if (graph[i].tipo == 1 || graph[i].tipo == 3 || graph[i].tipo == 4 || graph[i].tipo == 6) pD.size++;
-            if (graph[i].n1 == 0 || graph[i].n1 == 1 || graph[i].n1 == 4) pD.linearity++;
+            if (graph[i].n1 == 0 || graph[i].n1 == 1 || graph[i].n1 == 4) pD.Linearity++;
         }
 
         if (pD.size < 3) pD.size = (int)DungeonSize.VerySmall;
         else if (pD.size >= 3 && pD.size < 7) pD.size = (int)DungeonSize.Medium;
         else pD.size = (int)DungeonSize.VeryLarge;
 
-        if (pD.linearity < 3) pD.linearity = (int)DungeonLinearity.VeryLinear;
-        else if (pD.linearity >= 3 && pD.linearity < 7) pD.linearity = (int)DungeonLinearity.Medium;
-        else pD.linearity = (int)DungeonLinearity.VeryBranched;
+        if (pD.Linearity < 3) pD.LinearityEnum = (int)DungeonLinearity.VeryLinear;
+        else if (pD.Linearity >= 3 && pD.Linearity < 7) pD.LinearityEnum = (int)DungeonLinearity.Medium;
+        else pD.LinearityEnum = (int)DungeonLinearity.VeryBranched;
 
         if(pD.nKeys < 3) pD.nKeys = (int)DungeonKeys.AFewKeys;
         else if(pD.nKeys >= 3 && pD.nKeys < 7) pD.nKeys = (int)DungeonKeys.SeveralKeys;

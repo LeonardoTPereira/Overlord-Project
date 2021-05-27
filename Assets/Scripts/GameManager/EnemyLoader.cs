@@ -10,6 +10,7 @@ public class EnemyLoader : MonoBehaviour
 
     public void LoadEnemies(string difficultyFileName)
     {
+        Debug.Log("Enemy File: " + difficultyFileName);
         //string foldername = "Enemies/"+difficultyFileName;
         bestEnemies = Resources.LoadAll(difficultyFileName, typeof(EnemySO)).Cast<EnemySO>().ToArray();
         ApplyDelegates();
