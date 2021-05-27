@@ -251,13 +251,9 @@ public class RoomBHV : MonoBehaviour
             hasEnemies = false;
         else
         {
-            float actualDifficulty = 0;
-            int auxIndex;
-            while (actualDifficulty < roomData.Difficulty)
+            for(int i = 0; i < roomData.Difficulty; ++i)
             {
-                auxIndex = Random.Range(0, EnemyUtil.nBestEnemies);
-                enemiesIndex.Add(auxIndex);
-                actualDifficulty += GameManager.instance.enemyLoader.bestEnemies[auxIndex].fitness;
+                enemiesIndex.Add(roomData.EnemyType);
             }
         }
     }

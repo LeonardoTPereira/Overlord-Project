@@ -8,33 +8,13 @@ public class EnemyLoader : MonoBehaviour
     public EnemySO[] bestEnemies;
     public GameObject enemyPrefab, bomberEnemyPrefab;
 
-    void Start()
-    {
-    }
-
     public void LoadEnemies(string difficultyFileName)
     {
-        string foldername = "Enemies/";
-        //TODO definir o nome da subpasta correta de acordo com o que o
-        //arquivo de configuração de inimigos passado como parâmetro definir
-
-        //PAOLO precisa marcar na dungeon qual o inimigo que vai ser escolhido depois dessa etapa
-
-        /*switch (difficulty)
-        {
-            case 0:
-                foldername += "Easy/";
-                break;
-            case 1:
-                foldername += "Medium/";
-                break;
-            case 2:
-                foldername += "Hard/";
-                break;
-        }*/
-        bestEnemies = Resources.LoadAll(foldername, typeof(EnemySO)).Cast<EnemySO>().ToArray();
+        //string foldername = "Enemies/"+difficultyFileName;
+        bestEnemies = Resources.LoadAll(difficultyFileName, typeof(EnemySO)).Cast<EnemySO>().ToArray();
         ApplyDelegates();
     }
+
 
     public GameObject InstantiateEnemyWithIndex(int index, Vector3 position, Quaternion rotation)
     {

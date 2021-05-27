@@ -16,11 +16,6 @@ namespace LevelGenerator
          * Not being used anymore for quite some time, but is useful if any changes in the tree structure are made
          */
 
-        class parametersDungeon{
-            public
-                int size = 0, linearity = 0, nKeys = 0, enemyType = -1;
-        };
-
         public static void PrintTree(Room root)
         {
             string typeString = "?";
@@ -363,11 +358,9 @@ namespace LevelGenerator
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = 0;
 
-                            string narrativePath = "NarrativeJSon/narrative.json"; 
-                            string narrativeText =  Resources.Load<TextAsset>(narrativePath).text;
-                            parametersDungeon pD = JsonConvert.DeserializeObject<parametersDungeon>(narrativeText);
+                            //TODO Logica de carregar inimigos de acordo com probabilidade
 
-                            roomDataInFile.EnemiesType = pD.enemyType;
+                            roomDataInFile.EnemiesType = 0;
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }

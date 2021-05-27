@@ -19,6 +19,7 @@ namespace LevelGenerator
         private List<Room> roomList;
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
+        public JSonWriter.parametersMonsters parametersMonters;
 
         public List<Room> RoomList
         {

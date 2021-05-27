@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DungeonEntrance : MonoBehaviour
 {
     public string nameScene;
-    LevelConfigSO levelConfig;
+    public NarrativeConfigSO narrativeSO;
     private GameManager gameManager;
 
     public static event LevelLoadEvent loadLevelEventHandler;
@@ -18,7 +19,13 @@ public class DungeonEntrance : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            loadLevelEventHandler(this, new LevelLoadEventArgs(levelConfig.fileName, levelConfig.enemyDifficultyFile));
+            DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + 
+                "\\Resources\\NarrativeJSon" + narrativeSO.narrativeFileName + "\\Dungeon");
+            FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
+            loadLevelEventHandler(this, new LevelLoadEventArgs(
+                fileInfos[0].FullName,
+                Application.dataPath + "\\Resources\\NarrativeJSon" + narrativeSO.narrativeFileName + "\\Enemy"));
+            SceneManager.LoadScene("LevelWithEnemies");
             SceneManager.LoadScene(nameScene);
         }
     }

@@ -66,7 +66,7 @@ public class PlayerProfile : MonoBehaviour
 
     //Enemy Generator Data
     protected List<CombatRoomInfo> combatInfoList;
-    protected int difficultyLevel;
+    protected int difficultyLevel; //TODO SET IT WITH THE NARRATIVE JSON
     protected List<int> damageDoneByEnemy;
     protected int timesPlayerDied;
     public bool HasFinished { get; set; } //0 if player gave up, 1 if he completed the stage 
@@ -244,7 +244,7 @@ public class PlayerProfile : MonoBehaviour
     }
 
     //From GameManager
-    public void OnMapStart(string name, int batch, Map currentMap, int difficulty, int weapon)
+    public void OnMapStart(string name, int batch, Map currentMap, int weapon)
     {
         HasFinished = false;
         mapCount++;
@@ -263,7 +263,6 @@ public class PlayerProfile : MonoBehaviour
         heatMap = CreateHeatMap(currentMap);
         combatInfoList = new List<CombatRoomInfo>();
         damageDoneByEnemy = new int[EnemyUtil.nBestEnemies].ToList();
-        difficultyLevel = difficulty;
         //Debug.Log("On Map Start Profilling Called");
         weaponUsed = weapon;
         //Log

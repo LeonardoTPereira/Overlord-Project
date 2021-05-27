@@ -5,15 +5,22 @@ using UnityEngine;
 public class JSonWriter
 {
     [System.Serializable]
-    class parametersDungeon{
+    public class parametersDungeon{
         public
-            int size = 0, linearity = 0, nKeys = 0, enemyType = -1;
-    };
-
+            int size = 0, linearity = 0, nKeys = 0, nEnemies = -1;
+        public override string ToString()
+        {
+            return "Size=" + size + "_Keys=" + nKeys + "_lin=" + linearity + "_NEnemies=" + nEnemies;
+        }
+    }
     [System.Serializable]
-    class parametersMonsters{
+    public class parametersMonsters{
         public
             int nEnemies = 0, p1 = 0, p2 = 0, p3 = 0, f1 = 0, f2 = 0, f3 = 0;
+        public override string ToString()
+        {
+            return "p1=" + p1 + "_p2=" + p2 + "_p3=" + p3 + "_f1=" + f1+ "_f2=" + f2 + "_f3=" + f3;
+        }
     };
 
     public void writeJSon(List<Quest> graph)
@@ -21,23 +28,28 @@ public class JSonWriter
         parametersDungeon pD = new parametersDungeon();
         parametersMonsters pM = new parametersMonsters();
 
+        Directory.CreateDirectory(Application.dataPath + "\\Resources\\NarrativeJSon" + graph[0].ToString());
+        Directory.CreateDirectory(Application.dataPath + "\\Resources\\NarrativeJSon" + graph[0].ToString() + "\\Dungeon");
+        Directory.CreateDirectory(Application.dataPath + "\\Resources\\NarrativeJSon" + graph[0].ToString() + "\\Enemy");
+
         string outString = " ";
 
-        for (int i = 0; i < graph.Count; i++) outString += JsonUtility.ToJson(graph[i]) + "\n";
+        for (int i = 0; i < graph.Count; i++) 
+            outString += JsonUtility.ToJson(graph[i]) + "\n";
 
-        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/narrative.json", outString);
+        File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/narrative.json", outString);
 
         conversorDungeon(pD, graph);
 
         outString = JsonUtility.ToJson(pD) + "\n";
 
-        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/dungeonGenerator.json", outString);
+        File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/Dungeon/"+pD.ToString()+".json", outString);
 
         conversorMonsters(pM, graph);
 
         outString = JsonUtility.ToJson(pM) + "\n";
 
-        File.WriteAllText(Application.dataPath + "Assets/Resources/NarrativeJSon/enemyGenerator.json", outString);
+        File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/Enemy/"+pM.ToString()+".json", outString);
     }
 
     private void conversorDungeon(parametersDungeon pD, List<Quest> graph)
@@ -56,11 +68,11 @@ public class JSonWriter
         else if (pD.linearity >= 3 && pD.linearity < 7) pD.linearity = (int)DungeonLinearity.Medium;
         else pD.linearity = (int)DungeonLinearity.VeryBranched;
 
-        if(pD.nKeys < 3) pD.nKeys = 200;
-        else if(pD.nKeys >= 3 && pD.nKeys < 7) pD.nKeys = 201;
-        else pD.nKeys = 202;
+        if(pD.nKeys < 3) pD.nKeys = (int)DungeonKeys.AFewKeys;
+        else if(pD.nKeys >= 3 && pD.nKeys < 7) pD.nKeys = (int)DungeonKeys.SeveralKeys;
+        else pD.nKeys = (int)DungeonKeys.LotsOfKeys;
 
-        pD.enemyType = Random.Range(0, 3);
+        pD.nEnemies = Random.Range(1, 5);
     }
 
     private void conversorMonsters(parametersMonsters pM, List<Quest> graph)

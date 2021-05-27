@@ -1,12 +1,14 @@
 ﻿using LevelGenerator;
 using MyBox;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Program))]
+[RequireComponent(typeof(Program), typeof(NarrativeConfigSO))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
     public static event CreateEADungeonEvent createEADungeonEventHandler;
@@ -22,6 +24,8 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     [Separator("Fitness Parameters to Create Dungeons")]
     [SerializeField]
     protected Fitness fitness;
+    [SerializeField]
+    protected NarrativeConfigSO narrativeConfigSO;
 
     public void Awake()
     {
@@ -46,7 +50,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
         int nRooms, nKeys, nLocks;
         float linearity;
-        try
+        /*try
         {
             nRooms = int.Parse(inputFields["RoomsInputField"].text);
             nKeys = int.Parse(inputFields["KeysInputField"].text);
@@ -57,10 +61,24 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         catch (KeyNotFoundException)
         {
             Debug.LogWarning("Input Fields for Dungeon Generator incorrect. Using values from the Editor");
-        }
+        }*/
         inputCanvas.SetActive(false);
         progressCanvas.SetActive(true);
-        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(fitness));
+        DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath +
+        "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Enemy");
+        FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
+        string narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
+            "/Enemy/"+fileInfos[0].Name.Replace(".json", "")).text;
+        JSonWriter.parametersMonsters parametersMonsters = JsonConvert.DeserializeObject<JSonWriter.parametersMonsters>(narrativeText);
+
+        directoryInfo = new DirectoryInfo(Application.dataPath +
+        "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Dungeon");
+        fileInfos = directoryInfo.GetFiles("*.*");
+        narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
+            "/Dungeon/" + fileInfos[0].Name.Replace(".json", "")).text;
+        JSonWriter.parametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.parametersDungeon>(narrativeText);
+
+        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon, parametersMonsters));
     }
 
     public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)

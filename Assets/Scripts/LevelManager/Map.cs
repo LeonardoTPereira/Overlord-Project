@@ -20,6 +20,7 @@ public class Map
     public Coordinates startRoomCoordinates, finalRoomCoordinates;
     public Dimensions dimensions;
     private string currentMapFile;
+    private int nEnemies;
 
     private string[] currentMapParsedFile;
     private int currentMapFileLineIndex;
@@ -27,6 +28,8 @@ public class Map
     // Valores para gerar salas sem o arquivo de definição interna
 
     public static int defaultTileID = 2;
+
+    public int NEnemies { get => nEnemies; set => nEnemies = value; }
 
     /**
      * Constructor of the Map object that uses an input file for the dungeon
@@ -202,7 +205,7 @@ public class Map
                 jPositive = j - dun.boundaries.MinBoundaries.Y;
                 actualRoom = grid[i, j];
                 treasure = 0;
-                difficulty = 0;
+                difficulty = 0; //TODO Creat enemies with EA
                 enemyType = -1;
                 keyIDs = null;
                 lockIDs = null;
@@ -226,15 +229,12 @@ public class Map
                             dungeonPartCode = DungeonPart.Type.TREASURE_ROOM;
                             Debug.Log("This is a Leaf Node Room! " + (iPositive * 2) + " - " + (jPositive * 2));
                         }
-                        else
-                            difficultyFileName = GameManager.instance.chosenDifficultyFileName;
                         //rooms[iPositive * 2, jPositive * 2].keyID = 0;
                     }
                     else if (type == LevelGenerator.Type.key)
                     {
                         keyIDs = new List<int>();
                         keyIDs.Add(keys.IndexOf(actualRoom.KeyToOpen) + 1);
-                        difficultyFileName = GameManager.instance.chosenDifficultyFileName;
                     }
                     else if (type == LevelGenerator.Type.locked)
                     {
@@ -242,10 +242,6 @@ public class Map
                         {
                             finalRoomCoordinates = new Coordinates(iPositive * 2, jPositive * 2);
                             dungeonPartCode = DungeonPart.Type.FINAL_ROOM;
-                        }
-                        else
-                        {
-                            difficultyFileName = GameManager.instance.chosenDifficultyFileName;
                         }
 
                         /*else

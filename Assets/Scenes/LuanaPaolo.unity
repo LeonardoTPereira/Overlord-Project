@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -750,8 +750,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameScene: 2A
-  fileName: Level02-A
+  nameScene: LevelWithEnemies
+  narrativeSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
 --- !u!1 &163022179
 GameObject:
   m_ObjectHideFlags: 0
@@ -3290,8 +3290,7 @@ MonoBehaviour:
   survivalMode: 0
   enemyMode: 1
   enemyLoader: {fileID: 0}
-  dungeonDifficulty: 0
-  chosenDifficulty: 0
+  chosenDifficultyFileName: 
   healthUI: {fileID: 0}
   keyUI: {fileID: 0}
   nExecutions: 0
@@ -3736,8 +3735,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameScene: 1A
-  fileName: Level01-A
+  nameScene: LevelWithEnemies
+  narrativeSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
 --- !u!1 &707681197
 GameObject:
   m_ObjectHideFlags: 0
@@ -4243,8 +4242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameScene: 3A
-  fileName: Level03-A
+  nameScene: LevelWithEnemies
+  narrativeSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
 --- !u!1 &799372454
 GameObject:
   m_ObjectHideFlags: 0

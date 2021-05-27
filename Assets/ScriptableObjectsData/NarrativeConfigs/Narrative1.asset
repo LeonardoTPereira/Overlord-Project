@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b74af1b5c750604d8d0f62aa475bfae, type: 3}
-  m_Name: LevelA
+  m_Script: {fileID: 11500000, guid: 92a65f357f20f4247a6ab9d58c147e79, type: 3}
+  m_Name: Narrative1
   m_EditorClassIdentifier: 
-  dungeonSize: 28
-  dungeonLinearity: 3
-  levelName: "N\xEDvel A"
-  enemyDifficulty: 17
-  enemyDifficultyFile: enemyconfig.json
-  fileName: R14-K3-L3-L1.51
+  narrativeFileName: NarrativeJSonType=2n1=8n2=2n3=0

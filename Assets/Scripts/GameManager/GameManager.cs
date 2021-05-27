@@ -247,7 +247,6 @@ public class GameManager : MonoBehaviour
     public void LoadNewLevel(string mapFile, string difficultyFileName)
     {
         //TODO fazer alguma lógica no arquivo de dificuldade para definir uma dificuldade geral do dungeon?
-        int difficulty = 10; //DELETAR ISSO DEPOIS
         Time.timeScale = 1f;
         ChangeMusic(bgMusic);
         //Loads map from data
@@ -269,12 +268,12 @@ public class GameManager : MonoBehaviour
 
 
         UpdateLevelGUI();
-        OnStartMap(mapFile, currentTestBatchId, map, difficulty = 10);
+        OnStartMap(mapFile, currentTestBatchId, map);
     }
 
-    private void OnStartMap(string mapName, int batch, Map map, int difficulty)
+    private void OnStartMap(string mapName, int batch, Map map)
     {
-        PlayerProfile.instance.OnMapStart(mapName, batch, map, difficulty, projectileSet.Items.IndexOf(projectileType));
+        PlayerProfile.instance.OnMapStart(mapName, batch, map, projectileSet.Items.IndexOf(projectileType));
         PlayerProfile.instance.OnRoomEnter(map.startRoomCoordinates, roomBHVMap[map.startRoomCoordinates].hasEnemies, roomBHVMap[map.startRoomCoordinates].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth());
     }
 

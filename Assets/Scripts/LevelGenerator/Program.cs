@@ -24,6 +24,7 @@ namespace LevelGenerator
         List<Dungeon> dungeons;
         //The aux the Game Manager will access to load the created dungeon
         public Dungeon aux;
+        JSonWriter.parametersMonsters parametersMonsters;
 
         /**
          * The constructor of the "Main" behind the EA
@@ -60,6 +61,7 @@ namespace LevelGenerator
         {
 
             fitness = eventArgs.Fitness;
+            parametersMonsters = eventArgs.ParametersMonsters;
             Thread t = new Thread(new ThreadStart(Evolve));
             t.Start();
             StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
@@ -69,6 +71,7 @@ namespace LevelGenerator
         {
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
+            aux.parametersMonters = parametersMonsters;
             Interface.PrintNumericalGridWithConnections(aux, fitness, treasureRuntimeSetSO);
             Debug.Log("Printed the dungeon");
         }
