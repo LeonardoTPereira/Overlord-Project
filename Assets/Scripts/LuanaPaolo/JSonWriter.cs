@@ -16,10 +16,10 @@ public class JSonWriter
     [System.Serializable]
     public class parametersMonsters{
         public
-            int nEnemies = 0, p1 = 0, p2 = 0, p3 = 0, f1 = 0, f2 = 0, f3 = 0;
+            int nEnemies = 0, percentageType1 = 0, percentageType2 = 0, percentageType3 = 0, frequencyType1 = 0, frequencyType2 = 0, frequencyType3 = 0;
         public override string ToString()
         {
-            return "p1=" + p1 + "_p2=" + p2 + "_p3=" + p3 + "_f1=" + f1+ "_f2=" + f2 + "_f3=" + f3;
+            return "p1=" + percentageType1 + "_p2=" + percentageType2 + "_p3=" + percentageType3 + "_f1=" + frequencyType1+ "_f2=" + frequencyType2 + "_f3=" + frequencyType3;
         }
     };
 
@@ -82,18 +82,18 @@ public class JSonWriter
             if (graph[i].tipo == 2 || graph[i].tipo == 5)
             {
                 pM.nEnemies += 2;
-                pM.p1 = graph[i].n1;
-                pM.p2 = graph[i].n2;
-                pM.p3 = graph[i].n3;
+                pM.percentageType1 = graph[i].n1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
+                pM.percentageType2 = graph[i].n2;
+                pM.percentageType3 = graph[i].n3;
 
-                if (pM.p1 >= 5) pM.f1 = Random.Range(10, 21);
-                else pM.f1 = Random.Range(1, 10);
+                if (pM.percentageType1 >= 5) pM.frequencyType1 = Random.Range(10, 21);
+                else pM.frequencyType1 = Random.Range(1, 10);
 
-                if (pM.p2 >= 5) pM.f2 = Random.Range(5, 21);
-                else pM.f2 = Random.Range(1, 5);
+                if (pM.percentageType2 >= 5) pM.frequencyType2 = Random.Range(5, 21);
+                else pM.frequencyType2 = Random.Range(1, 5);
 
-                if (pM.p3 >= 5) pM.f3 = Random.Range(1, 10);
-                else pM.f3 = Random.Range(10, 21);
+                if (pM.percentageType3 >= 5) pM.frequencyType3 = Random.Range(1, 10);
+                else pM.frequencyType3 = Random.Range(10, 21);
             }
         }
     }

@@ -3,7 +3,6 @@ public class Selector
 {
 
     private float r;
-    public int parent = -1;
     public int[] pesos = new int[4]; //vetor de pesos
 
     /*
@@ -15,13 +14,13 @@ public class Selector
 
     public void select(Manager m)
     {
-        pesos[0] = 3;
-        pesos[1] = 7;
-        pesos[2] = 1;
-        pesos[3] = 5;
+        pesos[0] = 3; //peso talk
+        pesos[1] = 7; //peso get
+        pesos[2] = 1; //peso kill
+        pesos[3] = 5; //peso explore
 
         //r = Random.Range(0, 4);
-        r = 2.7f;//((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16);// * Random.Range(0f, 3f);
+        r = 2.7f;//((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16);// * Random.Range(0f, 3f); <<-- equação ainda inutilizada devido a testes específicos
 
         if (r <= 2.35)
         {
