@@ -96,8 +96,8 @@ public class JSonWriter
 
         // Get the dungeon parameters
         parametersDungeon pD = new parametersDungeon();
-        // Convert the dungeon to JSON
         conversorDungeon(pD, graph);
+        // Convert the dungeon to JSON
         outString = JsonUtility.ToJson(pD) + '\n';
         // Write the dungeon JSON file
         filename = template.Replace(CONTENT, dungeonFd + sep + pD.ToString());
@@ -105,8 +105,8 @@ public class JSonWriter
 
         // Get the enemies parameters
         parametersMonsters pM = new parametersMonsters();
-        // Convert the enemies to JSON
         conversorMonsters(pM, graph);
+        // Convert the enemies to JSON
         outString = JsonUtility.ToJson(pM) + '\n';
         // Write the enemies JSON file
         filename = template.Replace(CONTENT, enemyFd + sep + pM.ToString());
