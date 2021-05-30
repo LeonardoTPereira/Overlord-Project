@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TriforceBHV : PlaceableRoomObject
 {
@@ -15,6 +16,8 @@ public class TriforceBHV : PlaceableRoomObject
             //TODO change this to when the sierpinsk-force is taken
             //OnMapComplete();
             //gm.LevelComplete(); comentado por Luana e Paolo
+
+            SceneManager.LoadScene("LuanaPaolo"); //Luana
         }
     }
 

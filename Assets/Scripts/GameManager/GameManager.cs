@@ -396,6 +396,8 @@ public class GameManager : MonoBehaviour
         //Time.timeScale = 1f; comentado por Luana e Paolo
         //gameUI.SetActive(false);
         //gameOverScreen.SetActive(true);
+
+        SceneManager.LoadScene("LuanaPaolo");
     }
 
     public void MainMenu()
