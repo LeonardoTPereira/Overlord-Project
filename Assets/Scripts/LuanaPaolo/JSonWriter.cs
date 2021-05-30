@@ -64,6 +64,9 @@ public class JSonWriter
         // Get the file system separator
         char sep = Path.DirectorySeparatorChar;
 
+        // Define the JSON file extension
+        const string extension = ".json";
+
         // Build the target path
         string target = Application.dataPath;
         target += sep + "Resources";
@@ -72,8 +75,7 @@ public class JSonWriter
 
         // Define the filename template
         const string CONTENT = "CONTENT";
-        const string sfx = ".json";
-        string template = target + sep + CONTENT + sfx;
+        string template = target + sep + CONTENT + extension;
 
         // Define the content folders' (Fd) and files' (Fl) names
         string narrativeFl = "narrative";
