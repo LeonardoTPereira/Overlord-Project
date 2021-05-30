@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class JSonWriter
 {
     [System.Serializable]
-    public class parametersDungeon{
-        public int size = 0, nKeys = 0, nEnemies = -1;
+    public class parametersDungeon
+    {
+        public int size = 0;
+        public int nKeys = 0;
+        public int nEnemies = -1;
         public float linearity;
         private int linearityMetric = 0;
         private int linearityEnum;
@@ -37,44 +41,76 @@ public class JSonWriter
             return DungeonLinearityConverter.ToFloat((DungeonLinearity)Linearity);
         }
     }
+
     [System.Serializable]
-    public class parametersMonsters{
-        public
-            int nEnemies = 0, percentageType1 = 0, percentageType2 = 0, percentageType3 = 0, frequencyType1 = 0, frequencyType2 = 0, frequencyType3 = 0;
+    public class parametersMonsters
+    {
+        public int nEnemies = 0;
+        public int percentageType1 = 0;
+        public int percentageType2 = 0;
+        public int percentageType3 = 0;
+        public int frequencyType1 = 0;
+        public int frequencyType2 = 0;
+        public int frequencyType3 = 0;
+
         public override string ToString()
         {
             return "p1=" + percentageType1 + "_p2=" + percentageType2 + "_p3=" + percentageType3 + "_f1=" + frequencyType1+ "_f2=" + frequencyType2 + "_f3=" + frequencyType3;
         }
-    };
+    }
 
     public void writeJSon(List<Quest> graph)
     {
-        parametersDungeon pD = new parametersDungeon();
-        parametersMonsters pM = new parametersMonsters();
+        // Get the file system separator
+        char sep = Path.DirectorySeparatorChar;
 
-        Directory.CreateDirectory(Application.dataPath + "\\Resources\\NarrativeJSon" + graph[0].ToString());
-        Directory.CreateDirectory(Application.dataPath + "\\Resources\\NarrativeJSon" + graph[0].ToString() + "\\Dungeon");
-        Directory.CreateDirectory(Application.dataPath + "\\Resources\\NarrativeJSon" + graph[0].ToString() + "\\Enemy");
+        // Build the target path
+        string target = Application.dataPath;
+        target += sep + "Resources";
+        target += sep + "NarrativeJSon";
+        target += graph[0].ToString();
 
+        // Define the filename template
+        const string CONTENT = "CONTENT";
+        const string sfx = ".json";
+        string template = target + sep + CONTENT + sfx;
+
+        // Define the content folders' (Fd) and files' (Fl) names
+        string narrativeFl = "narrative";
+        string dungeonFd = "Dungeon";
+        string enemyFd = "Enemy";
+
+        // Create directories to save the generated contents
+        Directory.CreateDirectory(target);
+        Directory.CreateDirectory(target + sep + dungeonFd);
+        Directory.CreateDirectory(target + sep + enemyFd);
+
+        // Initialize output string
         string outString = " ";
-
+        // Convert the narrative to JSON
         for (int i = 0; i < graph.Count; i++) 
-            outString += JsonUtility.ToJson(graph[i]) + "\n";
+            outString += JsonUtility.ToJson(graph[i]) + '\n';
+        // Write the narrative JSON file
+        string filename = template.Replace(CONTENT, narrativeFl);
+        File.WriteAllText(filename, outString);
 
-        File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/narrative.json", outString);
-
+        // Get the dungeon parameters
+        parametersDungeon pD = new parametersDungeon();
+        // Convert the dungeon to JSON
         conversorDungeon(pD, graph);
+        outString = JsonUtility.ToJson(pD) + '\n';
+        // Write the dungeon JSON file
+        filename = template.Replace(CONTENT, dungeonFd + sep + pD.ToString());
+        File.WriteAllText(filename, outString);
 
-        outString = JsonUtility.ToJson(pD) + "\n";
-
-        File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/Dungeon/"+pD.ToString()+".json", outString);
-
+        // Get the enemies parameters
+        parametersMonsters pM = new parametersMonsters();
+        // Convert the enemies to JSON
         conversorMonsters(pM, graph);
-
-        outString = JsonUtility.ToJson(pM) + "\n";
-
-        File.WriteAllText(Application.dataPath + "/Resources/NarrativeJSon"+graph[0].ToString()+"/Enemy/"+pM.ToString()+".json", outString);
-
+        outString = JsonUtility.ToJson(pM) + '\n';
+        // Write the enemies JSON file
+        filename = template.Replace(CONTENT, enemyFd + sep + pM.ToString());
+        File.WriteAllText(filename, outString);
     }
 
     private void conversorDungeon(parametersDungeon pD, List<Quest> graph)
