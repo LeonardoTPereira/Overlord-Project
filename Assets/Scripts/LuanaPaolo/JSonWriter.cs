@@ -61,7 +61,7 @@ public class JSonWriter
 
     public void writeJSon(List<Quest> graph)
     {
-        // Get the file system separator
+        // Get the directory separator
         char sep = Path.DirectorySeparatorChar;
 
         // Define the JSON file extension

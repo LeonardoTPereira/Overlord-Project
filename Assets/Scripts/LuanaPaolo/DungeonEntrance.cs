@@ -21,7 +21,7 @@ public class DungeonEntrance : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            // Get the file system separator
+            // Get the directory separator
             char sep = Path.DirectorySeparatorChar;
 
             // Define the JSON file extension
