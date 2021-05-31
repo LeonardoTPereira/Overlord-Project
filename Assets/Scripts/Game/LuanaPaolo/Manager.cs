@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
+    /// The form ID of the pre-questionnaire.
+    private const int PRE_QUESTIONNAIRE = 0;
+
     public Selector sel = new Selector(); //seletor
 
     public List<Quest> graph = new List<Quest>(); //lista de quests
@@ -12,6 +15,9 @@ public class Manager : MonoBehaviour
     public Player_Movement player; //jogador
 
     private JSonWriter writer;
+
+    /// This attribute holds the list of answers of the pre-questionnaire.
+    private List<int> answers;
 
     void Start()
     {
@@ -37,6 +43,22 @@ public class Manager : MonoBehaviour
         }
 
         //if(isFinished == false) mission();
+    }
+
+    /// This method is called when this Manager is toggled.
+    ///
+    /// It adds the event responses related to this class.
+    protected void OnEnable()
+    {
+        FormBHV.FormQuestionAnsweredEventHandler += OnFormQuestionAnswered;
+    }
+
+    /// This method is called when this Manager is toggled.
+    ///
+    /// It removes the event responses related to this class.
+    protected void OnDisable()
+    {
+        FormBHV.FormQuestionAnsweredEventHandler -= OnFormQuestionAnswered;
     }
 
     void makeBranches()
@@ -70,6 +92,25 @@ public class Manager : MonoBehaviour
             }
 
             index++;
+        }
+    }
+
+    /// This method gets the pre-questionnaire result and adds the answers to 
+    /// the list of answers of this Manager.
+    private void OnFormQuestionAnswered(object sender, FormAnsweredEventArgs e)
+    {
+        // Get the arguments
+        int form = e.FormID;
+        int answer = e.AnswerValue;
+        // Check if the given form is the pre-questionnaire
+        if (form == Manager.PRE_QUESTIONNAIRE) {
+            // Initiliaze the list of answers with the given answer
+            if (this.answers is null)
+            {
+                this.answers = new List<int>();
+            }
+            // Add the given answer in the list of answers
+            this.answers.Add(answer);
         }
     }
 }
