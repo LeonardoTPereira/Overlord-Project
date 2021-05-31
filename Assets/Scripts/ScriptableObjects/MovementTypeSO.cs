@@ -9,7 +9,7 @@ namespace EnemyGenerator
     {
 
         public float multiplier;
-        public MovementEnum enemyMovementIndex;
+        public Enums.MovementEnum enemyMovementIndex;
         public MovementType movementType;
     }
 }
