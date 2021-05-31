@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 //classe que seleciona a linha de missões de acordo com os pesos do perfil do jogador
 public class Selector
 {
@@ -12,7 +15,7 @@ public class Selector
     [1][5][3][7]
     */
 
-    public void select(Manager m)
+    public void Select(Manager m, List<int> answers)
     {
         pesos[0] = 3; //peso talk
         pesos[1] = 7; //peso get

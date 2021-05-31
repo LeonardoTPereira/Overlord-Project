@@ -6,7 +6,16 @@ public class Manager : MonoBehaviour
     /// The form ID of the pre-questionnaire.
     private const int PRE_QUESTIONNAIRE = 0;
 
-    public Selector sel = new Selector(); //seletor
+    /// The pre-questionnaire size.
+    private const int PRE_QUESTIONNAIRE_SIZE = 11;
+
+    /// List of answers of the pre-questionnaire.
+    private List<int> answers;
+
+    /// It controls if the content was selected or not.
+    private bool selected = false;
+
+    public Selector selector = new Selector(); //seletor
 
     public List<Quest> graph = new List<Quest>(); //lista de quests
 
@@ -15,9 +24,6 @@ public class Manager : MonoBehaviour
     public Player_Movement player; //jogador
 
     private JSonWriter writer;
-
-    /// This attribute holds the list of answers of the pre-questionnaire.
-    private List<int> answers;
 
     void Start()
     {
@@ -28,10 +34,22 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
+        // Check if all the pre-questionnaire answers were received and if the 
+        // contents were not selected yet
+        if (!(this.answers is null)
+            && !this.selected
+            && this.answers.Count == PRE_QUESTIONNAIRE_SIZE
+        ) {
+            // Select the appropriate contents for the player and store them in
+            // the attribute `graph` and the game objects for the dungeons
+            this.selector.Select(this, this.answers);
+            this.selected = true;
+        }
+
         if (isFinished == true)
         {
             isFinished = false;
-            sel.select(this);
+            selector.Select(this, this.answers);
 
             makeBranches();
 
@@ -103,7 +121,7 @@ public class Manager : MonoBehaviour
         int form = e.FormID;
         int answer = e.AnswerValue;
         // Check if the given form is the pre-questionnaire
-        if (form == Manager.PRE_QUESTIONNAIRE) {
+        if (form == PRE_QUESTIONNAIRE) {
             // Initiliaze the list of answers with the given answer
             if (this.answers is null)
             {
