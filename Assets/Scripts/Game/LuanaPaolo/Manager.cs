@@ -121,7 +121,8 @@ public class Manager : MonoBehaviour
         int form = e.FormID;
         int answer = e.AnswerValue;
         // Check if the given form is the pre-questionnaire
-        if (form == PRE_QUESTIONNAIRE) {
+        if (form == PRE_QUESTIONNAIRE)
+        {
             // Initiliaze the list of answers with the given answer
             if (this.answers is null)
             {
