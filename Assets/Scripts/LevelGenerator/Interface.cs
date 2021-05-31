@@ -253,6 +253,9 @@ namespace LevelGenerator
                     else
                     {
                         System.Random random = new System.Random();
+
+                        int enemyType_Randomizer = UnityEngine.Random.Range(0, 3);
+
                         //For Unity's dungeon file we need to save the x and y position of the room
                         dungeonData += i + "\n";
                         dungeonData += j + "\n";
@@ -299,7 +302,7 @@ namespace LevelGenerator
                             roomDataInFile.Enemies = 0;
                             roomDataInFile.Treasures = 0;
 
-                            roomDataInFile.EnemiesType = 0;
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -327,7 +330,7 @@ namespace LevelGenerator
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = treasureValue;
 
-                            roomDataInFile.EnemiesType = 0;
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -346,7 +349,7 @@ namespace LevelGenerator
 
                             dungeonData += "+" + map[i, j] + "\n";
 
-                            roomDataInFile.EnemiesType = 0;
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
 
                             roomDataInFile.keys = new List<int>();
                             roomDataInFile.keys.Add(map[i, j]);
@@ -366,7 +369,7 @@ namespace LevelGenerator
 
                             //TODO Logica de carregar inimigos de acordo com probabilidade
 
-                            roomDataInFile.EnemiesType = 0;
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
