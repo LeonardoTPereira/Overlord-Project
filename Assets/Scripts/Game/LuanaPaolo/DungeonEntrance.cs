@@ -7,8 +7,11 @@ using UnityEngine.SceneManagement;
 public class DungeonEntrance : MonoBehaviour
 {
     public string nameScene;
+    private string levelFileName;
     public NarrativeConfigSO narrativeSO;
     private GameManager gameManager;
+
+    public string LevelFileName { get => levelFileName; set => levelFileName = value; }
 
     public static event LevelLoadEvent loadLevelEventHandler;
 

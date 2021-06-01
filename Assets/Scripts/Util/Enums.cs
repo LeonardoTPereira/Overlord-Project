@@ -25,4 +25,12 @@
         PreTestForm,
         PostTestForm
     }
+
+    public enum PlayerProfileEnum
+    {
+        Mastery, //Challenge, Enemies
+        Immersion, //Story, NPCs
+        Criativity, //Discovery, Exploration
+        Achievement // Completion, Items
+    }
 }
