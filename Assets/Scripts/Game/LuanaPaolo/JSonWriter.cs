@@ -90,11 +90,12 @@ public class JSonWriter
         // Initialize output string
         string outString = " ";
         // Convert the narrative to JSON
-        for (int i = 0; i < graph.Count; i++) 
-            outString += JsonUtility.ToJson(graph[i]) + '\n';
+        ////for (int i = 0; i < graph.Count; i++) 
+            ////outString += JsonUtility.ToJson(graph[i]) + '\n';
         // Write the narrative JSON file
         string filename = template.Replace(CONTENT, narrativeFl);
-        File.WriteAllText(filename, outString);
+        ////File.WriteAllText(filename, outString);
+        File.WriteAllText(filename, graph);
 
         // Get the dungeon parameters
         parametersDungeon pD = new parametersDungeon();
