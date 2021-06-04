@@ -30,7 +30,7 @@
     {
         Mastery, //Challenge, Enemies
         Immersion, //Story, NPCs
-        Criativity, //Discovery, Exploration
+        Creativity, //Discovery, Exploration
         Achievement // Completion, Items
     }
 }

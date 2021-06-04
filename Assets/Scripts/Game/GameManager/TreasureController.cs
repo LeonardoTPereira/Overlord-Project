@@ -56,7 +56,7 @@ public class TreasureController : PlaceableRoomObject
 
     protected void OnTreasureCollect()
     {
-        quantities.numberTreasures++;
+        quantities.numberItens++;
         Debug.Log("Collected the treasure");
         treasureCollectEvent(this, new TreasureCollectEventArgs(Treasure.value)); //Luana e Paolo
     }
