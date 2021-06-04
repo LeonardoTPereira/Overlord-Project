@@ -93,9 +93,9 @@ public class JSonWriter
         ////for (int i = 0; i < graph.Count; i++) 
             ////outString += JsonUtility.ToJson(graph[i]) + '\n';
         // Write the narrative JSON file
+        outString = JsonUtility.ToJson(graph);
         string filename = template.Replace(CONTENT, narrativeFl);
-        ////File.WriteAllText(filename, outString);
-        File.WriteAllText(filename, graph);
+        File.WriteAllText(filename, outString);
 
         // Get the dungeon parameters
         parametersDungeon pD = new parametersDungeon();
