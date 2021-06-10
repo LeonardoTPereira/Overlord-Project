@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameStartEventHandler(this, EventArgs.Empty);
+        GameStartEventHandler(null, EventArgs.Empty);
         //LoadNewLevel();
         //panelIntro.SetActive(true);   foi comentado
     }
@@ -160,15 +160,12 @@ public class GameManager : MonoBehaviour
                     startButton.interactable = true;
             }
         }
-        if (isCompleted && generator != null)
+        if (isCompleted && generator != null && generator.hasFinished)
         {
-            if (generator.hasFinished)
-            {
-                instance.createdDungeon = generator.aux;
-                currentMapId++;
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
-            }
+            instance.createdDungeon = generator.aux;
+            currentMapId++;
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
         }
 
     }
@@ -395,7 +392,7 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
-        GameStartEventHandler(this, EventArgs.Empty);
+        GameStartEventHandler(null, EventArgs.Empty);
         SceneManager.LoadScene("Main");
     }
 
@@ -495,7 +492,7 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelLoadedEvents()
     {
-        NewLevelLoadedEventHandler(this, EventArgs.Empty);
+        NewLevelLoadedEventHandler(null, EventArgs.Empty);
     }
 
     public bool IsLeftEdge(Coordinates coordinates)

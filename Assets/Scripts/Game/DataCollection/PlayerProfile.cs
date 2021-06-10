@@ -157,6 +157,7 @@ public class PlayerProfile : MonoBehaviour
         DoorBHV.ExitRoomEventHandler -= OnRoomExit;
         DoorBHV.KeyUsedEventHandler -= OnKeyUsed;
     }
+
     private void IncrementCombo(object sender, EventArgs eventArgs)
     {
         actualCombo++;
@@ -184,6 +185,7 @@ public class PlayerProfile : MonoBehaviour
     {
         treasureCollected = 0;
     }
+
     private void OnGameStart(object sender, EventArgs eventArgs)
     {
         profileString = "";
@@ -397,7 +399,6 @@ public class PlayerProfile : MonoBehaviour
         }
     }
 
-
     private void WrapHeatMapToString(Map currentMap)
     {
         heatMapString = "";
@@ -425,7 +426,6 @@ public class PlayerProfile : MonoBehaviour
         StartCoroutine(PostData("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
         //saveToLocalFile("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
         string UploadFilePath = PlayerProfile.instance.sessionUID;
-
 
     }
 

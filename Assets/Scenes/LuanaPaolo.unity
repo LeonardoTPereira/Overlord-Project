@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8223,9 +8223,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 1859762280}
   nextPanel: {fileID: 1931489315}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &1317421218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9041,9 +9038,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 1931489315}
   nextPanel: {fileID: 1450554739}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!1 &1396728182
 GameObject:
   m_ObjectHideFlags: 0
@@ -9087,8 +9081,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70525adb7a52ee0439c81de57524ccd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preTestQuestionnaire: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,
+    type: 2}
   graph: []
-  isFinished: 0
+  isFinished: 1
   player: {fileID: 0}
 --- !u!1 &1397514860
 GameObject:
@@ -11492,9 +11488,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   nextPanel: {fileID: 937076717}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &1712763106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11676,9 +11669,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   nextPanel: {fileID: 1712763101}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &1724492989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12285,9 +12275,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   nextPanel: {fileID: 1450554739}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &1859762282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12532,9 +12519,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 1317421216}
   nextPanel: {fileID: 1358448521}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &1931489318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13488,10 +13472,67 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5387122513190626898, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5387122514352620041, guid: ad40b1b1707861e4fba20dd400dfa299,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 116786863}
+    - target: {fileID: 5387122514352620042, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5387122512652773443}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoadText, Project.Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090836287791468465, guid: ad40b1b1707861e4fba20dd400dfa299,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad40b1b1707861e4fba20dd400dfa299, type: 3}
+--- !u!114 &5387122512652773443 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373130565653791563, guid: ad40b1b1707861e4fba20dd400dfa299,
+    type: 3}
+  m_PrefabInstance: {fileID: 5387122512652773442}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afaa5f586e0dad24aa1d2d178c57b3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -5,5 +5,4 @@ using UnityEngine;
 public class FormQuestionsData : ScriptableObject
 {
     public List<FormQuestionData> questions;
-
 }

@@ -43,14 +43,10 @@ public class FormBHV : MonoBehaviour
     {
         foreach (FormQuestionBHV q in questions)
         {
-            int answer = q.value;
-            FormQuestionAnsweredEventHandler(this, new FormAnsweredEventArgs(formID, answer));
-            q.value = 0;
+            FormQuestionAnsweredEventHandler(this, new FormAnsweredEventArgs(formID, q.questionData.answer));
             q.ResetToggles();
         }
         if (formID == 1)
-            PostTestFormAnswered?.Invoke(this, EventArgs.Empty);
+            PostTestFormAnswered?.Invoke(null, EventArgs.Empty);
     }
-
-
 }

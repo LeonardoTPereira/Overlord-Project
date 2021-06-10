@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class JSonWriter
 {
     [System.Serializable]
-    public class parametersDungeon
+    public class ParametersDungeon
     {
         public int size = 0;
         public int nKeys = 0;
@@ -38,24 +39,43 @@ public class JSonWriter
 
         public float getLinearity()
         {
-            return DungeonLinearityConverter.ToFloat((DungeonLinearity)Linearity);
+            return DungeonLinearityConverter.ToFloat((DungeonLinearity)LinearityEnum);
         }
     }
 
     [System.Serializable]
-    public class parametersMonsters
+    public class ParametersMonsters
     {
-        public int nEnemies = 0;
-        public int percentageType1 = 0;
-        public int percentageType2 = 0;
-        public int percentageType3 = 0;
-        public int frequencyType1 = 0;
-        public int frequencyType2 = 0;
-        public int frequencyType3 = 0;
+        private int nEnemies;
+        private int percentageType1;
+        private int percentageType2;
+        private int percentageType3;
+        private int frequencyType1;
+        private int frequencyType2;
+        private int frequencyType3;
+
+        public int NEnemies { get => nEnemies; set => nEnemies = value; }
+        public int PercentageType1 { get => percentageType1; set => percentageType1 = value; }
+        public int PercentageType2 { get => percentageType2; set => percentageType2 = value; }
+        public int PercentageType3 { get => percentageType3; set => percentageType3 = value; }
+        public int FrequencyType1 { get => frequencyType1; set => frequencyType1 = value; }
+        public int FrequencyType2 { get => frequencyType2; set => frequencyType2 = value; }
+        public int FrequencyType3 { get => frequencyType3; set => frequencyType3 = value; }
+
+        public ParametersMonsters()
+        {
+            NEnemies = 0;
+            PercentageType1 = 0;
+            PercentageType2 = 0;
+            PercentageType3 = 0;
+            FrequencyType1 = 0;
+            FrequencyType2 = 0;
+            FrequencyType3 = 0;
+        }
 
         public override string ToString()
         {
-            return "p1=" + percentageType1 + "_p2=" + percentageType2 + "_p3=" + percentageType3 + "_f1=" + frequencyType1+ "_f2=" + frequencyType2 + "_f3=" + frequencyType3;
+            return "p1=" + PercentageType1 + "_p2=" + PercentageType2 + "_p3=" + PercentageType3 + "_f1=" + FrequencyType1+ "_f2=" + FrequencyType2 + "_f3=" + FrequencyType3;
         }
     }
 
@@ -93,30 +113,30 @@ public class JSonWriter
         ////for (int i = 0; i < graph.Count; i++) 
             ////outString += JsonUtility.ToJson(graph[i]) + '\n';
         // Write the narrative JSON file
-        outString = JsonUtility.ToJson(graph);
+        outString = JsonConvert.SerializeObject(graph);
         string filename = template.Replace(CONTENT, narrativeFl);
         File.WriteAllText(filename, outString);
 
         // Get the dungeon parameters
-        parametersDungeon pD = new parametersDungeon();
+        ParametersDungeon pD = new ParametersDungeon();
         conversorDungeon(pD, graph);
         // Convert the dungeon to JSON
-        outString = JsonUtility.ToJson(pD) + '\n';
+        outString = JsonConvert.SerializeObject(pD) + '\n';
         // Write the dungeon JSON file
         filename = template.Replace(CONTENT, dungeonFd + sep + pD.ToString());
         File.WriteAllText(filename, outString);
 
         // Get the enemies parameters
-        parametersMonsters pM = new parametersMonsters();
+        ParametersMonsters pM = new ParametersMonsters();
         conversorMonsters(pM, graph);
         // Convert the enemies to JSON
-        outString = JsonUtility.ToJson(pM) + '\n';
+        outString = JsonConvert.SerializeObject(pM) + '\n';
         // Write the enemies JSON file
         filename = template.Replace(CONTENT, enemyFd + sep + pM.ToString());
         File.WriteAllText(filename, outString);
     }
 
-    private void conversorDungeon(parametersDungeon pD, List<Quest> graph)
+    private void conversorDungeon(ParametersDungeon pD, List<Quest> graph)
     {
         for (int i = 0; i < graph.Count; i++)
         {
@@ -139,25 +159,25 @@ public class JSonWriter
         pD.nEnemies = Random.Range(1, 5);
     }
 
-    private void conversorMonsters(parametersMonsters pM, List<Quest> graph)
+    private void conversorMonsters(ParametersMonsters pM, List<Quest> graph)
     {
         for (int i = 0; i < graph.Count; i++)
         {
             if (graph[i].tipo == 2 || graph[i].tipo == 5)
             {
-                pM.nEnemies += 2;
-                pM.percentageType1 = graph[i].n1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
-                pM.percentageType2 = graph[i].n2;
-                pM.percentageType3 = graph[i].n3;
+                pM.NEnemies += 2;
+                pM.PercentageType1 += graph[i].n1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
+                pM.PercentageType2 += graph[i].n2;
+                pM.PercentageType3 += graph[i].n3;
 
-                if (pM.percentageType1 >= 5) pM.frequencyType1 = Random.Range(10, 21);
-                else pM.frequencyType1 = Random.Range(1, 10);
+                if (pM.PercentageType1 >= 5) pM.FrequencyType1 += Random.Range(10, 21);
+                else pM.FrequencyType1 += Random.Range(1, 10);
 
-                if (pM.percentageType2 >= 5) pM.frequencyType2 = Random.Range(5, 21);
-                else pM.frequencyType2 = Random.Range(1, 5);
+                if (pM.PercentageType2 >= 5) pM.FrequencyType2 += Random.Range(5, 21);
+                else pM.FrequencyType2 += Random.Range(1, 5);
 
-                if (pM.percentageType3 >= 5) pM.frequencyType3 = Random.Range(1, 10);
-                else pM.frequencyType3 = Random.Range(10, 21);
+                if (pM.PercentageType3 >= 5) pM.FrequencyType3 += Random.Range(1, 10);
+                else pM.FrequencyType3 += Random.Range(10, 21);
             }
         }
     }

@@ -24,7 +24,7 @@ namespace LevelGenerator
         List<Dungeon> dungeons;
         //The aux the Game Manager will access to load the created dungeon
         public Dungeon aux;
-        JSonWriter.parametersMonsters parametersMonsters;
+        JSonWriter.ParametersMonsters parametersMonsters;
 
         /**
          * The constructor of the "Main" behind the EA

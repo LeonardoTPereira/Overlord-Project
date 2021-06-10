@@ -22,13 +22,17 @@ namespace EnemyGenerator
     }
 
     //Differentiates population from the intermediate one
-    public struct Population : IComponentData { }
+    public struct Population : IComponentData 
+    { 
+    }
     public struct IntermediatePopulation : IComponentData
     {
         public int parent1;
         public int parent2;
     }
-    public struct ElitePopulation : IComponentData { }
+    public struct ElitePopulation : IComponentData 
+    { 
+    }
 
     /*public enum WeaponEnum
     {

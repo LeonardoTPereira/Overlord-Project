@@ -10,11 +10,6 @@ using UnityEngine.Jobs;
 #if UNITY_EDITOR
 public class EnemySystem : ComponentSystem
 {
-    protected override void OnUpdate()
-    {
-
-    }
-
     //Returns the type of movement the enemy has
     /*public MovementType GetMovementType(MovementEnum moveTypeEnum)
     {
@@ -33,6 +28,9 @@ public class EnemySystem : ComponentSystem
                 return null;
         }
     }*/
+    protected override void OnUpdate()
+    {
+    }
 }
 
 
@@ -168,7 +166,6 @@ public class EASystem : JobComponentSystem
         public float desiredFitness;
         public Unity.Mathematics.Random random;
 
-
         public void Execute(ref IntermediatePopulation interPop)
         {
             int auxIdx1, auxIdx2;
@@ -202,7 +199,6 @@ public class EASystem : JobComponentSystem
             {
                 interPop.parent2 = auxIdx2;
             }
-
         }
     }
 
@@ -320,9 +316,7 @@ public class EASystem : JobComponentSystem
         }
     }
 
-
-    [RequireComponentTag(typeof(Population))]
-    [BurstCompile]
+    [RequireComponentTag(typeof(Population)), BurstCompile]
     struct FindBestJob : IJobForEachWithEntity<EnemyComponent, WeaponComponent>
     {
         public float bestFitness;
@@ -370,7 +364,6 @@ public class EASystem : JobComponentSystem
                     handle = fitJob.Schedule(this, inputDeps);
                     handle.Complete();
 
-
                     getFitnessJob = new GetFitnessJob
                     {
                         fitness = GameManagerTest.instance.fitnessArray
@@ -385,11 +378,9 @@ public class EASystem : JobComponentSystem
                         weaponPopulationCopy = GameManagerTest.instance.weaponPop
                     };
 
-
                     handle = copyPopulation.Schedule(this, inputDeps);
 
                     handle.Complete();
-
                 }
 
                 var random = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(1, 100000));
@@ -525,8 +516,7 @@ public class EASystem : JobComponentSystem
                 return handle;
             }
         }
-        EmptyJob emptyJob = new EmptyJob
-        { };
+        EmptyJob emptyJob = new EmptyJob { };
         handle = emptyJob.Schedule();
         return handle;
     }
@@ -542,7 +532,7 @@ public class SignalEAEnding : ComponentSystem
         {
             if (GameManagerTest.instance && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
             {
-                //Debug.Log("This different update!");
+                // Debug.Log("This different update!");
 
                 GameManagerTest.instance.generationCounter++;
                 GameManagerTest.instance.enemyReady = true;

@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static Enums;
 
 public class Manager : MonoBehaviour
 {
-    /// The form ID of the pre-questionnaire.
-    private const int PRE_QUESTIONNAIRE = 0;
 
-    /// The pre-questionnaire size.
-    private const int PRE_QUESTIONNAIRE_SIZE = 11;
+    public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
     /// List of answers of the pre-questionnaire.
-    private List<int> answers;
+    public FormQuestionsData preTestQuestionnaire;
 
     /// It controls if the content was selected or not.
     private bool selected = false;
 
-    public Selector selector = new Selector(); //seletor
+    public Selector selector; //seletor
 
-    public List<Quest> graph = new List<Quest>(); //lista de quests
+    public List<Quest> graph; //lista de quests/
 
     public bool isFinished = true; //verifica se a missão já terminou
 
@@ -25,58 +24,34 @@ public class Manager : MonoBehaviour
 
     private JSonWriter writer;
 
-    void Start()
-    {
-        player = FindObjectOfType<Player_Movement>();
+    private PlayerProfileEnum playerProfile;
 
+    void Awake()
+    {
+        graph = new List<Quest>();
+        selector = new Selector();
         writer = new JSonWriter();
     }
 
-    void Update()
+    void Start()
     {
-        // Check if all the pre-questionnaire answers were received and if the 
-        // contents were not selected yet
-        if (!(this.answers is null)
-            && !this.selected
-            && this.answers.Count == PRE_QUESTIONNAIRE_SIZE
-        ) {
-            // Select the appropriate contents for the player and store them in
-            // the attribute `graph` and the game objects for the dungeons
-            this.selector.Select(this, this.answers);
-            this.selected = true;
-        }
+        player = FindObjectOfType<Player_Movement>();
+        List<int> answers = new List<int>();
+        foreach (FormQuestionData questionData in preTestQuestionnaire.questions)
+            answers.Add(questionData.answer);
 
-        if (isFinished == true)
-        {
-            isFinished = false;
-            selector.Select(this, this.answers);
+        Debug.Log("Answers: " + answers.Count);
 
-            makeBranches();
+        playerProfile = selector.Select(this, answers);
 
-            writer.writeJSon(graph);
+        makeBranches();
 
-            for (int i = 0; i < graph.Count; i++) Debug.Log(graph[i].tipo + ", " + graph[i].c1 + ", " + graph[i].c2);
+        writer.writeJSon(graph);
 
-            isFinished = false;
-        }
+        for (int i = 0; i < graph.Count; i++) Debug.Log(graph[i].tipo + ", " + graph[i].c1 + ", " + graph[i].c2);
 
-        //if(isFinished == false) mission();
-    }
-
-    /// This method is called when this Manager is toggled.
-    ///
-    /// It adds the event responses related to this class.
-    protected void OnEnable()
-    {
-        FormBHV.FormQuestionAnsweredEventHandler += OnFormQuestionAnswered;
-    }
-
-    /// This method is called when this Manager is toggled.
-    ///
-    /// It removes the event responses related to this class.
-    protected void OnDisable()
-    {
-        FormBHV.FormQuestionAnsweredEventHandler -= OnFormQuestionAnswered;
+        Debug.Log("Profile: " + playerProfile.ToString());
+        ProfileSelectedEventHandler(this, new ProfileSelectedEventArgs(playerProfile));
     }
 
     void makeBranches()
@@ -110,26 +85,6 @@ public class Manager : MonoBehaviour
             }
 
             index++;
-        }
-    }
-
-    /// This method gets the pre-questionnaire result and adds the answers to 
-    /// the list of answers of this Manager.
-    private void OnFormQuestionAnswered(object sender, FormAnsweredEventArgs e)
-    {
-        // Get the arguments
-        int form = e.FormID;
-        int answer = e.AnswerValue;
-        // Check if the given form is the pre-questionnaire
-        if (form == PRE_QUESTIONNAIRE)
-        {
-            // Initiliaze the list of answers with the given answer
-            if (this.answers is null)
-            {
-                this.answers = new List<int>();
-            }
-            // Add the given answer in the list of answers
-            this.answers.Add(answer);
         }
     }
 }

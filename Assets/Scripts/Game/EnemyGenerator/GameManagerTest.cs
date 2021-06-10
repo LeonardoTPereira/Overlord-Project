@@ -215,7 +215,7 @@ public class GameManagerTest : MonoBehaviour
 
     public void Update()
     {
-        if (enemyReady & enemySorted)
+        if (enemyReady && enemySorted)
         {
             timeAfterSort = Time.realtimeSinceStartup - startTime;
             if (!enemyPrinted)
@@ -259,7 +259,6 @@ public class GameManagerTest : MonoBehaviour
 
     protected void OnApplicationQuit()
     {
-
     }
 
 #if UNITY_EDITOR
@@ -285,7 +284,6 @@ public class GameManagerTest : MonoBehaviour
             outputFile.Write(stdDevNBestFitness + ",");
             outputFile.Write(stdDevFitness + "\n");
         }
-
     }
 
     public float AverageFitness(int n)
@@ -373,6 +371,7 @@ public class GameManagerTest : MonoBehaviour
             {
                 ++shift;
             }
+
         }
 
     }

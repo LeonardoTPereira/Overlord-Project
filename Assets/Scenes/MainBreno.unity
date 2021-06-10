@@ -765,8 +765,7 @@ MonoBehaviour:
   survivalMode: 0
   enemyMode: 1
   enemyLoader: {fileID: 0}
-  dungeonDifficulty: 0
-  chosenDifficulty: 0
+  chosenDifficultyFileName: 
   healthUI: {fileID: 0}
   keyUI: {fileID: 0}
   nExecutions: 0
@@ -1031,6 +1030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -1297,6 +1297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -2413,9 +2414,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   nextPanel: {fileID: 1784551439}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!1 &341506732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2653,6 +2651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -2995,6 +2994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -3282,6 +3282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -3763,6 +3764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -3895,6 +3897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -4057,6 +4060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -4446,9 +4450,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   nextPanel: {fileID: 1069247383}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &710540158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4674,6 +4675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -4925,7 +4927,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.21725278}
   m_AnchorMax: {x: 1, y: 0.42400002}
-  m_AnchoredPosition: {x: 0, y: -0.6000061}
+  m_AnchoredPosition: {x: 0, y: -0.6000366}
   m_SizeDelta: {x: 0, y: 0.3999939}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &805926248
@@ -5154,6 +5156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -6492,6 +6495,7 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
+  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -6965,9 +6969,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   nextPanel: {fileID: 1206269790}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!1 &1131663844
 GameObject:
   m_ObjectHideFlags: 0
@@ -7641,6 +7642,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &1247540745
@@ -8147,6 +8149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -8832,6 +8835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -8944,6 +8948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -9436,7 +9441,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.05
+  m_fontSize: 44.8
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9493,7 +9498,7 @@ LightingSettings:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Settings.lighting
-  serializedVersion: 2
+  serializedVersion: 3
   m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 1
@@ -9515,7 +9520,7 @@ LightingSettings:
   m_MixedBakeMode: 2
   m_LightmapsBakeMode: 1
   m_FilterMode: 1
-  m_LightmapParameters: {fileID: 0}
+  m_LightmapParameters: {fileID: 15204, guid: 0000000000000000f000000000000000, type: 0}
   m_ExportTrainingData: 0
   m_TrainingDataDestination: TrainingData
   m_RealtimeResolution: 2
@@ -9532,7 +9537,7 @@ LightingSettings:
   m_PVREnvironmentReferencePointCount: 2048
   m_LightProbeSampleCountMultiplier: 4
   m_PVRBounces: 2
-  m_PVRRussianRouletteStartBounce: 2
+  m_PVRMinBounces: 1
   m_PVREnvironmentMIS: 0
   m_PVRFilteringMode: 2
   m_PVRDenoiserTypeDirect: 0
@@ -9734,6 +9739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -9846,9 +9852,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 328329802}
   nextPanel: {fileID: 1692420591}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &1580198616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10291,6 +10294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -10320,8 +10324,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1784551440}
-        m_TargetAssemblyTypeName: MenuPanelBHV, Assembly-CSharp
+      - m_Target: {fileID: 328329806}
+        m_TargetAssemblyTypeName: MenuPanelBHV, Project.Game
         m_MethodName: GoToNext
         m_Mode: 1
         m_Arguments:
@@ -10529,6 +10533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -10687,9 +10692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 1580198614}
   nextPanel: {fileID: 1784551439}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!1 &1729494753
 GameObject:
   m_ObjectHideFlags: 0
@@ -10743,6 +10745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -11031,7 +11034,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1370562970981006, guid: e46c17472ef960548873b1a29ce0671a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1433990891836392, guid: e46c17472ef960548873b1a29ce0671a, type: 3}
       propertyPath: m_Name
@@ -11043,13 +11046,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1826647156614048, guid: e46c17472ef960548873b1a29ce0671a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114178724596801218, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: questionsData
       value: 
-      objectReference: {fileID: 11400000, guid: 68dbb5c3752341d4183b9a15efcaf696,
+      objectReference: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,
         type: 2}
     - target: {fileID: 114439437788355862, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -11091,6 +11094,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: GoToNext
+      objectReference: {fileID: 0}
+    - target: {fileID: 114865303592098710, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MenuTransitionPanelBHV, Project.Game
       objectReference: {fileID: 0}
     - target: {fileID: 114865303592098710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -11270,12 +11278,12 @@ PrefabInstance:
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 946.10004
+      value: 985.87506
       objectReference: {fileID: 0}
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 478.05002
+      value: 497.93753
       objectReference: {fileID: 0}
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -11295,7 +11303,7 @@ PrefabInstance:
     - target: {fileID: 224672997396575122, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.39968497
+      value: 0.36999053
       objectReference: {fileID: 0}
     - target: {fileID: 224726318706616710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -11362,14 +11370,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1784551439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfd4c361570bbd343870d2f12414644f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7bfb0321c02b8d4c9c86722921b997e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPanel: {fileID: 1692420591}
-  nextPanel: {fileID: 19050584}
-  txt: {fileID: 0}
-  but: {fileID: 0}
-  menu: {fileID: 328329802}
+  previousPanel: {fileID: 328329802}
+  nextPanel: LuanaPaolo
 --- !u!1 &1787544201
 GameObject:
   m_ObjectHideFlags: 0
@@ -12214,6 +12219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -12351,6 +12357,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &2008118076
 Canvas:
   m_ObjectHideFlags: 0
@@ -12486,6 +12493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -13239,6 +13247,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &2146747606
 Canvas:
   m_ObjectHideFlags: 0

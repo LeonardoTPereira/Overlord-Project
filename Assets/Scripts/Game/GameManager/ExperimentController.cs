@@ -31,8 +31,12 @@ public class ExperimentController : MonoBehaviour
 
     private void OnEnable()
     {
-        //TODO inscrever em algum evento que avise quando o form foi preenchido para carregar os dados praquele jogador e passe o perfil dele
-        //+= LoadDataForExperiment;
+        Manager.ProfileSelectedEventHandler += LoadDataForExperiment;
+    }
+
+    private void OnDisable()
+    {
+        Manager.ProfileSelectedEventHandler -= LoadDataForExperiment;
     }
 
     public void Start()
@@ -45,9 +49,9 @@ public class ExperimentController : MonoBehaviour
         PROFILE_DIRECTORY = EXPERIMENT_DIRECTORY + SEPARATOR_CHARACTER + playerProfile.ToString() + SEPARATOR_CHARACTER;
     }
 
-    private void LoadDataForExperiment(PlayerProfileEnum playerProfile)
+    private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
     {
-        SetProfileDirectory(playerProfile);
+        SetProfileDirectory(profileSelectedEventArgs.PlayerProfile);
         NarrativeClassPlaceholder narrative = SelectNarrative();
         LoadAvailableLevelsForNarrative(narrative.name);
         LoadAvailableEnemiesForNarrative(narrative.name);

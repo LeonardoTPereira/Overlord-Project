@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrollBarBHV : MonoBehaviour
+public class ScrollBarBhv : MonoBehaviour
 {
     void OnEnable()
     {

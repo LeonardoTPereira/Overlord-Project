@@ -69,14 +69,14 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
         string narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
             "/Enemy/"+fileInfos[0].Name.Replace(".json", "")).text;
-        JSonWriter.parametersMonsters parametersMonsters = JsonConvert.DeserializeObject<JSonWriter.parametersMonsters>(narrativeText);
+        JSonWriter.ParametersMonsters parametersMonsters = JsonConvert.DeserializeObject<JSonWriter.ParametersMonsters>(narrativeText);
 
         directoryInfo = new DirectoryInfo(Application.dataPath +
         "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Dungeon");
         fileInfos = directoryInfo.GetFiles("*.*");
         narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
             "/Dungeon/" + fileInfos[0].Name.Replace(".json", "")).text;
-        JSonWriter.parametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.parametersDungeon>(narrativeText);
+        JSonWriter.ParametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.ParametersDungeon>(narrativeText);
 
         createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon, parametersMonsters));
     }

@@ -4,12 +4,12 @@ public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArg
 public class CreateEADungeonEventArgs : EventArgs
 {
     private Fitness fitness;
-    private JSonWriter.parametersMonsters parametersMonsters;
+    private JSonWriter.ParametersMonsters parametersMonsters;
     public CreateEADungeonEventArgs(Fitness fitness)
     {
         Fitness = fitness;
     }
-    public CreateEADungeonEventArgs(JSonWriter.parametersDungeon parametersDungeon, JSonWriter.parametersMonsters parametersMonsters)
+    public CreateEADungeonEventArgs(JSonWriter.ParametersDungeon parametersDungeon, JSonWriter.ParametersMonsters parametersMonsters)
     {
         Fitness = new Fitness(parametersDungeon.size, parametersDungeon.nKeys, parametersDungeon.nKeys, parametersDungeon.linearity);
         ParametersMonsters = parametersMonsters;
@@ -17,5 +17,5 @@ public class CreateEADungeonEventArgs : EventArgs
 
 
     public Fitness Fitness { get => fitness; set => fitness = value; }
-    public JSonWriter.parametersMonsters ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
+    public JSonWriter.ParametersMonsters ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
 }

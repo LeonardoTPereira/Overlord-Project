@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quest")]
+[CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quest"), Serializable]
 public class Quest : ScriptableObject
 {
     public int tipo; //tipo de quest

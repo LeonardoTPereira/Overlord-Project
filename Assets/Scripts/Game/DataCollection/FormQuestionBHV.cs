@@ -4,15 +4,11 @@ using UnityEngine.UI;
 
 public class FormQuestionBHV : MonoBehaviour
 {
-
-    public int value;
     public Toggle[] toggles;
     public Text questionText;
     public Text descriptionText;
 
-    private FormQuestionData questionData;
-
-
+    public FormQuestionData questionData;
 
     void Awake()
     {
@@ -36,9 +32,10 @@ public class FormQuestionBHV : MonoBehaviour
         if (!selected.isOn)
         {
             //Debug.Log("IsOff:"+ int.Parse(selected.GetComponentInChildren<Text>().text));
-            value = 0;
+            //questionData.answer = 0;
             return;
         }
+
         if (selected.isOn)
         {
             foreach (Toggle t in toggles)
@@ -49,9 +46,12 @@ public class FormQuestionBHV : MonoBehaviour
                     t.isOn = false;
                     //Debug.Log("After Falsing");
                 }
+
             }
-            value = int.Parse(selected.GetComponentInChildren<Text>().text);
+
+            questionData.answer = int.Parse(selected.GetComponentInChildren<Text>().text);
         }
+
     }
 
     public void ResetToggles()

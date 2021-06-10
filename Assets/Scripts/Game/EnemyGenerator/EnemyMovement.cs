@@ -44,9 +44,13 @@ namespace EnemyGenerator
         {
             Vector3 movementDir = new Vector3(Random.Range(-10, 11), Random.Range(-10, 11), 0);
             if (Random.value < 0.5f)
+            {
                 movementDir.x = 0;
+            }
             else
+            {
                 movementDir.y = 0;
+            }
             return movementDir;
         }
     }
