@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class explore
+public class Explore
 {
     float r;
 
-    public void option(Manager m, int lim, int[] pesos)
+    public void Option(Manager m, int lim, int[] pesos)
     {
         r = ((pesos[0] + pesos[1] * 2 + pesos[2] * 3 + pesos[3] * 4) / 16) * Random.Range(0f, 3f);
         if (lim == 3) r = 2.5f;
@@ -17,7 +17,7 @@ public class explore
             e.choose(m);
             talk t = new talk();
             t.option(m, lim, pesos);
-            this.option(m, lim, pesos);
+            this.Option(m, lim, pesos);
         }
         if (r > 2.6 && r <= 2.85)
         {
@@ -30,7 +30,7 @@ public class explore
             s.choose(m);
             talk t = new talk();
             t.option(m, lim, pesos);
-            this.option(m, lim, pesos);
+            this.Option(m, lim, pesos);
         }
         if (r <= 2.35)
         {

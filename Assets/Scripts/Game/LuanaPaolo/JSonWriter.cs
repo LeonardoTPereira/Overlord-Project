@@ -172,8 +172,8 @@ public class JSonWriter
     {
         for (int i = 0; i < graph.Count; i++)
         {
-            if (graph[i].tipo == 1 || graph[i].tipo == 3 || graph[i].tipo == 4 || graph[i].tipo == 6) pD.size++;
-            if (graph[i].n1 == 0 || graph[i].n1 == 1 || graph[i].n1 == 4) pD.Linearity++;
+            if (graph[i].Tipo == 1 || graph[i].Tipo == 3 || graph[i].Tipo == 4 || graph[i].Tipo == 6) pD.size++;
+            if (graph[i].N1 == 0 || graph[i].N1 == 1 || graph[i].N1 == 4) pD.Linearity++;
         }
 
         if (pD.size < 3) pD.size = (int)DungeonSize.VerySmall;
@@ -195,12 +195,12 @@ public class JSonWriter
     {
         for (int i = 0; i < graph.Count; i++)
         {
-            if (graph[i].tipo == 2 || graph[i].tipo == 5)
+            if (graph[i].Tipo == 2 || graph[i].Tipo == 5)
             {
                 pM.NEnemies += 2;
-                pM.PercentageType1 += graph[i].n1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
-                pM.PercentageType2 += graph[i].n2;
-                pM.PercentageType3 += graph[i].n3;
+                pM.PercentageType1 += graph[i].N1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
+                pM.PercentageType2 += graph[i].N2;
+                pM.PercentageType3 += graph[i].N3;
 
                 if (pM.PercentageType1 >= 5) pM.FrequencyType1 += Random.Range(10, 21);
                 else pM.FrequencyType1 += Random.Range(1, 10);

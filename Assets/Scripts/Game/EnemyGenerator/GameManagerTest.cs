@@ -378,17 +378,17 @@ public class GameManagerTest : MonoBehaviour
 
     private bool IsEnemyDifferent(int index)
     {
-        if (enemyPop[index].health == enemyPop[index + 1].health)
-            if (enemyPop[index].damage == enemyPop[index + 1].damage)
-                if (math.abs(enemyPop[index].movementSpeed - enemyPop[index + 1].movementSpeed) < 0.001f)
-                    if (math.abs(enemyPop[index].activeTime - enemyPop[index + 1].activeTime) < 0.001f)
-                        if (math.abs(enemyPop[index].restTime - enemyPop[index + 1].restTime) < 0.001f)
-                            if (enemyPop[index].weapon == enemyPop[index + 1].weapon)
-                                if (enemyPop[index].movement == enemyPop[index + 1].movement)
-                                    if (enemyPop[index].behavior == enemyPop[index + 1].behavior)
-                                        if (math.abs(weaponPop[index].attackSpeed - weaponPop[index + 1].attackSpeed) < 0.001f)
-                                            if (math.abs(weaponPop[index].projectileSpeed - weaponPop[index + 1].projectileSpeed) < 0.001f)
-                                                return false;
+        if (enemyPop[index].health == enemyPop[index + 1].health 
+                && enemyPop[index].damage == enemyPop[index + 1].damage 
+                && math.abs(enemyPop[index].movementSpeed - enemyPop[index + 1].movementSpeed) < 0.001f
+                && math.abs(enemyPop[index].activeTime - enemyPop[index + 1].activeTime) < 0.001f
+                && math.abs(enemyPop[index].restTime - enemyPop[index + 1].restTime) < 0.001f 
+                && enemyPop[index].weapon == enemyPop[index + 1].weapon 
+                && enemyPop[index].movement == enemyPop[index + 1].movement
+                && enemyPop[index].behavior == enemyPop[index + 1].behavior
+                && math.abs(weaponPop[index].attackSpeed - weaponPop[index + 1].attackSpeed) < 0.001f
+                && math.abs(weaponPop[index].projectileSpeed - weaponPop[index + 1].projectileSpeed) < 0.001f)
+            return false;
         return true;
     }
 #endif

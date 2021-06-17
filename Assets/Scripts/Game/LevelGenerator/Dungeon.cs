@@ -325,26 +325,23 @@ namespace LevelGenerator
                 actualRoom = toVisit.Dequeue() as Room;
 
                 child = actualRoom.LeftChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        RoomFactory.RecreateRoom(ref child, desiredKeys);
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    RoomFactory.RecreateRoom(ref child, desiredKeys);
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.BottomChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        RoomFactory.RecreateRoom(ref child, desiredKeys);
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    RoomFactory.RecreateRoom(ref child, desiredKeys);
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.RightChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        RoomFactory.RecreateRoom(ref child, desiredKeys);
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    RoomFactory.RecreateRoom(ref child, desiredKeys);
+                    toVisit.Enqueue(child);
+                }
 
             }
             nKeys = RoomFactory.AvailableLockId.Count + RoomFactory.UsedLockId.Count;
@@ -368,47 +365,40 @@ namespace LevelGenerator
             while (toVisit.Count > 0 && !hasLock)
             {
                 actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.normal && !actualRoom.Equals(roomList[0]))
+                if (actualRoom.Type == Type.normal && !actualRoom.Equals(roomList[0]) && Util.rnd.Next(101) <= Constants.PROB_KEY_ROOM + Constants.PROB_LOCKER_ROOM)
                 {
-                    //if (Util.rnd.Next(101) <= Constants.PROB_KEY_ROOM + Constants.PROB_LOCKER_ROOM + Convert.ToInt32(hasKey)*Constants.PROB_KEY_ROOM)
-                    if (Util.rnd.Next(101) <= Constants.PROB_KEY_ROOM + Constants.PROB_LOCKER_ROOM)
+                    if (!hasKey)
                     {
-                        if (!hasKey)
-                        {
-                            actualRoom.Type = Type.key;
-                            actualRoom.RoomId = Util.getNextId();
-                            actualRoom.KeyToOpen = actualRoom.RoomId;
-                            lockId = actualRoom.RoomId;
-                            hasKey = true;
-                            roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
-                        }
-                        else
-                        {
-                            actualRoom.Type = Type.locked;
-                            actualRoom.KeyToOpen = lockId;
-                            hasLock = true;
-                            roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
-                        }
+                        actualRoom.Type = Type.key;
+                        actualRoom.RoomId = Util.getNextId();
+                        actualRoom.KeyToOpen = actualRoom.RoomId;
+                        lockId = actualRoom.RoomId;
+                        hasKey = true;
+                        roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
+                    }
+                    else
+                    {
+                        actualRoom.Type = Type.locked;
+                        actualRoom.KeyToOpen = lockId;
+                        hasLock = true;
+                        roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
                     }
                 }
                 child = actualRoom.LeftChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.BottomChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.RightChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
 
             }
         }
@@ -456,23 +446,20 @@ namespace LevelGenerator
                     }
                 }
                 child = actualRoom.LeftChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.BottomChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.RightChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
 
             }
 
@@ -483,33 +470,27 @@ namespace LevelGenerator
             while (toVisit.Count > 0 && !hasLock)
             {
                 actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.locked)
+                if (actualRoom.Type == Type.locked && actualRoom.KeyToOpen == lockId)
                 {
-                    if (actualRoom.KeyToOpen == lockId)
-                    {
-                        actualRoom.Type = Type.normal;
-                        actualRoom.KeyToOpen = -1;
-                        hasLock = true;
-                    }
+                    actualRoom.Type = Type.normal;
+                    actualRoom.KeyToOpen = -1;
+                    hasLock = true;
                 }
                 child = actualRoom.LeftChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.BottomChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
                 child = actualRoom.RightChild;
-                if (child != null)
-                    if (actualRoom.Equals(child.Parent))
-                    {
-                        toVisit.Enqueue(child);
-                    }
+                if (child != null && actualRoom.Equals(child.Parent))
+                {
+                    toVisit.Enqueue(child);
+                }
 
             }
 
@@ -533,13 +514,24 @@ namespace LevelGenerator
             foreach (Room room in roomList)
             {
                 if (room.X < minX)
+                {
                     minX = room.X;
+                }
+
                 if (room.Y < minY)
+                {
                     minY = room.Y;
+                }
+
                 if (room.X > maxX)
+                {
                     maxX = room.X;
+                }
+
                 if (room.Y > maxY)
+                {
                     maxY = room.Y;
+                }
             }
             Coordinates minBoundaries, maxBoundaries;
             minBoundaries = new Coordinates(minX, minY);

@@ -528,15 +528,12 @@ public class SignalEAEnding : ComponentSystem
 
     protected override void OnUpdate()
     {
-        if (GameManager.instance && GameManager.instance.createEnemy)
+        if (GameManager.instance && GameManager.instance.createEnemy && GameManagerTest.instance && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
         {
-            if (GameManagerTest.instance && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
-            {
-                // Debug.Log("This different update!");
+            // Debug.Log("This different update!");
 
-                GameManagerTest.instance.generationCounter++;
-                GameManagerTest.instance.enemyReady = true;
-            }
+            GameManagerTest.instance.generationCounter++;
+            GameManagerTest.instance.enemyReady = true;
         }
     }
 }

@@ -6,13 +6,13 @@ public class secret_ter
     public void choose(Manager m)
     {
         Quest quest = new Quest();
-        quest.tipo = 1;
-        quest.n1 = Random.Range(0, 100);
+        quest.Tipo = 1;
+        quest.N1 = Random.Range(0, 100);
         quest.c1 = -1;
         quest.c2 = -1;
         quest.parent = -1;
 
-        m.graph.Add(quest);
+        m.Graph.Add(quest);
 
         //m.chain.Add(2);
     }
