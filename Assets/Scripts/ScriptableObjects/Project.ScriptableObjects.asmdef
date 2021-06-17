@@ -1,0 +1,16 @@
+{
+    "name": "Project.ScripableObjects",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a37419e4b8e996d4da23a301a44013e3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace EnemyGenerator
 {
@@ -21,7 +19,7 @@ namespace EnemyGenerator
         public float attackSpeed;
         public float projectileSpeed;
 
-        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, int weaponIndex, 
+        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, int weaponIndex,
             int movementIndex, int behaviorIndex, float _fitness, float _attackSpeed, float _projectileSpeed)
         {
             health = _health;
@@ -29,14 +27,14 @@ namespace EnemyGenerator
             movementSpeed = _movementSpeed;
             activeTime = _activeTime;
             restTime = _restTime;
-            weapon = GameManagerTest.instance.weaponSet.Items[weaponIndex];
-            movement = GameManagerTest.instance.movementSet.Items[movementIndex];
-            behavior = GameManagerTest.instance.behaviorSet.Items[behaviorIndex];
+            weapon = StaticSets.weaponSet.Items[weaponIndex];
+            movement = StaticSets.movementSet.Items[movementIndex];
+            behavior = StaticSets.behaviorSet.Items[behaviorIndex];
             fitness = _fitness;
             attackSpeed = _attackSpeed;
             projectileSpeed = _projectileSpeed;
         }
     }
 
-    
+
 }

@@ -12,6 +12,9 @@ TagManager:
   - Shield
   - Collectible
   - Block
+  - Mission
+  - Npc
+  - Final
   layers:
   - Default
   - TransparentFX

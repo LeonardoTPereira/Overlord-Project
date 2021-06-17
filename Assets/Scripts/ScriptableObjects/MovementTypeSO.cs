@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace EnemyGenerator
 {
@@ -9,9 +7,9 @@ namespace EnemyGenerator
     [CreateAssetMenu]
     public class MovementTypeSO : ScriptableObject
     {
-        
+
         public float multiplier;
-        public MovementEnum enemyMovementIndex;
+        public Enums.MovementEnum enemyMovementIndex;
         public MovementType movementType;
     }
 }
