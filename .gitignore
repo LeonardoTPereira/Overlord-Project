@@ -98,3 +98,5 @@ Corridor/Library/metadata/
 Assets/Editor/Doxygen/html/
 Assets/External/Editor/Doxygen/html/
 Packages/System.Collections.4.3.0/
+.sonarlint/
+.sonarqube/
