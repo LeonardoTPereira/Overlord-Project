@@ -13,7 +13,7 @@ public class DungeonRoom : DungeonPart
     public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
     public RoomBHV roomBHV;
 
-    public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int difficulty, int treasure, int enemyType) : base(coordinates, code)
+    public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int difficulty, int treasure, int enemyType, int items, int npcs) : base(coordinates, code)
     {        
         this.keyIDs = keyIDs;
         Treasure = treasure;

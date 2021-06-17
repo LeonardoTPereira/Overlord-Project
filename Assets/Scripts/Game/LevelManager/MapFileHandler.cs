@@ -88,7 +88,15 @@ public class MapFileHandler
     }
 
     public int GetNextEnemyType(){
-        return int.Parse(parsedMapFile[currentIndex++])-2;
+        return int.Parse(parsedMapFile[currentIndex++]) - 2;
+    }
+
+    public int GetNextItem(){
+        return int.Parse(parsedMapFile[currentIndex++]) - 3;
+    }
+
+    public int GetNextNpc(){
+        return int.Parse(parsedMapFile[currentIndex++]) - 4;
     }
 
     public List<int> GetNextKeyIDs()

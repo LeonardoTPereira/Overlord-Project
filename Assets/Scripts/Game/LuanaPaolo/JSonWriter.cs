@@ -79,6 +79,22 @@ public class JSonWriter
         }
     }
 
+    [System.Serializable]
+    public class ParametersNpcs{
+        private int numNpcs = 0;
+        private List<Quest> quests;
+
+        public int NumNpcs{get => numNpcs; set => numNpcs = value;}
+        public List<Quest> Quests{get => quests; set => quests = value;}
+    }
+
+    [System.Serializable]
+    public class ParametersItems{
+        private int numItens = 0;
+
+        public int NumItens{get => numItens; set => numItens = value;}
+    }
+
     public void writeJSon(List<Quest> graph)
     {
         // Get the directory separator
@@ -134,6 +150,22 @@ public class JSonWriter
         // Write the enemies JSON file
         filename = template.Replace(CONTENT, enemyFd + sep + pM.ToString());
         File.WriteAllText(filename, outString);
+
+        ParametersNpcs pN = new ParametersNpcs();
+        conversorNpcs(pN, graph);
+        // Convert the enemies to JSON
+        outString = JsonConvert.SerializeObject(pN) + '\n';
+        // Write the enemies JSON file
+        //filename = template.Replace(CONTENT, enemyFd + sep + pN.ToString());
+        File.WriteAllText(filename, outString);
+
+        ParametersItems pI = new ParametersItems();
+        conversorItems(pI, graph);
+        // Convert the enemies to JSON
+        outString = JsonConvert.SerializeObject(pI) + '\n';
+        // Write the enemies JSON file
+        //filename = template.Replace(CONTENT, enemyFd + sep + pN.ToString());
+        File.WriteAllText(filename, outString);
     }
 
     private void conversorDungeon(ParametersDungeon pD, List<Quest> graph)
@@ -179,6 +211,26 @@ public class JSonWriter
                 if (pM.PercentageType3 >= 5) pM.FrequencyType3 += Random.Range(1, 10);
                 else pM.FrequencyType3 += Random.Range(10, 21);
             }
+        }
+    }
+
+    private void conversorNpcs(ParametersNpcs pN, List<Quest> graph){
+        for (int i = 0; i < graph.Count; i++){
+            if(graph[i].tipo == 6){
+                pN.NumNpcs++;
+                if(i + 1 < graph.Count) pN.Quests.Add(graph[i + 1]);
+                else{
+                    Quest questAux = new Quest();
+                    questAux.tipo = 10;
+                    pN.Quests.Add(questAux);
+                }
+            }
+        }
+    }
+
+    private void conversorItems(ParametersItems pI, List<Quest> graph){
+        for (int i = 0; i < graph.Count; i++){
+            if(graph[i].tipo == 3) pI.NumItens += graph[i].n1;
         }
     }
 }

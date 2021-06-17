@@ -24,6 +24,8 @@ public class DungeonFile
         private int enemies = -1;
         private int treasures = -1;
         private int enemyType = -1;
+        private int items = -1;
+        private int npcs = -1;
 
         [DefaultValue(-1)]
         public int Enemies { get => enemies; set => enemies = value; }
@@ -31,5 +33,9 @@ public class DungeonFile
         public int Treasures { get => treasures; set => treasures = value; }
         [DefaultValue(-1)]
         public int EnemiesType { get => enemyType; set => enemyType = value; }
+        [DefaultValue(-1)]
+        public int Items { get => items; set => items = value; }
+        [DefaultValue(-1)]
+        public int Npcs { get => npcs; set => npcs = value; }
     }
 }

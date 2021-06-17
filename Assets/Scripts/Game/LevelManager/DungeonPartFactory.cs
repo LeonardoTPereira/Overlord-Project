@@ -35,7 +35,7 @@ public class DungeonPartFactory
         { }
 
         List<int> keyIDs;
-        int difficulty, treasure, enemyType;
+        int difficulty, treasure, enemyType, items, npcs;
 #if UNITY_EDITOR
         Debug.Log($"We have a room:");
 #endif
@@ -48,6 +48,8 @@ public class DungeonPartFactory
 #endif
         treasure = mapFileHandler.GetNextTreasure();
         enemyType = mapFileHandler.GetNextEnemyType();
+        items = mapFileHandler.GetNextItem();
+        npcs = mapFileHandler.GetNextNpc();
 #if UNITY_EDITOR
         Debug.Log($"Treasure: {treasure}");
 #endif
@@ -59,12 +61,12 @@ public class DungeonPartFactory
             Debug.Log($"Key: {keyID}");
         }
 #endif
-        return new DungeonRoom(coordinates: coordinates, code: dungeonPartCode, keyIDs: keyIDs, difficulty: difficulty, treasure: treasure, enemyType: enemyType);
+        return new DungeonRoom(coordinates: coordinates, code: dungeonPartCode, keyIDs: keyIDs, difficulty: difficulty, treasure: treasure, enemyType: enemyType, items: items, npcs: npcs);
     }
 
-    public static DungeonPart CreateDungeonRoomFromEARoom(Coordinates coordinates, string partCode, List<int> keyIDs, int difficulty, int treasure, int enemyType)
+    public static DungeonPart CreateDungeonRoomFromEARoom(Coordinates coordinates, string partCode, List<int> keyIDs, int difficulty, int treasure, int enemyType, int items, int npcs)
     {
-        return new DungeonRoom(coordinates, partCode, keyIDs, difficulty, treasure, enemyType);
+        return new DungeonRoom(coordinates, partCode, keyIDs, difficulty, treasure, enemyType, items, npcs);
     }
 
     public static DungeonPart CreateDungeonCorridorFromEACorridor(Coordinates coordinates, string partCode, List<int> lockIDs)
@@ -84,6 +86,6 @@ public class DungeonPartFactory
                 dungeonRoom.locks[i] = -dungeonRoom.locks[i];
             return new DungeonLockedCorridor(dungeonRoom.coordinates, dungeonRoom.locks);
         }
-        return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom?.keys ?? new List<int>(), dungeonRoom.Enemies, dungeonRoom.Treasures, dungeonRoom.EnemiesType);
+        return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom?.keys ?? new List<int>(), dungeonRoom.Enemies, dungeonRoom.Treasures, dungeonRoom.EnemiesType, dungeonRoom.Items, dungeonRoom.Npcs);
     }
 }

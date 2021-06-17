@@ -89,9 +89,15 @@ namespace LevelGenerator
             RoomGrid grid = dun.roomGrid;
             Boundaries boundaries;
             Dimensions dimensions;
+            int remainingItems, remainingNpcs;
             Type type;
             int x, y, iPositive, jPositive;
             bool isRoom;
+
+            Interface interfaceAux = new Interface();
+
+            remainingItems = interfaceAux.readItems();
+            remainingNpcs = interfaceAux.readNpcs();
 
             //List of keys and locked rooms in the level
             List<int> lockedRooms = new List<int>();
@@ -301,8 +307,13 @@ namespace LevelGenerator
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = 0;
                             roomDataInFile.Treasures = 0;
-
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
+                            int r2 = UnityEngine.Random.Range(0, 2);
+                            roomDataInFile.Items = r1;
+                            roomDataInFile.Npcs = r2;
+                            remainingItems -= r1;
+                            remainingNpcs -= r2;
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -331,6 +342,12 @@ namespace LevelGenerator
                             roomDataInFile.Treasures = treasureValue;
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
+                            int r2 = UnityEngine.Random.Range(0, 2);
+                            roomDataInFile.Items = r1;
+                            roomDataInFile.Npcs = r2;
+                            remainingItems -= r1;
+                            remainingNpcs -= r2;
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -350,6 +367,12 @@ namespace LevelGenerator
                             dungeonData += "+" + map[i, j] + "\n";
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
+                            int r2 = UnityEngine.Random.Range(0, 2);
+                            roomDataInFile.Items = r1;
+                            roomDataInFile.Npcs = r2;
+                            remainingItems -= r1;
+                            remainingNpcs -= r2;
 
                             roomDataInFile.keys = new List<int>();
                             roomDataInFile.keys.Add(map[i, j]);
@@ -370,6 +393,12 @@ namespace LevelGenerator
                             //TODO Logica de carregar inimigos de acordo com probabilidade
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
+                            int r2 = UnityEngine.Random.Range(0, 2);
+                            roomDataInFile.Items = r1;
+                            roomDataInFile.Npcs = r2;
+                            remainingItems -= r1;
+                            remainingNpcs -= r2;
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
@@ -420,6 +449,20 @@ namespace LevelGenerator
             }*/
             UnityEngine.Debug.Log("Finished Writing dungeon data");
 #endif
+        }
+
+        private int readItems(){
+            string jsonContent = Resources.Load<TextAsset>(file).text;
+            JSonWriter.ParametersItems pI = JsonConvert.DeserializeObject<JSonWriter.ParametersItems>(jsonContent);
+
+            return pI.NumItens;
+        }
+
+        private int readNpcs(){
+            string jsonContent = Resources.Load<TextAsset>(file).text;
+            JSonWriter.ParametersNpcs pN = JsonConvert.DeserializeObject<JSonWriter.ParametersNpcs>(jsonContent);
+
+            return pN.NumNpcs;
         }
     }
 }
