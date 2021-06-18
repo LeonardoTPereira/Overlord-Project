@@ -151,14 +151,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         secondsElapsed += Time.deltaTime;
-        if (!isInGame && generator != null)
+        if (!isInGame && generator != null && generator.hasFinished)
         {
-            if (generator.hasFinished)
-            {
-                instance.createdDungeon = generator.aux;
-                if (startButton != null)
-                    startButton.interactable = true;
-            }
+            instance.createdDungeon = generator.aux;
+            if (startButton != null)
+                startButton.interactable = true;
         }
         if (isCompleted && generator != null && generator.hasFinished)
         {

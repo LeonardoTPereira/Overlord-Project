@@ -19,7 +19,6 @@ public class Selector
             this.weight = weight;
         }
     }
-    private float r;
     public List<QuestWeight> questWeights = new List<QuestWeight>();
     public int[] pesos = new int[4]; //vetor de pesos
 
@@ -60,8 +59,8 @@ public class Selector
 
                     else if(i == 1)
                     {
-                        get g = new get();
-                        g.option(m, 0, pesos);
+                        Get g = new Get();
+                        g.Option(m, 0, pesos);
                     }
 
                     else if(i == 2)
@@ -72,8 +71,8 @@ public class Selector
 
                     else
                     {
-                        explore e = new explore();
-                        e.option(m, 0, pesos);
+                        Explore e = new Explore();
+                        e.Option(m, 0, pesos);
                     }
 
                 }
