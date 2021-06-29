@@ -308,12 +308,15 @@ namespace LevelGenerator
                             roomDataInFile.Enemies = 0;
                             roomDataInFile.Treasures = 0;
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
-                            int r2 = UnityEngine.Random.Range(0, 2);
-                            roomDataInFile.Items = r1;
-                            roomDataInFile.Npcs = r2;
-                            remainingItems -= r1;
-                            remainingNpcs -= r2;
+                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
+                            int numberNpcs;
+                            if(remainingNpcs > 0) numberNpcs = UnityEngine.Random.Range(0, 2);
+                            else numberNpcs = 0;
+
+                            roomDataInFile.Items = numberItems;
+                            roomDataInFile.Npcs = numberNpcs;
+                            remainingItems -= numberItems;
+                            remainingNpcs -= numberNpcs;
                             //writerRG.WriteLine("B");
                             //Marks that it is a room
                             isRoom = true;
@@ -342,12 +345,15 @@ namespace LevelGenerator
                             roomDataInFile.Treasures = treasureValue;
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
-                            int r2 = UnityEngine.Random.Range(0, 2);
-                            roomDataInFile.Items = r1;
-                            roomDataInFile.Npcs = r2;
-                            remainingItems -= r1;
-                            remainingNpcs -= r2;
+                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
+                            int numberNpcs;
+                            if(remainingNpcs > 0) numberNpcs = UnityEngine.Random.Range(0, 2);
+                            else numberNpcs = 0;
+                            
+                            roomDataInFile.Items = numberItems;
+                            roomDataInFile.Npcs = numberNpcs;
+                            remainingItems -= numberItems;
+                            remainingNpcs -= numberNpcs;
                             //writerRG.WriteLine("T");
                             isRoom = true;
                         }
@@ -367,12 +373,15 @@ namespace LevelGenerator
                             dungeonData += "+" + map[i, j] + "\n";
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
-                            int r2 = UnityEngine.Random.Range(0, 2);
-                            roomDataInFile.Items = r1;
-                            roomDataInFile.Npcs = r2;
-                            remainingItems -= r1;
-                            remainingNpcs -= r2;
+                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
+                            int numberNpcs;
+                            if(remainingNpcs > 0) numberNpcs = UnityEngine.Random.Range(0, 2);
+                            else numberNpcs = 0;
+                            
+                            roomDataInFile.Items = numberItems;
+                            roomDataInFile.Npcs = numberNpcs;
+                            remainingItems -= numberItems;
+                            remainingNpcs -= numberNpcs;
 
                             roomDataInFile.keys = new List<int>();
                             roomDataInFile.keys.Add(map[i, j]);
@@ -393,12 +402,15 @@ namespace LevelGenerator
                             //TODO Logica de carregar inimigos de acordo com probabilidade
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int r1 = UnityEngine.Random.Range(0, remainingItems+1);
-                            int r2 = UnityEngine.Random.Range(0, 2);
-                            roomDataInFile.Items = r1;
-                            roomDataInFile.Npcs = r2;
-                            remainingItems -= r1;
-                            remainingNpcs -= r2;
+                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
+                            int numberNpcs;
+                            if(remainingNpcs > 0) numberNpcs = UnityEngine.Random.Range(0, 2);
+                            else numberNpcs = 0;
+                            
+                            roomDataInFile.Items = numberItems;
+                            roomDataInFile.Npcs = numberNpcs;
+                            remainingItems -= numberItems;
+                            remainingNpcs -= numberNpcs;
                             //writerRG.WriteLine(map[i, j]);
                             isRoom = true;
                         }
@@ -452,14 +464,18 @@ namespace LevelGenerator
         }
 
         private int readItems(){
-            string jsonContent = Resources.Load<TextAsset>(file).text;
+            string path = "Resources/Item/items";
+
+            string jsonContent = Resources.Load<TextAsset>(path).text;
             JSonWriter.ParametersItems pI = JsonConvert.DeserializeObject<JSonWriter.ParametersItems>(jsonContent);
 
             return pI.NumItens;
         }
 
         private int readNpcs(){
-            string jsonContent = Resources.Load<TextAsset>(file).text;
+            string path = "Resources/NPC/npcs";
+
+            string jsonContent = Resources.Load<TextAsset>(path).text;
             JSonWriter.ParametersNpcs pN = JsonConvert.DeserializeObject<JSonWriter.ParametersNpcs>(jsonContent);
 
             return pN.NumNpcs;

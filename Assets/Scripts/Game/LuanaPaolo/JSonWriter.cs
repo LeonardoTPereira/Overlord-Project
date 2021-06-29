@@ -117,6 +117,8 @@ public class JSonWriter
         string narrativeFl = "narrative";
         string dungeonFd = "Dungeon";
         string enemyFd = "Enemy";
+        string npcFd = "NPC";
+        string itemFd = "Item";
 
         // Create directories to save the generated contents
         Directory.CreateDirectory(target);
@@ -156,7 +158,7 @@ public class JSonWriter
         // Convert the enemies to JSON
         outString = JsonConvert.SerializeObject(pN) + '\n';
         // Write the enemies JSON file
-        //filename = template.Replace(CONTENT, enemyFd + sep + pN.ToString());
+        filename = template.Replace(CONTENT, npcFd + sep + pN.ToString());
         File.WriteAllText(filename, outString);
 
         ParametersItems pI = new ParametersItems();
@@ -164,7 +166,7 @@ public class JSonWriter
         // Convert the enemies to JSON
         outString = JsonConvert.SerializeObject(pI) + '\n';
         // Write the enemies JSON file
-        //filename = template.Replace(CONTENT, enemyFd + sep + pN.ToString());
+        filename = template.Replace(CONTENT, itemFd + sep + pN.ToString());
         File.WriteAllText(filename, outString);
     }
 
