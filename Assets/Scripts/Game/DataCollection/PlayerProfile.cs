@@ -1,4 +1,5 @@
-﻿using EnemyGenerator;
+﻿using Game.LevelManager;
+using EnemyGenerator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -135,6 +136,7 @@ public class PlayerProfile : MonoBehaviour
         FormBHV.FormQuestionAnsweredEventHandler += OnFormAnswered;
         DoorBHV.ExitRoomEventHandler += OnRoomExit;
         DoorBHV.KeyUsedEventHandler += OnKeyUsed;
+        GameManager.StartMapEventHandler += OnMapStart;
     }
 
     protected void OnDisable()
@@ -250,12 +252,12 @@ public class PlayerProfile : MonoBehaviour
     }
 
     //From GameManager
-    private void OnMapStart(string name, int batch, Map currentMap, int weapon)
+    private void OnMapStart(object sender, StartMapEventArgs eventArgs)
     {
         HasFinished = false;
         mapCount++;
         if (curMapName != null)
-            if (curMapName != name)
+            if (curMapName != eventArgs.MapName)
             {
                 attemptOnLevelNumber = 1;
                 timesPlayerDied = 0;
@@ -263,14 +265,14 @@ public class PlayerProfile : MonoBehaviour
             else
                 attemptOnLevelNumber++;
         cumulativeAttempts++;
-        curMapName = name;
-        curBatchId = batch;
+        curMapName = eventArgs.MapName;
+        curBatchId = eventArgs.MapBatch;
         stopWatch.Start();
-        heatMap = CreateHeatMap(currentMap);
+        heatMap = CreateHeatMap(eventArgs.Map);
         combatInfoList = new List<CombatRoomInfo>();
         damageDoneByEnemy = new int[EnemyUtil.nBestEnemies].ToList();
         //Debug.Log("On Map Start Profilling Called");
-        weaponUsed = weapon;
+        weaponUsed = eventArgs.PlayerProjectileIndex;
         //Log
         //Mais métricas - organiza em TAD
 
@@ -405,9 +407,9 @@ public class PlayerProfile : MonoBehaviour
         heatMapString += "map,attempt,cumulativeAttempt\n";
         heatMapString += curMapName + "," + attemptOnLevelNumber + "," + cumulativeAttempts + "\n";
         heatMapString += "Heatmap:\n";
-        for (int i = 0; i < currentMap.dimensions.Width / 2; ++i)
+        for (int i = 0; i < currentMap.Dimensions.Width / 2; ++i)
         {
-            for (int j = 0; j < currentMap.dimensions.Height / 2; ++j)
+            for (int j = 0; j < currentMap.Dimensions.Height / 2; ++j)
             {
                 heatMapString += heatMap[i, j].ToString() + ",";
             }
@@ -500,13 +502,13 @@ public class PlayerProfile : MonoBehaviour
 
     private int[,] CreateHeatMap(Map currentMap)
     {
-        int[,] heatMap = new int[(currentMap.dimensions.Width + 1) / 2, (currentMap.dimensions.Height + 1) / 2];
-        for (int i = 0; i < currentMap.dimensions.Width / 2; ++i)
+        int[,] heatMap = new int[(currentMap.Dimensions.Width + 1) / 2, (currentMap.Dimensions.Height + 1) / 2];
+        for (int i = 0; i < currentMap.Dimensions.Width / 2; ++i)
         {
             //string aux = "";
-            for (int j = 0; j < currentMap.dimensions.Height / 2; ++j)
+            for (int j = 0; j < currentMap.Dimensions.Height / 2; ++j)
             {
-                if (currentMap.dungeonPartByCoordinates.ContainsKey(new Coordinates(i * 2, j * 2)))
+                if (currentMap.DungeonPartByCoordinates.ContainsKey(new Coordinates(i * 2, j * 2)))
                 {
                     heatMap[i, j] = 0;
                 }

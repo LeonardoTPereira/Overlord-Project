@@ -528,7 +528,7 @@ public class SignalEAEnding : ComponentSystem
 
     protected override void OnUpdate()
     {
-        if (GameManager.instance && GameManager.instance.createEnemy && GameManagerTest.instance && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
+        if (GameManager.instance && GameManager.instance.createEnemy && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
         {
             // Debug.Log("This different update!");
 

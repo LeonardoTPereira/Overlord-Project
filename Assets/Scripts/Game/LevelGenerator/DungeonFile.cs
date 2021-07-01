@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.LevelManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -7,7 +8,6 @@ public class DungeonFile
 {
     public Dimensions dimensions;
     public List<Room> rooms;
-    public int enemyType = -1;
 
     public DungeonFile()
     {
@@ -24,7 +24,6 @@ public class DungeonFile
         private int enemies = -1;
         private int treasures = -1;
         private int enemyType = -1;
-        private int items = -1;
         private int npcs = -1;
 
         [DefaultValue(-1)]
@@ -33,8 +32,6 @@ public class DungeonFile
         public int Treasures { get => treasures; set => treasures = value; }
         [DefaultValue(-1)]
         public int EnemiesType { get => enemyType; set => enemyType = value; }
-        [DefaultValue(-1)]
-        public int Items { get => items; set => items = value; }
         [DefaultValue(-1)]
         public int Npcs { get => npcs; set => npcs = value; }
     }

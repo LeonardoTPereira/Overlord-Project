@@ -1,28 +1,23 @@
 ﻿using UnityEngine;
 
-public class TileBHV : MonoBehaviour
+namespace Game.LevelManager
 {
-
-    public int x;
-    public int y;
-    public int id;
-
-    // Use this for initialization
-    void Start()
+    public class TileBhv : MonoBehaviour
     {
 
-    }
+        private int x;
+        private int y;
+        private int id;
 
-    // Update is called once per frame
-    void Update()
-    {
+        public int X { get => x; set => x = value; }
+        public int Y { get => y; set => y = value; }
+        public int Id { get => id; set => id = value; }
 
-    }
-
-    public void SetPosition(int x, int y, float centerX, float centerY)
-    {
-        this.x = x;
-        this.y = y;
-        transform.localPosition = new Vector2(centerX, centerY);
+        public void SetPosition(int x, int y, float centerX, float centerY)
+        {
+            X = x;
+            Y = y;
+            transform.localPosition = new Vector2(centerX, centerY);
+        }
     }
 }

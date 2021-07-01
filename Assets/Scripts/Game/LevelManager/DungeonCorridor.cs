@@ -1,6 +1,9 @@
-﻿public class DungeonCorridor : DungeonPart
+﻿namespace Game.LevelManager
 {
-    public DungeonCorridor(Coordinates coordinates, string code) : base(coordinates, code) { }
+    public class DungeonCorridor : DungeonPart
+    {
+        public DungeonCorridor(Coordinates coordinates, string code) : base(coordinates, code) { }
 
 
+    }
 }

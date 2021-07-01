@@ -1,4 +1,5 @@
-﻿using EnemyGenerator;
+﻿using Game.LevelManager;
+using EnemyGenerator;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,8 +32,8 @@ public class RoomBHV : MonoBehaviour
     public Collider2D colEast;
     public Collider2D colWest;
 
-    public TileBHV tilePrefab;
-    public BlockBHV blockPrefab;
+    public TileBhv tilePrefab;
+    public BlockBhv blockPrefab;
 
     public Sprite northWall, southWall, eastWall, westWall;
     public GameObject NWCollumn, NECollumn, SECollumn, SWCollumn;
@@ -63,11 +64,7 @@ public class RoomBHV : MonoBehaviour
         if (RoomHasKey())
         {
 #if UNITY_EDITOR
-            Debug.Log($"The current room: X {roomData.coordinates.X}, Y {roomData.coordinates.Y} has the keys with ");
-            foreach (int keyID in roomData.keyIDs)
-            {
-                Debug.Log($"Key ID: {keyID}");
-            }
+            DebugRoomData();
 #endif
             PlaceKeysInRoom();
         }
@@ -87,17 +84,27 @@ public class RoomBHV : MonoBehaviour
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         }
         if (roomData.Difficulty == 0)
+        {
             hasEnemies = false;
+        }
         else
+        {
             if (GameManager.instance.enemyMode)
-            SelectEnemies();
-        minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1); ;
+            {
+                SelectEnemies();
+            }
+        }
+
+        minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DebugRoomData()
     {
-
+        Debug.Log($"The current room: X {roomData.Coordinates.X}, Y {roomData.Coordinates.Y} has the keys with ");
+        foreach (int keyID in roomData.KeyIDs)
+        {
+            Debug.Log($"Key ID: {keyID}");
+        }
     }
 
     void SetLayout()
@@ -108,26 +115,9 @@ public class RoomBHV : MonoBehaviour
         float centerY = roomData.Dimensions.Height / 2.0f - 0.5f;
         const float delta = 0.0f; //para que os colisores das portas e das paredes não se sobreponham completamente
                                   //Posiciona as portas - são somados/subtraídos 1 para que as portas e colisores estejam periféricos à sala
-        doorNorth.transform.localPosition = new Vector2(0.0f, centerY + 1 - delta);
-        doorSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1 + delta);
-        doorEast.transform.localPosition = new Vector2(centerX + 1 - delta, 0.0f);
-        doorWest.transform.localPosition = new Vector2(-centerX - 1 + delta, 0.0f);
+        SetDoorsTransform(centerX, centerY, delta);
 
-        //Posiciona os colisores das paredes da sala
-        colNorth.transform.localPosition = new Vector2(0.0f, centerY + 1);
-        colSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1);
-        colEast.transform.localPosition = new Vector2(centerX + 1, 0.0f);
-        colWest.transform.localPosition = new Vector2(-centerX - 1, 0.0f);
-        colNorth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-        colSouth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-        colEast.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
-        colWest.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
-
-        //Ajusta sprites das paredes
-        colNorth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-        colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-        colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
-        colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+        SetCollidersOnRoom(centerX, centerY);
 
         GameObject auxObj;
         //Posiciona os tiles
@@ -135,8 +125,8 @@ public class RoomBHV : MonoBehaviour
         {
             for (int iy = 0; iy < roomData.Dimensions.Height; iy++)
             {
-                int tileID = roomData.tiles[ix, iy];
-                TileBHV tileObj;
+                int tileID = roomData.Tiles[ix, iy];
+                TileBhv tileObj;
                 if (tileID == 1)
                 {
                     tileObj = Instantiate(blockPrefab);
@@ -182,13 +172,15 @@ public class RoomBHV : MonoBehaviour
                     }
                 }
                 else
+                {
                     tileObj = Instantiate(tilePrefab);
+                }
                 tileObj.transform.SetParent(transform);
                 tileObj.transform.localPosition = new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                 tileObj.GetComponent<SpriteRenderer>(); //FIXME provisório para diferenciar sprites
-                tileObj.id = tileID;
-                tileObj.x = ix;
-                tileObj.y = iy;
+                tileObj.Id = tileID;
+                tileObj.X = ix;
+                tileObj.Y = iy;
             }
         }
 
@@ -224,12 +216,16 @@ public class RoomBHV : MonoBehaviour
                 if ((ix <= margin) || (ix >= topHor))
                 {
                     if (iy < lowerHalfVer || iy > upperHalfVer)
+                    {
                         spawnPoints.Add(new Vector3(ix - centerX + xOffset, roomData.Dimensions.Height - 1 - iy - centerY + yOffset, 0));
+                    }
                 }
                 else if ((iy <= margin) || (iy >= topVer))
                 {
                     if (ix < lowerHalfHor || ix > upperHalfHor)
+                    {
                         spawnPoints.Add(new Vector3(ix - centerX + xOffset, roomData.Dimensions.Height - 1 - iy - centerY + yOffset, 0));
+                    }
                 }
                 else
                     spawnPoints.Add(new Vector3(ix - centerX + xOffset, roomData.Dimensions.Height - 1 - iy - centerY + yOffset, 0));
@@ -238,19 +234,48 @@ public class RoomBHV : MonoBehaviour
 
     }
 
-    /*private void OnDrawGizmos()
+    private void SetCollidersOnRoom(float centerX, float centerY)
+    {
+        //Posiciona os colisores das paredes da sala
+        colNorth.transform.localPosition = new Vector2(0.0f, centerY + 1);
+        colSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1);
+        colEast.transform.localPosition = new Vector2(centerX + 1, 0.0f);
+        colWest.transform.localPosition = new Vector2(-centerX - 1, 0.0f);
+        colNorth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+        colSouth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+        colEast.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+        colWest.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+
+        //Ajusta sprites das paredes
+        colNorth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+        colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+        colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+        colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+    }
+
+    private void SetDoorsTransform(float centerX, float centerY, float delta)
+    {
+        doorNorth.transform.localPosition = new Vector2(0.0f, centerY + 1 - delta);
+        doorSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1 + delta);
+        doorEast.transform.localPosition = new Vector2(centerX + 1 - delta, 0.0f);
+        doorWest.transform.localPosition = new Vector2(-centerX - 1 + delta, 0.0f);
+    }
+
+    private void OnDrawGizmos()
     {
         foreach (Vector3 spawnPoint in spawnPoints)
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(spawnPoint, 1);
         }
-    }*/
+    }
 
     private void SelectEnemies()
     {
         if (roomData.Difficulty == 0)
+            {
             hasEnemies = false;
+        }
         else
         {
             for(int i = 0; i < roomData.Difficulty; ++i)
@@ -288,22 +313,24 @@ public class RoomBHV : MonoBehaviour
     public void OnRoomEnter()
     {
         if (hasEnemies)
+            {
             SpawnEnemies();
+        }
         minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.coordinates, hasEnemies, enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth()));
+        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth()));
     }
 
     public void CheckIfAllEnemiesDead()
     {
         enemiesDead++;
-        //if(enemiesDead == enemiesIndex.Count) comentado por Luana e Paolo
-        //{
-        hasEnemies = false;
-        doorEast.OpenDoorAfterKilling();
-        doorWest.OpenDoorAfterKilling();
-        doorNorth.OpenDoorAfterKilling();
-        doorSouth.OpenDoorAfterKilling();
-        //}
+        if(enemiesDead == enemiesIndex.Count)
+        {
+            hasEnemies = false;
+            doorEast.OpenDoorAfterKilling();
+            doorWest.OpenDoorAfterKilling();
+            doorNorth.OpenDoorAfterKilling();
+            doorSouth.OpenDoorAfterKilling();
+        }
     }
 
     public void SetKeysToDoors()
@@ -317,11 +344,11 @@ public class RoomBHV : MonoBehaviour
 
     public bool RoomHasKey()
     {
-        return roomData.keyIDs.Count > 0;
+        return roomData.KeyIDs.Count > 0;
     }
     public void PlaceKeysInRoom()
     {
-        foreach (int actualKey in roomData.keyIDs)
+        foreach (int actualKey in roomData.KeyIDs)
         {
 #if UNITY_EDITOR
             Debug.Log($"Key position: {availablePosition}");

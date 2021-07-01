@@ -11,6 +11,15 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Program), typeof(NarrativeConfigSO))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
+
+    public static class NarrativeFileTypeString
+    {
+        public const string ENEMY = "Enemy";
+        public const string ITEM = "Item";
+        public const string NPC = "NPC";
+        public const string DUNGEON = "Dungeon";
+    }
+
     public static event CreateEADungeonEvent createEADungeonEventHandler;
 
     protected Dictionary<string, TMP_InputField> inputFields;
@@ -46,39 +55,53 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         Program.newEAGenerationEventHandler -= UpdateProgressBar;
     }
 
-    public void CreateLevel()
+    public void CreateLevelFromNarrative()
+    {
+        inputCanvas.SetActive(false);
+        progressCanvas.SetActive(true);
+
+        JSonWriter.ParametersMonsters parametersMonsters 
+            = GetJSONData<JSonWriter.ParametersMonsters>(NarrativeFileTypeString.ENEMY);
+        JSonWriter.ParametersItems parametersItems 
+            = GetJSONData<JSonWriter.ParametersItems>(NarrativeFileTypeString.ITEM);
+        JSonWriter.ParametersNpcs parametersNpcs 
+            = GetJSONData<JSonWriter.ParametersNpcs>(NarrativeFileTypeString.NPC);
+        JSonWriter.ParametersDungeon parametersDungeon 
+            = GetJSONData<JSonWriter.ParametersDungeon>(NarrativeFileTypeString.DUNGEON);
+
+        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
+            parametersMonsters, parametersItems, parametersNpcs));
+    }
+
+    public void CreateLevelFromInput()
     {
         int nRooms, nKeys, nLocks;
         float linearity;
-        /*try
+        try
         {
             nRooms = int.Parse(inputFields["RoomsInputField"].text);
             nKeys = int.Parse(inputFields["KeysInputField"].text);
             nLocks = int.Parse(inputFields["LocksInputField"].text);
             linearity = float.Parse(inputFields["LinearityInputField"].text);
             fitness = new Fitness(nRooms, nKeys, nLocks, linearity);
+            createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(fitness));
         }
         catch (KeyNotFoundException)
         {
             Debug.LogWarning("Input Fields for Dungeon Generator incorrect. Using values from the Editor");
-        }*/
+        }
         inputCanvas.SetActive(false);
         progressCanvas.SetActive(true);
-        DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath +
-        "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Enemy");
+    }
+
+    private T GetJSONData<T>(string narrativeType)
+    {
+        DirectoryInfo directoryInfo = new DirectoryInfo($"{Application.dataPath}\\Resources\\" +
+            $"{narrativeConfigSO.narrativeFileName}\\{narrativeType}");
         FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-        string narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
-            "/Enemy/"+fileInfos[0].Name.Replace(".json", "")).text;
-        JSonWriter.ParametersMonsters parametersMonsters = JsonConvert.DeserializeObject<JSonWriter.ParametersMonsters>(narrativeText);
-
-        directoryInfo = new DirectoryInfo(Application.dataPath +
-        "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Dungeon");
-        fileInfos = directoryInfo.GetFiles("*.*");
-        narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
-            "/Dungeon/" + fileInfos[0].Name.Replace(".json", "")).text;
-        JSonWriter.ParametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.ParametersDungeon>(narrativeText);
-
-        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon, parametersMonsters));
+        string narrativeTypeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
+            "/" + narrativeType + "/" + fileInfos[0].Name.Replace(".json", "")).text;
+        return JsonConvert.DeserializeObject<T>(narrativeTypeText);
     }
 
     public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)

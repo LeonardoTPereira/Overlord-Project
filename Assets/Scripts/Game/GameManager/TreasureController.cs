@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.LevelManager;
+using UnityEngine;
 
 public class TreasureController : PlaceableRoomObject
 {

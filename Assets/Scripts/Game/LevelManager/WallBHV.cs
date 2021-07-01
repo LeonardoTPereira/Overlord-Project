@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 
-public class WallBHV : MonoBehaviour
+namespace Game.LevelManager
 {
-
-    // Use this for initialization
-    void Start()
+    public class WallBhv : MonoBehaviour
     {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        //Debug.Log("CollidedWithSomething");
-        if (collider.CompareTag("Bullet") || collider.CompareTag("EnemyBullet"))
+        // Use this for initialization
+        void Start()
         {
-            //Debug.Log("CollidedWithBullet");
-            collider.GetComponent<ProjectileController>().DestroyBullet();
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            //Debug.Log("CollidedWithSomething");
+            if (collider.CompareTag("Bullet") || collider.CompareTag("EnemyBullet"))
+            {
+                //Debug.Log("CollidedWithBullet");
+                collider.GetComponent<ProjectileController>().DestroyBullet();
+            }
         }
     }
 }

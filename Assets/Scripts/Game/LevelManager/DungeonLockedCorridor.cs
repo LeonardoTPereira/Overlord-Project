@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 
-public class DungeonLockedCorridor : DungeonCorridor
+namespace Game.LevelManager
 {
-
-    public List<int> lockIDs;
-    public DungeonLockedCorridor(Coordinates coordinates, List<int> lockIDs) : base(coordinates, Type.LOCKED)
+    public class DungeonLockedCorridor : DungeonCorridor
     {
-        this.lockIDs = lockIDs;
+
+        private List<int> lockIDs;
+        public DungeonLockedCorridor(Coordinates coordinates, List<int> lockIDs) : base(coordinates, PartType.LOCKED)
+        {
+            LockIDs = lockIDs;
+        }
+
+        public List<int> LockIDs { get => lockIDs; set => lockIDs = value; }
     }
 }

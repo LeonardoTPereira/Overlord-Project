@@ -1,29 +1,26 @@
 ﻿using UnityEngine;
 
-public class BlockBHV : TileBHV
+namespace Game.LevelManager
 {
-
-
-    // Use this for initialization
-    void Start()
-    {
-        GetComponent<Collider2D>().enabled = true; // ativa o colisor
-    }
-
-    // Update is called once per frame
-    void Update()
+    public class BlockBhv : TileBhv
     {
 
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("CollidedWithSomething");
-        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "EnemyBullet")
+        // Use this for initialization
+        void Start()
         {
-            Debug.Log("CollidedWithBullet");
-            collision.gameObject.GetComponent<ProjectileController>().DestroyBullet();
+            GetComponent<Collider2D>().enabled = true; // ativa o colisor
         }
-    }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("CollidedWithSomething");
+            if (collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("EnemyBullet"))
+            {
+                Debug.Log("CollidedWithBullet");
+                collision.gameObject.GetComponent<ProjectileController>().DestroyBullet();
+            }
+        }
+
+    }
 }

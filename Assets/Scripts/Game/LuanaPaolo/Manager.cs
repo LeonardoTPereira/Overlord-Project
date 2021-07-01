@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,11 +14,12 @@ public class Manager : MonoBehaviour
     public Player_Movement player; //jogador
 
     private JSonWriter writer;
+    [SerializeField]
+    private FormQuestionsData preTestQuestionnaire;
 
     public Selector Selector { get; set; }
     public List<Quest> Graph { get; set; }
-    [SerializeField]
-    public FormQuestionsData PreTestQuestionnaire { get; set; }
+    public FormQuestionsData PreTestQuestionnaire { get => preTestQuestionnaire; set => preTestQuestionnaire = value; }
 
     void Awake()
     {
@@ -45,7 +47,7 @@ public class Manager : MonoBehaviour
         for (int i = 0; i < Graph.Count; i++) Debug.Log(Graph[i].Tipo + ", " + Graph[i].c1 + ", " + Graph[i].c2);
 
         Debug.Log("Profile: " + playerProfile.ToString());
-        ProfileSelectedEventHandler(this, new ProfileSelectedEventArgs(playerProfile));
+        ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
     }
 
     void makeBranches()

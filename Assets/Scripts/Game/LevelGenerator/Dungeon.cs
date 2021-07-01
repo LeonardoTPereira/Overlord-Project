@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.LevelManager;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,6 +21,8 @@ namespace LevelGenerator
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
         public JSonWriter.ParametersMonsters parametersMonters;
+        public JSonWriter.ParametersItems parametersItems;
+        public JSonWriter.ParametersNpcs parametersNpcs;
 
         public List<Room> RoomList
         {
@@ -433,17 +436,13 @@ namespace LevelGenerator
             while (toVisit.Count > 0 && (!hasLock || !hasKey))
             {
                 actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.key)
+                if (actualRoom.Type == Type.key && actualRoom.RoomId == lockId)
                 {
-                    //Console.WriteLine("KeyId:" + actualRoom.RoomId);
-                    if (actualRoom.RoomId == lockId)
-                    {
-                        actualRoom.Type = Type.normal;
-                        actualRoom.KeyToOpen = -1;
-                        lockId = actualRoom.RoomId;
-                        roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
-                        hasKey = true;
-                    }
+                    actualRoom.Type = Type.normal;
+                    actualRoom.KeyToOpen = -1;
+                    lockId = actualRoom.RoomId;
+                    roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
+                    hasKey = true;
                 }
                 child = actualRoom.LeftChild;
                 if (child != null && actualRoom.Equals(child.Parent))

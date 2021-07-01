@@ -81,11 +81,19 @@ public class JSonWriter
 
     [System.Serializable]
     public class ParametersNpcs{
-        private int numNpcs = 0;
+
+
+        private int numNpcs;
         private List<Quest> quests;
 
-        public int NumNpcs{get => numNpcs; set => numNpcs = value;}
-        public List<Quest> Quests{get => quests; set => quests = value;}
+        public ParametersNpcs()
+        {
+            NumNpcs = 0;
+            Quests = new List<Quest>();
+        }
+
+        public int NumNpcs { get => numNpcs; set => numNpcs = value; }
+        public List<Quest> Quests { get => quests; set => quests = value; }
     }
 
     [System.Serializable]
@@ -124,9 +132,11 @@ public class JSonWriter
         Directory.CreateDirectory(target);
         Directory.CreateDirectory(target + sep + dungeonFd);
         Directory.CreateDirectory(target + sep + enemyFd);
+        Directory.CreateDirectory(target + sep + npcFd);
+        Directory.CreateDirectory(target + sep + itemFd);
 
         // Initialize output string
-        string outString = " ";
+        string outString = "";
         // Convert the narrative to JSON
         ////for (int i = 0; i < graph.Count; i++) 
             ////outString += JsonUtility.ToJson(graph[i]) + '\n';
@@ -218,12 +228,16 @@ public class JSonWriter
 
     private void conversorNpcs(ParametersNpcs pN, List<Quest> graph){
         for (int i = 0; i < graph.Count; i++){
-            if(graph[i].tipo == 6){
+            if(graph[i].Tipo == 6){
                 pN.NumNpcs++;
-                if(i + 1 < graph.Count) pN.Quests.Add(graph[i + 1]);
-                else{
+                if ((i + 1) < graph.Count)
+                {
+                    pN.Quests.Add(graph[i + 1]);
+                }
+                else
+                {
                     Quest questAux = new Quest();
-                    questAux.tipo = 10;
+                    questAux.Tipo = 10;
                     pN.Quests.Add(questAux);
                 }
             }
@@ -232,7 +246,7 @@ public class JSonWriter
 
     private void conversorItems(ParametersItems pI, List<Quest> graph){
         for (int i = 0; i < graph.Count; i++){
-            if(graph[i].tipo == 3) pI.NumItens += graph[i].n1;
+            if(graph[i].Tipo == 3) pI.NumItens += graph[i].N1;
         }
     }
 }

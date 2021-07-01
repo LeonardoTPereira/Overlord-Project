@@ -1,4 +1,6 @@
-﻿public class Boundaries
+﻿using Game.LevelManager;
+
+public class Boundaries
 {
     protected Coordinates maxBoundaries;
     protected Coordinates minBoundaries;

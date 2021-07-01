@@ -1,31 +1,35 @@
-﻿using Newtonsoft.Json;
+﻿using Game.LevelManager;
+using Newtonsoft.Json;
 using UnityEngine;
 
-public class JSONMapFileHandler
+namespace Game.LevelManager
 {
-    private DungeonFile dungeonFile;
-    private int currentIndex;
-
-    public JSONMapFileHandler(string mapFile)
+    public class JsonMapFileHandler
     {
-        Debug.Log("File: " + mapFile);
-        string jsonContent = Resources.Load<TextAsset>("Levels/" + mapFile).text;
-        Debug.Log("Content: " + jsonContent);
-        dungeonFile = JsonConvert.DeserializeObject<DungeonFile>(jsonContent);
-        currentIndex = 0;
-        Debug.Log(dungeonFile.rooms.Count);
-    }
+        private readonly DungeonFile dungeonFile;
+        private int currentIndex;
 
-    public Dimensions GetDimensions()
-    {
-        return dungeonFile.dimensions;
-    }
+        public JsonMapFileHandler(string mapFile)
+        {
+            Debug.Log("File: " + mapFile);
+            string jsonContent = Resources.Load<TextAsset>("Levels/" + mapFile).text;
+            Debug.Log("Content: " + jsonContent);
+            dungeonFile = JsonConvert.DeserializeObject<DungeonFile>(jsonContent);
+            currentIndex = 0;
+            Debug.Log(dungeonFile.rooms.Count);
+        }
 
-    public DungeonPart GetNextPart()
-    {
-        if (currentIndex < dungeonFile.rooms.Count)
-            return DungeonPartFactory.CreateDungeonPartFromDungeonFileJSON(dungeonFile.rooms[currentIndex++]);
-        else
-            return null;
+        public Dimensions GetDimensions()
+        {
+            return dungeonFile.dimensions;
+        }
+
+        public DungeonPart GetNextPart()
+        {
+            if (currentIndex < dungeonFile.rooms.Count)
+                return DungeonPartFactory.CreateDungeonPartFromDungeonFileJSON(dungeonFile.rooms[currentIndex++]);
+            else
+                return null;
+        }
     }
 }

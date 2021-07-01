@@ -9,10 +9,6 @@ using static Enums;
 
 public class ExperimentController : MonoBehaviour
 {
-    private class NarrativeClassPlaceholder
-    {
-        public string name;
-    }
 
     private static readonly char SEPARATOR_CHARACTER = Path.DirectorySeparatorChar;
     private static readonly string EXPERIMENT_DIRECTORY = SEPARATOR_CHARACTER + "Experiment";
@@ -52,13 +48,13 @@ public class ExperimentController : MonoBehaviour
     private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
     {
         SetProfileDirectory(profileSelectedEventArgs.PlayerProfile);
-        NarrativeClassPlaceholder narrative = SelectNarrative();
-        LoadAvailableLevelsForNarrative(narrative.name);
-        LoadAvailableEnemiesForNarrative(narrative.name);
+        List<Quest> narrative = SelectNarrative();
+        LoadAvailableLevelsForNarrative(narrative[0].ToString());
+        LoadAvailableEnemiesForNarrative(narrative[0].ToString());
 
     }
 
-    private NarrativeClassPlaceholder SelectNarrative()
+    private List<Quest> SelectNarrative()
     {
         if (narrativeAssetsList == null)
         {
@@ -68,7 +64,7 @@ public class ExperimentController : MonoBehaviour
         int selectedNarrativeIndex = Random.Range(0, narrativeAssetsList.Count);
         string narrativeContent = narrativeAssetsList[selectedNarrativeIndex].text;
         narrativeAssetsList.RemoveAt(selectedNarrativeIndex);
-        return JsonConvert.DeserializeObject<NarrativeClassPlaceholder>(narrativeContent);
+        return JsonConvert.DeserializeObject<List<Quest>>(narrativeContent);
     }
 
     private void LoadAvailableLevelsForNarrative(string narrativeName)
@@ -152,32 +148,31 @@ public class ExperimentController : MonoBehaviour
         return Directory.GetDirectories(Application.dataPath + SEPARATOR_CHARACTER + enemyDirectoryPath);
     }
 
+
+    //This loads the narratives for creating dungeons in real time when needed
+    /*public void LoadAvailableNarrativesForProfile(PlayerProfileEnum playerProfile)
+    {
+        // Get the directory separator
+        char sep = Path.DirectorySeparatorChar;
+
+        // Define the JSON file extension
+        const string extension = ".json";
+
+        DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + sep + "Resources" + sep + narrativeSO.narrativeFileName + sep + "Dungeon");
+        FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
+        string narrativeText = Resources.Load<TextAsset>(narrativeSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
+        JSonWriter.parametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.parametersDungeon>(narrativeText);
+
+        //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
+        TextAsset[] levelAssets = Resources.LoadAll<TextAsset>("Levels" + sep);
+        string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
+        Debug.Log(levelName);
+        Debug.Log(levelAssets[0].name);
+        TextAsset[] availableDungeons = levelAssets.Where(l => l.name.Contains(levelName)).ToArray();
+
+        Debug.Log("DungeonFileName: " + availableDungeons[0].name);
+        loadLevelEventHandler(this, new LevelLoadEventArgs(availableDungeons[0].name, "Enemies" + sep + "Hard" + sep));
+        SceneManager.LoadScene("LevelWithEnemies");
+    }*/
+
 }
-
-
-
-//This loads the narratives for creating dungeons in real time when needed
-/*public void LoadAvailableNarrativesForProfile(PlayerProfileEnum playerProfile)
-{
-    // Get the directory separator
-    char sep = Path.DirectorySeparatorChar;
-
-    // Define the JSON file extension
-    const string extension = ".json";
-
-    DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + sep + "Resources" + sep + narrativeSO.narrativeFileName + sep + "Dungeon");
-    FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-    string narrativeText = Resources.Load<TextAsset>(narrativeSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
-    JSonWriter.parametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.parametersDungeon>(narrativeText);
-
-    //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
-    TextAsset[] levelAssets = Resources.LoadAll<TextAsset>("Levels" + sep);
-    string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
-    Debug.Log(levelName);
-    Debug.Log(levelAssets[0].name);
-    TextAsset[] availableDungeons = levelAssets.Where(l => l.name.Contains(levelName)).ToArray();
-
-    Debug.Log("DungeonFileName: " + availableDungeons[0].name);
-    loadLevelEventHandler(this, new LevelLoadEventArgs(availableDungeons[0].name, "Enemies" + sep + "Hard" + sep));
-    SceneManager.LoadScene("LevelWithEnemies");
-}*/

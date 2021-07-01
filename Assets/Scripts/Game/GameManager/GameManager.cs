@@ -1,4 +1,5 @@
-﻿using EnemyGenerator;
+﻿using Game.LevelManager;
+using EnemyGenerator;
 using LevelGenerator;
 using MyBox;
 using System;
@@ -138,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     void InstantiateRooms()
     {
-        foreach (DungeonPart currentPart in map.dungeonPartByCoordinates.Values)
+        foreach (DungeonPart currentPart in map.DungeonPartByCoordinates.Values)
         {
             if (currentPart is DungeonRoom)
             {
@@ -182,29 +183,29 @@ public class GameManager : MonoBehaviour
         RoomBHV newRoom = Instantiate(roomPrefab, roomsParent);
         newRoom.roomData = dungeonRoom;
         Coordinates targetCoordinates;
-        Debug.Log($"Now instantiating room: {dungeonRoom.coordinates}");
+        Debug.Log($"Now instantiating room: {dungeonRoom.Coordinates}");
         newRoom.westDoor = null;
         newRoom.eastDoor = null;
         newRoom.northDoor = null;
         newRoom.southDoor = null;
-        if (IsLeftEdge(dungeonRoom.coordinates))
+        if (IsLeftEdge(dungeonRoom.Coordinates))
         { // west
-            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X - 1, dungeonRoom.coordinates.Y);
+            targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X - 1, dungeonRoom.Coordinates.Y);
             newRoom.westDoor = CheckCorridor(targetCoordinates);
         }
-        if (IsBottomEdge(dungeonRoom.coordinates))
+        if (IsBottomEdge(dungeonRoom.Coordinates))
         { // north
-            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y - 1);
+            targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X, dungeonRoom.Coordinates.Y - 1);
             newRoom.northDoor = CheckCorridor(targetCoordinates);
         }
-        if (IsRightEdge(dungeonRoom.coordinates))
+        if (IsRightEdge(dungeonRoom.Coordinates))
         {
-            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X + 1, dungeonRoom.coordinates.Y);
+            targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X + 1, dungeonRoom.Coordinates.Y);
             newRoom.eastDoor = CheckCorridor(targetCoordinates);
         }
-        if (IsTopEdge(dungeonRoom.coordinates))
+        if (IsTopEdge(dungeonRoom.Coordinates))
         {
-            targetCoordinates = new Coordinates(dungeonRoom.coordinates.X, dungeonRoom.coordinates.Y + 1);
+            targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X, dungeonRoom.Coordinates.Y + 1);
             newRoom.southDoor = CheckCorridor(targetCoordinates);
         }
         if (dungeonRoom.Treasure > -1)
@@ -215,8 +216,9 @@ public class GameManager : MonoBehaviour
             maxTreasure += treasureSet.Items[dungeonRoom.Treasure].value;
         }
         //Sets room transform position
-        newRoom.gameObject.transform.position = new Vector2(roomSpacingX * dungeonRoom.coordinates.X, -roomSpacingY * dungeonRoom.coordinates.Y);
-        roomBHVMap.Add(dungeonRoom.coordinates, newRoom);
+        newRoom.gameObject.transform.position = 
+            new Vector2(roomSpacingX * dungeonRoom.Coordinates.X, -roomSpacingY * dungeonRoom.Coordinates.Y);
+        roomBHVMap.Add(dungeonRoom.Coordinates, newRoom);
     }
 
     public void CreateConnectionsBetweenRooms(RoomBHV currentRoom)
@@ -224,13 +226,13 @@ public class GameManager : MonoBehaviour
         Coordinates targetCoordinates;
         if (currentRoom.westDoor != null)
         { // west
-            targetCoordinates = new Coordinates(currentRoom.roomData.coordinates.X - 2, currentRoom.roomData.coordinates.Y);
-            SetDestinations(targetCoordinates, currentRoom.roomData.coordinates, 1);
+            targetCoordinates = new Coordinates(currentRoom.roomData.Coordinates.X - 2, currentRoom.roomData.Coordinates.Y);
+            SetDestinations(targetCoordinates, currentRoom.roomData.Coordinates, 1);
         }
         if (currentRoom.northDoor != null)
         { // west
-            targetCoordinates = new Coordinates(currentRoom.roomData.coordinates.X, currentRoom.roomData.coordinates.Y - 2);
-            SetDestinations(targetCoordinates, currentRoom.roomData.coordinates, 2);
+            targetCoordinates = new Coordinates(currentRoom.roomData.Coordinates.X, currentRoom.roomData.Coordinates.Y - 2);
+            SetDestinations(targetCoordinates, currentRoom.roomData.Coordinates, 2);
         }
     }
 
@@ -262,7 +264,8 @@ public class GameManager : MonoBehaviour
         ConnectRoooms();
         Player.instance.keys.Clear();
         Player.instance.usedKeys.Clear();
-        Player.instance.AdjustCamera(map.startRoomCoordinates, (map.dungeonPartByCoordinates[map.startRoomCoordinates] as DungeonRoom).Dimensions.Width);
+        Player.instance.AdjustCamera(map.StartRoomCoordinates, 
+            (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions.Width);
 
         OnStartMap(mapFile, currentTestBatchId, map);
     }
@@ -270,7 +273,9 @@ public class GameManager : MonoBehaviour
     private void OnStartMap(string mapName, int batch, Map map)
     {
         StartMapEventHandler(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType)));
-        EnterRoomEventHandler(this, new EnterRoomEventArgs(map.startRoomCoordinates, roomBHVMap[map.startRoomCoordinates].hasEnemies, roomBHVMap[map.startRoomCoordinates].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth()));
+        EnterRoomEventHandler(this, 
+            new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, 
+            roomBHVMap[map.StartRoomCoordinates].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth()));
     }
 
     void OnApplicationQuit()
@@ -499,7 +504,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsRightEdge(Coordinates coordinates)
     {
-        return coordinates.X < (map.dimensions.Width - 1);
+        return coordinates.X < (map.Dimensions.Width - 1);
     }
 
     public bool IsBottomEdge(Coordinates coordinates)
@@ -508,26 +513,26 @@ public class GameManager : MonoBehaviour
     }
     public bool IsTopEdge(Coordinates coordinates)
     {
-        return coordinates.Y < (map.dimensions.Height - 1);
+        return coordinates.Y < (map.Dimensions.Height - 1);
     }
 
     public List<int> CheckCorridor(Coordinates targetCoordinates)
     {
-        if (map.dungeonPartByCoordinates.ContainsKey(targetCoordinates))
+        if (map.DungeonPartByCoordinates.ContainsKey(targetCoordinates))
         {
             //Sets door
             Debug.Log($"The door exists at {targetCoordinates}");
-            DungeonLockedCorridor lockedCorridor = map.dungeonPartByCoordinates[targetCoordinates] as DungeonLockedCorridor;
+            DungeonLockedCorridor lockedCorridor = map.DungeonPartByCoordinates[targetCoordinates] as DungeonLockedCorridor;
             Debug.Log($"Is Locked Corridor? {lockedCorridor}");
 
             if (lockedCorridor != null)
             {
-                Debug.Log($"There are {(lockedCorridor).lockIDs.Count} locks in this door");
-                foreach (int locks in (lockedCorridor).lockIDs)
+                Debug.Log($"There are {(lockedCorridor).LockIDs.Count} locks in this door");
+                foreach (int locks in (lockedCorridor).LockIDs)
                 {
                     Debug.Log($"Lock ID: {locks}");
                 }
-                return lockedCorridor.lockIDs;
+                return lockedCorridor.LockIDs;
             }
             else
             {
