@@ -2,6 +2,8 @@
 using EnemyGenerator;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class RoomBHV : MonoBehaviour
 {
@@ -26,6 +28,7 @@ public class RoomBHV : MonoBehaviour
     public KeyBHV keyPrefab;
     public TriforceBHV triPrefab;
     public TreasureController treasurePrefab;
+    public NPC npcPrefab;
 
     public Collider2D colNorth;
     public Collider2D colSouth;
@@ -71,6 +74,10 @@ public class RoomBHV : MonoBehaviour
         if (RoomHasTreasure())
         {
             PlaceTreasureInRoom();
+        }
+        if (RoomHasNpc())
+        {
+            PlaceNpcInRoom();
         }
         if (roomData.IsStartRoom())
         {
@@ -399,5 +406,22 @@ public class RoomBHV : MonoBehaviour
     public void SetCenterPosition()
     {
         availablePosition = roomData.GetCenterMostFreeTilePosition() + transform.position;
+    }
+
+    public bool RoomHasNpc(){
+        return roomData.NpcID > 0;
+    }
+
+    public void PlaceNpcInRoom(){
+        NPC npc = Instantiate(npcPrefab, transform);
+
+        Color[] colors = {Color.red, Color.green, Color.blue};
+        string[] dialogues = {"Thank you for saving me!", "May the Godesses bless your help!", "Finally!"};
+
+        npc.transform.GetChild(0).transform.gameObject.GetComponent<RawImage>().color = colors[UnityEngine.Random.Range(0, 3)];
+        npc.transform.GetChild(2).transform.gameObject.GetComponent<TextMeshProUGUI>().text = dialogues[UnityEngine.Random.Range(0, 3)];
+
+        npc.transform.position = availablePosition;
+        availablePosition.x += 1;
     }
 }

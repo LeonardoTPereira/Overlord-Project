@@ -16,7 +16,7 @@ namespace Game.LevelManager
         public int[,] Tiles { get => tiles; set => tiles = value; }
         public List<int> KeyIDs { get => keyIDs; set => keyIDs = value; }
         public RoomBHV RoomBHV { get => roomBHV; set => roomBHV = value; }
-        protected int NpcID { get => npcID; set => npcID = value; }
+        public int NpcID { get => npcID; set => npcID = value; }
 
         private RoomBHV roomBHV;
         private int npcID;
