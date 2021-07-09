@@ -14,15 +14,23 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+#if UNITY_EDITOR
     [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
+#endif
     public TreasureRuntimeSetSO treasureSet;
+#if UNITY_EDITOR
     [Foldout("Scriptable Objects"), Header("Set With All Possible Projectiles")]
+#endif
     public ProjectileTypeRuntimeSetSO projectileSet;
+#if UNITY_EDITOR
     [Foldout("Scriptable Objects"), ReadOnly, Header("Current Projectile")]
+#endif
     public ProjectileTypeSO projectileType;
     protected Program generator;
     public Dungeon createdDungeon;
+#if UNITY_EDITOR
     [Separator("Other Stuff")]
+#endif
     [SerializeField]
     Button startButton;
     [SerializeField]
@@ -183,7 +191,6 @@ public class GameManager : MonoBehaviour
         RoomBHV newRoom = Instantiate(roomPrefab, roomsParent);
         newRoom.roomData = dungeonRoom;
         Coordinates targetCoordinates;
-        Debug.Log($"Now instantiating room: {dungeonRoom.Coordinates}");
         newRoom.westDoor = null;
         newRoom.eastDoor = null;
         newRoom.northDoor = null;
@@ -210,9 +217,6 @@ public class GameManager : MonoBehaviour
         }
         if (dungeonRoom.Treasure > -1)
         {
-#if UNITY_EDITOR
-            Debug.Log($"We have a treasure with ID: {dungeonRoom.Treasure}");
-#endif
             maxTreasure += treasureSet.Items[dungeonRoom.Treasure].value;
         }
         //Sets room transform position
@@ -262,20 +266,14 @@ public class GameManager : MonoBehaviour
 
         InstantiateRooms();
         ConnectRoooms();
-        Player.instance.keys.Clear();
-        Player.instance.usedKeys.Clear();
-        Player.instance.AdjustCamera(map.StartRoomCoordinates, 
-            (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions.Width);
-
         OnStartMap(mapFile, currentTestBatchId, map);
     }
 
     private void OnStartMap(string mapName, int batch, Map map)
     {
         StartMapEventHandler(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType)));
-        EnterRoomEventHandler(this, 
-            new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, 
-            roomBHVMap[map.StartRoomCoordinates].enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth()));
+        EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, 
+            roomBHVMap[map.StartRoomCoordinates].enemiesIndex, -1, roomBHVMap[map.StartRoomCoordinates].gameObject.transform.position, (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions));
     }
 
     void OnApplicationQuit()
@@ -351,10 +349,6 @@ public class GameManager : MonoBehaviour
             if (enemyMode)
                 enemyLoader.LoadEnemies(chosenDifficultyFileName);
 
-            Player pl = Player.instance;
-            pl.cam = Camera.main;
-            //Recover health
-            pl.gameObject.GetComponent<PlayerController>().ResetHealth();
             gameUI.SetActive(true);
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
@@ -521,28 +515,16 @@ public class GameManager : MonoBehaviour
         if (map.DungeonPartByCoordinates.ContainsKey(targetCoordinates))
         {
             //Sets door
-            Debug.Log($"The door exists at {targetCoordinates}");
             DungeonLockedCorridor lockedCorridor = map.DungeonPartByCoordinates[targetCoordinates] as DungeonLockedCorridor;
-            Debug.Log($"Is Locked Corridor? {lockedCorridor}");
 
             if (lockedCorridor != null)
             {
-                Debug.Log($"There are {(lockedCorridor).LockIDs.Count} locks in this door");
-                foreach (int locks in (lockedCorridor).LockIDs)
-                {
-                    Debug.Log($"Lock ID: {locks}");
-                }
                 return lockedCorridor.LockIDs;
             }
             else
             {
-                Debug.Log("Is only a corridor");
                 return new List<int>();
             }
-        }
-        else
-        {
-            Debug.Log($"Corridor not found {targetCoordinates}");
         }
         return null;
     }

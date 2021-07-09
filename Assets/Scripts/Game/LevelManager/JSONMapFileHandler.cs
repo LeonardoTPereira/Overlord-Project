@@ -11,12 +11,12 @@ namespace Game.LevelManager
 
         public JsonMapFileHandler(string mapFile)
         {
-            Debug.Log("File: " + mapFile);
+            //Debug.Log("File: " + mapFile);
             string jsonContent = Resources.Load<TextAsset>("Levels/" + mapFile).text;
-            Debug.Log("Content: " + jsonContent);
+            //Debug.Log("Content: " + jsonContent);
             dungeonFile = JsonConvert.DeserializeObject<DungeonFile>(jsonContent);
             currentIndex = 0;
-            Debug.Log(dungeonFile.rooms.Count);
+            //Debug.Log(dungeonFile.rooms.Count);
         }
 
         public Dimensions GetDimensions()

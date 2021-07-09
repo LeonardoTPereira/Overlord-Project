@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : PlaceableRoomObject
 {
 
-    public static Player instance = null;
+    private static Player instance = null;
     public List<int> keys = new List<int>();
     public List<int> usedKeys = new List<int>();
     public int x { private set; get; }
@@ -14,47 +15,55 @@ public class Player : PlaceableRoomObject
     public Camera cam;
     public Camera minimap;
     private AudioSource audioSrc;
+    private PlayerController playerController;
+    public static event EnterRoomEvent EnterRoomEventHandler;
+    public static event ExitRoomEvent ExitRoomEventHandler;
 
-    void Awake()
+    private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            audioSrc = GetComponent<AudioSource>();
-
-        }
-        else if (instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
-        //DontDestroyOnLoad (gameObject);
-
+        else
+        {
+            instance = this;
+            cam = Camera.main;
+            audioSrc = GetComponent<AudioSource>();
+            playerController = GetComponent<PlayerController>();
+        }
     }
+
+    public static Player Instance { get { return instance; } }
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
         GameManager.NewLevelLoadedEventHandler += ResetValues;
         RoomBHV.StartRoomEventHandler += PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler += GetKey;
+        GameManager.EnterRoomEventHandler += GetHealth;
+        RoomBHV.EnterRoomEventHandler += GetHealth;
+        RoomBHV.EnterRoomEventHandler += AdjustCamera;
+        DoorBHV.ExitRoomEventHandler += ExitRoom;
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         GameManager.NewLevelLoadedEventHandler -= ResetValues;
         RoomBHV.StartRoomEventHandler -= PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler -= GetKey;
+        GameManager.EnterRoomEventHandler -= GetHealth;
+        RoomBHV.EnterRoomEventHandler -= GetHealth;
+        RoomBHV.EnterRoomEventHandler -= AdjustCamera;
+        DoorBHV.ExitRoomEventHandler -= ExitRoom;
     }
 
     // Use this for initialization
     void Start()
     {
-        cam = Camera.main;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        playerController.ResetHealth();
     }
 
     private void GetKey(object sender, KeyCollectEventArgs eventArgs)
@@ -63,11 +72,13 @@ public class Player : PlaceableRoomObject
         keys.Add(eventArgs.KeyIndex);
     }
 
-    public void AdjustCamera(Coordinates coordinates, int roomWidth)
+    public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
     {
-        GameManager gm = GameManager.instance;
-        Transform roomTransf = gm.roomBHVMap[coordinates].transform;
-        cam.transform.position = new Vector3(roomTransf.position.x + roomWidth / 3.5f, roomTransf.position.y, -5f);
+        int roomWidth = eventArgs.RoomDimensions.Width;
+        float cameraXPosition = eventArgs.RoomPosition.x + roomWidth / 3.5f;
+        float cameraYPosition = eventArgs.RoomPosition.y;
+        float cameraZPosition = -5f;
+        cam.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         //minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
     }
 
@@ -76,9 +87,32 @@ public class Player : PlaceableRoomObject
         instance.transform.position = e.position;
     }
 
+    private void ExitRoom(object sender, ExitRoomEventArgs eventArgs)
+    {
+        Instance.transform.position = eventArgs.EntrancePosition;
+        eventArgs.PlayerHealthWhenExiting = playerController.GetHealth();
+        ExitRoomEventHandler?.Invoke(this, eventArgs);
+    }
+
     private void ResetValues(object sender, EventArgs eventArgs)
     {
         keys.Clear();
         usedKeys.Clear();
+    }
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level" || scene.name == "LevelWithEnemies")
+        {
+            Debug.Log("Level Finished Loading Player");
+
+
+        }
+    }
+
+    private void GetHealth(object sender, EnterRoomEventArgs eventArgs)
+    {
+        int health = playerController.GetHealth();
+        eventArgs.PlayerHealthWhenEntering = health;
+        EnterRoomEventHandler(this, eventArgs);
     }
 }

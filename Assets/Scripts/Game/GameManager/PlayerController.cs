@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 shootForce = new Vector2(0f, 0f);
     private Color originalColor;
     protected Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     private int actualProjectile;
 
@@ -35,28 +36,21 @@ public class PlayerController : MonoBehaviour
     public void Awake()
     {
         actualProjectile = 0;
-        projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
-        anim = GetComponent<Animator>();
         timeAfterShoot = 0.0f;
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        originalColor = sr.color;
         healthCtrl = gameObject.GetComponent<HealthController>();
-        healthCtrl.SetOriginalColor(originalColor);
+        anim = GetComponent<Animator>();
+        sr = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        SetProjectileSO(null, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
     }
 
     // Use this for initialization
     void Start()
     {
+        projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
         healthCtrl.SetHealth(maxHealth);
-        anim = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        originalColor = sr.color;
+        healthCtrl.SetOriginalColor(originalColor);
+        SetProjectileSO(null, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
     }
 
     private void OnEnable()

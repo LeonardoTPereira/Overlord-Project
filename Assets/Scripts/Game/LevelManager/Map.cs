@@ -54,7 +54,6 @@ namespace Game.LevelManager
             else
             {
                 // Sala vazia padrão
-                Debug.Log("Doesn't Have Room File");
                 BuildDefaultRooms();
             }
         }
@@ -113,7 +112,6 @@ namespace Game.LevelManager
 
                         if (i == 0 && j == 0)
                         {
-                            Debug.Log("Found start");
                             StartRoomCoordinates = new Coordinates(iPositive * 2, jPositive * 2);
                             dungeonPartCode = DungeonPart.PartType.START_ROOM;
                         }
@@ -123,7 +121,6 @@ namespace Game.LevelManager
                             {
                                 treasure = UnityEngine.Random.Range(0, GameManager.instance.treasureSet.Items.Count);
                                 dungeonPartCode = DungeonPart.PartType.TREASURE_ROOM;
-                                Debug.Log("This is a Leaf Node Room! " + iPositive * 2 + " - " + jPositive * 2);
                             }
                         }
                         else if (type == LevelGenerator.Type.key)
@@ -168,8 +165,6 @@ namespace Game.LevelManager
                     }
                 }
             }
-            Debug.Log("Starts:" + StartRoomCoordinates.X + "-" + StartRoomCoordinates.Y);
-            Debug.Log("Dungeon read.");
 
             BuildDefaultRooms();
         }
@@ -252,7 +247,6 @@ namespace Game.LevelManager
                     Debug.LogError($"One of the rooms in the file has the wrong coordinates - x = {currentRoomCoordinates.X}, y = {currentRoomCoordinates.Y}");
                 }
             }
-            Debug.Log("Rooms read.");
         }
 
         //Cria salas vazias no tamanho padrão
@@ -263,7 +257,6 @@ namespace Game.LevelManager
             {
                 if (currentPart is DungeonRoom room)
                 {
-                    Debug.Log("building a default room");
                     room.Dimensions = roomDimensions;
                     room.InitializeTiles(); // aloca memória para os tiles
                     for (int x = 0; x < room.Dimensions.Width; x++)

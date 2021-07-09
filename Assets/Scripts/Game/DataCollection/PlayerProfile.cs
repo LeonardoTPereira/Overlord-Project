@@ -127,14 +127,13 @@ public class PlayerProfile : MonoBehaviour
         GameManager.NewLevelLoadedEventHandler += ResetMaxCombo;
         GameManager.NewLevelLoadedEventHandler += ResetTreasure;
         GameManager.GameStartEventHandler += OnGameStart;
-        GameManager.EnterRoomEventHandler += OnRoomEnter;
-        RoomBHV.EnterRoomEventHandler += OnRoomEnter;
+        Player.EnterRoomEventHandler += OnRoomEnter;
         KeyBHV.KeyCollectEventHandler += OnGetKey;
         HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
         GameManager.FinishMapEventHandler += OnMapComplete;
         PlayerController.PlayerDeathEventHandler += OnDeath;
         FormBHV.FormQuestionAnsweredEventHandler += OnFormAnswered;
-        DoorBHV.ExitRoomEventHandler += OnRoomExit;
+        Player.ExitRoomEventHandler += OnRoomExit;
         DoorBHV.KeyUsedEventHandler += OnKeyUsed;
         GameManager.StartMapEventHandler += OnMapStart;
     }
@@ -149,14 +148,13 @@ public class PlayerProfile : MonoBehaviour
         GameManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
         GameManager.NewLevelLoadedEventHandler -= ResetTreasure;
         GameManager.GameStartEventHandler -= OnGameStart;
-        GameManager.EnterRoomEventHandler -= OnRoomEnter;
-        RoomBHV.EnterRoomEventHandler -= OnRoomEnter;
+        Player.EnterRoomEventHandler -= OnRoomEnter;
         KeyBHV.KeyCollectEventHandler -= OnGetKey;
         HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
         GameManager.FinishMapEventHandler -= OnMapComplete;
         PlayerController.PlayerDeathEventHandler -= OnDeath;
         FormBHV.FormQuestionAnsweredEventHandler -= OnFormAnswered;
-        DoorBHV.ExitRoomEventHandler -= OnRoomExit;
+        Player.ExitRoomEventHandler -= OnRoomExit;
         DoorBHV.KeyUsedEventHandler -= OnKeyUsed;
     }
 

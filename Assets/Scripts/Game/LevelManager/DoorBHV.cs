@@ -47,14 +47,11 @@ namespace Game.LevelManager
             }
             else
             {
-                Debug.Log("Door shouldn't exist");
                 Destroy(gameObject);
                 return;
             }
             if (firstKeyID > 0)
             {
-
-                Debug.Log("There is a key for this door, lock it");
                 //Render the locked door sprite with the color relative to its ID
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
                 sr.sprite = lockedSprite;
@@ -78,10 +75,9 @@ namespace Game.LevelManager
 
         void OnTriggerEnter2D(Collider2D other)
         {
-
             if (other.tag == "Player")
             {
-                List<int> commonKeys = keyID.Intersect(Player.instance.keys).ToList();
+                List<int> commonKeys = keyID.Intersect(Player.Instance.keys).ToList();
                 if (keyID.Count == 0 || isOpen)
                 {
                     if (!isClosedByEnemies)
@@ -97,8 +93,8 @@ namespace Game.LevelManager
                         audioSrc.PlayOneShot(unlockSnd, 0.7f);
                         foreach (int key in commonKeys)
                         {
-                            if (!Player.instance.usedKeys.Contains(key))
-                                Player.instance.usedKeys.Add(key);
+                            if (!Player.Instance.usedKeys.Contains(key))
+                                Player.Instance.usedKeys.Add(key);
                         }
 
                         OpenDoor();
@@ -115,41 +111,13 @@ namespace Game.LevelManager
 
         private void MovePlayerToNextRoom()
         {
-            OnRoomExit(Player.instance.GetComponent<PlayerController>().GetHealth());
-            //Enemy spawning logic here TODO make it better and work with the variable enemies SOs
-            //Legacy: this was used when the doors were not closed when there are enemies in the room
-            /*
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            if (enemies.Length == 0)
-            {
-                parentRoom.hasEnemies = false;
-            }
-            else
-            {
-                foreach (GameObject enemy in enemies)
-                {
-                    Destroy(enemy);
-                }
-            }*/
-            //The normal room transition
-            Player.instance.transform.position = destination.teleportTransform.position;
-            RoomBHV parent = destination.parentRoom;
-            Coordinates cameraCoordinates = 
-                new Coordinates(destination.parentRoom.roomData.Coordinates.X, destination.parentRoom.roomData.Coordinates.Y);
-            Player.instance.AdjustCamera(cameraCoordinates, parent.roomData.Dimensions.Width);
+            ExitRoomEventHandler?.Invoke(this, new ExitRoomEventArgs(destination.parentRoom.roomData.Coordinates, -1, destination.teleportTransform.position));
             destination.transform.parent.GetComponent<RoomBHV>().OnRoomEnter();
-
         }
 
         public void SetDestination(DoorBHV other)
         {
             destination = other;
-        }
-
-        private void OnRoomExit(int playerHealth)
-        {
-            ExitRoomEventHandler?.Invoke(this, 
-                new ExitRoomEventArgs(destination.parentRoom.roomData.Coordinates, playerHealth));
         }
 
         private void OnKeyUsed(int id)

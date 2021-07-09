@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Enums;
+using static LoadText;
 
 public class Manager : MonoBehaviour
 {
 
     public static event ProfileSelectedEvent ProfileSelectedEventHandler;
+
+    public bool createNarrative = false;
 
     public bool isFinished = true; //verifica se a missão já terminou
 
@@ -18,12 +21,12 @@ public class Manager : MonoBehaviour
     private FormQuestionsData preTestQuestionnaire;
 
     public Selector Selector { get; set; }
-    public List<Quest> Graph { get; set; }
+    public Quests Quests { get; set; }
     public FormQuestionsData PreTestQuestionnaire { get => preTestQuestionnaire; set => preTestQuestionnaire = value; }
 
     void Awake()
     {
-        Graph = new List<Quest>();
+        Quests = new Quests();
         Selector = new Selector();
         writer = new JSonWriter();
     }
@@ -40,50 +43,53 @@ public class Manager : MonoBehaviour
 
         playerProfile = Selector.Select(this, answers);
 
-        makeBranches();
+        if(createNarrative)
+        {
+            makeBranches();
 
-        writer.writeJSon(Graph);
+            writer.writeJSon(Quests);
 
-        for (int i = 0; i < Graph.Count; i++) Debug.Log(Graph[i].Tipo + ", " + Graph[i].c1 + ", " + Graph[i].c2);
+            for (int i = 0; i < Quests.graph.Count; i++) Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
 
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+        }
         Debug.Log("Profile: " + playerProfile.ToString());
-        ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
     }
 
     void makeBranches()
     {
         int index = 0, b, c1, c2;
 
-        Graph[index].parent = -1;
+        Quests.graph[index].parent = -1;
 
-        while (index < Graph.Count)
+        while (index < Quests.graph.Count)
         {
             b = Random.Range(0, 100);
 
             if (b % 2 == 0)
             {
-                c1 = Random.Range(index + 1, Graph.Count);
-                if (c1 < Graph.Count)
+                c1 = Random.Range(index + 1, Quests.graph.Count);
+                if (c1 < Quests.graph.Count)
                 {
-                    Graph[c1].parent = index;
+                    Quests.graph[c1].parent = index;
                 }
 
-                c2 = Random.Range(index + 1, Graph.Count);
-                if (c2 < Graph.Count)
+                c2 = Random.Range(index + 1, Quests.graph.Count);
+                if (c2 < Quests.graph.Count)
                 {
-                    Graph[c2].parent = index;
+                    Quests.graph[c2].parent = index;
                 }
 
-                Graph[index].c1 = c1;
+                Quests.graph[index].c1 = c1;
                 if (c1 != c2)
                 {
-                    Graph[index].c2 = c2;
+                    Quests.graph[index].c2 = c2;
                 }
             }
-            else if (index + 1 < Graph.Count && Graph[index + 1].parent == -1)
+            else if (index + 1 < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
             {
-                Graph[index + 1].parent = index;
-                Graph[index].c1 = index + 1;
+                Quests.graph[index + 1].parent = index;
+                Quests.graph[index].c1 = index + 1;
             }
 
             index++;

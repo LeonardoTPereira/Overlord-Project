@@ -21,9 +21,9 @@ public class DungeonEntrance : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             // Get the directory separator
             char sep = Path.DirectorySeparatorChar;
@@ -38,11 +38,11 @@ public class DungeonEntrance : MonoBehaviour
             //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
             TextAsset[] levelAssets = Resources.LoadAll<TextAsset>("Levels" + sep);
             string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
-            Debug.Log(levelName);
-            Debug.Log(levelAssets[0].name);
+            //Debug.Log(levelName);
+            //Debug.Log(levelAssets[0].name);
             TextAsset[] availableDungeons = levelAssets.Where(l => l.name.Contains(levelName)).ToArray();
 
-            Debug.Log("DungeonFileName: " + availableDungeons[0].name);
+            //Debug.Log("DungeonFileName: " + availableDungeons[0].name);
             loadLevelEventHandler(this, new LevelLoadEventArgs(availableDungeons[0].name, "Enemies" + sep + "Hard" + sep));
             SceneManager.LoadScene("LevelWithEnemies");
         }

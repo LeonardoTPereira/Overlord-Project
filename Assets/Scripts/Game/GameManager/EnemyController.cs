@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
     {
 
         dataHasBeenLoaded = false;
-        playerObj = Player.instance.gameObject;
+        playerObj = Player.Instance.gameObject;
         anim = GetComponent<Animator>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         healthCtrl = gameObject.GetComponent<HealthController>();

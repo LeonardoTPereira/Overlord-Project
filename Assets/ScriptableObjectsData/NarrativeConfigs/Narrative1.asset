@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a65f357f20f4247a6ab9d58c147e79, type: 3}
   m_Name: Narrative1
   m_EditorClassIdentifier: 
-  narrativeFileName: NarrativeJSonType=3n1=7n2=0n3=0
+  narrativeFileName: NarrativeJSonType=2n1=2n2=7n3=1

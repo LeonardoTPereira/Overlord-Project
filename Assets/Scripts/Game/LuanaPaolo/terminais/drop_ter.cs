@@ -16,7 +16,7 @@ public class drop_ter
         quest.c2 = -1;
         quest.parent = -1;
 
-        m.Graph.Add(quest);
+        m.Quests.graph.Add(quest);
 
         //m.chain.Add(6);
     }

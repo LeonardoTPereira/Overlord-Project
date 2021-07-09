@@ -58,14 +58,8 @@ public class RoomBHV : MonoBehaviour
     {
         SetLayout();
         SetCenterPosition();
-#if UNITY_EDITOR
-        Debug.Log($"The current room is positionioded at {transform.position}");
-#endif
         if (RoomHasKey())
         {
-#if UNITY_EDITOR
-            DebugRoomData();
-#endif
             PlaceKeysInRoom();
         }
         if (RoomHasTreasure())
@@ -313,11 +307,11 @@ public class RoomBHV : MonoBehaviour
     public void OnRoomEnter()
     {
         if (hasEnemies)
-            {
+        {
             SpawnEnemies();
         }
         minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesIndex, Player.instance.GetComponent<PlayerController>().GetHealth()));
+        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesIndex, -1, gameObject.transform.position, roomData.Dimensions));
     }
 
     public void CheckIfAllEnemiesDead()
@@ -335,7 +329,6 @@ public class RoomBHV : MonoBehaviour
 
     public void SetKeysToDoors()
     {
-        Debug.Log($"This room has the keys: North {northDoor?.Count}, South {southDoor?.Count}, East {eastDoor?.Count}, West {westDoor?.Count}");
         doorNorth.keyID = northDoor;
         doorSouth.keyID = southDoor;
         doorEast.keyID = eastDoor;
@@ -350,9 +343,6 @@ public class RoomBHV : MonoBehaviour
     {
         foreach (int actualKey in roomData.KeyIDs)
         {
-#if UNITY_EDITOR
-            Debug.Log($"Key position: {availablePosition}");
-#endif
             PlaceKeyInRoom(actualKey);
             availablePosition.x += 1;
         }
@@ -375,9 +365,6 @@ public class RoomBHV : MonoBehaviour
         TreasureController treasure = Instantiate(treasurePrefab, transform);
         treasure.Treasure = GameManager.instance.treasureSet.Items[roomData.Treasure - 1];
         treasure.transform.position = availablePosition;
-#if UNITY_EDITOR
-        Debug.Log($"Treasure position: {availablePosition}");
-#endif
         availablePosition.x += 1;
     }
 
@@ -385,9 +372,6 @@ public class RoomBHV : MonoBehaviour
     {
         TriforceBHV tri = Instantiate(triPrefab, transform);
         tri.transform.position = availablePosition;
-#if UNITY_EDITOR
-        Debug.Log($"Key position: {availablePosition}");
-#endif
         availablePosition.x += 1;
     }
 

@@ -28,7 +28,7 @@ public class HealthUI : MonoBehaviour
     }
     void Start()
     {
-        //CreateHeartImage();
+        CreateHeartImage();
     }
 
     // Update is called once per frame
@@ -47,9 +47,9 @@ public class HealthUI : MonoBehaviour
         heartList = new List<Image>();
 
         float rowColSize = fullheartSprite.rect.size.x * multiplier;
-        int actualHealth = Player.instance.GetComponent<HealthController>().GetHealth();
+        int actualHealth = Player.Instance.GetComponent<HealthController>().GetHealth();
 
-        for (int i = 0; i < Player.instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
+        for (int i = 0; i < Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
         {
 
             Vector2 heartAnchoredPosition = new Vector2(col * rowColSize, -row * rowColSize);
