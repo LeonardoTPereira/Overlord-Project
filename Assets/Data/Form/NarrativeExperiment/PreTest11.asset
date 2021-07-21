@@ -15,3 +15,4 @@ MonoBehaviour:
   question: "Eu gosto de jogar jogos onde posso mergulhar no papel do personagem
     e tomar decis\xF5es significativas"
   description: 1 = Discordo Fortemente    <->    5 = Concordo Fortemente
+  answer: 5

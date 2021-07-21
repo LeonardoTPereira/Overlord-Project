@@ -42,11 +42,11 @@ public enum DungeonLinearity
 
 public enum DungeonKeys
 {
-    AFewKeys = 1,
-    SomeKeys = 3,
+    AFewKeys = 3,
+    SomeKeys = 4,
     SeveralKeys = 5,
-    ManyKeys = 7,
-    LotsOfKeys = 9
+    ManyKeys = 6,
+    LotsOfKeys = 7
 }
 
 

@@ -19,8 +19,10 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         public const string NPC = "NPC";
         public const string DUNGEON = "Dungeon";
     }
+    private char separator = Path.DirectorySeparatorChar;
 
     public static event CreateEADungeonEvent createEADungeonEventHandler;
+    private string playerProfile;
 
     protected Dictionary<string, TMP_InputField> inputFields;
     [SerializeField]
@@ -49,31 +51,49 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     public void OnEnable()
     {
         Program.newEAGenerationEventHandler += UpdateProgressBar;
+        Manager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
     }
     public void OnDisable()
     {
         Program.newEAGenerationEventHandler -= UpdateProgressBar;
+        Manager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
     }
 
     public void CreateLevelFromNarrative()
     {
         inputCanvas.SetActive(false);
         progressCanvas.SetActive(true);
+        string selectedNarrative = GetNarrativePath();
 
-        JSonWriter.ParametersMonsters parametersMonsters 
-            = GetJSONData<JSonWriter.ParametersMonsters>(NarrativeFileTypeString.ENEMY);
-        JSonWriter.ParametersItems parametersItems 
-            = GetJSONData<JSonWriter.ParametersItems>(NarrativeFileTypeString.ITEM);
-        JSonWriter.ParametersNpcs parametersNpcs 
-            = GetJSONData<JSonWriter.ParametersNpcs>(NarrativeFileTypeString.NPC);
-        JSonWriter.ParametersDungeon parametersDungeon 
-            = GetJSONData<JSonWriter.ParametersDungeon>(NarrativeFileTypeString.DUNGEON);
+        JSonWriter.ParametersMonsters parametersMonsters
+            = GetJSONData<JSonWriter.ParametersMonsters>(NarrativeFileTypeString.ENEMY, selectedNarrative);
+        JSonWriter.ParametersItems parametersItems
+            = GetJSONData<JSonWriter.ParametersItems>(NarrativeFileTypeString.ITEM, selectedNarrative);
+        JSonWriter.ParametersNpcs parametersNpcs
+            = GetJSONData<JSonWriter.ParametersNpcs>(NarrativeFileTypeString.NPC, selectedNarrative);
+        JSonWriter.ParametersDungeon parametersDungeon
+            = GetJSONData<JSonWriter.ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
 
         createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
             parametersMonsters, parametersItems, parametersNpcs));
     }
 
-    public void CreateLevelFromInput()
+    private string GetNarrativePath()
+    {
+        string directoryPath = $"{Application.dataPath}{separator}Resources{separator}{playerProfile}";
+        string[] directories = Directory.GetDirectories(directoryPath);
+        int nNarrativesForProfile = directories.Length;
+        string selectedNarrative = directories[Random.Range(0, nNarrativesForProfile)];
+        return selectedNarrative;
+    }
+
+    public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
+    {
+        playerProfile = eventArgs.PlayerProfile.ToString();
+        CreateLevelFromNarrative();
+    }
+
+        public void CreateLevelFromInput()
     {
         int nRooms, nKeys, nLocks;
         float linearity;
@@ -94,14 +114,14 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         progressCanvas.SetActive(true);
     }
 
-    private T GetJSONData<T>(string narrativeType)
+    private T GetJSONData<T>(string narrativeType, string narrativePath)
     {
-        DirectoryInfo directoryInfo = new DirectoryInfo($"{Application.dataPath}\\Resources\\" +
-            $"{narrativeConfigSO.narrativeFileName}\\{narrativeType}");
-        FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-        string narrativeTypeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
-            "/" + narrativeType + "/" + fileInfos[0].Name.Replace(".json", "")).text;
-        return JsonConvert.DeserializeObject<T>(narrativeTypeText);
+        string dataPath = narrativePath + separator + narrativeType;
+        string relativePath = dataPath.Substring(dataPath.IndexOf(playerProfile));
+        TextAsset []files = Resources.LoadAll<TextAsset>(relativePath);
+        int nFiles = files.Length;
+        TextAsset selectedFile = files[Random.Range(0, nFiles)];
+        return JsonConvert.DeserializeObject<T>(selectedFile.text);
     }
 
     public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)

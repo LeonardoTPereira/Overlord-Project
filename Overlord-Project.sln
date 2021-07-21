@@ -1,27 +1,42 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Game", "Project.Game.csproj", "{e011d619-1072-e748-02cf-171fd355fbc7}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Game", "Project.Game.csproj", "{19D611E0-7210-48E7-02CF-171FD355FBC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.ScripableObjects", "Project.ScripableObjects.csproj", "{38de0f89-486f-89a8-3c43-1823c5de75a1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBox", "MyBox.csproj", "{4D9ABB2C-8D41-40A2-9320-108103F0E5EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Util", "Project.Util.csproj", "{a0f786e6-e038-6e6e-d8a9-dd42b655e92d}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.ScripableObjects", "Project.ScripableObjects.csproj", "{890FDE38-6F48-A889-3C43-1823C5DE75A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.External", "Project.External.csproj", "{4cad70f7-8185-d528-06b8-aec7d6e0a979}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Util", "Project.Util.csproj", "{E686F7A0-38E0-6E6E-D8A9-DD42B655E92D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.External", "Project.External.csproj", "{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{e011d619-1072-e748-02cf-171fd355fbc7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{e011d619-1072-e748-02cf-171fd355fbc7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38de0f89-486f-89a8-3c43-1823c5de75a1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38de0f89-486f-89a8-3c43-1823c5de75a1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{a0f786e6-e038-6e6e-d8a9-dd42b655e92d}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{a0f786e6-e038-6e6e-d8a9-dd42b655e92d}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4cad70f7-8185-d528-06b8-aec7d6e0a979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4cad70f7-8185-d528-06b8-aec7d6e0a979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D611E0-7210-48E7-02CF-171FD355FBC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D611E0-7210-48E7-02CF-171FD355FBC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D611E0-7210-48E7-02CF-171FD355FBC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D611E0-7210-48E7-02CF-171FD355FBC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D9ABB2C-8D41-40A2-9320-108103F0E5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D9ABB2C-8D41-40A2-9320-108103F0E5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D9ABB2C-8D41-40A2-9320-108103F0E5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D9ABB2C-8D41-40A2-9320-108103F0E5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E686F7A0-38E0-6E6E-D8A9-DD42B655E92D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E686F7A0-38E0-6E6E-D8A9-DD42B655E92D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E686F7A0-38E0-6E6E-D8A9-DD42B655E92D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E686F7A0-38E0-6E6E-D8A9-DD42B655E92D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

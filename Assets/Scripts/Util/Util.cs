@@ -23,4 +23,9 @@ public static class Util
         SIN = 1,
         TRIPLE = 2
     }
+
+    public const string KILL_QUEST = "Kill";
+    public const string GET_QUEST = "Get";
+    public const string EXPLORE_QUEST = "Explore";
+    public const string TALK_QUEST = "Talk";
 }

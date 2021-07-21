@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{19D611E0-7210-48E7-02CF-171FD355FBC7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -71,7 +72,7 @@
     <Compile Include="Assets\Scripts\Game\GameManager\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\BombController.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\AStar.cs" />
-    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\get.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\Get.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\LevelLoaderBHV.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\Map.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\ComboUI.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\ExperimentController.cs" />
     <Compile Include="Assets\Scripts\Game\Events\CreateEADungeonEvent.cs" />
-    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\kill.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\Kill.cs" />
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\Selector.cs" />
     <Compile Include="Assets\Scripts\Game\DataCollection\FormQuestionBHV.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\TreasureController.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\terminais\get_ter.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\KeyUI.cs" />
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\Quantities.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\NPC.cs" />
     <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemySystem.cs" />
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\terminais\kill_ter.cs" />
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\Loader.cs" />
@@ -127,7 +129,7 @@
     <Compile Include="Assets\Scripts\Game\LevelManager\BlockBhv.cs" />
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\QuestManager.cs" />
     <Compile Include="Assets\Scripts\Game\LuanaPaolo\Manager.cs" />
-    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\talk.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\Talk.cs" />
     <Compile Include="Assets\Scripts\Game\Events\NewEAGenerationEvent.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\MenuPanelBHV.cs" />
     <Compile Include="Assets\Scripts\Game\Events\PlayerIsDamagedEvent.cs" />
@@ -163,7 +165,7 @@
     <Compile Include="Assets\Scripts\Game\DataCollection\PlayerProfile.cs" />
     <Compile Include="Assets\Scripts\Game\DataCollection\ScrollBarBHV.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\TileBhv.cs" />
-    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\explore.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\Explore.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Room.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\DungeonPartFactory.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\ScoreBHV.cs" />
@@ -171,6 +173,9 @@
     <Compile Include="Assets\Scripts\Game\GameManager\ProjectileController.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\WallBhv.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\NarrativeGenerator.cs" />
+    <Compile Include="Assets\Scripts\Game\Events\NarrativeCreatorEvent.cs" />
+    <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\NonTerminalQuest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Game\Project.Game.asmdef" />

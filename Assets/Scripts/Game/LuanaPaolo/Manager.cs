@@ -31,29 +31,56 @@ public class Manager : MonoBehaviour
         writer = new JSonWriter();
     }
 
+    public void OnEnable()
+    {
+        NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
+    }
+
+    public void OnDisable()
+    {
+        NarrativeGenerator.NarrativeCreatorEventHandler -= SelectPlayerProfile;
+    }
+
+    private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
+    {
+        PlayerProfileEnum playerProfile = Selector.Select(this, e);
+        if (createNarrative)
+        {
+            makeBranches();
+
+            writer.writeJSon(Quests, playerProfile);
+
+            for (int i = 0; i < Quests.graph.Count; i++) Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
+        }
+        ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+    }
+
     void Start()
     {
         PlayerProfileEnum playerProfile;
         player = FindObjectOfType<Player_Movement>();
         List<int> answers = new List<int>();
-        foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
-            answers.Add(questionData.answer);
-
-        Debug.Log("Answers: " + answers.Count);
-
-        playerProfile = Selector.Select(this, answers);
-
-        if(createNarrative)
+        if (PreTestQuestionnaire != null)
         {
-            makeBranches();
+            foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
+                answers.Add(questionData.answer);
 
-            writer.writeJSon(Quests);
+            Debug.Log("Answers: " + answers.Count);
 
-            for (int i = 0; i < Quests.graph.Count; i++) Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
+            playerProfile = Selector.Select(this, answers);
 
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            if (createNarrative)
+            {
+                makeBranches();
+
+                writer.writeJSon(Quests, playerProfile);
+
+                for (int i = 0; i < Quests.graph.Count; i++) Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
+
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            }
+            Debug.Log("Profile: " + playerProfile.ToString());
         }
-        Debug.Log("Profile: " + playerProfile.ToString());
     }
 
     void makeBranches()

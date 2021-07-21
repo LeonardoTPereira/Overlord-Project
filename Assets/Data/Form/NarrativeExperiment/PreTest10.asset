@@ -15,3 +15,4 @@ MonoBehaviour:
   question: Eu gosto de jogar jogos onde posso criar amizades entre personagens do
     jogo e trabalhar rumo a um objetivo em comum
   description: 1 = Discordo Fortemente    <->    5 = Concordo Fortemente
+  answer: 5

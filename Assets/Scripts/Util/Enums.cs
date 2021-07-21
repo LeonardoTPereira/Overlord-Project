@@ -33,4 +33,12 @@
         Creativity, //Discovery, Exploration
         Achievement // Completion, Items
     }
+
+    public enum QuestWeights
+    {
+        Hated = 1,
+        Disliked = 3,
+        Liked = 5,
+        Loved = 7
+    }
 }

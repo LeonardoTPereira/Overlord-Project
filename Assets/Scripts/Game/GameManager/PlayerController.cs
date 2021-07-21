@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         healthCtrl.SetHealth(maxHealth);
         originalColor = sr.color;
         healthCtrl.SetOriginalColor(originalColor);
-        SetProjectileSO(null, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
     }
 
     private void OnEnable()

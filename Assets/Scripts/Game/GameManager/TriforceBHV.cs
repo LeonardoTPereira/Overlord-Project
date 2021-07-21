@@ -11,7 +11,6 @@ public class TriforceBHV : PlaceableRoomObject
         if (other.tag == "Player")
         {
             GotTriforceEventHandler?.Invoke(this, EventArgs.Empty);
-            SceneManager.LoadScene("LuanaPaolo"); //Luana
         }
     }
 }

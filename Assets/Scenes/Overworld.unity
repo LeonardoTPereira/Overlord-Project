@@ -10070,7 +10070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afaa5f586e0dad24aa1d2d178c57b3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: 84371157fe4c31c4399bdc5ce8b99db2, type: 3}
+  jsonFile: {fileID: 4900000, guid: 5a2c87ee39bec4e4ca83517482a8f27d, type: 3}
   missionSum: {fileID: 886644127}
   manager: {fileID: 11400000, guid: 8e7bd4e04b48dd94c96fd457b88e03ed, type: 2}
 --- !u!114 &1448563923
@@ -11310,7 +11310,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 1502250188}
   button: {fileID: 1784528161}
-  levelToLoad: 
+  levelToLoad:
+    Scene: {fileID: 0}
+    SceneName: 
+    sceneIndex: -1
+    sceneEnabled: 0
 --- !u!114 &1690813648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12264,7 +12268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4.64
       objectReference: {fileID: 0}
     - target: {fileID: 4491509972427642, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
       propertyPath: m_LocalPosition.z

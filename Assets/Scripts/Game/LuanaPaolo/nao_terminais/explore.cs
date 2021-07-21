@@ -1,23 +1,23 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Explore
+public class Explore : NonTerminalQuest
 {
-    float r;
-
-    public void Option(Manager m, int lim, int[] pesos)
+    public Explore(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
-        r = ((pesos[0] + pesos[1] * 2 + pesos[2] * 3 + pesos[3] * 4) / 16) * Random.Range(0f, 3f);
-        if (lim == 3) r = 2.5f;
+        maxQuestChance = 2.5f;
+    }
 
-        lim++;
+    protected override void DefineNextQuest(Manager m)
+    {
 
         if (r > 2.85)
         {
             explore_ter e = new explore_ter();
             e.choose(m);
-            talk t = new talk();
-            t.option(m, lim, pesos);
-            this.Option(m, lim, pesos);
+            Talk t = new Talk(lim, questWeightsbyType);
+            t.Option(m);
+            Option(m);
         }
         if (r > 2.6 && r <= 2.85)
         {
@@ -28,9 +28,9 @@ public class Explore
         {
             secret_ter s = new secret_ter();
             s.choose(m);
-            talk t = new talk();
-            t.option(m, lim, pesos);
-            this.Option(m, lim, pesos);
+            Talk t = new Talk(lim, questWeightsbyType);
+            t.Option(m);
+            Option(m);
         }
         if (r <= 2.35)
         {

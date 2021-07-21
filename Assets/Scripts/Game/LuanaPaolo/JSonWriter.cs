@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static Enums;
 using static LoadText;
 
 public class JSonWriter
@@ -103,7 +104,7 @@ public class JSonWriter
         public int NumItens{get => numItens; set => numItens = value;}
     }
 
-    public void writeJSon(Quests quests)
+    public void writeJSon(Quests quests, PlayerProfileEnum playerProfile)
     {
         // Get the directory separator
         char sep = Path.DirectorySeparatorChar;
@@ -114,6 +115,13 @@ public class JSonWriter
         // Build the target path
         string target = Application.dataPath;
         target += sep + "Resources";
+        target += sep + playerProfile.ToString();
+
+        if (!Directory.Exists(target))
+        {
+            Directory.CreateDirectory(target);
+        }
+
         target += sep + "NarrativeJSon";
         target += quests.graph[0].ToString();
 
@@ -129,11 +137,15 @@ public class JSonWriter
         string itemFd = "Item";
 
         // Create directories to save the generated contents
-        Directory.CreateDirectory(target);
-        Directory.CreateDirectory(target + sep + dungeonFd);
-        Directory.CreateDirectory(target + sep + enemyFd);
-        Directory.CreateDirectory(target + sep + npcFd);
-        Directory.CreateDirectory(target + sep + itemFd);
+
+        if (!Directory.Exists(target))
+        {
+            Directory.CreateDirectory(target);
+            Directory.CreateDirectory(target + sep + dungeonFd);
+            Directory.CreateDirectory(target + sep + enemyFd);
+            Directory.CreateDirectory(target + sep + npcFd);
+            Directory.CreateDirectory(target + sep + itemFd);
+        }
 
         // Initialize output string
         string outString = "";

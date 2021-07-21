@@ -1,21 +1,22 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Get
+public class Get : NonTerminalQuest
 {
-    public void Option(Manager m, int lim, int[] pesos)
+    public Get(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
-        float r = ((pesos[0] + pesos[1] * 2 + pesos[2] * 3 + pesos[3] * 4) / 16) * Random.Range(0f, 3f);
-        if (lim == 3) r = 2.8f;
+        maxQuestChance = 2.8f;
+    }
 
-        lim++;
-
+    protected override void DefineNextQuest(Manager m)
+    {
         if (r > 2.85)
         {
             get_ter g = new get_ter();
             g.choose(m);
-            talk t = new talk();
-            t.option(m, lim, pesos);
-            Option(m, lim, pesos);
+            Talk t = new Talk(lim, questWeightsbyType);
+            t.Option(m);
+            Option(m);
         }
         if (r > 2.7 && r <= 2.85)
         {
@@ -26,9 +27,9 @@ public class Get
         {
             drop_ter d = new drop_ter();
             d.choose(m);
-            talk t = new talk();
-            t.option(m, lim, pesos);
-            Option(m, lim, pesos);
+            Talk t = new Talk(lim, questWeightsbyType);
+            t.Option(m);
+            Option(m);
         }
         if (r > 2.4 && r <= 2.55)
         {
@@ -39,9 +40,9 @@ public class Get
         {
             chest_ter c = new chest_ter();
             c.choose(m);
-            talk t = new talk();
-            t.option(m, lim, pesos);
-            Option(m, lim, pesos);
+            Talk t = new Talk(lim, questWeightsbyType);
+            t.Option(m);
+            Option(m);
         }
         if (r <= 2.25)
         {

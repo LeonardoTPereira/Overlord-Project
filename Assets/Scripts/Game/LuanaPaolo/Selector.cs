@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Enums;
+using static Util;
 
 //classe que seleciona a linha de missões de acordo com os pesos do perfil do jogador
 public class Selector
@@ -20,8 +21,7 @@ public class Selector
         }
     }
     public List<QuestWeight> questWeights = new List<QuestWeight>();
-    public int[] pesos = new int[4]; //vetor de pesos
-
+    Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
     private static readonly int[] WEIGHTS = { 1, 3, 5, 7 };
 
     private PlayerProfileEnum typePlayer;
@@ -42,94 +42,87 @@ public class Selector
 
         weightCalculator(answers);
 
-        float newMissionChance, newMissionDraw;
-        newMissionChance = 0;
-        do
-        {
-            for (int i = 0; i < pesos.Length; i++)
-            {
-                newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-                if(pesos[i] > newMissionDraw*10)
-                {
-                    if(i == 0)
-                    {
-                        talk t = new talk();
-                        t.option(m, 0, pesos);
-                    }
-
-                    else if(i == 1)
-                    {
-                        Get g = new Get();
-                        g.Option(m, 0, pesos);
-                    }
-
-                    else if(i == 2)
-                    {
-                        kill k = new kill();
-                        k.option(m, 0, pesos);
-                    }
-
-                    else
-                    {
-                        Explore e = new Explore();
-                        e.Option(m, 0, pesos);
-                    }
-
-                }
-
-            }
-
-            newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-            newMissionChance += 0.3f;
-        } while (newMissionDraw > newMissionChance);
-        /*int r = ((pesos[0] + pesos[1]*2 + pesos[2]*3 + pesos[3]*4)/16);// * Random.Range(0f, 3f); <<-- equação ainda inutilizada devido a testes específicos
-
-        if (r <= 2.35)
-        {
-            talk t = new talk();
-            t.option(m, 0, pesos);
-        }
-        if (r > 2.35 && r <= 2.6)
-        {
-            get g = new get();
-            g.option(m, 0, pesos);
-        }
-        if (r > 2.6 && r <= 2.85)
-        {
-            kill k = new kill();
-            k.option(m, 0, pesos);
-        }
-        if (r > 2.85)
-        {
-            explore e = new explore();
-            e.option(m, 0, pesos);
-        }*/
-        /*switch(typePlayer)
-        {
-            case (PlayerProfileEnum.Mastery):
-                kill k = new kill();
-                k.option(m, 0, pesos);
-                break;
-            case (PlayerProfileEnum.Achievement):
-                get g = new get();
-                g.option(m, 0, pesos);
-                break;
-            case (PlayerProfileEnum.Immersion):
-                talk t = new talk();
-                t.option(m, 0, pesos);
-                break;
-            case (PlayerProfileEnum.Creativity):
-                explore e = new explore();
-                e.option(m, 0, pesos);
-                break;
-
-        }*/
+        DrawMissions(m);
 
         return typePlayer;
     }
 
+    public PlayerProfileEnum Select(Manager m, NarrativeCreatorEventArgs eventArgs)
+    {
+        questWeightsbyType = eventArgs.QuestWeightsbyType;
+
+        string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+        
+        GetProfileFromFavoriteQuest(favoriteQuest);
+
+        DrawMissions(m);
+
+        return typePlayer;
+    }
+
+    private void GetProfileFromFavoriteQuest(string favoriteQuest)
+    {
+        switch (favoriteQuest)
+        {
+            case KILL_QUEST:
+                typePlayer = PlayerProfileEnum.Mastery;
+                break;
+            case GET_QUEST:
+                typePlayer = PlayerProfileEnum.Achievement;
+                break;
+            case TALK_QUEST:
+                typePlayer = PlayerProfileEnum.Immersion;
+                break;
+            case EXPLORE_QUEST:
+                typePlayer = PlayerProfileEnum.Creativity;
+                break;
+            default:
+                Debug.Log("Something went wrong");
+                break;
+        }
+    }
+
+    private void DrawMissions(Manager m)
+    {
+        float newMissionChance, newMissionDraw;
+        newMissionChance = 0;
+        do
+        {
+            foreach (var item in questWeightsbyType)
+            {
+                newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
+                if (item.Value > newMissionDraw * 10)
+                {
+                    switch (item.Key)
+                    {
+                        case TALK_QUEST:
+                            Talk t = new Talk(0, questWeightsbyType);
+                            t.Option(m);
+                            break;
+                        case GET_QUEST:
+                            Get g = new Get(0, questWeightsbyType);
+                            g.Option(m);
+                            break;
+                        case KILL_QUEST:
+                            Kill k = new Kill(0, questWeightsbyType);
+                            k.Option(m);
+                            break;
+                        case EXPLORE_QUEST:
+                            Explore e = new Explore(0, questWeightsbyType);
+                            e.Option(m);
+                            break;
+                    }
+                }
+            }
+            newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
+            newMissionChance += 0.3f;
+        } while (newMissionDraw > newMissionChance);
+    }
+
     private void weightCalculator(List<int> answers){
-        for(int i = 2; i < 12; i++){
+        int []pesos = new int[4];
+
+        for (int i = 2; i < 12; i++){
             if(i == 2 || i == 3 || i == 4) pesos[2] += answers[i];
             else if(i == 5 || i == 6) pesos[3] += answers[i];
             else if(i == 7 || i == 8) pesos[1] += answers[i];
@@ -140,10 +133,11 @@ public class Selector
                 pesos[0] -= answers[i];
             }
         }
-        questWeights.Add(new QuestWeight("talk", pesos[0]));
-        questWeights.Add(new QuestWeight("get", pesos[1]));
-        questWeights.Add(new QuestWeight("kill", pesos[2]));
-        questWeights.Add(new QuestWeight("explore", pesos[3]));
+
+        questWeights.Add(new QuestWeight(TALK_QUEST, pesos[0]));
+        questWeights.Add(new QuestWeight(GET_QUEST, pesos[1]));
+        questWeights.Add(new QuestWeight(KILL_QUEST, pesos[2]));
+        questWeights.Add(new QuestWeight(EXPLORE_QUEST, pesos[3]));
 
         questWeights = questWeights.OrderBy(x => x.weight).ToList();
 
@@ -153,19 +147,17 @@ public class Selector
             Debug.Log($"Quest Weight [{i}]: {questWeights[i].weight}");
         }
 
-        pesos[0] = questWeights.Find(x => x.quest == "talk").weight;
-        pesos[1] = questWeights.Find(x => x.quest == "get").weight;
-        pesos[2] = questWeights.Find(x => x.quest == "kill").weight;
-        pesos[3] = questWeights.Find(x => x.quest == "explore").weight;
+        pesos[0] = questWeights.Find(x => x.quest == TALK_QUEST).weight;
+        pesos[1] = questWeights.Find(x => x.quest == GET_QUEST).weight;
+        pesos[2] = questWeights.Find(x => x.quest == KILL_QUEST).weight;
+        pesos[3] = questWeights.Find(x => x.quest == EXPLORE_QUEST).weight;
 
-        for (int i = 0; i < pesos.Length; ++i)
-        {
-            Debug.Log($"Pesos [{i}]: {pesos[i]}");
-        }
+        questWeightsbyType.Add(TALK_QUEST, pesos[0]);
+        questWeightsbyType.Add(GET_QUEST, pesos[1]);
+        questWeightsbyType.Add(KILL_QUEST, pesos[2]);
+        questWeightsbyType.Add(EXPLORE_QUEST, pesos[3]);
 
-        if (questWeights[questWeights.Count-1].quest == "talk") typePlayer = PlayerProfileEnum.Immersion;
-        else if (questWeights[questWeights.Count - 1].quest == "get") typePlayer = PlayerProfileEnum.Achievement;
-        else if (questWeights[questWeights.Count - 1].quest == "kill") typePlayer = PlayerProfileEnum.Mastery;
-        else typePlayer = PlayerProfileEnum.Creativity;
+        string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+        GetProfileFromFavoriteQuest(favoriteQuest);
     }
 }

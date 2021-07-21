@@ -28,11 +28,17 @@ public class DungeonEntrance : MonoBehaviour
             // Get the directory separator
             char sep = Path.DirectorySeparatorChar;
 
+            string[] directories = Directory.GetDirectories(Application.dataPath + sep + "Resources" + sep + narrativeSO.narrativeFileName);
+            int nNarrativesForProfile = directories.Length;
+            string selectedNarrative = directories[Random.Range(0, nNarrativesForProfile)];
+
+            string relativePath = selectedNarrative.Substring(selectedNarrative.IndexOf(narrativeSO.narrativeFileName));
+
             // Define the JSON file extension
             const string extension = ".json";
-            DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + sep + "Resources" + sep + narrativeSO.narrativeFileName + sep + "Dungeon");
+            DirectoryInfo directoryInfo = new DirectoryInfo(selectedNarrative + sep + "Dungeon");
             FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-            string narrativeText = Resources.Load<TextAsset>(narrativeSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
+            string narrativeText = Resources.Load<TextAsset>(relativePath + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
             JSonWriter.ParametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.ParametersDungeon>(narrativeText);
 
             //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;

@@ -1,26 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class kill
+public class Kill : NonTerminalQuest
 {
-    float r, b;
-    public void option(Manager m, int lim, int[] pesos)
+    public Kill(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
-        r = ((pesos[0] + pesos[1] * 2 + pesos[2] * 3 + pesos[3] * 4) / 16) * Random.Range(0f, 3f);
-        if (lim == 3) r = 2.5f;
+        maxQuestChance = 2.5f;
+    }
 
-        b = Random.Range(0, 100);
-
-        lim++;
-
+    protected override void DefineNextQuest(Manager m)
+    {
         kill_ter k = new kill_ter();
 
         if (r <= 2.5)
         {
             k.choose(m);
-            talk t = new talk();
-            t.option(m, lim, pesos);
-            this.option(m, lim, pesos);
+            Talk t = new Talk(lim, questWeightsbyType);
+            t.Option(m);
+            Option(m);
         }
-        if (r > 2.5) k.choose(m);
+        if (r > 2.5) 
+            k.choose(m);
     }
 }
