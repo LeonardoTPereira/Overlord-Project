@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     protected GameObject bulletSpawn, bulletPrefab;
 
+    private bool canMove;
 
     Animator anim;
     float lastX, lastY;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+        canMove = true;
     }
 
     // Use this for initialization
@@ -57,11 +59,15 @@ public class PlayerController : MonoBehaviour
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
         HealthController.PlayerIsDamagedEventHandler += CheckDeath;
+        NPC.DialogueOpenEventHandler += StopInput;
+        NPC.DialogueCloseEventHandler += RestartInput;
     }
     private void OnDisable()
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
         HealthController.PlayerIsDamagedEventHandler -= CheckDeath;
+        NPC.DialogueOpenEventHandler -= StopInput;
+        NPC.DialogueCloseEventHandler -= RestartInput;
     }
 
     void FixedUpdate()
@@ -78,17 +84,30 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
             NextProjectileSO();
-
-        Move(movement, shootDir);
-
-        if (coolDownTime > 0.0f)
+        if (canMove)
         {
-            coolDownTime -= Time.fixedDeltaTime;
+            Move(movement, shootDir);
+            if (coolDownTime > 0.0f)
+            {
+                coolDownTime -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                Shoot(shootDir, movement);
+            }
         }
-        else
-        {
-            Shoot(shootDir, movement);
-        }
+
+
+    }
+
+    private void StopInput(object sender, EventArgs eventArgs)
+    {
+        canMove = false;
+    }
+
+    private void RestartInput(object sender, EventArgs eventArgs)
+    {
+        canMove = true;
     }
 
     protected void Move(Vector2 movement, Vector2 shoot)

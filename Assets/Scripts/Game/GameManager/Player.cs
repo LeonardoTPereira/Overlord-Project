@@ -19,7 +19,7 @@ public class Player : PlaceableRoomObject
     public static event EnterRoomEvent EnterRoomEventHandler;
     public static event ExitRoomEvent ExitRoomEventHandler;
 
-    private void Awake()
+    public void Awake()
     {
         if (instance != null && instance != this)
         {
@@ -36,32 +36,32 @@ public class Player : PlaceableRoomObject
 
     public static Player Instance { get { return instance; } }
 
-    private void OnEnable()
+    public void OnEnable()
     {
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
         GameManager.NewLevelLoadedEventHandler += ResetValues;
         RoomBHV.StartRoomEventHandler += PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler += GetKey;
         GameManager.EnterRoomEventHandler += GetHealth;
+        GameManager.EnterRoomEventHandler += AdjustCamera;
         RoomBHV.EnterRoomEventHandler += GetHealth;
         RoomBHV.EnterRoomEventHandler += AdjustCamera;
         DoorBHV.ExitRoomEventHandler += ExitRoom;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         GameManager.NewLevelLoadedEventHandler -= ResetValues;
         RoomBHV.StartRoomEventHandler -= PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler -= GetKey;
         GameManager.EnterRoomEventHandler -= GetHealth;
+        GameManager.EnterRoomEventHandler -= AdjustCamera;
         RoomBHV.EnterRoomEventHandler -= GetHealth;
         RoomBHV.EnterRoomEventHandler -= AdjustCamera;
         DoorBHV.ExitRoomEventHandler -= ExitRoom;
     }
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         playerController.ResetHealth();
     }
@@ -74,6 +74,7 @@ public class Player : PlaceableRoomObject
 
     public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
     {
+        Debug.Log("Adjusting Camera: " + eventArgs.RoomPosition.x + " - " + eventArgs.RoomPosition.y);
         int roomWidth = eventArgs.RoomDimensions.Width;
         float cameraXPosition = eventArgs.RoomPosition.x + roomWidth / 3.5f;
         float cameraYPosition = eventArgs.RoomPosition.y;
@@ -99,16 +100,6 @@ public class Player : PlaceableRoomObject
         keys.Clear();
         usedKeys.Clear();
     }
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Level" || scene.name == "LevelWithEnemies")
-        {
-            Debug.Log("Level Finished Loading Player");
-
-
-        }
-    }
-
     private void GetHealth(object sender, EnterRoomEventArgs eventArgs)
     {
         int health = playerController.GetHealth();

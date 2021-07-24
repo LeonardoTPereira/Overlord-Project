@@ -215,9 +215,9 @@ public class GameManager : MonoBehaviour
             targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X, dungeonRoom.Coordinates.Y + 1);
             newRoom.southDoor = CheckCorridor(targetCoordinates);
         }
-        if (dungeonRoom.Treasure > -1)
+        if (dungeonRoom.Treasure > 0)
         {
-            maxTreasure += treasureSet.Items[dungeonRoom.Treasure].value;
+            maxTreasure += treasureSet.Items[dungeonRoom.Treasure-1].value;
         }
         //Sets room transform position
         newRoom.gameObject.transform.position = 
@@ -271,6 +271,7 @@ public class GameManager : MonoBehaviour
 
     private void OnStartMap(string mapName, int batch, Map map)
     {
+        Debug.Log("Starting Map");
         StartMapEventHandler(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType)));
         EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, 
             roomBHVMap[map.StartRoomCoordinates].enemiesIndex, -1, roomBHVMap[map.StartRoomCoordinates].gameObject.transform.position, (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions));

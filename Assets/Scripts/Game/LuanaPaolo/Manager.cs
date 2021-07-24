@@ -113,7 +113,7 @@ public class Manager : MonoBehaviour
                     Quests.graph[index].c2 = c2;
                 }
             }
-            else if (index + 1 < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
+            else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
             {
                 Quests.graph[index + 1].parent = index;
                 Quests.graph[index].c1 = index + 1;

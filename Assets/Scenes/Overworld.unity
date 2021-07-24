@@ -4640,13 +4640,13 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 0.99951196
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -10070,7 +10070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afaa5f586e0dad24aa1d2d178c57b3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: 5a2c87ee39bec4e4ca83517482a8f27d, type: 3}
+  jsonFile: {fileID: 4900000, guid: e429ee9999a6b0245b90ba2724ed329d, type: 3}
   missionSum: {fileID: 886644127}
   manager: {fileID: 11400000, guid: 8e7bd4e04b48dd94c96fd457b88e03ed, type: 2}
 --- !u!114 &1448563923
@@ -12792,6 +12792,31 @@ PrefabInstance:
       propertyPath: m_Text
       value: "Antes de come\xE7ar, gostar\xEDamos de saber um poucos mais sobre voc\xEA.
         \nPor favor, responda as perguntas abaixo!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1951961297}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 114865303592098710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}

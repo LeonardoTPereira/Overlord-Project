@@ -370,7 +370,7 @@ public class RoomBHV : MonoBehaviour
     public void PlaceTreasureInRoom()
     {
         TreasureController treasure = Instantiate(treasurePrefab, transform);
-        treasure.Treasure = GameManager.instance.treasureSet.Items[roomData.Treasure - 1];
+        treasure.Treasure = GameManager.instance.treasureSet.Items[roomData.Treasure-1];
         treasure.transform.position = availablePosition;
         availablePosition.x += 1;
     }
@@ -398,13 +398,6 @@ public class RoomBHV : MonoBehaviour
 
     public void PlaceNpcInRoom(){
         NPC npc = Instantiate(npcPrefab, transform);
-
-        Color[] colors = {Color.red, Color.green, Color.blue};
-        string[] dialogues = {"Thank you for saving me!", "May the Godesses bless your help!", "Finally!"};
-
-        npc.transform.GetChild(0).transform.gameObject.GetComponent<RawImage>().color = colors[UnityEngine.Random.Range(0, 3)];
-        npc.transform.GetChild(2).transform.gameObject.GetComponent<TextMeshProUGUI>().text = dialogues[UnityEngine.Random.Range(0, 3)];
-
         npc.transform.position = availablePosition;
         availablePosition.x += 1;
     }

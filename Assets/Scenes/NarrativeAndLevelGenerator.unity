@@ -1915,7 +1915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70525adb7a52ee0439c81de57524ccd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createNarrative: 0
+  createNarrative: 1
   isFinished: 1
   player: {fileID: 0}
   preTestQuestionnaire: {fileID: 0}

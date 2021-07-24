@@ -322,17 +322,6 @@ namespace LevelGenerator
                             roomDataInFile.Enemies = 0;
                             roomDataInFile.Treasures = 0;
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
-                            int numberNpcs;
-                            if(remainingNpcs > 0) 
-                            {
-                                numberNpcs = UnityEngine.Random.Range(0, 2);
-                            }
-                            else numberNpcs = 0;
-
-                            roomDataInFile.Npcs = numberNpcs;
-                            remainingItems -= numberItems;
-                            remainingNpcs -= numberNpcs;
                         }
                         //If negative, is a locked corridor, save it as the negative number of the key that opens it
                         else if (map[i, j] < 0)
@@ -353,13 +342,13 @@ namespace LevelGenerator
                             //TODO: save the info about the treasure and difficulty
                             int difficulty = random.Next(1, 5);                            
                             dungeonData += difficulty + "\n"; //Difficulty
-                            int treasureValue = random.Next(1, treasureRuntimeSetSO.Items.Count + 1);
-                            dungeonData += treasureValue + "\n"; //Treasure
+                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
+                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
+                            dungeonData += numberItems + "\n"; //Treasure
                             roomDataInFile.Enemies = difficulty;
-                            roomDataInFile.Treasures = treasureValue;
-
+                            roomDataInFile.Treasures = numberItems;
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
+
                             int numberNpcs;
                             if(remainingNpcs > 0) 
                             {
@@ -387,7 +376,8 @@ namespace LevelGenerator
                             dungeonData += "+" + map[i, j] + "\n";
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
+                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count, remainingItems + 1);
+                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
                             int numberNpcs;
                             if(remainingNpcs > 0) {
                                 numberNpcs = UnityEngine.Random.Range(0, 2);
@@ -412,12 +402,13 @@ namespace LevelGenerator
                             dungeonData += random.Next(4) + "\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = difficulty;
-                            roomDataInFile.Treasures = 0;
-
+                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
+                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
+                            dungeonData += numberItems + "\n"; //Treasure
+                            roomDataInFile.Treasures = numberItems;
                             //TODO Logica de carregar inimigos de acordo com probabilidade
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int numberItems = UnityEngine.Random.Range(0, remainingItems+1);
                             int numberNpcs;
                             if (remainingNpcs > 0)
                             {

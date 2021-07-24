@@ -28,11 +28,12 @@ public class DungeonEntrance : MonoBehaviour
             // Get the directory separator
             char sep = Path.DirectorySeparatorChar;
 
-            string[] directories = Directory.GetDirectories(Application.dataPath + sep + "Resources" + sep + narrativeSO.narrativeFileName);
+            string[] directories = Directory.GetDirectories(Application.dataPath + sep + "Resources" + sep + "Experiment" +
+                sep + narrativeSO.narrativeFileName);
             int nNarrativesForProfile = directories.Length;
             string selectedNarrative = directories[Random.Range(0, nNarrativesForProfile)];
 
-            string relativePath = selectedNarrative.Substring(selectedNarrative.IndexOf(narrativeSO.narrativeFileName));
+            string relativePath = selectedNarrative.Substring(selectedNarrative.IndexOf("Experiment"));
 
             // Define the JSON file extension
             const string extension = ".json";
@@ -44,11 +45,9 @@ public class DungeonEntrance : MonoBehaviour
             //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
             TextAsset[] levelAssets = Resources.LoadAll<TextAsset>("Levels" + sep);
             string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
-            //Debug.Log(levelName);
-            //Debug.Log(levelAssets[0].name);
+
             TextAsset[] availableDungeons = levelAssets.Where(l => l.name.Contains(levelName)).ToArray();
 
-            //Debug.Log("DungeonFileName: " + availableDungeons[0].name);
             loadLevelEventHandler(this, new LevelLoadEventArgs(availableDungeons[0].name, "Enemies" + sep + "Hard" + sep));
             SceneManager.LoadScene("LevelWithEnemies");
         }

@@ -80,7 +80,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 
     private string GetNarrativePath()
     {
-        string directoryPath = $"{Application.dataPath}{separator}Resources{separator}{playerProfile}";
+        string directoryPath = $"{Application.dataPath}{separator}Resources{separator}Experiment{separator}{playerProfile}";
         string[] directories = Directory.GetDirectories(directoryPath);
         int nNarrativesForProfile = directories.Length;
         string selectedNarrative = directories[Random.Range(0, nNarrativesForProfile)];
@@ -117,7 +117,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     private T GetJSONData<T>(string narrativeType, string narrativePath)
     {
         string dataPath = narrativePath + separator + narrativeType;
-        string relativePath = dataPath.Substring(dataPath.IndexOf(playerProfile));
+        string relativePath = dataPath.Substring(dataPath.IndexOf("Experiment"));
         TextAsset []files = Resources.LoadAll<TextAsset>(relativePath);
         int nFiles = files.Length;
         TextAsset selectedFile = files[Random.Range(0, nFiles)];
