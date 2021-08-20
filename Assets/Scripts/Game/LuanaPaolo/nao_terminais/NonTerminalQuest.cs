@@ -8,7 +8,7 @@ public abstract class NonTerminalQuest
     protected int lim;
     protected float maxQuestChance;
     protected Dictionary<string, int> questWeightsbyType;
-    private static readonly int QUEST_LIMIT = 3;
+    private static readonly int QUEST_LIMIT = 2;
 
     protected NonTerminalQuest(int lim, Dictionary<string, int> questWeightsbyType)
     {

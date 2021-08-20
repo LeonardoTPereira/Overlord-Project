@@ -12,11 +12,11 @@ public class Talk : NonTerminalQuest
     protected override void DefineNextQuest(Manager m)
     {
         talk_ter t = new talk_ter();
-        if (r > 2.5)
+        if (r > 2.7)
         {
             t.choose(m);
             Option(m);
         }
-        if (r <= 2.5) t.choose(m);
+        if (r <= 2.7) t.choose(m);
     }
 }

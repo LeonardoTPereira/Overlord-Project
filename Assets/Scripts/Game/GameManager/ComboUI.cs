@@ -52,7 +52,7 @@ public class ComboUI : MonoBehaviour
     protected void OnEnable()
     {
         ProjectileController.enemyHitEventHandler += IncrementCombo;
-        BombController.playerHitEventHandler += ResetCombo;
+        BombController.PlayerHitEventHandler += ResetCombo;
         ProjectileController.playerHitEventHandler += ResetCombo;
         EnemyController.playerHitEventHandler += ResetCombo;
         GameManager.NewLevelLoadedEventHandler += ResetCombo;
@@ -61,7 +61,7 @@ public class ComboUI : MonoBehaviour
     protected void OnDisable()
     {
         ProjectileController.playerHitEventHandler -= IncrementCombo;
-        BombController.playerHitEventHandler -= ResetCombo;
+        BombController.PlayerHitEventHandler -= ResetCombo;
         ProjectileController.playerHitEventHandler -= ResetCombo;
         EnemyController.playerHitEventHandler -= ResetCombo;
         GameManager.NewLevelLoadedEventHandler -= ResetCombo;

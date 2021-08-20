@@ -115,7 +115,7 @@ namespace LevelGenerator
             List<int> keys = new List<int>();
 
             //Where to save the new dungeon in Unity
-            string foldername = "Assets/Resources/Levels/";
+            string foldername = "Assets/Resources/Experiment/"+dun.PlayerProfile.ToString()+"/"+dun.NarrativeName+"/Levels/";
             string filename, dungeonData = "";
             filename = "R" + fitness.DesiredRooms + "-K" + fitness.DesiredKeys + "-L" + fitness.DesiredLocks + "-L" + fitness.DesiredLinearity;
 
@@ -297,7 +297,6 @@ namespace LevelGenerator
                             Console.Write(" s");
                             dungeonData += "s\n";
                             roomDataInFile.type = "s";
-                            //TODO: save the info about the treasure and difficulty
                             dungeonData += "0\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = 0;
@@ -316,7 +315,6 @@ namespace LevelGenerator
                             Console.Write(" B");
                             dungeonData += "B\n";
                             roomDataInFile.type = "B";
-                            //TODO: save the info about the treasure and difficulty
                             dungeonData += "0\n"; //Difficulty
                             dungeonData += "0\n"; //Treasure
                             roomDataInFile.Enemies = 0;
@@ -339,77 +337,12 @@ namespace LevelGenerator
                         else if (map[i, j] == Util.RoomType.TREASURE)
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            //TODO: save the info about the treasure and difficulty
-                            int difficulty = random.Next(1, 5);                            
-                            dungeonData += difficulty + "\n"; //Difficulty
+                            
                             int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
                             int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
-                            dungeonData += numberItems + "\n"; //Treasure
-                            roomDataInFile.Enemies = difficulty;
-                            roomDataInFile.Treasures = numberItems;
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
-
                             int numberNpcs;
-                            if(remainingNpcs > 0) 
-                            {
-                                numberNpcs = UnityEngine.Random.Range(0, 2);
-                            }
-                            else numberNpcs = 0;
-                            
-                            roomDataInFile.Npcs = numberNpcs;
-                            remainingItems -= numberItems;
-                            remainingNpcs -= numberNpcs;
-                        }
-                        //If the room has a positive value, it holds a key.
-                        //Save the key index so we know what key it is
-                        else if (map[i, j] > 0)
-                        {
-                            Console.Write("{0,2}", map[i, j]);
-                            int difficulty = random.Next(1, 5);
-                            //TODO: save the info about the treasure and difficulty
-                            dungeonData += difficulty + "\n"; //Difficulty
-                            dungeonData += "0\n"; //Treasure
 
-                            roomDataInFile.Enemies = difficulty;
-                            roomDataInFile.Treasures = 0;
-
-                            dungeonData += "+" + map[i, j] + "\n";
-
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count, remainingItems + 1);
-                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
-                            int numberNpcs;
-                            if(remainingNpcs > 0) {
-                                numberNpcs = UnityEngine.Random.Range(0, 2);
-                            }
-                            else numberNpcs = 0;
-                            
-                            roomDataInFile.Npcs = numberNpcs;
-                            remainingItems -= numberItems;
-                            remainingNpcs -= numberNpcs;
-
-                            roomDataInFile.keys = new List<int>
-                            {
-                                map[i, j]
-                            };
-                        }
-                        //If the cell was none of the above, it must be an empty room
-                        else
-                        {
-                            Console.Write("{0,2}", map[i, j]);
-                            //TODO: save the info about the treasure and difficulty
-                            int difficulty = random.Next(4);
-                            dungeonData += random.Next(4) + "\n"; //Difficulty
-                            dungeonData += "0\n"; //Treasure
-                            roomDataInFile.Enemies = difficulty;
-                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
-                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
-                            dungeonData += numberItems + "\n"; //Treasure
-                            roomDataInFile.Treasures = numberItems;
-                            //TODO Logica de carregar inimigos de acordo com probabilidade
-
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int numberNpcs;
+                            int difficulty = random.Next(2, 5);
                             if (remainingNpcs > 0)
                             {
                                 numberNpcs = UnityEngine.Random.Range(0, 2);
@@ -418,10 +351,87 @@ namespace LevelGenerator
                             {
                                 numberNpcs = 0;
                             }
+                            if (numberNpcs > 0)
+                            {
+                                numberNpcs = (dun.parametersNpcs.NumNpcs - remainingNpcs + 1);
+                                difficulty = 0;
+                            }
+
+                            roomDataInFile.Npcs = numberNpcs;
+                            remainingItems -= numberItems;
+                            remainingNpcs--;
+
+                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.Treasures = numberItems;
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
+
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            dungeonData += numberItems + "\n"; //Treasure
+
+
+                        }
+                        //If the room has a positive value, it holds a key.
+                        //Save the key index so we know what key it is
+                        else if (map[i, j] > 0)
+                        {
+                            Console.Write("{0,2}", map[i, j]);
+                            int difficulty = random.Next(1, 5);
+
+
+                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.Treasures = 0;
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count, remainingItems + 1);
+                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
+                            
+                            roomDataInFile.Npcs = 0;
+                            remainingItems -= numberItems;
+
+                            roomDataInFile.keys = new List<int>
+                            {
+                                map[i, j]
+                            };
+
+                            //TODO: save the info about the treasure and difficulty
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += "+" + map[i, j] + "\n";
+                        }
+                        //If the cell was none of the above, it must be an empty room
+                        else
+                        {
+                            Console.Write("{0,2}", map[i, j]);
+                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
+                            int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
+                            roomDataInFile.Treasures = numberItems;
+                            //TODO Logica de carregar inimigos de acordo com probabilidade
+
+                            roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            int numberNpcs;
+                            int difficulty = random.Next(1,5);
+                            if (remainingNpcs > 0)
+                            {
+                                numberNpcs = UnityEngine.Random.Range(0, 2);
+                            }
+                            else
+                            {
+                                numberNpcs = 0;
+                            }
+                            if(numberNpcs > 0)
+                            {
+                                numberNpcs = (dun.parametersNpcs.NumNpcs - remainingNpcs +1);
+                                difficulty = 0;
+                            }
                             
                             roomDataInFile.Npcs = numberNpcs;
                             remainingItems -= numberItems;
-                            remainingNpcs -= numberNpcs;
+                            remainingNpcs--;
+
+                            roomDataInFile.Enemies = difficulty;
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += numberItems + "\n"; //Treasure
+
                         }
 
                     }
@@ -456,8 +466,21 @@ namespace LevelGenerator
                 DefaultValueHandling = DefaultValueHandling.Ignore
             });
 
+            int sameFilenameCounter = 0;
+
+            if(File.Exists(filename + ".json"))
+            {
+                do
+                {
+                    sameFilenameCounter++;
+                } while (File.Exists(filename + "-" + sameFilenameCounter + ".json"));
+                filename += "-"+sameFilenameCounter;
+            }
+
             File.WriteAllText(filename + ".json", json);
- 
+
+            AssetDatabase.Refresh();
+
             UnityEngine.Debug.Log("Finished Writing dungeon data");
 #endif
         }

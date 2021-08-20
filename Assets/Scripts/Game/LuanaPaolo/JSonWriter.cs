@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using static Enums;
 using static LoadText;
+using static Util;
 
 public class JSonWriter
 {
@@ -60,9 +61,9 @@ public class JSonWriter
         public int PercentageType1 { get => percentageType1; set => percentageType1 = value; }
         public int PercentageType2 { get => percentageType2; set => percentageType2 = value; }
         public int PercentageType3 { get => percentageType3; set => percentageType3 = value; }
-        public int FrequencyType1 { get => frequencyType1; set => frequencyType1 = value; }
-        public int FrequencyType2 { get => frequencyType2; set => frequencyType2 = value; }
-        public int FrequencyType3 { get => frequencyType3; set => frequencyType3 = value; }
+        public int FitnessType1 { get => frequencyType1; set => frequencyType1 = value; }
+        public int FitnessType2 { get => frequencyType2; set => frequencyType2 = value; }
+        public int FitnessType3 { get => frequencyType3; set => frequencyType3 = value; }
 
         public ParametersMonsters()
         {
@@ -70,14 +71,14 @@ public class JSonWriter
             PercentageType1 = 0;
             PercentageType2 = 0;
             PercentageType3 = 0;
-            FrequencyType1 = 0;
-            FrequencyType2 = 0;
-            FrequencyType3 = 0;
+            FitnessType1 = 0;
+            FitnessType2 = 0;
+            FitnessType3 = 0;
         }
 
         public override string ToString()
         {
-            return "p1=" + PercentageType1 + "_p2=" + PercentageType2 + "_p3=" + PercentageType3 + "_f1=" + FrequencyType1+ "_f2=" + FrequencyType2 + "_f3=" + FrequencyType3;
+            return "p1=" + PercentageType1 + "_p2=" + PercentageType2 + "_p3=" + PercentageType3 + "_f1=" + FitnessType1+ "_f2=" + FitnessType2 + "_f3=" + FitnessType3;
         }
     }
 
@@ -107,29 +108,26 @@ public class JSonWriter
 
     public void writeJSon(Quests quests, PlayerProfileEnum playerProfile)
     {
-        // Get the directory separator
-        char sep = Path.DirectorySeparatorChar;
-
         // Define the JSON file extension
         const string extension = ".json";
 
         // Build the target path
         string target = Application.dataPath;
-        target += sep + "Resources";
-        target += sep + "Experiment";
-        target += sep + playerProfile.ToString();
+        target += SEPARATOR_CHARACTER + "Resources";
+        target += SEPARATOR_CHARACTER + "Experiment";
+        target += SEPARATOR_CHARACTER + playerProfile.ToString();
 
         if (!Directory.Exists(target))
         {
             Directory.CreateDirectory(target);
         }
 
-        target += sep + "NarrativeJSon";
+        target += SEPARATOR_CHARACTER + "NarrativeJSon";
         target += quests.graph[0].ToString();
 
         // Define the filename template
         const string CONTENT = "CONTENT";
-        string template = target + sep + CONTENT + extension;
+        string template = target + SEPARATOR_CHARACTER + CONTENT + extension;
 
         // Define the content folders' (Fd) and files' (Fl) names
         string narrativeFl = "narrative";
@@ -137,16 +135,18 @@ public class JSonWriter
         string enemyFd = "Enemy";
         string npcFd = "NPC";
         string itemFd = "Item";
+        string generatedDungeonFolder = "Levels";
 
         // Create directories to save the generated contents
 
         if (!Directory.Exists(target))
         {
             Directory.CreateDirectory(target);
-            Directory.CreateDirectory(target + sep + dungeonFd);
-            Directory.CreateDirectory(target + sep + enemyFd);
-            Directory.CreateDirectory(target + sep + npcFd);
-            Directory.CreateDirectory(target + sep + itemFd);
+            Directory.CreateDirectory(target + SEPARATOR_CHARACTER + dungeonFd);
+            Directory.CreateDirectory(target + SEPARATOR_CHARACTER + enemyFd);
+            Directory.CreateDirectory(target + SEPARATOR_CHARACTER + npcFd);
+            Directory.CreateDirectory(target + SEPARATOR_CHARACTER + itemFd);
+            Directory.CreateDirectory(target + SEPARATOR_CHARACTER + generatedDungeonFolder);
         }
 
         // Initialize output string
@@ -173,7 +173,7 @@ public class JSonWriter
         // Convert the dungeon to JSON
         outString = JsonConvert.SerializeObject(pD) + '\n';
         // Write the dungeon JSON file
-        filename = template.Replace(CONTENT, dungeonFd + sep + pD.ToString());
+        filename = template.Replace(CONTENT, dungeonFd + SEPARATOR_CHARACTER + pD.ToString());
         using (StreamWriter streamWriter = new StreamWriter(filename))
         {
             streamWriter.Write(outString);
@@ -187,7 +187,7 @@ public class JSonWriter
         // Convert the enemies to JSON
         outString = JsonConvert.SerializeObject(pM) + '\n';
         // Write the enemies JSON file
-        filename = template.Replace(CONTENT, enemyFd + sep + pM.ToString());
+        filename = template.Replace(CONTENT, enemyFd + SEPARATOR_CHARACTER + pM.ToString());
         using (StreamWriter streamWriter = new StreamWriter(filename))
         {
             streamWriter.Write(outString);
@@ -200,7 +200,7 @@ public class JSonWriter
         // Convert the enemies to JSON
         outString = JsonConvert.SerializeObject(pN) + '\n';
         // Write the enemies JSON file
-        filename = template.Replace(CONTENT, npcFd + sep + pN.ToString());
+        filename = template.Replace(CONTENT, npcFd + SEPARATOR_CHARACTER + pN.ToString());
         using (StreamWriter streamWriter = new StreamWriter(filename))
         {
             streamWriter.Write(outString);
@@ -213,7 +213,7 @@ public class JSonWriter
         // Convert the enemies to JSON
         outString = JsonConvert.SerializeObject(pI) + '\n';
         // Write the enemies JSON file
-        filename = template.Replace(CONTENT, itemFd + sep + pN.ToString());
+        filename = template.Replace(CONTENT, itemFd + SEPARATOR_CHARACTER + pN.ToString());
         using (StreamWriter streamWriter = new StreamWriter(filename))
         {
             streamWriter.Write(outString);
@@ -221,7 +221,9 @@ public class JSonWriter
             streamWriter.Close();
         }
         Resources.UnloadUnusedAssets();
+#if UNITY_EDITOR
         AssetDatabase.Refresh();
+#endif
     }
 
     private void conversorDungeon(ParametersDungeon pD, Quests quests)
@@ -229,7 +231,7 @@ public class JSonWriter
         for (int i = 0; i < quests.graph.Count; i++)
         {
             if (quests.graph[i].Tipo == 1 || quests.graph[i].Tipo == 3 || quests.graph[i].Tipo == 4 || quests.graph[i].Tipo == 6) pD.size++;
-            if (quests.graph[i].N1 == 0 || quests.graph[i].N1 == 1 || quests.graph[i].N1 == 4) pD.Linearity++;
+            if (quests.graph[i].Tipo == 0 || quests.graph[i].Tipo == 1 || quests.graph[i].Tipo == 4) pD.Linearity++;
         }
 
         if (pD.size < 3) pD.size = (int)DungeonSize.VerySmall;
@@ -258,14 +260,14 @@ public class JSonWriter
                 pM.PercentageType2 += quests.graph[i].N2;
                 pM.PercentageType3 += quests.graph[i].N3;
 
-                if (pM.PercentageType1 >= 5) pM.FrequencyType1 += Random.Range(10, 21);
-                else pM.FrequencyType1 += Random.Range(1, 10);
+                if (pM.PercentageType1 >= 5) pM.FitnessType1 += Random.Range(10, 21);
+                else pM.FitnessType1 += Random.Range(1, 10);
 
-                if (pM.PercentageType2 >= 5) pM.FrequencyType2 += Random.Range(5, 21);
-                else pM.FrequencyType2 += Random.Range(1, 5);
+                if (pM.PercentageType2 >= 5) pM.FitnessType2 += Random.Range(5, 21);
+                else pM.FitnessType2 += Random.Range(1, 5);
 
-                if (pM.PercentageType3 >= 5) pM.FrequencyType3 += Random.Range(1, 10);
-                else pM.FrequencyType3 += Random.Range(10, 21);
+                if (pM.PercentageType3 >= 5) pM.FitnessType3 += Random.Range(1, 10);
+                else pM.FitnessType3 += Random.Range(10, 21);
             }
         }
     }

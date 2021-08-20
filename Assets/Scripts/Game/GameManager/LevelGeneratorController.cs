@@ -7,6 +7,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Util;
 
 [RequireComponent(typeof(Program), typeof(NarrativeConfigSO))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
@@ -19,7 +20,6 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         public const string NPC = "NPC";
         public const string DUNGEON = "Dungeon";
     }
-    private char separator = Path.DirectorySeparatorChar;
 
     public static event CreateEADungeonEvent createEADungeonEventHandler;
     private string playerProfile;
@@ -75,12 +75,13 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
             = GetJSONData<JSonWriter.ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
 
         createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
-            parametersMonsters, parametersItems, parametersNpcs));
+            parametersMonsters, parametersItems, parametersNpcs, 
+            playerProfile, selectedNarrative.Substring(selectedNarrative.IndexOf(playerProfile)+playerProfile.Length)));
     }
 
     private string GetNarrativePath()
     {
-        string directoryPath = $"{Application.dataPath}{separator}Resources{separator}Experiment{separator}{playerProfile}";
+        string directoryPath = $"{Application.dataPath}{SEPARATOR_CHARACTER}Resources{SEPARATOR_CHARACTER}Experiment{SEPARATOR_CHARACTER}{playerProfile}";
         string[] directories = Directory.GetDirectories(directoryPath);
         int nNarrativesForProfile = directories.Length;
         string selectedNarrative = directories[Random.Range(0, nNarrativesForProfile)];
@@ -116,7 +117,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 
     private T GetJSONData<T>(string narrativeType, string narrativePath)
     {
-        string dataPath = narrativePath + separator + narrativeType;
+        string dataPath = narrativePath + SEPARATOR_CHARACTER + narrativeType;
         string relativePath = dataPath.Substring(dataPath.IndexOf("Experiment"));
         TextAsset []files = Resources.LoadAll<TextAsset>(relativePath);
         int nFiles = files.Length;

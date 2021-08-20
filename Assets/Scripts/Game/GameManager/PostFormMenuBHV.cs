@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
@@ -10,7 +11,6 @@ public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
     TextMeshProUGUI postFormText;
     [SerializeField]
     Button playMoreButton;
-    LevelConfigSO nextLevel;
     //TODO FIX THE GAMBIARRA
     public static event LevelLoadEvent postFormButtonEventHandler;
     private const string noMoreLevelsText = "Você jogou todos os níveis.\n Incrível!\n" +
@@ -21,24 +21,17 @@ public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
 
     private void OnEnable()
     {
-
-        hasMoreLevels = GameManager.instance.HasMoreLevels();
+        /*hasMoreLevels = GameManager.instance.HasMoreLevels();
         if (!hasMoreLevels)
         {
             postFormText.text = noMoreLevelsText;
             playMoreButton.interactable = false;
-        }
+        }*/
     }
     public void GoToNext()
     {
-        //TODO Fix PickNextLevel()!
-        /*if (hasMoreLevels)
-        {
-            nextLevel = GameManager.instance.PickNextLevel();
-            postFormButtonEventHandler(this, new LevelLoadEventArgs(nextLevel.fileName, nextLevel.enemyDifficultyFile));
-            nextPanel.SetActive(true);
-            gameObject.SetActive(false);
-        }*/
+        gameObject.SetActive(false);
+        SceneManager.LoadScene("Overworld");
     }
 
     public void GoToPrevious()

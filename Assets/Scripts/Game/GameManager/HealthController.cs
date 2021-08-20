@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HealthController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class HealthController : MonoBehaviour
         invincibilityCount = 0f;
         invincibilityTime = 0.2f;
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,7 @@ public class HealthController : MonoBehaviour
     void Update()
     {
         if (isInvincible)
+        {
             if (invincibilityTime < invincibilityCount)
             {
                 isInvincible = false;
@@ -35,6 +38,7 @@ public class HealthController : MonoBehaviour
             {
                 invincibilityCount += Time.deltaTime;
             }
+        }
     }
 
     public void ApplyDamage(int damage, int enemyIndex = -1)

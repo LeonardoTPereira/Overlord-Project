@@ -11,8 +11,8 @@ namespace Game.LevelManager
 
         public JsonMapFileHandler(string mapFile)
         {
-            //Debug.Log("File: " + mapFile);
-            string jsonContent = Resources.Load<TextAsset>("Levels/" + mapFile).text;
+            Debug.Log("File: " + mapFile);
+            string jsonContent = Resources.Load<TextAsset>(mapFile).text;
             //Debug.Log("Content: " + jsonContent);
             dungeonFile = JsonConvert.DeserializeObject<DungeonFile>(jsonContent);
             currentIndex = 0;

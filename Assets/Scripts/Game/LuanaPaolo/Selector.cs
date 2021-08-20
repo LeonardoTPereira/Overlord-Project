@@ -115,7 +115,7 @@ public class Selector
                 }
             }
             newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-            newMissionChance += 0.3f;
+            newMissionChance += 0.5f;
         } while (newMissionDraw > newMissionChance);
     }
 

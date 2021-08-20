@@ -50,7 +50,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnPlayerHit()
     {
-        playerHitEventHandler(this, EventArgs.Empty);
+        playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
     /// <summary>
     /// 
@@ -151,7 +151,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             OnPlayerHit();
             collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, indexOnEnemyList);
@@ -221,9 +221,10 @@ public class EnemyController : MonoBehaviour
         hasMoveDirBeenChosen = false;
         originalColor = sr.color;
         healthCtrl.SetOriginalColor(originalColor);
-        if (hasProjectile)
-            if (projectilePrefab.name == "EnemyBomb")
-                attackSpeed /= 2;
+        if (hasProjectile && projectilePrefab.name == "EnemyBomb")
+        {
+            attackSpeed /= 2;
+        }
         //If the movement needs to be fixed for the whole active time, set the flag here
         if (movement.enemyMovementIndex == MovementEnum.Random || movement.enemyMovementIndex == MovementEnum.Random1D || movement.enemyMovementIndex == MovementEnum.Flee1D || movement.enemyMovementIndex == MovementEnum.Follow1D)
             hasFixedMoveDir = true;

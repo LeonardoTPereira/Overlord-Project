@@ -10,7 +10,7 @@ public class Get : NonTerminalQuest
 
     protected override void DefineNextQuest(Manager m)
     {
-        if (r > 2.85)
+        if (r > 2.9)
         {
             get_ter g = new get_ter();
             g.choose(m);
@@ -18,12 +18,12 @@ public class Get : NonTerminalQuest
             t.Option(m);
             Option(m);
         }
-        if (r > 2.7 && r <= 2.85)
+        if (r > 2.7 && r <= 2.9)
         {
             get_ter g = new get_ter();
             g.choose(m);
         }
-        if (r > 2.55 && r <= 2.7)
+        if (r > 2.6 && r <= 2.7)
         {
             drop_ter d = new drop_ter();
             d.choose(m);
@@ -31,12 +31,12 @@ public class Get : NonTerminalQuest
             t.Option(m);
             Option(m);
         }
-        if (r > 2.4 && r <= 2.55)
+        if (r > 2.4 && r <= 2.6)
         {
             drop_ter d = new drop_ter();
             d.choose(m);
         }
-        if (r > 2.25 && r <= 2.4)
+        if (r > 2.3 && r <= 2.4)
         {
             chest_ter c = new chest_ter();
             c.choose(m);
@@ -44,7 +44,7 @@ public class Get : NonTerminalQuest
             t.Option(m);
             Option(m);
         }
-        if (r <= 2.25)
+        if (r <= 2.3)
         {
             chest_ter c = new chest_ter();
             c.choose(m);

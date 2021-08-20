@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
-    private List<Image> heartList;
+    private List<Image> heartList = null;
     // Start is called before the first frame update
 
     [SerializeField]
@@ -16,24 +17,29 @@ public class HealthUI : MonoBehaviour
     private void OnEnable()
     {
         HealthController.PlayerIsDamagedEventHandler += OnDamage;
+        PlayerController.ResetHealthEventHandler += ResetHealth;
     }
 
     private void OnDisable()
     {
         HealthController.PlayerIsDamagedEventHandler -= OnDamage;
+        PlayerController.ResetHealthEventHandler -= ResetHealth;
     }
 
-    private void Awake()
-    {
-    }
     void Start()
     {
         CreateHeartImage();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ResetHealth(object sender, EventArgs eventArgs)
     {
+        if(heartList != null)
+        {
+            for (int i = 0; i < Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
+            {
+                heartList[i].sprite = fullheartSprite;
+            }
+        }
     }
 
 
@@ -93,6 +99,5 @@ public class HealthUI : MonoBehaviour
             heartList[i].sprite = fullheartSprite;
         for (int i = eventArgs.PlayerHealth; i < heartList.Count; ++i)
             heartList[i].sprite = emptyheartSprite;
-        //foi comentado
     }
 }

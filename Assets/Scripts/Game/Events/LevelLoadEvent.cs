@@ -3,14 +3,12 @@
 public delegate void LevelLoadEvent(object sender, LevelLoadEventArgs e);
 public class LevelLoadEventArgs : EventArgs
 {
-    private string levelFile, enemyFile;
+    private string levelFile;
 
-    public LevelLoadEventArgs(string levelFile, string enemyFile)
+    public LevelLoadEventArgs(string levelFile)
     {
         LevelFile = levelFile;
-        EnemyFile = enemyFile;
     }
 
     public string LevelFile { get => levelFile; set => levelFile = value; }
-    public string EnemyFile { get => enemyFile; set => enemyFile = value; }
 }

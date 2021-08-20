@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using static Enums;
 
 namespace LevelGenerator
 {
@@ -20,9 +21,11 @@ namespace LevelGenerator
         private List<Room> roomList;
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
-        public JSonWriter.ParametersMonsters parametersMonters;
+        public JSonWriter.ParametersMonsters parametersMonsters;
         public JSonWriter.ParametersItems parametersItems;
         public JSonWriter.ParametersNpcs parametersNpcs;
+        private string playerProfile;
+        private string narrativeName;
 
         public List<Room> RoomList
         {
@@ -48,6 +51,9 @@ namespace LevelGenerator
             }
         }
         public float AvgChildren { get => avgChildren; set => avgChildren = value; }
+        public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
+        public string NarrativeName { get => narrativeName; set => narrativeName = value; }
+
         public float fitness;
 
         public Dungeon()
@@ -110,6 +116,18 @@ namespace LevelGenerator
             return copyDungeon;
         }
 
+        public void SetNarrativeParameters(JSonWriter.ParametersMonsters parametersMonsters,
+            JSonWriter.ParametersNpcs parametersNpcs, 
+            JSonWriter.ParametersItems parametersItems,
+            string playerProfile, string narrativeName)
+        {
+            this.parametersItems = parametersItems;
+            this.parametersMonsters = parametersMonsters;
+            this.parametersNpcs = parametersNpcs;
+            PlayerProfile = playerProfile;
+            NarrativeName = narrativeName;
+        }
+
         public void CalcAvgChildren()
         {
             avgChildren = 0.0f;
@@ -128,7 +146,7 @@ namespace LevelGenerator
                     childLess++;
                 avgChildren += childCount;
             }
-            avgChildren = avgChildren / (RoomList.Count - childLess);
+            avgChildren /= (RoomList.Count - childLess);
         }
 
         /*

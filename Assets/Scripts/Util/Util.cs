@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 public static class Util
 {
+    public static readonly char SEPARATOR_CHARACTER = Path.DirectorySeparatorChar;
     //Array com cada cor de cada ID, para diferenciar chaves e fechaduras
     public static Color[] colorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
 
@@ -22,6 +24,13 @@ public static class Util
         STRAIGHT = 0,
         SIN = 1,
         TRIPLE = 2
+    }
+
+    public enum EnemyTypeEnum
+    {
+        EASY = 0,
+        MEDIUM = 1,
+        HARD = 2
     }
 
     public const string KILL_QUEST = "Kill";

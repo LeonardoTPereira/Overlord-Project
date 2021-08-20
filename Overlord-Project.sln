@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Game", "Project.Game.csproj", "{19D611E0-7210-48E7-02CF-171FD355FBC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBox", "MyBox.csproj", "{4D9ABB2C-8D41-40A2-9320-108103F0E5EE}"

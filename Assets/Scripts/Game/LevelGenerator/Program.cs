@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using static Enums;
 
 namespace LevelGenerator
 {
@@ -27,6 +28,8 @@ namespace LevelGenerator
         JSonWriter.ParametersMonsters parametersMonsters;
         JSonWriter.ParametersItems parametersItems;
         JSonWriter.ParametersNpcs parametersNpcs;
+        string playerProfile;
+        string narrativeName;
 
         /**
          * The constructor of the "Main" behind the EA
@@ -66,6 +69,8 @@ namespace LevelGenerator
             parametersMonsters = eventArgs.ParametersMonsters;
             parametersItems = eventArgs.ParametersItems;
             parametersNpcs = eventArgs.ParametersNpcs;
+            playerProfile = eventArgs.PlayerProfile;
+            narrativeName = eventArgs.NarrativeName;
             Thread t = new Thread(new ThreadStart(Evolve));
             t.Start();
             StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
@@ -75,9 +80,7 @@ namespace LevelGenerator
         {
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
-            aux.parametersMonters = parametersMonsters;
-            aux.parametersNpcs = parametersNpcs;
-            aux.parametersItems = parametersItems;
+            aux.SetNarrativeParameters(parametersMonsters, parametersNpcs, parametersItems, playerProfile, narrativeName);
             Interface.PrintNumericalGridWithConnections(aux, fitness, treasureRuntimeSetSO);
             Debug.Log("Printed the dungeon");
         }
@@ -87,7 +90,7 @@ namespace LevelGenerator
             Debug.Log("Start Creating Dungeon");
             int matrixOffset = Constants.MATRIXOFFSET;
             hasFinished = false;
-            min = Double.MaxValue;
+            min = double.MaxValue;
 
             watch = System.Diagnostics.Stopwatch.StartNew();
             dungeons = new List<Dungeon>(Constants.POP_SIZE);

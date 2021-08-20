@@ -76,6 +76,9 @@ public class PlayerProfile : MonoBehaviour
 
     private string result;
 
+    private PlayerProfileEnum playerProfile;
+    private PlayerProfileEnum experimentPlayerProfile;
+
     void Awake()
     {
         //Singleton
@@ -121,7 +124,7 @@ public class PlayerProfile : MonoBehaviour
     {
         ProjectileController.enemyHitEventHandler += IncrementCombo;
         ProjectileController.playerHitEventHandler += ResetCombo;
-        BombController.playerHitEventHandler += ResetCombo;
+        BombController.PlayerHitEventHandler += ResetCombo;
         EnemyController.playerHitEventHandler += ResetCombo;
         TreasureController.treasureCollectEvent += GetTreasure;
         GameManager.NewLevelLoadedEventHandler += ResetMaxCombo;
@@ -136,13 +139,15 @@ public class PlayerProfile : MonoBehaviour
         Player.ExitRoomEventHandler += OnRoomExit;
         DoorBHV.KeyUsedEventHandler += OnKeyUsed;
         GameManager.StartMapEventHandler += OnMapStart;
+        Manager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
+        ExperimentController.ProfileSelectedEventHandler += OnProfileSelected;
     }
 
     protected void OnDisable()
     {
         ProjectileController.enemyHitEventHandler -= IncrementCombo;
         ProjectileController.playerHitEventHandler -= ResetCombo;
-        BombController.playerHitEventHandler -= ResetCombo;
+        BombController.PlayerHitEventHandler -= ResetCombo;
         EnemyController.playerHitEventHandler -= ResetCombo;
         TreasureController.treasureCollectEvent -= GetTreasure;
         GameManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
@@ -156,6 +161,18 @@ public class PlayerProfile : MonoBehaviour
         FormBHV.FormQuestionAnsweredEventHandler -= OnFormAnswered;
         Player.ExitRoomEventHandler -= OnRoomExit;
         DoorBHV.KeyUsedEventHandler -= OnKeyUsed;
+        Manager.ProfileSelectedEventHandler -= OnProfileSelected;
+        ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
+    }
+
+    private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
+    {
+        playerProfile = eventArgs.PlayerProfile;
+    }
+    
+    private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
+    {
+        experimentPlayerProfile = eventArgs.PlayerProfile;
     }
 
     private void IncrementCombo(object sender, EventArgs eventArgs)
@@ -328,6 +345,8 @@ public class PlayerProfile : MonoBehaviour
     private void WrapProfileToString()
     {
         profileString = "";
+        profileString += "Profile,";
+        profileString += "ExperimentalProfile,";
         if (preFormAnswers.Count > 0)
         {
             int i = 0;
@@ -337,6 +356,8 @@ public class PlayerProfile : MonoBehaviour
                 i++;
             }
             profileString += "\n";
+            profileString += playerProfile+",";
+            profileString += experimentPlayerProfile+",";
             foreach (int answer in preFormAnswers)
             {
                 profileString += answer + ",";

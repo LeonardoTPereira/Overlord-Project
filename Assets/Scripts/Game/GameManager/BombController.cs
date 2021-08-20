@@ -17,7 +17,7 @@ public class BombController : MonoBehaviour
     protected float bombLifetime;
     protected float bombCountdown;
 
-    public static event EventHandler playerHitEventHandler;
+    public static event EventHandler PlayerHitEventHandler;
 
     protected bool isColliding;
 
@@ -49,23 +49,20 @@ public class BombController : MonoBehaviour
                 bombCountdown -= Time.deltaTime;
             else
                 ExplodeBomb();
-            if (!isColliding)
-                if (bombCountdown < (bombLifetime - 0.2f))
-                {
-                    isColliding = true;
-                    collider.enabled = isColliding;
-                }
+            if (!isColliding && (bombCountdown < (bombLifetime - 0.2f)))
+            {
+                isColliding = true;
+                collider.enabled = isColliding;
+            }
         }
         if (!audioSrc.isPlaying && canDestroy)
         {
-            //Debug.Log("Stopped playing");
             Destroy(gameObject);
         }
     }
 
     public void DestroyBomb()
     {
-        //Debug.Log("Destroying Bomb");
         canDestroy = true;
     }
 
@@ -76,7 +73,7 @@ public class BombController : MonoBehaviour
 
     protected virtual void OnPlayerHit()
     {
-        playerHitEventHandler(this, EventArgs.Empty);
+        PlayerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     public void Shoot(Vector2 facingDirection)

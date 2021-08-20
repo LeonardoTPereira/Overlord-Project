@@ -2,36 +2,85 @@
 using System.Linq;
 using UnityEngine;
 using static Enums;
+using static Util;
 
 public class EnemyLoader : MonoBehaviour
 {
+
+    private static readonly string ENEMY_FOLDER = "Enemies";
+
     [SerializeField]
-    public EnemySO[] bestEnemies;
+    public EnemySO[] easy, medium, hard;
     public GameObject enemyPrefab, bomberEnemyPrefab;
 
-    public void LoadEnemies(string difficultyFileName)
+    public void LoadEnemies(int enemyType)
     {
-        Debug.Log("Enemy File: " + difficultyFileName);
-        //string foldername = "Enemies/"+difficultyFileName;
-        bestEnemies = Resources.LoadAll(difficultyFileName, typeof(EnemySO)).Cast<EnemySO>().ToArray();
-        ApplyDelegates();
+        GetEnemyFilenameFromType(enemyType);
     }
 
-
-    public GameObject InstantiateEnemyWithIndex(int index, Vector3 position, Quaternion rotation)
+    private void GetEnemyFilenameFromType(int enemyType)
     {
-        //Debug.Log("Begin instantiating");
+        string enemyFolder = ENEMY_FOLDER + "/";
+        switch (enemyType)
+        {
+            case (int)EnemyTypeEnum.EASY:
+                enemyFolder += "Easy/";
+                easy = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
+                ApplyDelegates(easy);
+                break;
+            case (int)EnemyTypeEnum.MEDIUM:
+                enemyFolder += "Medium/";
+                medium = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
+                ApplyDelegates(medium);
+                break;
+            case (int)EnemyTypeEnum.HARD:
+                enemyFolder += "Hard/";
+                hard = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
+                ApplyDelegates(hard);
+                break;
+        }
+    }
+
+    public int GetRandomEnemyIndex(int enemyType)
+    {
+        EnemySO[] currentEnemies = GetEnemiesFromType(enemyType);
+        return Random.Range(0, currentEnemies.Length);
+    }
+
+    public GameObject InstantiateEnemyWithIndex(int index, Vector3 position, Quaternion rotation, int enemyType)
+    {
+        Debug.Log("Index: "+index);
+        EnemySO[] currentEnemies = GetEnemiesFromType(enemyType);
         GameObject enemy;
-        if (bestEnemies[index].weapon.name == "BombThrower")
+        if (currentEnemies[index].weapon.name == "BombThrower")
             enemy = Instantiate(bomberEnemyPrefab, position, rotation);
         else
             enemy = Instantiate(enemyPrefab, position, rotation);
-        enemy.GetComponent<EnemyController>().LoadEnemyData(bestEnemies[index], index);
+        enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemies[index], index);
         return enemy;
     }
-    private void ApplyDelegates()
+
+    private EnemySO[] GetEnemiesFromType(int enemyType)
     {
-        foreach (EnemySO enemy in bestEnemies)
+        Debug.Log("Enemy Type: " + enemyType);
+        switch(enemyType)
+        {
+            case (int)EnemyTypeEnum.EASY:
+                return easy;
+                break;
+            case (int)EnemyTypeEnum.MEDIUM:
+                return medium;
+                break;
+            case (int)EnemyTypeEnum.HARD:
+                return hard;
+                break;
+        }
+        return medium;
+    }
+
+    private void ApplyDelegates(EnemySO []enemies)
+    {
+        foreach (EnemySO enemy in enemies)
         {
             enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
         }

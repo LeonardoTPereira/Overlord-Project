@@ -1,6 +1,7 @@
 ﻿using EnemyGenerator;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 shootForce = new Vector2(0f, 0f);
     private Color originalColor;
     protected Rigidbody2D rb;
+    private Collider2D collider;
     private SpriteRenderer sr;
 
     private int actualProjectile;
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private ProjectileTypeSO projectileType;
 
     public static event EventHandler PlayerDeathEventHandler;
+    public static event EventHandler ResetHealthEventHandler;
 
     public void Awake()
     {
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+        collider = gameObject.GetComponent<Collider2D>();
         canMove = true;
     }
 
@@ -61,6 +65,7 @@ public class PlayerController : MonoBehaviour
         HealthController.PlayerIsDamagedEventHandler += CheckDeath;
         NPC.DialogueOpenEventHandler += StopInput;
         NPC.DialogueCloseEventHandler += RestartInput;
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
     private void OnDisable()
     {
@@ -68,6 +73,16 @@ public class PlayerController : MonoBehaviour
         HealthController.PlayerIsDamagedEventHandler -= CheckDeath;
         NPC.DialogueOpenEventHandler -= StopInput;
         NPC.DialogueCloseEventHandler -= RestartInput;
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "Overworld" || scene.name == "LevelWithEnemies")
+        {
+            canMove = true;
+            collider.enabled = true;
+        }
     }
 
     void FixedUpdate()
@@ -153,7 +168,6 @@ public class PlayerController : MonoBehaviour
         bulletSpawn.transform.rotation = Quaternion.Euler(0, 0, rotatedAngle);
         if (willShoot)
         {
-
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             bullet.tag = "Bullet"; //adicionado por Luana e Paolo
             bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
@@ -219,8 +233,9 @@ public class PlayerController : MonoBehaviour
         if (eventArgs.PlayerHealth <= 0)
         {
             //TODO KILL
-            Time.timeScale = 0f;
-            PlayerDeathEventHandler?.Invoke(this, EventArgs.Empty);
+            canMove = false;
+            collider.enabled = false;
+            PlayerDeathEventHandler?.Invoke(null, EventArgs.Empty);
             //Debug.Log("RIP");
         }
     }
@@ -237,6 +252,7 @@ public class PlayerController : MonoBehaviour
     public void ResetHealth()
     {
         healthCtrl.SetHealth(maxHealth);
+        ResetHealthEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     public int GetHealth()

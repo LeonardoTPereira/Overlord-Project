@@ -76,10 +76,8 @@ public class Manager : MonoBehaviour
                 writer.writeJSon(Quests, playerProfile);
 
                 for (int i = 0; i < Quests.graph.Count; i++) Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
-
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             }
-            Debug.Log("Profile: " + playerProfile.ToString());
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
     }
 

@@ -28,7 +28,7 @@ public class RoomBHV : MonoBehaviour
     public KeyBHV keyPrefab;
     public TriforceBHV triPrefab;
     public TreasureController treasurePrefab;
-    public NPC npcPrefab;
+    public NPC[] npcPrefab;
 
     public Collider2D colNorth;
     public Collider2D colSouth;
@@ -51,7 +51,7 @@ public class RoomBHV : MonoBehaviour
 
     private void Awake()
     {
-        hasEnemies = true;
+        hasEnemies = false;
         enemiesIndex = new List<int>();
         enemiesDead = 0;
     }
@@ -84,16 +84,9 @@ public class RoomBHV : MonoBehaviour
             PlaceTriforceInRoom();
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         }
-        if (roomData.Difficulty == 0)
+        if (GameManager.instance.enemyMode)
         {
-            hasEnemies = false;
-        }
-        else
-        {
-            if (GameManager.instance.enemyMode)
-            {
-                SelectEnemies();
-            }
+            SelectEnemies();
         }
 
         minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
@@ -273,15 +266,13 @@ public class RoomBHV : MonoBehaviour
 
     private void SelectEnemies()
     {
-        if (roomData.Difficulty == 0)
-            {
-            hasEnemies = false;
-        }
-        else
+        if (roomData.Difficulty > 0)
         {
-            for(int i = 0; i < roomData.Difficulty; ++i)
+            hasEnemies = true;
+            GameManager.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
+            for (int i = 0; i < roomData.Difficulty; ++i)
             {
-                enemiesIndex.Add(roomData.EnemyType);
+                enemiesIndex.Add(GameManager.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
             }
         }
     }
@@ -304,7 +295,7 @@ public class RoomBHV : MonoBehaviour
                     actualSpawn = Random.Range(0, spawnPoints.Count);
                 } while (selectedSpawnPoints.Contains(actualSpawn));
             }
-            enemy = GameManager.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation);
+            enemy = GameManager.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation, roomData.EnemyType);
             enemy.GetComponent<EnemyController>().SetRoom(this);
             selectedSpawnPoints.Add(actualSpawn);
         }
@@ -397,7 +388,7 @@ public class RoomBHV : MonoBehaviour
     }
 
     public void PlaceNpcInRoom(){
-        NPC npc = Instantiate(npcPrefab, transform);
+        NPC npc = Instantiate(npcPrefab[(roomData.NpcID-1)%3], transform);
         npc.transform.position = availablePosition;
         availablePosition.x += 1;
     }

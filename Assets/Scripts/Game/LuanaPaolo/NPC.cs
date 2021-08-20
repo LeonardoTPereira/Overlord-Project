@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    Color[] colors = { Color.red, Color.green, Color.blue };
-    string[] dialogues = { "Thank you for saving me!", "May the Godesses bless your help!", "Finally!" };
     [SerializeField]
-    protected GameObject canvas, dialogue;
+    private NpcDialogueSO dialogues;
+    [SerializeField]
+    protected GameObject canvas, npcName, dialogue;
 
     public static event EventHandler DialogueOpenEventHandler;
     public static event EventHandler DialogueCloseEventHandler;
@@ -17,8 +17,8 @@ public class NPC : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        GetComponent<SpriteRenderer>().color = colors[UnityEngine.Random.Range(0, colors.Length)];
-        dialogue.GetComponent<TextMeshProUGUI>().text = dialogues[UnityEngine.Random.Range(0, 3)];
+        dialogue.GetComponent<TextMeshProUGUI>().text = dialogues.Dialogues[UnityEngine.Random.Range(0, 3)];
+        npcName.GetComponent<TextMeshProUGUI>().text = dialogues.NpcName;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

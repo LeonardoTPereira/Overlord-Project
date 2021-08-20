@@ -12,14 +12,14 @@ public class Kill : NonTerminalQuest
     {
         kill_ter k = new kill_ter();
 
-        if (r <= 2.5)
+        if (r <= 2.3)
         {
             k.choose(m);
             Talk t = new Talk(lim, questWeightsbyType);
             t.Option(m);
             Option(m);
         }
-        if (r > 2.5) 
+        if (r > 2.3) 
             k.choose(m);
     }
 }

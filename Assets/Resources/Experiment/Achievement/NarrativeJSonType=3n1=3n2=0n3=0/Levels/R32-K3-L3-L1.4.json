@@ -1,0 +1,559 @@
+{
+  "dimensions": {
+    "Width": 20,
+    "Height": 20
+  },
+  "rooms": [
+    {
+      "coordinates": {
+        "X": 0,
+        "Y": 16
+      },
+      "Enemies": 0,
+      "Treasures": 3,
+      "EnemiesType": 1,
+      "Npcs": 1
+    },
+    {
+      "coordinates": {
+        "X": 0,
+        "Y": 17
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 0,
+        "Y": 18
+      },
+      "Enemies": 0,
+      "Treasures": 1,
+      "EnemiesType": 1,
+      "Npcs": 2
+    },
+    {
+      "coordinates": {
+        "X": 1,
+        "Y": 16
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 2,
+        "Y": 12
+      },
+      "Enemies": 2,
+      "Treasures": 5,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 2,
+        "Y": 14
+      },
+      "Enemies": 0,
+      "Treasures": 4,
+      "EnemiesType": 2,
+      "Npcs": 4
+    },
+    {
+      "coordinates": {
+        "X": 2,
+        "Y": 15
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 2,
+        "Y": 16
+      },
+      "Enemies": 1,
+      "Treasures": 5,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 3,
+        "Y": 12
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 3,
+        "Y": 14
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 4,
+        "Y": 10
+      },
+      "type": "s",
+      "Enemies": 0,
+      "Treasures": 0
+    },
+    {
+      "coordinates": {
+        "X": 4,
+        "Y": 12
+      },
+      "Enemies": 0,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 6
+    },
+    {
+      "coordinates": {
+        "X": 4,
+        "Y": 13
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 4,
+        "Y": 14
+      },
+      "Enemies": 4,
+      "Treasures": 1,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 5,
+        "Y": 10
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 5,
+        "Y": 12
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 6,
+        "Y": 10
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 6,
+        "Y": 11
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 6,
+        "Y": 12
+      },
+      "keys": [
+        1
+      ],
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 6,
+        "Y": 13
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 6,
+        "Y": 14
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 7,
+        "Y": 10
+      },
+      "locks": [
+        -1
+      ]
+    },
+    {
+      "coordinates": {
+        "X": 8,
+        "Y": 10
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 8,
+        "Y": 11
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 8,
+        "Y": 12
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 8,
+        "Y": 13
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 8,
+        "Y": 14
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 9,
+        "Y": 10
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 4
+      },
+      "Enemies": 3,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 5
+      },
+      "locks": [
+        -2
+      ]
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 6
+      },
+      "Enemies": 3,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 7
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 8
+      },
+      "Enemies": 3,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 9
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 10
+      },
+      "keys": [
+        2
+      ],
+      "Enemies": 3,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 11
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 10,
+        "Y": 12
+      },
+      "Enemies": 3,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 11,
+        "Y": 6
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 12,
+        "Y": 4
+      },
+      "Enemies": 3,
+      "Treasures": 0,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 12,
+        "Y": 6
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 13,
+        "Y": 4
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 13,
+        "Y": 6
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 0
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 0,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 1
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 2
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 3
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 4
+      },
+      "type": "B",
+      "Enemies": 0,
+      "Treasures": 0,
+      "EnemiesType": 2
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 5
+      },
+      "locks": [
+        -3
+      ]
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 6
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 7
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 14,
+        "Y": 8
+      },
+      "Enemies": 2,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 15,
+        "Y": 0
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 15,
+        "Y": 4
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 15,
+        "Y": 8
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 0
+      },
+      "Enemies": 4,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 2
+      },
+      "Enemies": 4,
+      "Treasures": 0,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 3
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 4
+      },
+      "Enemies": 4,
+      "Treasures": 0,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 6
+      },
+      "Enemies": 4,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 7
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 16,
+        "Y": 8
+      },
+      "Enemies": 4,
+      "Treasures": 0,
+      "EnemiesType": 1,
+      "Npcs": 0
+    },
+    {
+      "coordinates": {
+        "X": 17,
+        "Y": 6
+      },
+      "type": "c"
+    },
+    {
+      "coordinates": {
+        "X": 18,
+        "Y": 6
+      },
+      "keys": [
+        3
+      ],
+      "Enemies": 1,
+      "Treasures": 0,
+      "EnemiesType": 2,
+      "Npcs": 0
+    }
+  ]
+}

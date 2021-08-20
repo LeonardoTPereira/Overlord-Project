@@ -6962,7 +6962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: LevelWithEnemies
-  narrativeSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
+  levelFileName: 
 --- !u!1 &1044382105
 GameObject:
   m_ObjectHideFlags: 0
@@ -7029,7 +7029,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d338a50bdd1bf6e4f921463ea3ef690b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bestEnemies: []
+  easy: []
+  medium: []
+  hard: []
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
   bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
@@ -7200,7 +7202,6 @@ MonoBehaviour:
   survivalMode: 0
   enemyMode: 1
   enemyLoader: {fileID: 0}
-  chosenDifficultyFileName: 
   healthUI: {fileID: 0}
   keyUI: {fileID: 0}
   nExecutions: 0
@@ -7348,7 +7349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: LevelWithEnemies
-  narrativeSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
+  levelFileName: 
 --- !u!1 &1062336602
 GameObject:
   m_ObjectHideFlags: 0
@@ -10036,7 +10037,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1448563921
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10070,7 +10071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afaa5f586e0dad24aa1d2d178c57b3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: e429ee9999a6b0245b90ba2724ed329d, type: 3}
+  jsonFile: {fileID: 4900000, guid: c45116cb11f10d64388272588b2c460d, type: 3}
   missionSum: {fileID: 886644127}
   manager: {fileID: 11400000, guid: 8e7bd4e04b48dd94c96fd457b88e03ed, type: 2}
 --- !u!114 &1448563923
@@ -10488,7 +10489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameScene: LevelWithEnemies
-  narrativeSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
+  levelFileName: 
 --- !u!1 &1531568825
 GameObject:
   m_ObjectHideFlags: 0

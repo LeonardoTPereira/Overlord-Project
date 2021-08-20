@@ -9,6 +9,6 @@ public class Loader : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        gameManager.LoadNewLevel(levelConfig.fileName, levelConfig.enemyDifficultyFile);
+        gameManager.LoadNewLevel(levelConfig.fileName);
     }
 }

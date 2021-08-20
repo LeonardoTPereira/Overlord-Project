@@ -60,12 +60,6 @@ public class Player : PlaceableRoomObject
         DoorBHV.ExitRoomEventHandler -= ExitRoom;
     }
 
-    // Use this for initialization
-    public void Start()
-    {
-        playerController.ResetHealth();
-    }
-
     private void GetKey(object sender, KeyCollectEventArgs eventArgs)
     {
         audioSrc.PlayOneShot(audioSrc.clip, 0.6f);
@@ -99,6 +93,7 @@ public class Player : PlaceableRoomObject
     {
         keys.Clear();
         usedKeys.Clear();
+        playerController.ResetHealth();
     }
     private void GetHealth(object sender, EnterRoomEventArgs eventArgs)
     {

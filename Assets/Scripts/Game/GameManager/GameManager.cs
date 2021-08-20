@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     private bool isInGame;
     [SerializeField]
     private LevelConfigRuntimeSetSO levelSet;
-    private List<string> levelSetNames;
     private string currentLevel;
 
     public static GameManager instance = null;
@@ -67,7 +66,6 @@ public class GameManager : MonoBehaviour
 
     public bool createEnemy, survivalMode, enemyMode;
     public EnemyLoader enemyLoader;
-    public string chosenDifficultyFileName;
     public HealthUI healthUI;
     public KeyUI keyUI;
 
@@ -97,26 +95,6 @@ public class GameManager : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
 
             DontDestroyOnLoad(gameObject);
-            AnalyticsEvent.GameStart();
-            for (int i = 0; i < 6; ++i)
-            {
-                int aux;
-                do
-                {
-                    aux = UnityEngine.Random.Range(0, 6);
-                }
-                while (randomLevelList.Contains(aux));
-                randomLevelList.Add(aux);
-            }
-
-            nExecutions = 0;
-            nBatches = 0;
-            levelSetNames = new List<string>();
-            foreach (LevelConfigSO level in levelSet.Items)
-            {
-                levelSetNames.Add(level.fileName);
-            }
-
         }
         else if (instance != this)
         {
@@ -248,10 +226,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadNewLevel(string mapFile, string difficultyFileName)
+    public void LoadNewLevel(string mapFile)
     {
-        //TODO fazer alguma lógica no arquivo de dificuldade para definir uma dificuldade geral do dungeon?
-        Time.timeScale = 1f;
         ChangeMusic(bgMusic);
         //Loads map from data
         if (createMaps)
@@ -285,7 +261,6 @@ public class GameManager : MonoBehaviour
     private void LevelComplete(object sender, EventArgs eventArgs)
     {
         ChangeMusic(fanfarreMusic);
-        Time.timeScale = 0f;
         gameUI.SetActive(false);
         //TODO save every gameplay data
         //TODO make it load a new level
@@ -347,14 +322,11 @@ public class GameManager : MonoBehaviour
             startButton = null;
             isCompleted = false;
 
-            if (enemyMode)
-                enemyLoader.LoadEnemies(chosenDifficultyFileName);
-
             gameUI.SetActive(true);
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
             OnLevelLoadedEvents();
-            LoadNewLevel(currentLevel, chosenDifficultyFileName);
+            LoadNewLevel(currentLevel);
         }
         if (scene.name == "Main")
         {
@@ -380,11 +352,8 @@ public class GameManager : MonoBehaviour
     //TODO display something about the player losing and call a continue screen os something like this.
     private void GameOver(object sender, EventArgs eventArgs)
     {
-        //Time.timeScale = 1f; comentado por Luana e Paolo
-        //gameUI.SetActive(false);
-        //gameOverScreen.SetActive(true);
-
-        SceneManager.LoadScene("LuanaPaolo");
+        gameUI.SetActive(false);
+        gameOverScreen.SetActive(true);
     }
 
     public void MainMenu()
@@ -393,99 +362,20 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void SetLevelMode(string fileName, string difficultyFileName)
+    public void SetLevelMode(string fileName)
     {
-        chosenDifficultyFileName = difficultyFileName;
         currentLevel = fileName;
-        levelSetNames.Remove(fileName);
     }
 
     public void PlayGameOnDifficulty(object sender, LevelLoadEventArgs args)
     {
-        instance.SetLevelMode(args.LevelFile, args.EnemyFile);
+        instance.SetLevelMode(args.LevelFile);
     }
 
     public bool HasMoreLevels()
     {
-        if (levelSetNames.Count > 0)
-            return true;
         return false;
     }
-
-    //TODO checar se experimento vai ser continuo ou não
-    //Se for, precisa mudar essa lógica pra carregar o arquivo de inimigos
-    /*public LevelConfigSO PickNextLevel()
-    {
-        LevelConfigSO curLevel = null;
-        string nextLevelCandidate = levelSetNames[0];
-        bool hasFound = false;
-        if (PlayerProfile.instance.HasFinished)
-        {
-            foreach (string levelName in levelSetNames)
-            {
-                curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                if ((int)curLevel.enemyDifficultyInDungeon == chosenDifficulty)
-                {
-                    nextLevelCandidate = curLevel.fileName;
-                    hasFound = true;
-                    break;
-                }
-            }
-            if (!hasFound)
-            {
-                foreach (string levelName in levelSetNames)
-                {
-                    curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                    if (Math.Abs((int)curLevel.enemyDifficultyInDungeon - chosenDifficulty) == 1)
-                    {
-                        nextLevelCandidate = curLevel.fileName;
-                        hasFound = true;
-                        break;
-                    }
-                }
-            }
-            if (!hasFound)
-            {
-                nextLevelCandidate = levelSetNames[0];
-                hasFound = true;
-            }
-        }
-        else
-        {
-            foreach (string levelName in levelSetNames)
-            {
-                curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                if ((chosenDifficulty - 1) == (int)curLevel.enemyDifficultyInDungeon)
-                {
-                    nextLevelCandidate = curLevel.fileName;
-                    hasFound = true;
-                    break;
-                }
-            }
-            if (!hasFound)
-            {
-                foreach (string levelName in levelSetNames)
-                {
-                    curLevel = levelSet.Items.Find(x => (x.fileName.CompareTo(levelName) == 0));
-                    if ((chosenDifficulty - 2) == (int)curLevel.enemyDifficultyInDungeon)
-                    {
-                        nextLevelCandidate = curLevel.fileName;
-                        hasFound = true;
-                        break;
-                    }
-                }
-            }
-            if (!hasFound)
-            {
-                nextLevelCandidate = levelSetNames[0];
-                hasFound = true;
-            }
-        }
-
-        levelSetNames.Remove(nextLevelCandidate);
-
-        return levelSet.Items.Find(x => (x.fileName.CompareTo(nextLevelCandidate) == 0));
-    }*/
 
     public void OnLevelLoadedEvents()
     {

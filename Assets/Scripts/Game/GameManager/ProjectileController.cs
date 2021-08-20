@@ -88,8 +88,8 @@ public class ProjectileController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                //OnPlayerHit();
-                //collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, enemyThatShot);
+                OnPlayerHit();
+                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, enemyThatShot);
                 DestroyBullet();
             }
         }
