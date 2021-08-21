@@ -2,9 +2,8 @@
 
 namespace Game.LevelManager
 {
-    public class WallBhv : MonoBehaviour
+    public class WallBHV : MonoBehaviour
     {
-
         // Use this for initialization
         void Start()
         {
@@ -16,6 +15,7 @@ namespace Game.LevelManager
         {
 
         }
+
         private void OnTriggerEnter2D(Collider2D collider)
         {
             //Debug.Log("CollidedWithSomething");

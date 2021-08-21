@@ -2,10 +2,8 @@
 
 namespace Game.LevelManager
 {
-    public class BlockBhv : TileBhv
+    public class BlockBHV : TileBHV
     {
-
-
         // Use this for initialization
         void Start()
         {

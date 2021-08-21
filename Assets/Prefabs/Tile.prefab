@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4301574311864166}
   - component: {fileID: 212323550064212396}
   - component: {fileID: 61136985045267374}
-  - component: {fileID: 114907442841161738}
+  - component: {fileID: 4633032488163601548}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -47,6 +47,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -58,6 +60,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -108,7 +111,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &114907442841161738
+--- !u!114 &4633032488163601548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,6 +123,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374e50452cd6ece40b804f156cd005b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
-  id: 0

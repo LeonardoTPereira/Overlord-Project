@@ -35,8 +35,8 @@ public class RoomBHV : MonoBehaviour
     public Collider2D colEast;
     public Collider2D colWest;
 
-    public TileBhv tilePrefab;
-    public BlockBhv blockPrefab;
+    public TileBHV tilePrefab;
+    public BlockBHV blockPrefab;
 
     public Sprite northWall, southWall, eastWall, westWall;
     public GameObject NWCollumn, NECollumn, SECollumn, SWCollumn;
@@ -120,7 +120,7 @@ public class RoomBHV : MonoBehaviour
             for (int iy = 0; iy < roomData.Dimensions.Height; iy++)
             {
                 int tileID = roomData.Tiles[ix, iy];
-                TileBhv tileObj;
+                TileBHV tileObj;
                 if (tileID == 1)
                 {
                     tileObj = Instantiate(blockPrefab);

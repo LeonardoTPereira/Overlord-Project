@@ -2,9 +2,8 @@
 
 namespace Game.LevelManager
 {
-    public class TileBhv : MonoBehaviour
+    public class TileBHV : MonoBehaviour
     {
-
         private int x;
         private int y;
         private int id;
