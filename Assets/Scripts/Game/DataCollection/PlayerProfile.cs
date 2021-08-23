@@ -244,7 +244,11 @@ public class PlayerProfile : MonoBehaviour
         }
         else
             actualRoomInfo.roomId = -1;
-        heatMap[eventArgs.RoomCoordinates.X / 2, eventArgs.RoomCoordinates.Y / 2]++;
+        
+        // Check the room coordinates to avoid division by zero
+        if (eventArgs.RoomCoordinates.X != 0 && eventArgs.RoomCoordinates.Y != 0) {
+            heatMap[eventArgs.RoomCoordinates.X / 2, eventArgs.RoomCoordinates.Y / 2]++;
+        }
     }
 
     //From DoorBHV
