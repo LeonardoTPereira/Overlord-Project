@@ -14,6 +14,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    /// This constant holds the path to the file that contains the arena level.
+    private const string ARENA_LEVEL = "Levels/arena";
+
 #if UNITY_EDITOR
     [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
 #endif
@@ -83,6 +86,10 @@ public class GameManager : MonoBehaviour
 
     /*Luana e Paolo*/
     public string levelFile;
+
+    /// The arena mode is the mode where the player is placed in a level with a
+    /// single room with one or more enemies.
+    public bool arenaMode = false;
 
     public void Awake()
     {
@@ -364,7 +371,14 @@ public class GameManager : MonoBehaviour
 
     public void SetLevelMode(string fileName)
     {
-        currentLevel = fileName;
+        if (arenaMode)
+        {
+            currentLevel = ARENA_LEVEL;
+        }
+        else
+        {
+            currentLevel = fileName;
+        }
     }
 
     public void PlayGameOnDifficulty(object sender, LevelLoadEventArgs args)

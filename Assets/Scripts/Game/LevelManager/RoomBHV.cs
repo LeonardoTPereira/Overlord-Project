@@ -49,11 +49,15 @@ public class RoomBHV : MonoBehaviour
 
     public static event EnterRoomEvent EnterRoomEventHandler;
 
+    /// If true, the room is an Arena and do not have neighbors.
+    private bool isArena = false;
+
     private void Awake()
     {
         hasEnemies = false;
         enemiesIndex = new List<int>();
         enemiesDead = 0;
+        isArena = GameManager.instance.arenaMode;
     }
 
     // Use this for initialization
@@ -90,6 +94,13 @@ public class RoomBHV : MonoBehaviour
         }
 
         minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
+
+        // If the Arena Mode is on, then spawn enemies in the Arena
+        if (roomData.IsStartRoom() && isArena)
+        {
+            hasEnemies = true;
+            OnRoomEnter();
+        }
     }
 
     private void DebugRoomData()
@@ -207,25 +218,45 @@ public class RoomBHV : MonoBehaviour
         {
             for (int iy = margin; iy < (roomData.Dimensions.Height - margin); iy += (roomData.Dimensions.Height / Util.nSpawnPointsHor))
             {
-                if ((ix <= margin) || (ix >= topHor))
+                // Calculate the spwan point 2D position (spx, spy)
+                float spx = ix - centerX + xOffset;
+                float rh = roomData.Dimensions.Height - 1;
+                float spy = rh - iy - centerY + yOffset;
+                Vector3 point = new Vector3(spx, spy, 0);
+
+                // If the room is an Arena, then ignore the room center
+                if (isArena && spx == 0.5f && spy == 0.0f)
+                {
+                    continue;
+                }
+
+                // Add the calculated point to spawn point list
+                if (ix <= margin || ix >= topHor)
                 {
                     if (iy < lowerHalfVer || iy > upperHalfVer)
                     {
-                        spawnPoints.Add(new Vector3(ix - centerX + xOffset, roomData.Dimensions.Height - 1 - iy - centerY + yOffset, 0));
+                        if (!isArena)
+                        {
+                            spawnPoints.Add(point);
+                        }
                     }
                 }
-                else if ((iy <= margin) || (iy >= topVer))
+                else if (iy <= margin || iy >= topVer)
                 {
                     if (ix < lowerHalfHor || ix > upperHalfHor)
                     {
-                        spawnPoints.Add(new Vector3(ix - centerX + xOffset, roomData.Dimensions.Height - 1 - iy - centerY + yOffset, 0));
+                        if (!isArena)
+                        {
+                            spawnPoints.Add(point);
+                        }
                     }
                 }
                 else
-                    spawnPoints.Add(new Vector3(ix - centerX + xOffset, roomData.Dimensions.Height - 1 - iy - centerY + yOffset, 0));
+                {
+                    spawnPoints.Add(point);
+                }
             }
         }
-
     }
 
     private void SetCollidersOnRoom(float centerX, float centerY)
