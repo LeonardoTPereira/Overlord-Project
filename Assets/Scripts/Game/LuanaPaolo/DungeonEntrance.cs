@@ -15,6 +15,13 @@ public class DungeonEntrance : MonoBehaviour
 
     public static event LevelLoadEvent loadLevelEventHandler;
 
+    /// Load the level from the given filename.
+    public static void LoadLevel(object from, string filename)
+    {
+        loadLevelEventHandler(from, new LevelLoadEventArgs(filename));
+        SceneManager.LoadScene("LevelWithEnemies");
+    }
+
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -24,8 +31,7 @@ public class DungeonEntrance : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            loadLevelEventHandler(this, new LevelLoadEventArgs(LevelFileName));
-            SceneManager.LoadScene("LevelWithEnemies");
+            LoadLevel(this, LevelFileName);
         }
     }
 }

@@ -128,6 +128,12 @@ public class GameManager : MonoBehaviour
         GameStartEventHandler(null, EventArgs.Empty);
         //LoadNewLevel();
         //panelIntro.SetActive(true);   foi comentado
+
+        // Starts the Arena
+        if (arenaMode)
+        {
+            DungeonEntrance.LoadLevel(this, ARENA_LEVEL);
+        }
     }
 
     void InstantiateRooms()
