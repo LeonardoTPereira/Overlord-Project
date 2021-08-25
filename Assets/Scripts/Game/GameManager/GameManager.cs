@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     /// This constant holds the path to the file that contains the arena level.
-    private const string ARENA_LEVEL = "Levels/arena";
+    private static readonly string ARENA_LEVEL = "Levels/arena";
 
 #if UNITY_EDITOR
     [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
