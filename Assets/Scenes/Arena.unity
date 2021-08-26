@@ -6633,6 +6633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1044382111}
   - component: {fileID: 1044382110}
+  - component: {fileID: 1044382106}
   - component: {fileID: 1044382109}
   - component: {fileID: 1044382107}
   - component: {fileID: 1044382108}
@@ -6645,6 +6646,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1044382106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044382105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generationCounter: 0
+  startTime: 0
+  difficulty: 2
+  enemyGenerated: 0
+  enemyPrinted: 0
+  enemyReady: 0
+  enemySorted: 0
+  bestIdx: 0
+  projectileSet: {fileID: 11400000, guid: fd434a2423766d64bbde424b0396009a, type: 2}
+  movementSet: {fileID: 11400000, guid: 41a11a660db4ab245943b826556cf0af, type: 2}
+  behaviorSet: {fileID: 11400000, guid: be34bae1919ce2c458128eba2838077a, type: 2}
+  weaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
+  timeToConverge: 0
+  timeAfterSort: 0
+  bestFitness: 0
+  averageNBestFitness: 0
+  averageFitness: 0
+  stdDevNBestFitness: 0
+  stdDevFitness: 0
 --- !u!114 &1044382107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6657,6 +6689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d338a50bdd1bf6e4f921463ea3ef690b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arena: []
   easy: []
   medium: []
   hard: []

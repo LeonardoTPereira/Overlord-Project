@@ -3,12 +3,15 @@ using System.Linq;
 using UnityEngine;
 using static Enums;
 using static Util;
+using Newtonsoft.Json.Linq;
 
 public class EnemyLoader : MonoBehaviour
 {
 
     private static readonly string ENEMY_FOLDER = "Enemies";
 
+    [SerializeField]
+    public EnemySO[] arena;
     [SerializeField]
     public EnemySO[] easy, medium, hard;
     public GameObject enemyPrefab, bomberEnemyPrefab;
@@ -37,6 +40,14 @@ public class EnemyLoader : MonoBehaviour
                 enemyFolder += "Hard/";
                 hard = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
                 ApplyDelegates(hard);
+                break;
+            case (int) EnemyTypeEnum.ARENA:
+                enemyFolder += "Arena/";
+                TextAsset[] enemies = Resources
+                    .LoadAll(enemyFolder, typeof(TextAsset))
+                    .Cast<TextAsset>().ToArray();
+                arena = LoadEnemiesFromJSON(enemies, enemyFolder);
+                ApplyDelegates(arena);
                 break;
         }
     }
@@ -74,6 +85,8 @@ public class EnemyLoader : MonoBehaviour
             case (int)EnemyTypeEnum.HARD:
                 return hard;
                 break;
+            case (int) EnemyTypeEnum.ARENA:
+                return arena;
         }
         return medium;
     }
@@ -107,5 +120,43 @@ public class EnemyLoader : MonoBehaviour
                 Debug.Log("No Movement Attached to Enemy");
                 return null;
         }
+    }
+
+    /// Load an array of enemies from JSON files and return an array of EnemySO.
+    private EnemySO[] LoadEnemiesFromJSON(TextAsset[] jsons, string folder)
+    {
+        EnemySO[] enemies = new EnemySO[jsons.Length];
+        for (int i = 0; i < jsons.Length; i++)
+        {
+            enemies[i] = LoadEnemyFromJSON(jsons[i], folder);
+        }
+        return enemies;
+    }
+
+    /// Load an enemy from a JSON file and return an EnemySO.
+    private EnemySO LoadEnemyFromJSON(TextAsset json, string folder)
+    {
+        // Parse JSON
+        JToken individual = JToken.Parse(json.text);
+        JToken enemy = individual["enemy"];
+        JToken weapon = individual["weapon"];
+
+        // Convert JSON into Scriptable Object
+        EnemySO asset = ScriptableObject.CreateInstance<EnemySO>();
+        asset.Init(
+            (int) enemy["health"],
+            (int) enemy["strength"],
+            (float) enemy["movementSpeed"],
+            (float) enemy["activeTime"],
+            (float) enemy["restTime"],
+            (int) weapon["weaponType"],
+            (int) enemy["movementType"],
+            (int) enemy["behaviorType"],
+            (float) individual["fitness"],
+            (float) enemy["attackSpeed"],
+            (float) weapon["projectileSpeed"]
+            // weapon["projectileType"] // This parameter is missing
+        );
+        return asset;
     }
 }

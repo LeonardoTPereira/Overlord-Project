@@ -30,7 +30,8 @@ public static class Util
     {
         EASY = 0,
         MEDIUM = 1,
-        HARD = 2
+        HARD = 2,
+        ARENA = 3
     }
 
     public const string KILL_QUEST = "Kill";

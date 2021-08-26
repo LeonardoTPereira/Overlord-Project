@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static Util;
 
 public class RoomBHV : MonoBehaviour
 {
@@ -63,6 +64,13 @@ public class RoomBHV : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // If the Arena Mode is on, then set up the Arena
+        if (roomData.IsStartRoom() && isArena)
+        {
+            roomData.EnemyType = (int) EnemyTypeEnum.ARENA;
+            hasEnemies = true;
+        }
+
         SetLayout();
         SetCenterPosition();
         if (RoomHasKey())
@@ -98,8 +106,7 @@ public class RoomBHV : MonoBehaviour
         // If the Arena Mode is on, then spawn enemies in the Arena
         if (roomData.IsStartRoom() && isArena)
         {
-            hasEnemies = true;
-            OnRoomEnter();
+            SpawnEnemies();
         }
     }
 
