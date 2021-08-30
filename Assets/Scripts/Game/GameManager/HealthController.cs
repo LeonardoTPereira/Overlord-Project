@@ -5,6 +5,7 @@ public class HealthController : MonoBehaviour
 {
     [SerializeField]
     int health;
+    int maxHealth;
     bool isInvincible;
     float invincibilityTime, invincibilityCount;
     Color originalColor;
@@ -13,6 +14,7 @@ public class HealthController : MonoBehaviour
 
     private void Awake()
     {
+        maxHealth = -1;
         isInvincible = false;
         invincibilityCount = 0f;
         invincibilityTime = 0.2f;
@@ -63,11 +65,22 @@ public class HealthController : MonoBehaviour
     public void SetHealth(int _health)
     {
         health = _health;
+        if (maxHealth == -1)
+        {
+            maxHealth = _health;
+        }
     }
+
     public int GetHealth()
     {
         return health;
     }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
     public void SetOriginalColor(Color _color)
     {
         originalColor = _color;

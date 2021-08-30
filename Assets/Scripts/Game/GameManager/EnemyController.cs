@@ -169,6 +169,19 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void Cure(int cure)
+    {
+        if (healthCtrl.GetMaxHealth() > healthCtrl.GetHealth())
+        {
+            healthCtrl.SetHealth(healthCtrl.GetHealth() + cure);
+        }
+    }
+
+    public float GetAttackSpeed()
+    {
+        return attackSpeed;
+    }
+
     protected void UpdateAnimation(Vector2 movement)
     {
         if (movement.x == 0f && movement.y == 0f)
