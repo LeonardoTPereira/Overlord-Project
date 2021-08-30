@@ -308,9 +308,21 @@ public class RoomBHV : MonoBehaviour
         {
             hasEnemies = true;
             GameManager.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
-            for (int i = 0; i < roomData.Difficulty; ++i)
+            if (isArena)
             {
-                enemiesIndex.Add(GameManager.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
+                // Load all the enemies from the folder
+                EnemySO[] arena = GameManager.instance.enemyLoader.arena;
+                for (int ei = 0; ei < arena.Length; ei++)
+                {
+                    enemiesIndex.Add(ei);
+                }
+            }   
+            else
+            {
+                for (int i = 0; i < roomData.Difficulty; ++i)
+                {
+                    enemiesIndex.Add(GameManager.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
+                }
             }
         }
     }

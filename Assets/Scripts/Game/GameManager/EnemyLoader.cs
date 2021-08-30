@@ -155,7 +155,6 @@ public class EnemyLoader : MonoBehaviour
             (float) individual["fitness"],
             (float) enemy["attackSpeed"],
             (float) weapon["projectileSpeed"]
-            // weapon["projectileType"] // This parameter is missing
         );
         return asset;
     }
