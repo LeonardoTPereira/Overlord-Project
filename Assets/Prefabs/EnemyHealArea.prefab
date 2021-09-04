@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3852282246631109749}
   - component: {fileID: 9216011298296399783}
   m_Layer: 0
-  m_Name: EnemyHealer
+  m_Name: EnemyHealArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 8
 --- !u!114 &9216011298296399783
 MonoBehaviour:
   m_ObjectHideFlags: 0

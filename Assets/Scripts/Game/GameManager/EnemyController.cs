@@ -5,6 +5,9 @@ using static Enums;
 
 public class EnemyController : MonoBehaviour
 {
+    /// This constant holds the weapon prefab name of healers
+    public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
+
     [SerializeField]
     protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
     protected int damage;
@@ -169,12 +172,17 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void Cure(int cure)
+    /// Restore this enemy health based on the given health amount.
+    /// ATTENTION: This method can be called only by a healer enemy.
+    public void Heal(int health)
     {
-        if (healthCtrl.GetMaxHealth() > healthCtrl.GetHealth())
+        // Healers cannot cure other healers
+        if (weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
         {
-            healthCtrl.SetHealth(healthCtrl.GetHealth() + cure);
+            return;
         }
+        // Heal this enemy
+        healthCtrl.ApplyHeal(health);
     }
 
     public float GetAttackSpeed()
