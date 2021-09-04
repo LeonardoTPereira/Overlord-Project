@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 #endif
     public ProjectileTypeRuntimeSetSO projectileSet;
 #if UNITY_EDITOR
-    [Foldout("Scriptable Objects"), ReadOnly, Header("Current Projectile")]
+    [Foldout("Scriptable Objects"), Header("Current Projectile")]
 #endif
     public ProjectileTypeSO projectileType;
     protected Program generator;

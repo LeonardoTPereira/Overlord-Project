@@ -6838,7 +6838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
-  projectileType: {fileID: 11400000, guid: 926e05568c0b19641aa51bc5521fcb1f, type: 2}
+  projectileType: {fileID: 11400000, guid: 301fc6d37ca02e444af4fc5d61c7aa41, type: 2}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 04462e4169ee42b4fad5143c2ae3f5af, type: 2}
