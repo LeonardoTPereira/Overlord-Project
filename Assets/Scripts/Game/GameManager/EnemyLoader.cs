@@ -140,6 +140,12 @@ public class EnemyLoader : MonoBehaviour
         JToken individual = JToken.Parse(json.text);
         JToken enemy = individual["enemy"];
         JToken weapon = individual["weapon"];
+        // The `0` means that the enemy behavior is indifferent
+        int behavior = 0;
+        if (enemy["behaviorType"] != null)
+        {
+            behavior = (int) enemy["behaviorType"];
+        }
 
         // Convert JSON into Scriptable Object
         EnemySO asset = ScriptableObject.CreateInstance<EnemySO>();
@@ -151,7 +157,7 @@ public class EnemyLoader : MonoBehaviour
             (float) enemy["restTime"],
             (int) weapon["weaponType"],
             (int) enemy["movementType"],
-            (int) enemy["behaviorType"],
+            behavior,
             (float) individual["fitness"],
             (float) enemy["attackSpeed"],
             (float) weapon["projectileSpeed"]
