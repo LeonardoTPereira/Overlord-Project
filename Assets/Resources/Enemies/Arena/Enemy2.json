@@ -1,0 +1,18 @@
+{
+  "enemy": {
+    "health": 3,
+    "strength": 1,
+    "attackSpeed": 1.7683611,
+    "movementType": 4,
+    "movementSpeed": 1.2010359,
+    "activeTime": 1.8722346,
+    "restTime": 0.9197647
+  },
+  "weapon": {
+    "weaponType": 5,
+    "projectileSpeed": 1.3329865
+  },
+  "difficulty": 17.948002,
+  "fitness": 0.05199814,
+  "generation": 198
+}

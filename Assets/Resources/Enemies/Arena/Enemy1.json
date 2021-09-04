@@ -1,19 +1,18 @@
 {
-    "enemy": {
-        "health": 5,
-        "strength": 4,
-        "attackSpeed": 4,
-        "movementSpeed": 2,
-        "activeTime": 10,
-        "restTime": 0.3,
-        "behaviorType": 0,
-        "movementType": 3
-    },
-    "weapon": {
-        "weaponType": 2,
-        "projectileSpeed": 1
-    },
-    "difficulty": 0.4125,
-    "fitness": -1,
-    "generation": -1
+  "enemy": {
+    "health": 4,
+    "strength": 2,
+    "attackSpeed": 1.7348999,
+    "movementType": 4,
+    "movementSpeed": 2.2864425,
+    "activeTime": 7.121662,
+    "restTime": 1.1828108
+  },
+  "weapon": {
+    "weaponType": 2,
+    "projectileSpeed": 1.9363235
+  },
+  "difficulty": 18.040867,
+  "fitness": 0.04086685,
+  "generation": 32
 }
