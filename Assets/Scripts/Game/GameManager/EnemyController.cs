@@ -177,7 +177,8 @@ public class EnemyController : MonoBehaviour
     public bool Heal(int health)
     {
         // Healers cannot cure other healers
-        if (weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
+        if (weaponPrefab != null &&
+            weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
         {
             return false;
         }
