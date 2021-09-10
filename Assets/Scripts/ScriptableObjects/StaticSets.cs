@@ -1,18 +1,18 @@
 ﻿using EnemyGenerator;
-using UnityEditor;
+using UnityEngine;
 
 public class StaticSets
 {
     public static MovementTypeRuntimeSetSO movementSet =
-        AssetDatabase.LoadAssetAtPath<MovementTypeRuntimeSetSO>(
-            "Assets/ScriptableObjectsData/MovementSet.asset"
+        Resources.Load<MovementTypeRuntimeSetSO>(
+            "ScriptableObjectsData/MovementSet"
         );
     public static WeaponTypeRuntimeSetSO weaponSet =
-        AssetDatabase.LoadAssetAtPath<WeaponTypeRuntimeSetSO>(
-            "Assets/ScriptableObjectsData/WeaponSet.asset"
+        Resources.Load<WeaponTypeRuntimeSetSO>(
+            "ScriptableObjectsData/WeaponSet"
         );
     public static BehaviorTypeRuntimeSetSO behaviorSet =
-        AssetDatabase.LoadAssetAtPath<BehaviorTypeRuntimeSetSO>(
-            "Assets/ScriptableObjectsData/BehaviorSet.asset"
+        Resources.Load<BehaviorTypeRuntimeSetSO>(
+            "ScriptableObjectsData/BehaviorSet"
         );
 }
