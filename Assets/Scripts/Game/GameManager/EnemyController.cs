@@ -172,17 +172,17 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    /// Restore this enemy health based on the given health amount.
+    /// Restore the health of this enemy based on the given health amount.
     /// ATTENTION: This method can be called only by a healer enemy.
-    public void Heal(int health)
+    public bool Heal(int health)
     {
         // Healers cannot cure other healers
         if (weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
         {
-            return;
+            return false;
         }
         // Heal this enemy
-        healthCtrl.ApplyHeal(health);
+        return healthCtrl.ApplyHeal(health);
     }
 
     public float GetAttackSpeed()

@@ -63,8 +63,9 @@ public class HealthController : MonoBehaviour
     }
 
     /// This method restores the health with the given amount of health when
-    /// the health is lesser than the max health.
-    public void ApplyHeal(int _health)
+    /// the health is lesser than the max health. Return true if the enemy was
+    /// healed, and false otherwise.
+    public bool ApplyHeal(int _health)
     {
         // If the enemy is injured, then heal it; if not, ignore it
         if (GetMaxHealth() > GetHealth())
@@ -73,7 +74,9 @@ public class HealthController : MonoBehaviour
             int newHealth = health + _health;
             // The new health cannot be higher than the max health
             health = maxHealth >= newHealth ? newHealth : maxHealth;
+            return true;
         }
+        return false;
     }
 
     public void SetHealth(int _health)
