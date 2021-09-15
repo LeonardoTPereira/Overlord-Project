@@ -82,11 +82,11 @@ namespace Game.LevelManager
             return new DungeonLockedCorridor(coordinates, lockIDs);
         }
 
-        public static DungeonPart CreateDungeonPartFromDungeonFileJSON(DungeonFile.Room dungeonRoom)
+        public static DungeonPart CreateDungeonPartFromDungeonFileSO(SORoom dungeonRoom)
         {
             if (dungeonRoom.type?.Equals("c") ?? false)
                 return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
-            if (dungeonRoom.locks != null)
+            if (dungeonRoom.locks.Count > 0)
             {
                 for (int i = 0; i < dungeonRoom.locks.Count; ++i)
                     dungeonRoom.locks[i] = -dungeonRoom.locks[i];

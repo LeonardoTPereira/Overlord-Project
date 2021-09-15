@@ -38,14 +38,14 @@ namespace Game.LevelManager
         /**
          * Constructor of the Map object that uses an input file for the dungeon
          */
-        public Map(string text, string roomsFilePath = null, int mode = 0)
+        public Map(DungeonFileSO dungeonFileSO, string roomsFilePath = null, int mode = 0)
         {
             GameManager.instance.maxTreasure = 0;
             GameManager.instance.maxRooms = 0;
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
 
-            ReadMapFile(text, mode); // lê o mapa global
+            ReadMapFile(dungeonFileSO, mode); // lê o mapa global
             if (roomsFilePath != null)
             {
                 // Lê cada sala, com seus tiles
@@ -170,38 +170,22 @@ namespace Game.LevelManager
         }
 
 
-        private void ReadMapFile(string text, int mode)
+        private void ReadMapFile(DungeonFileSO dungeonFileSO, int mode)
         {
-            if (mode == 1)
+            Dimensions = dungeonFileSO.dimensions;
+            DungeonPart currentDungeonPart;
+            dungeonFileSO.ResetIndex();
+            while ((currentDungeonPart = dungeonFileSO.GetNextPart()) != null)
             {
-                JsonMapFileHandler mapFileHandler = new JsonMapFileHandler(text);
-                Dimensions = mapFileHandler.GetDimensions();
-                DungeonPart currentDungeonPart;
-                while ((currentDungeonPart = mapFileHandler.GetNextPart()) != null)
+                if (currentDungeonPart.IsStartRoom())
                 {
-                    if (currentDungeonPart.IsStartRoom())
-                        StartRoomCoordinates = currentDungeonPart.GetCoordinates();
-                    else if (currentDungeonPart.IsFinalRoom())
-                        FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
-                    DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
+                    StartRoomCoordinates = currentDungeonPart.GetCoordinates();
                 }
-            }
-            else
-            {
-                MapFileHandler mapFileHandler = new MapFileHandler(text);
-                Dimensions = mapFileHandler.GetMapDimensions();
-                DungeonPart currentDungeonPart;
-                while (mapFileHandler.HasMoreLines())
+                else if (currentDungeonPart.IsFinalRoom())
                 {
-                    currentDungeonPart = DungeonPartFactory.CreateDungeonPartFromFile(mapFileHandler);
-                    if (currentDungeonPart.IsStartRoom())
-                        StartRoomCoordinates = currentDungeonPart.GetCoordinates();
-                    else if (currentDungeonPart.IsFinalRoom())
-                    {
-                        FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
-                    }
-                    DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
+                    FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
                 }
+                DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
             }
         }
 
