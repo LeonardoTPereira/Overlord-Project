@@ -20,11 +20,12 @@ namespace Game.LevelManager
         //	public int moveY;
         [SerializeField]
         private DoorBHV destination;
-        private RoomBHV parentRoom;
         [SerializeField]
         private AudioClip unlockSnd;
 
+        private RoomBHV parentRoom;        
         private AudioSource audioSrc;
+        private Color color;
 
         public static event ExitRoomEvent ExitRoomEventHandler;
         public static event KeyUsedEvent KeyUsedEventHandler;
@@ -61,6 +62,7 @@ namespace Game.LevelManager
                     sr.material.SetColor("gradientColor2", Util.colorId[keyID[1] - 1]);
                 else
                     sr.material.SetColor("gradientColor2", Util.colorId[firstKeyID - 1]);
+                color = Util.colorId[firstKeyID - 1];
             }
             if (parentRoom.hasEnemies)
             {
@@ -71,6 +73,44 @@ namespace Game.LevelManager
                     sr.sprite = closedSprite;
                 }
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (keyID.Count > 0)
+            {
+                Gizmos.color = color;
+                Gizmos.DrawSphere(transform.position, 4);
+            }
+            else
+            {
+                DrawGizmoCorridors();
+            }
+        }
+
+        private void DrawGizmoCorridors()
+        {
+            int offsetX = 0;
+            int offsetY = 0;
+            if (gameObject.name.Equals("Door North"))
+            {
+                offsetY = 4;
+            }
+            else if (gameObject.name.Equals("Door South"))
+            {
+                offsetY = -4;
+            }
+            else if (gameObject.name.Equals("Door East"))
+            {
+                offsetX = 4;
+            }
+            else if (gameObject.name.Equals("Door West"))
+            {
+                offsetX = -4;
+            }
+            Gizmos.color = Color.black;
+            Gizmos.DrawCube(transform.position + new Vector3(offsetX, offsetY, 0),
+                new Vector3(4 + Mathf.Abs(offsetX), 4 + Mathf.Abs(offsetY), 1));
         }
 
         void OnTriggerEnter2D(Collider2D other)

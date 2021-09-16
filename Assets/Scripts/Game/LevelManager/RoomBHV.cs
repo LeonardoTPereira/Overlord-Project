@@ -304,7 +304,7 @@ public class RoomBHV : MonoBehaviour
 
     private void SelectEnemies()
     {
-        if (roomData.Difficulty > 0)
+        if (roomData.Difficulty > 0 || isArena)
         {
             hasEnemies = true;
             GameManager.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
@@ -316,7 +316,7 @@ public class RoomBHV : MonoBehaviour
                 {
                     enemiesIndex.Add(ei);
                 }
-            }   
+            }
             else
             {
                 for (int i = 0; i < roomData.Difficulty; ++i)

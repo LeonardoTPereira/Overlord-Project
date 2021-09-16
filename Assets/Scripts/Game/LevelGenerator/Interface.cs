@@ -119,7 +119,7 @@ namespace LevelGenerator
             string filename, dungeonData = "";
             filename = "R" + fitness.DesiredRooms + "-K" + fitness.DesiredKeys + "-L" + fitness.DesiredLocks + "-L" + fitness.DesiredLinearity;
 
-            DungeonFile dungeonFile = new DungeonFile();
+            DungeonFileSO dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSO>();
 
             //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.RoomList)
@@ -144,8 +144,8 @@ namespace LevelGenerator
             //The top of the dungeon's file in unity must contain its dimensions
             dungeonData += 2 * dun.dimensions.Width + "\n";
             dungeonData += 2 * dun.dimensions.Height + "\n";
-            dungeonFile.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
-            DungeonFile.Room roomDataInFile = null;
+            dungeonFileSO.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
+            SORoom roomDataInFile = null;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.dimensions.Width; ++i)
             {
@@ -283,7 +283,7 @@ namespace LevelGenerator
                         //For Unity's dungeon file we need to save the x and y position of the room
                         dungeonData += i + "\n";
                         dungeonData += j + "\n";
-                        roomDataInFile = new DungeonFile.Room
+                        roomDataInFile = new SORoom
                         {
                             coordinates = new Coordinates(i, j)
                         };
@@ -437,7 +437,7 @@ namespace LevelGenerator
                     }
                     if (roomDataInFile != null)
                     {
-                        dungeonFile.rooms.Add(roomDataInFile);
+                        dungeonFileSO.rooms.Add(roomDataInFile);
                     }
                 }
                 Console.Write("\n");
@@ -460,25 +460,21 @@ namespace LevelGenerator
                 filename += "-" + count;
             filename = foldername + filename;
 
-            string json = JsonConvert.SerializeObject(dungeonFile, Formatting.Indented, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
 
             int sameFilenameCounter = 0;
 
-            if(File.Exists(filename + ".json"))
+            if(File.Exists(filename + ".asset"))
             {
                 do
                 {
                     sameFilenameCounter++;
-                } while (File.Exists(filename + "-" + sameFilenameCounter + ".json"));
+                } while (File.Exists(filename + "-" + sameFilenameCounter + ".asset"));
                 filename += "-"+sameFilenameCounter;
             }
 
-            File.WriteAllText(filename + ".json", json);
-
+#if UNITY_EDITOR
+            AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
+#endif
             AssetDatabase.Refresh();
 
             UnityEngine.Debug.Log("Finished Writing dungeon data");

@@ -56,7 +56,7 @@ public class EnemyController : MonoBehaviour
         playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     // Update is called once per frame
     void FixedUpdate()

@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     /// This constant holds the path to the file that contains the arena level.
-    private static readonly string ARENA_LEVEL = "Levels/arena";
+    private static DungeonFileSO ArenaLevel;
 
 #if UNITY_EDITOR
     [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
@@ -43,14 +43,14 @@ public class GameManager : MonoBehaviour
     private bool isInGame;
     [SerializeField]
     private LevelConfigRuntimeSetSO levelSet;
-    private string currentLevel;
+    private DungeonFileSO currentDungeonSO;
 
     public static GameManager instance = null;
     protected TextAsset mapFile;
     private List<TextAsset> rooms = new List<TextAsset>();
     private List<int> randomLevelList = new List<int>();
     private Map map = null;
-    public bool createMaps = true; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
+    public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
     public AudioSource audioSource;
     public AudioClip bgMusic, fanfarreMusic;
     public TextMeshProUGUI keyText, roomText, levelText;
@@ -102,15 +102,19 @@ public class GameManager : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
 
             DontDestroyOnLoad(gameObject);
+
+            // Load the Arena level
+            ArenaLevel = Resources.Load<DungeonFileSO>(
+                "ScriptableObjectsData/DungeonsSOs/Arena"
+            );
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
-
     }
 
-    // Process all files in the directory passed in, recurse on any directories 
+    // Process all files in the directory passed in, recurse on any directories
     // that are found, and process the files they contain.
     public static void ProcessDirectory(string targetDirectory, string search, ref string[] files)
     {
@@ -126,13 +130,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameStartEventHandler(null, EventArgs.Empty);
-        //LoadNewLevel();
         //panelIntro.SetActive(true);   foi comentado
 
         // Starts the Arena
         if (arenaMode)
         {
-            DungeonEntrance.LoadLevel(this, ARENA_LEVEL);
+            DungeonTester.LoadLevel(this, ArenaLevel);
         }
     }
 
@@ -167,9 +170,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void LoadMap(string mapFile)
+    void LoadMap(DungeonFileSO dungeonFileSO)
     {
-        map = new Map(mapFile, null, mapFileMode);
+        map = new Map(dungeonFileSO, null, mapFileMode);
     }
 
     public Map GetMap()
@@ -211,7 +214,7 @@ public class GameManager : MonoBehaviour
             maxTreasure += treasureSet.Items[dungeonRoom.Treasure-1].value;
         }
         //Sets room transform position
-        newRoom.gameObject.transform.position = 
+        newRoom.gameObject.transform.position =
             new Vector2(roomSpacingX * dungeonRoom.Coordinates.X, -roomSpacingY * dungeonRoom.Coordinates.Y);
         roomBHVMap.Add(dungeonRoom.Coordinates, newRoom);
     }
@@ -239,7 +242,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadNewLevel(string mapFile)
+    public void LoadNewLevel(DungeonFileSO dungeonFileSO)
     {
         ChangeMusic(bgMusic);
         //Loads map from data
@@ -249,20 +252,22 @@ public class GameManager : MonoBehaviour
             mapFile = null;
         }
         else
-            LoadMap(mapFile);
+        {
+            LoadMap(dungeonFileSO);
+        }
 
         roomBHVMap = new Dictionary<Coordinates, RoomBHV>();
 
         InstantiateRooms();
         ConnectRoooms();
-        OnStartMap(mapFile, currentTestBatchId, map);
+        OnStartMap(dungeonFileSO.name, currentTestBatchId, map);
     }
 
     private void OnStartMap(string mapName, int batch, Map map)
     {
         Debug.Log("Starting Map");
         StartMapEventHandler(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType)));
-        EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, 
+        EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies,
             roomBHVMap[map.StartRoomCoordinates].enemiesIndex, -1, roomBHVMap[map.StartRoomCoordinates].gameObject.transform.position, (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions));
     }
 
@@ -300,10 +305,11 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
-        LevelLoaderBHV.loadLevelButtonEventHandler += PlayGameOnDifficulty;
+        LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelSO;
+        DungeonTester.loadLevelEventHandler += SetCurrentLevelSO;
         WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
-        PostFormMenuBHV.postFormButtonEventHandler += PlayGameOnDifficulty;
-        DungeonEntrance.loadLevelEventHandler += PlayGameOnDifficulty;
+        PostFormMenuBHV.postFormButtonEventHandler += SetCurrentLevelSO;
+        DungeonEntrance.loadLevelEventHandler += SetCurrentLevelSO;
         PlayerController.PlayerDeathEventHandler += GameOver;
         TriforceBHV.GotTriforceEventHandler += LevelComplete;
         FormBHV.PostTestFormAnswered += EndGame;
@@ -311,10 +317,11 @@ public class GameManager : MonoBehaviour
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-        LevelLoaderBHV.loadLevelButtonEventHandler -= PlayGameOnDifficulty;
+        LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelSO;
+        DungeonTester.loadLevelEventHandler -= SetCurrentLevelSO;
         WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
-        PostFormMenuBHV.postFormButtonEventHandler -= PlayGameOnDifficulty;
-        DungeonEntrance.loadLevelEventHandler -= PlayGameOnDifficulty;
+        PostFormMenuBHV.postFormButtonEventHandler -= SetCurrentLevelSO;
+        DungeonEntrance.loadLevelEventHandler -= SetCurrentLevelSO;
         PlayerController.PlayerDeathEventHandler -= GameOver;
         TriforceBHV.GotTriforceEventHandler -= LevelComplete;
         FormBHV.PostTestFormAnswered -= EndGame;
@@ -339,7 +346,7 @@ public class GameManager : MonoBehaviour
             healthUI = gameUI.GetComponentInChildren<HealthUI>();
             keyUI = gameUI.GetComponentInChildren<KeyUI>();
             OnLevelLoadedEvents();
-            LoadNewLevel(currentLevel);
+            LoadNewLevel(currentDungeonSO);
         }
         if (scene.name == "Main")
         {
@@ -375,21 +382,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void SetLevelMode(string fileName)
+    public void SetCurrentLevelSO(object sender, LevelLoadEventArgs args)
     {
         if (arenaMode)
         {
-            currentLevel = ARENA_LEVEL;
+            currentDungeonSO = ArenaLevel;
         }
         else
         {
-            currentLevel = fileName;
+            currentDungeonSO = args.DungeonFileSO;
         }
-    }
-
-    public void PlayGameOnDifficulty(object sender, LevelLoadEventArgs args)
-    {
-        instance.SetLevelMode(args.LevelFile);
     }
 
     public bool HasMoreLevels()
