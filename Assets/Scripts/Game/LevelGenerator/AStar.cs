@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 //Thanks to https://bitbucket.org/dandago/experimental/src/7adeb5f8cdfb054b540887d53cabf27e22a10059/AStarPathfinding/?at=master
 namespace LevelGenerator
@@ -24,6 +25,7 @@ namespace LevelGenerator
         //The A* algorithm
         public int FindRoute(Dungeon dun, int matrixOffset)
         {
+            bool foundExit = false;
             //The path through the dungeon
             List<Location> path = new List<Location>();
 
@@ -176,7 +178,7 @@ namespace LevelGenerator
             //start by adding the original position to the open list
             openList.Add(start);
             //While there are rooms to visit in the path
-            while (openList.Count > 0)
+            while ((openList.Count > 0) && !foundExit)
             {
                 // get the square with the lowest F score
                 var lowest = openList.Min(l => l.F);
@@ -239,9 +241,12 @@ namespace LevelGenerator
 
                 // if we added the destination to the closed list, we've found a path
                 if (closedList != null)
+                {
                     if (closedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
-                        break;
-
+                    {
+                        foundExit = true;
+                    }
+                }
                 // Get adjacent squares to the current one
                 var adjacentSquares = GetWalkableAdjacentSquares(current.X, current.Y, map);
                 g++;
@@ -280,6 +285,12 @@ namespace LevelGenerator
                         }
                     }
                 }
+            }
+
+            if(!foundExit)
+            {
+                Debug.LogError("Impossible Dungeon!");
+                throw new UnfeasibleLevelException();
             }
 
             return neededLocks;
