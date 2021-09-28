@@ -119,7 +119,7 @@ namespace Game.LevelManager
                         {
                             if (actualRoom.IsLeafNode())
                             {
-                                treasure = UnityEngine.Random.Range(0, GameManager.instance.treasureSet.Items.Count);
+                                treasure = UnityEngine.Random.Range(0, (int)GameManager.instance.treasureSet.Items.Count);
                                 dungeonPartCode = DungeonPart.PartType.TREASURE_ROOM;
                             }
                         }

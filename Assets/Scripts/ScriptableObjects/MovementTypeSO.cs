@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
     public delegate Vector3 MovementType(Vector3 playerPos, Vector3 enemyPos);
 

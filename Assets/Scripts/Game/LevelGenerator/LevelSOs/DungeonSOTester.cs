@@ -7,7 +7,6 @@ namespace Assets.Scripts.Game.LevelGenerator.LevelSOs
         [SerializeField]
         DungeonFileSO currentDungeonSO;
 
-
         public void OnDrawGizmos()
         {
             foreach (SORoom room in currentDungeonSO.rooms)
@@ -83,7 +82,5 @@ namespace Assets.Scripts.Game.LevelGenerator.LevelSOs
                 }
             }
         }
-    }
-
-    
+    }    
 }

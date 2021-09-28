@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static Util;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
     public delegate void ProjectileBehavior(Vector2 shootDirection);
 

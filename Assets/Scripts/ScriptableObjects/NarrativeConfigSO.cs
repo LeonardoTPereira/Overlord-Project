@@ -3,8 +3,11 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[CreateAssetMenu]
-public class NarrativeConfigSO : ScriptableObject
+namespace ScriptableObjects
 {
-    public string narrativeFileName;
+    [CreateAssetMenu]
+    public class NarrativeConfigSO : ScriptableObject
+    {
+        public string narrativeFileName;
+    }
 }

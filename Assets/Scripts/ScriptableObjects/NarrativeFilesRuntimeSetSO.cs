@@ -1,15 +1,19 @@
 using UnityEngine;
 
-[CreateAssetMenu]
-public class NarrativeFilesRuntimeSetSO : EnemyGenerator.RuntimeSetSO<NarrativeFilesSO>
+namespace ScriptableObjects
 {
-    public NarrativeFilesSO GetNarrativesFromProfile(string profile)
+    [CreateAssetMenu]
+    public class NarrativeFilesRuntimeSetSO : RuntimeSetSO<NarrativeFilesSO>
     {
-        foreach (var narrativeProfiles in Items)
+        public NarrativeFilesSO GetNarrativesFromProfile(string profile)
         {
-            if (narrativeProfiles.name.Equals(profile))
-                return narrativeProfiles;
+            foreach (var narrativeProfiles in Items)
+            {
+                if (narrativeProfiles.name.Equals(profile))
+                    return narrativeProfiles;
+            }
+            return null;
         }
-        return null;
     }
 }
+

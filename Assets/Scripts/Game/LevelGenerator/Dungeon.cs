@@ -1,4 +1,5 @@
-﻿using Game.LevelManager;
+﻿using Assets.Scripts.Game.NarrativeGenerator;
+using Game.LevelManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,9 +22,9 @@ namespace LevelGenerator
         private List<Room> roomList;
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
-        public JSonWriter.ParametersMonsters parametersMonsters;
-        public JSonWriter.ParametersItems parametersItems;
-        public JSonWriter.ParametersNpcs parametersNpcs;
+        public EnemyParameters parametersMonsters;
+        public ParametersItems parametersItems;
+        public ParametersNpcs parametersNpcs;
         private string playerProfile;
         private string narrativeName;
 
@@ -116,9 +117,9 @@ namespace LevelGenerator
             return copyDungeon;
         }
 
-        public void SetNarrativeParameters(JSonWriter.ParametersMonsters parametersMonsters,
-            JSonWriter.ParametersNpcs parametersNpcs, 
-            JSonWriter.ParametersItems parametersItems,
+        public void SetNarrativeParameters(EnemyParameters parametersMonsters,
+            ParametersNpcs parametersNpcs, 
+            ParametersItems parametersItems,
             string playerProfile, string narrativeName)
         {
             this.parametersItems = parametersItems;

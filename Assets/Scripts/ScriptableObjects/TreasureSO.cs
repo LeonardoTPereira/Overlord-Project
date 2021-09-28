@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu]
-public class TreasureSO : ScriptableObject
+namespace ScriptableObjects
 {
-    public int value;
-    public Sprite sprite;
+    [CreateAssetMenu]
+    public class TreasureSO : ItemSO
+    {
+        public int value;
+    }
 }

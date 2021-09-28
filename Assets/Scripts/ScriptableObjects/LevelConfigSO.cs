@@ -3,14 +3,17 @@ using UnityEngine;
 using System.Collections.Generic;
 using static Enums;
 
-[CreateAssetMenu]
-public class LevelConfigSO : ScriptableObject
+namespace ScriptableObjects
 {
-    public DungeonSize dungeonSize;
-    public DungeonLinearity dungeonLinearity;
-    public string levelName;
-    public EnemyDifficultyInDungeon enemyDifficulty;
-    public string enemyDifficultyFile;
-    public string fileName;
+    [CreateAssetMenu]
+    public class LevelConfigSO : ScriptableObject
+    {
+        public DungeonSize dungeonSize;
+        public DungeonLinearity dungeonLinearity;
+        public string levelName;
+        public EnemyDifficultyInDungeon enemyDifficulty;
+        public string enemyDifficultyFile;
+        public string fileName;
+    }
 }
 
