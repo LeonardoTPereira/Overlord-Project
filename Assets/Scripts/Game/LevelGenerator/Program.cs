@@ -3,7 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Game.NarrativeGenerator;
+using ScriptableObjects;
 using UnityEngine;
+
 namespace LevelGenerator
 {
     public class Program : MonoBehaviour
@@ -27,9 +30,9 @@ namespace LevelGenerator
         List<Dungeon> dungeons;
         //The aux the Game Manager will access to load the created dungeon
         public Dungeon aux;
-        JSonWriter.ParametersMonsters parametersMonsters;
-        JSonWriter.ParametersItems parametersItems;
-        JSonWriter.ParametersNpcs parametersNpcs;
+        EnemyParameters parametersMonsters;
+        ParametersItems parametersItems;
+        ParametersNpcs parametersNpcs;
         string playerProfile;
         string narrativeName;
 

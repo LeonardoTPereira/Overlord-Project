@@ -4,9 +4,15 @@ namespace ScriptableObjects
 {
     public class NpcSO
     {
-        [SerializeField]
+        public string NpcName
+        {
+            get => npcName;
+            set => npcName = value;
+        }
+
+        [SerializeField] private Sprite npcSprite;
+
         private string npcName;
-        private Sprite npcSprite;
         /*TODO add NPC settings according to Akira and Yago's generator*/
         
     }

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Game.NarrativeGenerator.Quests;
+using UnityEngine;
 using static Enums;
 
-namespace Assets.Scripts.Game.NarrativeGenerator
+namespace Game.NarrativeGenerator
 {
     [CreateAssetMenu(menuName = "NarrativeComponents/Dungeons")]
     public class ParametersDungeon : ScriptableObject
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Game.NarrativeGenerator
             return DungeonLinearityConverter.ToFloat((DungeonLinearity)LinearityEnum);
         }
 
-        private void conversorDungeon(ParametersDungeon pD, Quests quests)
+        private void conversorDungeon(ParametersDungeon pD, QuestList quests)
         {
             for (int i = 0; i < quests.graph.Count; i++)
             {

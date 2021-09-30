@@ -1,5 +1,6 @@
 ﻿using EnemyGenerator;
 using System.Linq;
+using ScriptableObjects;
 using UnityEngine;
 using static Enums;
 using static Util;

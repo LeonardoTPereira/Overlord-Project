@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using TMPro;
 using Newtonsoft.Json;
 
-namespace Assets.Scripts.Game.NarrativeGenerator
+namespace Game.NarrativeGenerator
 {
     public class LoadText : MonoBehaviour
     {
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Game.NarrativeGenerator
         // Start is called before the first frame update
         void Start()
         {
-            Quests questAux = JsonConvert.DeserializeObject<Quests>(jsonFile.text);
+            Quest questAux = JsonConvert.DeserializeObject<Quests>(jsonFile.text);
             missionSum.text = "Mission Sum:<br>";
 
             foreach (QuestSO q in questAux.graph)

@@ -1,5 +1,6 @@
 ﻿using EnemyGenerator;
 using MyBox;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Game.NarrativeGenerator;
-using Game.LevelManager;
+﻿using Game.LevelManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.NarrativeGenerator;
 using static Enums;
 
 namespace LevelGenerator

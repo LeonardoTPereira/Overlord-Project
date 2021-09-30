@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.NarrativeGenerator;
 using UnityEngine;
 using static Util;
 

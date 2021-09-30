@@ -1,15 +1,16 @@
 ﻿using ScriptableObjects;
+using UnityEditor;
 using UnityEngine;
 namespace Game.NarrativeGenerator.Quests
 {
     public abstract class QuestSO : ScriptableObject
     {
-        protected QuestSO nextWhenSuccess;
-        protected QuestSO nextWhenFailure;
-        protected QuestSO previous;
-        protected string questName;
-        protected bool endsStoryLine;
-        TreasureSO reward;
+        private QuestSO nextWhenSuccess;
+        private QuestSO nextWhenFailure;
+        private QuestSO previous;
+        private string questName;
+        private bool endsStoryLine;
+        private TreasureSO reward;
 
         public QuestSO NextWhenSuccess { get => nextWhenSuccess; set => nextWhenSuccess = value; }
         public QuestSO NextWhenFailure { get => nextWhenFailure; set => nextWhenFailure = value; }
@@ -36,6 +37,11 @@ namespace Game.NarrativeGenerator.Quests
             nextWhenSuccess = null;
             nextWhenFailure = null;
             Reward = null;
+        }
+
+        public void SaveAsAsset(string assetName)
+        {
+            AssetDatabase.CreateAsset(this, assetName+".asset");
         }
     }
 }

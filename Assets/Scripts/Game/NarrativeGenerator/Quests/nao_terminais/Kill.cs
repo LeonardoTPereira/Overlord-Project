@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests.QuestTerminals;
 using UnityEngine;
 
 public class Kill : NonTerminalQuest
@@ -10,16 +12,18 @@ public class Kill : NonTerminalQuest
 
     protected override void DefineNextQuest(Manager m)
     {
-        kill_ter k = new kill_ter();
+        KillQuestSO killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
 
         if (r <= 2.3)
         {
-            k.choose(m);
+            /*TODO initiate data for killQuest*/
             Talk t = new Talk(lim, questWeightsbyType);
             t.Option(m);
             Option(m);
         }
-        if (r > 2.3) 
-            k.choose(m);
+        else
+        {
+            /*TODO initiate data for killQuest*/
+        }
     }
 }

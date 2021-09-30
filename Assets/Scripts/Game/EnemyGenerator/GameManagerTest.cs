@@ -1,5 +1,6 @@
 ﻿using EnemyGenerator;
 using System.IO;
+using ScriptableObjects;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;

@@ -108,7 +108,7 @@
     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\ProfileDungeonDictionary.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Boundaries.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\KeyUI.cs" />
-    <Compile Include="Assets\Scripts\Game\GameManager\NPC.cs" />
+    <Compile Include="Assets\Scripts\Game\GameManager\NpcController.cs" />
     <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemySystem.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\RoomBHV.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\PlaceableRoomObject.cs" />

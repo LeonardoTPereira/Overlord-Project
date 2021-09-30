@@ -1,13 +1,14 @@
 ﻿using System;
+using Game.NarrativeGenerator;
 using static Enums;
 
 public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
 public class CreateEADungeonEventArgs : EventArgs
 {
     private Fitness fitness;
-    private JSonWriter.ParametersMonsters parametersMonsters;
-    private JSonWriter.ParametersItems parametersItems;
-    private JSonWriter.ParametersNpcs parametersNpcs;
+    private EnemyParameters parametersMonsters;
+    private ParametersItems parametersItems;
+    private ParametersNpcs parametersNpcs;
     private string playerProfile;
     private string narrativeName;
 
@@ -18,9 +19,9 @@ public class CreateEADungeonEventArgs : EventArgs
         ParametersItems = null;
         ParametersNpcs = null;
     }
-    public CreateEADungeonEventArgs(JSonWriter.ParametersDungeon parametersDungeon, 
-        JSonWriter.ParametersMonsters parametersMonsters, JSonWriter.ParametersItems parametersItems, 
-            JSonWriter.ParametersNpcs parametersNpcs, string playerProfile, string narrativeName)
+    public CreateEADungeonEventArgs(ParametersDungeon parametersDungeon, 
+        EnemyParameters parametersMonsters, ParametersItems parametersItems, 
+            ParametersNpcs parametersNpcs, string playerProfile, string narrativeName)
     {
         Fitness = new Fitness(parametersDungeon.size, parametersDungeon.nKeys, parametersDungeon.nKeys, parametersDungeon.linearity);
         ParametersMonsters = parametersMonsters;
@@ -32,9 +33,9 @@ public class CreateEADungeonEventArgs : EventArgs
 
 
     public Fitness Fitness { get => fitness; set => fitness = value; }
-    public JSonWriter.ParametersMonsters ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
-    public JSonWriter.ParametersNpcs ParametersNpcs { get => parametersNpcs; set => parametersNpcs = value; }
-    public JSonWriter.ParametersItems ParametersItems { get => parametersItems; set => parametersItems = value; }
+    public EnemyParameters ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
+    public ParametersNpcs ParametersNpcs { get => parametersNpcs; set => parametersNpcs = value; }
+    public ParametersItems ParametersItems { get => parametersItems; set => parametersItems = value; }
     public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
     public string NarrativeName { get => narrativeName; set => narrativeName = value; }
 }

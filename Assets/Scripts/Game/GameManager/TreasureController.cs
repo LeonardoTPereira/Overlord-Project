@@ -1,4 +1,5 @@
 ﻿using Game.LevelManager;
+using ScriptableObjects;
 using UnityEngine;
 
 public class TreasureController : PlaceableRoomObject
@@ -11,16 +12,12 @@ public class TreasureController : PlaceableRoomObject
     private bool canDestroy;
 
     public static event TreasureCollectEvent treasureCollectEvent;
-
-    private Quantities quantities; //Luana e Paolo
-
+    
     // Start is called before the first frame update
     void Awake()
     {
         canDestroy = false;
         audioSrc = GetComponent<AudioSource>();
-
-        quantities = FindObjectOfType<Quantities>();
     }
 
     private void Start()
@@ -57,9 +54,7 @@ public class TreasureController : PlaceableRoomObject
 
     protected void OnTreasureCollect()
     {
-        quantities.numberItens++;
         Debug.Log("Collected the treasure");
         treasureCollectEvent(this, new TreasureCollectEventArgs(Treasure.value)); //Luana e Paolo
     }
-
 }

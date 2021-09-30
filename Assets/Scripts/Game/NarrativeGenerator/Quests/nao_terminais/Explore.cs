@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 
 public class Explore : NonTerminalQuest
@@ -11,31 +13,22 @@ public class Explore : NonTerminalQuest
     protected override void DefineNextQuest(Manager m)
     {
 
-        if (r > 2.9)
+        if (r > 2.6)
         {
-            explore_ter e = new explore_ter();
-            e.choose(m);
+            SecretRoomQuestSO secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
+            /*TODO initiate data for secretRoomQuest
+             secretRoomQuest.Init(...);
+             */
             Talk t = new Talk(lim, questWeightsbyType);
             t.Option(m);
             Option(m);
         }
-        if (r > 2.5 && r <= 2.9)
+        else
         {
-            explore_ter e = new explore_ter();
-            e.choose(m);
-        }
-        if (r > 2.4 && r <= 2.5)
-        {
-            secret_ter s = new secret_ter();
-            s.choose(m);
-            Talk t = new Talk(lim, questWeightsbyType);
-            t.Option(m);
-            Option(m);
-        }
-        if (r <= 2.4)
-        {
-            secret_ter s = new secret_ter();
-            s.choose(m);
+            SecretRoomQuestSO secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
+            /*TODO initiate data for secretRoomQuest
+             secretRoomQuest.Init(...);
+             */
         }
     }
 }

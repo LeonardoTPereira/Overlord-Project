@@ -1,6 +1,7 @@
 ﻿
 using EnemyGenerator;
 using System;
+using ScriptableObjects;
 using UnityEngine;
 using static Util;
 
@@ -27,9 +28,7 @@ public class ProjectileController : MonoBehaviour
     private int damage;
     [SerializeField]
     public ProjectileTypeSO ProjectileSO { get; set; }
-
-    private Quantities quantities; //Luana e Paolo
-
+    
     // Use this for initialization
     void Awake()
     {
@@ -37,8 +36,6 @@ public class ProjectileController : MonoBehaviour
         audioSrc = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         isSin = false;
-
-        quantities = FindObjectOfType<Quantities>();
     }
 
     private void Start()
@@ -97,8 +94,6 @@ public class ProjectileController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                quantities.numberEnemies++;
-
                 OnEnemyHit();
                 collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage);
                 DestroyBullet();

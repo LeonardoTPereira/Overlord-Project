@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Assets.Scripts.Game.NarrativeGenerator;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Enums;
@@ -124,11 +126,11 @@ public class ExperimentController : MonoBehaviour
     private string GetDungeonFileForNarrative(string narrativeDirectory)
     {
         string relativePath = narrativeDirectory.Substring(narrativeDirectory.IndexOf("Experiment"));
-        JSonWriter.ParametersDungeon parametersDungeon = GetDungeonParametersJSON(narrativeDirectory, relativePath);
+        ParametersDungeon parametersDungeon = GetDungeonParametersJSON(narrativeDirectory, relativePath);
         return GetDungeonFile(relativePath, parametersDungeon);
     }
 
-    private string GetDungeonFile(string relativePath, JSonWriter.ParametersDungeon parametersDungeon)
+    private string GetDungeonFile(string relativePath, ParametersDungeon parametersDungeon)
     {
         TextAsset[] levelAssets = Resources.LoadAll<TextAsset>(relativePath + SEPARATOR_CHARACTER + "Levels" + SEPARATOR_CHARACTER);
         string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
@@ -142,12 +144,12 @@ public class ExperimentController : MonoBehaviour
         foreach (var directory in narrativeDirectories)
         {
             string relativePath = PROFILE_DIRECTORY+directory;
-            JSonWriter.ParametersDungeon parametersDungeon = GetDungeonParametersJSON(directory, relativePath);
+            ParametersDungeon parametersDungeon = GetDungeonParametersJSON(directory, relativePath);
             GetAllDungeons(relativePath, parametersDungeon);
         }
     }
 
-    private void GetAllDungeons(string relativePath, JSonWriter.ParametersDungeon parametersDungeon)
+    private void GetAllDungeons(string relativePath, ParametersDungeon parametersDungeon)
     {
         TextAsset[] levelAssets = Resources.LoadAll<TextAsset>(relativePath + SEPARATOR_CHARACTER + "Levels" + SEPARATOR_CHARACTER);
         string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
@@ -159,7 +161,7 @@ public class ExperimentController : MonoBehaviour
         }
     }
 
-    private JSonWriter.ParametersDungeon GetDungeonParametersJSON(string narrativeDirectory, string relativePath)
+    private ParametersDungeon GetDungeonParametersJSON(string narrativeDirectory, string relativePath)
     {
         // Define the JSON file extension
         const string extension = ".json";
@@ -172,7 +174,7 @@ public class ExperimentController : MonoBehaviour
         //string dungeonFilePath = relativePath + SEPARATOR_CHARACTER + "Dungeon" + SEPARATOR_CHARACTER + fileInfos[dungeonFileIndex].Name.Replace(extension, "");
         //Debug.Log(dungeonFilePath);
         //string dungeonFileContent = Resources.Load<TextAsset>(dungeonFilePath).text;
-        JSonWriter.ParametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.ParametersDungeon>(selectedDungeon.text);
+        ParametersDungeon parametersDungeon = JsonConvert.DeserializeObject<ParametersDungeon>(selectedDungeon.text);
         return parametersDungeon;
     }
 

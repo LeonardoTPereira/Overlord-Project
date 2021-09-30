@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Assets.Scripts.Game.NarrativeGenerator;
+using Game.NarrativeGenerator;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -65,14 +68,14 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         progressCanvas.SetActive(true);
         string selectedNarrative = GetNarrativePath();
 
-        JSonWriter.ParametersMonsters parametersMonsters
-            = GetJSONData<JSonWriter.ParametersMonsters>(NarrativeFileTypeString.ENEMY, selectedNarrative);
-        JSonWriter.ParametersItems parametersItems
-            = GetJSONData<JSonWriter.ParametersItems>(NarrativeFileTypeString.ITEM, selectedNarrative);
-        JSonWriter.ParametersNpcs parametersNpcs
-            = GetJSONData<JSonWriter.ParametersNpcs>(NarrativeFileTypeString.NPC, selectedNarrative);
-        JSonWriter.ParametersDungeon parametersDungeon
-            = GetJSONData<JSonWriter.ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
+        EnemyParameters parametersMonsters
+            = GetJSONData<EnemyParameters>(NarrativeFileTypeString.ENEMY, selectedNarrative);
+        ParametersItems parametersItems
+            = GetJSONData<ParametersItems>(NarrativeFileTypeString.ITEM, selectedNarrative);
+        ParametersNpcs parametersNpcs
+            = GetJSONData<ParametersNpcs>(NarrativeFileTypeString.NPC, selectedNarrative);
+        ParametersDungeon parametersDungeon
+            = GetJSONData<ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
 
         createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
             parametersMonsters, parametersItems, parametersNpcs, 
@@ -115,7 +118,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         progressCanvas.SetActive(true);
     }
 
-    private T GetJSONData<T>(string narrativeType, string narrativePath)
+    /*private T GetJSONData<T>(string narrativeType, string narrativePath)
     {
         string dataPath = narrativePath + SEPARATOR_CHARACTER + narrativeType;
         string relativePath = dataPath.Substring(dataPath.IndexOf("Experiment"));
@@ -123,7 +126,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         int nFiles = files.Length;
         TextAsset selectedFile = files[Random.Range(0, nFiles)];
         return JsonConvert.DeserializeObject<T>(selectedFile.text);
-    }
+    }*/
 
     public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)
     {

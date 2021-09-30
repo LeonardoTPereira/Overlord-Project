@@ -1,5 +1,6 @@
 ﻿using EnemyGenerator;
 using System;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

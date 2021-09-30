@@ -3,14 +3,14 @@ using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.NarrativeGenerator
+namespace Game.NarrativeGenerator
 {
     [CreateAssetMenu(menuName = "NarrativeComponents/Items")]
     public class ParametersItems : ScriptableObject
     {
         public Dictionary<ItemSO, int> ItemsByType { get; }
 
-        private void ConversorItems(QuestList quests)
+        public void ConversorItems(QuestList quests)
         {
             for (var i = 0; i < quests.graph.Count; i++)
             {
@@ -18,11 +18,11 @@ namespace Assets.Scripts.Game.NarrativeGenerator
             }
         }
 
-        private void AddNpcInTalkQuests(QuestSO quest)
+        private void AddItemWhenItemQuest(QuestSO quest)
         {
             if (IsItemQuest(quest))
             {
-                AddItems(quest);
+                AddItems((ItemQuestSO) quest);
             }
         }
 

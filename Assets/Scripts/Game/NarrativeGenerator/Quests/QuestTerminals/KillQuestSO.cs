@@ -5,9 +5,21 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
 {
     public class KillQuestSO : QuestSO
     {
-        Dictionary<EnemySO, int> EnemiesToKillByType;
+        public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         
-        public void AddItem(EnemySO enemy, int amount)
+        public override void Init()
+        {
+            base.Init();
+            EnemiesToKillByType = new Dictionary<EnemySO, int>();
+        }
+
+        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<EnemySO, int> enemiesByType)
+        {
+            base.Init(questName, endsStoryLine, previous);
+            EnemiesToKillByType = enemiesByType;
+        }
+        
+        public void AddEnemy(EnemySO enemy, int amount)
         {
             if (EnemiesToKillByType.TryGetValue(enemy, out var currentAmount))
             {

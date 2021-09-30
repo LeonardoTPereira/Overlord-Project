@@ -5,7 +5,7 @@ namespace Game.NarrativeGenerator.Quests
 {
     public abstract class ItemQuestSO : QuestSO
     {
-        public Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
+        private Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
 
         public override void Init()
         {
@@ -13,7 +13,7 @@ namespace Game.NarrativeGenerator.Quests
             ItemsToCollectByType = new Dictionary<ItemSO, int>();
         }
 
-        public void Init(string name, bool endsStoryLine, QuestSO previous, int totalTreasure, Dictionary<ItemSO, int> itemsByType)
+        public void Init(string name, bool endsStoryLine, QuestSO previous, Dictionary<ItemSO, int> itemsByType)
         {
             base.Init(name, endsStoryLine, previous);
             ItemsToCollectByType = itemsByType;

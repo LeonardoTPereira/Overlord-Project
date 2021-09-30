@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.NarrativeGenerator
+namespace Game.NarrativeGenerator
 {
     [CreateAssetMenu(menuName = "NarrativeComponents/Enemies")]
     public class EnemyParameters : ScriptableObject
@@ -29,7 +30,7 @@ namespace Assets.Scripts.Game.NarrativeGenerator
             return stringBuilder.ToString();
         }
 
-        private void ConversorMonster(EnemyParameters enemyParameters, Quests quests)
+        public void ConversorMonster(EnemyParameters enemyParameters, QuestList quests)
         {
             for (int i = 0; i < quests.graph.Count; i++)
             {

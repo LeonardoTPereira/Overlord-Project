@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    [SerializeField]
-    private NpcDialogueSO dialogues;
-    [SerializeField]
-    protected GameObject canvas, npcName, dialogue;
-
+    [SerializeField] private NpcDialogueSO dialogues;
+    [SerializeField] private GameObject canvas, npcName, dialogue;
+    [SerializeField] private NpcSO npcSo;
+    
     public static event EventHandler DialogueOpenEventHandler;
     public static event EventHandler DialogueCloseEventHandler;
 
@@ -18,7 +18,7 @@ public class NPC : MonoBehaviour
     public void Start()
     {
         dialogue.GetComponent<TextMeshProUGUI>().text = dialogues.Dialogues[UnityEngine.Random.Range(0, 3)];
-        npcName.GetComponent<TextMeshProUGUI>().text = dialogues.NpcName;
+        npcName.GetComponent<TextMeshProUGUI>().text = npcSo.NpcName;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

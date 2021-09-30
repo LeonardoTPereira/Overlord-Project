@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Dynamic;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 
 public class Talk : NonTerminalQuest
@@ -11,12 +14,15 @@ public class Talk : NonTerminalQuest
     
     protected override void DefineNextQuest(Manager m)
     {
-        talk_ter t = new talk_ter();
+        TalkQuestSO talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
         if (r > 2.7)
         {
-            t.choose(m);
+            /*TODO initiate data for talkQuest*/
             Option(m);
         }
-        if (r <= 2.7) t.choose(m);
+        else
+        {
+            /*TODO initiate data for talkQuest*/
+        }
     }
 }

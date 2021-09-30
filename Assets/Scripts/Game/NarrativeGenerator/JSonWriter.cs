@@ -1,15 +1,21 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using UnityEditor;
 using UnityEngine;
 using static Enums;
 using static Util;
-namespace Assets.Scripts.Game.NarrativeGenerator
+
+namespace Game.NarrativeGenerator
 {
+    /* TODO Save quest as asset
+        "..." secretRoomQuest.SaveAsAsset(string assetName); "..."
+     */
     public class JSonWriter
     {
-        public void writeJSon(Quests quests, PlayerProfileEnum playerProfile)
+        public void writeJSon(QuestList quests, PlayerProfileEnum playerProfile)
         {
             // Define the JSON file extension
             const string extension = ".json";
@@ -86,7 +92,7 @@ namespace Assets.Scripts.Game.NarrativeGenerator
 
             // Get the enemies parameters
             EnemyParameters pM = new EnemyParameters();
-            conversorMonsters(pM, quests);
+            pM.(pM, quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pM) + '\n';
             // Write the enemies JSON file
@@ -99,7 +105,7 @@ namespace Assets.Scripts.Game.NarrativeGenerator
             }
 
             ParametersNpcs pN = new ParametersNpcs();
-            conversorNpcs(pN, quests);
+            pN.ConversorNpcs(quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pN) + '\n';
             // Write the enemies JSON file
@@ -112,7 +118,7 @@ namespace Assets.Scripts.Game.NarrativeGenerator
             }
 
             ParametersItems pI = new ParametersItems();
-            conversorItems(pI, quests);
+            pI.ConversorItems(quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pI) + '\n';
             // Write the enemies JSON file
