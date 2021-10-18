@@ -3370,7 +3370,7 @@ MonoBehaviour:
   dungeonList: {fileID: 0}
   levelFileName: R32-K3-L3-L1.4-1
   narrativeFilesSet: {fileID: 11400000, guid: e905bd29ff494ba4dbb22ec95ecf3e41, type: 2}
-  dungeonFileSO: {fileID: 11400000, guid: e650ca29379ba6a4c8514fa5f577d161, type: 2}
+  dungeonFileSO: {fileID: 11400000, guid: b5081a9d1dc2f154dbe594ee801e2917, type: 2}
 --- !u!1 &389387747
 GameObject:
   m_ObjectHideFlags: 0
@@ -6635,7 +6635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.4999981}
+  m_AnchoredPosition: {x: 0, y: 0.5}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &935591438
@@ -12641,7 +12641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.5000019}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1732476122

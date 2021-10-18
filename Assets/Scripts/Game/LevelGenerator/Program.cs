@@ -4,12 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using static Enums;
-
 namespace LevelGenerator
 {
     public class Program : MonoBehaviour
     {
+        private readonly int MAX_GEN_WITHOUT_IMPROVEMENT = 20;
+        private int nGenerationsWithoutImprovement;
+        private double bestFitnessYet;
+
         public TreasureRuntimeSetSO treasureRuntimeSetSO;
         public static event NewEAGenerationEvent newEAGenerationEventHandler;
         double min;
@@ -85,9 +87,34 @@ namespace LevelGenerator
             Debug.Log("Printed the dungeon");
         }
 
+        private bool HasMetStopCriteria(int gen, double min)
+        {
+            if(gen >= Constants.GENERATIONS)
+            {
+                return true;
+            }
+            if(min <= 0.01f)
+            {
+                return true;
+            }
+            if((bestFitnessYet - min) > 0.01)
+            {
+                bestFitnessYet = min;
+                nGenerationsWithoutImprovement = 0;
+            }
+            else
+            {
+                nGenerationsWithoutImprovement++;
+            }
+            if(nGenerationsWithoutImprovement >= MAX_GEN_WITHOUT_IMPROVEMENT)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void Evolve()
         {
-            Debug.Log("Start Creating Dungeon");
             int matrixOffset = Constants.MATRIXOFFSET;
             hasFinished = false;
             min = double.MaxValue;
@@ -102,9 +129,11 @@ namespace LevelGenerator
                 dungeons.Add(individual);
             }
             aux = dungeons[0];
-
+            nGenerationsWithoutImprovement = 0;
+            bestFitnessYet = Double.MaxValue;
+            int gen;
             //Evolve all the generations from the GA
-            for (int gen = 0; gen < Constants.GENERATIONS; ++gen)
+            for (gen = 0; !HasMetStopCriteria(gen, min); ++gen)
             {
                 //Get every dungeon's fitness
                 foreach (Dungeon dun in dungeons)
@@ -134,22 +163,14 @@ namespace LevelGenerator
                     Dungeon parent1 = dungeons[parentIdx1].Copy();
                     Dungeon parent2 = dungeons[parentIdx2].Copy();
 
-                    try
-                    {
-                        EvolutionaryAlgorithm.Crossover(ref parent1, ref parent2);
+                    EvolutionaryAlgorithm.Crossover(ref parent1, ref parent2);
+                    aux = dungeons[0];
+                    EvolutionaryAlgorithm.Mutation(ref parent1);
+                    EvolutionaryAlgorithm.Mutation(ref parent2);
 
-                        aux = dungeons[0];
-                        EvolutionaryAlgorithm.Mutation(ref parent1);
-                        EvolutionaryAlgorithm.Mutation(ref parent2);
-                        //We need to fix the room list anytime a room is altered in the tree.
-                        parent1.FixRoomList();
-                        parent2.FixRoomList();
-                    }
-                    catch (System.Exception e)
-                    {
-                        Debug.Log(e.Message);
-                        Util.OpenUri("https://stackoverflow.com/search?q=" + e.Message);
-                    }
+                    //We need to fix the room list anytime a room is altered in the tree.
+                    parent1.FixRoomList();
+                    parent2.FixRoomList();
                     //Calculate the average number of children from the rooms in each children
                     parent1.CalcAvgChildren();
                     parent2.CalcAvgChildren();
@@ -161,7 +182,6 @@ namespace LevelGenerator
                 //Elitism - now we get back the best one to the first position
                 childPop[0] = aux;
                 dungeons = childPop;
-                Debug.Log("Finished another generation");
                 newEAGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs((int)(((gen + 1) / (float)Constants.GENERATIONS) * 100)));
             }
             //Find the best individual in the final population and print it as the answer
@@ -179,7 +199,6 @@ namespace LevelGenerator
             }
             watch.Stop();
             long time = watch.ElapsedMilliseconds;
-
             hasFinished = true;
 
             //Saves the test file that we used in the master thesis

@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Game\LevelManager\DungeonLockedCorridor.cs" />
      <Compile Include="Assets\Scripts\Game\EnemyGenerator\GameManagerTest.cs" />
      <Compile Include="Assets\Scripts\Game\Events\ExitRoomEvent.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelGenerator.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\DungeonTester.cs" />
      <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemyMovement.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\FormQuestionsData.cs" />
@@ -63,6 +64,7 @@
      <Compile Include="Assets\Scripts\Game\GameManager\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\DungeonFileSOList.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\BombController.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\UnfeasibleLevelException.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\AStar.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\get.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\LevelLoaderBHV.cs" />
@@ -74,6 +76,7 @@
      <Compile Include="Assets\Scripts\Game\GameManager\ExperimentController.cs" />
      <Compile Include="Assets\Scripts\Game\Events\CreateEADungeonEvent.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\kill.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Representation.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\Selector.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\NonTerminalQuest.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\FormQuestionBHV.cs" />
@@ -138,6 +141,7 @@
      <Compile Include="Assets\Scripts\Game\Events\LevelSelectEvent.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\KeyBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\DungeonEntrance.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Population.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\GameOver.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Fitness.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\RoomGrid.cs" />
@@ -146,6 +150,7 @@
      <Compile Include="Assets\Scripts\Game\GameManager\MenuTransitionPanelBHV.cs" />
      <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemyComponent.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\JSonWriter.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Parameters.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\Coordinates.cs" />
      <Compile Include="Assets\Scripts\Game\Events\FinishMapEvent.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\terminais\explore_ter.cs" />
@@ -160,6 +165,7 @@
      <Compile Include="Assets\Scripts\Game\Events\FormAnsweredEvent.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\PlayerProfile.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\SORoom.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\DungeonSOTester.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\ScrollBarBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\TileBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\explore.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace LevelGenerator
 {
@@ -91,9 +92,9 @@ namespace LevelGenerator
             toVisit.Enqueue(actualRoom);
             //System.Console.WriteLine("Start Conversion");
             //If both lock and keys are in the branch, give them new ids also, add all the special rooms in the new special rooms list
-            for (int i = 0; i < specialRooms.Count - 1; ++i)
+            for (int i = 0; i < (specialRooms.Count - 1); ++i)
             {
-                for (int j = i + 1; j < specialRooms.Count; ++j)
+                for (int j = (i + 1); j < specialRooms.Count; ++j)
                 {
                     if (specialRooms[i] == -specialRooms[j])
                     {
@@ -110,7 +111,6 @@ namespace LevelGenerator
             //Add the last special room, which normally wouldn't be added, but only if it exists
             if (specialRooms.Count > 0)
                 newSpecialRooms.Enqueue(specialRooms[specialRooms.Count - 1]);
-
             //Enqueue all the rooms
             while (toVisit.Count > 0)
             {
@@ -196,7 +196,7 @@ namespace LevelGenerator
                 }
             }
             if (newSpecialRooms.Count > 0)
-                System.Console.WriteLine("STOOOOOP");
+                Debug.LogError("STOOOOOP");
         }
         /*
          * Validates if a child node can be created in the given position or not

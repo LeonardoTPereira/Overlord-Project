@@ -106,16 +106,37 @@ namespace LevelGenerator
             int remainingItems, remainingNpcs;
             Type type;
             int x, y, iPositive, jPositive;
-
-            remainingItems = dun.parametersItems.NumItens;
-            remainingNpcs = dun.parametersNpcs.NumNpcs;
+            if(dun.parametersItems != null)
+            {
+                remainingItems = dun.parametersItems.NumItens;
+            }
+            else
+            {
+                remainingItems = 0;
+            }
+            if (dun.parametersNpcs != null)
+            {
+                remainingNpcs = dun.parametersNpcs.NumNpcs;
+            }
+            else
+            {
+                remainingNpcs = 0;
+            }
 
             //List of keys and locked rooms in the level
             List<int> lockedRooms = new List<int>();
             List<int> keys = new List<int>();
 
+            string foldername;
             //Where to save the new dungeon in Unity
-            string foldername = "Assets/Resources/Experiment/"+dun.PlayerProfile.ToString()+"/"+dun.NarrativeName+"/Levels/";
+            if (dun.NarrativeName != null)
+            {
+                foldername = "Assets/Resources/Experiment/" + dun.PlayerProfile.ToString() + "/" + dun.NarrativeName + "/Levels/";
+            }
+            else
+            {
+                foldername = "Assets/Resources/DungeonTest/";
+            }
             string filename, dungeonData = "";
             filename = "R" + fitness.DesiredRooms + "-K" + fitness.DesiredKeys + "-L" + fitness.DesiredLocks + "-L" + fitness.DesiredLinearity;
 
@@ -232,6 +253,7 @@ namespace LevelGenerator
                     }
                 }
             }
+            dungeonFileSO.rooms = new List<SORoom>();
             //Now we print it/save to a file/whatever
             for (int i = 0; i < dun.dimensions.Width * 2; ++i)
             {

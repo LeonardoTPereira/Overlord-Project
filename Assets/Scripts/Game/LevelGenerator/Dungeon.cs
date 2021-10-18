@@ -386,7 +386,7 @@ namespace LevelGenerator
             while (toVisit.Count > 0 && !hasLock)
             {
                 actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.normal && !actualRoom.Equals(roomList[0]) && Util.rnd.Next(101) <= Constants.PROB_KEY_ROOM + Constants.PROB_LOCKER_ROOM)
+                if (actualRoom.Type == Type.normal && !actualRoom.Equals(roomList[0]) && (Util.rnd.Next(101) <= (Constants.PROB_KEY_ROOM + Constants.PROB_LOCKER_ROOM)))
                 {
                     if (!hasKey)
                     {
@@ -451,7 +451,7 @@ namespace LevelGenerator
                 }
             }
             //Console.WriteLine("Searching Id:" + lockId);
-            while (toVisit.Count > 0 && (!hasLock || !hasKey))
+            while ((toVisit.Count > 0) && (!hasLock || !hasKey))
             {
                 actualRoom = toVisit.Dequeue() as Room;
                 if (actualRoom.Type == Type.key && actualRoom.RoomId == lockId)
@@ -484,7 +484,7 @@ namespace LevelGenerator
             toVisit.Clear();
             toVisit.Enqueue(actualRoom);
 
-            while (toVisit.Count > 0 && !hasLock)
+            while ((toVisit.Count > 0) && !hasLock)
             {
                 actualRoom = toVisit.Dequeue() as Room;
                 if (actualRoom.Type == Type.locked && actualRoom.KeyToOpen == lockId)

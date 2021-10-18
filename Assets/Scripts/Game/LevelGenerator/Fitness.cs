@@ -46,7 +46,14 @@ public class Fitness
         if (dungeon.nLocks > 0)
         {
             //The A* finds the number of locks needed to finish the dungeon using the heuristic that is close to optimal.
-            dungeon.neededLocks = aStar.FindRoute(dungeon, matrixOffset);
+            try
+            {
+                dungeon.neededLocks = aStar.FindRoute(dungeon, matrixOffset);
+            }
+            catch (UnfeasibleLevelException exception)
+            {
+                throw;
+            }
             //Execute 3 times the DFS to minimize the randomness
             //Execute them in parallel to make things faster
             //The DFS finds the number of rooms needed to finish the dungeon be exploring blindly.

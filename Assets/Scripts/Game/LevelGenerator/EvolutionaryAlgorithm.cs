@@ -29,11 +29,29 @@ namespace LevelGenerator
             while (toVisit.Count > 0)
             {
                 nRooms++;
-                Room actualRoom = toVisit.Dequeue() as Room;
+                Room actualRoom = toVisit.Dequeue();
                 Type type;
                 type = actualRoom.Type;
                 if (type == Type.key)
-                    specialRooms.Add(actualRoom.KeyToOpen);
+                {
+                    if(specialRooms.Count > 0)
+                    {
+                        int lockIndex = specialRooms.IndexOf(-actualRoom.KeyToOpen);
+                        if (lockIndex != -1)
+                        {
+                            specialRooms.Insert(lockIndex, actualRoom.KeyToOpen);
+                        }
+                        else
+                        {
+                            specialRooms.Add(actualRoom.KeyToOpen);
+                        }
+                    }
+                    else
+                    {
+                        specialRooms.Add(actualRoom.KeyToOpen);
+                    }
+
+                }
                 else if (type == Type.locked)
                     specialRooms.Add(-actualRoom.KeyToOpen);
                 if (actualRoom.LeftChild != null)
@@ -67,14 +85,14 @@ namespace LevelGenerator
                         parent.LeftChild = cut2;
                         break;
                     default:
-                        Debug.Log("Something went wrong in crossover!.\n");
-                        Debug.Log("Direction not supported:\n\tOnly Right, Down and Left are allowed.\n\n");
+                        Debug.LogError("Something went wrong in crossover!.\n");
+                        Debug.LogError("Direction not supported:\n\tOnly Right, Down and Left are allowed.\n\n");
                         break;
                 }
             }
             catch (System.Exception e)
             {
-                Debug.Log("Something went wrong while changing the children!");
+                Debug.LogError("Something went wrong while changing the children!");
                 throw e;
             }
         }
@@ -119,7 +137,7 @@ namespace LevelGenerator
                             roomCut2 = ind2.RoomList[Util.rnd.Next(1, ind2.RoomList.Count)];
                         } while (failedRooms.Contains(roomCut2));
                         failedRooms.Add(roomCut2);
-                        if (failedRooms.Count == ind2.RoomList.Count - 1)
+                        if (failedRooms.Count == (ind2.RoomList.Count - 1))
                             isImpossible = true;
                         FindNKLR(ref nRooms2, ref specialRooms2, roomCut2);
                     } while ((specialRooms2.Count > nRooms1 || specialRooms1.Count > nRooms2) && !isImpossible);
