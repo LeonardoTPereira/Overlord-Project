@@ -86,7 +86,7 @@ namespace LevelGenerator
             {
                 for (int j = 0; j < 2 * dun.dimensions.Height; ++j)
                 {
-                    map[i, j] = Util.RoomType.NOTHING;
+                    map[i, j] = RoomCode.NOTHING;
                 }
             }
 
@@ -111,11 +111,11 @@ namespace LevelGenerator
                         {
                             if (actualRoom.IsLeafNode())
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
+                                map[iPositive * 2, jPositive * 2] = RoomCode.TREASURE;
                             }
                             else
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.EMPTY;
+                                map[iPositive * 2, jPositive * 2] = RoomCode.EMPTY;
                             }
                         }
                         //If the room has a key, saves the corresponding key index in the matrix
@@ -131,11 +131,11 @@ namespace LevelGenerator
                         {
                             if (lockedRooms.IndexOf(actualRoom.key) == lockedRooms.Count - 1)
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.BOSS;
+                                map[iPositive * 2, jPositive * 2] = RoomCode.BOSS;
                             }
                             else
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
+                                map[iPositive * 2, jPositive * 2] = RoomCode.TREASURE;
                             }
                         }
                         //If it is not a room, something is wrong
@@ -160,7 +160,7 @@ namespace LevelGenerator
                             }
                             else
                             {
-                                map[x, y] = Util.RoomType.CORRIDOR;
+                                map[x, y] = RoomCode.CORRIDOR;
                             }
                         }
                     }
@@ -173,11 +173,11 @@ namespace LevelGenerator
                 for (int j = 0; j < dun.dimensions.Height * 2; ++j)
                 {
                     //This whole block was to print in a console
-                    if (map[i, j] == Util.RoomType.EMPTY)
+                    if (map[i, j] == RoomCode.EMPTY)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
                     }
-                    else if (map[i, j] == Util.RoomType.CORRIDOR)
+                    else if (map[i, j] == RoomCode.CORRIDOR)
                     {
                         Console.ForegroundColor = ConsoleColor.Magenta;
                     }
@@ -185,11 +185,11 @@ namespace LevelGenerator
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                     }
-                    else if (map[i, j] == Util.RoomType.NOTHING)
+                    else if (map[i, j] == RoomCode.NOTHING)
                     {
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    else if (map[i, j] == Util.RoomType.BOSS)
+                    else if (map[i, j] == RoomCode.BOSS)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                     }
@@ -203,7 +203,7 @@ namespace LevelGenerator
                     }
 
                     //If cell is empty, do nothing (or print empty space in console)
-                    if (map[i, j] == Util.RoomType.NOTHING)
+                    if (map[i, j] == RoomCode.NOTHING)
                     {
                         Console.Write("  ");
                         roomDataInFile = null;
@@ -238,14 +238,14 @@ namespace LevelGenerator
                             roomDataInFile.Treasures = 0;
                         }
                         //If it is a corridor, writes "c" in the file
-                        else if (map[i, j] == Util.RoomType.CORRIDOR)
+                        else if (map[i, j] == RoomCode.CORRIDOR)
                         {
                             Console.Write(" c");
                             dungeonData += "c\n";
                             roomDataInFile.type = "c";
                         }
                         //If is the boss room, writes "B". Currently is where the Triforce is located
-                        else if (map[i, j] == Util.RoomType.BOSS)
+                        else if (map[i, j] == RoomCode.BOSS)
                         {
                             Console.Write(" B");
                             dungeonData += "B\n";
@@ -269,7 +269,7 @@ namespace LevelGenerator
                         }
                         //If it was a room with treasure, save it as a "T"
                         //TODO: change this as now every room may contain treasures, enemies and/or keys
-                        else if (map[i, j] == Util.RoomType.TREASURE)
+                        else if (map[i, j] == RoomCode.TREASURE)
                         {
                             Console.Write("{0,2}", map[i, j]);
 

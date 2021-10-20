@@ -33,12 +33,14 @@ namespace LevelGenerator
         }
 
         /// Define the room codes for printing purposes.
-        public enum RoomCode
+        public static class RoomCode
         {
-            N = 0,   // Room
-            C = 100, // Corridor
-            B = 101, // Boss room or dungeon exit
-            E = 102, // Empty space
+            public static readonly int EMPTY = 0;
+            public static readonly int CORRIDOR = 100;
+            public static readonly int NOTHING = 101;
+            public static readonly int BOSS = 102;
+            public static readonly int TREASURE = 103;
+            public static readonly int START = 104;
         }
 
         /// Return a random integer percentage (from 0 to 99, 100 numbers).
