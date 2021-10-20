@@ -148,8 +148,8 @@ public class Fitness
         {
             int xp = room.x + _dungeon.minX;
             int yp = room.y + _dungeon.minY;
-            avg_x += xp;
-            avg_y += yp;
+            avg_x += xp * room.enemies;
+            avg_y += yp * room.enemies;
         }
         avg_x = avg_x / _enemies;
         avg_y = avg_y / _enemies;
@@ -162,6 +162,7 @@ public class Fitness
             double dist = 0f;
             dist += Math.Pow(xp - avg_x, 2);
             dist += Math.Pow(yp - avg_y, 2);
+            dist *= room.enemies;
             sparsity += (float) Math.Sqrt(dist);
         }
         return sparsity / _enemies;
@@ -172,24 +173,18 @@ public class Fitness
         Dungeon _dungeon,
         int _enemies
     ) {
-        // Count the rooms that have enemies
-        int rooms = 0;
-        for (int i = 0; i < _dungeon.rooms.Count; i++)
-        {
-            if (_dungeon.rooms[i].enemies > 0)
-            {
-                rooms++;
-            }
-        }
+        // The start and goal rooms are not count because they are mandatory
+        // empty rooms
+        float rooms = _dungeon.rooms.Count - 2;
         float mean = _enemies / rooms;
         // Calculate standard deviation
         float std = 0f;
-        for (int i = 0; i < _dungeon.rooms.Count; i++)
+        for (int i = 1; i < _dungeon.rooms.Count; i++)
         {
-            int enemies = _dungeon.rooms[i].enemies;
-            if (enemies > 0)
+            Room room = _dungeon.rooms[i];
+            if (!room.Equals(_dungeon.GetGoal()))
             {
-                std += (float) Math.Pow(enemies - mean, 2);
+                std += (float) Math.Pow(room.enemies - mean, 2);
             }
         }
         return (float) Math.Sqrt(std / rooms);
