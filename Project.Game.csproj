@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_2020_3_16;UNITY_2020_3;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;UNITY_POST_PROCESSING_STACK_V2;RH_SerializedDictionary;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_2020_3_16;UNITY_2020_3;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;UNITY_ANALYTICS;USE_SEARCH_ENGINE_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;UNITY_POST_PROCESSING_STACK_V2;RH_SerializedDictionary;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Game\GameManager\DungeonTester.cs" />
      <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemyMovement.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\FormQuestionsData.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\SearchSpace.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\FormBHV.cs" />
      <Compile Include="Assets\Scripts\Game\Events\StartRoomEvent.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\PostFormMenuBHV.cs" />
@@ -61,9 +62,11 @@
      <Compile Include="Assets\Scripts\Game\GameManager\HealthUI.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\DungeonRoom.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\DoorBHV.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Common.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\DungeonFileSOList.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\BombController.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Crossover.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\UnfeasibleLevelException.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\AStar.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\nao_terminais\get.cs" />
@@ -86,6 +89,7 @@
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\Quest.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\LevelDescriptionDialogueBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Util.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Selection.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\PathFinding.cs" />
      <Compile Include="Assets\Scripts\Game\Events\KeyCollectEvent.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\DungeonCorridor.cs" />
@@ -114,12 +118,12 @@
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\terminais\kill_ter.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\RoomBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\PlaceableRoomObject.cs" />
-     <Compile Include="Assets\Scripts\Game\LevelGenerator\EvolutionaryAlgorithm.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\CSVManager.cs" />
      <Compile Include="Assets\Scripts\Game\Events\TreasureCollectEvent.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\DungeonPart.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\WeaponSelectionButtonBHV.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\WeaponDescriptionBHV.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelDebug.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\EnemyLoader.cs" />
      <Compile Include="Assets\Scripts\Game\LevelManager\Dimensions.cs" />
      <Compile Include="Assets\Scripts\Game\DataCollection\FormQuestionData.cs" />
@@ -138,12 +142,15 @@
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Interface.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\WeaponLoaderBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\DungeonFilesDictionarySO.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Data.cs" />
      <Compile Include="Assets\Scripts\Game\Events\LevelSelectEvent.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\KeyBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\DungeonEntrance.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Mutation.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Population.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\GameOver.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Fitness.cs" />
+     <Compile Include="Assets\Scripts\Game\LevelGenerator\Metric.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\RoomGrid.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\TriforceBHV.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Program.cs" />
