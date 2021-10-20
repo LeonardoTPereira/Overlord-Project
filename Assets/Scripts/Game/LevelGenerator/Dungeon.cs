@@ -8,548 +8,652 @@ namespace LevelGenerator
 {
     public class Dungeon
     {
+        /// The probability of generating a new room as a child.
+        public static readonly float PROB_HAS_CHILD = 100f;
+        /// The probability of generating a single child.
+        public static readonly float PROB_CHILD = 100f / 3;
+        /// The max depth of a dungeon tree.
+        public static readonly int MAX_DEPTH = 5;
 
-        public int nKeys, nLocks, neededLocks;
-        public float neededRooms;
-        private int desiredKeys;
-        private float avgChildren;
+        /// Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes.
+        public RoomGrid grid;
+        /// The list of rooms (easier to add neighbors).
+        public List<Room> rooms;
+
+        /// The goal room.
+        private Room goal = null;
+        /// The list of dungeon key IDs.
+        public List<int> keyIds;
+        /// The list of locked room IDs.
+        public List<int> lockIds;
+        /// The lower limit of the x-axis of the grid.
+        public int minX;
+        /// The lower limit of the y-axis of the grid.
+        public int minY;
+        /// The upper limit of the x-axis of the grid.
+        public int maxX;
+        /// The upper limit of the y-axis of the grid.
+        public int maxY;
+
+        public List<Room> Rooms { get => rooms; }
+
         public Boundaries boundaries;
         public Dimensions dimensions;
-        //Queue with the notes that need to be visited
-        public Queue toVisit;
-        //List of Nodes (easier to add neighbors)
-        private List<Room> roomList;
-        //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
-        public RoomGrid roomGrid;
-        public JSonWriter.ParametersMonsters parametersMonsters;
-        public JSonWriter.ParametersItems parametersItems;
-        public JSonWriter.ParametersNpcs parametersNpcs;
-        private string playerProfile;
-        private string narrativeName;
 
-        public List<Room> RoomList
-        {
-            get
-            {
-                return roomList;
-            }
-
-            set
-            {
-                roomList = value;
-            }
-        }
-        public int DesiredKeys
-        {
-            get
-            {
-                return desiredKeys;
-            }
-            set
-            {
-                desiredKeys = value;
-            }
-        }
-        public float AvgChildren { get => avgChildren; set => avgChildren = value; }
-        public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
-        public string NarrativeName { get => narrativeName; set => narrativeName = value; }
-
-        public float fitness;
-
+        /// Dungeon constructor.
+        ///
+        /// Create and return a new dungeon with the starting room.
         public Dungeon()
         {
-            toVisit = new Queue();
-            RoomList = new List<Room>();
+            rooms = new List<Room>();
             Room root = RoomFactory.CreateRoot();
-            RoomList.Add(root);
-            toVisit.Enqueue(root);
-            roomGrid = new RoomGrid();
-            roomGrid[root.X, root.Y] = root;
-            neededRooms = 0;
-            neededLocks = 0;
-            fitness = -1;
+            Rooms.Add(root);
+            grid = new RoomGrid();
+            grid[root.x, root.y] = root;
+            lockIds = new List<int>();
+            keyIds = new List<int>();
+            minX = RoomGrid.LEVEL_GRID_OFFSET;
+            minY = RoomGrid.LEVEL_GRID_OFFSET;
+            maxX = -RoomGrid.LEVEL_GRID_OFFSET;
+            maxY = -RoomGrid.LEVEL_GRID_OFFSET;
         }
 
-        /*
-         * Makes a deep copy of the dungeon, also sets right the parent, children and neighbors of the copied rooms
-         * now that grid information is available
-         */
-        public Dungeon Copy()
+        /// Return a clone this dungeon.
+        public Dungeon Clone()
         {
-            Dungeon copyDungeon = new Dungeon();
-            copyDungeon.toVisit = new Queue();
-            copyDungeon.roomList = new List<Room>();
-            copyDungeon.roomGrid = new RoomGrid();
-            copyDungeon.nKeys = nKeys;
-            copyDungeon.nLocks = nLocks;
-            copyDungeon.desiredKeys = desiredKeys;
-            copyDungeon.avgChildren = avgChildren;
-            copyDungeon.fitness = fitness;
-            Room aux;
-            foreach (Room oldRoom in roomList)
+            Dungeon dungeon = new Dungeon();
+            dungeon.rooms = new List<Room>();
+            dungeon.grid = new RoomGrid();
+            foreach (Room old in rooms)
             {
-                aux = oldRoom.Copy();
-                copyDungeon.roomList.Add(aux);
-                copyDungeon.roomGrid[oldRoom.X, oldRoom.Y] = aux;
+                Room aux = old.Clone();
+                dungeon.rooms.Add(aux);
+                dungeon.grid[old.x, old.y] = aux;
             }
-            //Need to use the grid to copy the neighboors, children and parent
-            //Checks the position of the node in the grid and then substitutes the old room with the copied one
-            foreach (Room newRoom in copyDungeon.roomList)
+            dungeon.keyIds = new List<int>(keyIds);
+            dungeon.lockIds = new List<int>(lockIds);
+            dungeon.minX = minX;
+            dungeon.minY = minY;
+            dungeon.maxX = maxX;
+            dungeon.maxY = maxY;
+            // Need to use the grid to copy the neighboors, children and parent
+            // Check the position of the node in the grid and then substitute the old room with the copied one
+            foreach (Room room in dungeon.rooms)
             {
-                if (newRoom.Parent != null)
+                if (room.parent != null)
                 {
-                    newRoom.Parent = copyDungeon.roomGrid[newRoom.Parent.X, newRoom.Parent.Y];
+                    room.parent = dungeon.grid[room.parent.x, room.parent.y];
                 }
-                if (newRoom.RightChild != null)
+                if (room.right != null)
                 {
-                    newRoom.RightChild = copyDungeon.roomGrid[newRoom.RightChild.X, newRoom.RightChild.Y];
+                    room.right = dungeon.grid[room.right.x, room.right.y];
                 }
-                if (newRoom.BottomChild != null)
+                if (room.bottom != null)
                 {
-                    newRoom.BottomChild = copyDungeon.roomGrid[newRoom.BottomChild.X, newRoom.BottomChild.Y];
+                    room.bottom = dungeon.grid[room.bottom.x, room.bottom.y];
                 }
-                if (newRoom.LeftChild != null)
+                if (room.left != null)
                 {
-                    newRoom.LeftChild = copyDungeon.roomGrid[newRoom.LeftChild.X, newRoom.LeftChild.Y];
+                    room.left = dungeon.grid[room.left.x, room.left.y];
                 }
             }
-            return copyDungeon;
+            return dungeon;
         }
 
-        public void SetNarrativeParameters(JSonWriter.ParametersMonsters parametersMonsters,
-            JSonWriter.ParametersNpcs parametersNpcs, 
-            JSonWriter.ParametersItems parametersItems,
-            string playerProfile, string narrativeName)
+        /// Return the number of rooms of the dungeon.
+        public int GetNumberOfRooms()
         {
-            this.parametersItems = parametersItems;
-            this.parametersMonsters = parametersMonsters;
-            this.parametersNpcs = parametersNpcs;
-            PlayerProfile = playerProfile;
-            NarrativeName = narrativeName;
+            return rooms.Count;
         }
 
-        public void CalcAvgChildren()
+        /// Return the number of enemies of the dungeon.
+        public int GetNumberOfEnemies()
         {
-            avgChildren = 0.0f;
-            int childCount;
-            int childLess = 0;
-            foreach (Room room in RoomList)
+            int sum = 0;
+            foreach (Room room in rooms)
             {
-                childCount = 0;
-                if (room.RightChild != null && room.RightChild.Parent != null)
-                    childCount += 1;
-                if (room.LeftChild != null && room.LeftChild.Parent != null)
-                    childCount += 1;
-                if (room.BottomChild != null && room.BottomChild.Parent != null)
-                    childCount += 1;
-                if (childCount == 0)
-                    childLess++;
-                avgChildren += childCount;
+                sum += room.enemies;
             }
-            avgChildren /= (RoomList.Count - childLess);
+            return sum;
         }
 
-        /*
-         *  Instantiates a room and tries to add it as a child of the actual room, considering its direction and position
-         *  If there is not a room in the grid at the given coordinates, create the room, add it to the room list
-         *  and also enqueue it so it can be explored later
-         */
-        public void InstantiateRoom(ref Room child, ref Room actualRoom, Util.Direction dir)
+        /// Return the dungeon start room.
+        public Room GetStart()
         {
-            if (actualRoom.ValidateChild(dir, roomGrid))
+            return rooms[0];
+        }
+
+        /// Return the dungeon goal room.
+        public Room GetGoal()
+        {
+            if (goal != null)
             {
-                child = RoomFactory.CreateRoom();
-                //System.Console.WriteLine("Created! ID = " + child.RoomId);
-                actualRoom.InsertChild(dir, ref child, ref roomGrid);
-                //System.Console.WriteLine("Inserted! ID = " + child.RoomId);
-                child.ParentDirection = dir;
-                toVisit.Enqueue(child);
-                RoomList.Add(child);
-                roomGrid[child.X, child.Y] = child;
+                return goal;
             }
-        }
-
-        /*
-         * Removes the nodes that will be taken out of the dungeon from the dungeon's grid
-         */
-        public void RemoveFromGrid(Room cut)
-        {
-            if (cut != null)
+            foreach (Room room in rooms)
             {
-                roomGrid[cut.X, cut.Y] = null;
-                roomList.Remove(cut);
-                if (cut.LeftChild != null && cut.LeftChild.Parent != null && cut.LeftChild.Parent.Equals(cut))
+                if (room.type != RoomType.Locked) { continue; }
+                int _lock = lockIds.IndexOf(room.key);
+                if (_lock == lockIds.Count - 1)
                 {
-                    RemoveFromGrid(cut.LeftChild);
-                }
-                if (cut.BottomChild != null && cut.BottomChild.Parent != null && cut.BottomChild.Parent.Equals(cut))
-                {
-                    RemoveFromGrid(cut.BottomChild);
-                }
-
-                if (cut.RightChild != null && cut.RightChild.Parent != null && cut.RightChild.Parent.Equals(cut))
-                {
-                    RemoveFromGrid(cut.RightChild);
+                    goal = room;
                 }
             }
+            return goal;
         }
-        /*
-         * Updates the grid from the dungeon with the position of all the new rooms based on the new rotation of the traded room
-         * If a room already exists in the grid, "ignores" all the children node of this room
-         */
-        public void RefreshGrid(ref Room newRoom)
-        {
-            bool hasInserted;
-            if (newRoom != null)
+
+        /// Instantiate a room and tries to add it as a child of the actual
+        /// room, considering its direction and position. If there is not a
+        /// room in the grid at the entered coordinates, create the room, add
+        /// it to the room list and also enqueue it so it can be explored later.
+        private void InstantiateRoom(
+            ref Room child,
+            ref Room current,
+            Common.Direction dir,
+            ref Random rand
+        ) {
+            if (current.ValidateChild(dir, grid))
             {
-                roomGrid[newRoom.X, newRoom.Y] = newRoom;
-                roomList.Add(newRoom);
-                Room aux = newRoom.LeftChild;
-                if (aux != null && aux.Parent != null && aux.Parent.Equals(newRoom))
-                {
-                    hasInserted = newRoom.ValidateChild(Util.Direction.left, roomGrid);
-                    if (hasInserted)
-                    {
-                        newRoom.InsertChild(Util.Direction.left, ref aux, ref roomGrid);
-                        RefreshGrid(ref aux);
-                    }
-                    else
-                    {
-                        newRoom.LeftChild = null;
-                    }
-                }
-                aux = newRoom.BottomChild;
-                if (aux != null && aux.Parent != null && aux.Parent.Equals(newRoom))
-                {
-                    hasInserted = newRoom.ValidateChild(Util.Direction.down, roomGrid);
-                    if (hasInserted)
-                    {
-                        newRoom.InsertChild(Util.Direction.down, ref aux, ref roomGrid);
-                        RefreshGrid(ref aux);
-                    }
-                    else
-                    {
-                        newRoom.BottomChild = null;
-                    }
-                }
-                aux = newRoom.RightChild;
-                if (aux != null && aux.Parent != null && aux.Parent.Equals(newRoom))
-                {
-                    hasInserted = newRoom.ValidateChild(Util.Direction.right, roomGrid);
-                    if (hasInserted)
-                    {
-                        newRoom.InsertChild(Util.Direction.right, ref aux, ref roomGrid);
-                        RefreshGrid(ref aux);
-                    }
-                    else
-                        newRoom.RightChild = null;
-                }
+                child = RoomFactory.CreateRoom(ref rand);
+                current.InsertChild(ref grid, ref child, dir);
+                child.parentDirection = dir;
+                Rooms.Add(child);
+                grid[child.x, child.y] = child;
             }
         }
 
-        /*
-         * While a node (room) has not been visited, or while the max depth of the tree has not been reached, visit each node and create its children
-         */
-        public void GenerateRooms()
-        {
+        /// While a node (room) has not been visited, or while the max depth of the tree has not been reached, visit each node and create its children.
+        public void GenerateRooms(
+            ref Random _rand
+        ) {
+            Queue<Room> toVisit = new Queue<Room>();
+            toVisit.Enqueue(rooms[0]);
             int prob;
             while (toVisit.Count > 0)
             {
-                Room actualRoom = toVisit.Dequeue() as Room;
-                int actualDepth = actualRoom.Depth;
+                Room current = toVisit.Dequeue();
+                int actualDepth = current.depth;
                 //If max depth allowed has been reached, stop creating children
-                if (actualDepth > Constants.MAX_DEPTH)
+                if (actualDepth > MAX_DEPTH)
                 {
                     toVisit.Clear();
                     break;
                 }
                 //Check how many children the node will have, if any.
-                prob = Util.rnd.Next(100);
+                prob = Common.RandomPercent(ref _rand);
                 //Console.WriteLine(prob);
                 //The parent node has 100% chance to have children, then, at each height, 10% of chance to NOT have children is added.
                 //If a node has a child, create it with the RoomFactory, insert it as a child of the actual node in the right place
                 //Also enqueue it to be visited later and add it to the list of the rooms of this dungeon
-                if (prob <= (Constants.PROB_HAS_CHILD * (1 - actualDepth / (Constants.MAX_DEPTH + 1))))
+                if (prob <= (PROB_HAS_CHILD * (1 - actualDepth / (MAX_DEPTH + 1))))
                 {
                     Room child = null;
-                    Util.Direction dir = (Util.Direction)Util.rnd.Next(3);
-                    prob = Util.rnd.Next(101);
+                    Common.Direction dir = Common.RandomElementFromArray(Common.AllDirections(), ref _rand);
+                    prob = Common.RandomPercent(ref _rand);
 
-                    if (prob < Constants.PROB_1_CHILD)
+                    if (prob < PROB_CHILD)
                     {
-                        InstantiateRoom(ref child, ref actualRoom, dir);
+                        InstantiateRoom(ref child, ref current, dir, ref _rand);
                     }
-                    else if (prob < (Constants.PROB_1_CHILD + Constants.PROB_2_CHILD))
+                    else if (prob < PROB_CHILD * 2)
                     {
-                        InstantiateRoom(ref child, ref actualRoom, dir);
-                        Util.Direction dir2;
+                        InstantiateRoom(ref child, ref current, dir, ref _rand);
+                        Common.Direction dir2;
                         do
                         {
-                            dir2 = (Util.Direction)Util.rnd.Next(3);
+                            dir2 = Common.RandomElementFromArray(Common.AllDirections(), ref _rand);
                         } while (dir == dir2);
-                        InstantiateRoom(ref child, ref actualRoom, dir2);
+                        InstantiateRoom(ref child, ref current, dir2, ref _rand);
                     }
                     else
                     {
-                        InstantiateRoom(ref child, ref actualRoom, Util.Direction.right);
-                        InstantiateRoom(ref child, ref actualRoom, Util.Direction.down);
-                        InstantiateRoom(ref child, ref actualRoom, Util.Direction.left);
+                        InstantiateRoom(ref child, ref current, Common.Direction.Right, ref _rand);
+                        InstantiateRoom(ref child, ref current, Common.Direction.Down, ref _rand);
+                        InstantiateRoom(ref child, ref current, Common.Direction.Left, ref _rand);
+                    }
+                }
+                foreach (Room child in current.GetChildren())
+                {
+                    if (child != null && current.Equals(child.parent))
+                    {
+                        toVisit.Enqueue(child);
                     }
                 }
             }
-            nKeys = RoomFactory.AvailableLockId.Count + RoomFactory.UsedLockId.Count;
-            nLocks = RoomFactory.UsedLockId.Count;
+            FixLocksAndKeys();
         }
-        /*
-         * Recreates the room list by visiting all the rooms in the tree and adding them to the list while also counting the number of locks and keys
-         **/
-        public void FixRoomList()
-        {
+
+        /// Place enemies in random rooms.
+        public void PlaceEnemies(
+            int _enemies,
+            ref Random _rand
+        ) {
+            while (_enemies > 0)
+            {
+                int index = Common.RandomInt((1, rooms.Count - 1), ref _rand);
+                if (!rooms[index].Equals(GetGoal()))
+                {
+                    rooms[index].enemies++;
+                    _enemies--;
+                }
+            }
+        }
+
+        /// Add a lock and a key.
+        public void AddLockAndKey(
+            ref Random _rand
+        ) {
             Queue<Room> toVisit = new Queue<Room>();
-            toVisit.Enqueue(roomList[0]);
-            nKeys = 0;
-            nLocks = 0;
-            roomList.Clear();
-            while (toVisit.Count > 0)
-            {
-                Room actualRoom = toVisit.Dequeue() as Room;
-                roomList.Add(actualRoom);
-                if (actualRoom.Type == Type.key)
-                    nKeys++;
-                else if (actualRoom.Type == Type.locked)
-                    nLocks++;
-                if (actualRoom.LeftChild != null)
-                    toVisit.Enqueue(actualRoom.LeftChild);
-                if (actualRoom.BottomChild != null)
-                    toVisit.Enqueue(actualRoom.BottomChild);
-                if (actualRoom.RightChild != null)
-                    toVisit.Enqueue(actualRoom.RightChild);
-            }
-        }
-        /*
-         * Fixes a dungeons after crossover and mutation
-         * Just edit the room types using a breadth-first search algorithm with a similar algorithm as the one used
-         * to create the rooms
-         */
-        public void FixIndividual()
-        {
-            Room actualRoom;
-            Room child;
-            actualRoom = roomList[0];
-            toVisit.Clear();
-            toVisit.Enqueue(actualRoom);
-            RoomFactory.AvailableLockId.Clear();
-            RoomFactory.UsedLockId.Clear();
-
-            while (toVisit.Count > 0)
-            {
-                actualRoom = toVisit.Dequeue() as Room;
-
-                child = actualRoom.LeftChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    RoomFactory.RecreateRoom(ref child, desiredKeys);
-                    toVisit.Enqueue(child);
-                }
-                child = actualRoom.BottomChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    RoomFactory.RecreateRoom(ref child, desiredKeys);
-                    toVisit.Enqueue(child);
-                }
-                child = actualRoom.RightChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    RoomFactory.RecreateRoom(ref child, desiredKeys);
-                    toVisit.Enqueue(child);
-                }
-
-            }
-            nKeys = RoomFactory.AvailableLockId.Count + RoomFactory.UsedLockId.Count;
-            nLocks = RoomFactory.UsedLockId.Count;
-        }
-
-        /*
-         * Add lock and key
-         */
-        public void AddLockAndKey()
-        {
-            Room actualRoom;
-            Room child;
-            actualRoom = roomList[0];
-            toVisit.Clear();
-            toVisit.Enqueue(actualRoom);
+            toVisit.Enqueue(rooms[0]);
             bool hasKey = false;
             bool hasLock = false;
             int lockId = -1;
-
             while (toVisit.Count > 0 && !hasLock)
             {
-                actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.normal && !actualRoom.Equals(roomList[0]) && (Util.rnd.Next(101) <= (Constants.PROB_KEY_ROOM + Constants.PROB_LOCKER_ROOM)))
-                {
-                    if (!hasKey)
+                Room current = toVisit.Dequeue();
+                if (current.type == RoomType.Normal &&
+                    !current.Equals(rooms[0])
+                ) {
+                    float prob = Common.RandomPercent(ref _rand);
+                    float chance = RoomFactory.PROB_KEY_ROOM +
+                        RoomFactory.PROB_LOCKER_ROOM;
+                    if (chance >= prob)
                     {
-                        actualRoom.Type = Type.key;
-                        actualRoom.RoomId = Util.getNextId();
-                        actualRoom.KeyToOpen = actualRoom.RoomId;
-                        lockId = actualRoom.RoomId;
-                        hasKey = true;
-                        roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
+                        if (!hasKey)
+                        {
+                            current.id = Room.GetNextId();
+                            current.key = current.id;
+                            current.type = RoomType.Key;
+                            lockId = current.id;
+                            grid[current.x, current.y] = current;
+                            hasKey = true;
+                        }
+                        else
+                        {
+                            current.type = RoomType.Locked;
+                            current.key = lockId;
+                            grid[current.x, current.y] = current;
+                            hasLock = true;
+                        }
                     }
-                    else
+                }
+                foreach (Room child in current.GetChildren())
+                {
+                    if (child != null && current.Equals(child.parent))
                     {
-                        actualRoom.Type = Type.locked;
-                        actualRoom.KeyToOpen = lockId;
-                        hasLock = true;
-                        roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
+                        toVisit.Enqueue(child);
                     }
                 }
-                child = actualRoom.LeftChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-                child = actualRoom.BottomChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-                child = actualRoom.RightChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-
             }
         }
 
-        /*
-         * Add lock and key
-         */
-        public void RemoveLockAndKey()
-        {
-            int removeKey = Util.rnd.Next(nKeys);
-            int removeLock = removeKey;
-            Room actualRoom;
-            Room child;
-            actualRoom = roomList[0];
-            toVisit.Clear();
-            toVisit.Enqueue(actualRoom);
-            bool hasKey = false;
-            bool hasLock = false;
+        /// Remove a lock and a key.
+        public void RemoveLockAndKey(
+            ref Random _rand
+        ) {
+            // Choose a random key to remove and find its lock
+            int keyId = Common.RandomInt((0, keyIds.Count - 1), ref _rand);
             int lockId = -1;
             int keyCount = 0;
-
-            foreach (Room r in roomList)
+            foreach (Room room in rooms)
             {
-                if (r.Type == Type.key)
+                if (room.type == RoomType.Key)
                 {
-                    if (removeKey == keyCount)
-                        lockId = r.RoomId;
+                    if (keyId == keyCount)
+                    {
+                        lockId = room.id;
+                    }
                     keyCount++;
                 }
             }
-            //Console.WriteLine("Searching Id:" + lockId);
-            while ((toVisit.Count > 0) && (!hasLock || !hasKey))
+            // Remove the key
+            bool hasKey = false;
+            Queue<Room> toVisit = new Queue<Room>();
+            toVisit.Enqueue(rooms[0]);
+            while (toVisit.Count > 0 && !hasKey)
             {
-                actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.key && actualRoom.RoomId == lockId)
+                Room current = toVisit.Dequeue();
+                if (current.type == RoomType.Key)
                 {
-                    actualRoom.Type = Type.normal;
-                    actualRoom.KeyToOpen = -1;
-                    lockId = actualRoom.RoomId;
-                    roomGrid[actualRoom.X, actualRoom.Y] = actualRoom;
-                    hasKey = true;
+                    if (current.id == lockId)
+                    {
+                        current.type = RoomType.Normal;
+                        current.key = -1;
+                        grid[current.x, current.y] = current;
+                        hasKey = true;
+                    }
                 }
-                child = actualRoom.LeftChild;
-                if (child != null && actualRoom.Equals(child.Parent))
+                foreach (Room child in current.GetChildren())
                 {
-                    toVisit.Enqueue(child);
+                    if (child != null && current.Equals(child.parent))
+                    {
+                        toVisit.Enqueue(child);
+                    }
                 }
-                child = actualRoom.BottomChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-                child = actualRoom.RightChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-
             }
-
-            actualRoom = roomList[0];
+            // Remove the lock
+            bool hasLock = false;
             toVisit.Clear();
-            toVisit.Enqueue(actualRoom);
-
-            while ((toVisit.Count > 0) && !hasLock)
+            toVisit.Enqueue(rooms[0]);
+            while (toVisit.Count > 0 && !hasLock)
             {
-                actualRoom = toVisit.Dequeue() as Room;
-                if (actualRoom.Type == Type.locked && actualRoom.KeyToOpen == lockId)
+                Room current = toVisit.Dequeue();
+                if (current.type == RoomType.Locked)
                 {
-                    actualRoom.Type = Type.normal;
-                    actualRoom.KeyToOpen = -1;
-                    hasLock = true;
+                    if (current.key == lockId)
+                    {
+                        current.type = RoomType.Normal;
+                        current.key = -1;
+                        grid[current.x, current.y] = current;
+                        hasLock = true;
+                    }
                 }
-                child = actualRoom.LeftChild;
-                if (child != null && actualRoom.Equals(child.Parent))
+                foreach (Room child in current.GetChildren())
                 {
-                    toVisit.Enqueue(child);
+                    if (child != null && current.Equals(child.parent))
+                    {
+                        toVisit.Enqueue(child);
+                    }
                 }
-                child = actualRoom.BottomChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-                child = actualRoom.RightChild;
-                if (child != null && actualRoom.Equals(child.Parent))
-                {
-                    toVisit.Enqueue(child);
-                }
-
             }
-
-            nKeys -= Convert.ToInt32(hasKey);
-            nLocks -= Convert.ToInt32(hasLock);
         }
 
-        public void SetFitness(float fitness_)
+        /// Remove the nodes that will be taken out of the dungeon from the dungeon's grid.
+        public void RemoveFromGrid(Room cut)
         {
-            fitness = fitness_;
+            if (cut != null)
+            {
+                grid[cut.x, cut.y] = null;
+                rooms.Remove(cut);
+                if (cut.left != null && cut.left.parent != null && cut.left.parent.Equals(cut))
+                {
+                    RemoveFromGrid(cut.left);
+                }
+                if (cut.bottom != null && cut.bottom.parent != null && cut.bottom.parent.Equals(cut))
+                {
+                    RemoveFromGrid(cut.bottom);
+                }
+
+                if (cut.right != null && cut.right.parent != null && cut.right.parent.Equals(cut))
+                {
+                    RemoveFromGrid(cut.right);
+                }
+            }
+        }
+
+        /// Update the grid from the dungeon with the position of all the new rooms based on the new rotation of the traded room. If a room already exists in the grid, "ignores" all the children node of this room.
+        public void RefreshGrid(ref Room room)
+        {
+            bool hasInserted;
+            if (room != null)
+            {
+                grid[room.x, room.y] = room;
+                rooms.Add(room);
+                Room aux = room.left;
+                if (aux != null && aux.parent != null && aux.parent.Equals(room))
+                {
+                    hasInserted = room.ValidateChild(Common.Direction.Left, grid);
+                    if (hasInserted)
+                    {
+                        room.InsertChild(ref grid, ref aux, Common.Direction.Left);
+                        RefreshGrid(ref aux);
+                    }
+                    else
+                    {
+                        room.left = null;
+                    }
+                }
+                aux = room.bottom;
+                if (aux != null && aux.parent != null && aux.parent.Equals(room))
+                {
+                    hasInserted = room.ValidateChild(Common.Direction.Down, grid);
+                    if (hasInserted)
+                    {
+                        room.InsertChild(ref grid, ref aux, Common.Direction.Down);
+                        RefreshGrid(ref aux);
+                    }
+                    else
+                    {
+                        room.bottom = null;
+                    }
+                }
+                aux = room.right;
+                if (aux != null && aux.parent != null && aux.parent.Equals(room))
+                {
+                    hasInserted = room.ValidateChild(Common.Direction.Right, grid);
+                    if (hasInserted)
+                    {
+                        room.InsertChild(ref grid, ref aux, Common.Direction.Right);
+                        RefreshGrid(ref aux);
+                    }
+                    else
+                        room.right = null;
+                }
+            }
+        }
+
+        /// Recreate the room list by visiting all the rooms in the tree and adding them to the list while also counting the number of locks and keys.
+        public void Fix(
+            Parameters _prs,
+            ref Random _rand
+        ) {
+            FixRooms();
+            FixEnemies(_prs, ref _rand);
+            FixLocksAndKeys();
+            FixMissions(ref _rand);
+        }
+
+        /// Fix the list of rooms.
+        private void FixRooms()
+        {
+            Queue<Room> toVisit = new Queue<Room>();
+            toVisit.Enqueue(rooms[0]);
+            rooms.Clear();
+            while (toVisit.Count > 0)
+            {
+                Room current = toVisit.Dequeue();
+                rooms.Add(current);
+                foreach (Room child in current.GetChildren())
+                {
+                    if (child != null && current.Equals(child.parent))
+                    {
+                        toVisit.Enqueue(child);
+                    }
+                }
+            }
+        }
+
+        /// Update the lists of keys and locks, and the grid limits.
+        private void FixLocksAndKeys()
+        {
+            keyIds.Clear();
+            lockIds.Clear();
+            minX = RoomGrid.LEVEL_GRID_OFFSET;
+            minY = RoomGrid.LEVEL_GRID_OFFSET;
+            maxX = -RoomGrid.LEVEL_GRID_OFFSET;
+            maxY = -RoomGrid.LEVEL_GRID_OFFSET;
+            foreach (Room room in rooms)
+            {
+                // Update grid bounds
+                minX = minX > room.x ? room.x : minX;
+                minY = minY > room.y ? room.y : minY;
+                maxX = room.x > maxX ? room.x : maxX;
+                maxY = room.y > maxY ? room.y : maxY;
+                // Find the keys and locked doors in the level
+                if (room.type == RoomType.Key)
+                {
+                    keyIds.Add(room.key);
+                }
+                if (room.type == RoomType.Locked)
+                {
+                    lockIds.Add(room.key);
+                }
+            }
+        }
+
+        /// Add a lock if the dungeon has none.
+        private void FixMissions(
+            ref Random _rand
+        ) {
+            if (lockIds.Count == 0)
+            {
+                if (keyIds.Count != 0)
+                {
+                    RemoveLockAndKey(ref _rand);
+                }
+                AddLockAndKey(ref _rand);
+                FixLocksAndKeys();
+            }
+        }
+
+        /// Fix the number of enemies and enemy distribution.
+        private void FixEnemies(
+            Parameters _prs,
+            ref Random _rand
+        ) {
+            // Get the total number of enemies
+            int tEnemies = 0;
+            foreach (Room room in rooms)
+            {
+                tEnemies += room.enemies;
+            }
+            // Remove enemies from the goal room and place them in other rooms
+            if (GetGoal() != null && goal.enemies > 0)
+            {
+                Redistribute(_prs.enemies, goal.enemies);
+                goal.enemies = 0;
+            }
+            if (_prs.enemies > tEnemies)
+            {
+                Redistribute(_prs.enemies, _prs.enemies - tEnemies);
+            }
+            else if (tEnemies > _prs.enemies)
+            {
+                RemoveEnemies(_prs.enemies, tEnemies - _prs.enemies);
+            }
+        }
+
+        /// Redistribute enemies from hard rooms to easier rooms.
+        ///
+        /// This method may change the dungeon leniency.
+        private void Redistribute(
+            int _enemies,
+            int _redistribute
+        ) {
+            // Calculate the mean number of enemies by room
+            int mean = _enemies / rooms.Count;
+            // Get the rooms with less enemies than the mean
+            List<int> easy = new List<int>();
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].Equals(rooms[0]) || rooms[i].Equals(GetGoal()))
+                {
+                    continue;
+                }
+                if (mean >= rooms[i].enemies && rooms[i].enemies > 0)
+                {
+                    easy.Add(i);
+                }
+            }
+            // If the list of easy rooms is empty, then add all non-empty rooms
+            if (easy.Count == 0)
+            {
+                for (int i = 0; i < rooms.Count; i++)
+                {
+                    if (rooms[i].Equals(rooms[0]) || rooms[i].Equals(GetGoal()))
+                    {
+                        continue;
+                    }
+                    if (rooms[i].enemies > 0)
+                    {
+                        easy.Add(i);
+                    }
+                }
+            }
+            // If the list of easy rooms is empty, then add all empty rooms
+            if (easy.Count == 0)
+            {
+                for (int i = 0; i < rooms.Count; i++)
+                {
+                    if (rooms[i].Equals(rooms[0]) || rooms[i].Equals(GetGoal()))
+                    {
+                        continue;
+                    }
+                    if (rooms[i].enemies == 0)
+                    {
+                        easy.Add(i);
+                    }
+                }
+            }
+            // Redistribute enemies in easier rooms
+            int r = 0;
+            while (_redistribute > 0)
+            {
+                // Add an enemy in the room
+                int index = easy[r++];
+                Room room = rooms[index];
+                room.enemies++;
+                _redistribute--;
+                // If enemies are remaining and the last room have been
+                // reached, then back to the first room
+                if (r == easy.Count) {
+                    r = 0;
+                }
+            }
+        }
+
+        /// Remove enemies from random rooms.
+        ///
+        /// This method does not change the dungeon leniency.
+        public void RemoveEnemies(
+            int _enemies,
+            int _remove
+        ) {
+            // Calculate the mean number of enemies by room
+            int mean = _enemies / rooms.Count;
+            // Get the harder rooms (rooms with more enemies than the mean)
+            List<int> hard = new List<int>();
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].enemies > mean)
+                {
+                    hard.Add(i);
+                }
+            }
+            // If the list of hard rooms is empty, then add all non-empty rooms
+            if (hard.Count == 0)
+            {
+                for (int i = 0; i < rooms.Count; i++)
+                {
+                    if (rooms[i].enemies > 0)
+                    {
+                        hard.Add(i);
+                    }
+                }
+            }
+            // Remove enemies from the harder rooms
+            int r = 0;
+            while (_remove > 0)
+            {
+                // Remove an enemy from the room
+                int index = hard[r++];
+                Room room = rooms[index];
+                if (room.enemies > 0)
+                {
+                    room.enemies--;
+                    _remove--;
+                }
+                // If enemies are remaining and the last room have been
+                // reached, then back to the first room
+                if (r == hard.Count)
+                {
+                    r = 0;
+                }
+            }
         }
 
         public void SetBoundariesFromRoomList()
         {
-            int minX, minY, maxX, maxY;
-            minX = Constants.MATRIXOFFSET;
-            minY = Constants.MATRIXOFFSET;
-            maxX = -Constants.MATRIXOFFSET;
-            maxY = -Constants.MATRIXOFFSET;
-
-            foreach (Room room in roomList)
-            {
-                if (room.X < minX)
-                {
-                    minX = room.X;
-                }
-
-                if (room.Y < minY)
-                {
-                    minY = room.Y;
-                }
-
-                if (room.X > maxX)
-                {
-                    maxX = room.X;
-                }
-
-                if (room.Y > maxY)
-                {
-                    maxY = room.Y;
-                }
-            }
             Coordinates minBoundaries, maxBoundaries;
             minBoundaries = new Coordinates(minX, minY);
             maxBoundaries = new Coordinates(maxX, maxY);
@@ -562,6 +666,27 @@ namespace LevelGenerator
             int height = boundaries.MaxBoundaries.Y - boundaries.MinBoundaries.Y + 1;
             dimensions = new Dimensions(width, height);
         }
-    }
 
+        // # Code snippet intended only for writing the generated level
+
+        public JSonWriter.ParametersMonsters parametersMonsters;
+        public JSonWriter.ParametersItems parametersItems;
+        public JSonWriter.ParametersNpcs parametersNpcs;
+        private string playerProfile;
+        private string narrativeName;
+        public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
+        public string NarrativeName { get => narrativeName; set => narrativeName = value; }
+
+        public void SetNarrativeParameters(JSonWriter.ParametersMonsters parametersMonsters,
+            JSonWriter.ParametersNpcs parametersNpcs,
+            JSonWriter.ParametersItems parametersItems,
+            string playerProfile, string narrativeName)
+        {
+            this.parametersItems = parametersItems;
+            this.parametersMonsters = parametersMonsters;
+            this.parametersNpcs = parametersNpcs;
+            PlayerProfile = playerProfile;
+            NarrativeName = narrativeName;
+        }
+    }
 }

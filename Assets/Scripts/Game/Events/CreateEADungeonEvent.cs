@@ -18,11 +18,12 @@ public class CreateEADungeonEventArgs : EventArgs
         ParametersItems = null;
         ParametersNpcs = null;
     }
-    public CreateEADungeonEventArgs(JSonWriter.ParametersDungeon parametersDungeon, 
-        JSonWriter.ParametersMonsters parametersMonsters, JSonWriter.ParametersItems parametersItems, 
+    public CreateEADungeonEventArgs(JSonWriter.ParametersDungeon parametersDungeon,
+        JSonWriter.ParametersMonsters parametersMonsters, JSonWriter.ParametersItems parametersItems,
             JSonWriter.ParametersNpcs parametersNpcs, string playerProfile, string narrativeName)
     {
-        Fitness = new Fitness(parametersDungeon.size, parametersDungeon.nKeys, parametersDungeon.nKeys, parametersDungeon.linearity);
+        int enemies = 30;
+        Fitness = new Fitness(parametersDungeon.size, parametersDungeon.nKeys, parametersDungeon.nKeys, enemies, parametersDungeon.linearity);
         ParametersMonsters = parametersMonsters;
         ParametersNpcs = parametersNpcs;
         ParametersItems = parametersItems;
