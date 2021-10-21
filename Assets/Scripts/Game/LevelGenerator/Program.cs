@@ -86,12 +86,26 @@ namespace LevelGenerator
 
         IEnumerator PrintAndSaveDungeonWhenFinished(Thread t)
         {
+            // Wait until the dungeons were generated
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
-            // TODO: for in the solution
-            // dungeon.SetNarrativeParameters(parametersMonsters, parametersNpcs, parametersItems, playerProfile, narrativeName);
-            // Interface.PrintNumericalGridWithConnections(dungeon, fitness, treasureRuntimeSetSO);
+            // Write all the generated dungeons in ScriptableObjects
+            Population solution = generator.GetSolution();
+            for (int e = 0; e < solution.dimension.exp; e++)
+            {
+                for (int l = 0; l < solution.dimension.len; l++)
+                {
+                    Individual individual = solution.map[e, l];
+                    if (individual != null)
+                    {
+                        individual.dungeon.SetNarrativeParameters(parametersMonsters, parametersNpcs, parametersItems, playerProfile, narrativeName);
+                        Interface.PrintNumericalGridWithConnections(individual, fitness, treasureRuntimeSetSO);
+                    }
+                }
+            }
             Debug.Log("The dungeons were printed!");
+            // Set the first level as the option to be played in the scene
+            aux = solution.map[0, 0].dungeon;
         }
 
         public void Evolve()

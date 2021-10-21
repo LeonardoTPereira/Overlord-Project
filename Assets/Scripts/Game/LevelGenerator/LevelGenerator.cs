@@ -92,7 +92,7 @@ namespace LevelGenerator
             while ((end - start).TotalSeconds < prs.time)
             {
                 List<Individual> intermediate = new List<Individual>();
-                while(intermediate.Count < INTERMEDIATE_POPULATION)
+                while (intermediate.Count < INTERMEDIATE_POPULATION)
                 {
                     // Apply the crossover operation
                     Individual[] parents = Selection.Select(

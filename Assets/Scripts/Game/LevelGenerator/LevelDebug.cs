@@ -83,7 +83,7 @@ namespace LevelGenerator
             {
                 for (int j = 0; j < 2 * sizeY; j++)
                 {
-                    map[i, j] = (int) Common.RoomCode.E;
+                    map[i, j] = Common.RoomType.NOTHING;
                 }
             }
 
@@ -100,7 +100,7 @@ namespace LevelGenerator
                     {
                         if (current.type == RoomType.Normal)
                         {
-                            map[iep, jep] = (int) Common.RoomCode.N;
+                            map[iep, jep] = Common.RoomType.EMPTY;
                         }
                         // The key ID is the sequential positive index
                         else if (current.type == RoomType.Key)
@@ -117,11 +117,11 @@ namespace LevelGenerator
                             int _lock = _dungeon.lockIds.IndexOf(current.key);
                             if (_lock == _dungeon.lockIds.Count - 1)
                             {
-                                map[iep, jep] = (int) Common.RoomCode.B;
+                                map[iep, jep] = Common.RoomType.BOSS;
                             }
                             else
                             {
-                                map[iep, jep] = (int) Common.RoomCode.N;
+                                map[iep, jep] = Common.RoomType.EMPTY;
                             }
                         }
                         // If the current room is a locked room and has a
@@ -140,12 +140,12 @@ namespace LevelGenerator
                                 // Then, the corridor is locked
                                 int _key = _dungeon.keyIds.IndexOf(current.key);
                                 map[x, y] = _key != -1 ? -(_key + 1) :
-                                    (int) Common.RoomCode.E;
+                                    Common.RoomType.NOTHING;
                             }
                             else
                             {
                                 // Otherwise it is an usual corridor
-                                map[x, y] = (int) Common.RoomCode.C;
+                                map[x, y] = Common.RoomType.CORRIDOR;
                             }
                         }
                     }
@@ -161,7 +161,7 @@ namespace LevelGenerator
                     // Set the room color
                     SetRoomColor(map[i, j]);
                     // Check room cores and print the corresponding string code
-                    if (map[i, j] == (int) Common.RoomCode.E)
+                    if (map[i, j] == Common.RoomType.NOTHING)
                     {
                         Console.Write("  ");
                     }
@@ -171,11 +171,11 @@ namespace LevelGenerator
                         {
                             Console.Write(" s");
                         }
-                        else if (map[i, j] == (int) Common.RoomCode.C)
+                        else if (map[i, j] == Common.RoomType.CORRIDOR)
                         {
                             Console.Write(" c");
                         }
-                        else if (map[i, j] == (int) Common.RoomCode.B)
+                        else if (map[i, j] == Common.RoomType.BOSS)
                         {
                             Console.Write(" B");
                         }
@@ -206,7 +206,7 @@ namespace LevelGenerator
             {
                 for (int j = 0; j < 2 * sizeY; j++)
                 {
-                    map[i, j] = (int) Common.RoomCode.E;
+                    map[i, j] = Common.RoomType.NOTHING;
                 }
             }
 
@@ -238,12 +238,12 @@ namespace LevelGenerator
                                 // Then, the corridor is locked
                                 int _key = _dungeon.keyIds.IndexOf(current.key);
                                 map[x, y] = _key != -1 ? -(_key + 1) :
-                                    (int) Common.RoomCode.E;
+                                    Common.RoomType.NOTHING;
                             }
                             else
                             {
                                 // Otherwise it is an usual corridor
-                                map[x, y] = (int) Common.RoomCode.C;
+                                map[x, y] = Common.RoomType.CORRIDOR;
                             }
                         }
                     }
@@ -259,7 +259,7 @@ namespace LevelGenerator
                     // Set the room color
                     SetRoomColor(map[i, j]);
                     // Check room cores and print the corresponding string code
-                    if (map[i, j] == (int) Common.RoomCode.E)
+                    if (map[i, j] == Common.RoomType.NOTHING)
                     {
                         Console.Write("  ");
                     }
@@ -269,11 +269,11 @@ namespace LevelGenerator
                         {
                             Console.Write(" s");
                         }
-                        else if (map[i, j] == (int) Common.RoomCode.C)
+                        else if (map[i, j] == Common.RoomType.CORRIDOR)
                         {
                             Console.Write(" c");
                         }
-                        else if (map[i, j] == (int) Common.RoomCode.B)
+                        else if (map[i, j] == Common.RoomType.BOSS)
                         {
                             Console.Write(" B");
                         }
@@ -296,22 +296,22 @@ namespace LevelGenerator
             int _code
         ) {
             // If the room is a room
-            if (_code == (int) Common.RoomCode.N)
+            if (_code == Common.RoomType.EMPTY)
             {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
             }
             // If the room is a boss room
-            else if (_code == (int) Common.RoomCode.B)
+            else if (_code == Common.RoomType.BOSS)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
             }
             // If the room is a corridor
-            else if (_code == (int) Common.RoomCode.C)
+            else if (_code == Common.RoomType.CORRIDOR)
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
             }
             // If there is no room
-            else if (_code == (int) Common.RoomCode.E)
+            else if (_code == Common.RoomType.NOTHING)
             {
                 Console.ForegroundColor = ConsoleColor.White;
             }

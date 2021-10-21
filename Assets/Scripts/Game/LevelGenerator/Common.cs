@@ -33,7 +33,7 @@ namespace LevelGenerator
         }
 
         /// Define the room codes for printing purposes.
-        public static class RoomCode
+        public static class RoomType
         {
             public static readonly int EMPTY = 0;
             public static readonly int CORRIDOR = 100;
