@@ -47,7 +47,7 @@ namespace LevelGenerator
                     }
                 }
 
-                //Check all adjacent squares from the curret node
+                // Check all adjacent squares from the current node
                 var adjacentSquares = GetWalkableAdjacentSquares(current.X, current.Y, sizeX, sizeY, map);
 
                 int value = _rand.Next();

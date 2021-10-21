@@ -77,7 +77,7 @@ namespace LevelGenerator
         {
             linearCoefficient = 0f;
             int leafs = 0;
-            foreach (Room room in dungeon.Rooms)
+            foreach (Room room in dungeon.rooms)
             {
                 int childs = 0;
                 if (room.right != null && room.right.parent != null)
@@ -98,7 +98,7 @@ namespace LevelGenerator
                 }
                 linearCoefficient += childs;
             }
-            int total = dungeon.Rooms.Count;
+            int total = dungeon.rooms.Count;
             linearCoefficient = linearCoefficient / (total - leafs);
         }
 

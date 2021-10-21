@@ -19,6 +19,12 @@ namespace LevelGenerator
         /// The evolutionary process' collected data.
         private Data data;
 
+        /// Return the found MAP-Elites population.
+        public Population Solution { get => solution; }
+
+        /// Return the collected data from the evolutionary process.
+        public Data Data { get => data; }
+
 
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent eventHandler;
@@ -33,18 +39,6 @@ namespace LevelGenerator
             data = new Data();
             data.parameters = prs;
             eventHandler = _eventHandler;
-        }
-
-        /// Return the collected data from the evolutionary process.
-        public Data GetData()
-        {
-            return data;
-        }
-
-        /// Return the found MAP-Elites population.
-        public Population GetSolution()
-        {
-            return solution;
         }
 
         /// Generate and return a set of levels.

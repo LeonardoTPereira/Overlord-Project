@@ -80,7 +80,7 @@ namespace LevelGenerator
             DungeonFileSO dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSO>();
 
             //saves where the dungeon grid begins and ends in each direction
-            foreach (Room room in dun.Rooms)
+            foreach (Room room in dun.rooms)
             {
                 if (room.type == RoomType.Key)
                     {

@@ -90,7 +90,7 @@ namespace LevelGenerator
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
             // Write all the generated dungeons in ScriptableObjects
-            Population solution = generator.GetSolution();
+            Population solution = generator.Solution;
             for (int e = 0; e < solution.dimension.exp; e++)
             {
                 for (int l = 0; l < solution.dimension.len; l++)

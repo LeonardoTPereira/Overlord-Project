@@ -110,15 +110,15 @@ public class Fitness
             }
             _individual.neededRooms = neededRooms / 3.0f;
             // Validate the calculated number of needed rooms
-            if (_individual.neededRooms > dungeon.Rooms.Count)
+            if (_individual.neededRooms > dungeon.rooms.Count)
             {
                 throw new Exception("Inconsistency! The number of " +
                     "needed rooms is higher than the number of total " +
                     "rooms of the level." +
-                    "\n  Total rooms=" + dungeon.Rooms.Count +
+                    "\n  Total rooms=" + dungeon.rooms.Count +
                     "\n  Needed rooms=" + _individual.neededRooms);
             }
-            float fNeededRooms = dungeon.Rooms.Count -
+            float fNeededRooms = dungeon.rooms.Count -
                 _individual.neededRooms;
             _individual.fNeededRooms = fNeededRooms;
             // Update the fitness by summing the number of needed rooms and

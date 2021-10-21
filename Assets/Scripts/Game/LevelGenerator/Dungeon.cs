@@ -47,7 +47,7 @@ namespace LevelGenerator
         {
             rooms = new List<Room>();
             Room root = RoomFactory.CreateRoot();
-            Rooms.Add(root);
+            rooms.Add(root);
             grid = new RoomGrid();
             grid[root.x, root.y] = root;
             lockIds = new List<int>();
@@ -157,7 +157,7 @@ namespace LevelGenerator
                 child = RoomFactory.CreateRoom(ref rand);
                 current.InsertChild(ref grid, ref child, dir);
                 child.parentDirection = dir;
-                Rooms.Add(child);
+                rooms.Add(child);
                 grid[child.x, child.y] = child;
             }
         }

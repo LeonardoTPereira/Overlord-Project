@@ -47,9 +47,9 @@ namespace LevelGenerator
                 dungeon2 = _parent2.dungeon.Clone();
                 // Get a random node from the parent as the root of the branch
                 // that will be traded
-                (int, int) range = (1, dungeon1.Rooms.Count - 1);
+                (int, int) range = (1, dungeon1.rooms.Count - 1);
                 int index = Common.RandomInt(range, ref _rand);
-                roomCut1 = dungeon1.Rooms[index];
+                roomCut1 = dungeon1.rooms[index];
                 // Calculate the number of keys, locks and rooms in the branch
                 // of the cut point in dungeon 1
                 CalculateBranchRooms(ref nRooms1, ref missions1, roomCut1);
@@ -62,16 +62,18 @@ namespace LevelGenerator
                 {
                     do
                     {
-                        range = (1, dungeon2.Rooms.Count - 1);
+                        range = (1, dungeon2.rooms.Count - 1);
                         index = Common.RandomInt(range, ref _rand);
-                        roomCut2 = dungeon2.Rooms[index];
+                        roomCut2 = dungeon2.rooms[index];
                     } while (failedRooms.Contains(roomCut2));
                     // Add the cut room in the list of failed rooms
                     failedRooms.Add(roomCut2);
                     // If no room can be the cut point, then the crossover
                     // operation is impossible
-                    if (failedRooms.Count == dungeon2.Rooms.Count - 1)
+                    if (failedRooms.Count == dungeon2.rooms.Count - 1)
+                    {
                         isImpossible = true;
+                    }
                     // Calculate the number of keys, locks and rooms in the
                     // branch of the cut point in dungeon 2
                     CalculateBranchRooms(ref nRooms2, ref missions2, roomCut2);

@@ -15,7 +15,7 @@ namespace LevelGenerator
             string _indent
         ) {
             // Get tree root
-            Room root = _dungeon.Rooms[0];
+            Room root = _dungeon.rooms[0];
             // This list holds lists of nodes children
             List<List<Room>> stacks = new List<List<Room>>();
             // Add the root in the list of stacks
