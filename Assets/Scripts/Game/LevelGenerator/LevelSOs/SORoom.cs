@@ -12,10 +12,10 @@ public class SORoom
     public string type;
     public List<int> keys;
     public List<int> locks;
-    private int enemies = -1;
-    private int treasures = -1;
-    private int enemyType = -1;
-    private int npcs = -1;
+    public int enemies = -1;
+    public int treasures = -1;
+    public int enemyType = -1;
+    public int npcs = -1;
 
     [DefaultValue(-1)]
     public int Enemies { get => enemies; set => enemies = value; }
