@@ -128,9 +128,9 @@ namespace LevelGenerator
                 }
 
                 // Place the offspring in the MAP-Elites population
-                for (int i = 0; i < intermediate.Count; i++)
+                foreach (Individual individual in intermediate)
                 {
-                    pop.PlaceIndividual(intermediate[i]);
+                    pop.PlaceIndividual(individual);
                 }
 
                 g++;

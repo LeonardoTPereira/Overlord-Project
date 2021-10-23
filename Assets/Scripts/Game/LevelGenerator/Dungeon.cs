@@ -19,9 +19,6 @@ namespace LevelGenerator
         public RoomGrid grid;
         /// The list of rooms (easier to add neighbors).
         public List<Room> rooms;
-
-        /// The goal room.
-        private Room goal = null;
         /// The list of dungeon key IDs.
         public List<int> keyIds;
         /// The list of locked room IDs.
@@ -126,10 +123,7 @@ namespace LevelGenerator
         /// Return the dungeon goal room.
         public Room GetGoal()
         {
-            if (goal != null)
-            {
-                return goal;
-            }
+            Room goal = null;
             foreach (Room room in rooms)
             {
                 if (room.type != RoomType.Locked) { continue; }
@@ -432,15 +426,17 @@ namespace LevelGenerator
             }
         }
 
-        /// Recreate the room list by visiting all the rooms in the tree and adding them to the list while also counting the number of locks and keys.
+        /// Recreate the room list by visiting all the rooms in the tree and
+        /// adding them to the list while also counting the number of locks and
+        /// keys.
         public void Fix(
             Parameters _prs,
             ref Random _rand
         ) {
             FixRooms();
-            FixEnemies(_prs, ref _rand);
-            FixLocksAndKeys();
             FixMissions(ref _rand);
+            FixLocksAndKeys();
+            FixEnemies(_prs);
         }
 
         /// Fix the list of rooms.
@@ -460,6 +456,20 @@ namespace LevelGenerator
                         toVisit.Enqueue(child);
                     }
                 }
+            }
+        }
+
+        /// Add a lock if the dungeon has none.
+        private void FixMissions(
+            ref Random _rand
+        ) {
+            if (lockIds.Count == 0)
+            {
+                if (keyIds.Count != 0)
+                {
+                    RemoveLockAndKey(ref _rand);
+                }
+                AddLockAndKey(ref _rand);
             }
         }
 
@@ -491,38 +501,18 @@ namespace LevelGenerator
             }
         }
 
-        /// Add a lock if the dungeon has none.
-        private void FixMissions(
-            ref Random _rand
-        ) {
-            if (lockIds.Count == 0)
-            {
-                if (keyIds.Count != 0)
-                {
-                    RemoveLockAndKey(ref _rand);
-                }
-                AddLockAndKey(ref _rand);
-                FixLocksAndKeys();
-            }
-        }
-
         /// Fix the number of enemies and enemy distribution.
         private void FixEnemies(
-            Parameters _prs,
-            ref Random _rand
+            Parameters _prs
         ) {
-            // Get the total number of enemies
-            int tEnemies = 0;
-            foreach (Room room in rooms)
-            {
-                tEnemies += room.enemies;
-            }
             // Remove enemies from the goal room and place them in other rooms
-            if (GetGoal() != null && goal.enemies > 0)
+            Room goal = GetGoal();
+            if (goal != null && goal.enemies > 0)
             {
-                Redistribute(_prs.enemies, goal.enemies);
                 goal.enemies = 0;
             }
+            // Get the total number of enemies
+            int tEnemies = GetNumberOfEnemies();
             if (_prs.enemies > tEnemies)
             {
                 Redistribute(_prs.enemies, _prs.enemies - tEnemies);
