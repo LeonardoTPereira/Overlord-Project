@@ -5,9 +5,18 @@ using UnityEngine;
 
 public class Get : NonTerminalQuest
 {
+    private const int chance = 1/3;
     public Get(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.8f;
+    }
+
+    public override void DefineEdges ()
+    {
+        // edges = AddEdge( edges, ChestQuestSO, chance );
+        edges = AddEdges( edges, GetQuestSO, chance );
+        edges = AddEdge( edges, DropQuestSO, chance );
+        edges = AddEdge( edges, ItemQuestSO, chance );
     }
 
     protected override void DefineNextQuest(Manager m)

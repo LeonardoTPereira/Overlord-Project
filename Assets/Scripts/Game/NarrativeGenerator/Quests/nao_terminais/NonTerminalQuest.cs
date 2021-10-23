@@ -3,7 +3,7 @@ using Game.NarrativeGenerator;
 using UnityEngine;
 using static Util;
 
-public abstract class NonTerminalQuest
+public abstract class NonTerminalQuest : MarkovChain.Node
 {
     protected float r;
     protected int lim;

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 namespace Game.NarrativeGenerator.Quests
 {
-    public abstract class QuestSO : ScriptableObject
+    public abstract class QuestSO : ScriptableObject, MarkovChain.Node
     {
         private QuestSO nextWhenSuccess;
         private QuestSO nextWhenFailure;

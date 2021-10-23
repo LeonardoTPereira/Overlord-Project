@@ -38,11 +38,6 @@ namespace Game.NarrativeGenerator
 
         public PlayerProfileEnum Select(Manager m, List<int> answers)
         {
-            //pesos[0] = 3; //peso talk
-            //pesos[1] = 7; //peso get
-            //pesos[2] = 1; //peso kill
-            //pesos[3] = 5; //peso explore
-
             weightCalculator(answers);
 
             DrawMissions(m);
@@ -125,29 +120,51 @@ namespace Game.NarrativeGenerator
 
         private void weightCalculator(List<int> answers)
         {
+            float maxQuestionWeight = 5;
+            // Kill questions = 5, 6;
+            // Explore questions = 7, 8;
+            // Get questions = 9;
+            // Talk questions = 10, 11;
+            // Puzzle questions = 12, 13;
+
+            float killWeight = ( answers[5] + answers[6] )/ ( maxQuestionWeight * 2 );
+            killWeight = float.IsNaN( killWeight ) ? 0 : killWeight;
+
+            float exploreWeight = ( answers[7] + answers[7] )/ ( maxQuestionWeight * 2 );
+            exploreWeight = float.IsNaN(exploreWeight ) ? 0 : exploreWeight;
+
+            float getWeight = ( answers[9] )/ ( maxQuestionWeight );
+            getWeight = float.IsNaN(getWeight ) ? 0 : getWeight;
+
+            float talkWeight = ( answers[10] + answers[11] )/ ( maxQuestionWeight * 2 );
+            talkWeight = float.IsNaN(talkWeight ) ? 0 : talkWeight;
+
+            //float puzzleWeight = ( answers[12] + answers[13] )/ ( maxQuestionWeight * 2 );
+            //puzzleWeight = float.IsNaN(puzzleWeight ) ? 0 : puzzleWeight;
+
             int[] pesos = new int[4];
 
-            for (int i = 2; i < 12; i++)
-            {
-                if (i == 2 || i == 3 || i == 4) pesos[2] += answers[i];
-                else if (i == 5 || i == 6) pesos[3] += answers[i];
-                else if (i == 7 || i == 8) pesos[1] += answers[i];
-                else if (i == 9 || i == 10) pesos[0] += answers[i];
-                else
-                {
-                    pesos[3] -= answers[i];
-                    pesos[1] -= answers[i];
-                    pesos[0] -= answers[i];
-                }
-            }
+            // for (int i = 2; i < 12; i++)
+            // {
+            //     if (i == 2 || i == 3 || i == 4) pesos[2] += answers[i];
+            //     else if (i == 5 || i == 6) pesos[3] += answers[i];
+            //     else if (i == 7 || i == 8) pesos[1] += answers[i];
+            //     else if (i == 9 || i == 10) pesos[0] += answers[i];
+            //     else
+            //     {
+            //         pesos[3] -= answers[i];
+            //         pesos[1] -= answers[i];
+            //         pesos[0] -= answers[i];
+            //     }
+            // }
 
-            questWeights.Add(new QuestWeight(TALK_QUEST, pesos[0]));
-            questWeights.Add(new QuestWeight(GET_QUEST, pesos[1]));
-            questWeights.Add(new QuestWeight(KILL_QUEST, pesos[2]));
-            questWeights.Add(new QuestWeight(EXPLORE_QUEST, pesos[3]));
+            questWeights.Add(new QuestWeight(TALK_QUEST, talkWeight));
+            questWeights.Add(new QuestWeight(GET_QUEST, getWeight));
+            questWeights.Add(new QuestWeight(KILL_QUEST, killWeight));
+            questWeights.Add(new QuestWeight(EXPLORE_QUEST, exploreWeight));
 
             questWeights = questWeights.OrderBy(x => x.weight).ToList();
-
+            // Daqui pra baixo é simplesmente ??
             for (int i = 0; i < questWeights.Count; ++i)
             {
                 questWeights[i].weight = WEIGHTS[i];
