@@ -88,7 +88,6 @@
      <Compile Include="Assets\Scripts\Game\GameManager\Healer.cs" />
      <Compile Include="Assets\Scripts\Game\LuanaPaolo\Quest.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager\LevelDescriptionDialogueBHV.cs" />
-     <Compile Include="Assets\Scripts\Game\LevelGenerator\Util.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\Selection.cs" />
      <Compile Include="Assets\Scripts\Game\LevelGenerator\PathFinding.cs" />
      <Compile Include="Assets\Scripts\Game\Events\KeyCollectEvent.cs" />
