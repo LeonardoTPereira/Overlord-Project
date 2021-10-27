@@ -5,12 +5,12 @@
     public const int crossChance = 99;
     public const int mutChance = 10;
     public static int maxGenerations = 30;
-    public static float desiredFitness;
-    public const float veryEasyFitness = 10.0f;
-    public const float easyFitness = 14.0f;
-    public const float mediumFitness = 18.0f;
-    public const float hardFitness = 22f;
-    public const float veryHardFitness = 26f;
+    public static float desiredDifficulty;
+    public const float veryEasyDifficulty = 10.0f;
+    public const float easyDifficulty = 14.0f;
+    public const float mediumDifficulty = 18.0f;
+    public const float hardDifficulty = 22f;
+    public const float veryHardDifficulty = 26f;
     public const int nBestEnemies = 20;
     public const int minDamage = 1;
     public const int maxDamage = 4;

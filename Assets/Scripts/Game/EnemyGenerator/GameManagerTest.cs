@@ -9,15 +9,7 @@ namespace EnemyGenerator
 {
     public class GameManagerTest : MonoBehaviour
     {
-        public enum DifficultyEnum
-        {
-            VeryEasy,
-            Easy,
-            Medium,
-            Hard,
-            VeryHard
-        };
-
+        /// Evolutionary parameters
         private static readonly int MAX_GENERATIONS = 300;
         private static readonly int INITIAL_POPULATION_SIZE = 35;
         private static readonly int INTERMEDIATE_POPULATION_SIZE = 100;
@@ -25,12 +17,14 @@ namespace EnemyGenerator
         private static readonly int GENE_MUTATION_RATE = 40;
         private static readonly int NUMBER_OF_COMPETITORS = 3;
 
-        //singleton
+        /// Singleton
         public static GameManagerTest instance = null;
 
         private EnemyGenerator generator;
 
-        public DifficultyEnum difficulty = DifficultyEnum.Easy;
+        private DifficultyEnum difficulty;
+
+        public static event CreateEAEnemyEvent createEAEnemyEventHandler;
 
         void Awake()
         {
@@ -38,7 +32,6 @@ namespace EnemyGenerator
             if (instance == null)
             {
                 instance = this;
-                AwakeInit();
             }
             else if (instance != this)
             {
@@ -46,35 +39,46 @@ namespace EnemyGenerator
             }
         }
 
-        public void AwakeInit()
+        public void Start()
+        {
+            createEAEnemyEventHandler?.Invoke(this,
+                new CreateEAEnemyEventArgs(DifficultyEnum.Easy));
+        }
+
+        public void OnEnable()
+        {
+            createEAEnemyEventHandler += EvolveEnemies;
+        }
+
+        public void OnDisable()
+        {
+            createEAEnemyEventHandler -= EvolveEnemies;
+        }
+
+        private float GetDesiredDifficulty()
         {
             switch (difficulty)
             {
                 case DifficultyEnum.VeryEasy:
-                    EnemyUtil.desiredFitness = EnemyUtil.veryEasyFitness;
-                    break;
+                    return EnemyUtil.veryEasyDifficulty;
                 case DifficultyEnum.Easy:
-                    EnemyUtil.desiredFitness = EnemyUtil.easyFitness;
-                    break;
+                    return EnemyUtil.easyDifficulty;
                 case DifficultyEnum.Medium:
-                    EnemyUtil.desiredFitness = EnemyUtil.mediumFitness;
-                    break;
+                    return EnemyUtil.mediumDifficulty;
                 case DifficultyEnum.Hard:
-                    EnemyUtil.desiredFitness = EnemyUtil.hardFitness;
-                    break;
+                    return EnemyUtil.hardDifficulty;
                 case DifficultyEnum.VeryHard:
-                    EnemyUtil.desiredFitness = EnemyUtil.veryHardFitness;
-                    break;
+                    return EnemyUtil.veryHardDifficulty;
                 default:
-                    EnemyUtil.desiredFitness = EnemyUtil.mediumFitness;
-                    break;
+                    return EnemyUtil.mediumDifficulty;
             }
         }
 
-        void Start()
+        public void EvolveEnemies(object sender, CreateEAEnemyEventArgs eventArgs)
         {
-            Debug.Log("Evolve");
-            // Evolve
+            Debug.Log("Start creating enemies...");
+            difficulty = eventArgs.Difficulty;
+            float goal = GetDesiredDifficulty();
             Parameters prs = new Parameters(
                 (new System.Random()).Next(), // Random seed
                 MAX_GENERATIONS, // Number of generations
@@ -83,11 +87,12 @@ namespace EnemyGenerator
                 MUATION_RATE, // Mutation chance
                 GENE_MUTATION_RATE, // Mutation chance of a single gene
                 NUMBER_OF_COMPETITORS, // Number of tournament competitors
-                EnemyUtil.desiredFitness // Aimed difficulty of enemies
+                goal // Aimed difficulty of enemies
             );
             generator = new EnemyGenerator(prs);
             generator.Evolve();
             CreateSOBestEnemies();
+            Debug.Log("The enemies were created!");
         }
 
 #if UNITY_EDITOR
