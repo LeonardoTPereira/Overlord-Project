@@ -22,6 +22,7 @@ public struct CombatRoomInfo
 
 public class PlayerProfile : MonoBehaviour
 {
+    private static string CSV = ".csv";
 
     public static PlayerProfile instance = null;
 
@@ -71,7 +72,7 @@ public class PlayerProfile : MonoBehaviour
     protected int difficultyLevel; //TODO SET IT WITH THE NARRATIVE JSON
     protected List<int> damageDoneByEnemy;
     protected int timesPlayerDied;
-    public bool HasFinished { get; set; } //0 if player gave up, 1 if he completed the stage 
+    public bool HasFinished { get; set; } //0 if player gave up, 1 if he completed the stage
     public CombatRoomInfo actualRoomInfo;
 
     private string result;
@@ -169,7 +170,7 @@ public class PlayerProfile : MonoBehaviour
     {
         playerProfile = eventArgs.PlayerProfile;
     }
-    
+
     private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
     {
         experimentPlayerProfile = eventArgs.PlayerProfile;
@@ -222,7 +223,7 @@ public class PlayerProfile : MonoBehaviour
         combatInfoList = new List<CombatRoomInfo>();
         difficultyLevel = -1;
         timesPlayerDied = 0;
-        HasFinished = false; //0 if player gave up, 1 if he completed the stage 
+        HasFinished = false; //0 if player gave up, 1 if he completed the stage
         weaponUsed = -1;
     }
 
@@ -244,7 +245,7 @@ public class PlayerProfile : MonoBehaviour
         }
         else
             actualRoomInfo.roomId = -1;
-        
+
         // Check the room coordinates to avoid division by zero
         if (eventArgs.RoomCoordinates.X != 0 && eventArgs.RoomCoordinates.Y != 0) {
             heatMap[eventArgs.RoomCoordinates.X / 2, eventArgs.RoomCoordinates.Y / 2]++;
@@ -407,7 +408,7 @@ public class PlayerProfile : MonoBehaviour
 
     private void WrapLevelDetailedCombatProfileToString()
     {
-        detailedLevelProfileString += "map,attemptOnLevel,cumulativeAttempt,RoomID:,playerInitialHealth,PlayerFinalHealth,HealthLost,TimeToExit,hasEnemies,nEnemies,EnemiesIds,\n";
+        detailedLevelProfileString += "map,attemptOnLevel,cumulativeAttempt,RoomID,playerInitialHealth,PlayerFinalHealth,HealthLost,TimeToExit,hasEnemies,nEnemies,EnemiesIds,\n";
         foreach (CombatRoomInfo info in combatInfoList)
         {
             detailedLevelProfileString += curMapName + "," + attemptOnLevelNumber + "," + cumulativeAttempts + ",";
@@ -429,7 +430,7 @@ public class PlayerProfile : MonoBehaviour
         heatMapString = "";
         heatMapString += "map,attempt,cumulativeAttempt\n";
         heatMapString += curMapName + "," + attemptOnLevelNumber + "," + cumulativeAttempts + "\n";
-        heatMapString += "Heatmap:\n";
+        heatMapString += "Heatmap\n";
         for (int i = 0; i < currentMap.Dimensions.Width / 2; ++i)
         {
             for (int j = 0; j < currentMap.Dimensions.Height / 2; ++j)
@@ -440,6 +441,7 @@ public class PlayerProfile : MonoBehaviour
         }
         //Debug.Log(heatMapString);
     }
+
     //File name: BatchId, MapId, SessionUID
     //Player profile: N Visited Rooms, N Unique Visited Rooms, N Keys Taken, N Keys Used, Form Answer 1, Form Answer 2,Form Answer 3
     private void SendProfileToServer(Map currentMap)
@@ -448,19 +450,21 @@ public class PlayerProfile : MonoBehaviour
         WrapHeatMapToString(currentMap);
         WrapLevelProfileToString();
         WrapLevelDetailedCombatProfileToString();
-        StartCoroutine(PostData("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
-        //saveToLocalFile("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
+        // StartCoroutine(PostData("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
+        SaveToLocalFile("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
         string UploadFilePath = PlayerProfile.instance.sessionUID;
-
     }
 
-    private void saveToLocalFile(string name, string stringData, string heatMapData, string levelData, string levelDetailedData)
+    private void SaveToLocalFile(string name, string stringData, string heatMapData, string levelData, string levelDetailedData)
     {
-        if (!Directory.Exists(Application.streamingAssetsPath + "/PlayerData"))
-            Directory.CreateDirectory(Application.streamingAssetsPath + "/PlayerData");
+        string target = Application.streamingAssetsPath + "/PlayerData";
+        if (!Directory.Exists(target))
+            Directory.CreateDirectory(target);
+
+        target += "/" + sessionUID + "-" + name;
         if (cumulativeAttempts == 1)
         {
-            using (StreamWriter writer = new StreamWriter(Application.streamingAssetsPath + "/PlayerData/" + sessionUID + "Player" + name + ".csv", true, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(target + "-Player" + CSV, true, Encoding.UTF8))
             {
                 writer.Write(stringData);
                 writer.Flush();
@@ -468,32 +472,31 @@ public class PlayerProfile : MonoBehaviour
             }
         }
 
-        using (StreamWriter writer = new StreamWriter(Application.streamingAssetsPath + "/PlayerData/" + sessionUID + "HM" + name + ".csv", true, Encoding.UTF8))
+        using (StreamWriter writer = new StreamWriter(target + "-Heatmap" + CSV, true, Encoding.UTF8))
         {
             writer.Write(heatMapData);
             writer.Flush();
             writer.Close();
         }
 
-        using (StreamWriter writer = new StreamWriter(Application.streamingAssetsPath + "/PlayerData/" + sessionUID + "Level" + name + ".csv", true, Encoding.UTF8))
+        using (StreamWriter writer = new StreamWriter(target + "-Level" + CSV, true, Encoding.UTF8))
         {
             writer.Write(levelData);
             writer.Flush();
             writer.Close();
         }
 
-        using (StreamWriter writer = new StreamWriter(Application.streamingAssetsPath + "/PlayerData/" + sessionUID + "Detailed" + name + ".csv", true, Encoding.UTF8))
+        using (StreamWriter writer = new StreamWriter(target + "-Detailed" + CSV, true, Encoding.UTF8))
         {
             writer.Write(levelDetailedData);
             writer.Flush();
             writer.Close();
         }
-
     }
 
     private IEnumerator PostData(string name, string stringData, string heatMapData, string levelData, string levelDetailedData)
     {
-        name = sessionUID + name;
+        name = sessionUID + "-" + name;
         byte[] data = System.Text.Encoding.UTF8.GetBytes(stringData);
         byte[] heatMapBinary = System.Text.Encoding.UTF8.GetBytes(heatMapData);
         byte[] levelBinary = System.Text.Encoding.UTF8.GetBytes(levelData);
@@ -504,10 +507,10 @@ public class PlayerProfile : MonoBehaviour
         Debug.Log("LogName:" + name);
         WWWForm form = new WWWForm();
         form.AddField("name", sessionUID);
-        form.AddBinaryData("data", data, name + ".csv", "text/csv");
-        form.AddBinaryData("heatmap", heatMapBinary, "HM" + name + ".csv", "text/csv");
-        form.AddBinaryData("level", levelBinary, "Level" + name + ".csv", "text/csv");
-        form.AddBinaryData("detailed", levelDetailedBinary, "Detailed" + name + ".csv", "text/csv");
+        form.AddBinaryData("data", data, name + "-Player" + CSV, "text/csv");
+        form.AddBinaryData("heatmap", heatMapBinary, name + "-Heatmap" + CSV, "text/csv");
+        form.AddBinaryData("level", levelBinary, name + "-Level" + CSV, "text/csv");
+        form.AddBinaryData("detailed", levelDetailedBinary, name + "-Detailed" + CSV, "text/csv");
 
         // Post the URL to the site and create a download object to get the result.
         WWW data_post = new WWW(post_url, form);
