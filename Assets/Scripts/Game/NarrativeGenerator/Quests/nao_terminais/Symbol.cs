@@ -1,17 +1,32 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator
 {
     public enum SymbolType
     {
+        // Non-terminals
+        Start,
         Kill,
-        kill
+        Talk,
+        Get,
+        Explore,
+        // Terminals
+        kill,
+        talk,
+        empty,
+        get,
+        drop,
+        item,
+        secret
     }
     public interface Symbol 
     {
+        public Dictionary<float,SymbolType> nextSymbolChance {get; set;}
+        public bool canDrawNext {get; set;}
         // public Dictionary<SymbolType,float> nextSymbolChance {get; set;}
-        // void Dictionary( Dictionary<SymbolType, float> _nextSymbolChances );
-        // void NextSymbol ( MarkovChain chain);
+        void SetDictionary( Dictionary<float,SymbolType> _nextSymbolChances );
+        void SetNextSymbol ( MarkovChain chain);
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class Talk : NonTerminalQuest
 {
 
-    public Talk(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
+    public Talk()//(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.4f;
     }

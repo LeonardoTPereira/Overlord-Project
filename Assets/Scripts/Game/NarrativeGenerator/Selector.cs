@@ -4,37 +4,20 @@ using System.Linq;
 using UnityEngine;
 using static Enums;
 using static Util;
+using Game.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator
 {
 //classe que seleciona a linha de missões de acordo com os pesos do perfil do jogador
     public class Selector
     {
-
-        public class QuestWeight
-        {
-            public string quest;
-            public float weight;
-
-            public QuestWeight(string quest, float weight)
-            {
-                this.quest = quest;
-                this.weight = weight;
-            }
-        }
-
-        public List<QuestWeight> questWeights = new List<QuestWeight>();
-        Dictionary<string, float> questWeightsbyType = new Dictionary<string, float>();
-        private static readonly float[] WEIGHTS = {1, 3, 5, 7}; // to be removed
-
+        public MarkovChain questChain = new MarkovChain();
+        Dictionary<float,SymbolType> startSymbolWeights = new Dictionary<float,SymbolType>();
+        Dictionary<float,SymbolType> killSymbolWeights = new Dictionary<float,SymbolType>();
+        Dictionary<float,SymbolType> talkSymbolWeights = new Dictionary<float,SymbolType>();
+        Dictionary<float,SymbolType> getSymbolWeights = new Dictionary<float,SymbolType>();
+        Dictionary<float,SymbolType> exploreSymbolWeights = new Dictionary<float,SymbolType>();
         private PlayerProfileEnum typePlayer;
-
-        /*
-        [7][5][1][3]
-        [3][7][1][5]
-        [1][5][7][3]
-        [1][5][3][7]
-        */
 
         public PlayerProfileEnum Select(Manager m, List<int> answers)
         {
@@ -45,18 +28,18 @@ namespace Game.NarrativeGenerator
             return typePlayer;
         }
 
-        public PlayerProfileEnum Select(Manager m, NarrativeCreatorEventArgs eventArgs)
-        {
-            // questWeightsbyType = eventArgs.QuestWeightsbyType;
+        // public PlayerProfileEnum Select(Manager m, NarrativeCreatorEventArgs eventArgs)
+        // {
+        //     // startSymbolWeights = eventArgs.startSymbolWeights;
 
-            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+        //     // string favoriteQuest = startSymbolWeights.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
 
-            GetProfileFromFavoriteQuest(favoriteQuest);
+        //     // GetProfileFromFavoriteQuest(favoriteQuest);
 
-            DrawMissions(m);
+        //     DrawMissions(m);
 
-            return typePlayer;
-        }
+        //     // return typePlayer;
+        // }
 
         private void GetProfileFromFavoriteQuest(string favoriteQuest)
         {
@@ -82,61 +65,75 @@ namespace Game.NarrativeGenerator
 
         private void DrawMissions(Manager m)
         {
-            float newMissionChance, newMissionDraw;
-            newMissionChance = 0;
-            do
-            {
-                foreach (var item in questWeightsbyType)
-                {
-                    newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-                    if (item.Value > newMissionDraw * 10)
-                    {
-                        // switch (item.Key)
-                        // {
-                        //     case TALK_QUEST:
-                        //         Talk t = new Talk(0, questWeightsbyType);
-                        //         t.Option(m);
-                        //         break;
-                        //     case GET_QUEST:
-                        //         Get g = new Get(0, questWeightsbyType);
-                        //         g.Option(m);
-                        //         break;
-                        //     case KILL_QUEST:
-                        //         Kill k = new Kill(0, questWeightsbyType);
-                        //         k.Option(m);
-                        //         break;
-                        //     case EXPLORE_QUEST:
-                        //         Explore e = new Explore(0, questWeightsbyType);
-                        //         e.Option(m);
-                        //         break;
-                        // }
-                    }
-                }
+            Dictionary<float,SymbolType> symbolWeights = startSymbolWeights;
 
-                newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-                newMissionChance += 0.5f;
-            } while (newMissionDraw > newMissionChance);
+            while ( questChain.symbol.canDrawNext )
+            {
+                questChain.symbol.SetDictionary( symbolWeights );
+                questChain.symbol.SetNextSymbol( questChain );
+
+                switch ( questChain.symbolType )
+                {
+                    case SymbolType.Kill:
+                        
+                    break;
+                    case SymbolType.Talk:
+
+                    break;
+                    case SymbolType.Get:
+
+                    break;
+                    case SymbolType.Explore:
+
+                    break;
+                    case SymbolType.kill:
+
+                    break;
+                    case SymbolType.talk:
+
+                    break;
+                    case SymbolType.empty:
+
+                    break;
+                    case SymbolType.get:
+
+                    break;
+                    case SymbolType.drop:
+
+                    break;
+                    case SymbolType.item:
+
+                    break;
+                    case SymbolType.secret:
+
+                    break;
+                    default:
+                        Debug.LogError("Symbol type not found!");
+                    break;
+
+                }
+            }
         }
 
         private void weightCalculator(List<int> answers)
         {
-            float maxQuestionWeight = 5;
+            float totalQuestionsWeight = answers[5] + answers[6] +  answers[7] + answers[8]  +  answers[9] + answers[10] + answers[11];
             // Kill questions = 5, 6;
             // Explore questions = 7, 8;
             // Get questions = 9;
             // Talk questions = 10, 11;
             // Puzzle questions = 12, 13;
 
-            float killWeight = ( answers[5] + answers[6] )/ ( maxQuestionWeight * 2 );
+            float killWeight = ( answers[5] + answers[6] )/ ( totalQuestionsWeight );
             killWeight = float.IsNaN( killWeight ) ? 0 : killWeight;
 
-            float exploreWeight = ( answers[7] + answers[7] )/ ( maxQuestionWeight * 2 );
+            float exploreWeight = ( answers[7] + answers[8] )/ ( totalQuestionsWeight );
             exploreWeight = float.IsNaN(exploreWeight ) ? 0 : exploreWeight;
 
-            float getWeight = ( answers[9] )/ ( maxQuestionWeight );
+            float getWeight = ( answers[9] )/ ( totalQuestionsWeight );
             getWeight = float.IsNaN(getWeight ) ? 0 : getWeight;
 
-            float talkWeight = ( answers[10] + answers[11] )/ ( maxQuestionWeight * 2 );
+            float talkWeight = ( answers[10] + answers[11] )/ ( totalQuestionsWeight );
             talkWeight = float.IsNaN(talkWeight ) ? 0 : talkWeight;
 
             //float puzzleWeight = ( answers[12] + answers[13] )/ ( maxQuestionWeight * 2 );
@@ -144,45 +141,14 @@ namespace Game.NarrativeGenerator
 
             float[] pesos = new float[4];
 
-            // for (int i = 2; i < 12; i++)
-            // {
-            //     if (i == 2 || i == 3 || i == 4) pesos[2] += answers[i];
-            //     else if (i == 5 || i == 6) pesos[3] += answers[i];
-            //     else if (i == 7 || i == 8) pesos[1] += answers[i];
-            //     else if (i == 9 || i == 10) pesos[0] += answers[i];
-            //     else
-            //     {
-            //         pesos[3] -= answers[i];
-            //         pesos[1] -= answers[i];
-            //         pesos[0] -= answers[i];
-            //     }
-            // }
+            startSymbolWeights.Add(talkWeight, SymbolType.Talk);
+            startSymbolWeights.Add(talkWeight + getWeight, SymbolType.Get );
+            startSymbolWeights.Add( talkWeight + getWeight + killWeight, SymbolType.Kill );
+            startSymbolWeights.Add( talkWeight + getWeight + killWeight + exploreWeight, SymbolType.Explore ); // 100%
 
-            questWeights.Add(new QuestWeight(TALK_QUEST, talkWeight));
-            questWeights.Add(new QuestWeight(GET_QUEST, getWeight));
-            questWeights.Add(new QuestWeight(KILL_QUEST, killWeight));
-            questWeights.Add(new QuestWeight(EXPLORE_QUEST, exploreWeight));
-
-            questWeights = questWeights.OrderBy(x => x.weight).ToList();
-            // Daqui pra baixo é simplesmente ??
-            for (int i = 0; i < questWeights.Count; ++i)
-            {
-                questWeights[i].weight = WEIGHTS[i];
-                Debug.Log($"Quest Weight [{i}]: {questWeights[i].weight}");
-            }
-
-            pesos[0] = questWeights.Find(x => x.quest == TALK_QUEST).weight;
-            pesos[1] = questWeights.Find(x => x.quest == GET_QUEST).weight;
-            pesos[2] = questWeights.Find(x => x.quest == KILL_QUEST).weight;
-            pesos[3] = questWeights.Find(x => x.quest == EXPLORE_QUEST).weight;
-
-            questWeightsbyType.Add(TALK_QUEST, pesos[0]);
-            questWeightsbyType.Add(GET_QUEST, pesos[1]);
-            questWeightsbyType.Add(KILL_QUEST, pesos[2]);
-            questWeightsbyType.Add(EXPLORE_QUEST, pesos[3]);
-
-            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-            GetProfileFromFavoriteQuest(favoriteQuest);
+            // Não sei dizer se isto é realmente necessário...
+            // string favoriteQuest = startSymbolWeights.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            // GetProfileFromFavoriteQuest(favoriteQuest);
         }
     }
 }

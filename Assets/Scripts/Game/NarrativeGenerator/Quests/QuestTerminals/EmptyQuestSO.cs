@@ -8,6 +8,11 @@ namespace Game.NarrativeGenerator.Quests
     {
         public Dictionary<SymbolType,float> nextSymbolChance {get; set;}
 
+        public EmptyQuestSO ()
+        {
+            canDrawNext = false;
+        }
+
         void SetDictionary( Dictionary<SymbolType, float> _nextSymbolChances )
         {
             nextSymbolChance = _nextSymbolChances;

@@ -10,7 +10,6 @@ namespace Game.NarrativeGenerator
 {
     public class Manager : MonoBehaviour
     {
-
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
         public bool createNarrative = false;
@@ -48,18 +47,18 @@ namespace Game.NarrativeGenerator
 
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
-            PlayerProfileEnum playerProfile = Selector.Select(this, e);
-            if (createNarrative)
-            {
-                makeBranches();
+            // PlayerProfileEnum playerProfile = Selector.Select(this, e);
+            // if (createNarrative)
+            // {
+            //     makeBranches();
 
-                writer.writeJSon(Quests, playerProfile);
+            //     writer.writeJSon(Quests, playerProfile);
 
-                // for (int i = 0; i < Quests.graph.Count; i++)
-                //     Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
-            }
+            //     // for (int i = 0; i < Quests.graph.Count; i++)
+            //     //     Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
+            // }
 
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         void Start()

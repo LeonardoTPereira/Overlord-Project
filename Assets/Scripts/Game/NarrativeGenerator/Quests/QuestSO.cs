@@ -1,12 +1,15 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using ScriptableObjects;
+using System.Collections.Generic;
 
 namespace Game.NarrativeGenerator.Quests
 {
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
-    public class QuestSO : ScriptableObject {
+    public class QuestSO : ScriptableObject, Symbol {
+        public Dictionary<float,SymbolType> nextSymbolChance {get; set;}
+        public bool canDrawNext { get ; set; }
         private QuestSO nextWhenSuccess;
         private QuestSO nextWhenFailure;
         private QuestSO previous;
@@ -44,6 +47,26 @@ namespace Game.NarrativeGenerator.Quests
         public void SaveAsAsset(string assetName)
         {
             AssetDatabase.CreateAsset(this, assetName+".asset");
+        }
+
+        void Symbol.SetDictionary( Dictionary<float,SymbolType> _nextSymbolChances  )
+        {
+            nextSymbolChance = _nextSymbolChances;
+        }
+
+        void Symbol.SetNextSymbol(MarkovChain chain)
+        {
+            float chance = (float) Random.Range( 0, 100 ) / 100 ;
+            float currentSymbolChance = 0;
+            foreach ( float nextSymbol in nextSymbolChance.Keys )
+            {
+                if ( nextSymbol > chance )
+                {
+                    SymbolType _nextSymbol;
+                    nextSymbolChance.TryGetValue( nextSymbol, out _nextSymbol );
+                    chain.SetSymbol( _nextSymbol );
+                }
+            }
         }
     }
 }

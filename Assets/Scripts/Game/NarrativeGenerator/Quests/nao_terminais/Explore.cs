@@ -8,7 +8,7 @@ namespace Game.NarrativeGenerator
     public class Explore : NonTerminalQuest
     {
         private const int chance = 1;
-        public Explore(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
+        public Explore () //(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
         {
             maxQuestChance = 2.6f;
         }
@@ -22,7 +22,7 @@ namespace Game.NarrativeGenerator
                 /*TODO initiate data for secretRoomQuest
                 secretRoomQuest.Init(...);
                 */
-                Talk t = new Talk(lim, questWeightsbyType);
+                Talk t = new Talk();//(lim, questWeightsbyType);
                 t.Option(m);
                 Option(m);
             }

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assets.Scripts.Game.NarrativeGenerator;
+using Game.NarrativeGenerator;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
