@@ -14,9 +14,9 @@ namespace Game.NarrativeGenerator
         public class QuestWeight
         {
             public string quest;
-            public int weight;
+            public float weight;
 
-            public QuestWeight(string quest, int weight)
+            public QuestWeight(string quest, float weight)
             {
                 this.quest = quest;
                 this.weight = weight;
@@ -24,8 +24,8 @@ namespace Game.NarrativeGenerator
         }
 
         public List<QuestWeight> questWeights = new List<QuestWeight>();
-        Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
-        private static readonly int[] WEIGHTS = {1, 3, 5, 7};
+        Dictionary<string, float> questWeightsbyType = new Dictionary<string, float>();
+        private static readonly float[] WEIGHTS = {1, 3, 5, 7}; // to be removed
 
         private PlayerProfileEnum typePlayer;
 
@@ -47,7 +47,7 @@ namespace Game.NarrativeGenerator
 
         public PlayerProfileEnum Select(Manager m, NarrativeCreatorEventArgs eventArgs)
         {
-            questWeightsbyType = eventArgs.QuestWeightsbyType;
+            // questWeightsbyType = eventArgs.QuestWeightsbyType;
 
             string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
 
@@ -91,25 +91,25 @@ namespace Game.NarrativeGenerator
                     newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
                     if (item.Value > newMissionDraw * 10)
                     {
-                        switch (item.Key)
-                        {
-                            case TALK_QUEST:
-                                Talk t = new Talk(0, questWeightsbyType);
-                                t.Option(m);
-                                break;
-                            case GET_QUEST:
-                                Get g = new Get(0, questWeightsbyType);
-                                g.Option(m);
-                                break;
-                            case KILL_QUEST:
-                                Kill k = new Kill(0, questWeightsbyType);
-                                k.Option(m);
-                                break;
-                            case EXPLORE_QUEST:
-                                Explore e = new Explore(0, questWeightsbyType);
-                                e.Option(m);
-                                break;
-                        }
+                        // switch (item.Key)
+                        // {
+                        //     case TALK_QUEST:
+                        //         Talk t = new Talk(0, questWeightsbyType);
+                        //         t.Option(m);
+                        //         break;
+                        //     case GET_QUEST:
+                        //         Get g = new Get(0, questWeightsbyType);
+                        //         g.Option(m);
+                        //         break;
+                        //     case KILL_QUEST:
+                        //         Kill k = new Kill(0, questWeightsbyType);
+                        //         k.Option(m);
+                        //         break;
+                        //     case EXPLORE_QUEST:
+                        //         Explore e = new Explore(0, questWeightsbyType);
+                        //         e.Option(m);
+                        //         break;
+                        // }
                     }
                 }
 
@@ -142,7 +142,7 @@ namespace Game.NarrativeGenerator
             //float puzzleWeight = ( answers[12] + answers[13] )/ ( maxQuestionWeight * 2 );
             //puzzleWeight = float.IsNaN(puzzleWeight ) ? 0 : puzzleWeight;
 
-            int[] pesos = new int[4];
+            float[] pesos = new float[4];
 
             // for (int i = 2; i < 12; i++)
             // {

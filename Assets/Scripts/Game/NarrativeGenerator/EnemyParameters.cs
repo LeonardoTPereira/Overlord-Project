@@ -22,7 +22,7 @@ namespace Game.NarrativeGenerator
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = new StringBuilder();
             foreach (KeyValuePair<float, float> kvp in percentageByDifficulty)
             {
                 stringBuilder.Append($"Difficulty = {kvp.Key}, Percentage = {kvp.Value}\n");
@@ -34,25 +34,25 @@ namespace Game.NarrativeGenerator
         {
             for (int i = 0; i < quests.graph.Count; i++)
             {
-                if (quests.graph[i].Tipo == 2 || quests.graph[i].Tipo == 5)
-                {
+                // if (quests.graph[i].Tipo == 2 || quests.graph[i].Tipo == 5)
+                // {
 
-                    enemyParameters.PercentageByDifficulty.TryGetValue(quests.graph[i].N1)
-                    enemyParameters.PercentageType1 += quests.graph[i].N1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
-                    enemyParameters.PercentageType2 += quests.graph[i].N2;
-                    enemyParameters.PercentageType3 += quests.graph[i].N3;
+                //     enemyParameters.PercentageByDifficulty.TryGetValue(quests.graph[i].N1);
+                //     enemyParameters.PercentageType1 += quests.graph[i].N1; //significados de n1, n2, n3 e tipo no script "Quest", favor verificar
+                //     enemyParameters.PercentageType2 += quests.graph[i].N2;
+                //     enemyParameters.PercentageType3 += quests.graph[i].N3;
 
-                    if (enemyParameters.PercentageType1 >= 5) enemyParameters.FitnessType1 += Random.Range(10, 21);
-                    else enemyParameters.FitnessType1 += Random.Range(1, 10);
+                //     if (enemyParameters.PercentageType1 >= 5) enemyParameters.FitnessType1 += Random.Range(10, 21);
+                //     else enemyParameters.FitnessType1 += Random.Range(1, 10);
 
-                    if (enemyParameters.PercentageType2 >= 5) enemyParameters.FitnessType2 += Random.Range(5, 21);
-                    else enemyParameters.FitnessType2 += Random.Range(1, 5);
+                //     if (enemyParameters.PercentageType2 >= 5) enemyParameters.FitnessType2 += Random.Range(5, 21);
+                //     else enemyParameters.FitnessType2 += Random.Range(1, 5);
 
-                    if (enemyParameters.PercentageType3 >= 5) enemyParameters.FitnessType3 += Random.Range(1, 10);
-                    else enemyParameters.FitnessType3 += Random.Range(10, 21);
+                //     if (enemyParameters.PercentageType3 >= 5) enemyParameters.FitnessType3 += Random.Range(1, 10);
+                //     else enemyParameters.FitnessType3 += Random.Range(10, 21);
 
-                    enemyParameters.NEnemies += 2;
-                }
+                //     enemyParameters.NEnemies += 2;
+                // }
             }
         }
     }

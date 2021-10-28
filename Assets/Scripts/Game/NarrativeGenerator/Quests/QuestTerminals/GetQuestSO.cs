@@ -7,10 +7,5 @@ namespace Game.NarrativeGenerator.Quests
     class GetQuestSO : ItemQuestSO
     {
         private const int chance = 1/2;
-        public override void DefineEdges ()
-        {
-            edges = AddEdges( edges, Get, chance );
-            edges = AddEdge( edges, EmptyQuestSO, chance );
-        }
     }
 }

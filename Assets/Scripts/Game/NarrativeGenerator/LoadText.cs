@@ -16,22 +16,22 @@ namespace Game.NarrativeGenerator
         // Start is called before the first frame update
         void Start()
         {
-            Quest questAux = JsonConvert.DeserializeObject<Quests>(jsonFile.text);
+            // Quest questAux = JsonConvert.DeserializeObject<Quests>(jsonFile.text);
             missionSum.text = "Mission Sum:<br>";
 
-            foreach (QuestSO q in questAux.graph)
-            {
-                switch (q.Tipo)
-                {
-                    case 0: missionSum.text += "Find a treasure of type " + q.N1 + ".<br>"; manager.treasure = true; break;
-                    case 1: missionSum.text += "Find the dungeon's secret room.<br>"; manager.secretRoom = true; break;
-                    case 2: missionSum.text += "Kill " + q.N1 + " enemies of type 1,<br> " + q.N2 + " enemies of type 2 and <br>" + q.N3 + " of type 3.\n"; manager.totalEnemies += q.N1 + q.N2 + q.N3; break;
-                    case 3: missionSum.text += "Get " + q.N1 + " itens.<br>"; manager.totalItens += q.N1; break;
-                    case 4: missionSum.text += "Explore the dungeon's rooms.<br>"; break;
-                    case 5: missionSum.text += "Kill " + q.N1 + " enemies to get the same amount of itens dropped by them.<br>"; manager.totalEnemies += q.N1; break;
-                    case 6: missionSum.text += "Talk to the NPC " + q.N1 + ".<br>"; manager.totalNpcs += q.N1; break;
-                }
-            }
+            // foreach (QuestSO q in questAux.graph)
+            // {
+            //     switch (q.Tipo)
+            //     {
+            //         case 0: missionSum.text += "Find a treasure of type " + q.N1 + ".<br>"; manager.treasure = true; break;
+            //         case 1: missionSum.text += "Find the dungeon's secret room.<br>"; manager.secretRoom = true; break;
+            //         case 2: missionSum.text += "Kill " + q.N1 + " enemies of type 1,<br> " + q.N2 + " enemies of type 2 and <br>" + q.N3 + " of type 3.\n"; manager.totalEnemies += q.N1 + q.N2 + q.N3; break;
+            //         case 3: missionSum.text += "Get " + q.N1 + " itens.<br>"; manager.totalItens += q.N1; break;
+            //         case 4: missionSum.text += "Explore the dungeon's rooms.<br>"; break;
+            //         case 5: missionSum.text += "Kill " + q.N1 + " enemies to get the same amount of itens dropped by them.<br>"; manager.totalEnemies += q.N1; break;
+            //         case 6: missionSum.text += "Talk to the NPC " + q.N1 + ".<br>"; manager.totalNpcs += q.N1; break;
+            //     }
+            // }
 
             Debug.Log(missionSum.text);
         }

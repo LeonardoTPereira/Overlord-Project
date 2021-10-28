@@ -42,25 +42,25 @@ namespace Game.NarrativeGenerator
 
         private void conversorDungeon(ParametersDungeon pD, QuestList quests)
         {
-            for (int i = 0; i < quests.graph.Count; i++)
-            {
-                if (quests.graph[i].Tipo == 1 || quests.graph[i].Tipo == 3 || quests.graph[i].Tipo == 4 || quests.graph[i].Tipo == 6) pD.size++;
-                if (quests.graph[i].Tipo == 0 || quests.graph[i].Tipo == 1 || quests.graph[i].Tipo == 4) pD.Linearity++;
-            }
+            // for (int i = 0; i < quests.graph.Count; i++)
+            // {
+            //     if (quests.graph[i].Tipo == 1 || quests.graph[i].Tipo == 3 || quests.graph[i].Tipo == 4 || quests.graph[i].Tipo == 6) pD.size++;
+            //     if (quests.graph[i].Tipo == 0 || quests.graph[i].Tipo == 1 || quests.graph[i].Tipo == 4) pD.Linearity++;
+            // }
 
-            if (pD.size < 3) pD.size = (int)DungeonSize.VerySmall;
-            else if (pD.size >= 3 && pD.size < 7) pD.size = (int)DungeonSize.Medium;
-            else pD.size = (int)DungeonSize.VeryLarge;
+            // if (pD.size < 3) pD.size = (int)DungeonSize.VerySmall;
+            // else if (pD.size >= 3 && pD.size < 7) pD.size = (int)DungeonSize.Medium;
+            // else pD.size = (int)DungeonSize.VeryLarge;
 
-            if (pD.Linearity < 3) pD.LinearityEnum = (int)DungeonLinearity.VeryLinear;
-            else if (pD.Linearity >= 3 && pD.Linearity < 7) pD.LinearityEnum = (int)DungeonLinearity.Medium;
-            else pD.LinearityEnum = (int)DungeonLinearity.VeryBranched;
+            // if (pD.Linearity < 3) pD.LinearityEnum = (int)DungeonLinearity.VeryLinear;
+            // else if (pD.Linearity >= 3 && pD.Linearity < 7) pD.LinearityEnum = (int)DungeonLinearity.Medium;
+            // else pD.LinearityEnum = (int)DungeonLinearity.VeryBranched;
 
-            if (pD.nKeys < 3) pD.nKeys = (int)DungeonKeys.AFewKeys;
-            else if (pD.nKeys >= 3 && pD.nKeys < 7) pD.nKeys = (int)DungeonKeys.SeveralKeys;
-            else pD.nKeys = (int)DungeonKeys.LotsOfKeys;
+            // if (pD.nKeys < 3) pD.nKeys = (int)DungeonKeys.AFewKeys;
+            // else if (pD.nKeys >= 3 && pD.nKeys < 7) pD.nKeys = (int)DungeonKeys.SeveralKeys;
+            // else pD.nKeys = (int)DungeonKeys.LotsOfKeys;
 
-            pD.nEnemies = UnityEngine.Random.Range(1, 5);
+            // pD.nEnemies = UnityEngine.Random.Range(1, 5);
         }
     }    
 }

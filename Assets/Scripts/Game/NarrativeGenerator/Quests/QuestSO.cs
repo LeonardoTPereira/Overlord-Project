@@ -1,10 +1,12 @@
-﻿using ScriptableObjects;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
+using ScriptableObjects;
+
 namespace Game.NarrativeGenerator.Quests
 {
-    public abstract class QuestSO : ScriptableObject, MarkovChain.Node
-    {
+    
+    [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
+    public class QuestSO : ScriptableObject {
         private QuestSO nextWhenSuccess;
         private QuestSO nextWhenFailure;
         private QuestSO previous;

@@ -78,7 +78,7 @@ namespace Game.NarrativeGenerator
 
             // Get the dungeon parameters
             ParametersDungeon pD = new ParametersDungeon();
-            conversorDungeon(pD, quests);
+            // conversorDungeon(pD, quests);
             // Convert the dungeon to JSON
             outString = JsonConvert.SerializeObject(pD) + '\n';
             // Write the dungeon JSON file
@@ -92,7 +92,7 @@ namespace Game.NarrativeGenerator
 
             // Get the enemies parameters
             EnemyParameters pM = new EnemyParameters();
-            pM.(pM, quests);
+            // pM.(pM, quests); //??
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pM) + '\n';
             // Write the enemies JSON file
@@ -105,7 +105,7 @@ namespace Game.NarrativeGenerator
             }
 
             ParametersNpcs pN = new ParametersNpcs();
-            pN.ConversorNpcs(quests);
+            // pN.ConversorNpcs(quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pN) + '\n';
             // Write the enemies JSON file

@@ -5,17 +5,9 @@ using UnityEngine;
 
 public class Kill : NonTerminalQuest
 {
-    public const int chance = 1/2;
     public Kill(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.5f;
-    }
-
-    public override void DefineEdges ()
-    {
-        edges = AddEdges( edges, KillQuestSO, chance );
-        edges = AddEdge( edges, DropQuestSO, chance );
-        // edges = AddEdge( edges, ItemQuestSO, chance );
     }
 
     protected override void DefineNextQuest(Manager m)

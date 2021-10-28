@@ -3,8 +3,10 @@ using Game.NarrativeGenerator;
 using UnityEngine;
 using static Util;
 
-public abstract class NonTerminalQuest : MarkovChain.Node
+public class NonTerminalQuest : Symbol
 {
+    public Dictionary<SymbolType,float> nextSymbolChance {get; set;}
+    // Symbol symbol = new NonTerminalQuest();
     protected float r;
     protected int lim;
     protected float maxQuestChance;
@@ -23,7 +25,7 @@ public abstract class NonTerminalQuest : MarkovChain.Node
         DefineNextQuest(m);
     }
 
-    protected abstract void DefineNextQuest(Manager m);
+    protected virtual void DefineNextQuest(Manager m){}
 
     private void DrawQuestType()
     {
@@ -37,5 +39,16 @@ public abstract class NonTerminalQuest : MarkovChain.Node
             r = maxQuestChance;
         }
         lim++;
+    }
+    
+    public virtual void SetDictionary( Dictionary<SymbolType, float> _nextSymbolChances  )
+    {
+        nextSymbolChance = _nextSymbolChances;
+    }
+
+    public virtual void SetNextSymbol(MarkovChain chain)
+    {
+        float chance = (float) Random.Range( 0, 100 ) / 100 ;
+        
     }
 }

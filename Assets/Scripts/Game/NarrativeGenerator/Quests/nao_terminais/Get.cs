@@ -11,14 +11,6 @@ public class Get : NonTerminalQuest
         maxQuestChance = 2.8f;
     }
 
-    public override void DefineEdges ()
-    {
-        // edges = AddEdge( edges, ChestQuestSO, chance );
-        edges = AddEdges( edges, GetQuestSO, chance );
-        edges = AddEdge( edges, DropQuestSO, chance );
-        edges = AddEdge( edges, ItemQuestSO, chance );
-    }
-
     protected override void DefineNextQuest(Manager m)
     {
         if (r > 2.8)

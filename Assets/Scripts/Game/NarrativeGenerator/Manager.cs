@@ -1,11 +1,10 @@
 
 using System.Collections.Generic;
-using Assets.Scripts.Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Enums;
-using static Assets.Scripts.Game.NarrativeGenerator.LoadText;
+// using static Assets.Scripts.Game.NarrativeGenerator.LoadText;
 
 namespace Game.NarrativeGenerator
 {
@@ -56,8 +55,8 @@ namespace Game.NarrativeGenerator
 
                 writer.writeJSon(Quests, playerProfile);
 
-                for (int i = 0; i < Quests.graph.Count; i++)
-                    Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
+                // for (int i = 0; i < Quests.graph.Count; i++)
+                //     Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
             }
 
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
@@ -82,8 +81,8 @@ namespace Game.NarrativeGenerator
 
                     writer.writeJSon(Quests, playerProfile);
 
-                    for (int i = 0; i < Quests.graph.Count; i++)
-                        Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
+                    // for (int i = 0; i < Quests.graph.Count; i++)
+                    //     Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
                 }
 
                 ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
@@ -92,42 +91,42 @@ namespace Game.NarrativeGenerator
 
         void makeBranches()
         {
-            int index = 0, b, c1, c2;
+            // int index = 0, b, c1, c2;
 
-            Quests.graph[index].parent = -1;
+            // Quests.graph[index].parent = -1;
 
-            while (index < Quests.graph.Count)
-            {
-                b = Random.Range(0, 100);
+            // while (index < Quests.graph.Count)
+            // {
+            //     b = Random.Range(0, 100);
 
-                if (b % 2 == 0)
-                {
-                    c1 = Random.Range(index + 1, Quests.graph.Count);
-                    if (c1 < Quests.graph.Count)
-                    {
-                        Quests.graph[c1].parent = index;
-                    }
+            //     if (b % 2 == 0)
+            //     {
+            //         c1 = Random.Range(index + 1, Quests.graph.Count);
+            //         if (c1 < Quests.graph.Count)
+            //         {
+            //             Quests.graph[c1].parent = index;
+            //         }
 
-                    c2 = Random.Range(index + 1, Quests.graph.Count);
-                    if (c2 < Quests.graph.Count)
-                    {
-                        Quests.graph[c2].parent = index;
-                    }
+            //         c2 = Random.Range(index + 1, Quests.graph.Count);
+            //         if (c2 < Quests.graph.Count)
+            //         {
+            //             Quests.graph[c2].parent = index;
+            //         }
 
-                    Quests.graph[index].c1 = c1;
-                    if (c1 != c2)
-                    {
-                        Quests.graph[index].c2 = c2;
-                    }
-                }
-                else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
-                {
-                    Quests.graph[index + 1].parent = index;
-                    Quests.graph[index].c1 = index + 1;
-                }
+            //         Quests.graph[index].c1 = c1;
+            //         if (c1 != c2)
+            //         {
+            //             Quests.graph[index].c2 = c2;
+            //         }
+            //     }
+            //     else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
+            //     {
+            //         Quests.graph[index + 1].parent = index;
+            //         Quests.graph[index].c1 = index + 1;
+            //     }
 
-                index++;
-            }
+            //     index++;
+            // }
         }
     }
 }

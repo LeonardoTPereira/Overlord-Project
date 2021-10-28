@@ -9,6 +9,7 @@ namespace Game.NarrativeGenerator
     public class ParametersItems : ScriptableObject
     {
         public Dictionary<ItemSO, int> ItemsByType { get; }
+        public int NumItens;
 
         public void ConversorItems(QuestList quests)
         {
@@ -28,7 +29,7 @@ namespace Game.NarrativeGenerator
 
         private void AddItems(ItemQuestSO quest)
         {
-            quest.TotalTreasure;
+            // quest.TotalTreasure;
             /*TODO create or select NpcSO*/
             /*TODO set quest to Npc*/
         }

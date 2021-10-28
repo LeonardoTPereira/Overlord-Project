@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestTerminals
