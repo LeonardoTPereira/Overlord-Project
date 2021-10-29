@@ -107,17 +107,17 @@ namespace LevelGenerator
             int remainingItems, remainingNpcs;
             Type type;
             int x, y, iPositive, jPositive;
-            if(dun.parametersItems != null)
+            if(dun.QuestItemsSo != null)
             {
-                remainingItems = dun.parametersItems.NumItens;
+                remainingItems = dun.QuestItemsSo.NItems;
             }
             else
             {
                 remainingItems = 0;
             }
-            if (dun.parametersNpcs != null)
+            if (dun.QuestNpcsSo != null)
             {
-                remainingNpcs = dun.parametersNpcs.NumNpcs;
+                remainingNpcs = dun.QuestNpcsSo.NumNpcs;
             }
             else
             {
@@ -376,7 +376,7 @@ namespace LevelGenerator
                             }
                             if (numberNpcs > 0)
                             {
-                                numberNpcs = (dun.parametersNpcs.NumNpcs - remainingNpcs + 1);
+                                numberNpcs = (dun.QuestNpcsSo.NumNpcs - remainingNpcs + 1);
                                 difficulty = 0;
                             }
 
@@ -442,7 +442,7 @@ namespace LevelGenerator
                             }
                             if(numberNpcs > 0)
                             {
-                                numberNpcs = (dun.parametersNpcs.NumNpcs - remainingNpcs +1);
+                                numberNpcs = (dun.QuestNpcsSo.NumNpcs - remainingNpcs +1);
                                 difficulty = 0;
                             }
                             

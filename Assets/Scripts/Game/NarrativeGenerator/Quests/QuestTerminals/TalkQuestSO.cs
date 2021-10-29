@@ -4,7 +4,8 @@ namespace Game.NarrativeGenerator.Quests
 {
     class TalkQuestSO : QuestSO
     {
-        NpcSO npc;
+        public NpcSO npc { get; set; }
+
         public override void Init()
         {
             base.Init();

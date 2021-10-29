@@ -22,9 +22,9 @@ namespace LevelGenerator
         private List<Room> roomList;
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
-        public EnemyParameters parametersMonsters;
-        public ParametersItems parametersItems;
-        public ParametersNpcs parametersNpcs;
+        public QuestEnemiesSO parametersMonsters;
+        public QuestItemsSO QuestItemsSo;
+        public QuestNpcsSO QuestNpcsSo;
         private string playerProfile;
         private string narrativeName;
 
@@ -117,14 +117,14 @@ namespace LevelGenerator
             return copyDungeon;
         }
 
-        public void SetNarrativeParameters(EnemyParameters parametersMonsters,
-            ParametersNpcs parametersNpcs, 
-            ParametersItems parametersItems,
+        public void SetNarrativeParameters(QuestEnemiesSO parametersMonsters,
+            QuestNpcsSO questNpcsSo, 
+            QuestItemsSO questItemsSo,
             string playerProfile, string narrativeName)
         {
-            this.parametersItems = parametersItems;
+            this.QuestItemsSo = questItemsSo;
             this.parametersMonsters = parametersMonsters;
-            this.parametersNpcs = parametersNpcs;
+            this.QuestNpcsSo = questNpcsSo;
             PlayerProfile = playerProfile;
             NarrativeName = narrativeName;
         }

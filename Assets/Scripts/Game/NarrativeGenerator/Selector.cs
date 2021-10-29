@@ -27,8 +27,8 @@ namespace Game.NarrativeGenerator
         Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
         private static readonly int[] WEIGHTS = {1, 3, 5, 7};
 
-        private PlayerProfileEnum typePlayer;
-
+        private PlayerProfile playerProfile;
+        
         /*
         [7][5][1][3]
         [3][7][1][5]
@@ -36,53 +36,44 @@ namespace Game.NarrativeGenerator
         [1][5][3][7]
         */
 
-        public PlayerProfileEnum Select(Manager m, List<int> answers)
+        public PlayerProfile Select(Manager m, List<int> answers)
         {
             //pesos[0] = 3; //peso talk
             //pesos[1] = 7; //peso get
             //pesos[2] = 1; //peso kill
             //pesos[3] = 5; //peso explore
 
-            weightCalculator(answers);
+            CalculateProfileWeights(answers);
 
+            CreateProfileWithWeights();
+            
             DrawMissions(m);
-
-            return typePlayer;
+            
+            return playerProfile;
         }
 
-        public PlayerProfileEnum Select(Manager m, NarrativeCreatorEventArgs eventArgs)
+        public PlayerProfile Select(Manager m, NarrativeCreatorEventArgs eventArgs)
         {
             questWeightsbyType = eventArgs.QuestWeightsbyType;
 
-            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-
-            GetProfileFromFavoriteQuest(favoriteQuest);
+            CreateProfileWithWeights();
 
             DrawMissions(m);
 
-            return typePlayer;
+            return playerProfile;
         }
 
-        private void GetProfileFromFavoriteQuest(string favoriteQuest)
+        private void CreateProfileWithWeights()
         {
-            switch (favoriteQuest)
-            {
-                case KILL_QUEST:
-                    typePlayer = PlayerProfileEnum.Mastery;
-                    break;
-                case GET_QUEST:
-                    typePlayer = PlayerProfileEnum.Achievement;
-                    break;
-                case TALK_QUEST:
-                    typePlayer = PlayerProfileEnum.Immersion;
-                    break;
-                case EXPLORE_QUEST:
-                    typePlayer = PlayerProfileEnum.Creativity;
-                    break;
-                default:
-                    Debug.Log("Something went wrong");
-                    break;
-            }
+            playerProfile = new PlayerProfile();
+
+            playerProfile.AchievementPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()];
+            playerProfile.MasteryPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()];
+            playerProfile.CreativityPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()];
+            playerProfile.ImmersionPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()];
+            
+            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
 
         private void DrawMissions(Manager m)
@@ -123,7 +114,7 @@ namespace Game.NarrativeGenerator
             } while (newMissionDraw > newMissionChance);
         }
 
-        private void weightCalculator(List<int> answers)
+        private void CalculateProfileWeights(List<int> answers)
         {
             int[] pesos = new int[4];
 
@@ -163,9 +154,6 @@ namespace Game.NarrativeGenerator
             questWeightsbyType.Add(GET_QUEST, pesos[1]);
             questWeightsbyType.Add(KILL_QUEST, pesos[2]);
             questWeightsbyType.Add(EXPLORE_QUEST, pesos[3]);
-
-            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-            GetProfileFromFavoriteQuest(favoriteQuest);
         }
     }
 }

@@ -14,9 +14,10 @@ namespace Game.NarrativeGenerator
         public QuestManager manager;
 
         // Start is called before the first frame update
-        void Start()
+        //TODO fix this, if it may be used in the future
+        /*void Start()
         {
-            Quest questAux = JsonConvert.DeserializeObject<Quests>(jsonFile.text);
+            Quests questAux = JsonConvert.DeserializeObject<Quests>(jsonFile.text);
             missionSum.text = "Mission Sum:<br>";
 
             foreach (QuestSO q in questAux.graph)
@@ -34,7 +35,7 @@ namespace Game.NarrativeGenerator
             }
 
             Debug.Log(missionSum.text);
-        }
+        }*/
 
         private void clearManager()
         {

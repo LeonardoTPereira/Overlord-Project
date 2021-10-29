@@ -18,6 +18,8 @@ public class Talk : NonTerminalQuest
         if (r > 2.7)
         {
             /*TODO initiate data for talkQuest*/
+            talkQuest.Init();
+            talkQuest.SaveAsAsset("QUEST_NPC_1");
             Option(m);
         }
         else

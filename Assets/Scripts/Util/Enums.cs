@@ -30,14 +30,6 @@ public class Enums
         PostTestForm
     }
 
-    public enum PlayerProfileEnum
-    {
-        Mastery, //Challenge, Enemies
-        Immersion, //Story, NPCs
-        Creativity, //Discovery, Exploration
-        Achievement // Completion, Items
-    }
-
     public enum QuestWeights
     {
         Hated = 1,

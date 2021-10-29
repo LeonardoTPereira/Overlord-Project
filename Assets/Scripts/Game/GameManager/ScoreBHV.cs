@@ -10,14 +10,14 @@ public class ScoreBHV : MonoBehaviour
     private void OnEnable()
     {
         int maxCombo;
-        if (PlayerProfile.instance.actualCombo > PlayerProfile.instance.maxCombo)
-            maxCombo = PlayerProfile.instance.actualCombo;
+        if (GameplayData.instance.actualCombo > GameplayData.instance.maxCombo)
+            maxCombo = GameplayData.instance.actualCombo;
         else
-            maxCombo = PlayerProfile.instance.maxCombo;
-        health.text = "Vida: " + PlayerProfile.instance.actualRoomInfo.playerFinalHealth + "/10";
+            maxCombo = GameplayData.instance.maxCombo;
+        health.text = "Vida: " + GameplayData.instance.actualRoomInfo.playerFinalHealth + "/10";
         combo.text = "Maior Combo: " + maxCombo;
-        treasure.text = "Ouro: " + PlayerProfile.instance.treasureCollected + "/" + GameManager.instance.maxTreasure;
-        rooms.text = "Salas Exploradas: " + PlayerProfile.instance.visitedRooms.Distinct().Count() + "/" + GameManager.instance.maxRooms;
+        treasure.text = "Ouro: " + GameplayData.instance.treasureCollected + "/" + GameManager.instance.maxTreasure;
+        rooms.text = "Salas Exploradas: " + GameplayData.instance.visitedRooms.Distinct().Count() + "/" + GameManager.instance.maxRooms;
     }
 
 

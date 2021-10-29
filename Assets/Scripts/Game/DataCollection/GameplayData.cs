@@ -21,10 +21,10 @@ public struct CombatRoomInfo
     public int timeToExit;
 }
 
-public class PlayerProfile : MonoBehaviour
+public class GameplayData : MonoBehaviour
 {
 
-    public static PlayerProfile instance = null;
+    public static GameplayData instance = null;
 
     private int roomID = 0;
 
@@ -77,8 +77,8 @@ public class PlayerProfile : MonoBehaviour
 
     private string result;
 
-    private PlayerProfileEnum playerProfile;
-    private PlayerProfileEnum experimentPlayerProfile;
+    private PlayerProfile playerProfile;
+    private PlayerProfile givenPlayerProfile;
 
     void Awake()
     {
@@ -173,7 +173,7 @@ public class PlayerProfile : MonoBehaviour
     
     private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
     {
-        experimentPlayerProfile = eventArgs.PlayerProfile;
+        givenPlayerProfile = eventArgs.PlayerProfile;
     }
 
     private void IncrementCombo(object sender, EventArgs eventArgs)
@@ -361,8 +361,8 @@ public class PlayerProfile : MonoBehaviour
                 i++;
             }
             profileString += "\n";
-            profileString += playerProfile+",";
-            profileString += experimentPlayerProfile+",";
+            profileString += playerProfile.PlayerProfileEnum+",";
+            profileString += givenPlayerProfile.PlayerProfileEnum+",";
             foreach (int answer in preFormAnswers)
             {
                 profileString += answer + ",";
@@ -451,7 +451,7 @@ public class PlayerProfile : MonoBehaviour
         WrapLevelDetailedCombatProfileToString();
         StartCoroutine(PostData("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
         //saveToLocalFile("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
-        string UploadFilePath = PlayerProfile.instance.sessionUID;
+        string UploadFilePath = GameplayData.instance.sessionUID;
 
     }
 

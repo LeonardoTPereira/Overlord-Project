@@ -6,9 +6,9 @@ public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArg
 public class CreateEADungeonEventArgs : EventArgs
 {
     private Fitness fitness;
-    private EnemyParameters parametersMonsters;
-    private ParametersItems parametersItems;
-    private ParametersNpcs parametersNpcs;
+    private QuestEnemiesSO parametersMonsters;
+    private QuestItemsSO _questItemsSo;
+    private QuestNpcsSO _questNpcsSo;
     private string playerProfile;
     private string narrativeName;
 
@@ -16,26 +16,28 @@ public class CreateEADungeonEventArgs : EventArgs
     {
         Fitness = fitness;
         ParametersMonsters = null;
-        ParametersItems = null;
-        ParametersNpcs = null;
+        QuestItemsSo = null;
+        QuestNpcsSo = null;
     }
-    public CreateEADungeonEventArgs(ParametersDungeon parametersDungeon, 
-        EnemyParameters parametersMonsters, ParametersItems parametersItems, 
-            ParametersNpcs parametersNpcs, string playerProfile, string narrativeName)
+    
+    //TODO review why so many parameters
+    public CreateEADungeonEventArgs(QuestDungeonsSO parametersDungeon, 
+        QuestEnemiesSO parametersMonsters, QuestItemsSO questItemsSo, 
+            QuestNpcsSO questNpcsSo, string playerProfile, string narrativeName)
     {
-        Fitness = new Fitness(parametersDungeon.size, parametersDungeon.nKeys, parametersDungeon.nKeys, parametersDungeon.linearity);
+        Fitness = new Fitness(parametersDungeon.Size, parametersDungeon.NKeys, parametersDungeon.NKeys, parametersDungeon.getLinearity());
         ParametersMonsters = parametersMonsters;
-        ParametersNpcs = parametersNpcs;
-        ParametersItems = parametersItems;
+        QuestNpcsSo = questNpcsSo;
+        QuestItemsSo = questItemsSo;
         PlayerProfile = playerProfile;
         NarrativeName = narrativeName;
     }
 
 
     public Fitness Fitness { get => fitness; set => fitness = value; }
-    public EnemyParameters ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
-    public ParametersNpcs ParametersNpcs { get => parametersNpcs; set => parametersNpcs = value; }
-    public ParametersItems ParametersItems { get => parametersItems; set => parametersItems = value; }
+    public QuestEnemiesSO ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
+    public QuestNpcsSO QuestNpcsSo { get => _questNpcsSo; set => _questNpcsSo = value; }
+    public QuestItemsSO QuestItemsSo { get => _questItemsSo; set => _questItemsSo = value; }
     public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
     public string NarrativeName { get => narrativeName; set => narrativeName = value; }
 }

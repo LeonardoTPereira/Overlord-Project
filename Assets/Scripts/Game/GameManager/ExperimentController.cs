@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assets.Scripts.Game.NarrativeGenerator;
+using Game.NarrativeGenerator;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -93,9 +93,9 @@ public class ExperimentController : MonoBehaviour
         }
     }
 
-    private void SetProfileDirectory(PlayerProfileEnum playerProfile)
+    private void SetProfileDirectory(PlayerProfile playerProfile)
     {
-        PROFILE_DIRECTORY = EXPERIMENT_DIRECTORY + SEPARATOR_CHARACTER + playerProfile.ToString() + SEPARATOR_CHARACTER;
+        PROFILE_DIRECTORY = EXPERIMENT_DIRECTORY + SEPARATOR_CHARACTER + playerProfile.PlayerProfileEnum + SEPARATOR_CHARACTER;
         narrativeFiles = narrativeFilesSet.GetNarrativesFromProfile(playerProfile.ToString());
     }
 
@@ -190,17 +190,18 @@ public class ExperimentController : MonoBehaviour
     private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
     {
         Debug.Log("Loading Data For Experiment. Profile: " + profileSelectedEventArgs.PlayerProfile.ToString());
-        PlayerProfileEnum selectedProfile;
+        PlayerProfile selectedProfile;
         if (UnityEngine.Random.Range(0, 100) < 50)
         {
             selectedProfile = profileSelectedEventArgs.PlayerProfile;
         }
         else
         {
+            selectedProfile = new PlayerProfile();
             do
             {
-                selectedProfile = (PlayerProfileEnum)UnityEngine.Random.Range(0, 4);
-            } while (selectedProfile == profileSelectedEventArgs.PlayerProfile);
+                selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)UnityEngine.Random.Range(0, 4);
+            } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
         }
         ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
         SetProfileDirectory(selectedProfile);

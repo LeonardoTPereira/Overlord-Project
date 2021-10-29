@@ -68,17 +68,17 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         progressCanvas.SetActive(true);
         string selectedNarrative = GetNarrativePath();
 
-        EnemyParameters parametersMonsters
-            = GetJSONData<EnemyParameters>(NarrativeFileTypeString.ENEMY, selectedNarrative);
-        ParametersItems parametersItems
-            = GetJSONData<ParametersItems>(NarrativeFileTypeString.ITEM, selectedNarrative);
-        ParametersNpcs parametersNpcs
-            = GetJSONData<ParametersNpcs>(NarrativeFileTypeString.NPC, selectedNarrative);
+        QuestEnemiesSO parametersMonsters
+            = GetJSONData<QuestEnemiesSO>(NarrativeFileTypeString.ENEMY, selectedNarrative);
+        QuestItemsSO questItemsSo
+            = GetJSONData<QuestItemsSO>(NarrativeFileTypeString.ITEM, selectedNarrative);
+        QuestNpcsSO questNpcsSo
+            = GetJSONData<QuestNpcsSO>(NarrativeFileTypeString.NPC, selectedNarrative);
         ParametersDungeon parametersDungeon
             = GetJSONData<ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
 
         createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
-            parametersMonsters, parametersItems, parametersNpcs, 
+            parametersMonsters, questItemsSo, questNpcsSo, 
             playerProfile, selectedNarrative.Substring(selectedNarrative.IndexOf(playerProfile)+playerProfile.Length)));
     }
 

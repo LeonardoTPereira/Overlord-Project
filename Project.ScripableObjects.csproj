@@ -64,13 +64,13 @@
     <Compile Include="Assets\Scripts\ScriptableObjects\LevelConfigSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\NpcDialogueRuntimeSetSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\StaticSets.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\UsableItemSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\NarrativeFilesRuntimeSetSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\ProjectileTypeSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\LevelConfigRuntimeSetSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\TreasureRuntimeSetSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\MovementTypeRuntimeSetSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\TreasureSO.cs" />
-    <Compile Include="Assets\Scripts\ScriptableObjects\UsableItemSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\WeaponTypeSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\RuntimeSetSO.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\WeaponTypeRuntimeSetSO.cs" />

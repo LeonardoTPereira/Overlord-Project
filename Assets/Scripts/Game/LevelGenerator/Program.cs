@@ -30,9 +30,9 @@ namespace LevelGenerator
         List<Dungeon> dungeons;
         //The aux the Game Manager will access to load the created dungeon
         public Dungeon aux;
-        EnemyParameters parametersMonsters;
-        ParametersItems parametersItems;
-        ParametersNpcs parametersNpcs;
+        QuestEnemiesSO parametersMonsters;
+        QuestItemsSO _questItemsSo;
+        QuestNpcsSO _questNpcsSo;
         string playerProfile;
         string narrativeName;
 
@@ -72,8 +72,8 @@ namespace LevelGenerator
 
             fitness = eventArgs.Fitness;
             parametersMonsters = eventArgs.ParametersMonsters;
-            parametersItems = eventArgs.ParametersItems;
-            parametersNpcs = eventArgs.ParametersNpcs;
+            _questItemsSo = eventArgs.QuestItemsSo;
+            _questNpcsSo = eventArgs.QuestNpcsSo;
             playerProfile = eventArgs.PlayerProfile;
             narrativeName = eventArgs.NarrativeName;
             Thread t = new Thread(new ThreadStart(Evolve));
@@ -85,7 +85,7 @@ namespace LevelGenerator
         {
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
-            aux.SetNarrativeParameters(parametersMonsters, parametersNpcs, parametersItems, playerProfile, narrativeName);
+            aux.SetNarrativeParameters(parametersMonsters, _questNpcsSo, _questItemsSo, playerProfile, narrativeName);
             Interface.PrintNumericalGridWithConnections(aux, fitness, treasureRuntimeSetSO);
             Debug.Log("Printed the dungeon");
         }

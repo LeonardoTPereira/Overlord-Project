@@ -15,7 +15,7 @@ namespace Game.NarrativeGenerator
      */
     public class JSonWriter
     {
-        public void writeJSon(QuestList quests, PlayerProfileEnum playerProfile)
+        public void writeJSon(QuestList quests, PlayerProfile.PlayerProfileCategory playerProfile)
         {
             // Define the JSON file extension
             const string extension = ".json";
@@ -75,10 +75,15 @@ namespace Game.NarrativeGenerator
                 streamWriter.Close();
             }
 
+            QuestDungeonsSO questDungeons = ScriptableObject.CreateInstance<QuestDungeonsSO>();
+            questDungeons.CalculateDungeonParametersFromQuests(quests, playerProfile);
+            QuestEnemiesSO questEnemies = ScriptableObject.CreateInstance<QuestEnemiesSO>();
+            questEnemies.CalculateMonsterFromQuests(quests);
+            QuestItemsSO questItems = ScriptableObject.CreateInstance<QuestItemsSO>();
+            questItems.CalculateItemsFromQuests(quests);
+            QuestNpcsSO questNpcs = ScriptableObject.CreateInstance<QuestNpcsSO>();
+            questNpcs.CalculateNpcsFromQuests(quests);
 
-            // Get the dungeon parameters
-            ParametersDungeon pD = new ParametersDungeon();
-            conversorDungeon(pD, quests);
             // Convert the dungeon to JSON
             outString = JsonConvert.SerializeObject(pD) + '\n';
             // Write the dungeon JSON file
@@ -90,45 +95,28 @@ namespace Game.NarrativeGenerator
                 streamWriter.Close();
             }
 
-            // Get the enemies parameters
-            EnemyParameters pM = new EnemyParameters();
-            pM.(pM, quests);
+
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pM) + '\n';
             // Write the enemies JSON file
             filename = template.Replace(CONTENT, enemyFd + SEPARATOR_CHARACTER + pM.ToString());
-            using (StreamWriter streamWriter = new StreamWriter(filename))
-            {
-                streamWriter.Write(outString);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
 
-            ParametersNpcs pN = new ParametersNpcs();
+
+            QuestNpcsSO pN = new QuestNpcsSO();
             pN.ConversorNpcs(quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pN) + '\n';
             // Write the enemies JSON file
             filename = template.Replace(CONTENT, npcFd + SEPARATOR_CHARACTER + pN.ToString());
-            using (StreamWriter streamWriter = new StreamWriter(filename))
-            {
-                streamWriter.Write(outString);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
 
-            ParametersItems pI = new ParametersItems();
-            pI.ConversorItems(quests);
+
+            QuestItemsSO pI = new QuestItemsSO();
+            pI.CalculateItemsFromQuests(quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pI) + '\n';
             // Write the enemies JSON file
             filename = template.Replace(CONTENT, itemFd + SEPARATOR_CHARACTER + pN.ToString());
-            using (StreamWriter streamWriter = new StreamWriter(filename))
-            {
-                streamWriter.Write(outString);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
+
             Resources.UnloadUnusedAssets();
 #if UNITY_EDITOR
             AssetDatabase.Refresh();
