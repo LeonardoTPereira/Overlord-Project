@@ -238,7 +238,7 @@ public class EnemyController : MonoBehaviour
             projectilePrefab = null;
         movement = enemyData.movement;
         behavior = enemyData.behavior.enemyBehavior;
-        ApplyEnemyColors();
+        // ApplyEnemyColors();
         indexOnEnemyList = index;
         hasMoveDirBeenChosen = false;
         originalColor = sr.color;
@@ -271,9 +271,21 @@ public class EnemyController : MonoBehaviour
         //TODO change head color according to movement
         headColor = originalColor;
         sr.color = originalColor;
-        gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>().color = armsColor;
-        gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>().color = legsColor;
-        gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>().color = headColor;
+        SpriteRenderer arms = gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>();
+        if (arms != null)
+        {
+            arms.color = armsColor;
+        }
+        SpriteRenderer legs = gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>();
+        if (legs != null)
+        {
+            legs.color = legsColor;
+        }
+        SpriteRenderer head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+        if (head != null)
+        {
+            head.color = headColor;
+        }
     }
 
     /// <summary>

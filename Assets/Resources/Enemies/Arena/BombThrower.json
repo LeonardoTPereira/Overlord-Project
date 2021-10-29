@@ -10,7 +10,7 @@
         "movementType": 2
     },
     "weapon": {
-        "weaponType": 2,
+        "weaponType": 3,
         "projectileSpeed": 2
     },
     "difficulty": 0.4125,

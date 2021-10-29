@@ -35,14 +35,10 @@ public class Healer : MonoBehaviour
             .transform.parent.gameObject; // Enemy
         // Define the position of the healer's arms
         Vector3 armsHeight = new Vector3(0f, 0.2f, 0f);
-        Vector3 leftArmPosition = new Vector3(1f, 0f, 0f);
         // Place the spots of cure spell animation
         ParticleSystem cure1 = healer.GetComponentInChildren<ParticleSystem>();
         cure1.transform.localScale *= CURE_SPELL_SIZE;
         cure1.transform.position = weapon.transform.position + armsHeight;
-        ParticleSystem cure2 = Instantiate(cure1);
-        cure2.transform.parent = healer.transform;
-        cure2.transform.position = cure1.transform.position + leftArmPosition;
         // Calculate the healer healing cooldown
         EnemyController ec = healer.GetComponent<EnemyController>();
         cooldown = BASE_COOLDOWN * (1f / ec.GetAttackSpeed());

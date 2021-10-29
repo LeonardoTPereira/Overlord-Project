@@ -6695,7 +6695,13 @@ MonoBehaviour:
   hard: []
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
+  barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
+    type: 3}
+  shooterEnemyPrefab: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
+    type: 3}
   bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
+    type: 3}
+  healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
 --- !u!82 &1044382108
 AudioSource:

@@ -14,7 +14,11 @@ public class EnemyLoader : MonoBehaviour
     public EnemySO[] arena;
     [SerializeField]
     public EnemySO[] easy, medium, hard;
-    public GameObject enemyPrefab, bomberEnemyPrefab;
+    public GameObject enemyPrefab;
+    public GameObject barehandEnemyPrefab;
+    public GameObject shooterEnemyPrefab;
+    public GameObject bomberEnemyPrefab;
+    public GameObject healerEnemyPrefab;
 
     public void LoadEnemies(int enemyType)
     {
@@ -63,10 +67,26 @@ public class EnemyLoader : MonoBehaviour
         Debug.Log("Index: "+index);
         EnemySO[] currentEnemies = GetEnemiesFromType(enemyType);
         GameObject enemy;
-        if (currentEnemies[index].weapon.name == "BombThrower")
+        if (currentEnemies[index].weapon.name == "None")
+        {
+            enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemies[index].weapon.name == "Bow")
+        {
+            enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemies[index].weapon.name == "BombThrower")
+        {
             enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemies[index].weapon.name == "Cure")
+        {
+            enemy = Instantiate(healerEnemyPrefab, position, rotation);
+        }
         else
+        {
             enemy = Instantiate(enemyPrefab, position, rotation);
+        }
         enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemies[index], index);
         return enemy;
     }
