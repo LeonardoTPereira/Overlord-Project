@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator;
 using UnityEngine;
-using static Enums;
+using Util;
+using static Util.Enums;
 
 public struct CombatRoomInfo
 {

@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Enums;
-using static Util;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -89,19 +88,19 @@ namespace Game.NarrativeGenerator
                     {
                         switch (item.Key)
                         {
-                            case TALK_QUEST:
+                            case Constants.TALK_QUEST:
                                 Talk t = new Talk(0, questWeightsbyType);
                                 t.Option(m);
                                 break;
-                            case GET_QUEST:
+                            case Constants.GET_QUEST:
                                 Get g = new Get(0, questWeightsbyType);
                                 g.Option(m);
                                 break;
-                            case KILL_QUEST:
+                            case Constants.KILL_QUEST:
                                 Kill k = new Kill(0, questWeightsbyType);
                                 k.Option(m);
                                 break;
-                            case EXPLORE_QUEST:
+                            case Constants.EXPLORE_QUEST:
                                 Explore e = new Explore(0, questWeightsbyType);
                                 e.Option(m);
                                 break;
@@ -132,10 +131,10 @@ namespace Game.NarrativeGenerator
                 }
             }
 
-            questWeights.Add(new QuestWeight(TALK_QUEST, pesos[0]));
-            questWeights.Add(new QuestWeight(GET_QUEST, pesos[1]));
-            questWeights.Add(new QuestWeight(KILL_QUEST, pesos[2]));
-            questWeights.Add(new QuestWeight(EXPLORE_QUEST, pesos[3]));
+            questWeights.Add(new QuestWeight(Constants.TALK_QUEST, pesos[0]));
+            questWeights.Add(new QuestWeight(Constants.GET_QUEST, pesos[1]));
+            questWeights.Add(new QuestWeight(Constants.KILL_QUEST, pesos[2]));
+            questWeights.Add(new QuestWeight(Constants.EXPLORE_QUEST, pesos[3]));
 
             questWeights = questWeights.OrderBy(x => x.weight).ToList();
 
@@ -145,15 +144,15 @@ namespace Game.NarrativeGenerator
                 Debug.Log($"Quest Weight [{i}]: {questWeights[i].weight}");
             }
 
-            pesos[0] = questWeights.Find(x => x.quest == TALK_QUEST).weight;
-            pesos[1] = questWeights.Find(x => x.quest == GET_QUEST).weight;
-            pesos[2] = questWeights.Find(x => x.quest == KILL_QUEST).weight;
-            pesos[3] = questWeights.Find(x => x.quest == EXPLORE_QUEST).weight;
+            pesos[0] = questWeights.Find(x => x.quest == Constants.TALK_QUEST).weight;
+            pesos[1] = questWeights.Find(x => x.quest == Constants.GET_QUEST).weight;
+            pesos[2] = questWeights.Find(x => x.quest == Constants.KILL_QUEST).weight;
+            pesos[3] = questWeights.Find(x => x.quest == Constants.EXPLORE_QUEST).weight;
 
-            questWeightsbyType.Add(TALK_QUEST, pesos[0]);
-            questWeightsbyType.Add(GET_QUEST, pesos[1]);
-            questWeightsbyType.Add(KILL_QUEST, pesos[2]);
-            questWeightsbyType.Add(EXPLORE_QUEST, pesos[3]);
+            questWeightsbyType.Add(Constants.TALK_QUEST, pesos[0]);
+            questWeightsbyType.Add(Constants.GET_QUEST, pesos[1]);
+            questWeightsbyType.Add(Constants.KILL_QUEST, pesos[2]);
+            questWeightsbyType.Add(Constants.EXPLORE_QUEST, pesos[3]);
         }
     }
 }

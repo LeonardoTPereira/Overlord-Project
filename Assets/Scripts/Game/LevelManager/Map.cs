@@ -236,7 +236,7 @@ namespace Game.LevelManager
         //Cria salas vazias no tamanho padrão
         private void BuildDefaultRooms()
         {
-            Dimensions roomDimensions = new Dimensions(Util.defaultRoomSizeX, Util.defaultRoomSizeY);
+            Dimensions roomDimensions = new Dimensions(Util.Constants.defaultRoomSizeX, Util.Constants.defaultRoomSizeY);
             foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
             {
                 if (currentPart is DungeonRoom room)

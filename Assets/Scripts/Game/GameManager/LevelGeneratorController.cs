@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assets.Scripts.Game.NarrativeGenerator;
 using Game.NarrativeGenerator;
 using ScriptableObjects;
 using TMPro;
@@ -68,17 +67,17 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         progressCanvas.SetActive(true);
         string selectedNarrative = GetNarrativePath();
 
-        QuestEnemiesSO parametersMonsters
-            = GetJSONData<QuestEnemiesSO>(NarrativeFileTypeString.ENEMY, selectedNarrative);
-        QuestItemsSO questItemsSo
-            = GetJSONData<QuestItemsSO>(NarrativeFileTypeString.ITEM, selectedNarrative);
-        QuestNpcsSO questNpcsSo
-            = GetJSONData<QuestNpcsSO>(NarrativeFileTypeString.NPC, selectedNarrative);
-        ParametersDungeon parametersDungeon
+        QuestEnemiesParameters parametersMonsters
+            = GetJSONData<QuestEnemiesParameters>(NarrativeFileTypeString.ENEMY, selectedNarrative);
+        QuestItemsParameters questItemsParameters
+            = GetJSONData<QuestItemsParameters>(NarrativeFileTypeString.ITEM, selectedNarrative);
+        QuestNpcsParameters questNpcsParameters
+            = GetJSONData<QuestNpcsParameters>(NarrativeFileTypeString.NPC, selectedNarrative);
+        QuestDungeonsParameters parametersDungeon
             = GetJSONData<ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
 
         createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
-            parametersMonsters, questItemsSo, questNpcsSo, 
+            parametersMonsters, questItemsParameters, questNpcsParameters, 
             playerProfile, selectedNarrative.Substring(selectedNarrative.IndexOf(playerProfile)+playerProfile.Length)));
     }
 

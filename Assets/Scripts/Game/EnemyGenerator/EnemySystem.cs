@@ -6,6 +6,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
+using Util;
 
 #if UNITY_EDITOR
 public class EnemySystem : ComponentSystem

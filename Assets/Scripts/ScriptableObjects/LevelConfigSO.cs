@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using UnityEngine;
 using System.Collections.Generic;
-using static Enums;
+using static Util.Enums;
 
 namespace ScriptableObjects
 {

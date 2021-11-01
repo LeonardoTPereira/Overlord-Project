@@ -7,15 +7,15 @@ using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
-    [CreateAssetMenu(menuName = "NarrativeComponents/Enemies")]
-    public class QuestEnemiesSO : ScriptableObject
+    [Serializeable]
+    public class QuestEnemiesParameters
     {
         private int nEnemies;
         private SortedList<EnemySO, int> totalByType;
 
         public int NEnemies { get => nEnemies; set => nEnemies = value; }
 
-        public QuestEnemiesSO()
+        public QuestEnemiesParameters()
         {
             NEnemies = 0;
             totalByType = new SortedList<EnemySO, int>();
@@ -31,7 +31,7 @@ namespace Game.NarrativeGenerator
             return stringBuilder.ToString();
         }
 
-        public void CalculateMonsterFromQuests(QuestList quests)
+        public void CalculateMonsterFromQuests(QuestLine quests)
         {
             foreach (var quest in quests.graph)
             {

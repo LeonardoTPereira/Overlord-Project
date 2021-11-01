@@ -2,8 +2,8 @@
 using System.Linq;
 using ScriptableObjects;
 using UnityEngine;
-using static Enums;
-using static Util;
+using Util;
+using static Util.Enums;
 
 public class EnemyLoader : MonoBehaviour
 {

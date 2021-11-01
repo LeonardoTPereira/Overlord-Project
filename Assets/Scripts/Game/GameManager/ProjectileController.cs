@@ -3,7 +3,7 @@ using EnemyGenerator;
 using System;
 using ScriptableObjects;
 using UnityEngine;
-using static Util;
+using Util;
 
 public class ProjectileController : MonoBehaviour
 {
@@ -116,16 +116,16 @@ public class ProjectileController : MonoBehaviour
 
     public void Shoot(Vector2 facingDirection)
     {
-        PlayerProjectileEnum projEnum = ProjectileSO.projectileBehaviorIndex;
+        Enums.PlayerProjectileEnum projEnum = ProjectileSO.projectileBehaviorIndex;
         switch (projEnum)
         {
-            case PlayerProjectileEnum.STRAIGHT:
+            case Enums.PlayerProjectileEnum.STRAIGHT:
                 StraightShot(facingDirection);
                 break;
-            case PlayerProjectileEnum.SIN:
+            case Enums.PlayerProjectileEnum.SIN:
                 SinShot(facingDirection);
                 break;
-            case PlayerProjectileEnum.TRIPLE:
+            case Enums.PlayerProjectileEnum.TRIPLE:
                 TripleShot(facingDirection);
                 break;
         }

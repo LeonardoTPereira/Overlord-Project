@@ -1,58 +1,36 @@
-﻿using EnemyGenerator;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using Game.Maestro;
 using Game.NarrativeGenerator;
-using ScriptableObjects;
+using Game.NarrativeGenerator.Quests;
+using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Enums;
-using static Util;
 
 public class ExperimentController : MonoBehaviour
 {
     public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
-    [SerializeField]
-    private NarrativeFilesRuntimeSetSO narrativeFilesSet;
-    private NarrativeFilesSO narrativeFiles;
-    
-    private static readonly string EXPERIMENT_DIRECTORY = "Experiment";
-    private string PROFILE_DIRECTORY;
+    [SerializeField, MustBeAssigned]
+    private PlayerProfileToQuestLinesDictionarySO playerProfileToQuestLinesDictionarySo;
+    private List<QuestLine> questLineListForExperiment;
+
+    private PlayerProfile selectedPlayerProfile;
     [SerializeField]
     private DungeonEntrance[] dungeonEntrances;
-    private List<string> narrativeDirectories;
-    private List<string> chosenNarratives;
-    private List<string> dungeons;
-
-    private void Awake()
-    {
-        chosenNarratives = new List<string>();
-        narrativeDirectories = null;
-        dungeons = new List<string>();
-    }
 
     private void OnEnable()
     {
         Manager.ProfileSelectedEventHandler += LoadDataForExperiment;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
-        DungeonEntrance.loadLevelEventHandler += RemoveSelectedDungeonFile;
     }
 
     private void OnDisable()
     {
         Manager.ProfileSelectedEventHandler -= LoadDataForExperiment;
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-        DungeonEntrance.loadLevelEventHandler -= RemoveSelectedDungeonFile;
-    }
-
-    private void RemoveSelectedDungeonFile(object sender, LevelLoadEventArgs eventArgs)
-    {
-        int indexOfSelectedDungeon = chosenNarratives.IndexOf(((DungeonEntrance)sender).LevelFileName);
-        chosenNarratives[indexOfSelectedDungeon] = null;
     }
 
     IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
@@ -68,13 +46,14 @@ public class ExperimentController : MonoBehaviour
 
     private bool CanLoadNarrativesToDungeonEntrances(Scene scene)
     {
-        return scene.name == "Overworld" && narrativeDirectories != null;
+        return scene.name == "Overworld";
     }
 
     private void SelectAndSetNarrativesToDungeonEntrances()
     {
+
+        QuestLine selectedQuestLine = questLineListForProfile.GetRandomQuestLine();
         dungeonEntrances = FindObjectsOfType<DungeonEntrance>();
-        int nChosenNarratives = chosenNarratives.Count;
         int nDungeonEntraces = dungeonEntrances.Length;
         Debug.Log("Dungeon Entrances Found: " + nDungeonEntraces);
         if (nChosenNarratives < nDungeonEntraces)
@@ -95,8 +74,8 @@ public class ExperimentController : MonoBehaviour
 
     private void SetProfileDirectory(PlayerProfile playerProfile)
     {
-        PROFILE_DIRECTORY = EXPERIMENT_DIRECTORY + SEPARATOR_CHARACTER + playerProfile.PlayerProfileEnum + SEPARATOR_CHARACTER;
-        narrativeFiles = narrativeFilesSet.GetNarrativesFromProfile(playerProfile.ToString());
+        questLineListForExperiment = playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
+            selectedPlayerProfile.PlayerProfileEnum.ToString()].QuestLines.Select(questLine => new QuestLine()).ToList();
     }
 
     private void LoadNarrativesForProfile()
@@ -107,22 +86,7 @@ public class ExperimentController : MonoBehaviour
         Debug.Log("Inside Load Narratives For Profile: "+narrativeDirectories); 
         GetAllDungeonsForProfile();
     }
-
-    private string GetRandomNarrativeDungeonFile()
-    {
-        string narrativeDirectory = GetRandomNarrativeDirectoryAndRemoveFromList();
-        string dungeonFileForNarrative = GetDungeonFileForNarrative(narrativeDirectory);
-        return dungeonFileForNarrative;
-    }
-
-    private string GetRandomDungeonFile()
-    {
-        int selectedDungeonIndex = UnityEngine.Random.Range(0, dungeons.Count);
-        string dungeonFile = dungeons[selectedDungeonIndex];
-        dungeons.RemoveAt(selectedDungeonIndex);
-        return dungeonFile;
-    }
-
+    
     private string GetDungeonFileForNarrative(string narrativeDirectory)
     {
         string relativePath = narrativeDirectory.Substring(narrativeDirectory.IndexOf("Experiment"));

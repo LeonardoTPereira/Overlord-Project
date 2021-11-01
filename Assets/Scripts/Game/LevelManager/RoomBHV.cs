@@ -191,21 +191,21 @@ public class RoomBHV : MonoBehaviour
         auxObj.transform.SetParent(transform);
         auxObj.transform.localPosition = new Vector2(-0.5f - centerX, -0.5f - centerY);
 
-        int margin = Util.distFromBorder;
+        int margin = Util.Constants.distFromBorder;
         float xOffset = transform.position.x;
         float yOffset = transform.position.y;
 
-        int lowerHalfVer = (roomData.Dimensions.Height / Util.nSpawnPointsHor);
-        int upperHalfVer = (3 * roomData.Dimensions.Height / Util.nSpawnPointsHor);
-        int lowerHalfHor = (roomData.Dimensions.Width / Util.nSpawnPointsVer);
-        int upperHalfHor = (3 * roomData.Dimensions.Width / Util.nSpawnPointsVer);
-        int topHor = (margin + (roomData.Dimensions.Width * (Util.nSpawnPointsVer - 1) / Util.nSpawnPointsVer));
-        int topVer = (margin + (roomData.Dimensions.Height * (Util.nSpawnPointsHor - 1) / Util.nSpawnPointsHor));
+        int lowerHalfVer = (roomData.Dimensions.Height / Util.Constants.nSpawnPointsHor);
+        int upperHalfVer = (3 * roomData.Dimensions.Height / Util.Constants.nSpawnPointsHor);
+        int lowerHalfHor = (roomData.Dimensions.Width / Util.Constants.nSpawnPointsVer);
+        int upperHalfHor = (3 * roomData.Dimensions.Width / Util.Constants.nSpawnPointsVer);
+        int topHor = (margin + (roomData.Dimensions.Width * (Util.Constants.nSpawnPointsVer - 1) / Util.Constants.nSpawnPointsVer));
+        int topVer = (margin + (roomData.Dimensions.Height * (Util.Constants.nSpawnPointsHor - 1) / Util.Constants.nSpawnPointsHor));
 
         //Create spawn points avoiding the points close to doors.
-        for (int ix = margin; ix < (roomData.Dimensions.Width - margin); ix += (roomData.Dimensions.Width / Util.nSpawnPointsVer))
+        for (int ix = margin; ix < (roomData.Dimensions.Width - margin); ix += (roomData.Dimensions.Width / Util.Constants.nSpawnPointsVer))
         {
-            for (int iy = margin; iy < (roomData.Dimensions.Height - margin); iy += (roomData.Dimensions.Height / Util.nSpawnPointsHor))
+            for (int iy = margin; iy < (roomData.Dimensions.Height - margin); iy += (roomData.Dimensions.Height / Util.Constants.nSpawnPointsHor))
             {
                 if ((ix <= margin) || (ix >= topHor))
                 {

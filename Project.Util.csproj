@@ -53,6 +53,7 @@
     <UnityVersion>2020.3.16f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Util\RandomSingleton.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Example\DataBaseExample.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Editor\Definer.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Example\NestedDB.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\ReorderableList\ReorderableList.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\SerializableDictionaryBase.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\References\RequiredReferences.cs" />
-    <Compile Include="Assets\Scripts\Util\Util.cs" />
+    <Compile Include="Assets\Scripts\Util\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Util\Project.Util.asmdef" />

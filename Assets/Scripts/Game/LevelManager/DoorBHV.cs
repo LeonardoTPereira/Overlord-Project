@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Util;
 
 namespace Game.LevelManager
 {
@@ -57,12 +58,12 @@ namespace Game.LevelManager
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
                 sr.sprite = lockedSprite;
                 sr.material = gradientMaterial;
-                sr.material.SetColor("gradientColor1", Util.colorId[firstKeyID - 1]);
+                sr.material.SetColor("gradientColor1", Constants.colorId[firstKeyID - 1]);
                 if (keyID.Count > 1)
-                    sr.material.SetColor("gradientColor2", Util.colorId[keyID[1] - 1]);
+                    sr.material.SetColor("gradientColor2", Constants.colorId[keyID[1] - 1]);
                 else
-                    sr.material.SetColor("gradientColor2", Util.colorId[firstKeyID - 1]);
-                color = Util.colorId[firstKeyID - 1];
+                    sr.material.SetColor("gradientColor2", Constants.colorId[firstKeyID - 1]);
+                color = Constants.colorId[firstKeyID - 1];
             }
             if (parentRoom.hasEnemies)
             {

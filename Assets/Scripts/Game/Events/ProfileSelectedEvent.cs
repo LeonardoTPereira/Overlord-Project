@@ -1,6 +1,5 @@
 ﻿using System;
 using Game.NarrativeGenerator;
-using static Enums;
 
 public delegate void ProfileSelectedEvent(object sender, ProfileSelectedEventArgs e);
 

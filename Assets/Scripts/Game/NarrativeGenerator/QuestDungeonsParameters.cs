@@ -1,27 +1,36 @@
-﻿using Game.NarrativeGenerator.Quests;
+﻿using System;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
-using static Enums;
+using Util;
+using static Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
-    [CreateAssetMenu(menuName = "NarrativeComponents/Dungeons")]
-    public class QuestDungeonsSO : ScriptableObject
+    [Serializeable]
+    public class QuestDungeonsParameters
     {
         public int Size { get; set; } = 0;
         public int NKeys { get; set; } = 0;
         public int LinearityEnum { get; set; }
 
-        public override string ToString()
+        public QuestDungeonsParameters()
         {
-            return "Size=" + Size + "_Keys=" + NKeys + "_lin=" + getLinearity();
+            Size = 0;
+            NKeys = 0;
+            LinearityEnum = 0; 
         }
 
-        public float getLinearity()
+        public override string ToString()
+        {
+            return "Size=" + Size + "_Keys=" + NKeys + "_lin=" + GetLinearity();
+        }
+
+        public float GetLinearity()
         {
             return DungeonLinearityConverter.ToFloat((DungeonLinearity)LinearityEnum);
         }
 
-        public void CalculateDungeonParametersFromQuests(QuestList quests, float explorationPreference)
+        public void CalculateDungeonParametersFromQuests(QuestLine quests, float explorationPreference)
         {
             Size = GetSizeFromEnum(quests.graph.Count, explorationPreference);
             var explorationQuests = 0;
@@ -107,5 +116,9 @@ namespace Game.NarrativeGenerator
             }
             return (int)DungeonKeys.LotsOfKeys;
         }
-    }    
+    }
+
+    public class SerializeableAttribute : Attribute
+    {
+    }
 }

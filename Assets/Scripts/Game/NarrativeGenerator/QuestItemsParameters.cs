@@ -5,13 +5,19 @@ using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
-    [CreateAssetMenu(menuName = "NarrativeComponents/Items")]
-    public class QuestItemsSO : ScriptableObject
+    [Serializeable]
+    public class QuestItemsParameters
     {
         public Dictionary<ItemSO, int> ItemsByType { get; }
-        public int NItems { get; set; }
+        public int TotalItems { get; set; }
 
-        public void CalculateItemsFromQuests(QuestList quests)
+        public QuestItemsParameters()
+        {
+            ItemsByType = new Dictionary<ItemSO, int>();
+            TotalItems = 0;
+        }
+
+        public void CalculateItemsFromQuests(QuestLine quests)
         {
             foreach (var quest in quests.graph)
             {
@@ -39,7 +45,7 @@ namespace Game.NarrativeGenerator
         private void AddItemsFromPairToDictionary(KeyValuePair<ItemSO, int> itemData)
         {
             int newItems = itemData.Value;
-            NItems += newItems;
+            TotalItems += newItems;
             if (ItemsByType.TryGetValue(itemData.Key, out var enemiesForItem))
             {
                 ItemsByType[itemData.Key] = enemiesForItem + newItems;

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using static Util;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -23,16 +23,16 @@ namespace Game.NarrativeGenerator
         {
             switch (favoriteQuest)
             {
-                case KILL_QUEST:
+                case Constants.KILL_QUEST:
                     PlayerProfileEnum = PlayerProfileCategory.Mastery;
                     break;
-                case GET_QUEST:
+                case Constants.GET_QUEST:
                     PlayerProfileEnum = PlayerProfileCategory.Achievement;
                     break;
-                case TALK_QUEST:
+                case Constants.TALK_QUEST:
                     PlayerProfileEnum = PlayerProfileCategory.Immersion;
                     break;
-                case EXPLORE_QUEST:
+                case Constants.EXPLORE_QUEST:
                     PlayerProfileEnum = PlayerProfileCategory.Creativity;
                     break;
                 default:

@@ -54,6 +54,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Game\LevelManager\DungeonLockedCorridor.cs" />
+    <Compile Include="Assets\Scripts\Game\Maestro\PlayerProfileToQuestLinesDictionary.cs" />
+    <Compile Include="Assets\Scripts\Game\Maestro\PlayerProfileToQuestLinesDictionarySO.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Quests\QuestLineList.cs" />
     <Compile Include="Assets\Scripts\Game\EnemyGenerator\GameManagerTest.cs" />
     <Compile Include="Assets\Scripts\Game\Events\ExitRoomEvent.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\DungeonTester.cs" />
@@ -90,10 +93,10 @@
     <Compile Include="Assets\Scripts\Game\GameManager\LevelDescriptionDialogueBHV.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Util.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\PathFinding.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestItemsSO.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestItemsParameters.cs" />
     <Compile Include="Assets\Scripts\Game\Events\KeyCollectEvent.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\DungeonCorridor.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestEnemiesSO.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestEnemiesParameters.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\IMenuPanel.cs" />
     <Compile Include="Assets\Scripts\Game\Events\ProfileSelectedEvent.cs" />
@@ -109,7 +112,7 @@
     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\ProfileDungeonDictionary.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Boundaries.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\KeyUI.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestDungeonsSO.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestDungeonsParameters.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\NpcController.cs" />
     <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemySystem.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\RoomBHV.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="Assets\Scripts\Game\LevelManager\BlockBHV.cs" />
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\NarrativeGenerator.cs" />
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestManager.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\PlayerProfile.cs" />
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Manager.cs" />
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Quests\nao_terminais\Talk.cs" />
     <Compile Include="Assets\Scripts\Game\Events\NewEAGenerationEvent.cs" />
@@ -142,11 +146,11 @@
     <Compile Include="Assets\Scripts\Game\GameManager\WeaponLoaderBHV.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\DungeonFilesDictionarySO.cs" />
     <Compile Include="Assets\Scripts\Game\Events\LevelSelectEvent.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestEnemiesByDifficultySO.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestEnemiesParametersByDifficulty.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\KeyBHV.cs" />
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Quests\QuestTerminals\TalkQuestSO.cs" />
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\DungeonEntrance.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Quests\QuestList.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Quests\QuestLine.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\GameOver.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Fitness.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\RoomGrid.cs" />
@@ -155,7 +159,6 @@
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Program.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\MenuTransitionPanelBHV.cs" />
     <Compile Include="Assets\Scripts\Game\EnemyGenerator\EnemyComponent.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\JSonWriter.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\Coordinates.cs" />
     <Compile Include="Assets\Scripts\Game\Events\FinishMapEvent.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\TreasureUI.cs" />
@@ -168,7 +171,7 @@
     <Compile Include="Assets\Scripts\Game\Events\FormAnsweredEvent.cs" />
     <Compile Include="Assets\Scripts\Game\DataCollection\GameplayData.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\SORoom.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestNpcsSO.cs" />
+    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\QuestNpcsParameters.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\DungeonSOTester.cs" />
     <Compile Include="Assets\Scripts\Game\DataCollection\ScrollBarBHV.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\TileBHV.cs" />
@@ -181,7 +184,6 @@
     <Compile Include="Assets\Scripts\Game\NarrativeGenerator\Quests\QuestTerminals\SecretRoomQuestSO.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Game\LevelManager\WallBHV.cs" />
-    <Compile Include="Assets\Scripts\Game\NarrativeGenerator\PlayerProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Game\Project.Game.asmdef" />

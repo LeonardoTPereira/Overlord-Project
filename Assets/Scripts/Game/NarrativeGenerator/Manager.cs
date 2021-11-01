@@ -1,9 +1,9 @@
 
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Game.NarrativeGenerator.Quests;
+using MyBox;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static Enums;
 
 namespace Game.NarrativeGenerator
 {
@@ -12,15 +12,17 @@ namespace Game.NarrativeGenerator
 
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
+        [MustBeAssigned]
+        [SerializeField] private QuestLineList questLines;
+
         public bool createNarrative = false;
 
         public bool isFinished = true; //verifica se a missão já terminou
         
-        private JSonWriter writer;
         [SerializeField] private FormQuestionsData preTestQuestionnaire;
 
         public Selector Selector { get; set; }
-        public QuestList Quests { get; set; }
+        public QuestLine Quests { get; set; }
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -30,9 +32,8 @@ namespace Game.NarrativeGenerator
 
         void Awake()
         {
-            Quests = new QuestList();
+            Quests = new QuestLine();
             Selector = new Selector();
-            writer = new JSonWriter();
         }
 
         public void OnEnable()
@@ -52,7 +53,9 @@ namespace Game.NarrativeGenerator
             {
                 makeBranches();
 
-                writer.writeJSon(Quests, playerProfile.PlayerProfileEnum);
+                Quests.CreateAsset(playerProfile.PlayerProfileEnum);
+
+                questLines.AddQuestLine(Quests);
 
                 for (int i = 0; i < Quests.graph.Count; i++)
                     Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);
@@ -78,7 +81,9 @@ namespace Game.NarrativeGenerator
                 {
                     makeBranches();
 
-                    writer.writeJSon(Quests, playerProfile.PlayerProfileEnum);
+                    Quests.CreateAsset(playerProfile.PlayerProfileEnum);
+                    
+                    questLines.AddQuestLine(Quests);
 
                     for (int i = 0; i < Quests.graph.Count; i++)
                         Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);

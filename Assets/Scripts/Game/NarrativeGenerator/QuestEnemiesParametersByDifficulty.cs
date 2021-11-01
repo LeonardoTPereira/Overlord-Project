@@ -7,11 +7,12 @@ using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
-    public class QuestEnemiesSoByDifficultySO : QuestEnemiesSO
+    [Serializeable]
+    public class QuestEnemiesParametersByDifficultyParameters : QuestEnemiesParameters
     {
         private SortedList<float, int> totalByFitness;
         
-        public QuestEnemiesSoByDifficultySO()
+        public QuestEnemiesParametersByDifficultyParameters()
         {
             NEnemies = 0;
             totalByFitness = new SortedList<float, int>();
@@ -27,7 +28,7 @@ namespace Game.NarrativeGenerator
             return stringBuilder.ToString();
         }
 
-        public void CalculateMonsterFromQuests(QuestList quests)
+        public void CalculateMonsterFromQuests(QuestLine quests)
         {
             foreach (var quest in quests.graph)
             {

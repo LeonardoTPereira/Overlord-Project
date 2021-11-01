@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
-using static Enums;
 
 namespace LevelGenerator
 {
@@ -22,9 +21,9 @@ namespace LevelGenerator
         private List<Room> roomList;
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
-        public QuestEnemiesSO parametersMonsters;
-        public QuestItemsSO QuestItemsSo;
-        public QuestNpcsSO QuestNpcsSo;
+        public QuestEnemiesParameters parametersMonsters;
+        public QuestItemsParameters QuestItemsParameters;
+        public QuestNpcsParameters QuestNpcsParameters;
         private string playerProfile;
         private string narrativeName;
 
@@ -117,14 +116,14 @@ namespace LevelGenerator
             return copyDungeon;
         }
 
-        public void SetNarrativeParameters(QuestEnemiesSO parametersMonsters,
-            QuestNpcsSO questNpcsSo, 
-            QuestItemsSO questItemsSo,
+        public void SetNarrativeParameters(QuestEnemiesParameters parametersMonsters,
+            QuestNpcsParameters questNpcsParameters, 
+            QuestItemsParameters questItemsParameters,
             string playerProfile, string narrativeName)
         {
-            this.QuestItemsSo = questItemsSo;
+            this.QuestItemsParameters = questItemsParameters;
             this.parametersMonsters = parametersMonsters;
-            this.QuestNpcsSo = questNpcsSo;
+            this.QuestNpcsParameters = questNpcsParameters;
             PlayerProfile = playerProfile;
             NarrativeName = narrativeName;
         }

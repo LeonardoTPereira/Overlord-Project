@@ -6,6 +6,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using Util;
 
 public class GameManagerTest : MonoBehaviour
 {
