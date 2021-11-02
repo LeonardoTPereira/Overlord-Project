@@ -3,10 +3,13 @@ using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests
 {
-    public abstract class ItemQuestSO : QuestSO
+    public class ItemQuestSO : QuestSO
     {
         private Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
-
+        public ItemQuestSO ()
+        {
+            symbolType = SymbolType.item;
+        }
         public override void Init()
         {
             base.Init();

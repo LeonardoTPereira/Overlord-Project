@@ -13,6 +13,7 @@ namespace Game.NarrativeGenerator
         Get,
         Explore,
         // Terminals
+        explore,
         kill,
         talk,
         empty,

@@ -8,6 +8,7 @@ namespace Game.NarrativeGenerator.Quests
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
     public class QuestSO : ScriptableObject, Symbol {
+        public SymbolType symbolType;
         public Dictionary<float,SymbolType> nextSymbolChance {get; set;}
         public bool canDrawNext { get ; set; }
         private QuestSO nextWhenSuccess;
@@ -57,7 +58,7 @@ namespace Game.NarrativeGenerator.Quests
         void Symbol.SetNextSymbol(MarkovChain chain)
         {
             float chance = (float) Random.Range( 0, 100 ) / 100 ;
-            float currentSymbolChance = 0;
+            Debug.Log(chance);
             foreach ( float nextSymbol in nextSymbolChance.Keys )
             {
                 if ( nextSymbol > chance )

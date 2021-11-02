@@ -8,6 +8,10 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
     {
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         
+        public KillQuestSO ()
+        {
+            symbolType = SymbolType.kill;
+        }
         public override void Init()
         {
             base.Init();

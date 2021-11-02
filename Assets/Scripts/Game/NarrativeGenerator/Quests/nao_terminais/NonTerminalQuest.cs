@@ -52,7 +52,7 @@ public class NonTerminalQuest : Symbol
     void Symbol.SetNextSymbol(MarkovChain chain)
     {
         float chance = (float) Random.Range( 0, 100 ) / 100 ;
-        float currentSymbolChance = 0;
+        Debug.Log(chance);
         foreach ( float nextSymbol in nextSymbolChance.Keys )
         {
             if ( nextSymbol > chance )

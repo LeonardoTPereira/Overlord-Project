@@ -11,6 +11,7 @@ namespace Game.NarrativeGenerator.Quests
         public EmptyQuestSO ()
         {
             canDrawNext = false;
+            symbolType = SymbolType.empty;
         }
 
         void SetDictionary( Dictionary<SymbolType, float> _nextSymbolChances )

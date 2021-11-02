@@ -7,5 +7,9 @@ namespace Game.NarrativeGenerator.Quests
     class GetQuestSO : ItemQuestSO
     {
         private const int chance = 1/2;
+        public GetQuestSO ()
+        {
+            symbolType = SymbolType.get;
+        }
     }
 }

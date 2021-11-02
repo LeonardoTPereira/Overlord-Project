@@ -8,6 +8,10 @@ using static Enums;
 
 namespace Game.NarrativeGenerator
 {
+    public class Narrative 
+    {
+        public List<QuestSO> quests = new List<QuestSO>();
+    }
     public class Manager : MonoBehaviour
     {
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
@@ -21,6 +25,10 @@ namespace Game.NarrativeGenerator
 
         public Selector Selector { get; set; }
         public QuestList Quests { get; set; }
+        public QuestUI ui;
+
+
+        public List<Narrative> narratives = new List<Narrative>();
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -65,31 +73,40 @@ namespace Game.NarrativeGenerator
         {
             PlayerProfileEnum playerProfile;
             List<int> answers = new List<int>();
-            if (PreTestQuestionnaire != null)
-            {
-                foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
-                    answers.Add(questionData.answer);
+            // if (PreTestQuestionnaire != null)
+            // {
+            //     foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
+            //         answers.Add(questionData.answer);
 
-                Debug.Log("Answers: " + answers.Count);
+            //     Debug.Log("Answers: " + answers.Count);
 
-                playerProfile = Selector.Select(this, answers);
+                // playerProfile = Selector.Select(this, answers);
+                Selector.weightCalculator( answers );
 
                 if (createNarrative)
                 {
                     makeBranches();
 
-                    writer.writeJSon(Quests, playerProfile);
+                    // writer.writeJSon(Quests, playerProfile);
 
                     // for (int i = 0; i < Quests.graph.Count; i++)
                     //     Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
                 }
 
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            }
+                // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            // }
         }
 
         void makeBranches()
         {
+            for (int i = 0; i < 10; i++)
+            {
+                Selector.DrawMissions( this );
+                Narrative narrative = new Narrative();
+                narrative.quests = Quests.graph;
+                narratives.Add( narrative );
+            }
+            ui.CreateQuestList( narratives );
             // int index = 0, b, c1, c2;
 
             // Quests.graph[index].parent = -1;

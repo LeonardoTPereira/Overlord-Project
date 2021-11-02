@@ -34,25 +34,25 @@ namespace Game.NarrativeGenerator.Quests
                     this.symbol = new Explore();
                 break;
                 case SymbolType.kill:
-                    this.symbol = new KillQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<KillQuestSO>();
                 break;
                 case SymbolType.talk:
-                    this.symbol = new TalkQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<TalkQuestSO>();
                 break;
                 case SymbolType.empty:
-                    this.symbol = new EmptyQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<EmptyQuestSO>();
                 break;
                 case SymbolType.get:
-                    this.symbol = new GetQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<GetQuestSO>();
                 break;
                 case SymbolType.drop:
-                    this.symbol = new DropQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<DropQuestSO>();
                 break;
                 case SymbolType.item:
-                    // this.symbol = new ItemQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<ItemQuestSO>();
                 break;
                 case SymbolType.secret:
-                    this.symbol = new SecretRoomQuestSO();
+                    this.symbol = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
                 break;
                 default:
                     Debug.LogError("Symbol type not found!");
