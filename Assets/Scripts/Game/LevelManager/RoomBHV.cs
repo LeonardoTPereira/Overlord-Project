@@ -1,6 +1,7 @@
 ﻿using Game.LevelManager;
 using EnemyGenerator;
 using System.Collections.Generic;
+using Game.GameManager;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -84,7 +85,7 @@ public class RoomBHV : MonoBehaviour
             PlaceTriforceInRoom();
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         }
-        if (GameManager.instance.enemyMode)
+        if (GameManagerSingleton.instance.enemyMode)
         {
             SelectEnemies();
         }
@@ -269,10 +270,10 @@ public class RoomBHV : MonoBehaviour
         if (roomData.Difficulty > 0)
         {
             hasEnemies = true;
-            GameManager.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
+            GameManagerSingleton.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
             for (int i = 0; i < roomData.Difficulty; ++i)
             {
-                enemiesIndex.Add(GameManager.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
+                enemiesIndex.Add(GameManagerSingleton.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
             }
         }
     }
@@ -295,7 +296,7 @@ public class RoomBHV : MonoBehaviour
                     actualSpawn = Random.Range(0, spawnPoints.Count);
                 } while (selectedSpawnPoints.Contains(actualSpawn));
             }
-            enemy = GameManager.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation, roomData.EnemyType);
+            enemy = GameManagerSingleton.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation, roomData.EnemyType);
             enemy.GetComponent<EnemyController>().SetRoom(this);
             selectedSpawnPoints.Add(actualSpawn);
         }
@@ -361,7 +362,7 @@ public class RoomBHV : MonoBehaviour
     public void PlaceTreasureInRoom()
     {
         TreasureController treasure = Instantiate(treasurePrefab, transform);
-        treasure.Treasure = GameManager.instance.treasureSet.Items[roomData.Treasure-1];
+        treasure.Treasure = GameManagerSingleton.instance.treasureSet.Items[roomData.Treasure-1];
         treasure.transform.position = availablePosition;
         availablePosition.x += 1;
     }

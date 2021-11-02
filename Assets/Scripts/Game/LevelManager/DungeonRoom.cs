@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.GameManager;
 using UnityEngine;
 
 namespace Game.LevelManager
@@ -37,7 +38,7 @@ namespace Game.LevelManager
 
         public Vector3 GetCenterMostFreeTilePosition()
         {
-            GameManager gm = GameManager.instance;
+            GameManagerSingleton gm = GameManagerSingleton.instance;
             Vector3 roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
 
             DungeonRoom room = (DungeonRoom)gm.GetMap().DungeonPartByCoordinates[Coordinates];

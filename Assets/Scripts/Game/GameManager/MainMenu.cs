@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.GameManager;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -12,7 +13,7 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayGame()
     {
-        GameManager.instance.createMaps = true;
+        GameManagerSingleton.instance.createMaps = true;
         SceneManager.LoadScene("LevelWithEnemies");
     }
     public void CreateLevels()
@@ -29,13 +30,13 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayLoadedLevel()
     {
-        GameManager.instance.createMaps = false;
+        GameManagerSingleton.instance.createMaps = false;
         SceneManager.LoadScene("LevelWithEnemies");
     }
 
     public void RetryLevel()
     {
-        GameManager.instance.createMaps = false;
+        GameManagerSingleton.instance.createMaps = false;
         SceneManager.LoadScene("LevelWithEnemies");
     }
 

@@ -106,7 +106,7 @@
     <Compile Include="Assets\Scripts\Game\Events\NarrativeCreatorEvent.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\Dungeon.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\DFS.cs" />
-    <Compile Include="Assets\Scripts\Game\GameManager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Game\GameManager\GameManagerSingleton.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager\Player.cs" />
     <Compile Include="Assets\Scripts\Game\Events\LoadWeaponButtonEvent.cs" />
     <Compile Include="Assets\Scripts\Game\LevelGenerator\LevelSOs\ProfileDungeonDictionary.cs" />

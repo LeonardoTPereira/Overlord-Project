@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.GameManager;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
@@ -25,13 +26,13 @@ public class KeyUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.NewLevelLoadedEventHandler += ResetKeyGUI;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetKeyGUI;
         KeyBHV.KeyCollectEventHandler += CreateKeyImage;
     }
 
     private void OnDisable()
     {
-        GameManager.NewLevelLoadedEventHandler -= ResetKeyGUI;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetKeyGUI;
         KeyBHV.KeyCollectEventHandler -= CreateKeyImage;
     }
 
