@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.GameManager;
 using TMPro;
 using UnityEngine;
 
@@ -18,13 +19,13 @@ public class TreasureUI : MonoBehaviour
     protected void OnEnable()
     {
         TreasureController.treasureCollectEvent += IncrementTreasure;
-        GameManager.NewLevelLoadedEventHandler += ResetTreasure;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
     }
 
     protected void OnDisable()
     {
         TreasureController.treasureCollectEvent -= IncrementTreasure;
-        GameManager.NewLevelLoadedEventHandler -= ResetTreasure;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
     }
 
     public void IncrementTreasure(object sender, TreasureCollectEventArgs eventArgs)

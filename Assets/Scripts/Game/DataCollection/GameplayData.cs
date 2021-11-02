@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Game.GameManager;
 using Game.NarrativeGenerator;
 using UnityEngine;
-using static Enums;
+using Util;
+using static Util.Enums;
 
 public struct CombatRoomInfo
 {
@@ -21,10 +23,10 @@ public struct CombatRoomInfo
     public int timeToExit;
 }
 
-public class PlayerProfile : MonoBehaviour
+public class GameplayData : MonoBehaviour
 {
 
-    public static PlayerProfile instance = null;
+    public static GameplayData instance = null;
 
     private int roomID = 0;
 
@@ -77,8 +79,8 @@ public class PlayerProfile : MonoBehaviour
 
     private string result;
 
-    private PlayerProfileEnum playerProfile;
-    private PlayerProfileEnum experimentPlayerProfile;
+    private PlayerProfile playerProfile;
+    private PlayerProfile givenPlayerProfile;
 
     void Awake()
     {
@@ -128,18 +130,18 @@ public class PlayerProfile : MonoBehaviour
         BombController.PlayerHitEventHandler += ResetCombo;
         EnemyController.playerHitEventHandler += ResetCombo;
         TreasureController.treasureCollectEvent += GetTreasure;
-        GameManager.NewLevelLoadedEventHandler += ResetMaxCombo;
-        GameManager.NewLevelLoadedEventHandler += ResetTreasure;
-        GameManager.GameStartEventHandler += OnGameStart;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetMaxCombo;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
+        GameManagerSingleton.GameStartEventHandler += OnGameStart;
         Player.EnterRoomEventHandler += OnRoomEnter;
         KeyBHV.KeyCollectEventHandler += OnGetKey;
         HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
-        GameManager.FinishMapEventHandler += OnMapComplete;
+        GameManagerSingleton.FinishMapEventHandler += OnMapComplete;
         PlayerController.PlayerDeathEventHandler += OnDeath;
         FormBHV.FormQuestionAnsweredEventHandler += OnFormAnswered;
         Player.ExitRoomEventHandler += OnRoomExit;
         DoorBHV.KeyUsedEventHandler += OnKeyUsed;
-        GameManager.StartMapEventHandler += OnMapStart;
+        GameManagerSingleton.StartMapEventHandler += OnMapStart;
         Manager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
         ExperimentController.ProfileSelectedEventHandler += OnProfileSelected;
     }
@@ -151,13 +153,13 @@ public class PlayerProfile : MonoBehaviour
         BombController.PlayerHitEventHandler -= ResetCombo;
         EnemyController.playerHitEventHandler -= ResetCombo;
         TreasureController.treasureCollectEvent -= GetTreasure;
-        GameManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
-        GameManager.NewLevelLoadedEventHandler -= ResetTreasure;
-        GameManager.GameStartEventHandler -= OnGameStart;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetMaxCombo;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
+        GameManagerSingleton.GameStartEventHandler -= OnGameStart;
         Player.EnterRoomEventHandler -= OnRoomEnter;
         KeyBHV.KeyCollectEventHandler -= OnGetKey;
         HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
-        GameManager.FinishMapEventHandler -= OnMapComplete;
+        GameManagerSingleton.FinishMapEventHandler -= OnMapComplete;
         PlayerController.PlayerDeathEventHandler -= OnDeath;
         FormBHV.FormQuestionAnsweredEventHandler -= OnFormAnswered;
         Player.ExitRoomEventHandler -= OnRoomExit;
@@ -173,7 +175,7 @@ public class PlayerProfile : MonoBehaviour
     
     private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
     {
-        experimentPlayerProfile = eventArgs.PlayerProfile;
+        givenPlayerProfile = eventArgs.PlayerProfile;
     }
 
     private void IncrementCombo(object sender, EventArgs eventArgs)
@@ -361,8 +363,8 @@ public class PlayerProfile : MonoBehaviour
                 i++;
             }
             profileString += "\n";
-            profileString += playerProfile+",";
-            profileString += experimentPlayerProfile+",";
+            profileString += playerProfile.PlayerProfileEnum+",";
+            profileString += givenPlayerProfile.PlayerProfileEnum+",";
             foreach (int answer in preFormAnswers)
             {
                 profileString += answer + ",";
@@ -451,7 +453,7 @@ public class PlayerProfile : MonoBehaviour
         WrapLevelDetailedCombatProfileToString();
         StartCoroutine(PostData("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
         //saveToLocalFile("Map" + curMapName, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
-        string UploadFilePath = PlayerProfile.instance.sessionUID;
+        string UploadFilePath = GameplayData.instance.sessionUID;
 
     }
 

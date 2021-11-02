@@ -1,6 +1,7 @@
 ﻿using LevelGenerator;
 using System;
 using System.Collections.Generic;
+using Game.GameManager;
 using UnityEngine;
 
 namespace Game.LevelManager
@@ -40,8 +41,8 @@ namespace Game.LevelManager
          */
         public Map(DungeonFileSO dungeonFileSO, string roomsFilePath = null, int mode = 0)
         {
-            GameManager.instance.maxTreasure = 0;
-            GameManager.instance.maxRooms = 0;
+            GameManagerSingleton.instance.maxTreasure = 0;
+            GameManagerSingleton.instance.maxRooms = 0;
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
 
@@ -119,7 +120,7 @@ namespace Game.LevelManager
                         {
                             if (actualRoom.IsLeafNode())
                             {
-                                treasure = UnityEngine.Random.Range(0, (int)GameManager.instance.treasureSet.Items.Count);
+                                treasure = UnityEngine.Random.Range(0, (int)GameManagerSingleton.instance.treasureSet.Items.Count);
                                 dungeonPartCode = DungeonPart.PartType.TREASURE_ROOM;
                             }
                         }
@@ -236,7 +237,7 @@ namespace Game.LevelManager
         //Cria salas vazias no tamanho padrão
         private void BuildDefaultRooms()
         {
-            Dimensions roomDimensions = new Dimensions(Util.defaultRoomSizeX, Util.defaultRoomSizeY);
+            Dimensions roomDimensions = new Dimensions(Util.Constants.defaultRoomSizeX, Util.Constants.defaultRoomSizeY);
             foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
             {
                 if (currentPart is DungeonRoom room)

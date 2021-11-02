@@ -1,6 +1,7 @@
 ﻿using Game.LevelManager;
 using System;
 using System.Collections.Generic;
+using Game.GameManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -38,11 +39,11 @@ public class Player : PlaceableRoomObject
 
     public void OnEnable()
     {
-        GameManager.NewLevelLoadedEventHandler += ResetValues;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetValues;
         RoomBHV.StartRoomEventHandler += PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler += GetKey;
-        GameManager.EnterRoomEventHandler += GetHealth;
-        GameManager.EnterRoomEventHandler += AdjustCamera;
+        GameManagerSingleton.EnterRoomEventHandler += GetHealth;
+        GameManagerSingleton.EnterRoomEventHandler += AdjustCamera;
         RoomBHV.EnterRoomEventHandler += GetHealth;
         RoomBHV.EnterRoomEventHandler += AdjustCamera;
         DoorBHV.ExitRoomEventHandler += ExitRoom;
@@ -50,11 +51,11 @@ public class Player : PlaceableRoomObject
 
     public void OnDisable()
     {
-        GameManager.NewLevelLoadedEventHandler -= ResetValues;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetValues;
         RoomBHV.StartRoomEventHandler -= PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler -= GetKey;
-        GameManager.EnterRoomEventHandler -= GetHealth;
-        GameManager.EnterRoomEventHandler -= AdjustCamera;
+        GameManagerSingleton.EnterRoomEventHandler -= GetHealth;
+        GameManagerSingleton.EnterRoomEventHandler -= AdjustCamera;
         RoomBHV.EnterRoomEventHandler -= GetHealth;
         RoomBHV.EnterRoomEventHandler -= AdjustCamera;
         DoorBHV.ExitRoomEventHandler -= ExitRoom;

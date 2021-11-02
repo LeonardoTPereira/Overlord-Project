@@ -22,12 +22,12 @@ namespace Game.NarrativeGenerator
             questList.text = questDescription;
         }
 
-        public void CreateOpenQuestList ( QuestList quests )
+        public void CreateOpenQuestList ( QuestLine quests )
         {
             // calls create quest list
         }
 
-        public void CreateClosedQuestList ( QuestList quests )
+        public void CreateClosedQuestList ( QuestLine quests )
         {
             // calls create quest list
         }

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -30,11 +31,7 @@ namespace LevelGenerator
         List<Dungeon> dungeons;
         //The aux the Game Manager will access to load the created dungeon
         public Dungeon aux;
-        EnemyParameters parametersMonsters;
-        ParametersItems parametersItems;
-        ParametersNpcs parametersNpcs;
-        string playerProfile;
-        string narrativeName;
+        private QuestLine _questLine;
 
         /**
          * The constructor of the "Main" behind the EA
@@ -71,11 +68,7 @@ namespace LevelGenerator
         {
 
             fitness = eventArgs.Fitness;
-            parametersMonsters = eventArgs.ParametersMonsters;
-            parametersItems = eventArgs.ParametersItems;
-            parametersNpcs = eventArgs.ParametersNpcs;
-            playerProfile = eventArgs.PlayerProfile;
-            narrativeName = eventArgs.NarrativeName;
+            _questLine = eventArgs.QuestLineForDungeon;
             Thread t = new Thread(new ThreadStart(Evolve));
             t.Start();
             StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
@@ -85,7 +78,7 @@ namespace LevelGenerator
         {
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
-            aux.SetNarrativeParameters(parametersMonsters, parametersNpcs, parametersItems, playerProfile, narrativeName);
+            aux.SetNarrativeParameters(_questLine);
             Interface.PrintNumericalGridWithConnections(aux, fitness, treasureRuntimeSetSO);
             Debug.Log("Printed the dungeon");
         }

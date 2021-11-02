@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
-using static Enums;
+using Game.NarrativeGenerator.Quests;
 
 namespace LevelGenerator
 {
@@ -22,11 +22,7 @@ namespace LevelGenerator
         private List<Room> roomList;
         //Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes
         public RoomGrid roomGrid;
-        public EnemyParameters parametersMonsters;
-        public ParametersItems parametersItems;
-        public ParametersNpcs parametersNpcs;
-        private string playerProfile;
-        private string narrativeName;
+        public QuestLine DungeonQuestLine { get; set; }
 
         public List<Room> RoomList
         {
@@ -52,8 +48,6 @@ namespace LevelGenerator
             }
         }
         public float AvgChildren { get => avgChildren; set => avgChildren = value; }
-        public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
-        public string NarrativeName { get => narrativeName; set => narrativeName = value; }
 
         public float fitness;
 
@@ -69,6 +63,7 @@ namespace LevelGenerator
             neededRooms = 0;
             neededLocks = 0;
             fitness = -1;
+            DungeonQuestLine = null;
         }
 
         /*
@@ -86,6 +81,7 @@ namespace LevelGenerator
             copyDungeon.desiredKeys = desiredKeys;
             copyDungeon.avgChildren = avgChildren;
             copyDungeon.fitness = fitness;
+            copyDungeon.DungeonQuestLine = DungeonQuestLine;
             Room aux;
             foreach (Room oldRoom in roomList)
             {
@@ -117,16 +113,9 @@ namespace LevelGenerator
             return copyDungeon;
         }
 
-        public void SetNarrativeParameters(EnemyParameters parametersMonsters,
-            ParametersNpcs parametersNpcs, 
-            ParametersItems parametersItems,
-            string playerProfile, string narrativeName)
+        public void SetNarrativeParameters(QuestLine questLine)
         {
-            this.parametersItems = parametersItems;
-            this.parametersMonsters = parametersMonsters;
-            this.parametersNpcs = parametersNpcs;
-            PlayerProfile = playerProfile;
-            NarrativeName = narrativeName;
+            DungeonQuestLine = questLine;
         }
 
         public void CalcAvgChildren()

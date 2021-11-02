@@ -1,11 +1,13 @@
 ﻿using EnemyGenerator;
 using System.IO;
+using Game.GameManager;
 using ScriptableObjects;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using Util;
 
 public class GameManagerTest : MonoBehaviour
 {
@@ -234,7 +236,7 @@ public class GameManagerTest : MonoBehaviour
                 SaveTests();
                 //REMOVE THE COMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 CreateSOBestEnemies();
-                GameManager.instance.createEnemy = false;
+                GameManagerSingleton.instance.createEnemy = false;
 
                 entityManager.DestroyEntity(enemyPopulationArray);
                 entityManager.DestroyEntity(intermediateEnemyPopulationArray);

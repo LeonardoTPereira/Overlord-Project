@@ -1,4 +1,5 @@
 ﻿using EnemyGenerator;
+using Game.GameManager;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -6,6 +7,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
+using Util;
 
 #if UNITY_EDITOR
 public class EnemySystem : ComponentSystem
@@ -345,7 +347,7 @@ public class EASystem : JobComponentSystem
     {
         JobHandle handle;
         GetFitnessJob getFitnessJob;
-        if (GameManager.instance && GameManager.instance.createEnemy)
+        if (GameManagerSingleton.instance && GameManagerSingleton.instance.createEnemy)
         {
             //Debug.Log("Creating Enemies");
             if (GameManagerTest.instance && GameManagerTest.instance.generationCounter < EnemyUtil.maxGenerations)
@@ -528,7 +530,7 @@ public class SignalEAEnding : ComponentSystem
 
     protected override void OnUpdate()
     {
-        if (GameManager.instance && GameManager.instance.createEnemy && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
+        if (GameManagerSingleton.instance && GameManagerSingleton.instance.createEnemy && (GameManagerTest.instance.generationCounter == EnemyUtil.maxGenerations) && GameManagerTest.instance.enemyGenerated)
         {
             // Debug.Log("This different update!");
 

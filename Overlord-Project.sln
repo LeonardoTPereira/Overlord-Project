@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBox", "MyBox.csproj", "{4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.ScripableObjects", "Project.ScripableObjects.csproj", "{890FDE38-6F48-A889-3C43-1823C5DE75A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.External", "Project.External.csproj", "{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotaryHeart", "RotaryHeart.csproj", "{CDAED92E-D330-7FBA-438E-5DD8420D3A19}"
 EndProject
 Global
@@ -35,10 +33,6 @@ Global
 		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{890FDE38-6F48-A889-3C43-1823C5DE75A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F770AD4C-8581-28D5-06B8-AEC7D6E0A979}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CDAED92E-D330-7FBA-438E-5DD8420D3A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDAED92E-D330-7FBA-438E-5DD8420D3A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDAED92E-D330-7FBA-438E-5DD8420D3A19}.Release|Any CPU.ActiveCfg = Release|Any CPU

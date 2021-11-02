@@ -5,8 +5,8 @@ using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using UnityEditor;
 using UnityEngine;
-using static Enums;
-using static Util;
+using Util;
+using static Util.Constants;
 
 namespace Game.NarrativeGenerator
 {
@@ -15,7 +15,7 @@ namespace Game.NarrativeGenerator
      */
     public class JSonWriter
     {
-        public void writeJSon(QuestList quests, PlayerProfileEnum playerProfile)
+        public void writeJSon(QuestLine quests, PlayerProfile.PlayerProfileCategory playerProfile)
         {
             // Define the JSON file extension
             const string extension = ".json";
@@ -104,7 +104,7 @@ namespace Game.NarrativeGenerator
                 streamWriter.Close();
             }
 
-            ParametersNpcs pN = new ParametersNpcs();
+            QuestNpcsParameters pN = new QuestNpcsParameters();
             // pN.ConversorNpcs(quests);
             // Convert the enemies to JSON
             outString = JsonConvert.SerializeObject(pN) + '\n';

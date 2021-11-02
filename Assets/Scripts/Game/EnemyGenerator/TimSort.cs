@@ -1,10 +1,12 @@
 ﻿using EnemyGenerator;
+using Game.GameManager;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
+using Util;
 
 #if UNITY_EDITOR
 public class TimSort : MonoBehaviour
@@ -186,7 +188,7 @@ public class TimSortSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         JobHandle handle;
-        if (GameManager.instance && GameManager.instance.createEnemy)
+        if (GameManagerSingleton.instance && GameManagerSingleton.instance.createEnemy)
         {
             if (GameManagerTest.instance.enemyReady && !GameManagerTest.instance.enemySorted)
             {

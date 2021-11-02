@@ -1,7 +1,7 @@
 ﻿using System;
 
 public delegate void PlayerIsDamagedEvent(object sender, PlayerIsDamagedEventArgs e);
-public class PlayerIsDamagedEventArgs : EventArgs
+public class  PlayerIsDamagedEventArgs : EventArgs
 {
     private int enemyIndex;
     private int damageDone;

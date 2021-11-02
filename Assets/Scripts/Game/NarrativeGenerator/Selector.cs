@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Enums;
-using static Util;
 using Game.NarrativeGenerator.Quests;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -16,50 +15,69 @@ namespace Game.NarrativeGenerator
         Dictionary<float,SymbolType> talkSymbolWeights = new Dictionary<float,SymbolType>();
         Dictionary<float,SymbolType> getSymbolWeights = new Dictionary<float,SymbolType>();
         Dictionary<float,SymbolType> exploreSymbolWeights = new Dictionary<float,SymbolType>();
-        private PlayerProfileEnum typePlayer;
+        // private PlayerProfile.PlayerProfileCategory typePlayer;
 
-        public PlayerProfileEnum Select(Manager m, List<int> answers)
+        // public PlayerProfile.PlayerProfileCategory Select(Manager m, List<int> answers)
+        // {
+        //     weightCalculator(answers);
+        // }
+
+        public class QuestWeight
         {
-            weightCalculator(answers);
+            public string quest;
+            public int weight;
 
-            DrawMissions(m);
-
-            return typePlayer;
+            public QuestWeight(string quest, int weight)
+            {
+                this.quest = quest;
+                this.weight = weight;
+            }
         }
 
-        // public PlayerProfileEnum Select(Manager m, NarrativeCreatorEventArgs eventArgs)
-        // {
-        //     // startSymbolWeights = eventArgs.startSymbolWeights;
+        public List<QuestWeight> questWeights = new List<QuestWeight>();
+        Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
+        private static readonly int[] WEIGHTS = {1, 3, 5, 7};
 
-        //     // string favoriteQuest = startSymbolWeights.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+        private PlayerProfile playerProfile;
 
-        //     // GetProfileFromFavoriteQuest(favoriteQuest);
+        public PlayerProfile Select(Manager m, List<int> answers)
+        {
+            //pesos[0] = 3; //peso talk
+            //pesos[1] = 7; //peso get
+            //pesos[2] = 1; //peso kill
+            //pesos[3] = 5; //peso explore
+
+            CalculateProfileWeights(answers);
+
+            CreateProfileWithWeights();
+            
+            DrawMissions(m);
+            
+            return playerProfile;
+        }
+
+        public PlayerProfile Select(Manager m, NarrativeCreatorEventArgs eventArgs)
+        {
+            questWeightsbyType = eventArgs.QuestWeightsbyType;
+
+            CreateProfileWithWeights();
 
         //     DrawMissions(m);
 
-        //     // return typePlayer;
-        // }
+            return playerProfile;
+        }
 
-        private void GetProfileFromFavoriteQuest(string favoriteQuest)
+        private void CreateProfileWithWeights()
         {
-            switch (favoriteQuest)
-            {
-                case KILL_QUEST:
-                    typePlayer = PlayerProfileEnum.Mastery;
-                    break;
-                case GET_QUEST:
-                    typePlayer = PlayerProfileEnum.Achievement;
-                    break;
-                case TALK_QUEST:
-                    typePlayer = PlayerProfileEnum.Immersion;
-                    break;
-                case EXPLORE_QUEST:
-                    typePlayer = PlayerProfileEnum.Creativity;
-                    break;
-                default:
-                    Debug.Log("Something went wrong");
-                    break;
-            }
+            playerProfile = new PlayerProfile();
+
+            playerProfile.AchievementPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()];
+            playerProfile.MasteryPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()];
+            playerProfile.CreativityPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()];
+            playerProfile.ImmersionPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()];
+            
+            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
 
         public void DrawMissions(Manager m)
@@ -119,7 +137,7 @@ namespace Game.NarrativeGenerator
             Debug.Log( questChain.symbolType );
         }
 
-        public void weightCalculator(List<int> answers)
+        private void CalculateProfileWeights(List<int> answers)
         {
             answers.Add(0);
             answers.Add(1);

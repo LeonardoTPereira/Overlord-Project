@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator
         public Dictionary<ItemSO, int> ItemsByType { get; }
         public int NumItens;
 
-        public void ConversorItems(QuestList quests)
+        public void ConversorItems(QuestLine quests)
         {
             for (var i = 0; i < quests.graph.Count; i++)
             {

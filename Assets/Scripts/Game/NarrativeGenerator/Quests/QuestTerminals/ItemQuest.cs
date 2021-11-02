@@ -5,11 +5,12 @@ namespace Game.NarrativeGenerator.Quests
 {
     public class ItemQuestSO : QuestSO
     {
-        private Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
+        public Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
         public ItemQuestSO ()
         {
             symbolType = SymbolType.item;
         }
+
         public override void Init()
         {
             base.Init();

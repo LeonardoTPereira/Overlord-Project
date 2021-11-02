@@ -1,5 +1,6 @@
 ﻿using EnemyGenerator;
 using System;
+using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -53,11 +54,11 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
+        projectileType = GameManagerSingleton.instance.projectileSet.Items[actualProjectile];
         healthCtrl.SetHealth(maxHealth);
         originalColor = sr.color;
         healthCtrl.SetOriginalColor(originalColor);
-        SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.instance.projectileType));
     }
 
     private void OnEnable()
@@ -268,8 +269,8 @@ public class PlayerController : MonoBehaviour
 
     public void NextProjectileSO()
     {
-        actualProjectile = (actualProjectile + 1) % GameManager.instance.projectileSet.Items.Count;
-        projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
+        actualProjectile = (actualProjectile + 1) % GameManagerSingleton.instance.projectileSet.Items.Count;
+        projectileType = GameManagerSingleton.instance.projectileSet.Items[actualProjectile];
         SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
     }
 

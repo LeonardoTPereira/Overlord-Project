@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator;
 using UnityEngine;
-using static Util;
+using Util;
 
 public class NonTerminalQuest : Symbol
 {
@@ -32,10 +32,10 @@ public class NonTerminalQuest : Symbol
 
     private void DrawQuestType()
     {
-        r = ((questWeightsbyType[TALK_QUEST] +
-            questWeightsbyType[GET_QUEST] * 2 +
-            questWeightsbyType[KILL_QUEST] * 3 +
-            questWeightsbyType[EXPLORE_QUEST] * 4) / 16) *
+        r = ((questWeightsbyType[Constants.TALK_QUEST] +
+            questWeightsbyType[Constants.GET_QUEST] * 2 +
+            questWeightsbyType[Constants.KILL_QUEST] * 3 +
+            questWeightsbyType[Constants.EXPLORE_QUEST] * 4) / 16) *
         Random.Range(0f, 3f);
         if (lim == QUEST_LIMIT)
         {

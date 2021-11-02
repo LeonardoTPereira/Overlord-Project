@@ -30,7 +30,7 @@ namespace Game.NarrativeGenerator
             return stringBuilder.ToString();
         }
 
-        public void ConversorMonster(EnemyParameters enemyParameters, QuestList quests)
+        public void ConversorMonster(EnemyParameters enemyParameters, QuestLine quests)
         {
             for (int i = 0; i < quests.graph.Count; i++)
             {

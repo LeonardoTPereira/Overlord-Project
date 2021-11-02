@@ -1,7 +1,10 @@
-﻿using UnityEditor;
+﻿// ﻿using Game.NarrativeGenerator.Quests.QuestTerminals;
+using ScriptableObjects;
+using UnityEditor;
 using UnityEngine;
 using ScriptableObjects;
 using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests.QuestTerminals;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -68,6 +71,40 @@ namespace Game.NarrativeGenerator.Quests
                     chain.SetSymbol( _nextSymbol );
                 }
             }
+        }
+        
+        public bool IsItemQuest()
+        {
+            return GetType().IsAssignableFrom(typeof(ItemQuestSO));
+        }
+        
+        public bool IsDropQuest()
+        {
+            return GetType().IsAssignableFrom(typeof(DropQuestSO));
+        }
+
+        public bool IsKillQuest()
+        {
+            return GetType().IsAssignableFrom(typeof(KillQuestSO));
+        }        
+        
+        public bool IsGetQuest()
+        {
+            return GetType().IsAssignableFrom(typeof(GetQuestSO));
+        }        
+        public bool IsSecretRoomQuest()
+        {
+            return GetType().IsAssignableFrom(typeof(SecretRoomQuestSO));
+        }
+        
+        public bool IsExplorationQuest()
+        {
+            return IsSecretRoomQuest() || IsGetQuest();
+        }
+        
+        public bool IsTalkQuest()
+        {
+            return GetType().IsAssignableFrom(typeof(TalkQuestSO));
         }
     }
 }

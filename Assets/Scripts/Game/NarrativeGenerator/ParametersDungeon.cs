@@ -1,6 +1,7 @@
 ﻿using Game.NarrativeGenerator.Quests;
 using UnityEngine;
-using static Enums;
+using Util;
+using static Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
@@ -40,7 +41,7 @@ namespace Game.NarrativeGenerator
             return DungeonLinearityConverter.ToFloat((DungeonLinearity)LinearityEnum);
         }
 
-        private void conversorDungeon(ParametersDungeon pD, QuestList quests)
+        private void conversorDungeon(ParametersDungeon pD, QuestLine quests)
         {
             // for (int i = 0; i < quests.graph.Count; i++)
             // {

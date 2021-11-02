@@ -1,5 +1,6 @@
 ﻿using Game.LevelManager;
 using UnityEngine;
+using Util;
 
 public class KeyBHV : PlaceableRoomObject
 {
@@ -14,7 +15,7 @@ public class KeyBHV : PlaceableRoomObject
     {
         //Render the key sprite with the color relative to its ID
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.color = Util.colorId[keyID - 1];
+        sr.color = Constants.colorId[keyID - 1];
         color = sr.color;
     }
 

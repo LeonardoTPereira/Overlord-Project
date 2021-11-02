@@ -6,14 +6,12 @@ using UnityEngine;
 namespace Game.NarrativeGenerator
 {
     [CreateAssetMenu(menuName = "NarrativeComponents/NPCs")]
-    public class ParametersNpcs : ScriptableObject
+    public class QuestNpcsParameters
     {
-        private int totalNpcs = 0;
-        private List<NpcSO> npcs;
-
-        public int NumNpcs { get => totalNpcs; set => totalNpcs = value; }
+        public int totalNpcs;
+        public Dictionary<NpcSO, int> NpcsByType { get; set; }
         
-        private void ConversorNpcs(QuestList quests)
+        public void CalculateNpcsFromQuests(QuestLine quests)
         {
             for (var i = 0; i < quests.graph.Count; i++)
             {
@@ -25,15 +23,20 @@ namespace Game.NarrativeGenerator
         {
             if (IsTalkQuest(quest))
             {
-                AddNpcs();
+                AddNpcs((TalkQuestSO) quest);
             }
         }
 
-        private void AddNpcs()
+        private void AddNpcs(TalkQuestSO quest)
         {
-            NumNpcs++;
-            /*TODO create or select NpcSO*/
-            /*TODO set quest to Npc*/
+            if (NpcsByType.TryGetValue(quest.npc, out var currentNpcCounter))
+            {
+                NpcsByType[quest.npc] = currentNpcCounter+1;
+            }
+            else
+            {
+                NpcsByType.Add(quest.npc, 1);
+            }
         }
 
         private static bool IsTalkQuest(QuestSO quest)

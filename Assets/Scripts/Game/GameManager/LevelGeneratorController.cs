@@ -1,27 +1,21 @@
 ﻿using LevelGenerator;
 using MyBox;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using Game.Maestro;
 using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Util;
 
 [RequireComponent(typeof(Program), typeof(NarrativeConfigSO))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
 
-    public static class NarrativeFileTypeString
-    {
-        public const string ENEMY = "Enemy";
-        public const string ITEM = "Item";
-        public const string NPC = "NPC";
-        public const string DUNGEON = "Dungeon";
-    }
+    [SerializeField, MustBeAssigned]
+    private PlayerProfileToQuestLinesDictionarySO playerProfileToQuestLinesDictionarySo;
 
     public static event CreateEADungeonEvent createEADungeonEventHandler;
     private string playerProfile;
@@ -37,8 +31,6 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     [Separator("Fitness Parameters to Create Dungeons")]
     [SerializeField]
     protected Fitness fitness;
-    [SerializeField]
-    protected NarrativeConfigSO narrativeConfigSO;
 
     public void Awake()
     {
@@ -65,29 +57,10 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
         inputCanvas.SetActive(false);
         progressCanvas.SetActive(true);
-        string selectedNarrative = GetNarrativePath();
+        QuestLineList questLineList = playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[playerProfile];
+        QuestLine questLine = questLineList.GetRandomQuestLine();
 
-        EnemyParameters parametersMonsters
-            = GetJSONData<EnemyParameters>(NarrativeFileTypeString.ENEMY, selectedNarrative);
-        ParametersItems parametersItems
-            = GetJSONData<ParametersItems>(NarrativeFileTypeString.ITEM, selectedNarrative);
-        ParametersNpcs parametersNpcs
-            = GetJSONData<ParametersNpcs>(NarrativeFileTypeString.NPC, selectedNarrative);
-        ParametersDungeon parametersDungeon
-            = GetJSONData<ParametersDungeon>(NarrativeFileTypeString.DUNGEON, selectedNarrative);
-
-        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon,
-            parametersMonsters, parametersItems, parametersNpcs, 
-            playerProfile, selectedNarrative.Substring(selectedNarrative.IndexOf(playerProfile)+playerProfile.Length)));
-    }
-
-    private string GetNarrativePath()
-    {
-        string directoryPath = $"{Application.dataPath}{SEPARATOR_CHARACTER}Resources{SEPARATOR_CHARACTER}Experiment{SEPARATOR_CHARACTER}{playerProfile}";
-        string[] directories = Directory.GetDirectories(directoryPath);
-        int nNarrativesForProfile = directories.Length;
-        string selectedNarrative = directories[Random.Range(0, nNarrativesForProfile)];
-        return selectedNarrative;
+        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(questLine));
     }
 
     public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
@@ -115,16 +88,6 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
         }
         inputCanvas.SetActive(false);
         progressCanvas.SetActive(true);
-    }
-
-    private T GetJSONData<T>(string narrativeType, string narrativePath)
-    {
-        string dataPath = narrativePath + SEPARATOR_CHARACTER + narrativeType;
-        string relativePath = dataPath.Substring(dataPath.IndexOf("Experiment"));
-        TextAsset []files = Resources.LoadAll<TextAsset>(relativePath);
-        int nFiles = files.Length;
-        TextAsset selectedFile = files[Random.Range(0, nFiles)];
-        return JsonConvert.DeserializeObject<T>(selectedFile.text);
     }
 
     public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)
