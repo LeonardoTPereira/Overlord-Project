@@ -5,6 +5,7 @@ public class HealthController : MonoBehaviour
 {
     [SerializeField]
     int health;
+    int maxHealth;
     bool isInvincible;
     float invincibilityTime, invincibilityCount;
     Color originalColor;
@@ -13,6 +14,7 @@ public class HealthController : MonoBehaviour
 
     private void Awake()
     {
+        maxHealth = -1;
         isInvincible = false;
         invincibilityCount = 0f;
         invincibilityTime = 0.2f;
@@ -60,14 +62,43 @@ public class HealthController : MonoBehaviour
         }
     }
 
+    /// This method restores the health with the given amount of health when
+    /// the health is lesser than the max health. Return true if the enemy was
+    /// healed, and false otherwise.
+    public bool ApplyHeal(int _health)
+    {
+        // If the enemy is injured, then heal it; if not, ignore it
+        if (GetMaxHealth() > GetHealth())
+        {
+            // Calculate the new health
+            int newHealth = health + _health;
+            // The new health cannot be higher than the max health
+            health = maxHealth >= newHealth ? newHealth : maxHealth;
+            return true;
+        }
+        return false;
+    }
+
     public void SetHealth(int _health)
     {
+        // If not initialized, then define the max health
+        if (maxHealth == -1)
+        {
+            maxHealth = _health;
+        }
         health = _health;
     }
+
     public int GetHealth()
     {
         return health;
     }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
     public void SetOriginalColor(Color _color)
     {
         originalColor = _color;

@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Game.NarrativeGenerator.Quests;
-using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,108 +12,31 @@ namespace LevelGenerator
 {
     class Interface
     {
-        /*
-         * Prints the tree in the command line in a pretty structure
-         * Not being used anymore for quite some time, but is useful if any changes in the tree structure are made
-         */
-
-        public static void PrintTree(Room root)
-        {
-            string typeString = "?";
-            Room first = root;
-            List<Room> firstStack = new List<Room>();
-            List<Room> aux;
-            firstStack.Add(first);
-
-            List<List<Room>> childListStack = new List<List<Room>>
-            {
-                firstStack
-            };
-
-            while (childListStack.Count > 0)
-            {
-                List<Room> childStack = childListStack[childListStack.Count - 1];
-
-                if (childStack.Count == 0)
-                {
-                    childListStack.RemoveAt(childListStack.Count - 1);
-                }
-                else
-                {
-                    first = childStack[0];
-                    childStack.RemoveAt(0);
-
-                    string indent = "";
-                    for (int i = 0; i < childListStack.Count - 1; i++)
-                    {
-                        indent += (childListStack[i].Count > 0) ? "|  " : "   ";
-                    }
-                    //Sets the string representing the type of the room accordingly
-                    Type type = first.Type;
-                    if (type == Type.normal)
-                        {
-                        typeString = "N";
-                    }
-                    else if (type == Type.key)
-                        {
-                        typeString = "K";
-                    }
-                    else if (type == Type.locked)
-                        {
-                        typeString = "L";
-                    }
-                    else
-                    {
-                        Console.WriteLine("Something went wrong printing the tree!\n");
-                        Console.WriteLine("This Room type does not exist!\n\n");
-                    }
-                    Console.WriteLine(indent + "+- " + first.RoomId + "-" + typeString);
-
-                    aux = new List<Room>();
-
-                    if (first.LeftChild != null)
-                        {
-                        aux.Add(first.LeftChild);
-                    }
-                    if (first.BottomChild != null)
-                        {
-                        aux.Add(first.BottomChild);
-                    }
-                    if (first.RightChild != null)
-                        {
-                        aux.Add(first.RightChild);
-                    }
-
-                    if (aux.Count > 0)
-                    {
-                        childListStack.Add(aux);
-                    }
-                }
-            }
-            Console.Write("\n");
-        }
-
         /**
          * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
          * We now save it directly into a Unity's Resource Directory
          */
-        public static void PrintNumericalGridWithConnections(Dungeon dun, Fitness fitness, TreasureRuntimeSetSO treasureRuntimeSetSO)
-        {
-            //Data to navigate the dungeon to print
-            Room actualRoom, parent;
-            RoomGrid grid = dun.roomGrid;
-
+        public static void PrintNumericalGridWithConnections(
+            Individual _individual,
+            Fitness _fitness,
+            TreasureRuntimeSetSO _treasureRuntimeSetSO
+        ) {
+            Dungeon dun = _individual.dungeon;
             int remainingItems, remainingNpcs;
-            Type type;
-            int x, y, iPositive, jPositive;
-            if(dun.DungeonQuestLine != null)
+            if(dun.parametersItems != null)
             {
-                remainingItems = dun.DungeonQuestLine.ItemParametersForQuestLine.TotalItems;
-                remainingNpcs = dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs;
+                remainingItems = dun.parametersItems.NumItens;
             }
             else
             {
                 remainingItems = 0;
+            }
+            if (dun.parametersNpcs != null)
+            {
+                remainingNpcs = dun.parametersNpcs.NumNpcs;
+            }
+            else
+            {
                 remainingNpcs = 0;
             }
 
@@ -123,23 +44,51 @@ namespace LevelGenerator
             List<int> lockedRooms = new List<int>();
             List<int> keys = new List<int>();
 
-            string foldername = "Assets/Resources/Experiment/Dungeons";
+            string foldername;
             //Where to save the new dungeon in Unity
-            string filename = "";
-            filename = "R" + fitness.DesiredRooms + "-K" + fitness.DesiredKeys + "-L" + fitness.DesiredLocks + "-L" + fitness.DesiredLinearity;
+            if (dun.NarrativeName != null)
+            {
+                foldername = "Assets/Resources/Experiment/" + dun.PlayerProfile.ToString() + "/" + dun.NarrativeName + "/Levels/";
+            }
+            else
+            {
+                foldername = "Assets/Resources/DungeonTest/";
+            }
+            // Get the coordinate values corresponding to the Elite
+            float ce = _individual.exploration;
+            float le = _individual.leniency;
+            int e = SearchSpace.GetCoefficientOfExplorationIndex(ce);
+            int l = SearchSpace.GetLeniencyIndex(le);
+            (float, float)[] listCE = SearchSpace.
+                CoefficientOfExplorationRanges();
+            (float, float)[] listLE = SearchSpace.
+                LeniencyRanges();
+            string strCE = ("" + listCE[e])
+                .Replace(" ", "").Replace("(", "").Replace(")", "");
+            string strLE = ("" + listLE[l])
+                .Replace(" ", "").Replace("(", "").Replace(")", "");
+            // Set the dungeon filename
+            string filename, dungeonData = "";
+            filename = "R" + _fitness.DesiredRooms +
+                       "-K" + _fitness.DesiredKeys +
+                       "-L" + _fitness.DesiredLocks +
+                       "-E" + _fitness.DesiredEnemies +
+                       "-L" + _fitness.DesiredLinearity +
+                       "-CE" + strCE +
+                       "-LE" + strLE;
 
             DungeonFileSO dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSO>();
 
             //saves where the dungeon grid begins and ends in each direction
-            foreach (Room room in dun.RoomList)
+            foreach (Room room in dun.rooms)
             {
-                if (room.Type == Type.key)
+                if (room.type == RoomType.Key)
                     {
-                    keys.Add(room.KeyToOpen);
+                    keys.Add(room.key);
                 }
-                else if (room.Type == Type.locked)
+                else if (room.type == RoomType.Locked)
                     {
-                    lockedRooms.Add(room.KeyToOpen);
+                    lockedRooms.Add(room.key);
                 }
             }
             dun.SetBoundariesFromRoomList();
@@ -151,6 +100,8 @@ namespace LevelGenerator
             //hence 2*size
             int[,] map = new int[2 * dun.dimensions.Width, 2 * dun.dimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
+            dungeonData += 2 * dun.dimensions.Width + "\n";
+            dungeonData += 2 * dun.dimensions.Height + "\n";
             dungeonFileSO.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
             SORoom roomDataInFile = null;
             //We initialize the map with the equivalent of an empty cell
@@ -158,7 +109,7 @@ namespace LevelGenerator
             {
                 for (int j = 0; j < 2 * dun.dimensions.Height; ++j)
                 {
-                    map[i, j] = Util.RoomType.NOTHING;
+                    map[i, j] = Common.RoomType.NOTHING;
                 }
             }
 
@@ -168,47 +119,46 @@ namespace LevelGenerator
                 for (int j = dun.boundaries.MinBoundaries.Y; j < dun.boundaries.MaxBoundaries.Y + 1; ++j)
                 {
                     //Converts the coordinate of the original grid (can be negative) to the positive ones used in the matrix
-                    iPositive = i - dun.boundaries.MinBoundaries.X;
-                    jPositive = j - dun.boundaries.MinBoundaries.Y;
+                    int iPositive = i - dun.boundaries.MinBoundaries.X;
+                    int jPositive = j - dun.boundaries.MinBoundaries.Y;
                     //Gets the actual room
-                    actualRoom = grid[i, j];
+                    Room actualRoom = dun.grid[i, j];
                     //If there is something in this position in the grid:
                     if (actualRoom != null)
                     {
-                        type = actualRoom.Type;
                         //If it is a normal room, check if is a leaf node. We are currently placing treasures there
                         //If not a leaf, just save as an empty room for now
                         //TODO: change to handle the new format of having the room's Key ID followed by amount of treasure and them enemy difficulty
                         //Will have to change to an array or something, with 0 treasures and 0 difficulty meaning no treasure and no enemy inside
-                        if (type == Type.normal)
+                        if (actualRoom.type == RoomType.Normal)
                         {
                             if (actualRoom.IsLeafNode())
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
+                                map[iPositive * 2, jPositive * 2] = Common.RoomType.TREASURE;
                             }
                             else
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.EMPTY;
+                                map[iPositive * 2, jPositive * 2] = Common.RoomType.EMPTY;
                             }
                         }
                         //If the room has a key, saves the corresponding key index in the matrix
                         //TODO: Must also change to allow the generation of treasures and enemies
-                        else if (type == Type.key)
+                        else if (actualRoom.type == RoomType.Key)
                         {
-                            map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.KeyToOpen) + 1;
+                            map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.key) + 1;
                         }
                         //If the room is locked from its parent, check if it is a boss room by checking if the key to open is the last one created
                         //It guarantees at least that is the deepest key in the tree, but not the longest route
                         //TODO: Must also change to allow the generation of treasures and enemies
-                        else if (type == Type.locked)
+                        else if (actualRoom.type == RoomType.Locked)
                         {
-                            if (lockedRooms.IndexOf(actualRoom.KeyToOpen) == lockedRooms.Count - 1)
+                            if (lockedRooms.IndexOf(actualRoom.key) == lockedRooms.Count - 1)
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.BOSS;
+                                map[iPositive * 2, jPositive * 2] = Common.RoomType.BOSS;
                             }
                             else
                             {
-                                map[iPositive * 2, jPositive * 2] = Util.RoomType.TREASURE;
+                                map[iPositive * 2, jPositive * 2] = Common.RoomType.TREASURE;
                             }
                         }
                         //If it is not a room, something is wrong
@@ -219,21 +169,21 @@ namespace LevelGenerator
                         }
                         //As (for now) every room must be connected to its parent or children
                         //We need only to check its parent to create the corridors
-                        parent = actualRoom.Parent;
+                        Room parent = actualRoom.parent;
                         if (parent != null)
                         {
-                            x = parent.X - actualRoom.X + 2 * iPositive;
-                            y = parent.Y - actualRoom.Y + 2 * jPositive;
+                            int x = parent.X - actualRoom.X + 2 * iPositive;
+                            int y = parent.Y - actualRoom.Y + 2 * jPositive;
                             //If corridor is lockes, save the index of the key that opens it
                             //But as a negative value. A negative corridor is locked!
                             //If not, save it only as a normal corridor
-                            if (type == Type.locked)
+                            if (actualRoom.type == RoomType.Locked)
                             {
-                                map[x, y] = -(keys.IndexOf(actualRoom.KeyToOpen) + 1);
+                                map[x, y] = -(keys.IndexOf(actualRoom.key) + 1);
                             }
                             else
                             {
-                                map[x, y] = Util.RoomType.CORRIDOR;
+                                map[x, y] = Common.RoomType.CORRIDOR;
                             }
                         }
                     }
@@ -246,11 +196,11 @@ namespace LevelGenerator
                 for (int j = 0; j < dun.dimensions.Height * 2; ++j)
                 {
                     //This whole block was to print in a console
-                    if (map[i, j] == Util.RoomType.EMPTY)
+                    if (map[i, j] == Common.RoomType.EMPTY)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
                     }
-                    else if (map[i, j] == Util.RoomType.CORRIDOR)
+                    else if (map[i, j] == Common.RoomType.CORRIDOR)
                     {
                         Console.ForegroundColor = ConsoleColor.Magenta;
                     }
@@ -258,11 +208,11 @@ namespace LevelGenerator
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                     }
-                    else if (map[i, j] == Util.RoomType.NOTHING)
+                    else if (map[i, j] == Common.RoomType.NOTHING)
                     {
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    else if (map[i, j] == Util.RoomType.BOSS)
+                    else if (map[i, j] == Common.RoomType.BOSS)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                     }
@@ -275,8 +225,12 @@ namespace LevelGenerator
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                     }
 
+                    // Calculate the room position in the grid
+                    int x = i / 2 + dun.boundaries.MinBoundaries.X;
+                    int y = j / 2 + dun.boundaries.MinBoundaries.Y;
+
                     //If cell is empty, do nothing (or print empty space in console)
-                    if (map[i, j] == Util.RoomType.NOTHING)
+                    if (map[i, j] == Common.RoomType.NOTHING)
                     {
                         Console.Write("  ");
                         roomDataInFile = null;
@@ -287,7 +241,10 @@ namespace LevelGenerator
                         System.Random random = new System.Random();
 
                         int enemyType_Randomizer = UnityEngine.Random.Range(0, 3);
-                        
+
+                        //For Unity's dungeon file we need to save the x and y position of the room
+                        dungeonData += i + "\n";
+                        dungeonData += j + "\n";
                         roomDataInFile = new SORoom
                         {
                             coordinates = new Coordinates(i, j)
@@ -300,22 +257,29 @@ namespace LevelGenerator
                         {
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.Write(" s");
+                            dungeonData += "s\n";
                             roomDataInFile.type = "s";
-                            roomDataInFile.Enemies = 0;
+                            dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            roomDataInFile.Enemies = dun.grid[x, y].enemies;
                             roomDataInFile.Treasures = 0;
                         }
                         //If it is a corridor, writes "c" in the file
-                        else if (map[i, j] == Util.RoomType.CORRIDOR)
+                        else if (map[i, j] == Common.RoomType.CORRIDOR)
                         {
                             Console.Write(" c");
+                            dungeonData += "c\n";
                             roomDataInFile.type = "c";
                         }
                         //If is the boss room, writes "B". Currently is where the Triforce is located
-                        else if (map[i, j] == Util.RoomType.BOSS)
+                        else if (map[i, j] == Common.RoomType.BOSS)
                         {
                             Console.Write(" B");
+                            dungeonData += "B\n";
                             roomDataInFile.type = "B";
-                            roomDataInFile.Enemies = 0;
+                            dungeonData += "0\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            roomDataInFile.Enemies = dun.grid[x, y].enemies;
                             roomDataInFile.Treasures = 0;
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
                         }
@@ -323,6 +287,7 @@ namespace LevelGenerator
                         else if (map[i, j] < 0)
                         {
                             Console.Write("{0,2}", map[i, j]);
+                            dungeonData += map[i, j] + "\n";
 
                             roomDataInFile.locks = new List<int>
                             {
@@ -331,15 +296,15 @@ namespace LevelGenerator
                         }
                         //If it was a room with treasure, save it as a "T"
                         //TODO: change this as now every room may contain treasures, enemies and/or keys
-                        else if (map[i, j] == Util.RoomType.TREASURE)
+                        else if (map[i, j] == Common.RoomType.TREASURE)
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            
-                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
+
+                            int maxPossibleItems = Math.Min(_treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
                             int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
                             int numberNpcs;
 
-                            int difficulty = random.Next(2, 5);
+                            int difficulty = dun.grid[x, y].enemies;
                             if (remainingNpcs > 0)
                             {
                                 numberNpcs = UnityEngine.Random.Range(0, 2);
@@ -350,7 +315,7 @@ namespace LevelGenerator
                             }
                             if (numberNpcs > 0)
                             {
-                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs + 1);
+                                numberNpcs = (dun.parametersNpcs.NumNpcs - remainingNpcs + 1);
                                 difficulty = 0;
                             }
 
@@ -361,21 +326,26 @@ namespace LevelGenerator
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = numberItems;
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
+
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            dungeonData += numberItems + "\n"; //Treasure
+
+
                         }
                         //If the room has a positive value, it holds a key.
                         //Save the key index so we know what key it is
                         else if (map[i, j] > 0)
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            int difficulty = random.Next(1, 5);
+                            int difficulty = dun.grid[x, y].enemies;
 
 
                             roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = 0;
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
-                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count, remainingItems + 1);
+                            int maxPossibleItems = Math.Min(_treasureRuntimeSetSO.Items.Count, remainingItems + 1);
                             int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
-                            
+
                             roomDataInFile.Npcs = 0;
                             remainingItems -= numberItems;
 
@@ -383,19 +353,24 @@ namespace LevelGenerator
                             {
                                 map[i, j]
                             };
+
+                            //TODO: save the info about the treasure and difficulty
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += "+" + map[i, j] + "\n";
                         }
                         //If the cell was none of the above, it must be an empty room
                         else
                         {
                             Console.Write("{0,2}", map[i, j]);
-                            int maxPossibleItems = Math.Min(treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
+                            int maxPossibleItems = Math.Min(_treasureRuntimeSetSO.Items.Count + 1, remainingItems + 1);
                             int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
                             roomDataInFile.Treasures = numberItems;
                             //TODO Logica de carregar inimigos de acordo com probabilidade
 
                             roomDataInFile.EnemiesType = enemyType_Randomizer;
                             int numberNpcs;
-                            int difficulty = random.Next(1,5);
+                            int difficulty = dun.grid[x, y].enemies;
                             if (remainingNpcs > 0)
                             {
                                 numberNpcs = UnityEngine.Random.Range(0, 2);
@@ -406,15 +381,19 @@ namespace LevelGenerator
                             }
                             if(numberNpcs > 0)
                             {
-                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs +1);
+                                numberNpcs = (dun.parametersNpcs.NumNpcs - remainingNpcs +1);
                                 difficulty = 0;
                             }
-                            
+
                             roomDataInFile.Npcs = numberNpcs;
                             remainingItems -= numberItems;
                             remainingNpcs--;
 
                             roomDataInFile.Enemies = difficulty;
+                            dungeonData += difficulty + "\n"; //Difficulty
+                            dungeonData += "0\n"; //Treasure
+                            dungeonData += numberItems + "\n"; //Treasure
+
                         }
 
                     }
@@ -454,8 +433,10 @@ namespace LevelGenerator
                 } while (File.Exists(filename + "-" + sameFilenameCounter + ".asset"));
                 filename += "-"+sameFilenameCounter;
             }
+
+#if UNITY_EDITOR
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
-            dun.DungeonQuestLine.DungeonFileSos.Add(dungeonFileSO);
+#endif
             AssetDatabase.Refresh();
 
             UnityEngine.Debug.Log("Finished Writing dungeon data");

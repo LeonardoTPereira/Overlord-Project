@@ -71,15 +71,16 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 
         public void CreateLevelFromInput()
     {
-        int nRooms, nKeys, nLocks;
+        int nRooms, nKeys, nLocks, nEnemies;
         float linearity;
         try
         {
             nRooms = int.Parse(inputFields["RoomsInputField"].text);
             nKeys = int.Parse(inputFields["KeysInputField"].text);
             nLocks = int.Parse(inputFields["LocksInputField"].text);
+            nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
             linearity = float.Parse(inputFields["LinearityInputField"].text);
-            fitness = new Fitness(nRooms, nKeys, nLocks, linearity);
+            fitness = new Fitness(nRooms, nKeys, nLocks, nEnemies, linearity);
             createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(fitness));
         }
         catch (KeyNotFoundException)

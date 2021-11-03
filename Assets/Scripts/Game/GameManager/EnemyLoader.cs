@@ -2,8 +2,9 @@
 using System.Linq;
 using ScriptableObjects;
 using UnityEngine;
-using Util;
-using static Util.Enums;
+using static Enums;
+using static Util;
+using Newtonsoft.Json.Linq;
 
 public class EnemyLoader : MonoBehaviour
 {
@@ -11,8 +12,14 @@ public class EnemyLoader : MonoBehaviour
     private static readonly string ENEMY_FOLDER = "Enemies";
 
     [SerializeField]
+    public EnemySO[] arena;
+    [SerializeField]
     public EnemySO[] easy, medium, hard;
-    public GameObject enemyPrefab, bomberEnemyPrefab;
+    public GameObject enemyPrefab;
+    public GameObject barehandEnemyPrefab;
+    public GameObject shooterEnemyPrefab;
+    public GameObject bomberEnemyPrefab;
+    public GameObject healerEnemyPrefab;
 
     public void LoadEnemies(int enemyType)
     {
@@ -39,6 +46,14 @@ public class EnemyLoader : MonoBehaviour
                 hard = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
                 ApplyDelegates(hard);
                 break;
+            case (int) EnemyTypeEnum.ARENA:
+                enemyFolder += "Arena/";
+                TextAsset[] enemies = Resources
+                    .LoadAll(enemyFolder, typeof(TextAsset))
+                    .Cast<TextAsset>().ToArray();
+                arena = LoadEnemiesFromJSON(enemies, enemyFolder);
+                ApplyDelegates(arena);
+                break;
         }
     }
 
@@ -53,10 +68,26 @@ public class EnemyLoader : MonoBehaviour
         Debug.Log("Index: "+index);
         EnemySO[] currentEnemies = GetEnemiesFromType(enemyType);
         GameObject enemy;
-        if (currentEnemies[index].weapon.name == "BombThrower")
+        if (currentEnemies[index].weapon.name == "None")
+        {
+            enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemies[index].weapon.name == "Bow")
+        {
+            enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemies[index].weapon.name == "BombThrower")
+        {
             enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemies[index].weapon.name == "Cure")
+        {
+            enemy = Instantiate(healerEnemyPrefab, position, rotation);
+        }
         else
+        {
             enemy = Instantiate(enemyPrefab, position, rotation);
+        }
         enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemies[index], index);
         return enemy;
     }
@@ -75,6 +106,8 @@ public class EnemyLoader : MonoBehaviour
             case (int)EnemyTypeEnum.HARD:
                 return hard;
                 break;
+            case (int) EnemyTypeEnum.ARENA:
+                return arena;
         }
         return medium;
     }
@@ -108,5 +141,48 @@ public class EnemyLoader : MonoBehaviour
                 Debug.Log("No Movement Attached to Enemy");
                 return null;
         }
+    }
+
+    /// Load an array of enemies from JSON files and return an array of EnemySO.
+    private EnemySO[] LoadEnemiesFromJSON(TextAsset[] jsons, string folder)
+    {
+        EnemySO[] enemies = new EnemySO[jsons.Length];
+        for (int i = 0; i < jsons.Length; i++)
+        {
+            enemies[i] = LoadEnemyFromJSON(jsons[i], folder);
+        }
+        return enemies;
+    }
+
+    /// Load an enemy from a JSON file and return an EnemySO.
+    private EnemySO LoadEnemyFromJSON(TextAsset json, string folder)
+    {
+        // Parse JSON
+        JToken individual = JToken.Parse(json.text);
+        JToken enemy = individual["enemy"];
+        JToken weapon = individual["weapon"];
+        // The `0` means that the enemy behavior is indifferent
+        int behavior = 0;
+        if (enemy["behaviorType"] != null)
+        {
+            behavior = (int) enemy["behaviorType"];
+        }
+
+        // Convert JSON into Scriptable Object
+        EnemySO asset = ScriptableObject.CreateInstance<EnemySO>();
+        asset.Init(
+            (int) enemy["health"],
+            (int) enemy["strength"],
+            (float) enemy["movementSpeed"],
+            (float) enemy["activeTime"],
+            (float) enemy["restTime"],
+            (int) weapon["weaponType"],
+            (int) enemy["movementType"],
+            behavior,
+            (float) individual["fitness"],
+            (float) enemy["attackSpeed"],
+            (float) weapon["projectileSpeed"]
+        );
+        return asset;
     }
 }

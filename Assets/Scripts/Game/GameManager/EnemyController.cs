@@ -7,6 +7,9 @@ using static Util.Enums;
 
 public class EnemyController : MonoBehaviour
 {
+    /// This constant holds the weapon prefab name of healers
+    public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
+
     [SerializeField]
     protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
     protected int damage;
@@ -55,7 +58,7 @@ public class EnemyController : MonoBehaviour
         playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     // Update is called once per frame
     void FixedUpdate()
@@ -171,6 +174,25 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    /// Restore the health of this enemy based on the given health amount.
+    /// ATTENTION: This method can be called only by a healer enemy.
+    public bool Heal(int health)
+    {
+        // Healers cannot cure other healers
+        if (weaponPrefab != null &&
+            weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
+        {
+            return false;
+        }
+        // Heal this enemy
+        return healthCtrl.ApplyHeal(health);
+    }
+
+    public float GetAttackSpeed()
+    {
+        return attackSpeed;
+    }
+
     protected void UpdateAnimation(Vector2 movement)
     {
         if (movement.x == 0f && movement.y == 0f)
@@ -218,7 +240,7 @@ public class EnemyController : MonoBehaviour
             projectilePrefab = null;
         movement = enemyData.movement;
         behavior = enemyData.behavior.enemyBehavior;
-        ApplyEnemyColors();
+        // ApplyEnemyColors();
         indexOnEnemyList = index;
         hasMoveDirBeenChosen = false;
         originalColor = sr.color;
@@ -251,9 +273,21 @@ public class EnemyController : MonoBehaviour
         //TODO change head color according to movement
         headColor = originalColor;
         sr.color = originalColor;
-        gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>().color = armsColor;
-        gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>().color = legsColor;
-        gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>().color = headColor;
+        SpriteRenderer arms = gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>();
+        if (arms != null)
+        {
+            arms.color = armsColor;
+        }
+        SpriteRenderer legs = gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>();
+        if (legs != null)
+        {
+            legs.color = legsColor;
+        }
+        SpriteRenderer head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+        if (head != null)
+        {
+            head.color = headColor;
+        }
     }
 
     /// <summary>
