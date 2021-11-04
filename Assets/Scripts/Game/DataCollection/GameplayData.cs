@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Game.GameManager;
+using Game.NarrativeGenerator;
 using UnityEngine;
-using static Enums;
+using Util;
 
 public struct CombatRoomInfo
 {
@@ -20,14 +22,14 @@ public struct CombatRoomInfo
     public int timeToExit;
 }
 
-public class PlayerProfile : MonoBehaviour
+public class GameplayData : MonoBehaviour
 {
     private static string CSV = ".csv";
     private static string POST_DATA_URL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
     private static int POST_QUESTIONS = 8;
 
 
-    public static PlayerProfile instance = null;
+    public static GameplayData instance = null;
 
 
     [SerializeField]
@@ -115,8 +117,8 @@ public class PlayerProfile : MonoBehaviour
 
 
     // Player type classification
-    private PlayerProfileEnum playerProfile;
-    private PlayerProfileEnum experimentPlayerProfile;
+    private PlayerProfile playerProfile;
+    private PlayerProfile givenPlayerProfile;
 
 
     // Enemy Generator Data
@@ -168,18 +170,18 @@ public class PlayerProfile : MonoBehaviour
         BombController.PlayerHitEventHandler += ResetCombo;
         EnemyController.playerHitEventHandler += ResetCombo;
         TreasureController.treasureCollectEvent += GetTreasure;
-        GameManager.NewLevelLoadedEventHandler += ResetMaxCombo;
-        GameManager.NewLevelLoadedEventHandler += ResetTreasure;
-        GameManager.GameStartEventHandler += OnGameStart;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetMaxCombo;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
+        GameManagerSingleton.GameStartEventHandler += OnGameStart;
         Player.EnterRoomEventHandler += OnRoomEnter;
         KeyBHV.KeyCollectEventHandler += OnGetKey;
         HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
-        GameManager.FinishMapEventHandler += OnMapComplete;
+        GameManagerSingleton.FinishMapEventHandler += OnMapComplete;
         PlayerController.PlayerDeathEventHandler += OnDeath;
         FormBHV.FormQuestionAnsweredEventHandler += OnFormAnswered;
         Player.ExitRoomEventHandler += OnRoomExit;
         DoorBHV.KeyUsedEventHandler += OnKeyUsed;
-        GameManager.StartMapEventHandler += OnMapStart;
+        GameManagerSingleton.StartMapEventHandler += OnMapStart;
         Manager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
         ExperimentController.ProfileSelectedEventHandler += OnProfileSelected;
         EnemyController.KillEnemyEventHandler += OnKillEnemy;
@@ -193,13 +195,13 @@ public class PlayerProfile : MonoBehaviour
         BombController.PlayerHitEventHandler -= ResetCombo;
         EnemyController.playerHitEventHandler -= ResetCombo;
         TreasureController.treasureCollectEvent -= GetTreasure;
-        GameManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
-        GameManager.NewLevelLoadedEventHandler -= ResetTreasure;
-        GameManager.GameStartEventHandler -= OnGameStart;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetMaxCombo;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
+        GameManagerSingleton.GameStartEventHandler -= OnGameStart;
         Player.EnterRoomEventHandler -= OnRoomEnter;
         KeyBHV.KeyCollectEventHandler -= OnGetKey;
         HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
-        GameManager.FinishMapEventHandler -= OnMapComplete;
+        GameManagerSingleton.FinishMapEventHandler -= OnMapComplete;
         PlayerController.PlayerDeathEventHandler -= OnDeath;
         FormBHV.FormQuestionAnsweredEventHandler -= OnFormAnswered;
         Player.ExitRoomEventHandler -= OnRoomExit;
@@ -213,9 +215,9 @@ public class PlayerProfile : MonoBehaviour
     //From FormBHV
     private void OnFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
     {
-        if (eventArgs.FormID == (int)FormEnum.PreTestForm)
+        if (eventArgs.FormID == (int)Enums.FormEnum.PreTestForm)
             preFormAnswers.Add(eventArgs.AnswerValue);
-        else if (eventArgs.FormID == (int)FormEnum.PostTestForm)
+        else if (eventArgs.FormID == (int)Enums.FormEnum.PostTestForm)
             postFormAnswers.Add(eventArgs.AnswerValue);
     }
 
@@ -226,7 +228,7 @@ public class PlayerProfile : MonoBehaviour
 
     private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
     {
-        experimentPlayerProfile = eventArgs.PlayerProfile;
+        givenPlayerProfile = eventArgs.PlayerProfile;
     }
 
     private void IncrementCombo(object sender, EventArgs eventArgs)
@@ -388,7 +390,7 @@ public class PlayerProfile : MonoBehaviour
         numberOfKilledEnemies = 0;
         numberOfNPCs = map.NNPCs;
         numberOfInteractedNPCs = 0;
-        totalTreasures = GameManager.instance.maxTreasure;
+        totalTreasures = GameManagerSingleton.instance.maxTreasure;
         treasureCollected = 0;
         maxCombo = 0;
 
@@ -486,8 +488,8 @@ public class PlayerProfile : MonoBehaviour
                 i++;
             }
             profileString += "\n";
-            profileString += playerProfile+",";
-            profileString += experimentPlayerProfile+",";
+            profileString += playerProfile.PlayerProfileEnum+",";
+            profileString += givenPlayerProfile.PlayerProfileEnum+",";
             foreach (int answer in preFormAnswers)
             {
                 profileString += answer + ",";
@@ -641,7 +643,7 @@ public class PlayerProfile : MonoBehaviour
         WrapLevelDetailedCombatProfileToString();
         // StartCoroutine(PostData("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
         SaveToLocalFile("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
-        string UploadFilePath = PlayerProfile.instance.sessionUID;
+        string UploadFilePath = GameplayData.instance.sessionUID;
     }
 
     private void SaveToLocalFile(string name, string stringData, string heatMapData, string levelData, string levelDetailedData)
