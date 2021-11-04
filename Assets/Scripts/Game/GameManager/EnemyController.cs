@@ -1,9 +1,8 @@
-﻿using EnemyGenerator;
+﻿using Game.EnemyGenerator;
 using System;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
-using static Util.Enums;
 
 public class EnemyController : MonoBehaviour
 {
@@ -252,7 +251,7 @@ public class EnemyController : MonoBehaviour
             attackSpeed /= 2;
         }
         //If the movement needs to be fixed for the whole active time, set the flag here
-        if (movement.enemyMovementIndex == MovementEnum.Random || movement.enemyMovementIndex == MovementEnum.Random1D || movement.enemyMovementIndex == MovementEnum.Flee1D || movement.enemyMovementIndex == MovementEnum.Follow1D)
+        if (movement.enemyMovementIndex == Enums.MovementEnum.Random || movement.enemyMovementIndex == Enums.MovementEnum.Random1D || movement.enemyMovementIndex == Enums.MovementEnum.Flee1D || movement.enemyMovementIndex == Enums.MovementEnum.Follow1D)
             hasFixedMoveDir = true;
         else
             hasFixedMoveDir = false;

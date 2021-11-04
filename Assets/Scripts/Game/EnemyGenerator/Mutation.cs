@@ -1,6 +1,6 @@
 using System;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class holds the mutation operator.
     public class Mutation

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class holds the project common functions and constants.
     public class Common

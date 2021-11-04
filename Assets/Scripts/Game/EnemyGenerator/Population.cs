@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// Alias for the coordinate of MAP-Elites matrix.
     using Coordinate = System.ValueTuple<int, int>;

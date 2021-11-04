@@ -1,4 +1,4 @@
-﻿using EnemyGenerator;
+﻿using Game.EnemyGenerator;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;

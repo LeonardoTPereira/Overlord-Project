@@ -58,7 +58,6 @@
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Example\NestedDB.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Editor\Constants.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Editor\DictionaryPropertyDrawer.cs" />
-    <Compile Include="Assets\Scripts\Util\EnemyUtil.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Editor\SupportWindow.cs" />
     <Compile Include="Assets\Scripts\Util\SerializableDictionaryLite\Editor\PreferencesWindow.cs" />
     <Compile Include="Assets\Scripts\Util\Enums.cs" />

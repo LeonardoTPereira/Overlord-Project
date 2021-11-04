@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class holds all the fitness-related functions.
     public class Fitness

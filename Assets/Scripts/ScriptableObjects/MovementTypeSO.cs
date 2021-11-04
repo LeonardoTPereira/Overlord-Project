@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Util;
 
 public delegate Vector3 MovementType(Vector3 playerPos, Vector3 enemyPos);
 

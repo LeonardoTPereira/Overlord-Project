@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This enum defines the movement types of enemies.
     [Serializable]

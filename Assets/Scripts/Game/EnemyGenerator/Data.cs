@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This struct holds the most relevant data of the evolutionary process.
     [Serializable]

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class holds the evolutionary enemy generation algorithm.
     public class EnemyGenerator
@@ -10,7 +10,7 @@ namespace EnemyGenerator
         private static readonly int CROSSOVER_PARENTS = 2;
 
         /// The evolutionary parameters.
-        private Parameters prs;
+        private Parameters _parameters;
         /// The found MAP-Elites population.
         private Population solution;
         /// The evolutionary process' collected data.
@@ -24,11 +24,11 @@ namespace EnemyGenerator
 
         /// Enemy Generator constructor.
         public EnemyGenerator(
-            Parameters _prs
+            Parameters _parameters
         ) {
-            prs = _prs;
+            this._parameters = _parameters;
             data = new Data();
-            data.parameters = prs;
+            data.parameters = this._parameters;
         }
 
         /// Generate and return a set of enemies.
@@ -45,7 +45,7 @@ namespace EnemyGenerator
         private void Evolution()
         {
             // Initialize the random generator
-            Random rand = new Random(prs.seed);
+            Random rand = new Random(_parameters.seed);
 
             // Initialize the MAP-Elites population
             Population pop = new Population(
@@ -54,11 +54,11 @@ namespace EnemyGenerator
             );
 
             // Generate the initial population
-            while (pop.Count() < prs.population)
+            while (pop.Count() < _parameters.population)
             {
                 Individual ind = Individual.GetRandom(ref rand);
                 Difficulty.Calculate(ref ind);
-                Fitness.Calculate(ref ind, prs.difficulty);
+                Fitness.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }
 
@@ -66,35 +66,35 @@ namespace EnemyGenerator
             data.initial = new List<Individual>(pop.ToList());
 
             // Evolve the population
-            for (int g = 0; g < prs.generations; g++)
+            for (int g = 0; g < _parameters.generations; g++)
             {
                 List<Individual> intermediate = new List<Individual>();
-                while (intermediate.Count < prs.intermediate)
+                while (intermediate.Count < _parameters.intermediate)
                 {
                     // Apply the crossover operation
                     Individual[] parents = Selection.Select(
-                        CROSSOVER_PARENTS, prs.competitors, pop, ref rand
+                        CROSSOVER_PARENTS, _parameters.competitors, pop, ref rand
                     );
                     Individual[] offspring = Crossover.Apply(
                         parents[0], parents[1], ref rand
                     );
                     // Apply the mutation operation
-                    if (prs.mutation > Common.RandomPercent(ref rand))
+                    if (_parameters.mutation > Common.RandomPercent(ref rand))
                     {
                         parents[0] = offspring[0];
                         offspring[0] = Mutation.Apply(
-                            parents[0], prs.geneMutation, ref rand
+                            parents[0], _parameters.geneMutation, ref rand
                         );
                         parents[1] = offspring[1];
                         offspring[1] = Mutation.Apply(
-                            parents[1], prs.geneMutation, ref rand
+                            parents[1], _parameters.geneMutation, ref rand
                         );
                     }
                     // Add the new individuals in the intermediate population
                     for (int i = 0; i < offspring.Length; i++)
                     {
                         Difficulty.Calculate(ref offspring[i]);
-                        Fitness.Calculate(ref offspring[i], prs.difficulty);
+                        Fitness.Calculate(ref offspring[i], _parameters.difficulty);
                         intermediate.Add(offspring[i]);
                     }
                 }
@@ -107,7 +107,7 @@ namespace EnemyGenerator
                 }
 
                 // Save the intermediate population
-                if (g == (int) prs.generations / 2)
+                if (g == (int) _parameters.generations / 2)
                 {
                     data.intermediate = new List<Individual>(pop.ToList());
                 }

@@ -1,4 +1,4 @@
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class holds the enemy difficulty function.
     ///

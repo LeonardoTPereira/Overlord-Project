@@ -1,6 +1,6 @@
 using System;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class represents an individual.
     ///

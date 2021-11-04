@@ -1,5 +1,5 @@
 ﻿using Game.LevelManager;
-using EnemyGenerator;
+using Game.EnemyGenerator;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

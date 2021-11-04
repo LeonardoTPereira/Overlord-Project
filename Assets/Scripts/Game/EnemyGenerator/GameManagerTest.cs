@@ -1,11 +1,13 @@
 ﻿using System.IO;
+using ScriptableObjects;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using Util;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     public class GameManagerTest : MonoBehaviour
     {

@@ -1,5 +1,5 @@
 ﻿
-using EnemyGenerator;
+using Game.EnemyGenerator;
 using System;
 using ScriptableObjects;
 using UnityEngine;

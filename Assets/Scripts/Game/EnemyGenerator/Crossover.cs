@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace EnemyGenerator
+namespace Game.EnemyGenerator
 {
     /// This class holds the crossover operator.
     public class Crossover
