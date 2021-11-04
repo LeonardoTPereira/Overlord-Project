@@ -1,10 +1,9 @@
 ﻿using Game.LevelManager;
-using EnemyGenerator;
 using System.Collections.Generic;
+using Game.GameManager;
+using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using static Util;
+using Util;
 
 public class RoomBHV : MonoBehaviour
 {
@@ -58,7 +57,7 @@ public class RoomBHV : MonoBehaviour
         hasEnemies = false;
         enemiesIndex = new List<int>();
         enemiesDead = 0;
-        isArena = GameManager.instance.arenaMode;
+        isArena = GameManagerSingleton.instance.arenaMode;
     }
 
     // Use this for initialization
@@ -67,7 +66,7 @@ public class RoomBHV : MonoBehaviour
         // If the Arena Mode is on, then set up the Arena
         if (roomData.IsStartRoom() && isArena)
         {
-            roomData.EnemyType = (int) EnemyTypeEnum.ARENA;
+            roomData.EnemyType = (int) Enums.EnemyTypeEnum.ARENA;
             hasEnemies = true;
         }
 
@@ -96,7 +95,7 @@ public class RoomBHV : MonoBehaviour
             PlaceTriforceInRoom();
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         }
-        if (GameManager.instance.enemyMode)
+        if (GameManagerSingleton.instance.enemyMode)
         {
             SelectEnemies();
         }
@@ -209,21 +208,21 @@ public class RoomBHV : MonoBehaviour
         auxObj.transform.SetParent(transform);
         auxObj.transform.localPosition = new Vector2(-0.5f - centerX, -0.5f - centerY);
 
-        int margin = Util.distFromBorder;
+        int margin = Constants.distFromBorder;
         float xOffset = transform.position.x;
         float yOffset = transform.position.y;
 
-        int lowerHalfVer = (roomData.Dimensions.Height / Util.nSpawnPointsHor);
-        int upperHalfVer = (3 * roomData.Dimensions.Height / Util.nSpawnPointsHor);
-        int lowerHalfHor = (roomData.Dimensions.Width / Util.nSpawnPointsVer);
-        int upperHalfHor = (3 * roomData.Dimensions.Width / Util.nSpawnPointsVer);
-        int topHor = (margin + (roomData.Dimensions.Width * (Util.nSpawnPointsVer - 1) / Util.nSpawnPointsVer));
-        int topVer = (margin + (roomData.Dimensions.Height * (Util.nSpawnPointsHor - 1) / Util.nSpawnPointsHor));
+        int lowerHalfVer = (roomData.Dimensions.Height / Constants.nSpawnPointsHor);
+        int upperHalfVer = (3 * roomData.Dimensions.Height / Constants.nSpawnPointsHor);
+        int lowerHalfHor = (roomData.Dimensions.Width / Constants.nSpawnPointsVer);
+        int upperHalfHor = (3 * roomData.Dimensions.Width / Constants.nSpawnPointsVer);
+        int topHor = (margin + (roomData.Dimensions.Width * (Constants.nSpawnPointsVer - 1) / Constants.nSpawnPointsVer));
+        int topVer = (margin + (roomData.Dimensions.Height * (Constants.nSpawnPointsHor - 1) / Constants.nSpawnPointsHor));
 
         //Create spawn points avoiding the points close to doors.
-        for (int ix = margin; ix < (roomData.Dimensions.Width - margin); ix += (roomData.Dimensions.Width / Util.nSpawnPointsVer))
+        for (int ix = margin; ix < (roomData.Dimensions.Width - margin); ix += (roomData.Dimensions.Width / Constants.nSpawnPointsVer))
         {
-            for (int iy = margin; iy < (roomData.Dimensions.Height - margin); iy += (roomData.Dimensions.Height / Util.nSpawnPointsHor))
+            for (int iy = margin; iy < (roomData.Dimensions.Height - margin); iy += (roomData.Dimensions.Height / Constants.nSpawnPointsHor))
             {
                 // Calculate the spwan point 2D position (spx, spy)
                 float spx = ix - centerX + xOffset;
@@ -307,11 +306,11 @@ public class RoomBHV : MonoBehaviour
         if (roomData.Difficulty > 0 || isArena)
         {
             hasEnemies = true;
-            GameManager.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
+            GameManagerSingleton.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
             if (isArena)
             {
                 // Load all the enemies from the folder
-                EnemySO[] arena = GameManager.instance.enemyLoader.arena;
+                EnemySO[] arena = GameManagerSingleton.instance.enemyLoader.arena;
                 for (int ei = 0; ei < arena.Length; ei++)
                 {
                     enemiesIndex.Add(ei);
@@ -321,7 +320,7 @@ public class RoomBHV : MonoBehaviour
             {
                 for (int i = 0; i < roomData.Difficulty; ++i)
                 {
-                    enemiesIndex.Add(GameManager.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
+                    enemiesIndex.Add(GameManagerSingleton.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
                 }
             }
         }
@@ -345,7 +344,7 @@ public class RoomBHV : MonoBehaviour
                     actualSpawn = Random.Range(0, spawnPoints.Count);
                 } while (selectedSpawnPoints.Contains(actualSpawn));
             }
-            enemy = GameManager.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation, roomData.EnemyType);
+            enemy = GameManagerSingleton.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation, roomData.EnemyType);
             enemy.GetComponent<EnemyController>().SetRoom(this);
             selectedSpawnPoints.Add(actualSpawn);
         }
@@ -411,7 +410,7 @@ public class RoomBHV : MonoBehaviour
     public void PlaceTreasureInRoom()
     {
         TreasureController treasure = Instantiate(treasurePrefab, transform);
-        treasure.Treasure = GameManager.instance.treasureSet.Items[roomData.Treasure-1];
+        treasure.Treasure = GameManagerSingleton.instance.treasureSet.Items[roomData.Treasure-1];
         treasure.transform.position = availablePosition;
         availablePosition.x += 1;
     }

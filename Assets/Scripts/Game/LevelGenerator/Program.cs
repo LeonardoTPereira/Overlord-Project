@@ -3,11 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using UnityEngine;
-using static Enums;
+using static Util.Enums;
 
 namespace LevelGenerator
 {
@@ -18,7 +17,7 @@ namespace LevelGenerator
         private static readonly int INITIAL_POPULATION_SIZE = 20;
         private static readonly int MUATION_RATE = 5;
         private static readonly int NUMBER_OF_COMPETITORS = 3;
-        Parameters prs;
+        private Parameters _parameters;
 
         /// Level generator
         private LevelGenerator generator;
@@ -34,30 +33,14 @@ namespace LevelGenerator
 
         /// The external parameters of printing purposes
         public TreasureRuntimeSetSO treasureRuntimeSetSO;
-        JSonWriter.ParametersMonsters parametersMonsters;
-        JSonWriter.ParametersItems parametersItems;
-        JSonWriter.ParametersNpcs parametersNpcs;
-        string playerProfile;
-        string narrativeName;
+        private QuestLine _questLine;
 
         /**
          * The constructor of the "Main" behind the EA
          */
         public void Awake()
         {
-            evolutionaryAlgorithm = new EvolutionaryAlgorithm();
             hasFinished = false;
-            min = Double.MaxValue;
-            watch = System.Diagnostics.Stopwatch.StartNew();
-            dungeons = new List<Dungeon>(Constants.POP_SIZE);
-            // Generate the first population
-            for (int i = 0; i < dungeons.Capacity; ++i)
-            {
-                Dungeon individual = new Dungeon();
-                individual.GenerateRooms();
-                dungeons.Add(individual);
-            }
-            aux = dungeons[0];
         }
 
         public void OnEnable()
@@ -73,15 +56,10 @@ namespace LevelGenerator
         // The "Main" behind the Dungeon Generator
         public void EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
         {
-
             fitness = eventArgs.Fitness;
-            parametersMonsters = eventArgs.ParametersMonsters;
-            parametersItems = eventArgs.ParametersItems;
-            parametersNpcs = eventArgs.ParametersNpcs;
-            playerProfile = eventArgs.PlayerProfile;
-            narrativeName = eventArgs.NarrativeName;
+            _questLine = eventArgs.QuestLineForDungeon;
             // Define the evolutionary parameters
-            prs = new Parameters(
+            _parameters = new Parameters(
                 (new System.Random()).Next(), // Random seed
                 MAX_TIME,                 // Maximum time
                 INITIAL_POPULATION_SIZE,  // Initial population size
@@ -114,7 +92,7 @@ namespace LevelGenerator
                     Individual individual = solution.map[e, l];
                     if (individual != null)
                     {
-                        individual.dungeon.SetNarrativeParameters(parametersMonsters, parametersNpcs, parametersItems, playerProfile, narrativeName);
+                        individual.dungeon.SetNarrativeParameters(_questLine);
                         Interface.PrintNumericalGridWithConnections(individual, fitness, treasureRuntimeSetSO);
                     }
                 }
@@ -126,26 +104,12 @@ namespace LevelGenerator
 
         public void Evolve()
         {
-            int matrixOffset = Constants.MATRIXOFFSET;
             hasFinished = false;
             Debug.Log("Start creating dungeons...");
-            generator = new LevelGenerator(prs, newEAGenerationEventHandler);
+            generator = new LevelGenerator(_parameters, newEAGenerationEventHandler);
             generator.Evolve();
             Debug.Log("The dungeons were created!");
             hasFinished = true;
-
-            //Saves the test file that we used in the master thesis
-            //CSVManager.SaveCSVLevel(id, aux.nKeys, aux.nLocks, aux.RoomList.Count, aux.AvgChildren, aux.neededLocks, aux.neededRooms, min, time, Constants.RESULTSFILE+"-"+Constants.nV+"-" + Constants.nK + "-" + Constants.nL + "-" + Constants.lCoef + ".csv");
-
-            //Print info from best level if needed
-            /*Debug.Log("Finished - fitnes:" + aux.fitness);
-            Debug.Log("R:"+ aux.RoomList.Count+"-K:" + aux.nKeys + "-L:"+ aux.nLocks + "-Lin:"+aux.AvgChildren +"-nL:"+aux.neededLocks+"-nR:"+aux.neededRooms);
-            Debug.Log("nRdelta:"+System.Math.Abs(aux.RoomList.Count * 0.8f - aux.neededRooms)+"-80p:"+ aux.RoomList.Count * 0.8f);*/
-
-            //This method prints the dungeon in the console (not unity's one) AND saves it into a file
-            //We should clear the dungeons... but Game Manager is using aux. So we could and should do a hard copy. But i'm not touching that spaghetti right now
-            //TODO: touch spaghetti later
-            //dungeons.Clear();
         }
     }
 }

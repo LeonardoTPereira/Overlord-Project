@@ -2,9 +2,9 @@
 using System.Linq;
 using ScriptableObjects;
 using UnityEngine;
-using static Enums;
-using static Util;
+using static Util.Enums;
 using Newtonsoft.Json.Linq;
+using Util;
 
 public class EnemyLoader : MonoBehaviour
 {

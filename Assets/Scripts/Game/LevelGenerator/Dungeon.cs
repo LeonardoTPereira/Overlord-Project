@@ -1,8 +1,8 @@
 ﻿using Game.LevelManager;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using static Enums;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 
 namespace LevelGenerator
 {
@@ -37,6 +37,8 @@ namespace LevelGenerator
         public Boundaries boundaries;
         public Dimensions dimensions;
 
+        public QuestLine DungeonQuestLine { get; set; }
+
         /// Dungeon constructor.
         ///
         /// Create and return a new dungeon with the starting room.
@@ -53,6 +55,7 @@ namespace LevelGenerator
             minY = RoomGrid.LEVEL_GRID_OFFSET;
             maxX = -RoomGrid.LEVEL_GRID_OFFSET;
             maxY = -RoomGrid.LEVEL_GRID_OFFSET;
+            DungeonQuestLine = null;
         }
 
         /// Return a clone this dungeon.
@@ -73,6 +76,7 @@ namespace LevelGenerator
             dungeon.minY = minY;
             dungeon.maxX = maxX;
             dungeon.maxY = maxY;
+            dungeon.DungeonQuestLine = DungeonQuestLine;
             // Need to use the grid to copy the neighboors, children and parent
             // Check the position of the node in the grid and then substitute the old room with the copied one
             foreach (Room room in dungeon.rooms)
@@ -658,25 +662,15 @@ namespace LevelGenerator
         }
 
         // # Code snippet intended only for writing the generated level
-
-        public JSonWriter.ParametersMonsters parametersMonsters;
-        public JSonWriter.ParametersItems parametersItems;
-        public JSonWriter.ParametersNpcs parametersNpcs;
+        
         private string playerProfile;
         private string narrativeName;
         public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
         public string NarrativeName { get => narrativeName; set => narrativeName = value; }
 
-        public void SetNarrativeParameters(JSonWriter.ParametersMonsters parametersMonsters,
-            JSonWriter.ParametersNpcs parametersNpcs,
-            JSonWriter.ParametersItems parametersItems,
-            string playerProfile, string narrativeName)
+        public void SetNarrativeParameters(QuestLine questLine)
         {
-            this.parametersItems = parametersItems;
-            this.parametersMonsters = parametersMonsters;
-            this.parametersNpcs = parametersNpcs;
-            PlayerProfile = playerProfile;
-            NarrativeName = narrativeName;
+            DungeonQuestLine = questLine;
         }
     }
 }

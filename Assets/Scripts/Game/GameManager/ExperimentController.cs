@@ -19,7 +19,7 @@ namespace Game.GameManager
         private List<QuestLine> _questLineListForProfile;
 
         [SerializeField]
-        private DungeonEntrance[] dungeonEntrances;
+        private DungeonLoader[] dungeonEntrances;
 
         private void OnEnable()
         {
@@ -54,13 +54,13 @@ namespace Game.GameManager
 
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSO> dungeonFileSos = new List<DungeonFileSO>(selectedQuestLine.DungeonFileSos);
-            dungeonEntrances = FindObjectsOfType<DungeonEntrance>();
+            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
             for (int i = 0; i < dungeonEntrances.Length; ++i)
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
-                dungeonEntrances[i].DungeonFileSo = dungeonFileSos[selectedIndex];
+                dungeonEntrances[i].SelectedDungeon = dungeonFileSos[selectedIndex];
                 dungeonFileSos.RemoveAt(selectedIndex);
-                Debug.Log("Dungeon Entrance Filename: " + dungeonEntrances[i].DungeonFileSo.name);
+                Debug.Log("Dungeon Entrance Filename: " + dungeonEntrances[i].SelectedDungeon.name);
             }
         }
 

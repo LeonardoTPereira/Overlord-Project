@@ -14,6 +14,7 @@ using UnityEngine.UI;
 
 namespace Game.GameManager
 {
+    [RequireComponent(typeof(DungeonLoader))]
     public class GameManagerSingleton : MonoBehaviour
     {
 #if UNITY_EDITOR
@@ -85,7 +86,7 @@ namespace Game.GameManager
 
         /*Luana e Paolo*/
         public string levelFile;
-
+        public bool arenaMode = false;
         public void Awake()
         {
             //Singleton
@@ -291,10 +292,9 @@ namespace Game.GameManager
         {
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
             LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelSO;
-            DungeonTester.loadLevelEventHandler += SetCurrentLevelSO;
             WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
             PostFormMenuBHV.postFormButtonEventHandler += SetCurrentLevelSO;
-            DungeonEntrance.loadLevelEventHandler += SetCurrentLevelSO;
+            DungeonLoader.LoadLevelEventHandler += SetCurrentLevelSO;
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBHV.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormAnswered += EndGame;
@@ -303,10 +303,9 @@ namespace Game.GameManager
         {
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
             LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelSO;
-            DungeonTester.loadLevelEventHandler -= SetCurrentLevelSO;
             WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
             PostFormMenuBHV.postFormButtonEventHandler -= SetCurrentLevelSO;
-            DungeonEntrance.loadLevelEventHandler -= SetCurrentLevelSO;
+            DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelSO;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBHV.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormAnswered -= EndGame;

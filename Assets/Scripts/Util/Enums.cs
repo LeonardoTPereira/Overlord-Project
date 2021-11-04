@@ -86,7 +86,8 @@ namespace Util
         {
             EASY = 0,
             MEDIUM = 1,
-            HARD = 2
+            HARD = 2,
+            ARENA = 3
         }
     }
 
