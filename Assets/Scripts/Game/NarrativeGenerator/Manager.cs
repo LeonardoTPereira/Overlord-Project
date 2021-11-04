@@ -10,15 +10,11 @@ using Util;
 
 namespace Game.NarrativeGenerator
 {
-    public class Narrative 
-    {
-        public List<QuestSO> quests = new List<QuestSO>();
-    }
     public class Manager : MonoBehaviour
     {
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
-        [MustBeAssigned]
+        // [MustBeAssigned]
         [SerializeField] private QuestLineList questLines;
 
         public bool createNarrative = false;
@@ -29,9 +25,6 @@ namespace Game.NarrativeGenerator
 
         public Selector Selector { get; set; }
         public QuestUI ui;
-
-
-        public List<Narrative> narratives = new List<Narrative>();
         public QuestLine Quests { get; set; } // implementar coisas com a questline
 
         public FormQuestionsData PreTestQuestionnaire
@@ -71,19 +64,23 @@ namespace Game.NarrativeGenerator
                     Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);
             }
 
-            // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         void Start()
         {
             PlayerProfile playerProfile;
             List<int> answers = new List<int>();
-            // if (PreTestQuestionnaire != null)
-            // {
-            //     foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
-            //         answers.Add(questionData.answer);
+            //teste
+            questLines = ScriptableObject.CreateInstance<QuestLineList>();
+            makeBranches();
+            //
+            if (PreTestQuestionnaire != null)
+            {
+                foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
+                    answers.Add(questionData.answer);
 
-            //     Debug.Log("Answers: " + answers.Count);
+                Debug.Log("Answers: " + answers.Count);
 
                 playerProfile = Selector.Select(this, answers);
 
@@ -104,8 +101,8 @@ namespace Game.NarrativeGenerator
                         Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);
                 }
 
-                // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            // }
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            }
         }
 
         void makeBranches()
@@ -113,9 +110,9 @@ namespace Game.NarrativeGenerator
             for (int i = 0; i < 10; i++)
             {
                 Selector.DrawMissions( this );
-                Narrative narrative = new Narrative();
-                narrative.quests = Quests.graph;
-                narratives.Add( narrative );
+                QuestLine questLine = new QuestLine();
+                questLine.graph = Quests.graph;
+                questLines.AddQuestLine( questLine );
             }
             /// leo
             int index = 0, b;
@@ -126,6 +123,7 @@ namespace Game.NarrativeGenerator
 
             while (index < Quests.graph.Count)
             {
+                Debug.Log("entrou");
                 b = Random.Range(0, 100);
                 QuestSO currentQuest = Quests.graph[index];
                 if (b % 2 == 0)
@@ -156,7 +154,8 @@ namespace Game.NarrativeGenerator
                 }
                 index++;
             }
-            ui.CreateQuestList( narratives );
+            ui.CreateQuestList( questLines );
+            
             // int index = 0, b, c1, c2;
 
             // Quests.graph[index].parent = -1;

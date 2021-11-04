@@ -10,13 +10,13 @@ namespace Game.NarrativeGenerator
     public class QuestUI : MonoBehaviour 
     {
         [SerializeField] private TextMeshProUGUI questList;
-        public void CreateQuestList ( List<Narrative> narratives )
+        public void CreateQuestList ( QuestLineList narratives )
         {
             string questDescription = "";
-            foreach ( Narrative narrative in narratives )
+            foreach ( QuestLine narrative in narratives.QuestLines )
             {
-                string nextQuest = narrative.quests[0].symbolType.ToString();
-                if ( narrative.quests[0].symbolType != SymbolType.empty )
+                string nextQuest = narrative.graph[0].symbolType.ToString();
+                if ( narrative.graph[0].symbolType != SymbolType.empty )
                     questDescription += $"{nextQuest}\n";
             }
             questList.text = questDescription;
