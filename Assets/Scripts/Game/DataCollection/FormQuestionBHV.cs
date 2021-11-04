@@ -18,7 +18,7 @@ public class FormQuestionBHV : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        questionData.answer = -1;
     }
 
     // Update is called once per frame
@@ -32,11 +32,9 @@ public class FormQuestionBHV : MonoBehaviour
         if (!selected.isOn)
         {
             //Debug.Log("IsOff:"+ int.Parse(selected.GetComponentInChildren<Text>().text));
-            //questionData.answer = 0;
-            return;
+            questionData.answer = -1;
         }
-
-        if (selected.isOn)
+        else
         {
             foreach (Toggle t in toggles)
             {

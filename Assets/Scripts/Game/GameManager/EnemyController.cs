@@ -38,6 +38,7 @@ public class EnemyController : MonoBehaviour
     protected Rigidbody2D rb;
 
     public static event EventHandler playerHitEventHandler;
+    public static event EventHandler KillEnemyEventHandler;
 
     /// <summary>
     /// Awakes this instance.
@@ -171,6 +172,7 @@ public class EnemyController : MonoBehaviour
             //Instantiate(bloodParticle, transform.position, Quaternion.identity);
             room.CheckIfAllEnemiesDead();
             Destroy(gameObject);
+            KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
     }
 

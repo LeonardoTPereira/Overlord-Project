@@ -15,7 +15,6 @@ namespace Game.LevelManager
             public const int N_KEYS_N_DOORS = 1;
         }
 
-        private int nRooms;
 
         // Usar variáveis acima do escopo das funções de interpretação de arquivos
         // (parser) torna a compreensão de terceiros mais difícil
@@ -23,14 +22,21 @@ namespace Game.LevelManager
         private Coordinates startRoomCoordinates;
         private Coordinates finalRoomCoordinates;
         private Dimensions dimensions;
+        private int nRooms;
+        private int nKeys;
+        private int nLocks;
         private int nEnemies;
+        private int nNPCs;
 
         // Valores para gerar salas sem o arquivo de definição interna
 
         public const int defaultTileID = 2;
 
-        public int NEnemies { get => nEnemies; set => nEnemies = value; }
         public int NRooms { get => nRooms; set => nRooms = value; }
+        public int NKeys { get => nKeys; set => nKeys = value; }
+        public int NLocks { get => nLocks; set => nLocks = value; }
+        public int NEnemies { get => nEnemies; set => nEnemies = value; }
+        public int NNPCs { get => nNPCs; set => nNPCs = value; }
         public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get => dungeonPartByCoordinates; set => dungeonPartByCoordinates = value; }
         public Coordinates StartRoomCoordinates { get => startRoomCoordinates; set => startRoomCoordinates = value; }
         public Coordinates FinalRoomCoordinates { get => finalRoomCoordinates; set => finalRoomCoordinates = value; }
@@ -177,6 +183,10 @@ namespace Game.LevelManager
             dungeonFileSO.ResetIndex();
             while ((currentDungeonPart = dungeonFileSO.GetNextPart()) != null)
             {
+                if (currentDungeonPart.IsRoom())
+                {
+                    nRooms++;
+                }
                 if (currentDungeonPart.IsStartRoom())
                 {
                     StartRoomCoordinates = currentDungeonPart.GetCoordinates();
@@ -186,6 +196,26 @@ namespace Game.LevelManager
                     FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
                 }
                 DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
+            }
+            //
+            foreach (SORoom room in dungeonFileSO.rooms)
+            {
+                if (room.keys.Count != -1)
+                {
+                    nKeys += room.keys.Count;
+                }
+                if (room.locks.Count != -1)
+                {
+                    nLocks += room.locks.Count;
+                }
+                if (room.Enemies != -1)
+                {
+                    nEnemies += room.Enemies;
+                }
+                if (room.Npcs != -1)
+                {
+                    nNPCs += room.Npcs;
+                }
             }
         }
 
