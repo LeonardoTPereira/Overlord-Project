@@ -1,4 +1,5 @@
-﻿using Game.EnemyGenerator;
+﻿using Game.GameManager;
+using Game.EnemyGenerator;
 using System.Linq;
 using ScriptableObjects;
 using UnityEngine;
@@ -161,12 +162,16 @@ public class EnemyLoader : MonoBehaviour
         JToken individual = JToken.Parse(json.text);
         JToken enemy = individual["enemy"];
         JToken weapon = individual["weapon"];
+        int weaponIndex = (int) weapon["weaponType"];
+        int movementIndex = (int) enemy["movementType"];
         // The `0` means that the enemy behavior is indifferent
-        int behavior = 0;
+        int behaviorIndex = 0;
         if (enemy["behaviorType"] != null)
         {
-            behavior = (int) enemy["behaviorType"];
+            behaviorIndex = (int) enemy["behaviorType"];
         }
+
+        GameManagerSingleton gm = GameManagerSingleton.instance;
 
         // Convert JSON into Scriptable Object
         EnemySO asset = ScriptableObject.CreateInstance<EnemySO>();
@@ -176,9 +181,9 @@ public class EnemyLoader : MonoBehaviour
             (float) enemy["movementSpeed"],
             (float) enemy["activeTime"],
             (float) enemy["restTime"],
-            (int) weapon["weaponType"],
-            (int) enemy["movementType"],
-            behavior,
+            gm.enemyComponents.weaponSet.Items[weaponIndex],
+            gm.enemyComponents.movementSet.Items[movementIndex],
+            gm.enemyComponents.behaviorSet.Items[behaviorIndex],
             (float) individual["fitness"],
             (float) enemy["attackSpeed"],
             (float) weapon["projectileSpeed"]

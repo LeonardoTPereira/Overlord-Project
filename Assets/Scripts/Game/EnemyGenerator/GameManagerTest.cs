@@ -6,11 +6,17 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using Util;
+using MyBox;
 
 namespace Game.EnemyGenerator
 {
     public class GameManagerTest : MonoBehaviour
     {
+#if UNITY_EDITOR
+        [Foldout("Scriptable Objects"), Header("Enemy Components")]
+#endif
+        public EnemyComponentsSO enemyComponents;
+
         /// Evolutionary parameters
         private static readonly int MAX_GENERATIONS = 300;
         private static readonly int INITIAL_POPULATION_SIZE = 35;
@@ -137,6 +143,10 @@ namespace Game.EnemyGenerator
             {
                 AssetDatabase.DeleteAsset(filename + "Enemy" + i + ".asset");
 
+                int weaponIndex = (int) individual.weapon.weaponType;
+                int movementIndex = (int) individual.enemy.movementType;
+                int behaviorIndex = 0; // Behaviors are not implemented yet
+
                 EnemySO enemySO = ScriptableObject.CreateInstance<EnemySO>();
                 enemySO.Init(
                     individual.enemy.health,
@@ -144,9 +154,9 @@ namespace Game.EnemyGenerator
                     individual.enemy.movementSpeed,
                     individual.enemy.activeTime,
                     individual.enemy.restTime,
-                    (int) individual.weapon.weaponType,
-                    (int) individual.enemy.movementType,
-                    0, // Behaviors are not implemented yet
+                    enemyComponents.weaponSet.Items[weaponIndex],
+                    enemyComponents.movementSet.Items[movementIndex],
+                    enemyComponents.behaviorSet.Items[behaviorIndex],
                     individual.fitness,
                     individual.enemy.attackSpeed,
                     individual.weapon.projectileSpeed
