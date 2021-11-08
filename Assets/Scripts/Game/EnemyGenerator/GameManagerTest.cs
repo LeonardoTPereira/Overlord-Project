@@ -16,6 +16,8 @@ namespace Game.EnemyGenerator
         [Foldout("Scriptable Objects"), Header("Enemy Components")]
 #endif
         public EnemyComponentsSO enemyComponents;
+        [SerializeField]
+        public bool isEnable = false;
 
         /// Evolutionary parameters
         private static readonly int MAX_GENERATIONS = 300;
@@ -49,8 +51,11 @@ namespace Game.EnemyGenerator
 
         public void Start()
         {
-            createEAEnemyEventHandler?.Invoke(this,
-                new CreateEAEnemyEventArgs(DifficultyEnum.Easy));
+            if (isEnable)
+            {
+                createEAEnemyEventHandler?.Invoke(this,
+                    new CreateEAEnemyEventArgs(DifficultyEnum.Easy));
+            }
         }
 
         public void OnEnable()

@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
+  isEnable: 0
 --- !u!114 &554727465
 MonoBehaviour:
   m_ObjectHideFlags: 0
