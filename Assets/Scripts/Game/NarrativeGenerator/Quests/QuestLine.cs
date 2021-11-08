@@ -23,8 +23,12 @@ namespace Game.NarrativeGenerator.Quests
         public QuestLine()
         {
             graph = new List<QuestSO>();
+            DungeonFileSos = new List<DungeonFileSO>();
+            EnemySos = new List<EnemySO>();
+            NpcSos = new List<NpcSO>();
+            ItemSos = new List<ItemSO>();
         }
-        
+
         public void CreateAsset(PlayerProfile.PlayerProfileCategory playerProfileCategory)
         {
             // Define the JSON file extension
@@ -33,7 +37,7 @@ namespace Game.NarrativeGenerator.Quests
             // Build the target path
             string target = Application.dataPath;
             target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "Experiment"; 
+            target += Constants.SEPARATOR_CHARACTER + "Experiment";
             target += Constants.SEPARATOR_CHARACTER + playerProfileCategory.ToString();
 
             if (!Directory.Exists(target))

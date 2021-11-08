@@ -8,6 +8,7 @@ using System.Text;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using Game.NarrativeGenerator.Quests;
 
 namespace LevelGenerator
 {
@@ -394,6 +395,7 @@ namespace LevelGenerator
                 filename += "-"+sameFilenameCounter;
             }
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
+            dun.DungeonQuestLine = new QuestLine();
             dun.DungeonQuestLine.DungeonFileSos.Add(dungeonFileSO);
             AssetDatabase.Refresh();
             Debug.Log("Finished Writing dungeon data");
