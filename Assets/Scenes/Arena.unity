@@ -6639,6 +6639,7 @@ GameObject:
   - component: {fileID: 1044382108}
   - component: {fileID: 1044382113}
   - component: {fileID: 1044382112}
+  - component: {fileID: 1044382114}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -6653,30 +6654,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044382105}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generationCounter: 0
-  startTime: 0
-  difficulty: 2
-  enemyGenerated: 0
-  enemyPrinted: 0
-  enemyReady: 0
-  enemySorted: 0
-  bestIdx: 0
-  projectileSet: {fileID: 11400000, guid: fd434a2423766d64bbde424b0396009a, type: 2}
-  movementSet: {fileID: 11400000, guid: 41a11a660db4ab245943b826556cf0af, type: 2}
-  behaviorSet: {fileID: 11400000, guid: be34bae1919ce2c458128eba2838077a, type: 2}
-  weaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
-  timeToConverge: 0
-  timeAfterSort: 0
-  bestFitness: 0
-  averageNBestFitness: 0
-  averageFitness: 0
-  stdDevNBestFitness: 0
-  stdDevFitness: 0
+  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
 --- !u!114 &1044382107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6811,25 +6794,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b56930cb38f844c9fcca9370788a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sessionUID: 
   profileString: 
   heatMapString: 
   levelProfileString: 
   detailedLevelProfileString: 
-  mapCount: 0
-  curBatchId: 0
-  curMapName: 
-  visitedRooms: []
-  mapVisitedCount: 0
-  mapVisitedCountUnique: 0
-  keysTaken: 0
-  keysUsed: 0
+  sessionUID: 
   preFormAnswers: 
-  postFormAnswers: 
-  secondsToFinish: 0
-  actualCombo: 0
-  maxCombo: 0
+  levelID: 
+  chosenWeapon: -1
+  elapsedTime: 0
+  hasFinished: 0
+  hasDied: 0
+  totalKeys: 0
+  collectedKeys: 0
+  totalLocks: 0
+  openedLocks: 0
+  totalRooms: 0
+  numberOfVisitedRooms: 0
+  totalVisits: 0
+  numberOfOverVisitedRooms: 0
+  playerInitialHealth: 0
+  playerFinalHealth: 0
+  playerLostHealth: 0
+  numberOfEnemies: 0
+  numberOfKilledEnemies: 0
+  numberOfNPCs: 0
+  numberOfInteractedNPCs: 0
+  totalTreasures: 0
   treasureCollected: 0
+  maxCombo: 0
+  visitedRooms: []
+  actualCombo: 0
 --- !u!114 &1044382110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6845,6 +6840,7 @@ MonoBehaviour:
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 11400000, guid: 301fc6d37ca02e444af4fc5d61c7aa41, type: 2}
+  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 04462e4169ee42b4fad5143c2ae3f5af, type: 2}
@@ -6929,6 +6925,25 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &1044382114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044382105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isArena: 0
+  <SelectedDungeon>k__BackingField: {fileID: 0}
+  dungeonScene:
+    Scene: {fileID: 0}
+    SceneName: 
+    sceneIndex: -1
+    sceneEnabled: 0
 --- !u!1 &1062336602
 GameObject:
   m_ObjectHideFlags: 0

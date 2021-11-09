@@ -29,6 +29,10 @@ namespace Game.GameManager
         [Foldout("Scriptable Objects"), Header("Current Projectile")]
 #endif
         public ProjectileTypeSO projectileType;
+#if UNITY_EDITOR
+        [Foldout("Scriptable Objects"), Header("Enemy Components")]
+#endif
+        public EnemyComponentsSO enemyComponents;
         protected Program generator;
         public Dungeon createdDungeon;
 #if UNITY_EDITOR
