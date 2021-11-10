@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests;
 
@@ -30,4 +30,4 @@ namespace Game.NarrativeGenerator
         void SetDictionary( Dictionary<float,SymbolType> _nextSymbolChances );
         void SetNextSymbol ( MarkovChain chain);
     }
-}
+}*/

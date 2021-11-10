@@ -81,7 +81,7 @@ namespace Game.GameManager
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
-            Debug.Log("Loading Data For Experiment. Profile: " + profileSelectedEventArgs.PlayerProfile.ToString());
+            Debug.Log("Loading Data For Experiment. Profile: " + profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
             PlayerProfile selectedProfile;
             if (Random.Range(0, 100) < 50)
             {

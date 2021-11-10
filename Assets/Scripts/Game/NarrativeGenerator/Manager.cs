@@ -4,18 +4,12 @@ using System.Runtime.CompilerServices;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Util;
-// using static Assets.Scripts.Game.NarrativeGenerator.LoadText;
 
 namespace Game.NarrativeGenerator
 {
-    public class Narrative 
-    {
-        public List<QuestSO> quests = new List<QuestSO>();
-    }
     public class Manager : MonoBehaviour
     {
+
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
         [MustBeAssigned]
@@ -28,11 +22,7 @@ namespace Game.NarrativeGenerator
         [SerializeField] private FormQuestionsData preTestQuestionnaire;
 
         public Selector Selector { get; set; }
-        public QuestUI ui;
-
-
-        public List<Narrative> narratives = new List<Narrative>();
-        public QuestLine Quests { get; set; } // implementar coisas com a questline
+        public QuestLine Quests { get; set; }
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -71,19 +61,19 @@ namespace Game.NarrativeGenerator
                     Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);
             }
 
-            // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         void Start()
         {
             PlayerProfile playerProfile;
             List<int> answers = new List<int>();
-            // if (PreTestQuestionnaire != null)
-            // {
-            //     foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
-            //         answers.Add(questionData.answer);
+            if (PreTestQuestionnaire != null)
+            {
+                foreach (FormQuestionData questionData in PreTestQuestionnaire.questions)
+                    answers.Add(questionData.answer);
 
-            //     Debug.Log("Answers: " + answers.Count);
+                Debug.Log("Answers: " + answers.Count);
 
                 playerProfile = Selector.Select(this, answers);
 
@@ -91,11 +81,6 @@ namespace Game.NarrativeGenerator
                 {
                     makeBranches();
 
-                    // writer.writeJSon(Quests, playerProfile);
-
-                    // for (int i = 0; i < Quests.graph.Count; i++)
-                    //     Debug.Log(Quests.graph[i].Tipo + ", " + Quests.graph[i].c1 + ", " + Quests.graph[i].c2);
-                    // leo
                     Quests.CreateAsset(playerProfile.PlayerProfileEnum);
                     
                     questLines.AddQuestLine(Quests);
@@ -104,20 +89,12 @@ namespace Game.NarrativeGenerator
                         Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);
                 }
 
-                // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            // }
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            }
         }
 
         void makeBranches()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                Selector.DrawMissions( this );
-                Narrative narrative = new Narrative();
-                narrative.quests = Quests.graph;
-                narratives.Add( narrative );
-            }
-            /// leo
             int index = 0, b;
             QuestSO nextWhenSuccess;
             QuestSO nextWhenFailure;
@@ -156,43 +133,6 @@ namespace Game.NarrativeGenerator
                 }
                 index++;
             }
-            ui.CreateQuestList( narratives );
-            // int index = 0, b, c1, c2;
-
-            // Quests.graph[index].parent = -1;
-
-            // while (index < Quests.graph.Count)
-            // {
-            //     b = Random.Range(0, 100);
-
-            //     if (b % 2 == 0)
-            //     {
-            //         c1 = Random.Range(index + 1, Quests.graph.Count);
-            //         if (c1 < Quests.graph.Count)
-            //         {
-            //             Quests.graph[c1].parent = index;
-            //         }
-
-            //         c2 = Random.Range(index + 1, Quests.graph.Count);
-            //         if (c2 < Quests.graph.Count)
-            //         {
-            //             Quests.graph[c2].parent = index;
-            //         }
-
-            //         Quests.graph[index].c1 = c1;
-            //         if (c1 != c2)
-            //         {
-            //             Quests.graph[index].c2 = c2;
-            //         }
-            //     }
-            //     else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
-            //     {
-            //         Quests.graph[index + 1].parent = index;
-            //         Quests.graph[index].c1 = index + 1;
-            //     }
-
-            //     index++;
-            // }
         }
     }
 }

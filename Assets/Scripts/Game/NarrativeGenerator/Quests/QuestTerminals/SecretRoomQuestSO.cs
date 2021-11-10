@@ -8,10 +8,7 @@ namespace Game.NarrativeGenerator.Quests
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         private Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
         private NpcSO Npc { get; set; }
-        public SecretRoomQuestSO ()
-        {
-            symbolType = SymbolType.secret;
-        }
+
         public override void Init()
         {
             base.Init();

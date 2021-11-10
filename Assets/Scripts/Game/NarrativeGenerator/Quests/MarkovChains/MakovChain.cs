@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
@@ -65,4 +65,4 @@ namespace Game.NarrativeGenerator.Quests
             return this.symbol;
         }
     }
-}
+}*/

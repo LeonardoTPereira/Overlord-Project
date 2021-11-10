@@ -184,9 +184,9 @@ MonoBehaviour:
   <SelectedDungeon>k__BackingField: {fileID: 11400000, guid: 85c80059a3e67a046a866e0ca2c6c75e,
     type: 2}
   dungeonScene:
-    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
-    SceneName: LevelWithEnemies
-    sceneIndex: 4
+    Scene: {fileID: 102900000, guid: 11ee7c01a4b13c644bc61ca2f22926e2, type: 3}
+    SceneName: Arena
+    sceneIndex: 0
     sceneEnabled: 1
 --- !u!1 &1879570843
 GameObject:

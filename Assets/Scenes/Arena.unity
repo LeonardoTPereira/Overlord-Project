@@ -2941,7 +2941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.49999237}
+  m_AnchoredPosition: {x: 0, y: 0.49999046}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &480189707
@@ -6660,6 +6660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
+  isEnable: 0
 --- !u!114 &1044382107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6942,8 +6943,8 @@ MonoBehaviour:
   dungeonScene:
     Scene: {fileID: 0}
     SceneName: 
-    sceneIndex: -1
-    sceneEnabled: 0
+    sceneIndex: 0
+    sceneEnabled: 1
 --- !u!1 &1062336602
 GameObject:
   m_ObjectHideFlags: 0
@@ -8835,7 +8836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.49999237}
+  m_AnchoredPosition: {x: 0, y: 0.49999046}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1385338379

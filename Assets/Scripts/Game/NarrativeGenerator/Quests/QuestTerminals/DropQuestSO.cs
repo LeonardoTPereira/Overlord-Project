@@ -11,12 +11,6 @@ namespace Game.NarrativeGenerator.Quests
         public Dictionary<EnemySO, float> DropChanceByEnemyType { get; set; }
         public Dictionary<ItemSO, Dictionary<EnemySO, int>> ItemData { get; set; }
         public Dictionary<ItemSO, Dictionary<float, int>> ItemDataByEnemyFitness { get; set; }
-        
-        public DropQuestSO ()
-        {
-            symbolType = SymbolType.drop;
-            //canDrawNext = true;
-        }
 
         public override void Init()
         {

@@ -10,16 +10,20 @@ namespace Game.NarrativeGenerator.Quests
 {
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
-    public class QuestSO : ScriptableObject, Symbol {
-        public SymbolType symbolType;
-        public Dictionary<float,SymbolType> nextSymbolChance {get; set;}
-        public bool canDrawNext { get ; set; }
-        private QuestSO nextWhenSuccess;
-        private QuestSO nextWhenFailure;
-        private QuestSO previous;
-        private string questName;
-        private bool endsStoryLine;
-        private TreasureSO reward;
+    public class QuestSO : ScriptableObject {
+        public bool canDrawNext
+        {
+            get => _canDrawNext;
+            set => _canDrawNext = value;
+        }
+
+        [SerializeField] private QuestSO nextWhenSuccess;
+        [SerializeField] private QuestSO nextWhenFailure;
+        [SerializeField] private QuestSO previous;
+        [SerializeField] private string questName;
+        [SerializeField] private bool endsStoryLine;
+        [SerializeField] private TreasureSO reward;
+        private bool _canDrawNext;
 
         public QuestSO NextWhenSuccess { get => nextWhenSuccess; set => nextWhenSuccess = value; }
         public QuestSO NextWhenFailure { get => nextWhenFailure; set => nextWhenFailure = value; }
@@ -53,26 +57,6 @@ namespace Game.NarrativeGenerator.Quests
             AssetDatabase.CreateAsset(this, assetName+".asset");
         }
 
-        void Symbol.SetDictionary( Dictionary<float,SymbolType> _nextSymbolChances  )
-        {
-            nextSymbolChance = _nextSymbolChances;
-        }
-
-        void Symbol.SetNextSymbol(MarkovChain chain)
-        {
-            float chance = (float) Random.Range( 0, 100 ) / 100 ;
-            Debug.Log(chance);
-            foreach ( float nextSymbol in nextSymbolChance.Keys )
-            {
-                if ( nextSymbol > chance )
-                {
-                    SymbolType _nextSymbol;
-                    nextSymbolChance.TryGetValue( nextSymbol, out _nextSymbol );
-                    chain.SetSymbol( _nextSymbol );
-                }
-            }
-        }
-        
         public bool IsItemQuest()
         {
             return GetType().IsAssignableFrom(typeof(ItemQuestSO));

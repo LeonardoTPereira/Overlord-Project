@@ -7,6 +7,7 @@ using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
+    [CreateAssetMenu(menuName = "Narrative/QuestLine")]
     public class QuestLine : ScriptableObject
     {
         public List<QuestSO> graph;

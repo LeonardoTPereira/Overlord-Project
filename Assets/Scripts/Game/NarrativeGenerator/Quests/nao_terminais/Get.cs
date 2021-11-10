@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class Get : NonTerminalQuest
 {
-    private const int chance = 1/3;
-    public Get()//(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
+    public Get(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.8f;
     }
@@ -18,7 +17,7 @@ public class Get : NonTerminalQuest
             GetQuestSO getItemQuest = ScriptableObject.CreateInstance<GetQuestSO>();
             /*TODO initiate data for getQuest*/
 
-            Talk t = new Talk();//(lim, questWeightsbyType);
+            Talk t = new Talk(lim, questWeightsbyType);
             t.Option(m);
             Option(m);
         }
@@ -32,7 +31,7 @@ public class Get : NonTerminalQuest
             DropQuestSO dropItemQuest = ScriptableObject.CreateInstance<DropQuestSO>();
             /*TODO initiate data for dropQuest*/
             
-            Talk t = new Talk();//(lim, questWeightsbyType);
+            Talk t = new Talk(lim, questWeightsbyType);
             t.Option(m);
             Option(m);
         }

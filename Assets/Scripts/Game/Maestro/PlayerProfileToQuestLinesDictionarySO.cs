@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Game.Maestro
 {
-    [CreateAssetMenu(menuName = "DungeonFiles/DungeonFilesDictionarySO")]
+    [CreateAssetMenu(menuName = "PlayerProfileDictionary/QuestLinesByProfile")]
     public class PlayerProfileToQuestLinesDictionarySO : ScriptableObject
     {
-        public PlayerProfileToQuestLinesDictionary QuestLinesForProfile { get; } =
+        public PlayerProfileToQuestLinesDictionary QuestLinesForProfile =
             new PlayerProfileToQuestLinesDictionary();
 
         public void Add(string profile,  QuestLine questLine)
