@@ -6631,7 +6631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.4999981}
+  m_AnchoredPosition: {x: 0, y: 0.5}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &935591438
@@ -9843,11 +9843,14 @@ MonoBehaviour:
   hard: []
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
-  barehandEnemyPrefab: {fileID: 0}
-  shooterEnemyPrefab: {fileID: 0}
+  barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
+    type: 3}
+  shooterEnemyPrefab: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
+    type: 3}
   bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
     type: 3}
-  healerEnemyPrefab: {fileID: 0}
+  healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
+    type: 3}
 --- !u!82 &1411817030
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10002,7 +10005,7 @@ MonoBehaviour:
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 11400000, guid: 2365d76e2564e2a46a0215da234263a2, type: 2}
-  enemyComponents: {fileID: 0}
+  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 714001a36672c8747b10738c78789140, type: 2}
