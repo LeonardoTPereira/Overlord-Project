@@ -396,6 +396,7 @@ namespace LevelGenerator
             }
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
             dun.DungeonQuestLine = new QuestLine();
+            dun.DungeonQuestLine.Init();
             dun.DungeonQuestLine.DungeonFileSos.Add(dungeonFileSO);
             AssetDatabase.Refresh();
             Debug.Log("Finished Writing dungeon data");
