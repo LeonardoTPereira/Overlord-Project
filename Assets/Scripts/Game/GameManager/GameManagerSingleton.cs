@@ -14,7 +14,6 @@ using UnityEngine.UI;
 
 namespace Game.GameManager
 {
-    [RequireComponent(typeof(DungeonLoader))]
     public class GameManagerSingleton : MonoBehaviour
     {
 #if UNITY_EDITOR

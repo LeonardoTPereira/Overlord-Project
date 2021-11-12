@@ -15,7 +15,7 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
 
     [SerializeField, MustBeAssigned]
-    private PlayerProfileToQuestLinesDictionarySO playerProfileToQuestLinesDictionarySo;
+    private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
 
     public static event CreateEADungeonEvent createEADungeonEventHandler;
     private string playerProfile;

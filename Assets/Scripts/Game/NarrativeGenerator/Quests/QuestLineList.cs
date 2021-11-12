@@ -4,7 +4,7 @@ using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
-    [CreateAssetMenu(menuName = "Narrative/QuestLineList")]
+    [CreateAssetMenu(fileName = "QuestLineList", menuName = "Overlord-Project/QuestLineList", order = 0)]
     public class QuestLineList : ScriptableObject
     {
         public List<QuestLine> QuestLines;

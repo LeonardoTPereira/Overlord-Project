@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d47c3d02cc804d1f9de2a84488946bde, type: 3}
-  m_Name: QuestLinesByProfile
+  m_Name: QuestLinesByPlayerProfile
   m_EditorClassIdentifier: 
-  QuestLinesForProfile:
+  questLinesForProfile:
     reorderableList:
       canAdd: 1
       canRemove: 1

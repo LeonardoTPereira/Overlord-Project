@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
-    [CreateAssetMenu(menuName = "NarrativeComponents/NPCs")]
     public class QuestNpcsParameters
     {
         public int totalNpcs;

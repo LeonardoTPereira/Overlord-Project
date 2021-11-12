@@ -15,7 +15,7 @@ namespace Game.GameManager
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
         [SerializeField, MustBeAssigned]
-        private PlayerProfileToQuestLinesDictionarySO playerProfileToQuestLinesDictionarySo;
+        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         private List<QuestLine> _questLineListForProfile;
 
         [SerializeField]
@@ -51,16 +51,16 @@ namespace Game.GameManager
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
-
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSO> dungeonFileSos = new List<DungeonFileSO>(selectedQuestLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonLoader>();
-            for (int i = 0; i < dungeonEntrances.Length; ++i)
+            Debug.Log("Dungeon entrances: "+dungeonEntrances.Length);
+            foreach (var dungeonEntrance in dungeonEntrances)
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
-                dungeonEntrances[i].SelectedDungeon = dungeonFileSos[selectedIndex];
+                dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
                 dungeonFileSos.RemoveAt(selectedIndex);
-                Debug.Log("Dungeon Entrance Filename: " + dungeonEntrances[i].SelectedDungeon.name);
+                Debug.Log("Dungeon Entrance Filename: " + dungeonEntrance.SelectedDungeon.name);
             }
         }
 

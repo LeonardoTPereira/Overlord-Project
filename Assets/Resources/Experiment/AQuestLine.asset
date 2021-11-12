@@ -16,3 +16,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d7eb569a0cfd54b40a3f61bea6cbe196, type: 2}
   - {fileID: 11400000, guid: 8c3e9af6fbcab39458898481e5b88c94, type: 2}
   - {fileID: 11400000, guid: 458f9f32241cf98448bd30e1f2ecbc4d, type: 2}
+  _dungeonFileSos:
+  - {fileID: 11400000, guid: 10d9765914d916f4ba991dab753f3ec8, type: 2}
+  - {fileID: 11400000, guid: 10d9765914d916f4ba991dab753f3ec8, type: 2}
+  - {fileID: 11400000, guid: 10d9765914d916f4ba991dab753f3ec8, type: 2}
+  - {fileID: 11400000, guid: 10d9765914d916f4ba991dab753f3ec8, type: 2}
+  _enemySos:
+  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
+  _npcSos:
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  _itemSos:
+  - {fileID: 11400000, guid: 01f4e06fc8325be42b61ea230eb087e9, type: 2}

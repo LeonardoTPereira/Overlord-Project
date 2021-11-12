@@ -715,7 +715,6 @@ GameObject:
   - component: {fileID: 48615757}
   - component: {fileID: 48615760}
   - component: {fileID: 48615761}
-  - component: {fileID: 48615762}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -956,16 +955,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arena: []
-  easy: []
-  medium: []
-  hard: []
+  easy:
+  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
+  medium:
+  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
+  hard:
+  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
-  barehandEnemyPrefab: {fileID: 0}
-  shooterEnemyPrefab: {fileID: 0}
+  barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
+    type: 3}
+  shooterEnemyPrefab: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
+    type: 3}
   bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
     type: 3}
-  healerEnemyPrefab: {fileID: 0}
+  healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
+    type: 3}
 --- !u!114 &48615759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,32 +1016,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103c2899cce79bc45a67e3e1fa8336de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 370069071aedc4a408d2226b940d53f7,
+  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
     type: 2}
   dungeonEntrances:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &48615762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 48615752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isArena: 0
-  <SelectedDungeon>k__BackingField: {fileID: 11400000, guid: 85c80059a3e67a046a866e0ca2c6c75e,
-    type: 2}
-  dungeonScene:
-    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
-    SceneName: LevelWithEnemies
-    sceneIndex: 4
-    sceneEnabled: 1
 --- !u!1 &53036664
 GameObject:
   m_ObjectHideFlags: 0

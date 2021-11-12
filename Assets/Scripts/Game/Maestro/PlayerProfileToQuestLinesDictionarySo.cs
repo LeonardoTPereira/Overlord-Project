@@ -1,13 +1,17 @@
 ﻿using Game.NarrativeGenerator.Quests;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Maestro
 {
-    [CreateAssetMenu(menuName = "PlayerProfileDictionary/QuestLinesByProfile")]
-    public class PlayerProfileToQuestLinesDictionarySO : ScriptableObject
+    [CreateAssetMenu(fileName = "QuestLinesByPlayerProfile", menuName = "Overlord-Project/QuestLinesByPlayerProfile", order = 0)]    
+    public class PlayerProfileToQuestLinesDictionarySo : ScriptableObject
     {
-        public PlayerProfileToQuestLinesDictionary QuestLinesForProfile =
+        [SerializeField] private PlayerProfileToQuestLinesDictionary questLinesForProfile =
             new PlayerProfileToQuestLinesDictionary();
+
+        
+        public PlayerProfileToQuestLinesDictionary QuestLinesForProfile => questLinesForProfile;
 
         public void Add(string profile,  QuestLine questLine)
         {

@@ -21,17 +21,13 @@ public class DungeonLoader : MonoBehaviour
     
     public static event LevelLoadEvent LoadLevelEventHandler;
 
-    private void Awake()
-    {
-        dungeonScene ??= new SceneReference
-        {
-            Scene = null,
-            SceneName = "LevelWithEnemies"
-        };
-    }
-
     private void Start()
     {
+        if (!dungeonScene.IsAssigned)
+        {
+            dungeonScene.SceneName = null;
+            dungeonScene.SceneName = "LevelWithEnemies";
+        }
         if (isArena)
         {
             LoadLevel();

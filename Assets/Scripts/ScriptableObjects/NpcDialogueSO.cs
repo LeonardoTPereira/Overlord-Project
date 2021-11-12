@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace  ScriptableObjects
 {
@@ -12,7 +13,7 @@ namespace  ScriptableObjects
         }
 
         [SerializeField, TextArea] private string[] dialogues;
-        private NpcSO npc;
+        [FormerlySerializedAs("_npc")] [SerializeField] private NpcSO npc;
 
         public string[] Dialogues
         {

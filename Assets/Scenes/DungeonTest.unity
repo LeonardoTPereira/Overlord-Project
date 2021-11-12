@@ -9772,8 +9772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103c2899cce79bc45a67e3e1fa8336de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 370069071aedc4a408d2226b940d53f7,
-    type: 2}
+  playerProfileToQuestLinesDictionarySo: {fileID: 0}
   dungeonEntrances:
   - {fileID: 0}
   - {fileID: 0}
@@ -10037,7 +10036,7 @@ MonoBehaviour:
   mapFileMode: 1
   panelIntro: {fileID: 1978301727}
   levelFile: 
-  arenaMode: 0
+  arenaMode: 1
 --- !u!4 &1411817033
 Transform:
   m_ObjectHideFlags: 0
@@ -10067,7 +10066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 1
-  <SelectedDungeon>k__BackingField: {fileID: 11400000, guid: 85c80059a3e67a046a866e0ca2c6c75e,
+  <SelectedDungeon>k__BackingField: {fileID: 11400000, guid: d62bee67b16665b42809370637dc656f,
     type: 2}
   dungeonScene:
     Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}

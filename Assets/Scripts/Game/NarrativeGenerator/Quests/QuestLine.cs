@@ -7,27 +7,42 @@ using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
-    [CreateAssetMenu(menuName = "Narrative/QuestLine")]
+    [CreateAssetMenu(fileName = "QuestLine", menuName = "Overlord-Project/QuestLine", order = 0)]
     public class QuestLine : ScriptableObject
     {
         public List<QuestSO> graph;
-        public QuestDungeonsParameters DungeonParametersForQuestLine { get; }
-        public QuestEnemiesParameters EnemyParametersForQuestLine { get; }
-        public QuestNpcsParameters NpcParametersForQuestLine { get; }
-        public QuestItemsParameters ItemParametersForQuestLine { get; }
+        [SerializeField] private List<DungeonFileSO> _dungeonFileSos;
+        [SerializeField] private QuestDungeonsParameters _dungeonParametersForQuestLine;
+        [SerializeField] private QuestEnemiesParameters _enemyParametersForQuestLine;
+        [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
+        [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
+        [SerializeField] private List<EnemySO> _enemySos;
+        [SerializeField] private List<NpcSO> _npcSos;
+        [SerializeField] private List<ItemSO> _itemSos;
 
-        public List<DungeonFileSO> DungeonFileSos { get; }
-        public List<EnemySO> EnemySos { get; }
-        public List<NpcSO> NpcSos { get; }
-        public List<ItemSO> ItemSos { get; }
+        public QuestDungeonsParameters DungeonParametersForQuestLine => _dungeonParametersForQuestLine;
 
-        public QuestLine()
+        public QuestEnemiesParameters EnemyParametersForQuestLine => _enemyParametersForQuestLine;
+
+        public QuestNpcsParameters NpcParametersForQuestLine => _npcParametersForQuestLine;
+
+        public QuestItemsParameters ItemParametersForQuestLine => _itemParametersForQuestLine;
+
+        public List<DungeonFileSO> DungeonFileSos => _dungeonFileSos;
+
+        public List<EnemySO> EnemySos => _enemySos;
+
+        public List<NpcSO> NpcSos => _npcSos;
+
+        public List<ItemSO> ItemSos => _itemSos;
+        
+        public virtual void Init()
         {
             graph = new List<QuestSO>();
-            DungeonFileSos = new List<DungeonFileSO>();
-            EnemySos = new List<EnemySO>();
-            NpcSos = new List<NpcSO>();
-            ItemSos = new List<ItemSO>();
+            _dungeonFileSos = new List<DungeonFileSO>();
+            _enemySos = new List<EnemySO>();
+            _npcSos = new List<NpcSO>();
+            _itemSos = new List<ItemSO>();
         }
 
         public void CreateAsset(PlayerProfile.PlayerProfileCategory playerProfileCategory)
