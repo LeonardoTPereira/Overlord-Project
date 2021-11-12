@@ -891,6 +891,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83822e62a2362634a8c80653da2e3d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+    type: 2}
   progressCanvas: {fileID: 679302061}
   inputCanvas: {fileID: 406502292}
   levelToLoad: LevelWithEnemies
@@ -900,7 +902,6 @@ MonoBehaviour:
     desiredLocks: 10
     desiredEnemies: 0
     desiredLinearity: 1.764
-  narrativeConfigSO: {fileID: 11400000, guid: cb151547078dd9e4f98d9e97f88d4b6d, type: 2}
 --- !u!114 &375838048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,9 +995,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasFinished: 0
   treasureRuntimeSetSO: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
     type: 2}
-  hasFinished: 0
 --- !u!1 &406502292
 GameObject:
   m_ObjectHideFlags: 0
