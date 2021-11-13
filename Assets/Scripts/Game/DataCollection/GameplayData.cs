@@ -29,6 +29,7 @@ namespace Game.DataCollection
         private static string CSV = ".csv";
         private static string POST_DATA_URL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
         private static int POST_QUESTIONS = 8;
+        private static int NUMBER_OF_ENEMIES = 210;
 
 
         public static GameplayData instance = null;
@@ -402,7 +403,7 @@ namespace Game.DataCollection
             heatMap = CreateHeatMap(map);
 
             combatInfoList = new List<CombatRoomInfo>();
-            damageDoneByEnemy = new int[EnemyUtil.nBestEnemies].ToList();
+            damageDoneByEnemy = new int[NUMBER_OF_ENEMIES].ToList();
         }
 
         private void EndTheLevel()

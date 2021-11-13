@@ -52,9 +52,11 @@ namespace LevelGenerator
             (float, float)[] listLE = SearchSpace.
                 LeniencyRanges();
             string strCE = ("" + listCE[e])
-                .Replace(" ", "").Replace("(", "").Replace(")", "");
+                .Replace(" ", "").Replace("(", "")
+                .Replace(")", "").Replace(",", "~");
             string strLE = ("" + listLE[l])
-                .Replace(" ", "").Replace("(", "").Replace(")", "");
+                .Replace(" ", "").Replace("(", "")
+                .Replace(")", "").Replace(",", "~");
             // Set the dungeon filename
             string filename = "";
             filename = "R" + _fitness.DesiredRooms +
