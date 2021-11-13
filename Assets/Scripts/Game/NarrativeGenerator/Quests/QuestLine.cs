@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests
     public class QuestLine : ScriptableObject
     {
         public List<QuestSO> graph;
-        [SerializeField] private List<DungeonFileSO> _dungeonFileSos;
+        [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
         [SerializeField] private QuestDungeonsParameters _dungeonParametersForQuestLine;
         [SerializeField] private QuestEnemiesParameters _enemyParametersForQuestLine;
         [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
@@ -28,7 +28,7 @@ namespace Game.NarrativeGenerator.Quests
 
         public QuestItemsParameters ItemParametersForQuestLine => _itemParametersForQuestLine;
 
-        public List<DungeonFileSO> DungeonFileSos => _dungeonFileSos;
+        public List<DungeonFileSo> DungeonFileSos => _dungeonFileSos;
 
         public List<EnemySO> EnemySos => _enemySos;
 
@@ -39,7 +39,7 @@ namespace Game.NarrativeGenerator.Quests
         public virtual void Init()
         {
             graph = new List<QuestSO>();
-            _dungeonFileSos = new List<DungeonFileSO>();
+            _dungeonFileSos = new List<DungeonFileSo>();
             _enemySos = new List<EnemySO>();
             _npcSos = new List<NpcSO>();
             _itemSos = new List<ItemSO>();

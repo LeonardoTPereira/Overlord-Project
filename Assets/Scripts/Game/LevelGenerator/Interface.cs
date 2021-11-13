@@ -65,7 +65,7 @@ namespace LevelGenerator
                        "-CE" + strCE +
                        "-LE" + strLE;
 
-            DungeonFileSO dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSO>();
+            DungeonFileSo dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
 
             //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.rooms)

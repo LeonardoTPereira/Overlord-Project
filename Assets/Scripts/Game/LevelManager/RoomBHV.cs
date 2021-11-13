@@ -28,7 +28,7 @@ public class RoomBHV : MonoBehaviour
     public KeyBHV keyPrefab;
     public TriforceBHV triPrefab;
     public TreasureController treasurePrefab;
-    public NPC[] npcPrefab;
+    public NpcController[] npcPrefab;
 
     public Collider2D colNorth;
     public Collider2D colSouth;
@@ -437,8 +437,8 @@ public class RoomBHV : MonoBehaviour
     }
 
     public void PlaceNpcInRoom(){
-        NPC npc = Instantiate(npcPrefab[(roomData.NpcID-1)%3], transform);
-        npc.transform.position = availablePosition;
+        NpcController npcController = Instantiate(npcPrefab[(roomData.NpcID-1)%3], transform);
+        npcController.transform.position = availablePosition;
         availablePosition.x += 1;
     }
 }

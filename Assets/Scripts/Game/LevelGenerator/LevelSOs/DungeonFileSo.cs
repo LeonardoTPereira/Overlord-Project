@@ -5,23 +5,22 @@ using System.ComponentModel;
 using UnityEngine;
 
 [Serializable, CreateAssetMenu]
-public class DungeonFileSO : ScriptableObject
+public class DungeonFileSo : ScriptableObject
 {
     public Dimensions dimensions;
     public List<SORoom> rooms;
 
-    private int currentIndex = 0;
+    private int _currentIndex = 0;
 
     public void ResetIndex()
     {
-        currentIndex = 0;
+        _currentIndex = 0;
     }
 
     public DungeonPart GetNextPart()
     {
-        if (currentIndex < rooms.Count)
-            return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(rooms[currentIndex++]);
-        else
-            return null;
+        if (_currentIndex < rooms.Count)
+            return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(rooms[_currentIndex++]);
+        return null;
     }
 }

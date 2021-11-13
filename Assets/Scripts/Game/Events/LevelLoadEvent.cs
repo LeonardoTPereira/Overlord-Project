@@ -4,9 +4,9 @@ public delegate void LevelLoadEvent(object sender, LevelLoadEventArgs e);
 public class LevelLoadEventArgs : EventArgs
 {
     private string levelFile;
-    private DungeonFileSO dungeonFileSO;
+    private DungeonFileSo dungeonFileSO;
 
-    public LevelLoadEventArgs(DungeonFileSO dungeonFileSO)
+    public LevelLoadEventArgs(DungeonFileSo dungeonFileSO)
     {
         DungeonFileSO = dungeonFileSO;
     }
@@ -17,5 +17,5 @@ public class LevelLoadEventArgs : EventArgs
     }
 
     public string LevelFile { get => levelFile; set => levelFile = value; }
-    public DungeonFileSO DungeonFileSO { get => dungeonFileSO; set => dungeonFileSO = value; }
+    public DungeonFileSo DungeonFileSO { get => dungeonFileSO; set => dungeonFileSO = value; }
 }

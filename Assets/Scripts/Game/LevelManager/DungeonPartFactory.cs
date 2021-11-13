@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace Game.LevelManager
 {
-    public class DungeonPartFactory
+    public static class DungeonPartFactory
     {
-        protected DungeonPartFactory() { }
-
         public static DungeonPart CreateDungeonPartFromFile(MapFileHandler mapFileHandler)
         {
             Coordinates coordinates = mapFileHandler.GetNextDungeonPartCoordinates();
@@ -86,13 +84,22 @@ namespace Game.LevelManager
         {
             if (dungeonRoom.type?.Equals("c") ?? false)
                 return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
-            if (dungeonRoom.locks.Count > 0)
+            if (dungeonRoom.locks.Count <= 0)
+                return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom?.keys ?? new List<int>(),
+                    dungeonRoom.Enemies, dungeonRoom.Treasures, dungeonRoom.EnemiesType, dungeonRoom.Npcs);
+            for (var i = 0; i < dungeonRoom.locks.Count; ++i)
             {
-                for (int i = 0; i < dungeonRoom.locks.Count; ++i)
+                if (IsLegacyLock(dungeonRoom.locks[i]))
+                {
                     dungeonRoom.locks[i] = -dungeonRoom.locks[i];
-                return new DungeonLockedCorridor(dungeonRoom.coordinates, dungeonRoom.locks);
+                }
             }
-            return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom?.keys ?? new List<int>(), dungeonRoom.Enemies, dungeonRoom.Treasures, dungeonRoom.EnemiesType, dungeonRoom.Npcs);
+            return new DungeonLockedCorridor(dungeonRoom.coordinates, dungeonRoom.locks);
+        }
+
+        private static bool IsLegacyLock(int lockId)
+        {
+            return lockId < 0;
         }
     }
 }

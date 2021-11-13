@@ -2,16 +2,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrollBarBhv : MonoBehaviour
+namespace Game.DataCollection
 {
-    void OnEnable()
+    public class ScrollBarBHV : MonoBehaviour
     {
-        StartCoroutine(resetScrollPos());
-    }
+        private void OnEnable()
+        {
+            StartCoroutine(ResetScrollPos());
+        }
 
-    IEnumerator resetScrollPos()
-    {
-        yield return null; // Waiting just one frame is probably good enough, yield return null does that
-        gameObject.GetComponent<Scrollbar>().value = 1;
+        private IEnumerator ResetScrollPos()
+        {
+            yield return null; // Waiting just one frame is probably good enough, yield return null does that
+            gameObject.GetComponent<Scrollbar>().value = 1;
+        }
     }
 }

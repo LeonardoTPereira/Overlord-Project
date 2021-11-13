@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Game.DataCollection;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
@@ -30,9 +31,9 @@ namespace Game.NarrativeGenerator
             set => preTestQuestionnaire = value;
         }
 
-        void Awake()
+        private void Awake()
         {
-            Quests = new QuestLine();
+            Quests = ScriptableObject.CreateInstance<QuestLine>();
             Selector = new Selector();
         }
 

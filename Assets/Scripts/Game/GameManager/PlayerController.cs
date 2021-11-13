@@ -65,16 +65,16 @@ public class PlayerController : MonoBehaviour
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
         HealthController.PlayerIsDamagedEventHandler += CheckDeath;
-        NPC.DialogueOpenEventHandler += StopInput;
-        NPC.DialogueCloseEventHandler += RestartInput;
+        NpcController.DialogueOpenEventHandler += StopInput;
+        NpcController.DialogueCloseEventHandler += RestartInput;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
     private void OnDisable()
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
         HealthController.PlayerIsDamagedEventHandler -= CheckDeath;
-        NPC.DialogueOpenEventHandler -= StopInput;
-        NPC.DialogueCloseEventHandler -= RestartInput;
+        NpcController.DialogueOpenEventHandler -= StopInput;
+        NpcController.DialogueCloseEventHandler -= RestartInput;
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 

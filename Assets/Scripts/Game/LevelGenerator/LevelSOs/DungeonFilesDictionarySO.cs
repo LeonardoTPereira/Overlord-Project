@@ -9,7 +9,7 @@ using UnityEngine;
 public class DungeonFilesDictionarySO : ScriptableObject
 {
     public ProfileDungeonDictionary dungeonsForProfile = new ProfileDungeonDictionary();
-    public void Add(string profile, DungeonFileSO dungeonSO)
+    public void Add(string profile, DungeonFileSo dungeonSO)
     {
         if (!dungeonsForProfile.ContainsKey(profile))
         {

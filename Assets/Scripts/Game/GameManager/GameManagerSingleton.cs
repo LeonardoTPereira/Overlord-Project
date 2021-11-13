@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Game.DataCollection;
 using Game.LevelManager;
 using LevelGenerator;
 using MyBox;
@@ -46,7 +47,7 @@ namespace Game.GameManager
         private bool isInGame;
         [SerializeField]
         private LevelConfigRuntimeSetSO levelSet;
-        private DungeonFileSO currentDungeonSO;
+        private DungeonFileSo currentDungeonSO;
 
         public static GameManagerSingleton instance = null;
         protected TextAsset mapFile;
@@ -159,7 +160,7 @@ namespace Game.GameManager
 
         }
 
-        void LoadMap(DungeonFileSO dungeonFileSO)
+        void LoadMap(DungeonFileSo dungeonFileSO)
         {
             map = new Map(dungeonFileSO, null, mapFileMode);
         }
@@ -231,7 +232,7 @@ namespace Game.GameManager
             }
         }
 
-        public void LoadNewLevel(DungeonFileSO dungeonFileSO)
+        public void LoadNewLevel(DungeonFileSo dungeonFileSo)
         {
             ChangeMusic(bgMusic);
             //Loads map from data
@@ -242,14 +243,14 @@ namespace Game.GameManager
             }
             else
             {
-                LoadMap(dungeonFileSO);
+                LoadMap(dungeonFileSo);
             }
 
             roomBHVMap = new Dictionary<Coordinates, RoomBHV>();
 
             InstantiateRooms();
             ConnectRoooms();
-            OnStartMap(dungeonFileSO.name, currentTestBatchId, map);
+            OnStartMap(dungeonFileSo.name, currentTestBatchId, map);
         }
 
         private void OnStartMap(string mapName, int batch, Map map)

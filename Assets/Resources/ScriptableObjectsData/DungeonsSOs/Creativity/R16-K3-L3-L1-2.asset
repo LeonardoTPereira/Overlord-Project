@@ -135,7 +135,7 @@ MonoBehaviour:
     enemies: -1
     treasures: -1
     enemyType: -1
-    npcs: -1
+    npcs: 1
   - coordinates:
       x: 2
       y: 6
@@ -165,7 +165,7 @@ MonoBehaviour:
     enemies: -1
     treasures: -1
     enemyType: -1
-    npcs: -1
+    npcs: 1
   - coordinates:
       x: 2
       y: 10
@@ -225,7 +225,7 @@ MonoBehaviour:
     enemies: -1
     treasures: -1
     enemyType: -1
-    npcs: -1
+    npcs: 1
   - coordinates:
       x: 4
       y: 6

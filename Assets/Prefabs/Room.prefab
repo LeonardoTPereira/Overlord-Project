@@ -677,7 +677,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8f79ab74a235e69408fd36c02bb99811, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1582,7 +1582,7 @@ MonoBehaviour:
   treasurePrefab: {fileID: 3809042944178231462, guid: 8077682c221f2e64fbc7d07b99c1a5a8,
     type: 3}
   npcPrefab:
-  - {fileID: 5180857288695578507, guid: 5f061b2eb3f5c9c4986da90debbedda8, type: 3}
+  - {fileID: 6971322360993773613, guid: 5f061b2eb3f5c9c4986da90debbedda8, type: 3}
   - {fileID: 5180857288695578507, guid: 2655b9f52d2ac46459e527cc0fb64821, type: 3}
   - {fileID: 5180857288695578507, guid: 589b3f9d4293b8f45ad7b46f4ecfd497, type: 3}
   colNorth: {fileID: 61238966288715422}

@@ -45,14 +45,14 @@ namespace Game.LevelManager
         /**
          * Constructor of the Map object that uses an input file for the dungeon
          */
-        public Map(DungeonFileSO dungeonFileSO, string roomsFilePath = null, int mode = 0)
+        public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, int mode = 0)
         {
             GameManagerSingleton.instance.maxTreasure = 0;
             GameManagerSingleton.instance.maxRooms = 0;
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
 
-            ReadMapFile(dungeonFileSO, mode); // lê o mapa global
+            ReadMapFile(dungeonFileSo, mode); // lê o mapa global
             if (roomsFilePath != null)
             {
                 // Lê cada sala, com seus tiles
@@ -176,7 +176,7 @@ namespace Game.LevelManager
         }
 
 
-        private void ReadMapFile(DungeonFileSO dungeonFileSO, int mode)
+        private void ReadMapFile(DungeonFileSo dungeonFileSO, int mode)
         {
             Dimensions = dungeonFileSO.dimensions;
             DungeonPart currentDungeonPart;

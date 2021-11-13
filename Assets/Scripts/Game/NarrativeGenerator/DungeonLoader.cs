@@ -14,7 +14,7 @@ public class DungeonLoader : MonoBehaviour
     private bool isArena;
     
     [field: MustBeAssigned, SerializeField]
-    public DungeonFileSO SelectedDungeon { get; set; }
+    public DungeonFileSo SelectedDungeon { get; set; }
 
     [SerializeField] 
     private SceneReference dungeonScene;

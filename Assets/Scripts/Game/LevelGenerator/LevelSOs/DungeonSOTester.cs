@@ -5,7 +5,7 @@ namespace Assets.Scripts.Game.LevelGenerator.LevelSOs
     public class DungeonSOTester : MonoBehaviour
     {
         [SerializeField]
-        DungeonFileSO currentDungeonSO;
+        DungeonFileSo currentDungeonSO;
 
         public void OnDrawGizmos()
         {

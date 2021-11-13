@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 
-/// </summary>
-public class Form : MonoBehaviour
+namespace Game.DataCollection
 {
-    public void GoToForm()
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Form : MonoBehaviour
     {
-        //TODO add correct link
-        //Debug.Log("Open Form in Browser");
-        //Application.OpenURL("http://unity3d.com/");
-        SceneManager.LoadScene("LuanaPaolo");
-    }
-    /*public void Continue()
+        public void GoToForm()
+        {
+            //TODO add correct link
+            //Debug.Log("Open Form in Browser");
+            //Application.OpenURL("http://unity3d.com/");
+            SceneManager.LoadScene("LuanaPaolo");
+        }
+        /*public void Continue()
     {
 
         Debug.Log("Load New Batch");
@@ -21,8 +23,9 @@ public class Form : MonoBehaviour
         GameManager gm = GameManager.instance;
         gm.LoadNewBatch();
     }*/
-    public void Quit()
-    {
-        Application.Quit();
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }

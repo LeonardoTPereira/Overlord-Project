@@ -1,0 +1,7 @@
+﻿map,RoomID,playerInitialHealth,PlayerFinalHealth,HealthLost,TimeToExit,hasEnemies,nEnemies,EnemiesIds,
+R16-K3-L3-L1-2,2,10,9,-1,3955,True,1,19,
+R16-K3-L3-L1-2,24,9,9,0,2556,True,1,18,
+R16-K3-L3-L1-2,26,9,8,-1,4838,True,1,6,
+R16-K3-L3-L1-2,46,8,8,0,2678,True,1,1,
+R16-K3-L3-L1-2,28,8,8,0,2716,True,1,10,
+R16-K3-L3-L1-2,30,8,7,-1,2777,True,1,6,

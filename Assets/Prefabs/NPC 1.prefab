@@ -453,8 +453,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3340485443767465909}
   - component: {fileID: 4492886913202924211}
-  - component: {fileID: 5180857288695578507}
   - component: {fileID: 5451320152689680047}
+  - component: {fileID: 6971322360993773613}
   m_Layer: 0
   m_Name: NPC 1
   m_TagString: Npc
@@ -529,22 +529,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5180857288695578507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3340485443767465908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ede23246159ba4eb82254321ed9c9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogues: {fileID: 11400000, guid: 86b8020b2a986ea4f84c6c18b933abef, type: 2}
-  canvas: {fileID: 804351720952846550}
-  npcName: {fileID: 3268435254522351018}
-  dialogue: {fileID: 3340485443177149995}
 --- !u!58 &5451320152689680047
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -561,6 +545,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.38330698
+--- !u!114 &6971322360993773613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340485443767465908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ede23246159ba4eb82254321ed9c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogues: {fileID: 11400000, guid: 86b8020b2a986ea4f84c6c18b933abef, type: 2}
+  canvas: {fileID: 804351720952846550}
+  npcName: {fileID: 3268435254522351018}
+  dialogue: {fileID: 3340485443177149995}
+  npcSo: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
 --- !u!1 &3369027979799887738
 GameObject:
   m_ObjectHideFlags: 0

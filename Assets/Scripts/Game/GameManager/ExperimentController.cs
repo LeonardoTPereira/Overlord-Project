@@ -52,7 +52,7 @@ namespace Game.GameManager
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
-            List<DungeonFileSO> dungeonFileSos = new List<DungeonFileSO>(selectedQuestLine.DungeonFileSos);
+            List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonLoader>();
             Debug.Log("Dungeon entrances: "+dungeonEntrances.Length);
             foreach (var dungeonEntrance in dungeonEntrances)
