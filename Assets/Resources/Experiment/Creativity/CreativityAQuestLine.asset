@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c069680a34ca77146b84919dda4b894e, type: 3}
+  m_Name: CreativityAQuestLine
+  m_EditorClassIdentifier: 
+  graph:
+  - {fileID: 11400000, guid: d7eb569a0cfd54b40a3f61bea6cbe196, type: 2}
+  - {fileID: 11400000, guid: 8c3e9af6fbcab39458898481e5b88c94, type: 2}
+  - {fileID: 11400000, guid: 458f9f32241cf98448bd30e1f2ecbc4d, type: 2}
+  _dungeonFileSos:
+  - {fileID: 11400000, guid: f35cb27ffcbda6541a8b05c3ee554609, type: 2}
+  - {fileID: 11400000, guid: 818e4ee5c410e894583c058b0f44ae7b, type: 2}
+  - {fileID: 11400000, guid: ceed2158388d2b64abd1df769e1bdfaf, type: 2}
+  _enemySos:
+  - {fileID: 11400000, guid: ebf5c888f7dcb374bb8c308bae42962f, type: 2}
+  - {fileID: 11400000, guid: 840c48fad712a1a43ba8ff76bd18d149, type: 2}
+  - {fileID: 11400000, guid: 0c5c8d94f48898a41ad68fe0685a5cc6, type: 2}
+  - {fileID: 11400000, guid: 56d2d92fb0cf8bf4289d3a646cdd83cd, type: 2}
+  - {fileID: 11400000, guid: 73eebee9e2cde1b4481b499d44a15358, type: 2}
+  - {fileID: 11400000, guid: 3000bc091c1261b48a79bcfb56b271a2, type: 2}
+  - {fileID: 11400000, guid: d7d99e97fadcfc241a827e385b14eb29, type: 2}
+  - {fileID: 11400000, guid: 93719386424be6143ac7b18b8cd4b01d, type: 2}
+  - {fileID: 11400000, guid: c362b2f71cc528349b18ad16672f18b0, type: 2}
+  - {fileID: 11400000, guid: 76db6543635f54245a4502056ef8a843, type: 2}
+  - {fileID: 11400000, guid: 0948051fe3e1eef4fbf5a34867e66b48, type: 2}
+  - {fileID: 11400000, guid: 9a1b0d938a9ce2640a391ff783ebf76b, type: 2}
+  - {fileID: 11400000, guid: aca3434b36b750d4f9cb643c475afb69, type: 2}
+  - {fileID: 11400000, guid: 3ccb7d6122bf89b4a8d6f495ced9c8f8, type: 2}
+  - {fileID: 11400000, guid: 82bffe06511c8bd42b93d64de7ff26f2, type: 2}
+  - {fileID: 11400000, guid: 69677811dcc3af54796ca39272612e32, type: 2}
+  - {fileID: 11400000, guid: 212077140768c9445909abdcc5de6fd7, type: 2}
+  - {fileID: 11400000, guid: cb4f90a06bdcafb4bb026a52648b19d6, type: 2}
+  - {fileID: 11400000, guid: 2142bb953428ecd4b9d5e2d59415d0ef, type: 2}
+  - {fileID: 11400000, guid: cf7ce7439ab0418479f9c97035583edf, type: 2}
+  _npcSos:
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  _itemSos:
+  - {fileID: 11400000, guid: 01f4e06fc8325be42b61ea230eb087e9, type: 2}
