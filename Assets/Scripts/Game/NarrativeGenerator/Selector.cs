@@ -10,17 +10,19 @@ namespace Game.NarrativeGenerator
 //classe que seleciona a linha de missões de acordo com os pesos do perfil do jogador
     public class Selector
     {
-        Dictionary<float,SymbolType> startSymbolWeights = new Dictionary<float,SymbolType>();
-        Dictionary<float,SymbolType> killSymbolWeights = new Dictionary<float,SymbolType>();
-        Dictionary<float,SymbolType> talkSymbolWeights = new Dictionary<float,SymbolType>();
-        Dictionary<float,SymbolType> getSymbolWeights = new Dictionary<float,SymbolType>();
-        Dictionary<float,SymbolType> exploreSymbolWeights = new Dictionary<float,SymbolType>();
+        Dictionary<string, Func<float,float>> startSymbolWeights = new Dictionary<string, Func<float,float>>(); //
+        Dictionary<string, Func<float,float>> killSymbolWeights = new Dictionary<string, Func<float,float>>();
+        Dictionary<string, Func<float,float>> talkSymbolWeights = new Dictionary<string, Func<float,float>>();
+        Dictionary<string, Func<float,float>> getSymbolWeights = new Dictionary<string, Func<float,float>>();
+        Dictionary<string, Func<float,float>> exploreSymbolWeights = new Dictionary<string, Func<float,float>>();
+        //
         // private PlayerProfile.PlayerProfileCategory typePlayer;
 
         // public PlayerProfile.PlayerProfileCategory Select(Manager m, List<int> answers)
         // {
         //     weightCalculator(answers);
         // }
+        //
 
         public class QuestWeight
         {
@@ -33,7 +35,6 @@ namespace Game.NarrativeGenerator
                 this.weight = weight;
             }
         }
-
         public List<QuestWeight> questWeights = new List<QuestWeight>();
         Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
         private static readonly int[] WEIGHTS = {1, 3, 5, 7};
@@ -62,7 +63,7 @@ namespace Game.NarrativeGenerator
 
             CreateProfileWithWeights();
 
-        //     DrawMissions(m);
+            DrawMissions(m);
 
             return playerProfile;
         }
@@ -82,7 +83,7 @@ namespace Game.NarrativeGenerator
 
         public void DrawMissions(Manager m)
         {
-            Dictionary<float,SymbolType> symbolWeights = startSymbolWeights;
+            Dictionary<string, Func<float,float>> symbolWeights = startSymbolWeights;
             MarkovChain questChain = new MarkovChain();
 
             while ( questChain.symbol.canDrawNext )
@@ -170,24 +171,24 @@ namespace Game.NarrativeGenerator
 
             float[] pesos = new float[4];
 
-            if ( exploreWeight != 0 ) startSymbolWeights.Add( talkWeight + getWeight + killWeight + exploreWeight, SymbolType.Explore ); // 100%
-            if ( killWeight != 0 ) startSymbolWeights.Add( talkWeight + getWeight + killWeight, SymbolType.Kill );
-            if ( getWeight != 0 ) startSymbolWeights.Add(talkWeight + getWeight, SymbolType.Get );
-            if ( talkWeight != 0 ) startSymbolWeights.Add(talkWeight, SymbolType.Talk);
+            if ( exploreWeight != 0 ) startSymbolWeights.Add( x => talkWeight + getWeight + killWeight + exploreWeight, SymbolType.Explore ); // 100%
+            if ( killWeight != 0 ) startSymbolWeights.Add( x => talkWeight + getWeight + killWeight, SymbolType.Kill );
+            if ( getWeight != 0 ) startSymbolWeights.Add( x => talkWeight + getWeight, SymbolType.Get );
+            if ( talkWeight != 0 ) startSymbolWeights.Add( x => talkWeight, SymbolType.Talk);
 
-            killSymbolWeights.Add( (5f/6f), SymbolType.kill );
-            killSymbolWeights.Add((1f/6f), SymbolType.empty);
+            killSymbolWeights.Add( x => (5f/6f), SymbolType.kill );
+            killSymbolWeights.Add( x => (1f/6f), SymbolType.empty);
 
-            talkSymbolWeights.Add( (5f/6f), SymbolType.talk );
-            talkSymbolWeights.Add((1f/6f), SymbolType.empty );
+            talkSymbolWeights.Add( x => (5f/6f), SymbolType.talk );
+            talkSymbolWeights.Add( x => (1f/6f), SymbolType.empty );
 
-            getSymbolWeights.Add( (10f/10f), SymbolType.item );
-            getSymbolWeights.Add( (7f/10f), SymbolType.drop );
-            getSymbolWeights.Add( (2f/10f), SymbolType.get);
-            getSymbolWeights.Add( (1f/10f), SymbolType.empty );
+            getSymbolWeights.Add( x => (10f/10f), SymbolType.item );
+            getSymbolWeights.Add( x => (7f/10f), SymbolType.drop );
+            getSymbolWeights.Add( x => (2f/10f), SymbolType.get);
+            getSymbolWeights.Add( x => (1f/10f), SymbolType.empty );
 
-            exploreSymbolWeights.Add( (5f/6f), SymbolType.secret );
-            exploreSymbolWeights.Add( (1f/6f), SymbolType.empty );
+            exploreSymbolWeights.Add( x => (5f/6f), SymbolType.secret );
+            exploreSymbolWeights.Add( x => (1f/6f), SymbolType.empty );
 
             // Não sei dizer se isto é realmente necessário...
             // string favoriteQuest = startSymbolWeights.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;

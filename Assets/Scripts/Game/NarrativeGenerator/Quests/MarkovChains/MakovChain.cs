@@ -9,16 +9,19 @@ namespace Game.NarrativeGenerator.Quests
     {
         public Symbol symbol;
         public SymbolType symbolType;
+        public int symbolNumber = 0;
 
         public MarkovChain ()
         {
             symbol = new NonTerminalQuest();
             symbolType = SymbolType.Start;
+            symbolNumber = 0;
         }
 
         public void SetSymbol ( SymbolType _symbol )
         {
             symbolType = _symbol;
+            symbolNumber++;
             switch ( _symbol )
             {
                 case SymbolType.Kill:

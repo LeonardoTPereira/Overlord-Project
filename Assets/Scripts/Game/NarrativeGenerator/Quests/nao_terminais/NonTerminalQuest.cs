@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Util;
 
 public class NonTerminalQuest : Symbol
 {
-    public Dictionary<float,SymbolType> nextSymbolChance {get; set;}
+    public Dictionary<string, Func<float,float>> nextSymbolChance {get; set;}
     public bool canDrawNext {get; set;}
     // Symbol symbol = new NonTerminalQuest();
     protected float r;
@@ -36,7 +37,7 @@ public class NonTerminalQuest : Symbol
             questWeightsbyType[Constants.GET_QUEST] * 2 +
             questWeightsbyType[Constants.KILL_QUEST] * 3 +
             questWeightsbyType[Constants.EXPLORE_QUEST] * 4) / 16) *
-        Random.Range(0f, 3f);
+        UnityEngine.Random.Range(0f, 3f);
         if (lim == QUEST_LIMIT)
         {
             r = maxQuestChance;
@@ -44,18 +45,18 @@ public class NonTerminalQuest : Symbol
         lim++;
     }
     
-    void Symbol.SetDictionary( Dictionary<float,SymbolType> _nextSymbolChances  )
+    void Symbol.SetDictionary( Dictionary<string, Func<float,float>> _nextSymbolChances  )
     {
         nextSymbolChance = _nextSymbolChances;
     }
 
     void Symbol.SetNextSymbol(MarkovChain chain)
     {
-        float chance = (float) Random.Range( 0, 100 ) / 100 ;
+        float chance = (float) UnityEngine.Random.Range( 0, 100 ) / 100 ;
         Debug.Log(chance);
-        foreach ( float nextSymbol in nextSymbolChance.Keys )
+        foreach ( Func<float,float> nextSymbol in nextSymbolChance.Keys )
         {
-            if ( nextSymbol > chance )
+            if ( nextSymbol(chain.symbolNumber) > chance )
             {
                 SymbolType _nextSymbol;
                 nextSymbolChance.TryGetValue( nextSymbol, out _nextSymbol );

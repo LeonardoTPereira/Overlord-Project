@@ -1,12 +1,14 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
+using Game.NarrativeGenerator;
 
 namespace Game.NarrativeGenerator.Quests
 {
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
     class EmptyQuestSO : QuestSO, Symbol
     {
-        public Dictionary<SymbolType,float> nextSymbolChance {get; set;}
+        public Dictionary<SymbolType,Func<float,float>> nextSymbolChance {get; set;}
 
         public EmptyQuestSO ()
         {
@@ -14,7 +16,7 @@ namespace Game.NarrativeGenerator.Quests
             symbolType = SymbolType.empty;
         }
 
-        void SetDictionary( Dictionary<SymbolType, float> _nextSymbolChances )
+        void SetDictionary( Dictionary<SymbolType, Func<float,float>> _nextSymbolChances )
         {
             nextSymbolChance = _nextSymbolChances;
         }
