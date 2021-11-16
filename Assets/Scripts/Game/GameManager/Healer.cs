@@ -5,12 +5,14 @@ using UnityEngine;
 /// This class is responsible by healing the enemies that are not healers.
 public class Healer : MonoBehaviour
 {
-    /// Number of seconds by minute.
-    private static readonly int SECONDS = 60;
-    /// Cooldown duration error.
-    private static readonly float COOLDOWN_DURATION_ERROR = 0.005f;
     /// Base healing cooldown.
-    private static readonly float BASE_COOLDOWN = 3f;
+    private static readonly float BASE_COOLDOWN = 4f;
+    /// Base healing cooldown.
+    private static readonly float HEAL_AREA_COOLDOWN = 0.75f;
+    /// Alpha channel value when heal area is active.
+    private static readonly float HEAL_AREA_ALPHA_ACTIVE = 0.177f;
+    /// Alpha channel value when heal area is deactive.
+    private static readonly float HEAL_AREA_ALPHA_DEACTIVE = 0f;
     /// Amount of health that the healer can recover.
     private static readonly int HEALTH = 1;
     /// Healer cure spell size.
@@ -18,14 +20,18 @@ public class Healer : MonoBehaviour
 
     /// The healer healing cooldown.
     private float cooldown;
-    /// The elapsed time.
-    private float time;
     /// Game object of the healer.
     private GameObject healer;
+    /// Heal area.
+    private SpriteRenderer healArea;
+    private bool healed;
+    private List<Collider2D> enemies;
 
     /// Awake is called when the script instance is being loaded.
     void Awake()
     {
+        healed = false;
+        enemies = new List<Collider2D>();
         // Get the weapon component of the enemy
         GameObject weapon = gameObject
             .transform.parent.gameObject; // WeaponPosition
@@ -42,27 +48,48 @@ public class Healer : MonoBehaviour
         // Calculate the healer healing cooldown
         EnemyController ec = healer.GetComponent<EnemyController>();
         cooldown = BASE_COOLDOWN * (1f / ec.GetAttackSpeed());
-        time = cooldown;
+        // Hide heal area
+        healArea = gameObject.GetComponent<SpriteRenderer>();
+        HideHealArea();
     }
 
-    /// Update is called once per frame.
-    void Update()
+    void FixedUpdate()
     {
-        if (time > 0f)
+        if (!healed)
         {
-            time -= Time.deltaTime;
+            StartCoroutine(Heal());
         }
     }
 
-    /// Cure all the enemies around the healer and reset the cooldown.
-    void OnTriggerStay2D(Collider2D other)
+    /// Update the alpha channel of the heal area sprite.
+    private void UpdateHealAreaAlpha(float alpha)
+    {   
+        float r = healArea.color.r;
+        float g = healArea.color.g;
+        float b = healArea.color.b;
+        healArea.color = new Color(r, g, r, alpha);
+    }
+
+    /// Hide the heal area.
+    private void HideHealArea()
     {
-        float seconds = Mathf.FloorToInt(time % SECONDS);
-        if (other.tag == "Enemy" && seconds <= COOLDOWN_DURATION_ERROR)
+        UpdateHealAreaAlpha(HEAL_AREA_ALPHA_DEACTIVE);
+    }
+
+    /// Show the heal area.
+    private void ShowHealArea()
+    {
+        UpdateHealAreaAlpha(HEAL_AREA_ALPHA_ACTIVE);
+    }
+
+    /// Heal other non-healer enemies.
+    IEnumerator Heal()
+    {
+        foreach (Collider2D enemy in enemies)
         {
-            time = cooldown;
-            if (other.GetComponent<EnemyController>().Heal(HEALTH))
+            if (enemy.GetComponent<EnemyController>().Heal(HEALTH))
             {
+                healed = true;
                 // Play the cure spell animation in the healer's hands
                 foreach (ParticleSystem spell in healer.
                     GetComponentsInChildren<ParticleSystem>())
@@ -70,8 +97,32 @@ public class Healer : MonoBehaviour
                     spell.Play();
                 }
                 // Play the cure spell animation over the cured enemy
-                other.GetComponentInChildren<ParticleSystem>().Play();
+                enemy.GetComponentInChildren<ParticleSystem>().Play();
             }
+        }
+        if (healed)
+        {
+            ShowHealArea();
+            yield return new WaitForSeconds(HEAL_AREA_COOLDOWN);
+            HideHealArea();
+            yield return new WaitForSeconds(cooldown);
+            healed = false;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Enemy")
+        {
+            enemies.Add(other);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Enemy")
+        {
+            enemies.Remove(other);
         }
     }
 }
