@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class Player : PlaceableRoomObject
 {
+    private static readonly int GET_KEY = 0;
+    private static readonly int HIT_PLAYER = 1;
+    private static readonly int PLAYER_DEATH = 2;
 
     private static Player instance = null;
     public List<int> keys = new List<int>();
@@ -15,7 +18,7 @@ public class Player : PlaceableRoomObject
     public int y { private set; get; }
     public Camera cam;
     public Camera minimap;
-    private AudioSource audioSrc;
+    private AudioSource[] audioSrcs;
     private PlayerController playerController;
     public static event EnterRoomEvent EnterRoomEventHandler;
     public static event ExitRoomEvent ExitRoomEventHandler;
@@ -30,7 +33,7 @@ public class Player : PlaceableRoomObject
         {
             instance = this;
             cam = Camera.main;
-            audioSrc = GetComponent<AudioSource>();
+            audioSrcs = GetComponents<AudioSource>();
             playerController = GetComponent<PlayerController>();
         }
     }
@@ -47,6 +50,10 @@ public class Player : PlaceableRoomObject
         RoomBHV.EnterRoomEventHandler += GetHealth;
         RoomBHV.EnterRoomEventHandler += AdjustCamera;
         DoorBHV.ExitRoomEventHandler += ExitRoom;
+        EnemyController.playerHitEventHandler += HurtPlayer;
+        ProjectileController.playerHitEventHandler += HurtPlayer;
+        BombController.PlayerHitEventHandler += HurtPlayer;
+        PlayerController.PlayerDeathEventHandler += KillPlayer;
     }
 
     public void OnDisable()
@@ -59,11 +66,15 @@ public class Player : PlaceableRoomObject
         RoomBHV.EnterRoomEventHandler -= GetHealth;
         RoomBHV.EnterRoomEventHandler -= AdjustCamera;
         DoorBHV.ExitRoomEventHandler -= ExitRoom;
+        EnemyController.playerHitEventHandler -= HurtPlayer;
+        ProjectileController.playerHitEventHandler -= HurtPlayer;
+        BombController.PlayerHitEventHandler -= HurtPlayer;
+        PlayerController.PlayerDeathEventHandler -= KillPlayer;
     }
 
     private void GetKey(object sender, KeyCollectEventArgs eventArgs)
     {
-        audioSrc.PlayOneShot(audioSrc.clip, 0.6f);
+        audioSrcs[GET_KEY].PlayOneShot(audioSrcs[GET_KEY].clip, 0.6f);
         keys.Add(eventArgs.KeyIndex);
     }
 
@@ -101,5 +112,18 @@ public class Player : PlaceableRoomObject
         int health = playerController.GetHealth();
         eventArgs.PlayerHealthWhenEntering = health;
         EnterRoomEventHandler(this, eventArgs);
+    }
+
+    private void HurtPlayer(object sender, EventArgs eventArgs)
+    {
+        if (playerController.GetHealth() > 0 && !playerController.IsInvincible())
+        {
+            audioSrcs[HIT_PLAYER].PlayOneShot(audioSrcs[HIT_PLAYER].clip, 1.0f);
+        }
+    }
+
+    private void KillPlayer(object sender, EventArgs eventArgs)
+    {
+        audioSrcs[PLAYER_DEATH].PlayOneShot(audioSrcs[PLAYER_DEATH].clip, 1.0f);
     }
 }

@@ -99,6 +99,11 @@ public class HealthController : MonoBehaviour
         return maxHealth;
     }
 
+    public bool IsInvincible()
+    {
+        return isInvincible;
+    }
+
     public void SetOriginalColor(Color _color)
     {
         originalColor = _color;

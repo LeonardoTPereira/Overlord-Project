@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
 
     Animator anim;
     float lastX, lastY;
-    private AudioSource audioSrc;
 
     [SerializeField]
     private float timeAfterShoot, rotatedAngle;
@@ -69,6 +68,7 @@ public class PlayerController : MonoBehaviour
         NpcController.DialogueCloseEventHandler += RestartInput;
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
+
     private void OnDisable()
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
@@ -113,8 +113,6 @@ public class PlayerController : MonoBehaviour
                 Shoot(shootDir, movement);
             }
         }
-
-
     }
 
     private void StopInput(object sender, EventArgs eventArgs)
@@ -225,11 +223,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PlayGetkey()
-    {
-        audioSrc.PlayOneShot(audioSrc.clip, 1.0f);
-    }
-
     private void CheckDeath(object sender, PlayerIsDamagedEventArgs eventArgs)
     {
         if (eventArgs.PlayerHealth <= 0)
@@ -267,11 +260,15 @@ public class PlayerController : MonoBehaviour
         return maxHealth;
     }
 
+    public bool IsInvincible()
+    {
+        return healthCtrl.IsInvincible();
+    }
+
     public void NextProjectileSO()
     {
         actualProjectile = (actualProjectile + 1) % GameManagerSingleton.instance.projectileSet.Items.Count;
         projectileType = GameManagerSingleton.instance.projectileSet.Items[actualProjectile];
         SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
     }
-
 }
