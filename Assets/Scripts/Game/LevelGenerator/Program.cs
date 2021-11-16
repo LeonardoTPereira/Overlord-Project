@@ -16,7 +16,7 @@ namespace LevelGenerator
         private static readonly int MAX_TIME = 60;
         private static readonly int INITIAL_POPULATION_SIZE = 20;
         private static readonly int MUATION_RATE = 5;
-        private static readonly int NUMBER_OF_COMPETITORS = 3;
+        private static readonly int NUMBER_OF_COMPETITORS = 2;
         private Parameters _parameters;
 
         /// Level generator
