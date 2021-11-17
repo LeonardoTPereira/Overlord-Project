@@ -24,18 +24,18 @@ namespace Game.NarrativeGenerator
         // }
         //
 
-        public class QuestWeight
-        {
-            public string quest;
-            public int weight;
+        // public class QuestWeight
+        // {
+        //     public string quest;
+        //     public int weight;
 
-            public QuestWeight(string quest, int weight)
-            {
-                this.quest = quest;
-                this.weight = weight;
-            }
-        }
-        public List<QuestWeight> questWeights = new List<QuestWeight>();
+        //     public QuestWeight(string quest, int weight)
+        //     {
+        //         this.quest = quest;
+        //         this.weight = weight;
+        //     }
+        // }
+        // public List<QuestWeight> questWeights = new List<QuestWeight>();
         Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
         private static readonly int[] WEIGHTS = {1, 3, 5, 7};
 
@@ -97,36 +97,36 @@ namespace Game.NarrativeGenerator
 
                 switch ( questChain.symbolType )
                 {
-                    case SymbolType.Kill:
+                    case Constants.KILL_QUEST:
                         symbolWeights = killSymbolWeights;
                     break;
-                    case SymbolType.Talk:
+                    case Constants.TALK_QUEST:
                         symbolWeights = talkSymbolWeights;
                     break;
-                    case SymbolType.Get:
+                    case Constants.GET_QUEST:
                         symbolWeights = getSymbolWeights;
                     break;
-                    case SymbolType.Explore:
+                    case Constants.EXPLORE_QUEST:
                         symbolWeights = exploreSymbolWeights;
                     break;
-                    case SymbolType.kill:
+                    case SymbolType.kill.ToString():
                         symbolWeights = killSymbolWeights;
                     break;
-                    case SymbolType.talk:
+                    case SymbolType.talk.ToString():
                         symbolWeights = talkSymbolWeights;
                     break;
-                    case SymbolType.empty:
+                    case SymbolType.empty.ToString():
                     break;
-                    case SymbolType.get:
+                    case SymbolType.get.ToString():
                         symbolWeights = getSymbolWeights;
                     break;
-                    case SymbolType.drop:
+                    case SymbolType.drop.ToString():
                         symbolWeights = getSymbolWeights;
                     break;
-                    case SymbolType.item:
+                    case SymbolType.item.ToString():
                         symbolWeights = getSymbolWeights;
                     break;
-                    case SymbolType.secret:
+                    case SymbolType.secret.ToString():
                         symbolWeights = exploreSymbolWeights;
                     break;
                     default:
@@ -171,26 +171,25 @@ namespace Game.NarrativeGenerator
 
             float[] pesos = new float[4];
 
-            if ( exploreWeight != 0 ) startSymbolWeights.Add( x => talkWeight + getWeight + killWeight + exploreWeight, SymbolType.Explore ); // 100%
-            if ( killWeight != 0 ) startSymbolWeights.Add( x => talkWeight + getWeight + killWeight, SymbolType.Kill );
-            if ( getWeight != 0 ) startSymbolWeights.Add( x => talkWeight + getWeight, SymbolType.Get );
-            if ( talkWeight != 0 ) startSymbolWeights.Add( x => talkWeight, SymbolType.Talk);
+            if ( exploreWeight != 0 ) startSymbolWeights.Add( SymbolType.Explore.ToString(), x => talkWeight + getWeight + killWeight + exploreWeight ); // 100%
+            if ( killWeight != 0 ) startSymbolWeights.Add( SymbolType.Kill.ToString(), x => talkWeight + getWeight + killWeight );
+            if ( getWeight != 0 ) startSymbolWeights.Add( SymbolType.Get.ToString(), x => talkWeight + getWeight );
+            if ( talkWeight != 0 ) startSymbolWeights.Add( SymbolType.Talk.ToString(), x => talkWeight );
 
-            killSymbolWeights.Add( x => (5f/6f), SymbolType.kill );
-            killSymbolWeights.Add( x => (1f/6f), SymbolType.empty);
+            killSymbolWeights.Add( SymbolType.kill.ToString(), x => (5f/6f) );
+            killSymbolWeights.Add( SymbolType.empty.ToString(), x => (1f/6f) );
 
-            talkSymbolWeights.Add( x => (5f/6f), SymbolType.talk );
-            talkSymbolWeights.Add( x => (1f/6f), SymbolType.empty );
+            talkSymbolWeights.Add( SymbolType.talk.ToString(), x => (5f/6f) );
+            talkSymbolWeights.Add( SymbolType.empty.ToString(), x => (1f/6f) );
 
-            getSymbolWeights.Add( x => (10f/10f), SymbolType.item );
-            getSymbolWeights.Add( x => (7f/10f), SymbolType.drop );
-            getSymbolWeights.Add( x => (2f/10f), SymbolType.get);
-            getSymbolWeights.Add( x => (1f/10f), SymbolType.empty );
+            getSymbolWeights.Add( SymbolType.item.ToString(), x => (10f/10f) );
+            getSymbolWeights.Add( SymbolType.drop.ToString(), x => (7f/10f) );
+            getSymbolWeights.Add( SymbolType.get.ToString(), x => (2f/10f) );
+            getSymbolWeights.Add( SymbolType.empty.ToString(), x => (1f/10f)  );
 
-            exploreSymbolWeights.Add( x => (5f/6f), SymbolType.secret );
-            exploreSymbolWeights.Add( x => (1f/6f), SymbolType.empty );
+            exploreSymbolWeights.Add( SymbolType.secret.ToString(), x => (5f/6f) );
+            exploreSymbolWeights.Add( SymbolType.empty.ToString(), x => (1f/6f) );
 
-            // Não sei dizer se isto é realmente necessário...
             // string favoriteQuest = startSymbolWeights.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             // GetProfileFromFavoriteQuest(favoriteQuest);
         }

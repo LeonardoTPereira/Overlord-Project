@@ -8,7 +8,7 @@ namespace Game.NarrativeGenerator.Quests
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
     class EmptyQuestSO : QuestSO, Symbol
     {
-        public Dictionary<SymbolType,Func<float,float>> nextSymbolChance {get; set;}
+        public Dictionary<SymbolType,Func<float,float>> nextSymbolChances {get; set;}
 
         public EmptyQuestSO ()
         {
@@ -18,7 +18,7 @@ namespace Game.NarrativeGenerator.Quests
 
         void SetDictionary( Dictionary<SymbolType, Func<float,float>> _nextSymbolChances )
         {
-            nextSymbolChance = _nextSymbolChances;
+            nextSymbolChances = _nextSymbolChances;
         }
 
         void NextSymbol(MarkovChain chain)
