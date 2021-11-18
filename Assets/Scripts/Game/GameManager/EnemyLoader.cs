@@ -69,7 +69,6 @@ public class EnemyLoader : MonoBehaviour
     
     public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
     {
-        Debug.Log("Instantiating Enemy: "+enemySo.name);
         GameObject enemy;
         //TODO change to use weaponType in comparison
         if (enemySo.weapon.name == "None")

@@ -324,11 +324,9 @@ public class RoomBHV : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        Debug.Log("Spawning Enemies");
         var selectedSpawnPoints = new List<int>();
         foreach (var enemiesFromType in enemiesDictionary)
         {
-            Debug.Log("Enemy Type: "+enemiesFromType.Key);
             for (var i = 0; i < enemiesFromType.Value; i++)
             {
                 int actualSpawn;
