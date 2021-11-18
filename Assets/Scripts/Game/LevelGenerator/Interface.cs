@@ -376,18 +376,20 @@ namespace LevelGenerator
             int count = 0;
             string path;
 
+            Directory.CreateDirectory(foldername);
+
             //Saves the file with the name of its input for the EA and adds a number at the end if a file with the same name exists
             //This prevents the file is overwritten
-            path = AssetDatabase.AssetPathToGUID(foldername + filename + ".txt");
+            path = AssetDatabase.AssetPathToGUID(foldername + "/" + filename + ".txt");
             while (path != "")
             {
                 count++;
-                path = AssetDatabase.AssetPathToGUID(foldername + filename + "-" + count + ".txt");
+                path = AssetDatabase.AssetPathToGUID(foldername + "/" + filename + "-" + count + ".txt");
             }
 
             if (count > 0)
                 filename += "-" + count;
-            filename = foldername + filename;
+            filename = foldername + "/" + filename;
 
 
             int sameFilenameCounter = 0;

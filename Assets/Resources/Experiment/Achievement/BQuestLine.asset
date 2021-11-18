@@ -17,9 +17,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c3e9af6fbcab39458898481e5b88c94, type: 2}
   - {fileID: 11400000, guid: 458f9f32241cf98448bd30e1f2ecbc4d, type: 2}
   _dungeonFileSos:
-  - {fileID: 11400000, guid: ae46068282049e94ea5bcd116f476eea, type: 2}
-  - {fileID: 11400000, guid: da6859b1922ac3d4aa2c0e884d082000, type: 2}
-  - {fileID: 11400000, guid: 65ea2ef3fcc07a34aa2ee39b2e014bcb, type: 2}
+  - {fileID: 11400000, guid: b5ade8fc987f8644fb25c434e63349cc, type: 2}
+  - {fileID: 11400000, guid: 319a945da39cbd44ba5ed15e47ab0e95, type: 2}
+  - {fileID: 11400000, guid: 6f9951565d47a2546a3f868cbe6bf68d, type: 2}
   _enemySos:
   - {fileID: 11400000, guid: 7f7be93b50de6984d9b276ddd6f3d148, type: 2}
   - {fileID: 11400000, guid: 62dff102e39dc20478756f0a92cb1a98, type: 2}
