@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestLines:
   - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
-  - {fileID: 11400000, guid: 71d21be652b063041ac526af2926e61e, type: 2}
+  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
   - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
   - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}

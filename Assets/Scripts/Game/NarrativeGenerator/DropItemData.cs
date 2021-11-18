@@ -4,7 +4,7 @@ namespace Game.NarrativeGenerator
 {
     public class DropItemData
     {
-        public EnemySO Enemy { get; set; }
+        public WeaponTypeSO Enemy { get; set; }
         private ItemSO DropItem { get; set; }
         private float DropChance { get; set; }
         private int TotalItem { get; set; }

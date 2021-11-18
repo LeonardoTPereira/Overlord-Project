@@ -10,21 +10,27 @@ namespace Game.NarrativeGenerator
     [Serializeable]
     public class QuestEnemiesParameters
     {
-        private int nEnemies;
-        private SortedList<EnemySO, int> totalByType;
+        private int _nEnemies;
+        private Dictionary<WeaponTypeSO, int> _totalByType;
 
-        public int NEnemies { get => nEnemies; set => nEnemies = value; }
+        public Dictionary<WeaponTypeSO, int> TotalByType
+        {
+            get => _totalByType;
+            set => _totalByType = value;
+        }
+        
+        public int NEnemies { get => _nEnemies; set => _nEnemies = value; }
 
         public QuestEnemiesParameters()
         {
             NEnemies = 0;
-            totalByType = new SortedList<EnemySO, int>();
+            TotalByType = new Dictionary<WeaponTypeSO, int>();
         }
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<EnemySO, int> kvp in totalByType)
+            foreach (KeyValuePair<WeaponTypeSO, int> kvp in TotalByType)
             {
                 stringBuilder.Append($"Enemy = {kvp.Key}, total = {kvp.Value}\n");
             }
@@ -71,7 +77,7 @@ namespace Game.NarrativeGenerator
             }
         }
 
-        private void AddEnemiesFromPairToDictionary(KeyValuePair<ItemSO, Dictionary<EnemySO, int>> dropItemData)
+        private void AddEnemiesFromPairToDictionary(KeyValuePair<ItemSO, Dictionary<WeaponTypeSO, int>> dropItemData)
         {
             foreach (var enemyData in dropItemData.Value)
             {
@@ -79,17 +85,17 @@ namespace Game.NarrativeGenerator
             }
         }
 
-        private void AddEnemiesToDictionary(KeyValuePair<EnemySO, int> enemyData)
+        private void AddEnemiesToDictionary(KeyValuePair<WeaponTypeSO, int> enemyData)
         {
             int newEnemies = enemyData.Value;
-            nEnemies += newEnemies;
-            if (totalByType.TryGetValue(enemyData.Key, out var enemiesForItem))
+            _nEnemies += newEnemies;
+            if (TotalByType.TryGetValue(enemyData.Key, out var enemiesForItem))
             {
-                totalByType[enemyData.Key] = enemiesForItem + newEnemies;
+                TotalByType[enemyData.Key] = enemiesForItem + newEnemies;
             }
             else
             {
-                totalByType.Add(enemyData.Key, newEnemies);
+                TotalByType.Add(enemyData.Key, newEnemies);
             }
         }
     }

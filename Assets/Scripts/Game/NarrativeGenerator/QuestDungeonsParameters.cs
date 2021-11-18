@@ -9,7 +9,15 @@ namespace Game.NarrativeGenerator
     [Serializeable]
     public class QuestDungeonsParameters
     {
-        public int Size { get; set; } = 0;
+        private int _size = 0;
+
+        public int Size
+        {
+            get => _size;
+            set => _size = value;
+        }
+
+        [field: SerializeField]
         public int NKeys { get; set; } = 0;
         public int LinearityEnum { get; set; }
 

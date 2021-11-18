@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Game.GameManager;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
@@ -12,17 +13,25 @@ namespace Game.NarrativeGenerator.Quests
     {
         public List<QuestSO> graph;
         [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
-        [SerializeField] private QuestDungeonsParameters _dungeonParametersForQuestLine;
-        [SerializeField] private QuestEnemiesParameters _enemyParametersForQuestLine;
-        [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
-        [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
+        [Serializeable] private QuestEnemiesParameters _enemyParametersForQuestLine;
+        private QuestNpcsParameters _npcParametersForQuestLine;
+        private QuestItemsParameters _itemParametersForQuestLine;
         [SerializeField] private List<EnemySO> _enemySos;
         [SerializeField] private List<NpcSO> _npcSos;
         [SerializeField] private List<ItemSO> _itemSos;
+        private QuestDungeonsParameters _dungeonParametersForQuestLine;
 
-        public QuestDungeonsParameters DungeonParametersForQuestLine => _dungeonParametersForQuestLine;
+        public QuestDungeonsParameters DungeonParametersForQuestLine
+        {
+            get => _dungeonParametersForQuestLine;
+            set => _dungeonParametersForQuestLine = value;
+        }
 
-        public QuestEnemiesParameters EnemyParametersForQuestLine => _enemyParametersForQuestLine;
+        public QuestEnemiesParameters EnemyParametersForQuestLine
+        {
+            get => _enemyParametersForQuestLine;
+            set => _enemyParametersForQuestLine = value;
+        }
 
         public QuestNpcsParameters NpcParametersForQuestLine => _npcParametersForQuestLine;
 
@@ -69,6 +78,20 @@ namespace Game.NarrativeGenerator.Quests
             #if UNITY_EDITOR
                         AssetDatabase.Refresh();
             #endif*/
+        }
+
+        public void CreateDummyEnemyParameters()
+        {
+            EnemyParametersForQuestLine = new QuestEnemiesParameters();
+            var enemiesByType = new Dictionary<WeaponTypeSO, int>();
+            int totalEnemies = 0;
+            foreach (var weaponType in GameManagerSingleton.instance.enemyLoader.WeaponTypes.Items)
+            {
+                enemiesByType.Add(weaponType, 10);
+                totalEnemies += 10;
+            }
+            EnemyParametersForQuestLine.TotalByType = enemiesByType;
+            EnemyParametersForQuestLine.NEnemies = totalEnemies;
         }
     }
 }

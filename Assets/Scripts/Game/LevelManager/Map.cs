@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Game.GameManager;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.LevelManager
@@ -27,6 +28,7 @@ namespace Game.LevelManager
         private int nLocks;
         private int nEnemies;
         private int nNPCs;
+        private int nTreasure;
 
         // Valores para gerar salas sem o arquivo de definição interna
 
@@ -49,6 +51,7 @@ namespace Game.LevelManager
         {
             GameManagerSingleton.instance.maxTreasure = 0;
             GameManagerSingleton.instance.maxRooms = 0;
+            GameManagerSingleton.instance.maxEnemies = 0;
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
 
@@ -65,117 +68,7 @@ namespace Game.LevelManager
             }
         }
 
-        //Constructs a Map based on the Dungeon created in "real-time" from the EA
-        //For now, we aren't changing this to the new method that adds treasures and enemies, but is the same principle.
-        public Map(Dungeon dun)
-        {
-            Coordinates currentRoomCoordinates;
-            string dungeonPartCode;
-            int treasure, difficulty, enemyType, items, npcs;
-
-            List<int> lockedRooms = new List<int>();
-            List<int> keys = new List<int>();
-
-            List<int> keyIDs, lockIDs;
-
-            int corridorx, corridory;
-            foreach (Room room in dun.Rooms)
-            {
-                if (room.Type == LevelGenerator.RoomType.Key)
-                {
-                    keys.Add(room.Key);
-                }
-                else if (room.Type == LevelGenerator.RoomType.Locked)
-                {
-                    lockedRooms.Add(room.Key);
-                }
-            }
-            dun.SetBoundariesFromRoomList();
-
-            //The size is normalized to be always positive (easier to handle a matrix)
-            dun.SetDimensionsFromBoundaries();
-
-            DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
-
-            for (int i = dun.boundaries.MinBoundaries.X; i < dun.boundaries.MaxBoundaries.X + 1; ++i)
-            {
-                for (int j = dun.boundaries.MinBoundaries.Y; j < dun.boundaries.MaxBoundaries.Y + 1; ++j)
-                {
-                    int iPositive = i - dun.boundaries.MinBoundaries.X;
-                    int jPositive = j - dun.boundaries.MinBoundaries.Y;
-                    Room actualRoom = dun.grid[i, j];
-                    treasure = 0;
-                    difficulty = 0;
-                    enemyType = -1;
-                    items = 0;
-                    npcs = 0;
-                    keyIDs = null;
-                    lockIDs = null;
-                    dungeonPartCode = null;
-                    if (actualRoom != null)
-                    {
-                        currentRoomCoordinates = new Coordinates(2 * iPositive, 2 * jPositive);
-
-                        if (i == 0 && j == 0)
-                        {
-                            StartRoomCoordinates = new Coordinates(iPositive * 2, jPositive * 2);
-                            dungeonPartCode = DungeonPart.PartType.START_ROOM;
-                        }
-                        else if (actualRoom.Type == LevelGenerator.RoomType.Normal)
-                        {
-                            if (actualRoom.IsLeafNode())
-                            {
-                                treasure = UnityEngine.Random.Range(0, (int)GameManagerSingleton.instance.treasureSet.Items.Count);
-                                dungeonPartCode = DungeonPart.PartType.TREASURE_ROOM;
-                            }
-                        }
-                        else if (actualRoom.Type == LevelGenerator.RoomType.Key)
-                        {
-                            keyIDs = new List<int>
-                            {
-                                keys.IndexOf(actualRoom.Key) + 1
-                            };
-                        }
-                        else if (actualRoom.Type == LevelGenerator.RoomType.Locked)
-                        {
-                            if (lockedRooms.IndexOf(actualRoom.Key) == lockedRooms.Count - 1)
-                            {
-                                FinalRoomCoordinates = new Coordinates(iPositive * 2, jPositive * 2);
-                                dungeonPartCode = DungeonPart.PartType.FINAL_ROOM;
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("Something went wrong printing the tree!\n");
-                            Debug.Log("This Room type does not exist!\n\n");
-                        }
-                        DungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonRoomFromEARoom(currentRoomCoordinates, dungeonPartCode, keyIDs, difficulty, treasure, enemyType, items, npcs));
-
-                        Room parent = actualRoom.Parent;
-                        if (parent != null)
-                        {
-                            corridorx = parent.x - actualRoom.x + 2 * iPositive;
-                            corridory = parent.y - actualRoom.y + 2 * jPositive;
-                            currentRoomCoordinates = new Coordinates(corridorx, corridory);
-                            dungeonPartCode = DungeonPart.PartType.CORRIDOR;
-                            if (actualRoom.Type == LevelGenerator.RoomType.Locked)
-                            {
-                                lockIDs = new List<int>
-                                {
-                                    keys.IndexOf(actualRoom.Key) + 1
-                                };
-                                dungeonPartCode = DungeonPart.PartType.LOCKED;
-                            }
-                            DungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonCorridorFromEACorridor(currentRoomCoordinates, dungeonPartCode, lockIDs));
-                        }
-                    }
-                }
-            }
-
-            BuildDefaultRooms();
-        }
-
-
+        //TODO passes level's SO when created in real time to take place of old method that used the "Dungeon" object
         private void ReadMapFile(DungeonFileSo dungeonFileSO, int mode)
         {
             Dimensions = dungeonFileSO.dimensions;
@@ -197,7 +90,8 @@ namespace Game.LevelManager
                 }
                 DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
             }
-            //
+
+            GameManagerSingleton.instance.maxRooms = nRooms;
             foreach (SORoom room in dungeonFileSO.rooms)
             {
                 if (room.keys.Count != -1)
@@ -208,15 +102,23 @@ namespace Game.LevelManager
                 {
                     nLocks += room.locks.Count;
                 }
-                if (room.Enemies != -1)
+
+                if (room.Treasures != -1)
                 {
-                    nEnemies += room.Enemies;
+                    nTreasure += room.Treasures;
+                }
+                if (room.TotalEnemies != -1)
+                {
+                    nEnemies += room.TotalEnemies;
                 }
                 if (room.Npcs != -1)
                 {
                     nNPCs += room.Npcs;
                 }
             }
+
+            GameManagerSingleton.instance.maxEnemies = nEnemies;
+            GameManagerSingleton.instance.maxTreasure = nTreasure;
         }
 
 

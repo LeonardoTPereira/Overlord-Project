@@ -1,5 +1,7 @@
 ﻿using Game.LevelManager;
 using System.Collections.Generic;
+using Game.EnemyGenerator;
+using Game.Events;
 using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
@@ -17,7 +19,7 @@ public class RoomBHV : MonoBehaviour
     public List<int> westDoor;
 
     public bool hasEnemies;
-    public List<int> enemiesIndex;
+    public Dictionary<EnemySO, int> enemiesDictionary;
     private int enemiesDead;
 
     public DoorBHV doorNorth;
@@ -55,7 +57,7 @@ public class RoomBHV : MonoBehaviour
     private void Awake()
     {
         hasEnemies = false;
-        enemiesIndex = new List<int>();
+        enemiesDictionary = new Dictionary<EnemySO, int>();
         enemiesDead = 0;
         isArena = GameManagerSingleton.instance.arenaMode;
     }
@@ -66,7 +68,7 @@ public class RoomBHV : MonoBehaviour
         // If the Arena Mode is on, then set up the Arena
         if (roomData.IsStartRoom() && isArena)
         {
-            roomData.EnemyType = (int) Enums.EnemyTypeEnum.ARENA;
+            roomData.TotalEnemies = GameManagerSingleton.instance.enemyLoader.arena.Length;
             hasEnemies = true;
         }
 
@@ -303,50 +305,47 @@ public class RoomBHV : MonoBehaviour
 
     private void SelectEnemies()
     {
-        if (roomData.Difficulty > 0 || isArena)
+        if (roomData.EnemiesByType == null && !isArena) return;
+        hasEnemies = true;
+        if (isArena)
         {
-            hasEnemies = true;
-            GameManagerSingleton.instance.enemyLoader.LoadEnemies(roomData.EnemyType);
-            if (isArena)
+            // Load all the enemies from the folder
+            EnemySO[] arena = GameManagerSingleton.instance.enemyLoader.arena;
+            foreach (var enemy in arena)
             {
-                // Load all the enemies from the folder
-                EnemySO[] arena = GameManagerSingleton.instance.enemyLoader.arena;
-                for (int ei = 0; ei < arena.Length; ei++)
-                {
-                    enemiesIndex.Add(ei);
-                }
+                enemiesDictionary.Add(enemy, 1);
             }
-            else
-            {
-                for (int i = 0; i < roomData.Difficulty; ++i)
-                {
-                    enemiesIndex.Add(GameManagerSingleton.instance.enemyLoader.GetRandomEnemyIndex(roomData.EnemyType));
-                }
-            }
+        }
+        else
+        {
+            enemiesDictionary = EnemyDispenser.GetEnemiesForRoom(this);
         }
     }
 
     public void SpawnEnemies()
     {
-        GameObject enemy;
-        List<int> selectedSpawnPoints = new List<int>();
-        int actualSpawn;
-        for (int i = 0; i < enemiesIndex.Count; ++i)
+        Debug.Log("Spawning Enemies");
+        var selectedSpawnPoints = new List<int>();
+        foreach (var enemiesFromType in enemiesDictionary)
         {
-            if (enemiesIndex.Count >= spawnPoints.Count)
+            Debug.Log("Enemy Type: "+enemiesFromType.Key);
+            for (var i = 0; i < enemiesFromType.Value; i++)
             {
-                actualSpawn = Random.Range(0, spawnPoints.Count);
-            }
-            else
-            {
+                int actualSpawn;
+                if (selectedSpawnPoints.Count >= spawnPoints.Count)
+                {
+                    selectedSpawnPoints.Clear();
+                }
                 do
                 {
                     actualSpawn = Random.Range(0, spawnPoints.Count);
                 } while (selectedSpawnPoints.Contains(actualSpawn));
+                var enemy = GameManagerSingleton.instance.enemyLoader.InstantiateEnemyFromScriptableObject(
+                    new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
+                    transform.rotation, enemiesFromType.Key);
+                enemy.GetComponent<EnemyController>().SetRoom(this);
+                selectedSpawnPoints.Add(actualSpawn);
             }
-            enemy = GameManagerSingleton.instance.enemyLoader.InstantiateEnemyWithIndex(enemiesIndex[i], new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), transform.rotation, roomData.EnemyType);
-            enemy.GetComponent<EnemyController>().SetRoom(this);
-            selectedSpawnPoints.Add(actualSpawn);
         }
     }
 
@@ -358,13 +357,13 @@ public class RoomBHV : MonoBehaviour
             SpawnEnemies();
         }
         minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesIndex, -1, gameObject.transform.position, roomData.Dimensions));
+        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesDictionary, -1, gameObject.transform.position, roomData.Dimensions));
     }
 
     public void CheckIfAllEnemiesDead()
     {
         enemiesDead++;
-        if(enemiesDead == enemiesIndex.Count)
+        if(enemiesDead == roomData.TotalEnemies)
         {
             hasEnemies = false;
             doorEast.OpenDoorAfterKilling();

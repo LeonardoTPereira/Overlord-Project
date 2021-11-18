@@ -15,11 +15,11 @@ MonoBehaviour:
   health: 5
   damage: 4
   movementSpeed: 2.8
-  activeTime: 6.0513377
-  restTime: 0.52250683
+  activeTime: 10
+  restTime: 1.5
   weapon: {fileID: 11400000, guid: aa33993ac0a84824897db8146f732030, type: 2}
   movement: {fileID: 11400000, guid: 60100cc28d1df554dac90b092fe95e74, type: 2}
   behavior: {fileID: 11400000, guid: 7352eddfe7fc8e34dbc77c370d90c8bf, type: 2}
-  fitness: 0.034518242
-  attackSpeed: 1.2876089
-  projectileSpeed: 3.5194912
+  fitness: 0
+  attackSpeed: 3.4736867
+  projectileSpeed: 1.9640434

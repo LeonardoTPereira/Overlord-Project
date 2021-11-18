@@ -59,6 +59,7 @@ namespace Game.GameManager
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
                 dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
+                dungeonEntrance.LevelQuestLine = selectedQuestLine;
                 dungeonFileSos.RemoveAt(selectedIndex);
                 Debug.Log("Dungeon Entrance Filename: " + dungeonEntrance.SelectedDungeon.name);
             }

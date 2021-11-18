@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.GameManager;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.LevelManager
@@ -9,26 +10,39 @@ namespace Game.LevelManager
         protected Dimensions dimensions; // inicializar valores antes de acessar os tiles
         private int[,] tiles = null;
         private List<int> keyIDs;
-        protected int difficulty, treasure, enemyType;
+        protected int treasure;
+
+        public int TotalEnemies
+        {
+            get => _totalEnemies;
+            set => _totalEnemies = value;
+        }
+
+        public Dictionary<WeaponTypeSO, int> EnemiesByType
+        {
+            get => _enemiesByType;
+            set => _enemiesByType = value;
+        }
+
         public int Treasure { get => treasure; set => treasure = value; }
-        public int Difficulty { get => difficulty; set => difficulty = value; }
-        public int EnemyType { get => enemyType; set => enemyType = value; }
+
         public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
         public int[,] Tiles { get => tiles; set => tiles = value; }
         public List<int> KeyIDs { get => keyIDs; set => keyIDs = value; }
-        public RoomBHV RoomBHV { get => roomBHV; set => roomBHV = value; }
         public int NpcID { get => npcID; set => npcID = value; }
 
         private RoomBHV roomBHV;
         private int npcID;
+        private Dictionary<WeaponTypeSO, int> _enemiesByType;
+        private int _totalEnemies;
 
-        public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int difficulty, int treasure, int enemyType, int npc) : base(coordinates, code)
+        public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int treasure, int totalEnemies, int npc) : base(coordinates, code)
         {
             KeyIDs = keyIDs;
             Treasure = treasure;
-            Difficulty = difficulty;
-            EnemyType = enemyType;
+            TotalEnemies = totalEnemies;
             NpcID = npc;
+            EnemiesByType = null;
         }
 
         public void InitializeTiles()

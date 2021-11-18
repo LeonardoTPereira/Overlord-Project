@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Game.NarrativeGenerator.Quests;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using static Util.Enums;
@@ -32,7 +33,10 @@ namespace LevelGenerator
         public static event NewEAGenerationEvent newEAGenerationEventHandler;
 
         /// The external parameters of printing purposes
+        [MustBeAssigned]
         public TreasureRuntimeSetSO treasureRuntimeSetSO;
+        [MustBeAssigned]
+        public WeaponTypeRuntimeSetSO weaponTypeRuntimeSetSO;
         private QuestLine _questLine;
 
         /**
@@ -93,7 +97,7 @@ namespace LevelGenerator
                     if (individual != null)
                     {
                         individual.dungeon.SetNarrativeParameters(_questLine);
-                        Interface.PrintNumericalGridWithConnections(individual, fitness, treasureRuntimeSetSO);
+                        Interface.PrintNumericalGridWithConnections(individual, fitness, treasureRuntimeSetSO, weaponTypeRuntimeSetSO);
                     }
                 }
             }

@@ -6,17 +6,17 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
 {
     public class KillQuestSO : QuestSO
     {
-        public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
+        public Dictionary<WeaponTypeSO, int> EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
         
         public override void Init()
         {
             base.Init();
-            EnemiesToKillByType = new Dictionary<EnemySO, int>();
+            EnemiesToKillByType = new Dictionary<WeaponTypeSO, int>();
             EnemiesToKillByFitness = new Dictionary<float, int>();
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<EnemySO, int> enemiesByType)
+        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<WeaponTypeSO, int> enemiesByType)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByType = enemiesByType;
@@ -27,7 +27,7 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
             EnemiesToKillByFitness = enemiesByFitness;
         }
         
-        public void AddEnemy(EnemySO enemy, int amount)
+        public void AddEnemy(WeaponTypeSO enemy, int amount)
         {
             if (EnemiesToKillByType.TryGetValue(enemy, out var currentAmount))
             {

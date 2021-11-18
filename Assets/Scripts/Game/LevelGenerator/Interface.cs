@@ -9,6 +9,8 @@ using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 using Game.NarrativeGenerator.Quests;
+using MyBox;
+using Util;
 
 namespace LevelGenerator
 {
@@ -21,11 +23,13 @@ namespace LevelGenerator
         public static void PrintNumericalGridWithConnections(
             Individual _individual,
             Fitness _fitness,
-            TreasureRuntimeSetSO _treasureRuntimeSetSO
-        ) {
+            TreasureRuntimeSetSO _treasureRuntimeSetSO,
+            WeaponTypeRuntimeSetSO _weaponTypeRuntimeSetSo
+        )
+        {
             Dungeon dun = _individual.dungeon;
             int remainingItems, remainingNpcs;
-            if(dun.DungeonQuestLine != null)
+            if (dun.DungeonQuestLine != null)
             {
                 remainingItems = dun.DungeonQuestLine.ItemParametersForQuestLine.TotalItems;
                 remainingNpcs = dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs;
@@ -47,10 +51,8 @@ namespace LevelGenerator
             float le = _individual.leniency;
             int e = SearchSpace.GetCoefficientOfExplorationIndex(ce);
             int l = SearchSpace.GetLeniencyIndex(le);
-            (float, float)[] listCE = SearchSpace.
-                CoefficientOfExplorationRanges();
-            (float, float)[] listLE = SearchSpace.
-                LeniencyRanges();
+            (float, float)[] listCE = SearchSpace.CoefficientOfExplorationRanges();
+            (float, float)[] listLE = SearchSpace.LeniencyRanges();
             string strCE = ("" + listCE[e])
                 .Replace(" ", "").Replace("(", "")
                 .Replace(")", "").Replace(",", "~");
@@ -73,14 +75,15 @@ namespace LevelGenerator
             foreach (Room room in dun.rooms)
             {
                 if (room.type == RoomType.Key)
-                    {
+                {
                     keys.Add(room.key);
                 }
                 else if (room.type == RoomType.Locked)
-                    {
+                {
                     lockedRooms.Add(room.key);
                 }
             }
+
             dun.SetBoundariesFromRoomList();
 
             //The size is normalized to be always positive (easier to handle a matrix)
@@ -155,6 +158,7 @@ namespace LevelGenerator
                             Console.WriteLine("Something went wrong printing the tree!\n");
                             Console.WriteLine("This Room type does not exist!\n\n");
                         }
+
                         //As (for now) every room must be connected to its parent or children
                         //We need only to check its parent to create the corridors
                         Room parent = actualRoom.parent;
@@ -177,6 +181,7 @@ namespace LevelGenerator
                     }
                 }
             }
+
             dungeonFileSO.rooms = new List<SORoom>();
             //Now we print it/save to a file/whatever
             for (int i = 0; i < dun.dimensions.Width * 2; ++i)
@@ -244,7 +249,7 @@ namespace LevelGenerator
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.Write(" s");
                             roomDataInFile.type = "s";
-                            roomDataInFile.Enemies = dun.grid[x, y].enemies;
+                            roomDataInFile.TotalEnemies = dun.grid[x, y].enemies;
                             roomDataInFile.Treasures = 0;
                         }
                         //If it is a corridor, writes "c" in the file
@@ -258,9 +263,8 @@ namespace LevelGenerator
                         {
                             Console.Write(" B");
                             roomDataInFile.type = "B";
-                            roomDataInFile.Enemies = dun.grid[x, y].enemies;
+                            roomDataInFile.TotalEnemies = dun.grid[x, y].enemies;
                             roomDataInFile.Treasures = 0;
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
                         }
                         //If negative, is a locked corridor, save it as the negative number of the key that opens it
                         else if (map[i, j] < 0)
@@ -291,19 +295,19 @@ namespace LevelGenerator
                             {
                                 numberNpcs = 0;
                             }
+
                             if (numberNpcs > 0)
                             {
-                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs + 1);
+                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs +
+                                              1);
                                 difficulty = 0;
                             }
 
                             roomDataInFile.Npcs = numberNpcs;
                             remainingItems -= numberItems;
                             remainingNpcs--;
-
-                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.TotalEnemies = difficulty;
                             roomDataInFile.Treasures = numberItems;
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
                         }
                         //If the room has a positive value, it holds a key.
                         //Save the key index so we know what key it is
@@ -312,10 +316,8 @@ namespace LevelGenerator
                             Console.Write("{0,2}", map[i, j]);
                             int difficulty = dun.grid[x, y].enemies;
 
-
-                            roomDataInFile.Enemies = difficulty;
                             roomDataInFile.Treasures = 0;
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
+                            roomDataInFile.TotalEnemies = difficulty;
                             int maxPossibleItems = Math.Min(_treasureRuntimeSetSO.Items.Count, remainingItems + 1);
                             int numberItems = UnityEngine.Random.Range(0, maxPossibleItems);
 
@@ -336,7 +338,6 @@ namespace LevelGenerator
                             roomDataInFile.Treasures = numberItems;
                             //TODO Logica de carregar inimigos de acordo com probabilidade
 
-                            roomDataInFile.EnemiesType = enemyType_Randomizer;
                             int numberNpcs;
                             int difficulty = dun.grid[x, y].enemies;
                             if (remainingNpcs > 0)
@@ -347,24 +348,26 @@ namespace LevelGenerator
                             {
                                 numberNpcs = 0;
                             }
-                            if(numberNpcs > 0)
+
+                            if (numberNpcs > 0)
                             {
-                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs +1);
+                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs + 1);
                                 difficulty = 0;
                             }
 
                             roomDataInFile.Npcs = numberNpcs;
                             remainingItems -= numberItems;
                             remainingNpcs--;
-
-                            roomDataInFile.Enemies = difficulty;
+                            roomDataInFile.TotalEnemies = difficulty;
                         }
                     }
+
                     if (roomDataInFile != null)
                     {
                         dungeonFileSO.rooms.Add(roomDataInFile);
                     }
                 }
+
                 Console.Write("\n");
             }
             //The assetdatabase stuff only works in the Unity's Editor
@@ -381,6 +384,7 @@ namespace LevelGenerator
                 count++;
                 path = AssetDatabase.AssetPathToGUID(foldername + filename + "-" + count + ".txt");
             }
+
             if (count > 0)
                 filename += "-" + count;
             filename = foldername + filename;
@@ -388,14 +392,16 @@ namespace LevelGenerator
 
             int sameFilenameCounter = 0;
 
-            if(File.Exists(filename + ".asset"))
+            if (File.Exists(filename + ".asset"))
             {
                 do
                 {
                     sameFilenameCounter++;
                 } while (File.Exists(filename + "-" + sameFilenameCounter + ".asset"));
-                filename += "-"+sameFilenameCounter;
+
+                filename += "-" + sameFilenameCounter;
             }
+
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
             dun.DungeonQuestLine = new QuestLine();
             dun.DungeonQuestLine.Init();

@@ -216,7 +216,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     /// <param name="enemyData">The enemy data.</param>
     /// <param name="index">The index.</param>
-    public void LoadEnemyData(EnemySO enemyData, int index)
+    public void LoadEnemyData(EnemySO enemyData)
     {
         healthCtrl.SetHealth(enemyData.health);
         damage = enemyData.damage;
@@ -242,7 +242,6 @@ public class EnemyController : MonoBehaviour
         movement = enemyData.movement;
         behavior = enemyData.behavior.enemyBehavior;
         // ApplyEnemyColors();
-        indexOnEnemyList = index;
         hasMoveDirBeenChosen = false;
         originalColor = sr.color;
         healthCtrl.SetOriginalColor(originalColor);

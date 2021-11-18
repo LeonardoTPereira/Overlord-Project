@@ -2,8 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Game.DataCollection;
+using Game.Events;
 using Game.LevelManager;
+using Game.Maestro;
+using Game.NarrativeGenerator.Quests;
 using LevelGenerator;
 using MyBox;
 using ScriptableObjects;
@@ -33,6 +37,8 @@ namespace Game.GameManager
         [Foldout("Scriptable Objects"), Header("Enemy Components")]
 #endif
         public EnemyComponentsSO enemyComponents;
+
+        public QuestLine currentQuestLine;
         protected Program generator;
         public Dungeon createdDungeon;
 #if UNITY_EDITOR
@@ -48,6 +54,7 @@ namespace Game.GameManager
         [SerializeField]
         private LevelConfigRuntimeSetSO levelSet;
         private DungeonFileSo currentDungeonSO;
+        private List<EnemySO> currentDungeonEnemies;
 
         public static GameManagerSingleton instance = null;
         protected TextAsset mapFile;
@@ -84,7 +91,7 @@ namespace Game.GameManager
         public static event StartMapEvent StartMapEventHandler;
         public static event FinishMapEvent FinishMapEventHandler;
 
-        public int maxTreasure, maxRooms;
+        public int maxTreasure, maxRooms, maxEnemies;
         public int mapFileMode;
         public GameObject panelIntro;
 
@@ -238,16 +245,21 @@ namespace Game.GameManager
             //Loads map from data
             if (createMaps)
             {
-                map = new Map(instance.createdDungeon);
-                mapFile = null;
+                throw new NotImplementedException("Need to implement method to pass DungeonSO");
             }
-            else
-            {
-                LoadMap(dungeonFileSo);
-            }
+            
+                        
+            //TODO DELETE THIS WHEN FIXED!!!
 
+            currentQuestLine.CreateDummyEnemyParameters();
+
+            LoadMap(dungeonFileSo);
+            
+            EnemyDispenser.DistributeEnemiesInDungeon(map, currentQuestLine);
+            
             roomBHVMap = new Dictionary<Coordinates, RoomBHV>();
 
+            instance.enemyLoader.LoadEnemies(currentQuestLine.EnemySos);
             InstantiateRooms();
             ConnectRoooms();
             OnStartMap(dungeonFileSo.name, currentTestBatchId, map);
@@ -256,9 +268,10 @@ namespace Game.GameManager
         private void OnStartMap(string mapName, int batch, Map map)
         {
             Debug.Log("Starting Map");
+            int totalEnemies = roomBHVMap[map.StartRoomCoordinates].enemiesDictionary.Sum(x => x.Value);
             StartMapEventHandler(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType)));
-            EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, 
-                roomBHVMap[map.StartRoomCoordinates].enemiesIndex, -1, roomBHVMap[map.StartRoomCoordinates].gameObject.transform.position, (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions));
+            EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, null
+                , -1, roomBHVMap[map.StartRoomCoordinates].gameObject.transform.position, (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions));
         }
 
         void OnApplicationQuit()
@@ -296,9 +309,12 @@ namespace Game.GameManager
         {
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
             LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelSO;
+            LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelQuestLine;
             WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
             PostFormMenuBHV.postFormButtonEventHandler += SetCurrentLevelSO;
+            PostFormMenuBHV.postFormButtonEventHandler += SetCurrentLevelQuestLine;
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelSO;
+            DungeonLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBHV.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormAnswered += EndGame;
@@ -307,9 +323,12 @@ namespace Game.GameManager
         {
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
             LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelSO;
+            LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelQuestLine;
             WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
             PostFormMenuBHV.postFormButtonEventHandler -= SetCurrentLevelSO;
+            PostFormMenuBHV.postFormButtonEventHandler -= SetCurrentLevelQuestLine;
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelSO;
+            DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBHV.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormAnswered -= EndGame;
@@ -372,7 +391,12 @@ namespace Game.GameManager
 
         public void SetCurrentLevelSO(object sender, LevelLoadEventArgs args)
         {
-            currentDungeonSO = args.DungeonFileSO;
+            currentDungeonSO = args.DungeonFileSo;
+        }
+        
+        public void SetCurrentLevelQuestLine(object sender, LevelLoadEventArgs args)
+        {
+            currentQuestLine = args.LevelQuestLine;
         }
 
         public bool HasMoreLevels()

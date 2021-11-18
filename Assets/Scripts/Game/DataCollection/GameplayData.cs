@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Game.EnemyGenerator;
+using Game.Events;
 using Game.GameManager;
 using Game.LevelManager;
 using Game.NarrativeGenerator;
+using ScriptableObjects;
 using UnityEngine;
 using Util;
 
@@ -18,7 +19,7 @@ namespace Game.DataCollection
         public int roomId;
         public bool hasEnemies;
         public int nEnemies;
-        public List<int> enemiesIndex;
+        public Dictionary<EnemySO, int> enemiesDictionary;
         public int playerInitHealth;
         public int playerFinalHealth;
         public int timeToExit;
@@ -313,8 +314,8 @@ namespace Game.DataCollection
                 actualRoomInfo.roomId = 10 * eventArgs.RoomCoordinates.X + eventArgs.RoomCoordinates.Y;
                 actualRoomInfo.hasEnemies = eventArgs.RoomHasEnemies;
                 actualRoomInfo.playerInitHealth = eventArgs.PlayerHealthWhenEntering;
-                actualRoomInfo.nEnemies = eventArgs.RoomEnemiesIndex.Count;
-                actualRoomInfo.enemiesIndex = eventArgs.RoomEnemiesIndex;
+                actualRoomInfo.nEnemies = eventArgs.EnemiesInRoom.Count;
+                actualRoomInfo.enemiesDictionary = eventArgs.EnemiesInRoom;
                 actualRoomInfo.timeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds);
             }
             else
@@ -612,8 +613,11 @@ namespace Game.DataCollection
                 detailedLevelProfileString += info.timeToExit + ",";
                 detailedLevelProfileString += info.hasEnemies + ",";
                 detailedLevelProfileString += info.nEnemies + ",";
-                foreach (int enemyId in info.enemiesIndex)
-                    detailedLevelProfileString += enemyId + ",";
+                foreach (var enemy in info.enemiesDictionary)
+                {
+                    detailedLevelProfileString += "Name: " + enemy.Key.name + ",";
+                    detailedLevelProfileString += "Amount: " + enemy.Value + ",";
+                }
                 detailedLevelProfileString += "\n";
             }
         }

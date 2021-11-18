@@ -877,6 +877,7 @@ MonoBehaviour:
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 0}
   enemyComponents: {fileID: 0}
+  currentQuestLine: {fileID: 0}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 714001a36672c8747b10738c78789140, type: 2}
@@ -907,6 +908,7 @@ MonoBehaviour:
   nBatches: 0
   maxTreasure: 0
   maxRooms: 0
+  maxEnemies: 0
   mapFileMode: 1
   panelIntro: {fileID: 328329802}
   levelFile: 
@@ -955,12 +957,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arena: []
-  easy:
-  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
-  medium:
-  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
-  hard:
-  - {fileID: 11400000, guid: 2d6e6b15e96148d4d96105b5ecf0d2b8, type: 2}
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
   barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
@@ -971,6 +967,7 @@ MonoBehaviour:
     type: 3}
   healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
+  _weaponTypes: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!114 &48615759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7236,7 +7233,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.4999981}
+  m_AnchoredPosition: {x: 0, y: 0.5}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1059078008

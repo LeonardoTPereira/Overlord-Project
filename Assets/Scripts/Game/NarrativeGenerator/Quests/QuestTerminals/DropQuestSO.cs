@@ -9,16 +9,16 @@ namespace Game.NarrativeGenerator.Quests
     class DropQuestSO : ItemQuestSO
     {
         public Dictionary<EnemySO, float> DropChanceByEnemyType { get; set; }
-        public Dictionary<ItemSO, Dictionary<EnemySO, int>> ItemData { get; set; }
+        public Dictionary<ItemSO, Dictionary<WeaponTypeSO, int>> ItemData { get; set; }
         public Dictionary<ItemSO, Dictionary<float, int>> ItemDataByEnemyFitness { get; set; }
 
         public override void Init()
         {
             base.Init();
-            ItemData = new Dictionary<ItemSO, Dictionary<EnemySO, int>>();
+            ItemData = new Dictionary<ItemSO, Dictionary<WeaponTypeSO, int>>();
             ItemDataByEnemyFitness = new Dictionary<ItemSO, Dictionary<float, int>>();
         }
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSO, Dictionary<EnemySO, int>> dropItemData)
+        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSO, Dictionary<WeaponTypeSO, int>> dropItemData)
         {
             Dictionary<ItemSO, int> itemsByType = new Dictionary<ItemSO, int>();
             foreach (var itemToDrop in dropItemData)
