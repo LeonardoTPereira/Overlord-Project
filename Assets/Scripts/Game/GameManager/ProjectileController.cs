@@ -46,6 +46,21 @@ public class ProjectileController : MonoBehaviour
         damage = ProjectileSO.damage;
     }
 
+    void OnEnable()
+    {
+        PlayerController.PlayerDeathEventHandler += PlayerHasDied;
+    }
+
+    void OnDisable()
+    {
+        PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
+    }
+
+    private void PlayerHasDied(object sender, EventArgs eventArgs)
+    {
+        Destroy(gameObject);
+    }
+
     // Update is called once per frame
     void Update()
     {

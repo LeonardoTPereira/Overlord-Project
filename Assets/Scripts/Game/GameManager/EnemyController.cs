@@ -8,7 +8,11 @@ public class EnemyController : MonoBehaviour
 {
     /// This constant holds the weapon prefab name of healers
     public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
+    private static readonly int HIT_ENEMY = 0;
+    private static readonly int ENEMY_DEATH = 1;
 
+    protected bool isActive;
+    protected bool canDestroy;
     [SerializeField]
     protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
     protected int damage;
@@ -20,6 +24,7 @@ public class EnemyController : MonoBehaviour
     protected ProjectileTypeSO projectileType;
 
     protected Animator anim;
+    private AudioSource[] audioSrcs;
     [SerializeField]
     protected float walkUntil, waitUntil, coolDownTime;
     protected bool isWalking, hasProjectile, isShooting;
@@ -44,26 +49,62 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-
+        isActive = true;
+        canDestroy = false;
         dataHasBeenLoaded = false;
         playerObj = Player.Instance.gameObject;
         anim = GetComponent<Animator>();
+        audioSrcs = GetComponents<AudioSource>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         healthCtrl = gameObject.GetComponent<HealthController>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+    }
+
+    void OnEnable()
+    {
+        ProjectileController.enemyHitEventHandler += HurtEnemy;
+        PlayerController.PlayerDeathEventHandler += PlayerHasDied;
+    }
+
+    void OnDisable()
+    {
+        ProjectileController.enemyHitEventHandler -= HurtEnemy;
+        PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
     }
 
     protected virtual void OnPlayerHit()
     {
         playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
+
+    private void HurtEnemy(object sender, EventArgs eventArgs)
+    {
+        if (healthCtrl.GetHealth() > 0 && !audioSrcs[HIT_ENEMY].isPlaying)
+        {
+            audioSrcs[HIT_ENEMY].PlayOneShot(audioSrcs[HIT_ENEMY].clip, 1.0f);
+        }
+    }
+
+    private void PlayerHasDied(object sender, EventArgs eventArgs)
+    {
+        isActive = false;
+    }
+
+    void Update()
+    {
+        if (!audioSrcs[ENEMY_DEATH].isPlaying && canDestroy)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     /// <summary>
     ///
     /// </summary>
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (dataHasBeenLoaded)
+        if (dataHasBeenLoaded && isActive && !canDestroy)
         {
             if (isWalking)
             {
@@ -169,8 +210,11 @@ public class EnemyController : MonoBehaviour
         {
             //TODO Audio and Particles
             //Instantiate(bloodParticle, transform.position, Quaternion.identity);
+            audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
+            canDestroy = true;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
             room.CheckIfAllEnemiesDead();
-            Destroy(gameObject);
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
     }
