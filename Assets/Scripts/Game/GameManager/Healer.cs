@@ -42,9 +42,9 @@ public class Healer : MonoBehaviour
         // Define the position of the healer's arms
         Vector3 armsHeight = new Vector3(0f, 0.2f, 0f);
         // Place the spots of cure spell animation
-        ParticleSystem cure1 = healer.GetComponentInChildren<ParticleSystem>();
-        cure1.transform.localScale *= CURE_SPELL_SIZE;
-        cure1.transform.position = weapon.transform.position + armsHeight;
+        ParticleSystem spell = healer.GetComponentInChildren<ParticleSystem>();
+        spell.transform.localScale *= CURE_SPELL_SIZE;
+        spell.transform.position = weapon.transform.position + armsHeight;
         // Calculate the healer healing cooldown
         EnemyController ec = healer.GetComponent<EnemyController>();
         cooldown = BASE_COOLDOWN * (1f / ec.GetAttackSpeed());
@@ -63,7 +63,7 @@ public class Healer : MonoBehaviour
 
     /// Update the alpha channel of the heal area sprite.
     private void UpdateHealAreaAlpha(float alpha)
-    {   
+    {
         float r = healArea.color.r;
         float g = healArea.color.g;
         float b = healArea.color.b;
