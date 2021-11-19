@@ -173,11 +173,7 @@ namespace Game.LevelManager
             {
                 if (currentPart is DungeonRoom room)
                 {
-                    room.Dimensions = roomDimensions;
-                    room.InitializeTiles(); // aloca memória para os tiles
-                    for (int x = 0; x < room.Dimensions.Width; x++)
-                        for (int y = 0; y < room.Dimensions.Height; y++)
-                            room.Tiles[x, y] = defaultTileID;
+                    room.CreateRoom(roomDimensions);
                 }
             }
         }

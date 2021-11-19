@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
+using Util;
 
 namespace Game.LevelManager
 {
@@ -11,27 +13,7 @@ namespace Game.LevelManager
         private int[,] tiles = null;
         private List<int> keyIDs;
         protected int treasure;
-
-        public int TotalEnemies
-        {
-            get => _totalEnemies;
-            set => _totalEnemies = value;
-        }
-
-        public Dictionary<WeaponTypeSO, int> EnemiesByType
-        {
-            get => _enemiesByType;
-            set => _enemiesByType = value;
-        }
-
-        public int Treasure { get => treasure; set => treasure = value; }
-
-        public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
-        public int[,] Tiles { get => tiles; set => tiles = value; }
-        public List<int> KeyIDs { get => keyIDs; set => keyIDs = value; }
-        public int NpcID { get => npcID; set => npcID = value; }
-
-        private RoomBHV roomBHV;
+        private RoomBhv roomBHV;
         private int npcID;
         private Dictionary<WeaponTypeSO, int> _enemiesByType;
         private int _totalEnemies;
@@ -63,7 +45,7 @@ namespace Game.LevelManager
             {
                 for (int iy = 0; iy < dimensions.Height; iy++)
                 {
-                    if (room.Tiles[ix, iy] != 1)
+                    if (room.Tiles[ix, iy] == (int) Enums.TileTypes.Floor)
                     { //é passável?
                         float sqDist = Mathf.Pow(ix - roomSelfCenter.x, 2) + Mathf.Pow(iy - roomSelfCenter.y, 2);
                         if (sqDist <= minSqDist)
@@ -76,6 +58,55 @@ namespace Game.LevelManager
                 }
             }
             return new Vector3(minX, dimensions.Height - 1 - minY, 0) - roomSelfCenter;
+        }
+
+        public void CreateRoom(Dimensions roomDimensions)
+        {
+            Dimensions = roomDimensions;
+            InitializeTiles(); // aloca memória para os tiles
+            int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomTypes.COUNT);
+            DefaultRoomCreator.CreateRoomOfType(this, roomType);
+        }
+
+        public int TotalEnemies 
+        {
+            get => _totalEnemies;
+            set => _totalEnemies = value;
+        }
+        public Dictionary<WeaponTypeSO, int> EnemiesByType 
+        {
+            get => _enemiesByType;
+            set => _enemiesByType = value;
+        }
+
+        public int Treasure 
+        {
+            get => treasure; 
+            set => treasure = value;
+        }
+
+        public Dimensions Dimensions 
+        {
+            get => dimensions; 
+            set => dimensions = value;
+        }
+
+        public int[,] Tiles
+        {
+            get => tiles; 
+            set => tiles = value;
+        }
+
+        public List<int> KeyIDs
+        {
+            get => keyIDs; 
+            set => keyIDs = value;
+        }
+
+        public int NpcID
+        {
+            get => npcID; 
+            set => npcID = value;
         }
     }
 }

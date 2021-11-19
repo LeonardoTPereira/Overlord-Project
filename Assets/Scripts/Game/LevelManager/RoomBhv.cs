@@ -1,4 +1,5 @@
-﻿using Game.LevelManager;
+﻿using System;
+using Game.LevelManager;
 using System.Collections.Generic;
 using Game.EnemyGenerator;
 using Game.Events;
@@ -6,8 +7,9 @@ using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Random = UnityEngine.Random;
 
-public class RoomBHV : MonoBehaviour
+public class RoomBhv : MonoBehaviour
 {
 
     public static event StartRoomEvent StartRoomEventHandler;
@@ -22,10 +24,10 @@ public class RoomBHV : MonoBehaviour
     public Dictionary<EnemySO, int> enemiesDictionary;
     private int enemiesDead;
 
-    public DoorBHV doorNorth;
-    public DoorBHV doorSouth;
-    public DoorBHV doorEast;
-    public DoorBHV doorWest;
+    public DoorBhv doorNorth;
+    public DoorBhv doorSouth;
+    public DoorBhv doorEast;
+    public DoorBhv doorWest;
 
     public KeyBHV keyPrefab;
     public TriforceBHV triPrefab;
@@ -37,8 +39,8 @@ public class RoomBHV : MonoBehaviour
     public Collider2D colEast;
     public Collider2D colWest;
 
-    public TileBHV tilePrefab;
-    public BlockBHV blockPrefab;
+    public TileBhv tilePrefab;
+    public BlockBhv blockPrefab;
 
     public Sprite northWall, southWall, eastWall, westWall;
     public GameObject NWCollumn, NECollumn, SECollumn, SWCollumn;
@@ -139,7 +141,7 @@ public class RoomBHV : MonoBehaviour
             for (int iy = 0; iy < roomData.Dimensions.Height; iy++)
             {
                 int tileID = roomData.Tiles[ix, iy];
-                TileBHV tileObj;
+                TileBhv tileObj;
                 if (tileID == 1)
                 {
                     tileObj = Instantiate(blockPrefab);
@@ -179,7 +181,7 @@ public class RoomBHV : MonoBehaviour
                         }
                         tileObj.GetComponent<SpriteRenderer>().sprite = eastWall;
                     }
-                    else
+                    else if(iy == (roomData.Dimensions.Height - 1))
                     {
                         tileObj.GetComponent<SpriteRenderer>().sprite = southWall;
                     }
@@ -188,12 +190,7 @@ public class RoomBHV : MonoBehaviour
                 {
                     tileObj = Instantiate(tilePrefab);
                 }
-                tileObj.transform.SetParent(transform);
-                tileObj.transform.localPosition = new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                tileObj.GetComponent<SpriteRenderer>(); //FIXME provisório para diferenciar sprites
-                tileObj.Id = tileID;
-                tileObj.X = ix;
-                tileObj.Y = iy;
+                tileObj.SetPosition(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY, transform);
             }
         }
 
@@ -233,7 +230,7 @@ public class RoomBHV : MonoBehaviour
                 Vector3 point = new Vector3(spx, spy, 0);
 
                 // If the room is an Arena, then ignore the room center
-                if (isArena && spx == 0.5f && spy == 0.0f)
+                if (isArena && Math.Abs(spx - 0.5f) < 0.001f && spy == 0.0f)
                 {
                     continue;
                 }
@@ -241,23 +238,15 @@ public class RoomBHV : MonoBehaviour
                 // Add the calculated point to spawn point list
                 if (ix <= margin || ix >= topHor)
                 {
-                    if (iy < lowerHalfVer || iy > upperHalfVer)
-                    {
-                        if (!isArena)
-                        {
-                            spawnPoints.Add(point);
-                        }
-                    }
+                    if (iy >= lowerHalfVer && iy <= upperHalfVer) continue;
+                    if (isArena || roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                    spawnPoints.Add(point);
                 }
                 else if (iy <= margin || iy >= topVer)
                 {
-                    if (ix < lowerHalfHor || ix > upperHalfHor)
-                    {
-                        if (!isArena)
-                        {
-                            spawnPoints.Add(point);
-                        }
-                    }
+                    if (ix >= lowerHalfHor && ix <= upperHalfHor) continue;
+                    if (isArena || roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                    spawnPoints.Add(point);
                 }
                 else
                 {
@@ -438,4 +427,6 @@ public class RoomBHV : MonoBehaviour
         npcController.transform.position = availablePosition;
         availablePosition.x += 1;
     }
+    
+    
 }

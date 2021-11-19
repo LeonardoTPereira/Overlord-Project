@@ -3134,7 +3134,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.49999046}
+  m_AnchoredPosition: {x: 0, y: 0.49999237}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &480189707
@@ -4521,7 +4521,6 @@ GameObject:
   - component: {fileID: 708976993}
   - component: {fileID: 708976992}
   - component: {fileID: 708976991}
-  - component: {fileID: 708976990}
   - component: {fileID: 708976989}
   - component: {fileID: 708976988}
   m_Layer: 0
@@ -4547,7 +4546,7 @@ MonoBehaviour:
   m_RefResolutionX: 1280
   m_RefResolutionY: 720
   m_UpscaleRT: 0
-  m_PixelSnapping: 0
+  m_PixelSnapping: 1
   m_CropFrameX: 1
   m_CropFrameY: 1
   m_StretchFill: 1
@@ -4583,26 +4582,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &708976990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708976987}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 32
-  m_RefResolutionX: 1280
-  m_RefResolutionY: 720
-  m_UpscaleRT: 0
-  m_PixelSnapping: 0
-  m_CropFrameX: 1
-  m_CropFrameY: 1
-  m_StretchFill: 1
 --- !u!81 &708976991
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6963,6 +6942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isArena: 0
   <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 0}
   dungeonScene:
     Scene: {fileID: 0}
     SceneName: 
@@ -7018,9 +6998,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arena: []
-  easy: []
-  medium: []
-  hard: []
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
   barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
@@ -7031,6 +7008,7 @@ MonoBehaviour:
     type: 3}
   healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
+  _weaponTypes: {fileID: 0}
 --- !u!82 &1044382108
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7186,6 +7164,7 @@ MonoBehaviour:
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 11400000, guid: 926e05568c0b19641aa51bc5521fcb1f, type: 2}
   enemyComponents: {fileID: 0}
+  currentQuestLine: {fileID: 0}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 04462e4169ee42b4fad5143c2ae3f5af, type: 2}
@@ -7216,6 +7195,7 @@ MonoBehaviour:
   nBatches: 0
   maxTreasure: 0
   maxRooms: 0
+  maxEnemies: 0
   mapFileMode: 1
   panelIntro: {fileID: 0}
   levelFile: 
@@ -7359,6 +7339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isArena: 0
   <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 0}
   dungeonScene:
     Scene: {fileID: 0}
     SceneName: 
@@ -9255,7 +9236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.49999046}
+  m_AnchoredPosition: {x: 0, y: 0.49999237}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1385338379
@@ -10504,6 +10485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isArena: 0
   <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 0}
   dungeonScene:
     Scene: {fileID: 0}
     SceneName: 

@@ -72,7 +72,7 @@ namespace Game.LevelManager
             }
         }
 
-        public static Dictionary<EnemySO, int> GetEnemiesForRoom(RoomBHV roomBhv)
+        public static Dictionary<EnemySO, int> GetEnemiesForRoom(RoomBhv roomBhv)
         {
             var enemiesBySo = new Dictionary<EnemySO, int>();
             foreach (var enemiesByType in roomBhv.roomData.EnemiesByType)

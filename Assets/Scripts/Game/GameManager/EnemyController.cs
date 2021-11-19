@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour
     protected float lastX, lastY;
     [SerializeField]
     protected Vector3 targetMoveDir;
-    protected RoomBHV room;
+    protected RoomBhv room;
     [SerializeField]
     protected int indexOnEnemyList;
     protected HealthController healthCtrl;
@@ -338,7 +338,7 @@ public class EnemyController : MonoBehaviour
     /// Sets the room.
     /// </summary>
     /// <param name="_room">The room.</param>
-    public void SetRoom(RoomBHV _room)
+    public void SetRoom(RoomBhv _room)
     {
         room = _room;
     }

@@ -5,7 +5,7 @@ using Util;
 
 namespace Game.LevelManager
 {
-    public class DoorBHV : MonoBehaviour
+    public class DoorBhv : MonoBehaviour
     {
 
         //public GameManager gm;
@@ -20,11 +20,11 @@ namespace Game.LevelManager
         //	public int moveX;
         //	public int moveY;
         [SerializeField]
-        private DoorBHV destination;
+        private DoorBhv destination;
         [SerializeField]
         private AudioClip unlockSnd;
 
-        private RoomBHV parentRoom;        
+        private RoomBhv parentRoom;        
         private AudioSource audioSrc;
         private Color color;
 
@@ -34,7 +34,7 @@ namespace Game.LevelManager
         private void Awake()
         {
             isOpen = false;
-            parentRoom = transform.parent.GetComponent<RoomBHV>();
+            parentRoom = transform.parent.GetComponent<RoomBhv>();
             audioSrc = GetComponent<AudioSource>();
         }
 
@@ -153,10 +153,10 @@ namespace Game.LevelManager
         private void MovePlayerToNextRoom()
         {
             ExitRoomEventHandler?.Invoke(this, new ExitRoomEventArgs(destination.parentRoom.roomData.Coordinates, -1, destination.teleportTransform.position));
-            destination.transform.parent.GetComponent<RoomBHV>().OnRoomEnter();
+            destination.transform.parent.GetComponent<RoomBhv>().OnRoomEnter();
         }
 
-        public void SetDestination(DoorBHV other)
+        public void SetDestination(DoorBhv other)
         {
             destination = other;
         }

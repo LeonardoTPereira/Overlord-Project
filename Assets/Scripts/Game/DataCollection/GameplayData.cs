@@ -184,7 +184,7 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler += OnDeath;
             FormBHV.FormQuestionAnsweredEventHandler += OnFormAnswered;
             Player.ExitRoomEventHandler += OnRoomExit;
-            DoorBHV.KeyUsedEventHandler += OnKeyUsed;
+            DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             GameManagerSingleton.StartMapEventHandler += OnMapStart;
             Manager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnProfileSelected;
@@ -209,7 +209,7 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBHV.FormQuestionAnsweredEventHandler -= OnFormAnswered;
             Player.ExitRoomEventHandler -= OnRoomExit;
-            DoorBHV.KeyUsedEventHandler -= OnKeyUsed;
+            DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             Manager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;

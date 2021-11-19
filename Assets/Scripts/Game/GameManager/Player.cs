@@ -44,13 +44,13 @@ public class Player : PlaceableRoomObject
     public void OnEnable()
     {
         GameManagerSingleton.NewLevelLoadedEventHandler += ResetValues;
-        RoomBHV.StartRoomEventHandler += PlacePlayerInStartRoom;
+        RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler += GetKey;
         GameManagerSingleton.EnterRoomEventHandler += GetHealth;
         GameManagerSingleton.EnterRoomEventHandler += AdjustCamera;
-        RoomBHV.EnterRoomEventHandler += GetHealth;
-        RoomBHV.EnterRoomEventHandler += AdjustCamera;
-        DoorBHV.ExitRoomEventHandler += ExitRoom;
+        RoomBhv.EnterRoomEventHandler += GetHealth;
+        RoomBhv.EnterRoomEventHandler += AdjustCamera;
+        DoorBhv.ExitRoomEventHandler += ExitRoom;
         EnemyController.playerHitEventHandler += HurtPlayer;
         ProjectileController.playerHitEventHandler += HurtPlayer;
         BombController.PlayerHitEventHandler += HurtPlayer;
@@ -60,13 +60,13 @@ public class Player : PlaceableRoomObject
     public void OnDisable()
     {
         GameManagerSingleton.NewLevelLoadedEventHandler -= ResetValues;
-        RoomBHV.StartRoomEventHandler -= PlacePlayerInStartRoom;
+        RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
         KeyBHV.KeyCollectEventHandler -= GetKey;
         GameManagerSingleton.EnterRoomEventHandler -= GetHealth;
         GameManagerSingleton.EnterRoomEventHandler -= AdjustCamera;
-        RoomBHV.EnterRoomEventHandler -= GetHealth;
-        RoomBHV.EnterRoomEventHandler -= AdjustCamera;
-        DoorBHV.ExitRoomEventHandler -= ExitRoom;
+        RoomBhv.EnterRoomEventHandler -= GetHealth;
+        RoomBhv.EnterRoomEventHandler -= AdjustCamera;
+        DoorBhv.ExitRoomEventHandler -= ExitRoom;
         EnemyController.playerHitEventHandler -= HurtPlayer;
         ProjectileController.playerHitEventHandler -= HurtPlayer;
         BombController.PlayerHitEventHandler -= HurtPlayer;

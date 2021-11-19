@@ -65,9 +65,9 @@ namespace Game.GameManager
         public AudioSource audioSource;
         public AudioClip bgMusic, fanfarreMusic;
         public TextMeshProUGUI keyText, roomText, levelText;
-        public RoomBHV roomPrefab;
+        public RoomBhv roomPrefab;
         public Transform roomsParent;  //Transform to hold rooms for leaner hierarchy view
-        public Dictionary<Coordinates, RoomBHV> roomBHVMap; //2D array for easy room indexing
+        public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public float roomSpacingX = 30f; //Spacing between rooms: X
         public float roomSpacingY = 20f; //Spacing between rooms: Y
         private string mapDirectory;
@@ -179,7 +179,7 @@ namespace Game.GameManager
 
         void InstantiateRoom(DungeonRoom dungeonRoom)
         {
-            RoomBHV newRoom = Instantiate(roomPrefab, roomsParent);
+            RoomBhv newRoom = Instantiate(roomPrefab, roomsParent);
             newRoom.roomData = dungeonRoom;
             Coordinates targetCoordinates;
             newRoom.westDoor = null;
@@ -216,7 +216,7 @@ namespace Game.GameManager
             roomBHVMap.Add(dungeonRoom.Coordinates, newRoom);
         }
 
-        public void CreateConnectionsBetweenRooms(RoomBHV currentRoom)
+        public void CreateConnectionsBetweenRooms(RoomBhv currentRoom)
         {
             Coordinates targetCoordinates;
             if (currentRoom.westDoor != null)
@@ -233,7 +233,7 @@ namespace Game.GameManager
 
         public void ConnectRoooms()
         {
-            foreach (RoomBHV currentRoom in roomBHVMap.Values)
+            foreach (RoomBhv currentRoom in roomBHVMap.Values)
             {
                 CreateConnectionsBetweenRooms(currentRoom);
             }
@@ -257,7 +257,7 @@ namespace Game.GameManager
             
             EnemyDispenser.DistributeEnemiesInDungeon(map, currentQuestLine);
             
-            roomBHVMap = new Dictionary<Coordinates, RoomBHV>();
+            roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 
             instance.enemyLoader.LoadEnemies(currentQuestLine.EnemySos);
             InstantiateRooms();

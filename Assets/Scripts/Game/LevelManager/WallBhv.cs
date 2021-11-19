@@ -2,7 +2,7 @@
 
 namespace Game.LevelManager
 {
-    public class WallBHV : MonoBehaviour
+    public class WallBhv : MonoBehaviour
     {
         // Use this for initialization
         void Start()
