@@ -1,6 +1,0 @@
-﻿map,RoomID,playerInitialHealth,PlayerFinalHealth,HealthLost,TimeToExit,hasEnemies,nEnemies,EnemiesIds,
-DungeonsR15-K3-L3-E20-L1.5-CE0.5,0.6-LE0.1,0.2,2,10,10,0,4928,True,1,40,
-DungeonsR15-K3-L3-E20-L1.5-CE0.5,0.6-LE0.1,0.2,22,10,10,0,13956,True,2,33,23,
-DungeonsR15-K3-L3-E20-L1.5-CE0.5,0.6-LE0.1,0.2,24,10,10,0,7392,True,1,31,
-DungeonsR15-K3-L3-E20-L1.5-CE0.5,0.6-LE0.1,0.2,26,10,2,-8,7736,True,1,0,
-DungeonsR15-K3-L3-E20-L1.5-CE0.5,0.6-LE0.1,0.2,6,2,0,-2,4137,True,1,6,
