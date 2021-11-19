@@ -17,7 +17,9 @@ public class EnemyController : MonoBehaviour
     protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
     protected int damage;
     [SerializeField]
-    protected GameObject playerObj, bloodParticle, weaponPrefab, projectilePrefab, projectileSpawn, weaponSpawn, shieldSpawn;
+    protected GameObject playerObj, weaponPrefab, projectilePrefab, projectileSpawn, weaponSpawn, shieldSpawn;
+    [SerializeField]
+    protected ParticleSystem bloodParticle;
     [SerializeField]
     protected MovementTypeSO movement;
     protected BehaviorType behavior;
@@ -82,6 +84,7 @@ public class EnemyController : MonoBehaviour
         if (healthCtrl.GetHealth() > 0 && !audioSrcs[HIT_ENEMY].isPlaying)
         {
             audioSrcs[HIT_ENEMY].PlayOneShot(audioSrcs[HIT_ENEMY].clip, 1.0f);
+            bloodParticle.Play();
         }
     }
 
