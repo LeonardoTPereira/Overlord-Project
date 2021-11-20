@@ -1,5 +1,6 @@
 ﻿using Game.EnemyGenerator;
 using System;
+using Game.Events;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -64,13 +65,11 @@ public class EnemyController : MonoBehaviour
 
     void OnEnable()
     {
-        ProjectileController.enemyHitEventHandler += HurtEnemy;
         PlayerController.PlayerDeathEventHandler += PlayerHasDied;
     }
 
     void OnDisable()
     {
-        ProjectileController.enemyHitEventHandler -= HurtEnemy;
         PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
     }
 
@@ -79,11 +78,19 @@ public class EnemyController : MonoBehaviour
         playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
-    private void HurtEnemy(object sender, EventArgs eventArgs)
+    public void ApplyDamageEffects(Vector3 impactDirection)
     {
         if (healthCtrl.GetHealth() > 0 && !audioSrcs[HIT_ENEMY].isPlaying)
         {
             audioSrcs[HIT_ENEMY].PlayOneShot(audioSrcs[HIT_ENEMY].clip, 1.0f);
+            var mainParticle= bloodParticle.main;
+            mainParticle.startSpeed = 0;
+            var forceOverLifetime = bloodParticle.forceOverLifetime;
+            forceOverLifetime.enabled = true;
+            forceOverLifetime.x = impactDirection.x * 20;
+            forceOverLifetime.y = impactDirection.y * 20;
+            forceOverLifetime.z = impactDirection.z * 20;
+            
             bloodParticle.Play();
         }
     }
@@ -200,10 +207,11 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
         if (collision.gameObject.CompareTag("Player"))
         {
             OnPlayerHit();
-            collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, indexOnEnemyList);
+            collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, indexOnEnemyList);
         }
     }
 

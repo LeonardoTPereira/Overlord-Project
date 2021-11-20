@@ -1,5 +1,7 @@
 ﻿using System;
+using Game.Events;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HealthController : MonoBehaviour
 {
@@ -43,7 +45,7 @@ public class HealthController : MonoBehaviour
         }
     }
 
-    public void ApplyDamage(int damage, int enemyIndex = -1)
+    public void ApplyDamage(int damage, Vector3 impactDirection, int enemyIndex = -1)
     {
         if (!isInvincible)
         {
@@ -53,7 +55,7 @@ public class HealthController : MonoBehaviour
             invincibilityCount = 0f;
             if (gameObject.CompareTag("Player"))
             {
-                PlayerIsDamagedEventHandler(this, new PlayerIsDamagedEventArgs(enemyIndex, damage, health));
+                PlayerIsDamagedEventHandler?.Invoke(this, new PlayerIsDamagedEventArgs(enemyIndex, damage, health, impactDirection));
             }
             else if (gameObject.CompareTag("Enemy"))
             {

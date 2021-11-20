@@ -1,20 +1,27 @@
 ﻿using System;
+using UnityEngine;
 
-public delegate void PlayerIsDamagedEvent(object sender, PlayerIsDamagedEventArgs e);
-public class  PlayerIsDamagedEventArgs : EventArgs
+namespace Game.Events
 {
-    private int enemyIndex;
-    private int damageDone;
-    private int playerHealth;
-
-    public PlayerIsDamagedEventArgs(int enemyIndex, int damageDone, int playerHealth)
+    public delegate void PlayerIsDamagedEvent(object sender, PlayerIsDamagedEventArgs e);
+    public class  PlayerIsDamagedEventArgs : EventArgs
     {
-        EnemyIndex = enemyIndex;
-        DamageDone = damageDone;
-        PlayerHealth = playerHealth;
-    }
+        private int _enemyIndex;
+        private int _damageDone;
+        private int _playerHealth;
+        private Vector3 _impactDirection;
 
-    public int EnemyIndex { get => enemyIndex; set => enemyIndex = value; }
-    public int DamageDone { get => damageDone; set => damageDone = value; }
-    public int PlayerHealth { get => playerHealth; set => playerHealth = value; }
+        public PlayerIsDamagedEventArgs(int enemyIndex, int damageDone, int playerHealth, Vector3 impactDirection)
+        {
+            EnemyIndex = enemyIndex;
+            DamageDone = damageDone;
+            PlayerHealth = playerHealth;
+            ImpactDirection = impactDirection;
+        }
+
+        public int EnemyIndex { get => _enemyIndex; set => _enemyIndex = value; }
+        public int DamageDone { get => _damageDone; set => _damageDone = value; }
+        public int PlayerHealth { get => _playerHealth; set => _playerHealth = value; }
+        public Vector3 ImpactDirection { get => _impactDirection; set => _impactDirection = value; }
+    }
 }

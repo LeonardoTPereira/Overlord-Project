@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Events;
 using Game.GameManager;
 using TMPro;
 using UnityEngine;
@@ -61,7 +62,7 @@ public class ComboUI : MonoBehaviour
 
     protected void OnDisable()
     {
-        ProjectileController.playerHitEventHandler -= IncrementCombo;
+        ProjectileController.enemyHitEventHandler -= IncrementCombo;
         BombController.PlayerHitEventHandler -= ResetCombo;
         ProjectileController.playerHitEventHandler -= ResetCombo;
         EnemyController.playerHitEventHandler -= ResetCombo;

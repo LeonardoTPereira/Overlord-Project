@@ -1,5 +1,6 @@
 ﻿using Game.EnemyGenerator;
 using System;
+using Game.Events;
 using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
@@ -14,7 +15,9 @@ public class PlayerController : MonoBehaviour
     protected int shootDmg, maxHealth;
     [SerializeField]
     protected GameObject bulletSpawn, bulletPrefab;
-
+    [SerializeField]
+    protected ParticleSystem bloodParticle;
+    
     private bool canMove;
 
     Animator anim;
@@ -225,6 +228,16 @@ public class PlayerController : MonoBehaviour
 
     private void CheckDeath(object sender, PlayerIsDamagedEventArgs eventArgs)
     {
+        Debug.Log("Check Death");
+        var mainParticle= bloodParticle.main;
+        mainParticle.startSpeed = 0;
+        var forceOverLifetime = bloodParticle.forceOverLifetime;
+        forceOverLifetime.enabled = true;
+        forceOverLifetime.x = eventArgs.ImpactDirection.x * 20;
+        forceOverLifetime.y = eventArgs.ImpactDirection.y * 20;
+        forceOverLifetime.z = eventArgs.ImpactDirection.z * 20;
+
+        bloodParticle.Play();
         if (eventArgs.PlayerHealth <= 0)
         {
             //TODO KILL

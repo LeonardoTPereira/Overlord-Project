@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4391006463597066929}
   - component: {fileID: 6701920650483511302}
   m_Layer: 0
-  m_Name: BloodParticleSystem
+  m_Name: PlayerBloodParticleSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,8 +221,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.801, g: 0.16408488, b: 0.13056304, a: 1}
-      maxColor: {r: 0.56700003, g: 0.1535625, b: 0.1535625, a: 1}
+      minColor: {r: 0.09450977, g: 0.482, b: 0.07797057, a: 1}
+      maxColor: {r: 0.1114468, g: 0.291, b: 0.077393614, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -2311,7 +2311,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: -257.22498
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2364,7 +2364,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -154.38687
       minScalar: 0
       maxCurve:
         serializedVersion: 2

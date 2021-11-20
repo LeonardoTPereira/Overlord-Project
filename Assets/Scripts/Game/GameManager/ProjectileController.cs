@@ -1,6 +1,7 @@
 ﻿
 using Game.EnemyGenerator;
 using System;
+using Game.Events;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -86,22 +87,23 @@ public class ProjectileController : MonoBehaviour
 
     protected virtual void OnEnemyHit()
     {
-        enemyHitEventHandler(this, EventArgs.Empty);
+        enemyHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     protected virtual void OnPlayerHit()
     {
-        playerHitEventHandler(this, EventArgs.Empty);
+        playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var collisionDirection = Vector3.Normalize(collision.gameObject.transform.position - gameObject.transform.position);
         if (CompareTag("EnemyBullet"))
         {
             if (collision.gameObject.CompareTag("Player"))
             {
                 OnPlayerHit();
-                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, enemyThatShot);
+                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, enemyThatShot);
                 DestroyBullet();
             }
         }
@@ -109,8 +111,8 @@ public class ProjectileController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                OnEnemyHit();
-                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage);
+                collision.gameObject.GetComponent<EnemyController>().ApplyDamageEffects(collisionDirection);
+                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection);
                 DestroyBullet();
             }
             if (collision.gameObject.CompareTag("Shield"))

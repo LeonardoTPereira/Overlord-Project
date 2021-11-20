@@ -121,8 +121,9 @@ public class BombController : MonoBehaviour
         {
             if (col.gameObject.CompareTag("Player"))
             {
+                var collisionDirection = Vector3.Normalize(col.gameObject.transform.position - gameObject.transform.position);
                 OnPlayerHit();
-                col.gameObject.GetComponent<HealthController>().ApplyDamage(damage, enemyThatShot);
+                col.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, enemyThatShot);
             }
         }
     }
