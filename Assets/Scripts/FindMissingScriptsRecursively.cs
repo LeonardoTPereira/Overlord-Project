@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AndroidUltimatePlugin.Helpers.Editor
 {
+    #if UNITY_EDITOR
     public class FindMissingScriptsRecursively : EditorWindow
     {
         static int _goCount = 0, _componentsCount = 0, _missingCount = 0;
@@ -127,4 +128,5 @@ namespace AndroidUltimatePlugin.Helpers.Editor
             }
         }
     }
+    #endif
 }

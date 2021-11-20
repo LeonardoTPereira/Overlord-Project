@@ -69,7 +69,7 @@ namespace Game.LevelManager
             }
         }
         
-        private static void CreateHorizontalLinesRoom(DungeonRoom room)
+        private static void CreateVerticalLinesRoom(DungeonRoom room)
         {
             for (var x = 1; x < room.Dimensions.Width - 1; x++)
             {
@@ -77,11 +77,11 @@ namespace Game.LevelManager
                 {
                     if (x % 3 == 0)
                     {
-                        if (y < (room.Dimensions.Height / 2))
+                        if (1 < y && y < (room.Dimensions.Height / 2 - 1))
                         {
                             room.Tiles[x, y] = (int) Enums.TileTypes.Block;
                         }
-                        else if (y > (room.Dimensions.Height / 2 + 1))
+                        else if (y < room.Dimensions.Height - 2 && y > (room.Dimensions.Height / 2 + 1))
                         {
                             room.Tiles[x, y] = (int) Enums.TileTypes.Block;
                         }
@@ -98,7 +98,7 @@ namespace Game.LevelManager
             }
         }
         
-        private static void CreateVerticalLinesRoom(DungeonRoom room)
+        private static void CreateHorizontalLinesRoom(DungeonRoom room)
         {
             for (var x = 1; x < room.Dimensions.Width - 1; x++)
             {
@@ -106,11 +106,11 @@ namespace Game.LevelManager
                 {
                     if (y % 3 == 0)
                     {
-                        if (x< (room.Dimensions.Width / 2))
+                        if (1 < x && x < (room.Dimensions.Width / 2 - 1))
                         {
                             room.Tiles[x, y] = (int) Enums.TileTypes.Block;
                         }
-                        else if (x > (room.Dimensions.Width / 2 + 1))
+                        else if (x < room.Dimensions.Width - 2 && x > (room.Dimensions.Width / 2))
                         {
                             room.Tiles[x, y] = (int) Enums.TileTypes.Block;
                         }
@@ -133,14 +133,14 @@ namespace Game.LevelManager
             {
                 for (var y = 1; y < room.Dimensions.Height - 1; y++)
                 {
-                    if (x == room.Dimensions.Width/2 || x == (room.Dimensions.Width / 2 + 1))
+                    if (x > (room.Dimensions.Width/2 - 2) && x < (room.Dimensions.Width / 2 + 2))
                     {
                         if (y > 1 && y < (room.Dimensions.Height - 2))
                         {
                             room.Tiles[x, y] = (int) Enums.TileTypes.Block;
                         }
                     }
-                    else if (y == room.Dimensions.Height / 2 || y == (room.Dimensions.Height / 2 + 1))
+                    else if (y > room.Dimensions.Height / 2 - 2 && y < (room.Dimensions.Height / 2 + 2))
                     {
                         if (x > 1 && x < (room.Dimensions.Width - 2))
                         {

@@ -71,13 +71,13 @@ namespace Game.NarrativeGenerator.Quests
             }
 
             string fileName = "Narrative_" + graph[0] + extension;
-
+#if UNITY_EDITOR
             AssetDatabase.CreateAsset(this, fileName);
 
             /*            Resources.UnloadUnusedAssets();
-            #if UNITY_EDITOR
-                        AssetDatabase.Refresh();
-            #endif*/
+            
+                        AssetDatabase.Refresh();*/
+#endif
         }
 
         public void CreateDummyEnemyParameters()

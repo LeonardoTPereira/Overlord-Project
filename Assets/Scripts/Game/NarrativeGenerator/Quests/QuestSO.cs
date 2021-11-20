@@ -54,7 +54,9 @@ namespace Game.NarrativeGenerator.Quests
 
         public void SaveAsAsset(string assetName)
         {
+            #if UNITY_EDITOR
             AssetDatabase.CreateAsset(this, assetName+".asset");
+            #endif
         }
 
         public bool IsItemQuest()

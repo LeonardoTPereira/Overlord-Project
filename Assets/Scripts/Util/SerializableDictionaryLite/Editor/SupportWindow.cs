@@ -2,6 +2,7 @@
 
 namespace RotaryHeart.Lib.SerializableDictionary
 {
+#if UNITY_EDITOR
     public class SupportWindow : BaseSupportWindow
     {
         const string SUPPORT_FORUM = "https://forum.unity.com/threads/released-serializable-dictionary.518178/";
@@ -25,11 +26,11 @@ namespace RotaryHeart.Lib.SerializableDictionary
         {
             get { return VERSION; }
         }
-
         [MenuItem("Tools/Rotary Heart/Serializable Dictionary/About")]
         public static void ShowWindow()
         {
             ShowWindow<SupportWindow>();
         }
     }
+#endif
 }

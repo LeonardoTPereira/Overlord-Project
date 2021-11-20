@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace RotaryHeart.Lib.SerializableDictionary
 {
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(DrawableDictionary), true)]
     public class DictionaryPropertyDrawer : PropertyDrawer
     {
@@ -1024,4 +1025,5 @@ namespace RotaryHeart.Lib.SerializableDictionary
             }
         }
     }
+    #endif
 }

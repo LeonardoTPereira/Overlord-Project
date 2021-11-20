@@ -104,7 +104,9 @@ namespace Game.EnemyGenerator
             );
             generator = new EnemyGenerator(prs);
             generator.Evolve();
+            #if UNITY_EDITOR
             CreateSOBestEnemies();
+            #endif
             Debug.Log("The enemies were created!");
         }
 

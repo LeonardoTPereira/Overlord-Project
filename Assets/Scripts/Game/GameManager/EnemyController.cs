@@ -87,9 +87,9 @@ public class EnemyController : MonoBehaviour
             mainParticle.startSpeed = 0;
             var forceOverLifetime = bloodParticle.forceOverLifetime;
             forceOverLifetime.enabled = true;
-            forceOverLifetime.x = impactDirection.x * 20;
-            forceOverLifetime.y = impactDirection.y * 20;
-            forceOverLifetime.z = impactDirection.z * 20;
+            forceOverLifetime.x = impactDirection.x * 40;
+            forceOverLifetime.y = impactDirection.y * 40;
+            forceOverLifetime.z = impactDirection.z * 40;
             
             bloodParticle.Play();
         }
@@ -223,8 +223,18 @@ public class EnemyController : MonoBehaviour
             //Instantiate(bloodParticle, transform.position, Quaternion.identity);
             audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
             canDestroy = true;
+            var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
+            var childrenCollider = GetComponentsInChildren<Collider2D>();
             GetComponent<Collider2D>().enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
+            foreach (var childSpriteRenderer in childrenSpriteRenderer)
+            {
+                childSpriteRenderer.enabled = false;
+            }
+            foreach (var childCollider in childrenCollider)
+            {
+                childCollider.enabled = false;
+            }
             room.CheckIfAllEnemiesDead();
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }

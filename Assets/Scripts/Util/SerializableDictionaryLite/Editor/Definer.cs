@@ -3,6 +3,7 @@ using UnityEditor;
 
 namespace RotaryHeart.Lib.SerializableDictionary
 {
+    #if UNITY_EDITOR
     [InitializeOnLoad]
     public class Definer
     {
@@ -16,4 +17,5 @@ namespace RotaryHeart.Lib.SerializableDictionary
             RotaryHeart.Lib.Definer.ApplyDefines(defines);
         }
     }
+    #endif
 }

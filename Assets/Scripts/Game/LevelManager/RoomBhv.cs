@@ -122,43 +122,63 @@ public class RoomBhv : MonoBehaviour
         }
     }
 
-    void SetLayout()
+    private void SetLayout()
     {
         SetKeysToDoors();
 
-        float centerX = roomData.Dimensions.Width / 2.0f - 0.5f;
-        float centerY = roomData.Dimensions.Height / 2.0f - 0.5f;
+        var centerX = roomData.Dimensions.Width / 2.0f - 0.5f;
+        var centerY = roomData.Dimensions.Height / 2.0f - 0.5f;
         const float delta = 0.0f; //para que os colisores das portas e das paredes não se sobreponham completamente
                                   //Posiciona as portas - são somados/subtraídos 1 para que as portas e colisores estejam periféricos à sala
         SetDoorsTransform(centerX, centerY, delta);
 
         SetCollidersOnRoom(centerX, centerY);
 
+        InstantiateTiles(centerX, centerY);
+
+        //Instantiate corner props
+        GameObject auxObj;
+        auxObj = Instantiate(NWCollumn, transform, true);
+        auxObj.transform.localPosition = new Vector2(-0.5f - centerX, roomData.Dimensions.Height - 0.5f - centerY);
+        auxObj = Instantiate(SECollumn, transform, true);
+        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - 0.5f - centerX, -0.5f - centerY);
+        auxObj = Instantiate(NECollumn, transform, true);
+        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - 0.5f - centerX, roomData.Dimensions.Height - 0.5f - centerY);
+        auxObj = Instantiate(SWCollumn, transform, true);
+        auxObj.transform.localPosition = new Vector2(-0.5f - centerX, -0.5f - centerY);
+        
+        SetEnemySpawners(centerX, centerY);
+    }
+
+    private void InstantiateTiles(float centerX, float centerY)
+    {
         GameObject auxObj;
         //Posiciona os tiles
-        for (int ix = 0; ix < roomData.Dimensions.Width; ix++)
+        for (var ix = 0; ix < roomData.Dimensions.Width; ix++)
         {
-            for (int iy = 0; iy < roomData.Dimensions.Height; iy++)
+            for (var iy = 0; iy < roomData.Dimensions.Height; iy++)
             {
-                int tileID = roomData.Tiles[ix, iy];
+                var tileID = roomData.Tiles[ix, iy];
                 TileBhv tileObj;
-                if (tileID == 1)
+                if (tileID == (int) Enums.TileTypes.Block)
                 {
                     tileObj = Instantiate(blockPrefab);
                     if (ix == 0)
                     {
                         if (iy == 0)
                         {
-                            auxObj = Instantiate(NWCollumn);
-                            auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
+                            auxObj = Instantiate(NWCollumn, transform, true);
+                            auxObj.transform.localPosition =
+                                new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                         }
+
                         if (iy == (roomData.Dimensions.Height - 1))
                         {
-                            auxObj = Instantiate(SWCollumn);
-                            auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
+                            auxObj = Instantiate(SWCollumn, transform, true);
+                            auxObj.transform.localPosition =
+                                new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                         }
+
                         tileObj.GetComponent<SpriteRenderer>().sprite = westWall;
                     }
                     else if (iy == 0)
@@ -167,21 +187,16 @@ public class RoomBhv : MonoBehaviour
                     }
                     else if (ix == (roomData.Dimensions.Width - 1))
                     {
-                        if (iy == 0)
-                        {
-                            auxObj = Instantiate(NECollumn);
-                            auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                        }
                         if (iy == (roomData.Dimensions.Height - 1))
                         {
-                            auxObj = Instantiate(SECollumn);
-                            auxObj.transform.SetParent(transform);
-                            auxObj.transform.localPosition = new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
+                            auxObj = Instantiate(SECollumn, transform, true);
+                            auxObj.transform.localPosition =
+                                new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                         }
+
                         tileObj.GetComponent<SpriteRenderer>().sprite = eastWall;
                     }
-                    else if(iy == (roomData.Dimensions.Height - 1))
+                    else if (iy == (roomData.Dimensions.Height - 1))
                     {
                         tileObj.GetComponent<SpriteRenderer>().sprite = southWall;
                     }
@@ -190,44 +205,42 @@ public class RoomBhv : MonoBehaviour
                 {
                     tileObj = Instantiate(tilePrefab);
                 }
+
                 tileObj.SetPosition(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY, transform);
             }
         }
+    }
 
-        auxObj = Instantiate(NWCollumn);
-        auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(-0.5f - centerX, roomData.Dimensions.Height - 0.5f - centerY);
-        auxObj = Instantiate(SECollumn);
-        auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - 0.5f - centerX, -0.5f - centerY);
-        auxObj = Instantiate(NECollumn);
-        auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - 0.5f - centerX, roomData.Dimensions.Height - 0.5f - centerY);
-        auxObj = Instantiate(SWCollumn);
-        auxObj.transform.SetParent(transform);
-        auxObj.transform.localPosition = new Vector2(-0.5f - centerX, -0.5f - centerY);
+    private void SetEnemySpawners(float centerX, float centerY)
+    {
+        var position = transform.position;
+        var xOffset = position.x;
+        var yOffset = position.y;
 
-        int margin = Constants.distFromBorder;
-        float xOffset = transform.position.x;
-        float yOffset = transform.position.y;
-
-        int lowerHalfVer = (roomData.Dimensions.Height / Constants.nSpawnPointsHor);
-        int upperHalfVer = (3 * roomData.Dimensions.Height / Constants.nSpawnPointsHor);
-        int lowerHalfHor = (roomData.Dimensions.Width / Constants.nSpawnPointsVer);
-        int upperHalfHor = (3 * roomData.Dimensions.Width / Constants.nSpawnPointsVer);
-        int topHor = (margin + (roomData.Dimensions.Width * (Constants.nSpawnPointsVer - 1) / Constants.nSpawnPointsVer));
-        int topVer = (margin + (roomData.Dimensions.Height * (Constants.nSpawnPointsHor - 1) / Constants.nSpawnPointsHor));
+        var lowerHalfVer = (roomData.Dimensions.Height / Constants.nSpawnPointsHor);
+        var upperHalfVer = (3 * roomData.Dimensions.Height / Constants.nSpawnPointsHor);
+        var lowerHalfHor = (roomData.Dimensions.Width / Constants.nSpawnPointsVer);
+        var upperHalfHor = (3 * roomData.Dimensions.Width / Constants.nSpawnPointsVer);
+        var topHor = (Constants.distFromBorder +
+                      (roomData.Dimensions.Width * (Constants.nSpawnPointsVer - 1) / Constants.nSpawnPointsVer));
+        var topVer = (Constants.distFromBorder +
+                      (roomData.Dimensions.Height * (Constants.nSpawnPointsHor - 1) / Constants.nSpawnPointsHor));
 
         //Create spawn points avoiding the points close to doors.
-        for (int ix = margin; ix < (roomData.Dimensions.Width - margin); ix += (roomData.Dimensions.Width / Constants.nSpawnPointsVer))
+        for (var ix = Constants.distFromBorder;
+            ix < (roomData.Dimensions.Width - Constants.distFromBorder);
+            ix += (roomData.Dimensions.Width / Constants.nSpawnPointsVer))
         {
-            for (int iy = margin; iy < (roomData.Dimensions.Height - margin); iy += (roomData.Dimensions.Height / Constants.nSpawnPointsHor))
+            for (var iy = Constants.distFromBorder;
+                iy < (roomData.Dimensions.Height - Constants.distFromBorder);
+                iy += (roomData.Dimensions.Height / Constants.nSpawnPointsHor))
             {
-                // Calculate the spwan point 2D position (spx, spy)
-                float spx = ix - centerX + xOffset;
-                float rh = roomData.Dimensions.Height - 1;
-                float spy = rh - iy - centerY + yOffset;
-                Vector3 point = new Vector3(spx, spy, 0);
+                if (roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                // Calculate the spawn point 2D position (spx, spy)
+                var spx = ix - centerX + xOffset;
+                var rh = roomData.Dimensions.Height - 1;
+                var spy = rh - iy - centerY + yOffset;
+                var point = new Vector3(spx, spy, 0);
 
                 // If the room is an Arena, then ignore the room center
                 if (isArena && Math.Abs(spx - 0.5f) < 0.001f && spy == 0.0f)
@@ -236,16 +249,16 @@ public class RoomBhv : MonoBehaviour
                 }
 
                 // Add the calculated point to spawn point list
-                if (ix <= margin || ix >= topHor)
+                if (ix <= Constants.distFromBorder || ix >= topHor)
                 {
                     if (iy >= lowerHalfVer && iy <= upperHalfVer) continue;
-                    if (isArena || roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                    if (isArena) continue;
                     spawnPoints.Add(point);
                 }
-                else if (iy <= margin || iy >= topVer)
+                else if (iy <= Constants.distFromBorder || iy >= topVer)
                 {
                     if (ix >= lowerHalfHor && ix <= upperHalfHor) continue;
-                    if (isArena || roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                    if (isArena) continue;
                     spawnPoints.Add(point);
                 }
                 else
@@ -311,7 +324,7 @@ public class RoomBhv : MonoBehaviour
         }
     }
 
-    public void SpawnEnemies()
+    private void SpawnEnemies()
     {
         var selectedSpawnPoints = new List<int>();
         foreach (var enemiesFromType in enemiesDictionary)
@@ -344,7 +357,7 @@ public class RoomBhv : MonoBehaviour
             SpawnEnemies();
         }
         minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-        EnterRoomEventHandler(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesDictionary, -1, gameObject.transform.position, roomData.Dimensions));
+        EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesDictionary, -1, gameObject.transform.position, roomData.Dimensions));
     }
 
     public void CheckIfAllEnemiesDead()
@@ -360,7 +373,7 @@ public class RoomBhv : MonoBehaviour
         }
     }
 
-    public void SetKeysToDoors()
+    private void SetKeysToDoors()
     {
         doorNorth.keyID = northDoor;
         doorSouth.keyID = southDoor;
@@ -368,11 +381,11 @@ public class RoomBhv : MonoBehaviour
         doorWest.keyID = westDoor;
     }
 
-    public bool RoomHasKey()
+    private bool RoomHasKey()
     {
         return roomData.KeyIDs.Count > 0;
     }
-    public void PlaceKeysInRoom()
+    private void PlaceKeysInRoom()
     {
         foreach (int actualKey in roomData.KeyIDs)
         {
@@ -381,19 +394,19 @@ public class RoomBhv : MonoBehaviour
         }
     }
 
-    public void PlaceKeyInRoom(int keyId)
+    private void PlaceKeyInRoom(int keyId)
     {
         KeyBHV key = Instantiate(keyPrefab, availablePosition, transform.rotation);
         key.transform.position = availablePosition;
         key.keyID = keyId;
     }
 
-    public bool RoomHasTreasure()
+    private bool RoomHasTreasure()
     {
         return roomData.Treasure > 0;
     }
 
-    public void PlaceTreasureInRoom()
+    private void PlaceTreasureInRoom()
     {
         TreasureController treasure = Instantiate(treasurePrefab, transform);
         treasure.Treasure = GameManagerSingleton.instance.treasureSet.Items[roomData.Treasure-1];
@@ -401,28 +414,28 @@ public class RoomBhv : MonoBehaviour
         availablePosition.x += 1;
     }
 
-    public void PlaceTriforceInRoom()
+    private void PlaceTriforceInRoom()
     {
         TriforceBHV tri = Instantiate(triPrefab, transform);
         tri.transform.position = availablePosition;
         availablePosition.x += 1;
     }
 
-    public Vector3 GetAvailablePosition()
+    private Vector3 GetAvailablePosition()
     {
         return availablePosition;
     }
 
-    public void SetCenterPosition()
+    private void SetCenterPosition()
     {
         availablePosition = roomData.GetCenterMostFreeTilePosition() + transform.position;
     }
 
-    public bool RoomHasNpc(){
+    private bool RoomHasNpc(){
         return roomData.NpcID > 0;
     }
 
-    public void PlaceNpcInRoom(){
+    private void PlaceNpcInRoom(){
         NpcController npcController = Instantiate(npcPrefab[(roomData.NpcID-1)%3], transform);
         npcController.transform.position = availablePosition;
         availablePosition.x += 1;
