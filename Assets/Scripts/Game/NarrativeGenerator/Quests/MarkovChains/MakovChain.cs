@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -9,10 +10,6 @@ namespace Game.NarrativeGenerator.Quests
     {
         // Non-terminals
         Start,
-        Kill,
-        Talk,
-        Get,
-        Explore,
         // Terminals
         explore,
         kill,
@@ -42,37 +39,37 @@ namespace Game.NarrativeGenerator.Quests
             symbolNumber++;
             switch ( _symbol )
             {
-                case SymbolType.Kill.ToString():
+                case Constants.KILL_QUEST:
                     this.symbol = new Kill();
                 break;
-                case SymbolType.Talk.ToString():
+                case Constants.TALK_QUEST:
                     this.symbol = new Talk();
                 break;
-                case SymbolType.Get.ToString():
+                case Constants.GET_QUEST:
                     this.symbol = new Get();
                 break;
-                case SymbolType.Explore.ToString():
+                case Constants.EXPLORE_QUEST:
                     this.symbol = new Explore();
                 break;
-                case SymbolType.kill.ToString():
+                case Constants.KILL_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<KillQuestSO>();
                 break;
-                case SymbolType.talk.ToString():
+                case Constants.TALK_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<TalkQuestSO>();
                 break;
-                case SymbolType.empty.ToString():
+                case Constants.EMPTY_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<EmptyQuestSO>();
                 break;
-                case SymbolType.get.ToString():
+                case Constants.GET_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<GetQuestSO>();
                 break;
-                case SymbolType.drop.ToString():
+                case Constants.DROP_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<DropQuestSO>();
                 break;
-                case SymbolType.item.ToString():
+                case Constants.ITEM_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<ItemQuestSO>();
                 break;
-                case SymbolType.secret.ToString():
+                case Constants.SECRET_TERMINAL:
                     this.symbol = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
                 break;
                 default:

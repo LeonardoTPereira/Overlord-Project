@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -10,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests
         private NpcSO Npc { get; set; }
         public SecretRoomQuestSO ()
         {
-            symbolType = SymbolType.secret;
+            symbolType = Constants.SECRET_TERMINAL;
         }
         public override void Init()
         {

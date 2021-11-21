@@ -27,5 +27,16 @@ namespace Util
         public const string GET_QUEST = "Get";
         public const string EXPLORE_QUEST = "Explore";
         public const string TALK_QUEST = "Talk";
+
+        #region Terminal quest symbols
+        public const string KILL_TERMINAL = "kill";
+        public const string TALK_TERMINAL = "talk";
+        public const string EXPLORE_TERMINAL = "explore";
+        public const string EMPTY_TERMINAL = "empty";
+        public const string GET_TERMINAL = "get";
+        public const string DROP_TERMINAL = "drop";
+        public const string ITEM_TERMINAL = "item";
+        public const string SECRET_TERMINAL = "secret";
+        #endregion
     }
 }

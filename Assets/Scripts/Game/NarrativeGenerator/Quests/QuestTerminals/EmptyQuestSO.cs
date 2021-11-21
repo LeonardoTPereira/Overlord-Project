@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -13,7 +14,7 @@ namespace Game.NarrativeGenerator.Quests
         public EmptyQuestSO ()
         {
             canDrawNext = false;
-            symbolType = SymbolType.empty;
+            symbolType = Constants.EMPTY_TERMINAL;
         }
 
         void SetDictionary( Dictionary<SymbolType, Func<float,float>> _nextSymbolChances )

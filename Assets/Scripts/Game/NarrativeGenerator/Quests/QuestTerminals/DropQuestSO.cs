@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -14,7 +15,7 @@ namespace Game.NarrativeGenerator.Quests
         
         public DropQuestSO ()
         {
-            symbolType = SymbolType.drop;
+            symbolType = Constants.DROP_TERMINAL;
             //canDrawNext = true;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -9,7 +10,7 @@ namespace Game.NarrativeGenerator.Quests
         private const int chance = 1/2;
         public GetQuestSO ()
         {
-            symbolType = SymbolType.get;
+            symbolType = Constants.GET_TERMINAL;
         }
     }
 }

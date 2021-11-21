@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using ScriptableObjects;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestTerminals
 {
@@ -11,7 +12,7 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
         
         public KillQuestSO ()
         {
-            symbolType = SymbolType.kill;
+            symbolType = Constants.KILL_TERMINAL;
         }
         public override void Init()
         {

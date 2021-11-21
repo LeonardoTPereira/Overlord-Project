@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -8,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests
         public Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
         public ItemQuestSO ()
         {
-            symbolType = SymbolType.item;
+            symbolType = Constants.ITEM_TERMINAL;
         }
 
         public override void Init()

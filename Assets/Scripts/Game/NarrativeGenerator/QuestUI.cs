@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System.Collections;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -16,7 +17,7 @@ namespace Game.NarrativeGenerator
             foreach ( QuestLine narrative in narratives.QuestLines )
             {
                 string nextQuest = narrative.graph[0].symbolType.ToString();
-                if ( narrative.graph[0].symbolType != SymbolType.empty )
+                if ( narrative.graph[0].symbolType != Constants.EMPTY_TERMINAL )
                     questDescription += $"{nextQuest}\n";
             }
             questList.text = questDescription;

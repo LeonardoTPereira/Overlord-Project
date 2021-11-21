@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
     public class QuestSO : ScriptableObject, Symbol {
-        public SymbolType symbolType;
+        public string symbolType;
         public Dictionary<string, Func<float,float>> nextSymbolChances {get; set;}
         public bool canDrawNext { get ; set; }
         private QuestSO nextWhenSuccess;
