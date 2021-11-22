@@ -376,6 +376,11 @@ namespace Game.GameManager
             audioSource.Play();
         }
 
+        public void StopMusic()
+        {
+            audioSource.Stop();
+        }
+
         //TODO display something about the player losing and call a continue screen os something like this.
         private void GameOver(object sender, EventArgs eventArgs)
         {

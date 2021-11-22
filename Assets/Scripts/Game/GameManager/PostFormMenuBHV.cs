@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Game.GameManager;
 
 public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
 {
@@ -32,6 +33,7 @@ public class PostFormMenuBHV : MonoBehaviour, IMenuPanel
     {
         gameObject.SetActive(false);
         SceneManager.LoadScene("Overworld");
+        GameManagerSingleton.instance.StopMusic();
     }
 
     public void GoToPrevious()
