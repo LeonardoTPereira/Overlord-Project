@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.GameManager;
+using Game.Maestro;
 using Game.NarrativeGenerator.Quests;
 using LevelGenerator;
 using MyBox;

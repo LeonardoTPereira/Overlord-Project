@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.GameManager;
+using Game.Maestro;
 using Game.EnemyGenerator;
 using System.Linq;
 using MyBox;
@@ -28,7 +29,7 @@ public class EnemyLoader : MonoBehaviour
 
     public void LoadEnemies(List<EnemySO> enemyList)
     {
-        enemyListForCurrentDungeon = enemyList;
+        enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
         ApplyDelegates();
     }
 
