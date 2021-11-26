@@ -39,7 +39,7 @@ namespace Game.GameManager
         public EnemyComponentsSO enemyComponents;
 
         public QuestLine currentQuestLine;
-        protected Program generator;
+        protected LevelGeneratorManager generator;
         public Dungeon createdDungeon;
 #if UNITY_EDITOR
         [Separator("Other Stuff")]
@@ -247,11 +247,6 @@ namespace Game.GameManager
             {
                 throw new NotImplementedException("Need to implement method to pass DungeonSO");
             }
-            
-                        
-            //TODO DELETE THIS WHEN FIXED!!!
-
-            currentQuestLine.CreateDummyEnemyParameters();
 
             LoadMap(dungeonFileSo);
             
@@ -317,7 +312,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBHV.GotTriforceEventHandler += LevelComplete;
-            FormBHV.PostTestFormAnswered += EndGame;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
         }
         void OnDisable()
         {
@@ -331,7 +326,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBHV.GotTriforceEventHandler -= LevelComplete;
-            FormBHV.PostTestFormAnswered -= EndGame;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
         }
 
         void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)

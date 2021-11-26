@@ -308,6 +308,7 @@ public class RoomBhv : MonoBehaviour
     private void SelectEnemies()
     {
         if (roomData.EnemiesByType == null && !isArena) return;
+        if (roomData.EnemiesByType.EnemiesByTypeDictionary.Count == 0) return;
         hasEnemies = true;
         if (isArena)
         {

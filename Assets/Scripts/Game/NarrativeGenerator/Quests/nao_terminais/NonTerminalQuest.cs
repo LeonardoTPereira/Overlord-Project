@@ -1,41 +1,35 @@
 using System.Collections.Generic;
-using Game.NarrativeGenerator;
 using UnityEngine;
 using Util;
 
-public abstract class NonTerminalQuest
+namespace Game.NarrativeGenerator.Quests.nao_terminais
 {
-    protected float r;
-    protected int lim;
-    protected float maxQuestChance;
-    protected Dictionary<string, int> questWeightsbyType;
-    private static readonly int QUEST_LIMIT = 2;
-
-    protected NonTerminalQuest(int lim, Dictionary<string, int> questWeightsbyType)
+    public abstract class NonTerminalQuest
     {
-        this.questWeightsbyType = questWeightsbyType;
-        this.lim = lim;
-    }
+        protected float r;
+        protected int lim;
+        protected float maxQuestChance;
+        protected readonly Dictionary<string, int> QuestWeightsByType;
+        private const int QuestLimit = 2;
 
-    public void Option(Manager m)
-    {
-        DrawQuestType();
-        DefineNextQuest(m);
-    }
-
-    protected abstract void DefineNextQuest(Manager m);
-
-    private void DrawQuestType()
-    {
-        r = ((questWeightsbyType[Constants.TALK_QUEST] +
-              questWeightsbyType[Constants.GET_QUEST] * 2 +
-              questWeightsbyType[Constants.KILL_QUEST] * 3 +
-              questWeightsbyType[Constants.EXPLORE_QUEST] * 4) / 16) *
-            Random.Range(0f, 3f);
-        if (lim == QUEST_LIMIT)
+        protected NonTerminalQuest(int lim, Dictionary<string, int> questWeightsByType)
         {
-            r = maxQuestChance;
+            this.QuestWeightsByType = questWeightsByType;
+            this.lim = lim;
         }
-        lim++;
+
+        protected void DrawQuestType()
+        {
+            r = ((QuestWeightsByType[Constants.TALK_QUEST] +
+                  QuestWeightsByType[Constants.GET_QUEST] * 2 +
+                  QuestWeightsByType[Constants.KILL_QUEST] * 3 +
+                  QuestWeightsByType[Constants.EXPLORE_QUEST] * 4) / 16.0f) *
+                Random.Range(0f, 3f);
+            if (lim == QuestLimit)
+            {
+                r = maxQuestChance;
+            }
+            lim++;
+        }
     }
 }

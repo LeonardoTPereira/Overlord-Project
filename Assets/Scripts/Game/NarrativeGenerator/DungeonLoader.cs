@@ -16,9 +16,7 @@ public class DungeonLoader : MonoBehaviour
     [SerializeField]
     private bool isArena;
     
-    [field: MustBeAssigned, SerializeField]
     public DungeonFileSo SelectedDungeon { get; set; }
-    [field: MustBeAssigned, SerializeField]
     public QuestLine LevelQuestLine { get; set; }
 
     [SerializeField] 
@@ -42,6 +40,9 @@ public class DungeonLoader : MonoBehaviour
     /// Load the level from the given filename.
     public void LoadLevel()
     {
+        Debug.Log("Loading Level: "+SelectedDungeon.name + " Questline: "+ LevelQuestLine.name);
+        Debug.Log("Enemies in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.NEnemies);
+        Debug.Log("Enemy Types in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.TotalByType.EnemiesByTypeDictionary.Count);
         LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine));
         SceneManager.LoadScene(dungeonScene.SceneName);
     }

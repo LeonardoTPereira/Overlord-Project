@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Program), typeof(NarrativeConfigSO))]
+[RequireComponent(typeof(LevelGeneratorManager), typeof(NarrativeConfigSO))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
 
@@ -44,29 +44,19 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 
     public void OnEnable()
     {
-        Program.newEAGenerationEventHandler += UpdateProgressBar;
-        Manager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
+        LevelGeneratorManager.newEAGenerationEventHandler += UpdateProgressBar;
+        QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
     }
     public void OnDisable()
     {
-        Program.newEAGenerationEventHandler -= UpdateProgressBar;
-        Manager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
-    }
-
-    public void CreateLevelFromNarrative()
-    {
-        inputCanvas.SetActive(false);
-        progressCanvas.SetActive(true);
-        QuestLineList questLineList = playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[playerProfile];
-        QuestLine questLine = questLineList.GetRandomQuestLine();
-
-        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(questLine));
+        LevelGeneratorManager.newEAGenerationEventHandler -= UpdateProgressBar;
+        QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
     }
 
     public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
     {
-        playerProfile = eventArgs.PlayerProfile.ToString();
-        CreateLevelFromNarrative();
+        inputCanvas.SetActive(false);
+        progressCanvas.SetActive(true);
     }
 
         public void CreateLevelFromInput()

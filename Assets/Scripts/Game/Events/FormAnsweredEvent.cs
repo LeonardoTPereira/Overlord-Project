@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 
-public delegate void FormAnsweredEvent(object sender, FormAnsweredEventArgs e);
-public class FormAnsweredEventArgs : EventArgs
+namespace Game.Events
 {
-    private int formID;
-    private int answerValue;
-
-    public FormAnsweredEventArgs(int formID, int answerValue)
+    public delegate void FormAnsweredEvent(object sender, FormAnsweredEventArgs e);
+    public class FormAnsweredEventArgs : EventArgs
     {
-        FormID = formID;
-        AnswerValue = answerValue;
-    }
+        private int formID;
+        private List<int> answerValue;
 
-    public int FormID { get => formID; set => formID = value; }
-    public int AnswerValue { get => answerValue; set => answerValue = value; }
+        public FormAnsweredEventArgs(int formID, List<int> answerValue)
+        {
+            FormID = formID;
+            AnswerValue = answerValue;
+        }
+
+        public int FormID { get => formID; set => formID = value; }
+        public List<int> AnswerValue { get => answerValue; set => answerValue = value; }
+    }
 }

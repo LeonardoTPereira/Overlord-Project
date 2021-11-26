@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.GameManager;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
 
 namespace Game.LevelManager
 {
+    [Serializable]
     public class DungeonRoom : DungeonPart
     {
         protected Dimensions dimensions; // inicializar valores antes de acessar os tiles
         private int[,] tiles = null;
+        [SerializeField]
         private List<int> keyIDs;
+        [SerializeField]
         protected int treasure;
         private RoomBhv roomBHV;
+        [SerializeField]
         private int npcID;
-        private Dictionary<WeaponTypeSO, int> _enemiesByType;
+        [SerializeField]
+        private EnemiesByType _enemiesByType;
+        [SerializeField]
         private int _totalEnemies;
 
         public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int treasure, int totalEnemies, int npc) : base(coordinates, code)
@@ -73,7 +80,7 @@ namespace Game.LevelManager
             get => _totalEnemies;
             set => _totalEnemies = value;
         }
-        public Dictionary<WeaponTypeSO, int> EnemiesByType 
+        public EnemiesByType EnemiesByType 
         {
             get => _enemiesByType;
             set => _enemiesByType = value;

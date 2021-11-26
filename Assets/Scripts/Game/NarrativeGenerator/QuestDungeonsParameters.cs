@@ -6,10 +6,11 @@ using static Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
-    [Serializeable]
+    [Serializable]
     public class QuestDungeonsParameters
     {
         private int _size = 0;
+        
 
         public int Size
         {
@@ -19,6 +20,7 @@ namespace Game.NarrativeGenerator
 
         [field: SerializeField]
         public int NKeys { get; set; } = 0;
+        [field: SerializeField]
         public int LinearityEnum { get; set; }
 
         public QuestDungeonsParameters()
@@ -55,6 +57,7 @@ namespace Game.NarrativeGenerator
                     objectiveQuests++;
                 }
             }
+            Debug.Log("ExplorationQuests: "+explorationQuests + " objective quests: "+objectiveQuests);
             LinearityEnum = GetLinearityFromEnum(explorationQuests);
             NKeys = GetNKeys(objectiveQuests);
         }
@@ -124,9 +127,5 @@ namespace Game.NarrativeGenerator
             }
             return (int)DungeonKeys.LotsOfKeys;
         }
-    }
-
-    public class SerializeableAttribute : Attribute
-    {
     }
 }

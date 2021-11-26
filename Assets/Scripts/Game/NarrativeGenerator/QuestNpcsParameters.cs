@@ -1,15 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.NarrativeGenerator
 {
+    [Serializable]
     public class QuestNpcsParameters
     {
-        public int totalNpcs;
-        public Dictionary<NpcSO, int> NpcsByType { get; set; }
-        
+        [SerializeField] private int totalNpcs;
+        public int TotalNpcs => totalNpcs;
+
+        [field: SerializeField]
+        private Dictionary<NpcSO, int> NpcsByType { get; }
+
+        public QuestNpcsParameters()
+        {
+            totalNpcs = 0;
+            NpcsByType = new Dictionary<NpcSO, int>();
+        }
+
         public void CalculateNpcsFromQuests(QuestLine quests)
         {
             for (var i = 0; i < quests.graph.Count; i++)
@@ -28,6 +40,7 @@ namespace Game.NarrativeGenerator
 
         private void AddNpcs(TalkQuestSO quest)
         {
+            Debug.Log("Quest: " + quest.name + " NPC: "+ quest.npc);
             if (NpcsByType.TryGetValue(quest.npc, out var currentNpcCounter))
             {
                 NpcsByType[quest.npc] = currentNpcCounter+1;

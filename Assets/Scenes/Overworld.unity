@@ -6160,6 +6160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 951744176}
   - component: {fileID: 951744175}
+  - component: {fileID: 951744177}
+  - component: {fileID: 951744174}
   m_Layer: 0
   m_Name: QuestManager
   m_TagString: Untagged
@@ -6167,6 +6169,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &951744174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951744173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFinished: 0
+  treasureRuntimeSetSO: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+    type: 2}
+  weaponTypeRuntimeSetSO: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+    type: 2}
 --- !u!114 &951744175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6179,11 +6198,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70525adb7a52ee0439c81de57524ccd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questLines: {fileID: 0}
+  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+    type: 2}
   createNarrative: 0
-  isFinished: 1
+  isFinished: 0
   preTestQuestionnaire: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,
     type: 2}
+  _placeholderNpcs:
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  _placeholderItems: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
+  _possibleWeapons: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!4 &951744176
 Transform:
   m_ObjectHideFlags: 0
@@ -6198,6 +6224,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &951744177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951744173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
+  isEnable: 0
 --- !u!1 &972305397
 GameObject:
   m_ObjectHideFlags: 0
@@ -6941,11 +6981,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 0
-  <SelectedDungeon>k__BackingField: {fileID: 0}
-  <LevelQuestLine>k__BackingField: {fileID: 0}
   dungeonScene:
-    Scene: {fileID: 0}
-    SceneName: 
+    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
+    SceneName: LevelWithEnemies
     sceneIndex: 4
     sceneEnabled: 1
 --- !u!1 &1044382105
@@ -6983,7 +7021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyComponents: {fileID: 0}
+  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
   isEnable: 0
 --- !u!114 &1044382107
 MonoBehaviour:
@@ -7008,7 +7046,7 @@ MonoBehaviour:
     type: 3}
   healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
-  _weaponTypes: {fileID: 0}
+  _weaponTypes: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!82 &1044382108
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7338,13 +7376,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 0
-  <SelectedDungeon>k__BackingField: {fileID: 0}
-  <LevelQuestLine>k__BackingField: {fileID: 0}
   dungeonScene:
-    Scene: {fileID: 0}
-    SceneName: 
-    sceneIndex: 9
-    sceneEnabled: 0
+    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
+    SceneName: LevelWithEnemies
+    sceneIndex: 4
+    sceneEnabled: 1
 --- !u!1 &1062336602
 GameObject:
   m_ObjectHideFlags: 0
@@ -10484,11 +10520,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 0
-  <SelectedDungeon>k__BackingField: {fileID: 0}
-  <LevelQuestLine>k__BackingField: {fileID: 0}
   dungeonScene:
-    Scene: {fileID: 0}
-    SceneName: 
+    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
+    SceneName: LevelWithEnemies
     sceneIndex: 4
     sceneEnabled: 1
 --- !u!1 &1531568825

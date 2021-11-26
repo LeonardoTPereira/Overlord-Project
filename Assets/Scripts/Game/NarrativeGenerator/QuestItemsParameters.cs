@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
-    [Serializeable]
+    [Serializable]
     public class QuestItemsParameters
     {
-        public Dictionary<ItemSO, int> ItemsByType { get; }
+        [field: SerializeField]
+        public Dictionary<ItemSo, int> ItemsByType { get; }
+        [field: SerializeField]
         public int TotalItems { get; set; }
 
         public QuestItemsParameters()
         {
-            ItemsByType = new Dictionary<ItemSO, int>();
+            ItemsByType = new Dictionary<ItemSo, int>();
             TotalItems = 0;
         }
 
@@ -29,11 +32,11 @@ namespace Game.NarrativeGenerator
         {
             if (IsItemQuest(quest))
             {
-                AddItems((ItemQuestSO) quest);
+                AddItems((ItemQuestSo) quest);
             }
         }
 
-        private void AddItems(ItemQuestSO quest)
+        private void AddItems(ItemQuestSo quest)
         {
             foreach (var dropItemData in quest.ItemsToCollectByType)
             {
@@ -42,7 +45,7 @@ namespace Game.NarrativeGenerator
 
         }
 
-        private void AddItemsFromPairToDictionary(KeyValuePair<ItemSO, int> itemData)
+        private void AddItemsFromPairToDictionary(KeyValuePair<ItemSo, int> itemData)
         {
             int newItems = itemData.Value;
             TotalItems += newItems;
@@ -58,7 +61,7 @@ namespace Game.NarrativeGenerator
         
         private static bool IsItemQuest(QuestSO quest)
         {
-            return quest.GetType().IsAssignableFrom(typeof(ItemQuestSO));
+            return quest.GetType().IsAssignableFrom(typeof(ItemQuestSo));
         }
     }
 

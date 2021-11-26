@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae595d8f9891bb044a1d41a730eb881a, type: 3}
   m_Name: DialogueValentime
   m_EditorClassIdentifier: 
-  npcName: Valentime
   dialogues:
   - "Bem na hora! \nAgrade\xE7o pelo resgate, meu caro. Tenha um \xF3timo dia."
   - "Magn\xE2nimo! Espl\xEAndido! Soberbo! \nPosso ir-me deste lugar horrendo enfim."
   - "Grandioso her\xF3i, vossa senhoria tem minha eterna gratid\xE3o. \nContarei
     seus nobres feitos atrav\xE9s das eras!"
+  npc: {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}

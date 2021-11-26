@@ -6,14 +6,14 @@ namespace Game.NarrativeGenerator.Quests
     class SecretRoomQuestSO : QuestSO
     {
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
-        private Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
+        private Dictionary<ItemSo, int> ItemsToCollectByType { get; set; }
         private NpcSO Npc { get; set; }
 
         public override void Init()
         {
             base.Init();
             EnemiesToKillByType = new Dictionary<EnemySO, int>();
-            ItemsToCollectByType = new Dictionary<ItemSO, int>();
+            ItemsToCollectByType = new Dictionary<ItemSo, int>();
             Npc = null;
         }
 
@@ -23,7 +23,7 @@ namespace Game.NarrativeGenerator.Quests
             EnemiesToKillByType = enemiesByType;
         }
         
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSO, int> itemsByType)
+        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, int> itemsByType)
         {
             base.Init(questName, endsStoryLine, previous);
             ItemsToCollectByType = itemsByType;
@@ -46,7 +46,7 @@ namespace Game.NarrativeGenerator.Quests
                 EnemiesToKillByType.Add(enemy, amount);
             }
         }
-        public void AddItem(ItemSO item, int amount)
+        public void AddItem(ItemSo item, int amount)
         {
             if (ItemsToCollectByType.TryGetValue(item, out var currentAmount))
             {

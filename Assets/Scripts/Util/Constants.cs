@@ -23,9 +23,9 @@ namespace Util
 
 
 
-        public const string KILL_QUEST = "Kill";
-        public const string GET_QUEST = "Get";
-        public const string EXPLORE_QUEST = "Explore";
-        public const string TALK_QUEST = "Talk";
+        public const string KILL_QUEST = "Mastery";
+        public const string GET_QUEST = "Achievement";
+        public const string EXPLORE_QUEST = "Creativity";
+        public const string TALK_QUEST = "Immersion";
     }
 }

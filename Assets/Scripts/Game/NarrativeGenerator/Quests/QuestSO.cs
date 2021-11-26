@@ -5,6 +5,7 @@ using UnityEngine;
 using ScriptableObjects;
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -22,7 +23,7 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private QuestSO previous;
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
-        [SerializeField] private TreasureSO reward;
+        [SerializeField] private TreasureSo reward;
         private bool _canDrawNext;
 
         public QuestSO NextWhenSuccess { get => nextWhenSuccess; set => nextWhenSuccess = value; }
@@ -30,7 +31,7 @@ namespace Game.NarrativeGenerator.Quests
         public QuestSO Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
-        public TreasureSO Reward { get => reward; set => reward = value; }
+        public TreasureSo Reward { get => reward; set => reward = value; }
 
         public virtual void Init()
         {
@@ -42,7 +43,7 @@ namespace Game.NarrativeGenerator.Quests
             Reward = null;
         }
 
-        public virtual void Init(string name, bool endsStoryLine, QuestSO previous)
+        public void Init(string name, bool endsStoryLine, QuestSO previous)
         {
             QuestName = name;
             EndsStoryLine = endsStoryLine;
@@ -52,35 +53,48 @@ namespace Game.NarrativeGenerator.Quests
             Reward = null;
         }
 
-        public void SaveAsAsset(string assetName)
+        public void SaveAsAsset()
         {
             #if UNITY_EDITOR
-            AssetDatabase.CreateAsset(this, assetName+".asset");
+            var target = "Assets";
+            target += Constants.SEPARATOR_CHARACTER + "Resources";
+            target += Constants.SEPARATOR_CHARACTER + "Experiment";
+            var newFolder = "Quests";
+            if (!AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder))
+            {
+                AssetDatabase.CreateFolder(target, newFolder);
+            }
+            target += Constants.SEPARATOR_CHARACTER + newFolder;
+            target += Constants.SEPARATOR_CHARACTER;
+            target += QuestName+".asset";
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(target);
+            AssetDatabase.CreateAsset(this, uniquePath);
             #endif
         }
 
         public bool IsItemQuest()
         {
-            return GetType().IsAssignableFrom(typeof(ItemQuestSO));
+            return typeof(ItemQuestSo).IsAssignableFrom(GetType());
         }
         
         public bool IsDropQuest()
         {
-            return GetType().IsAssignableFrom(typeof(DropQuestSO));
+            Debug.Log("Type: "+GetType() + " typeof(): " + typeof(DropQuestSo) + "Is assignable?" + GetType().IsAssignableFrom(typeof(DropQuestSo)));
+            return typeof(DropQuestSo).IsAssignableFrom(GetType());
         }
 
         public bool IsKillQuest()
         {
-            return GetType().IsAssignableFrom(typeof(KillQuestSO));
+            return typeof(KillQuestSO).IsAssignableFrom(GetType());
         }        
         
         public bool IsGetQuest()
         {
-            return GetType().IsAssignableFrom(typeof(GetQuestSO));
+            return typeof(GetQuestSo).IsAssignableFrom(GetType());
         }        
         public bool IsSecretRoomQuest()
         {
-            return GetType().IsAssignableFrom(typeof(SecretRoomQuestSO));
+            return typeof(SecretRoomQuestSO).IsAssignableFrom(GetType());
         }
         
         public bool IsExplorationQuest()
@@ -90,7 +104,7 @@ namespace Game.NarrativeGenerator.Quests
         
         public bool IsTalkQuest()
         {
-            return GetType().IsAssignableFrom(typeof(TalkQuestSO));
+            return typeof(TalkQuestSO).IsAssignableFrom(GetType());
         }
     }
 }

@@ -14,7 +14,7 @@ using Util;
 
 namespace LevelGenerator
 {
-    class Interface
+    public static class Interface
     {
         /**
          * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
@@ -24,15 +24,14 @@ namespace LevelGenerator
             Individual _individual,
             Fitness _fitness,
             TreasureRuntimeSetSO _treasureRuntimeSetSO,
-            WeaponTypeRuntimeSetSO _weaponTypeRuntimeSetSo
-        )
+            WeaponTypeRuntimeSetSO _weaponTypeRuntimeSetSo, QuestLine _questLine)
         {
             Dungeon dun = _individual.dungeon;
             int remainingItems, remainingNpcs;
-            if (dun.DungeonQuestLine != null)
+            if (_questLine != null)
             {
-                remainingItems = dun.DungeonQuestLine.ItemParametersForQuestLine.TotalItems;
-                remainingNpcs = dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs;
+                remainingItems = _questLine.ItemParametersForQuestLine.TotalItems;
+                remainingNpcs = _questLine.NpcParametersForQuestLine.TotalNpcs;
             }
             else
             {
@@ -298,7 +297,7 @@ namespace LevelGenerator
 
                             if (numberNpcs > 0)
                             {
-                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs +
+                                numberNpcs = (_questLine.NpcParametersForQuestLine.TotalNpcs - remainingNpcs +
                                               1);
                                 difficulty = 0;
                             }
@@ -351,7 +350,7 @@ namespace LevelGenerator
 
                             if (numberNpcs > 0)
                             {
-                                numberNpcs = (dun.DungeonQuestLine.NpcParametersForQuestLine.totalNpcs - remainingNpcs + 1);
+                                numberNpcs = (_questLine.NpcParametersForQuestLine.TotalNpcs - remainingNpcs + 1);
                                 difficulty = 0;
                             }
 
@@ -405,10 +404,8 @@ namespace LevelGenerator
             }
 
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
-            dun.DungeonQuestLine = new QuestLine();
-            dun.DungeonQuestLine.Init();
-            dun.DungeonQuestLine.DungeonFileSos.Add(dungeonFileSO);
-            AssetDatabase.Refresh();
+            _questLine.DungeonFileSos.Add(dungeonFileSO);
+            AssetDatabase.SaveAssetIfDirty(_questLine);
             Debug.Log("Finished Writing dungeon data");
 #endif
         }

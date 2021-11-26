@@ -1,29 +1,71 @@
 using System.Collections.Generic;
-using Game.NarrativeGenerator;
+using System.Linq;
+using System.Text;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
+using ScriptableObjects;
 using UnityEngine;
 
-public class Kill : NonTerminalQuest
+namespace Game.NarrativeGenerator.Quests.nao_terminais
 {
-    public Kill(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
+    public class Kill : NonTerminalQuest
     {
-        maxQuestChance = 2.5f;
-    }
-
-    protected override void DefineNextQuest(Manager m)
-    {
-        KillQuestSO killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
-
-        if (r <= 2.3)
+        public Kill(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
         {
-            /*TODO initiate data for killQuest*/
-            Talk t = new Talk(lim, questWeightsbyType);
-            t.Option(m);
-            Option(m);
+            maxQuestChance = 2.5f;
         }
-        else
+
+        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            /*TODO initiate data for killQuest*/
+            DrawQuestType();
+            DefineNextQuest(questSos, possibleNpcSos, enemyTypes);
+        }
+    
+        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
+        {
+
+            if (r <= 2.3)
+            {
+                CreateAndSaveKillQuestSo(questSos, enemyTypes);
+                Talk t = new Talk(lim, QuestWeightsByType);
+                t.Option(questSos, possibleNpcSos);
+                Option(questSos, possibleNpcSos, enemyTypes);
+            }
+            else
+            {
+                CreateAndSaveKillQuestSo(questSos, enemyTypes);
+            }
+        }
+
+        private static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        {
+            var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
+            var selectedEnemyTypes = new EnemiesByType ();
+            //TODO select more enemies
+            var selectedEnemyType = enemyTypes.GetRandomItem();
+            selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, 1);
+            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedEnemyTypes);
+            killQuest.SaveAsAsset();
+            questSos.Add(killQuest);
+        }
+        
+        private static string EnemyTypesToString(EnemiesByType  selectedEnemyTypes)
+        {
+            var stringBuilder = new StringBuilder();
+            for (var i = 0; i < selectedEnemyTypes.EnemiesByTypeDictionary.Count; i++)
+            {
+                var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
+                stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
+                if (typeAmountPair.Value > 1)
+                {
+                    stringBuilder.Append("s");
+                }
+                if (i < (selectedEnemyTypes.EnemiesByTypeDictionary.Count - 1))
+                {
+                    stringBuilder.Append(" and ");
+                }
+            }
+            return stringBuilder.ToString();
         }
     }
 }

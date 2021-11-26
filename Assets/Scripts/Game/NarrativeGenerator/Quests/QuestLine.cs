@@ -1,97 +1,108 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Game.GameManager;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLine", menuName = "Overlord-Project/QuestLine", order = 0)]
+    [Serializable]
     public class QuestLine : ScriptableObject
     {
         public List<QuestSO> graph;
         [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
-        [Serializeable] private QuestEnemiesParameters _enemyParametersForQuestLine;
-        private QuestNpcsParameters _npcParametersForQuestLine;
-        private QuestItemsParameters _itemParametersForQuestLine;
+        [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
+        [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
         [SerializeField] private List<EnemySO> _enemySos;
         [SerializeField] private List<NpcSO> _npcSos;
-        [SerializeField] private List<ItemSO> _itemSos;
-        private QuestDungeonsParameters _dungeonParametersForQuestLine;
-
+        [SerializeField] private List<ItemSo> _itemSos;
+        [SerializeField] private QuestDungeonsParameters dungeonParametersForQuestLine;
+        [SerializeField] private QuestEnemiesParameters enemyParametersForQuestLine;
+        
         public QuestDungeonsParameters DungeonParametersForQuestLine
         {
-            get => _dungeonParametersForQuestLine;
-            set => _dungeonParametersForQuestLine = value;
+            get => dungeonParametersForQuestLine;
+            set => dungeonParametersForQuestLine = value;
         }
-
         public QuestEnemiesParameters EnemyParametersForQuestLine
         {
-            get => _enemyParametersForQuestLine;
-            set => _enemyParametersForQuestLine = value;
+            get => enemyParametersForQuestLine;
+            set => enemyParametersForQuestLine = value;
         }
 
-        public QuestNpcsParameters NpcParametersForQuestLine => _npcParametersForQuestLine;
+        public QuestNpcsParameters NpcParametersForQuestLine
+        {
+            get => _npcParametersForQuestLine;
+            set => _npcParametersForQuestLine = value;
+        }
 
-        public QuestItemsParameters ItemParametersForQuestLine => _itemParametersForQuestLine;
+        public QuestItemsParameters ItemParametersForQuestLine
+        {
+            get => _itemParametersForQuestLine;
+            set => _itemParametersForQuestLine = value;
+        }
 
         public List<DungeonFileSo> DungeonFileSos => _dungeonFileSos;
 
-        public List<EnemySO> EnemySos => _enemySos;
+        public List<EnemySO> EnemySos
+        {
+            get => _enemySos;
+            set => _enemySos = value;
+        }
 
-        public List<NpcSO> NpcSos => _npcSos;
+        public List<NpcSO> NpcSos
+        {
+            get => _npcSos;
+            set => _npcSos = value;
+        }
 
-        public List<ItemSO> ItemSos => _itemSos;
-        
-        public virtual void Init()
+        public List<ItemSo> ItemSos
+        {
+            get => _itemSos;
+            set => _itemSos = value;
+        }
+
+        public void Init()
         {
             graph = new List<QuestSO>();
             _dungeonFileSos = new List<DungeonFileSo>();
             _enemySos = new List<EnemySO>();
             _npcSos = new List<NpcSO>();
-            _itemSos = new List<ItemSO>();
+            _itemSos = new List<ItemSo>();
+            DungeonParametersForQuestLine = new QuestDungeonsParameters();
+            EnemyParametersForQuestLine = new QuestEnemiesParameters();
+            _itemParametersForQuestLine = new QuestItemsParameters();
+            _npcParametersForQuestLine = new QuestNpcsParameters();
         }
 
         public void CreateAsset(PlayerProfile.PlayerProfileCategory playerProfileCategory)
         {
+#if UNITY_EDITOR
             // Define the JSON file extension
             const string extension = ".asset";
 
+            Debug.Log("Quest Size: " + graph.Count);
             // Build the target path
-            string target = Application.dataPath;
+            var target = "Assets";
             target += Constants.SEPARATOR_CHARACTER + "Resources";
             target += Constants.SEPARATOR_CHARACTER + "Experiment";
-            target += Constants.SEPARATOR_CHARACTER + playerProfileCategory.ToString();
-
-            if (!Directory.Exists(target))
+            var newFolder = Constants.SEPARATOR_CHARACTER + playerProfileCategory.ToString();
+            if (!AssetDatabase.IsValidFolder(target + newFolder))
             {
-                Directory.CreateDirectory(target);
+                AssetDatabase.CreateFolder(target, newFolder);
             }
-
-            string fileName = "Narrative_" + graph[0] + extension;
-#if UNITY_EDITOR
-            AssetDatabase.CreateAsset(this, fileName);
-
-            /*            Resources.UnloadUnusedAssets();
-            
-                        AssetDatabase.Refresh();*/
+            target += newFolder;
+            var fileName = target+ Constants.SEPARATOR_CHARACTER +"Narrative_" + graph[0] + extension;
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
+            AssetDatabase.CreateAsset(this, uniquePath);
+            AssetDatabase.Refresh();
 #endif
-        }
-
-        public void CreateDummyEnemyParameters()
-        {
-            EnemyParametersForQuestLine = new QuestEnemiesParameters();
-            var enemiesByType = new Dictionary<WeaponTypeSO, int>();
-            int totalEnemies = 0;
-            foreach (var weaponType in GameManagerSingleton.instance.enemyLoader.WeaponTypes.Items)
-            {
-                enemiesByType.Add(weaponType, 10);
-                totalEnemies += 10;
-            }
-            EnemyParametersForQuestLine.TotalByType = enemiesByType;
-            EnemyParametersForQuestLine.NEnemies = totalEnemies;
         }
     }
 }

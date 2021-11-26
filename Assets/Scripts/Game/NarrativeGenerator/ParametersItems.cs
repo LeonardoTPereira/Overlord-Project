@@ -8,7 +8,7 @@ namespace Game.NarrativeGenerator
     [CreateAssetMenu(menuName = "NarrativeComponents/Items")]
     public class ParametersItems : ScriptableObject
     {
-        public Dictionary<ItemSO, int> ItemsByType { get; }
+        public Dictionary<ItemSo, int> ItemsByType { get; }
         public int NumItens;
 
         public void ConversorItems(QuestLine quests)
@@ -23,20 +23,19 @@ namespace Game.NarrativeGenerator
         {
             if (IsItemQuest(quest))
             {
-                AddItems((ItemQuestSO) quest);
+                AddItems((ItemQuestSo) quest);
             }
         }
 
-        private void AddItems(ItemQuestSO quest)
+        private void AddItems(ItemQuestSo quest)
         {
-            // quest.TotalTreasure;
-            /*TODO create or select NpcSO*/
-            /*TODO set quest to Npc*/
+            
+            /*TODO create or select ItemSO*/
         }
 
         private static bool IsItemQuest(QuestSO quest)
         {
-            return quest.GetType().IsAssignableFrom(typeof(ItemQuestSO));
+            return quest.GetType().IsAssignableFrom(typeof(ItemQuestSo));
         }
     }
 

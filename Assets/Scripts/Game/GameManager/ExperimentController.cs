@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game.Maestro;
 using Game.NarrativeGenerator;
@@ -7,6 +8,7 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {
@@ -21,26 +23,33 @@ namespace Game.GameManager
         [SerializeField]
         private DungeonLoader[] dungeonEntrances;
 
+        private void Awake()
+        {
+            _questLineListForProfile = null;
+        }
+
         private void OnEnable()
         {
-            Manager.ProfileSelectedEventHandler += LoadDataForExperiment;
+            QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
         private void OnDisable()
         {
-            Manager.ProfileSelectedEventHandler -= LoadDataForExperiment;
+            QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 
         IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
         {
             yield return new WaitUntil(() => CanLoadNarrativesToDungeonEntrances(scene));
+            Debug.Log("Data was loaded");
             SelectNarrativeAndSetDungeonsToEntrances();
         }
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
+            Debug.Log("Level was loaded");
             StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
         }
 
@@ -51,6 +60,7 @@ namespace Game.GameManager
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
+            Debug.Log("Selecting narratives and setting to entrances");
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonLoader>();
@@ -68,6 +78,7 @@ namespace Game.GameManager
         private QuestLine GetAndRemoveRandomQuestLine()
         {
             QuestLine questLine;
+            Debug.Log("QuestLine: "+_questLineListForProfile.Count);
             int selectedIndex = RandomSingleton.GetInstance().Random.Next(_questLineListForProfile.Count);
             questLine = _questLineListForProfile[selectedIndex];
             _questLineListForProfile.RemoveAt(selectedIndex);
@@ -76,6 +87,7 @@ namespace Game.GameManager
 
         private void SetQuestLinesForProfile(PlayerProfile playerProfile)
         {
+            Debug.Log("Profile: "+playerProfile.PlayerProfileEnum);
             _questLineListForProfile = new List<QuestLine>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
                 playerProfile.PlayerProfileEnum.ToString()].QuestLines);
         }

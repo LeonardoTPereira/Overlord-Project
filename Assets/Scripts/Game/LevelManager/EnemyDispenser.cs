@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.GameManager;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using LevelGenerator;
 using MyBox;
@@ -17,7 +18,10 @@ namespace Game.LevelManager
 
         public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
         {
-            var enemiesInQuestByType = new Dictionary<WeaponTypeSO, int>(questLine.EnemyParametersForQuestLine.TotalByType);
+            Debug.Log("QuestLine: " + questLine.name);
+            Debug.Log("EnemyParameters: " + questLine.EnemyParametersForQuestLine);
+            Debug.Log("Enemies: " + questLine.EnemyParametersForQuestLine.NEnemies + " - " + questLine.EnemyParametersForQuestLine.TotalByType);
+            var enemiesInQuestByType = new EnemiesByType(questLine.EnemyParametersForQuestLine.TotalByType);
             
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
@@ -28,9 +32,9 @@ namespace Game.LevelManager
             }
         }
 
-        private static Dictionary<WeaponTypeSO, int> SelectWeaponTypesForRoom(DungeonRoom dungeonRoom, Dictionary<WeaponTypeSO, int> enemiesInQuestByType)
+        private static EnemiesByType SelectWeaponTypesForRoom(DungeonRoom dungeonRoom, EnemiesByType enemiesInQuestByType)
         {
-            var enemiesByType = new Dictionary<WeaponTypeSO, int>();
+            var enemiesByType = new EnemiesByType();
             var enemiesInRoom = dungeonRoom.TotalEnemies;
             var selectedEnemies = 0;
             while (selectedEnemies < enemiesInRoom)
@@ -48,34 +52,34 @@ namespace Game.LevelManager
             return enemiesByType;
         }
 
-        private static void AddEnemiesInRoom(Dictionary<WeaponTypeSO, int> enemiesByType, WeaponTypeSO selectedType, int newEnemies)
+        private static void AddEnemiesInRoom(EnemiesByType enemiesByType, WeaponTypeSO selectedType, int newEnemies)
         {
-            if (enemiesByType.TryGetValue(selectedType, out var enemiesForItem))
+            if (enemiesByType.EnemiesByTypeDictionary.TryGetValue(selectedType, out var enemiesForItem))
             {
-                enemiesByType[selectedType] = enemiesForItem + newEnemies;
+                enemiesByType.EnemiesByTypeDictionary[selectedType] = enemiesForItem + newEnemies;
             }
             else
             {
-                enemiesByType.Add(selectedType, newEnemies);
+                enemiesByType.EnemiesByTypeDictionary.Add(selectedType, newEnemies);
             }
         }
 
-        private static void UpdateRemainingEnemiesInQuest(Dictionary<WeaponTypeSO, int> enemiesInQuestByType, 
+        private static void UpdateRemainingEnemiesInQuest(EnemiesByType enemiesInQuestByType, 
             WeaponTypeSO selectedType, int newEnemies)
         {
-            if (enemiesInQuestByType.Count == 0)
+            if (enemiesInQuestByType.EnemiesByTypeDictionary.Count == 0)
                 throw new ArgumentException("Enemies in Quest cannot be an empty collection.", nameof(enemiesInQuestByType));
-            enemiesInQuestByType[selectedType] -= newEnemies;
-            if (enemiesInQuestByType[selectedType] <= 0)
+            enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] -= newEnemies;
+            if (enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] <= 0)
             {
-                enemiesInQuestByType.Remove(selectedType);
+                enemiesInQuestByType.EnemiesByTypeDictionary.Remove(selectedType);
             }
         }
 
         public static Dictionary<EnemySO, int> GetEnemiesForRoom(RoomBhv roomBhv)
         {
             var enemiesBySo = new Dictionary<EnemySO, int>();
-            foreach (var enemiesByType in roomBhv.roomData.EnemiesByType)
+            foreach (var enemiesByType in roomBhv.roomData.EnemiesByType.EnemiesByTypeDictionary)
             {
                 var selectedEnemy = GameManagerSingleton.instance.enemyLoader.GetRandomEnemyOfType(enemiesByType.Key);
                 enemiesBySo.Add(selectedEnemy, enemiesByType.Value);

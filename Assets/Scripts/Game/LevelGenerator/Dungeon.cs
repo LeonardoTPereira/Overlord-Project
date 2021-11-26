@@ -37,8 +37,6 @@ namespace LevelGenerator
         public Boundaries boundaries;
         public Dimensions dimensions;
 
-        public QuestLine DungeonQuestLine { get; set; }
-
         /// Dungeon constructor.
         ///
         /// Create and return a new dungeon with the starting room.
@@ -55,7 +53,6 @@ namespace LevelGenerator
             minY = RoomGrid.LEVEL_GRID_OFFSET;
             maxX = -RoomGrid.LEVEL_GRID_OFFSET;
             maxY = -RoomGrid.LEVEL_GRID_OFFSET;
-            DungeonQuestLine = null;
         }
 
         /// Return a clone this dungeon.
@@ -76,7 +73,6 @@ namespace LevelGenerator
             dungeon.minY = minY;
             dungeon.maxX = maxX;
             dungeon.maxY = maxY;
-            dungeon.DungeonQuestLine = DungeonQuestLine;
             // Need to use the grid to copy the neighboors, children and parent
             // Check the position of the node in the grid and then substitute the old room with the copied one
             foreach (Room room in dungeon.rooms)
@@ -667,10 +663,6 @@ namespace LevelGenerator
         private string narrativeName;
         public string PlayerProfile { get => playerProfile; set => playerProfile = value; }
         public string NarrativeName { get => narrativeName; set => narrativeName = value; }
-
-        public void SetNarrativeParameters(QuestLine questLine)
-        {
-            DungeonQuestLine = questLine;
-        }
+        
     }
 }

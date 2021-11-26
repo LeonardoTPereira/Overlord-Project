@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.NarrativeGenerator.Quests;
+using Game.NarrativeGenerator.Quests.nao_terminais;
+using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace Game.NarrativeGenerator
 {
@@ -35,31 +39,31 @@ namespace Game.NarrativeGenerator
         [1][5][3][7]
         */
 
-        public PlayerProfile Select(Manager m, List<int> answers)
+        public PlayerProfile SelectProfile(List<int> answers)
+        {
+            CalculateProfileWeights(answers);
+
+            CreateProfileWithWeights();
+            
+            return playerProfile;
+        }        
+        
+        public PlayerProfile SelectProfile(NarrativeCreatorEventArgs eventArgs)
+        {
+            questWeightsbyType = eventArgs.QuestWeightsbyType;
+
+            CreateProfileWithWeights();
+            
+            return playerProfile;
+        }
+        
+        public void CreateMissions(QuestGeneratorManager m)
         {
             //pesos[0] = 3; //peso talk
             //pesos[1] = 7; //peso get
             //pesos[2] = 1; //peso kill
             //pesos[3] = 5; //peso explore
-
-            CalculateProfileWeights(answers);
-
-            CreateProfileWithWeights();
-            
-            DrawMissions(m);
-            
-            return playerProfile;
-        }
-
-        public PlayerProfile Select(Manager m, NarrativeCreatorEventArgs eventArgs)
-        {
-            questWeightsbyType = eventArgs.QuestWeightsbyType;
-
-            CreateProfileWithWeights();
-
-            DrawMissions(m);
-
-            return playerProfile;
+            m.Quests.graph = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
         }
 
         private void CreateProfileWithWeights()
@@ -76,42 +80,43 @@ namespace Game.NarrativeGenerator
             playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
 
-        private void DrawMissions(Manager m)
+        private List<QuestSO> DrawMissions(List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
-            float newMissionChance, newMissionDraw;
-            newMissionChance = 0;
+            List<QuestSO> questsSos = new List<QuestSO>();
+            float newMissionDraw = 0;
+            float newMissionChance = 0;
             do
             {
                 foreach (var item in questWeightsbyType)
                 {
-                    newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-                    if (item.Value > newMissionDraw * 10)
+                    if (item.Value > newMissionDraw)
                     {
                         switch (item.Key)
                         {
                             case Constants.TALK_QUEST:
-                                Talk t = new Talk(0, questWeightsbyType);
-                                t.Option(m);
+                                var t = new Talk(0, questWeightsbyType);
+                                t.Option(questsSos, possibleNpcs);
                                 break;
                             case Constants.GET_QUEST:
-                                Get g = new Get(0, questWeightsbyType);
-                                g.Option(m);
+                                var g = new Get(0, questWeightsbyType);
+                                g.Option(questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
                                 break;
                             case Constants.KILL_QUEST:
-                                Kill k = new Kill(0, questWeightsbyType);
-                                k.Option(m);
+                                var k = new Kill(0, questWeightsbyType);
+                                k.Option(questsSos, possibleNpcs, possibleEnemyTypes);
                                 break;
                             case Constants.EXPLORE_QUEST:
-                                Explore e = new Explore(0, questWeightsbyType);
-                                e.Option(m);
+                                var e = new Explore(0, questWeightsbyType);
+                                e.Option(questsSos, possibleNpcs);
                                 break;
                         }
                     }
+                    newMissionDraw = RandomSingleton.GetInstance().Random.Next(10);
                 }
-
-                newMissionDraw = UnityEngine.Random.Range(0, 1.0f);
-                newMissionChance += 0.5f;
+                newMissionChance += 2f;
             } while (newMissionDraw > newMissionChance);
+
+            return questsSos;
         }
 
         private void CalculateProfileWeights(List<int> answers)

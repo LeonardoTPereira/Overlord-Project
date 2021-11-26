@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestTerminals
 {
     public class KillQuestSO : QuestSO
     {
-        public Dictionary<WeaponTypeSO, int> EnemiesToKillByType { get; set; }
+        public EnemiesByType  EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
         
         public override void Init()
         {
             base.Init();
-            EnemiesToKillByType = new Dictionary<WeaponTypeSO, int>();
+            EnemiesToKillByType = new EnemiesByType ();
             EnemiesToKillByFitness = new Dictionary<float, int>();
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<WeaponTypeSO, int> enemiesByType)
+        public void Init(string questName, bool endsStoryLine, QuestSO previous, EnemiesByType  enemiesByType)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByType = enemiesByType;
@@ -29,13 +30,13 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
         
         public void AddEnemy(WeaponTypeSO enemy, int amount)
         {
-            if (EnemiesToKillByType.TryGetValue(enemy, out var currentAmount))
+            if (EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(enemy, out var currentAmount))
             {
-                EnemiesToKillByType[enemy] = currentAmount + amount;
+                EnemiesToKillByType.EnemiesByTypeDictionary[enemy] = currentAmount + amount;
             }
             else
             {
-                EnemiesToKillByType.Add(enemy, amount);
+                EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemy, amount);
             }
         }
         

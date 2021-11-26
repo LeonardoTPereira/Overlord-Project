@@ -54,6 +54,7 @@ namespace LevelGenerator
         /// Perform the level evolution process.
         private void Evolution()
         {
+            Debug.Log("Starting Evolution");
             // Initialize the random generator
             System.Random rand = new System.Random(prs.seed);
 

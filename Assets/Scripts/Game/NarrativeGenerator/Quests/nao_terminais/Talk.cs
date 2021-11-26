@@ -1,30 +1,44 @@
 using System.Collections.Generic;
-using System.Dynamic;
-using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests;
+using MyBox;
+using ScriptableObjects;
 using UnityEngine;
 
-public class Talk : NonTerminalQuest
+namespace Game.NarrativeGenerator.Quests.nao_terminais
 {
+    public class Talk : NonTerminalQuest
+    {
 
-    public Talk(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
-    {
-        maxQuestChance = 2.4f;
-    }
-    
-    protected override void DefineNextQuest(Manager m)
-    {
-        TalkQuestSO talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
-        if (r > 2.7)
+        public Talk(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
         {
-            /*TODO initiate data for talkQuest*/
-            talkQuest.Init();
-            talkQuest.SaveAsAsset("QUEST_NPC_1");
-            Option(m);
+            maxQuestChance = 2.4f;
         }
-        else
+    
+        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
         {
-            /*TODO initiate data for talkQuest*/
+            DrawQuestType();
+            DefineNextQuest(questSos, possibleNpcSos);
+        }
+    
+        private void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        {
+            if (r > 2.7)
+            {
+                CreateAndSaveTalkQuestSo(questSos, possibleNpcSos);
+                Option(questSos, possibleNpcSos);
+            }
+            else
+            {
+                CreateAndSaveTalkQuestSo(questSos, possibleNpcSos);
+            }
+        }
+
+        private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        {
+            var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
+            var selectedNpc = possibleNpcSos.GetRandom();
+            talkQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedNpc);
+            talkQuest.SaveAsAsset();
+            questSos.Add(talkQuest);
         }
     }
 }
