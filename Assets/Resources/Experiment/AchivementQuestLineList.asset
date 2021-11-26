@@ -13,7 +13,4 @@ MonoBehaviour:
   m_Name: AchivementQuestLineList
   m_EditorClassIdentifier: 
   QuestLines:
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
+  - {fileID: 11400000, guid: e41ea9240e5144746b99308a47c59ef8, type: 2}
