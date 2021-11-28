@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.GameManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.Maestro;
 using Game.NarrativeGenerator.Quests;
 using LevelGenerator;
 using MyBox;
@@ -22,12 +23,16 @@ namespace Game.LevelManager
             Debug.Log("EnemyParameters: " + questLine.EnemyParametersForQuestLine);
             Debug.Log("Enemies: " + questLine.EnemyParametersForQuestLine.NEnemies + " - " + questLine.EnemyParametersForQuestLine.TotalByType);
             var enemiesInQuestByType = new EnemiesByType(questLine.EnemyParametersForQuestLine.TotalByType);
+
+            questLine.EnemySos = EnemySelector.FilterEnemies(questLine.EnemySos);
             
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
                 if (dungeonPart.Value is DungeonRoom dungeonRoom && !dungeonRoom.IsStartRoom())
                 {
-                    dungeonRoom.EnemiesByType = SelectWeaponTypesForRoom(dungeonRoom, enemiesInQuestByType);
+                    dungeonRoom.EnemiesByType = new EnemiesByType();
+                    dungeonRoom.EnemiesByType.EnemiesByTypeDictionary =
+                        EnemySelector.Select(dungeonRoom, enemiesInQuestByType.EnemiesByTypeDictionary);
                 }
             }
         }
