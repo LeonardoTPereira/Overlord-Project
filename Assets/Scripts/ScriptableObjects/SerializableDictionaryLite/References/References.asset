@@ -16,3 +16,4 @@ MonoBehaviour:
   _material: {fileID: 0}
   _audioClip: {fileID: 0}
   _weaponTypeSo: {fileID: 11400000, guid: 47b8db2b014647145bdbd766c2640dfe, type: 2}
+  _itemSo: {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}

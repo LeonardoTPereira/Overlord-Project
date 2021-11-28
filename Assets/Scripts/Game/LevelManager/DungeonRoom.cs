@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using Game.GameManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.NpcRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 
 namespace Game.LevelManager
@@ -16,22 +19,27 @@ namespace Game.LevelManager
         [SerializeField]
         private List<int> keyIDs;
         [SerializeField]
-        protected int treasure;
-        private RoomBhv roomBHV;
+        protected ItemsAmount items;
         [SerializeField]
-        private int npcID;
+        private List<NpcSO> npcs;
         [SerializeField]
-        private EnemiesByType _enemiesByType;
+        private EnemiesByType enemiesByType;
         [SerializeField]
-        private int _totalEnemies;
+        private int totalEnemies;
+
+        [field: SerializeField] public bool HasItemPreference { get; set; }
+
+        [field: SerializeField] public bool HasNpcPreference { get; set; }
 
         public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int treasure, int totalEnemies, int npc) : base(coordinates, code)
         {
             KeyIDs = keyIDs;
-            Treasure = treasure;
+            HasItemPreference = treasure > 0;
             TotalEnemies = totalEnemies;
-            NpcID = npc;
+            HasNpcPreference = npc > 0;
             EnemiesByType = null;
+            Items = null;
+            Npcs = null;
         }
 
         public void InitializeTiles()
@@ -77,19 +85,19 @@ namespace Game.LevelManager
 
         public int TotalEnemies 
         {
-            get => _totalEnemies;
-            set => _totalEnemies = value;
+            get => totalEnemies;
+            set => totalEnemies = value;
         }
         public EnemiesByType EnemiesByType 
         {
-            get => _enemiesByType;
-            set => _enemiesByType = value;
+            get => enemiesByType;
+            set => enemiesByType = value;
         }
 
-        public int Treasure 
+        public ItemsAmount Items
         {
-            get => treasure; 
-            set => treasure = value;
+            get => items; 
+            set => items = value;
         }
 
         public Dimensions Dimensions 
@@ -110,10 +118,10 @@ namespace Game.LevelManager
             set => keyIDs = value;
         }
 
-        public int NpcID
+        public List<NpcSO> Npcs
         {
-            get => npcID; 
-            set => npcID = value;
+            get => npcs; 
+            set => npcs = value;
         }
     }
 }

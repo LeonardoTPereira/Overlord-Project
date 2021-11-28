@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Maestro;
-using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 {

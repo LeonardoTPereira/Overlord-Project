@@ -40,6 +40,11 @@
         {
             return Type?.Equals(PartType.FINAL_ROOM) ?? false;
         }
+        
+        public bool IsTreasureRoom()
+        {
+            return Type?.Equals(PartType.TREASURE_ROOM) ?? false;
+        }
 
     }
 }

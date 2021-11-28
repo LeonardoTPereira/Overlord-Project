@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Game.GameManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.NpcRelatedNarrative;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;

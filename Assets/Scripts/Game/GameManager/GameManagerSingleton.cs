@@ -206,9 +206,9 @@ namespace Game.GameManager
                 targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X, dungeonRoom.Coordinates.Y + 1);
                 newRoom.southDoor = CheckCorridor(targetCoordinates);
             }
-            if (dungeonRoom.Treasure > 0)
+            if (dungeonRoom.Items != null)
             {
-                maxTreasure += treasureSet.Items[dungeonRoom.Treasure-1].value;
+                maxTreasure += dungeonRoom.Items.GetTotalItems();
             }
             //Sets room transform position
             newRoom.gameObject.transform.position = 
@@ -251,6 +251,8 @@ namespace Game.GameManager
             LoadMap(dungeonFileSo);
             
             EnemyDispenser.DistributeEnemiesInDungeon(map, currentQuestLine);
+            ItemDispenser.DistributeItemsInDungeon(map, currentQuestLine);
+            //Todo distribute npcs in dungeon
             
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 

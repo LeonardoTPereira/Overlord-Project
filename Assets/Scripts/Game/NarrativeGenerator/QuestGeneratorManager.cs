@@ -7,6 +7,8 @@ using Game.Events;
 using Game.GameManager;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using LevelGenerator;
 using MyBox;
@@ -115,9 +117,8 @@ namespace Game.NarrativeGenerator
             MakeBranches();
                     
             CreateGeneratorParametersForQuestline(playerProfile);
-            
-            //TODO select difficulty based on profile
-            Quests.EnemySos =  _enemyGeneratorManager.EvolveEnemies(DifficultyEnum.Easy);
+
+            Quests.EnemySos =  _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
             CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(Quests));
             //TODO create NPC RuntimeSet
             //TODO create these procedurally
@@ -128,13 +129,10 @@ namespace Game.NarrativeGenerator
                     
             _questLines.AddQuestLine(Quests);
 
-            for (int i = 0; i < Quests.graph.Count; i++)
-                Debug.Log(Quests.graph[i].name + ", " + Quests.graph[i].NextWhenSuccess + ", " + Quests.graph[i].NextWhenFailure);
-            
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
-            #endif
+#endif
         }
 
         private void CreateGeneratorParametersForQuestline(PlayerProfile playerProfile)
@@ -145,6 +143,7 @@ namespace Game.NarrativeGenerator
             Quests.ItemParametersForQuestLine = new QuestItemsParameters();
             Quests.DungeonParametersForQuestLine.CalculateDungeonParametersFromQuests(Quests, playerProfile.CreativityPreference);
             Quests.EnemyParametersForQuestLine.CalculateMonsterFromQuests(Quests);
+            Quests.EnemyParametersForQuestLine.CalculateDifficultyFromProfile(playerProfile);
             Quests.NpcParametersForQuestLine.CalculateNpcsFromQuests(Quests);
             Quests.ItemParametersForQuestLine.CalculateItemsFromQuests(Quests);
         }

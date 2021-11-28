@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Game.EnemyGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
 using ScriptableObjects;
@@ -17,20 +18,57 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         [field: SerializeField]
         public int NEnemies { get; set; }
 
+        [field: SerializeField]
+        public DifficultyEnum Difficulty { get; set; }
+
         public QuestEnemiesParameters()
         {
             NEnemies = 0;
             TotalByType = new EnemiesByType();
+            Difficulty = DifficultyEnum.Medium;
         }
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<WeaponTypeSO, int> kvp in TotalByType.EnemiesByTypeDictionary)
+            var stringBuilder = new StringBuilder();
+            foreach (var kvp in TotalByType.EnemiesByTypeDictionary)
             {
                 stringBuilder.Append($"Enemy = {kvp.Key}, total = {kvp.Value}\n");
             }
             return stringBuilder.ToString();
+        }
+
+        public void CalculateDifficultyFromProfile(PlayerProfile playerProfile)
+        {
+            if (playerProfile.PlayerProfileEnum == PlayerProfile.PlayerProfileCategory.Mastery)
+            {
+                Difficulty = DifficultyEnum.Hard;
+            }
+            else if (MasteryIsLessPreferred(playerProfile))
+            {
+                Difficulty = DifficultyEnum.Easy;
+            }
+            else
+            {
+                Difficulty = DifficultyEnum.Medium;
+            }
+        }
+
+        private bool MasteryIsLessPreferred(PlayerProfile playerProfile)
+        {
+            if (playerProfile.MasteryPreference > playerProfile.AchievementPreference)
+            {
+                return false;
+            }
+            if (playerProfile.MasteryPreference > playerProfile.CreativityPreference)
+            {
+                return false;
+            }
+            if (playerProfile.MasteryPreference > playerProfile.ImmersionPreference)
+            {
+                return false;
+            }
+            return true;
         }
 
         public void CalculateMonsterFromQuests(QuestLine quests)

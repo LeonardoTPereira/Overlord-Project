@@ -9,9 +9,8 @@ namespace Game.NarrativeGenerator
     [Serializable]
     public class QuestDungeonsParameters
     {
+        [SerializeField]
         private int _size = 0;
-        
-
         public int Size
         {
             get => _size;
@@ -52,9 +51,9 @@ namespace Game.NarrativeGenerator
                     explorationQuests++;
                     objectiveQuests++;
                 }
-                if (quest.IsTalkQuest())
+                else if (quest.IsTalkQuest())
                 {
-                    objectiveQuests++;
+                    explorationQuests++;
                 }
             }
             Debug.Log("ExplorationQuests: "+explorationQuests + " objective quests: "+objectiveQuests);
@@ -86,7 +85,8 @@ namespace Game.NarrativeGenerator
 
         private int GetLinearityFromEnum(int linearityMetric)
         {
-            float linearityCoefficient = linearityMetric/(float)Size;
+            var linearityCoefficient = linearityMetric/(float)Size;
+            Debug.Log("Linearity Coefficient: "+ linearityCoefficient);
             if (linearityCoefficient < 0.2f)
             {
                 return (int)DungeonLinearity.VeryLinear;
@@ -108,7 +108,8 @@ namespace Game.NarrativeGenerator
 
         private int GetNKeys(int objectiveQuests)
         {
-            float achievementCoefficient = objectiveQuests / (float) Size;
+            var achievementCoefficient = (objectiveQuests + 1) / (float) Size;
+            Debug.Log("Achievement Coefficient: "+ achievementCoefficient);
             if (achievementCoefficient < 0.2f)
             {
                 return (int)DungeonKeys.AFewKeys;

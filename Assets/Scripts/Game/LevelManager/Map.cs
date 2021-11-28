@@ -29,6 +29,7 @@ namespace Game.LevelManager
         private int nEnemies;
         private int nNPCs;
         private int nTreasure;
+        private int nTreasureRooms;
 
         // Valores para gerar salas sem o arquivo de definição interna
 
@@ -43,6 +44,11 @@ namespace Game.LevelManager
         public Coordinates StartRoomCoordinates { get => startRoomCoordinates; set => startRoomCoordinates = value; }
         public Coordinates FinalRoomCoordinates { get => finalRoomCoordinates; set => finalRoomCoordinates = value; }
         public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
+        public int NTreasureRooms
+        {
+            get => nTreasureRooms;
+            set => nTreasureRooms = value;
+        }
 
         /**
          * Constructor of the Map object that uses an input file for the dungeon
@@ -52,6 +58,7 @@ namespace Game.LevelManager
             GameManagerSingleton.instance.maxTreasure = 0;
             GameManagerSingleton.instance.maxRooms = 0;
             GameManagerSingleton.instance.maxEnemies = 0;
+            NTreasureRooms = 0;
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
 
@@ -79,6 +86,10 @@ namespace Game.LevelManager
                 if (currentDungeonPart.IsRoom())
                 {
                     nRooms++;
+                    if (currentDungeonPart.IsTreasureRoom())
+                    {
+                        NTreasureRooms++;
+                    }
                 }
                 if (currentDungeonPart.IsStartRoom())
                 {

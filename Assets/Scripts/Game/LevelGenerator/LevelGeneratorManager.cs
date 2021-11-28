@@ -65,6 +65,9 @@ namespace LevelGenerator
         public void EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
         {
             fitness = eventArgs.Fitness;
+            Debug.Log($"Fitness - room={fitness.DesiredRooms}, keys={fitness.DesiredKeys}, " +
+                      $"locks={fitness.DesiredLocks}, linearity={fitness.DesiredLinearity}, " +
+                      $"enemies{fitness.DesiredEnemies}");
             _questLine = eventArgs.QuestLineForDungeon;
             Debug.Log("Quest Line: "+_questLine.name);
             // Define the evolutionary parameters
@@ -102,7 +105,7 @@ namespace LevelGenerator
                     var individual = solution.map[e, l];
                     if (individual != null)
                     {
-                        Interface.PrintNumericalGridWithConnections(individual, fitness, treasureRuntimeSetSO, weaponTypeRuntimeSetSO, _questLine);
+                        Interface.PrintNumericalGridWithConnections(individual, fitness, _questLine);
                     }
                 }
             }

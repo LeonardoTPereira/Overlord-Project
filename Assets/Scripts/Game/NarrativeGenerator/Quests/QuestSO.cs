@@ -1,9 +1,6 @@
-﻿// ﻿using Game.NarrativeGenerator.Quests.QuestTerminals;
-using ScriptableObjects;
+﻿using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using ScriptableObjects;
-using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
 using Util;
 
@@ -23,7 +20,7 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private QuestSO previous;
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
-        [SerializeField] private TreasureSo reward;
+        [SerializeField] private ItemSo reward;
         private bool _canDrawNext;
 
         public QuestSO NextWhenSuccess { get => nextWhenSuccess; set => nextWhenSuccess = value; }
@@ -31,7 +28,7 @@ namespace Game.NarrativeGenerator.Quests
         public QuestSO Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
-        public TreasureSo Reward { get => reward; set => reward = value; }
+        public ItemSo Reward { get => reward; set => reward = value; }
 
         public virtual void Init()
         {
@@ -79,7 +76,6 @@ namespace Game.NarrativeGenerator.Quests
         
         public bool IsDropQuest()
         {
-            Debug.Log("Type: "+GetType() + " typeof(): " + typeof(DropQuestSo) + "Is assignable?" + GetType().IsAssignableFrom(typeof(DropQuestSo)));
             return typeof(DropQuestSo).IsAssignableFrom(GetType());
         }
 

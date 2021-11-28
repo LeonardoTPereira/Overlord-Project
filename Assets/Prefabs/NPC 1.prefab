@@ -561,7 +561,7 @@ MonoBehaviour:
   canvas: {fileID: 804351720952846550}
   npcName: {fileID: 3268435254522351018}
   dialogue: {fileID: 3340485443177149995}
-  npcSo: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  npcSo: {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
 --- !u!1 &3369027979799887738
 GameObject:
   m_ObjectHideFlags: 0

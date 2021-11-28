@@ -82,13 +82,14 @@ namespace Game.NarrativeGenerator
 
         private List<QuestSO> DrawMissions(List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
-            List<QuestSO> questsSos = new List<QuestSO>();
-            float newMissionDraw = 0;
-            float newMissionChance = 0;
+            var questsSos = new List<QuestSO>();
+            var newMissionDraw = 0.0f;
+            var chainCost = 0;
             do
             {
                 foreach (var item in questWeightsbyType)
                 {
+                    newMissionDraw = RandomSingleton.GetInstance().Random.Next((int)Enums.QuestWeights.Loved)+chainCost;
                     if (item.Value > newMissionDraw)
                     {
                         switch (item.Key)
@@ -111,10 +112,10 @@ namespace Game.NarrativeGenerator
                                 break;
                         }
                     }
-                    newMissionDraw = RandomSingleton.GetInstance().Random.Next(10);
                 }
-                newMissionChance += 2f;
-            } while (newMissionDraw > newMissionChance);
+
+                chainCost += (int)Enums.QuestWeights.Hated*2;
+            } while (chainCost < (int)Enums.QuestWeights.Loved);
 
             return questsSos;
         }

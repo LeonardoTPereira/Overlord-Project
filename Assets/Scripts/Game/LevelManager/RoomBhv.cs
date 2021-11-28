@@ -6,6 +6,7 @@ using Game.Events;
 using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -32,7 +33,7 @@ public class RoomBhv : MonoBehaviour
     public KeyBHV keyPrefab;
     public TriforceBHV triPrefab;
     public TreasureController treasurePrefab;
-    public NpcController[] npcPrefab;
+    public NpcController[] npcPrefabs;
 
     public Collider2D colNorth;
     public Collider2D colSouth;
@@ -82,11 +83,11 @@ public class RoomBhv : MonoBehaviour
         }
         if (RoomHasTreasure())
         {
-            PlaceTreasureInRoom();
+            PlaceTreasuresInRoom();
         }
         if (RoomHasNpc())
         {
-            PlaceNpcInRoom();
+            PlaceNpcsInRoom();
         }
         if (roomData.IsStartRoom())
         {
@@ -404,15 +405,26 @@ public class RoomBhv : MonoBehaviour
 
     private bool RoomHasTreasure()
     {
-        return roomData.Treasure > 0;
+        return roomData.Items != null;
     }
 
-    private void PlaceTreasureInRoom()
+    private void PlaceTreasuresInRoom()
     {
-        TreasureController treasure = Instantiate(treasurePrefab, transform);
-        treasure.Treasure = GameManagerSingleton.instance.treasureSet.Items[roomData.Treasure-1];
-        treasure.transform.position = availablePosition;
-        availablePosition.x += 1;
+        foreach (var itemAmountPair in roomData.Items.ItemAmountBySo)
+        {
+            PlaceTreasureInRoom(itemAmountPair.Key, itemAmountPair.Value);
+            availablePosition.x += 1;
+        }
+    }
+    private void PlaceTreasureInRoom(ItemSo item, int amount)
+    {
+        for (var i = 0; i < amount; i++)
+        {
+            var treasure = Instantiate(treasurePrefab, transform);
+            treasure.Treasure = item;
+            treasure.transform.position = availablePosition;
+            availablePosition.x += 1;
+        }
     }
 
     private void PlaceTriforceInRoom()
@@ -433,11 +445,27 @@ public class RoomBhv : MonoBehaviour
     }
 
     private bool RoomHasNpc(){
-        return roomData.NpcID > 0;
+        return roomData.Npcs != null;
+    }
+    
+    private void PlaceNpcsInRoom()
+    {
+        foreach (var npc in roomData.Npcs)
+        {
+            PlaceNpcInRoom(npc);
+            availablePosition.x += 1;
+        }
     }
 
-    private void PlaceNpcInRoom(){
-        NpcController npcController = Instantiate(npcPrefab[(roomData.NpcID-1)%3], transform);
+    private void PlaceNpcInRoom(NpcSO npc)
+    {
+        NpcController prefab = null;
+        foreach (var npcPrefab in npcPrefabs)
+        {
+            if (npcPrefab.NpcSo == npc)
+                prefab = npcPrefab;
+        }
+        var npcController = Instantiate(prefab, transform);
         npcController.transform.position = availablePosition;
         availablePosition.x += 1;
     }

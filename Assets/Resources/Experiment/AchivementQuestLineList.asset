@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5be4f87d63402a8a73f825ca2911cd, type: 3}
   m_Name: AchivementQuestLineList
   m_EditorClassIdentifier: 
-  QuestLines:
-  - {fileID: 11400000, guid: e41ea9240e5144746b99308a47c59ef8, type: 2}
+  QuestLines: []
