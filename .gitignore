@@ -105,3 +105,5 @@ C4_Container.puml
 C4_Context.puml
 System.plant
 .idea/
+*.csproj
+Assets/StreamingAssets/PlayerData/
