@@ -1,6 +1,0 @@
-﻿map,RoomID,playerInitialHealth,PlayerFinalHealth,HealthLost,TimeToExit,hasEnemies,nEnemies,EnemiesIds,
-R24-K4-L4-E6-L1-CE0.5~0.6-LE0.3~0.4,26,10,10,0,3755,True,1,Name: Enemy12,Amount: 1,
-R24-K4-L4-E6-L1-CE0.5~0.6-LE0.3~0.4,46,10,8,-2,2977,True,1,Name: Enemy2,Amount: 1,
-R24-K4-L4-E6-L1-CE0.5~0.6-LE0.3~0.4,66,8,8,0,3758,True,1,Name: Enemy39,Amount: 1,
-R24-K4-L4-E6-L1-CE0.5~0.6-LE0.3~0.4,62,8,8,0,2956,True,1,Name: Enemy21,Amount: 1,
-R24-K4-L4-E6-L1-CE0.5~0.6-LE0.3~0.4,60,8,0,-8,681,True,1,Name: Enemy19,Amount: 1,

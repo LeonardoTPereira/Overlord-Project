@@ -131,6 +131,8 @@ namespace Game.NarrativeGenerator
 
 #if UNITY_EDITOR
             AssetDatabase.Refresh();
+            AssetDatabase.SaveAssetIfDirty(_questLines);
+            AssetDatabase.Refresh();
             AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
 #endif
         }

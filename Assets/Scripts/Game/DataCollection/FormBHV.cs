@@ -45,7 +45,9 @@ namespace Game.DataCollection
 
         public void Submit()
         {
+            #if UNITY_EDITOR
             AssetDatabase.SaveAssetIfDirty(questionsData);
+            #endif
             List<int> answers = new List<int>();
             foreach (FormQuestionBHV q in questions)
             {

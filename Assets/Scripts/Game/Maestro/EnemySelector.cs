@@ -20,40 +20,41 @@ namespace Game.Maestro
 
         /// Select semi-randomly enemies to populate a room. The enemies types
         /// are controlled by the weapon they hold.
-        public static WeaponTypeAmountDictionary Select(
+        public static EnemiesByType Select(
             DungeonRoom room,
-            WeaponTypeAmountDictionary enemies
+            EnemiesByType enemies
         ) {
-            WeaponTypeAmountDictionary selected =
-                new WeaponTypeAmountDictionary();
+            var selected = new EnemiesByType();
             // Get enemies by attack method
+            // TODO update lists to dictionaries, they must contain how much of every type is available to draw
+            // If not, quest requirements can't be met
             List<WeaponTypeSO> melees = FilterMelees(enemies);
             List<WeaponTypeSO> rangers = FilterRangers(enemies);
             List<WeaponTypeSO> healers = FilterHealers(enemies);
             List<WeaponTypeSO> soldiers = MergeEnemyLists(melees, rangers);
             // Select enemies
-            System.Random rand = RandomSingleton.GetInstance().Random;
+            Random rand = RandomSingleton.GetInstance().Random;
             var amount = room.TotalEnemies;
             bool hasHealer = false;
             while (amount > 0)
             {
                 if (amount == SINGLE_CHALLENGE)
                 {
-                    AddEnemy(GetRandomEnemy(soldiers), ref selected);
+                    AddEnemy(soldiers.Count > 0 ? GetRandomEnemy(soldiers) : healers[0], selected, enemies);
                     amount -= SINGLE_CHALLENGE;
                 }
                 else if (amount == DOUBLE_CHALLENGE)
                 {
                     if (!hasHealer && rand.Next(CENT) < CHANCE)
                     {
-                        AddEnemy(healers[0], ref selected);
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
+                        AddEnemy(healers[0], selected, enemies);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
                         hasHealer = true;
                     }
                     else
                     {
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
                     }
                     amount -= DOUBLE_CHALLENGE;
                 }
@@ -61,16 +62,16 @@ namespace Game.Maestro
                 {
                     if (!hasHealer && rand.Next(CENT) < CHANCE)
                     {
-                        AddEnemy(healers[0], ref selected);
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
+                        AddEnemy(healers[0], selected, enemies);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
                         hasHealer = true;
                     }
                     else
                     {
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
-                        AddEnemy(GetRandomEnemy(soldiers), ref selected);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
+                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
                     }
                     amount -= MULTIPLE_CHALLENGE;
                 }
@@ -79,17 +80,20 @@ namespace Game.Maestro
         }
 
         /// Add the entered enemy in the entered dictionary of enemies.
-        private static void AddEnemy(
-            WeaponTypeSO enemy,
-            ref WeaponTypeAmountDictionary enemies
-        ) {
-            if (enemies.ContainsKey(enemy))
+        private static void AddEnemy(WeaponTypeSO enemy, EnemiesByType enemies, EnemiesByType totalEnemies) {
+            if (enemies.EnemiesByTypeDictionary.TryGetValue(enemy, out var enemiesForType))
             {
-                enemies[enemy]++;
+                enemies.EnemiesByTypeDictionary[enemy] = enemiesForType+1;
             }
             else
             {
-                enemies[enemy] = 1;
+                enemies.EnemiesByTypeDictionary.Add(enemy, 1);
+            }
+            //Remove a unit of the selected enemy from the total list and 
+            totalEnemies.EnemiesByTypeDictionary[enemy] -= 1;
+            if (totalEnemies.EnemiesByTypeDictionary[enemy] <= 0)
+            {
+                totalEnemies.EnemiesByTypeDictionary.Remove(enemy);
             }
         }
 
@@ -117,11 +121,9 @@ namespace Game.Maestro
         }
 
         /// Filter a dictionary of enemies and return the healer enemies.
-        private static List<WeaponTypeSO> FilterHealers(
-            WeaponTypeAmountDictionary enemies
-        ) {
+        private static List<WeaponTypeSO> FilterHealers(EnemiesByType enemies) {
             List<WeaponTypeSO> healers = new List<WeaponTypeSO>();
-            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies)
+            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies.EnemiesByTypeDictionary)
             {
                 if (IsHealer(enemy.Key))
                 {
@@ -132,11 +134,9 @@ namespace Game.Maestro
         }
 
         /// Filter a dictionary of enemies and return the ranger enemies.
-        private static List<WeaponTypeSO> FilterRangers(
-            WeaponTypeAmountDictionary enemies
-        ) {
+        private static List<WeaponTypeSO> FilterRangers(EnemiesByType enemies) {
             List<WeaponTypeSO> rangers = new List<WeaponTypeSO>();
-            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies)
+            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies.EnemiesByTypeDictionary)
             {
                 if (IsRanger(enemy.Key))
                 {
@@ -147,11 +147,9 @@ namespace Game.Maestro
         }
 
         /// Filter a dictionary of enemies and return the melee enemies.
-        private static List<WeaponTypeSO> FilterMelees(
-            WeaponTypeAmountDictionary enemies
-        ) {
+        private static List<WeaponTypeSO> FilterMelees(EnemiesByType enemies) {
             List<WeaponTypeSO> melees = new List<WeaponTypeSO>();
-            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies)
+            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies.EnemiesByTypeDictionary)
             {
                 if (IsMelee(enemy.Key))
                 {
@@ -162,10 +160,7 @@ namespace Game.Maestro
         }
 
         /// Merge two lists of enemies.
-        private static List<WeaponTypeSO> MergeEnemyLists(
-            List<WeaponTypeSO> enemies1,
-            List<WeaponTypeSO> enemies2
-        ) {
+        private static List<WeaponTypeSO> MergeEnemyLists(List<WeaponTypeSO> enemies1, List<WeaponTypeSO> enemies2) {
             List<WeaponTypeSO> enemies = new List<WeaponTypeSO>();
             foreach (WeaponTypeSO enemy in enemies1)
             {
@@ -179,9 +174,7 @@ namespace Game.Maestro
         }
 
         /// Return a random enemy (a pair of weapon type SO).
-        private static WeaponTypeSO GetRandomEnemy(
-            List<WeaponTypeSO> enemies
-        ) {
+        private static WeaponTypeSO GetRandomEnemy(List<WeaponTypeSO> enemies) {
             System.Random rand = RandomSingleton.GetInstance().Random;
             int index = rand.Next(enemies.Count);
             return enemies[index];

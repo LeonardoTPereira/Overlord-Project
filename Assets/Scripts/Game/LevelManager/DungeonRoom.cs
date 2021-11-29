@@ -35,6 +35,10 @@ namespace Game.LevelManager
         {
             KeyIDs = keyIDs;
             HasItemPreference = treasure > 0;
+            if (HasItemPreference)
+            {
+                Debug.Log("Found a leaf Node!");
+            }
             TotalEnemies = totalEnemies;
             HasNpcPreference = npc > 0;
             EnemiesByType = null;
@@ -49,10 +53,7 @@ namespace Game.LevelManager
 
         public Vector3 GetCenterMostFreeTilePosition()
         {
-            GameManagerSingleton gm = GameManagerSingleton.instance;
             Vector3 roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
-
-            DungeonRoom room = (DungeonRoom)gm.GetMap().DungeonPartByCoordinates[Coordinates];
             float minSqDist = Mathf.Infinity;
             int minX = 0; //será modificado
             int minY = 0; //será modificado
@@ -60,7 +61,7 @@ namespace Game.LevelManager
             {
                 for (int iy = 0; iy < dimensions.Height; iy++)
                 {
-                    if (room.Tiles[ix, iy] == (int) Enums.TileTypes.Floor)
+                    if (Tiles[ix, iy] == (int) Enums.TileTypes.Floor)
                     { //é passável?
                         float sqDist = Mathf.Pow(ix - roomSelfCenter.x, 2) + Mathf.Pow(iy - roomSelfCenter.y, 2);
                         if (sqDist <= minSqDist)
@@ -73,6 +74,24 @@ namespace Game.LevelManager
                 }
             }
             return new Vector3(minX, dimensions.Height - 1 - minY, 0) - roomSelfCenter;
+        }
+        public Vector3 GetNextAvailablePosition(Vector3 currentPosition)
+        {
+            Debug.Log("Current pos: "+ currentPosition);
+            Vector3 roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
+            Debug.Log("Room center: "+ roomSelfCenter);
+            Vector3 newFreePosition = new Vector3(currentPosition.x, currentPosition.y, 0) + roomSelfCenter;
+            Debug.Log("New Position: " + newFreePosition);
+            do
+            {
+                Debug.Log("New Position in Loop: " + newFreePosition);
+                newFreePosition.x += 1;
+                if (newFreePosition.x <= 3 * dimensions.Width / 4) continue;
+                newFreePosition.x = dimensions.Width/4;
+                newFreePosition.y += 1;
+            } while (Tiles[(int)newFreePosition.x, (int)newFreePosition.y] != (int) Enums.TileTypes.Floor);
+
+            return new Vector3(newFreePosition.x, dimensions.Height - 1 - newFreePosition.y, 0) - roomSelfCenter;
         }
 
         public void CreateRoom(Dimensions roomDimensions)

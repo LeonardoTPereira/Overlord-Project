@@ -63,12 +63,9 @@ namespace Game.NarrativeGenerator
 
         private int GetSizeFromEnum(int totalQuests, float explorationPreference)
         {
-            var explorationMultiplier = explorationPreference / 2.0f + 1;
+            var explorationMultiplier = explorationPreference / 7.0f + 1;
             int dungeonSizeCoefficient = (int)(totalQuests * explorationMultiplier);
-            var sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.VeryLarge;
-            if (sizeFromEnum > 0)
-                return dungeonSizeCoefficient;
-            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Large;
+            var sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Large;
             if (sizeFromEnum > 0)
                 return (int)DungeonSize.VeryLarge;
             sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Medium;

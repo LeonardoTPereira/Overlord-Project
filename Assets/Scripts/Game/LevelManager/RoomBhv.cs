@@ -22,8 +22,10 @@ public class RoomBhv : MonoBehaviour
     public List<int> westDoor;
 
     public bool hasEnemies;
+    private bool _hasPlacedInCenter;
     public Dictionary<EnemySO, int> enemiesDictionary;
     private int enemiesDead;
+    private Vector3 position;
 
     public DoorBhv doorNorth;
     public DoorBhv doorSouth;
@@ -60,6 +62,7 @@ public class RoomBhv : MonoBehaviour
     private void Awake()
     {
         hasEnemies = false;
+        _hasPlacedInCenter = false;
         enemiesDictionary = new Dictionary<EnemySO, int>();
         enemiesDead = 0;
         isArena = GameManagerSingleton.instance.arenaMode;
@@ -76,7 +79,7 @@ public class RoomBhv : MonoBehaviour
         }
 
         SetLayout();
-        SetCenterPosition();
+        position = transform.position;
         if (RoomHasKey())
         {
             PlaceKeysInRoom();
@@ -93,7 +96,7 @@ public class RoomBhv : MonoBehaviour
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
             minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(GetAvailablePosition()));
+            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(position));
         }
         else if (roomData.IsFinalRoom())
         {
@@ -392,12 +395,12 @@ public class RoomBhv : MonoBehaviour
         foreach (int actualKey in roomData.KeyIDs)
         {
             PlaceKeyInRoom(actualKey);
-            availablePosition.x += 1;
         }
     }
 
     private void PlaceKeyInRoom(int keyId)
     {
+        GetAvailablePosition();
         KeyBHV key = Instantiate(keyPrefab, availablePosition, transform.rotation);
         key.transform.position = availablePosition;
         key.keyID = keyId;
@@ -413,35 +416,38 @@ public class RoomBhv : MonoBehaviour
         foreach (var itemAmountPair in roomData.Items.ItemAmountBySo)
         {
             PlaceTreasureInRoom(itemAmountPair.Key, itemAmountPair.Value);
-            availablePosition.x += 1;
         }
     }
     private void PlaceTreasureInRoom(ItemSo item, int amount)
     {
         for (var i = 0; i < amount; i++)
         {
+            GetAvailablePosition();
             var treasure = Instantiate(treasurePrefab, transform);
             treasure.Treasure = item;
             treasure.transform.position = availablePosition;
-            availablePosition.x += 1;
         }
     }
 
     private void PlaceTriforceInRoom()
     {
+        GetAvailablePosition();
         TriforceBHV tri = Instantiate(triPrefab, transform);
         tri.transform.position = availablePosition;
-        availablePosition.x += 1;
+        
     }
 
-    private Vector3 GetAvailablePosition()
+    private void GetAvailablePosition()
     {
-        return availablePosition;
-    }
-
-    private void SetCenterPosition()
-    {
-        availablePosition = roomData.GetCenterMostFreeTilePosition() + transform.position;
+        if (!_hasPlacedInCenter)
+        {
+            availablePosition = roomData.GetCenterMostFreeTilePosition() + position;
+            _hasPlacedInCenter = true;
+        }
+        else
+        {
+            availablePosition = roomData.GetNextAvailablePosition(availablePosition - position) + position;
+        }
     }
 
     private bool RoomHasNpc(){
@@ -453,7 +459,6 @@ public class RoomBhv : MonoBehaviour
         foreach (var npc in roomData.Npcs)
         {
             PlaceNpcInRoom(npc);
-            availablePosition.x += 1;
         }
     }
 
@@ -466,8 +471,8 @@ public class RoomBhv : MonoBehaviour
                 prefab = npcPrefab;
         }
         var npcController = Instantiate(prefab, transform);
+        GetAvailablePosition();
         npcController.transform.position = availablePosition;
-        availablePosition.x += 1;
     }
     
     

@@ -7,6 +7,7 @@ using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
+using UnityEditor;
 using UnityEngine;
 using static Util.Enums;
 
@@ -109,6 +110,9 @@ namespace LevelGenerator
                     }
                 }
             }
+            #if UNITY_EDITOR
+            AssetDatabase.Refresh();
+            #endif
             Debug.Log("The dungeons were printed!");
             // Set the first level as the option to be played in the scene
             aux = solution.map[0, 0].dungeon;

@@ -101,7 +101,6 @@ namespace LevelGenerator
 
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
             _questLine.DungeonFileSos.Add(dungeonFileSO);
-            AssetDatabase.SaveAssetIfDirty(_questLine);
             Debug.Log("Finished Writing dungeon data");
 #endif
         }
@@ -181,6 +180,7 @@ namespace LevelGenerator
             //TODO: change this as now every room may contain treasures, enemies and/or keys
             else if (roomType == Common.RoomType.TREASURE)
             {
+                roomDataInFile.type = "T";
                 roomDataInFile.treasures = 1;
                 roomDataInFile.npcs = 1;
                 roomDataInFile.TotalEnemies = roomGrid.enemies;

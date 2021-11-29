@@ -30,9 +30,7 @@ namespace Game.LevelManager
             {
                 if (dungeonPart.Value is DungeonRoom dungeonRoom && !dungeonRoom.IsStartRoom())
                 {
-                    dungeonRoom.EnemiesByType = new EnemiesByType();
-                    dungeonRoom.EnemiesByType.EnemiesByTypeDictionary =
-                        EnemySelector.Select(dungeonRoom, enemiesInQuestByType.EnemiesByTypeDictionary);
+                    dungeonRoom.EnemiesByType = SelectWeaponTypesForRoom(dungeonRoom, enemiesInQuestByType);
                 }
             }
         }
