@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ef11afdbd8a2f34448943ffdea9943ac
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _gameObject: {instanceID: 0}
+  - _material: {instanceID: 0}
+  - _audioClip: {instanceID: 0}
+  - _weaponTypeSo: {instanceID: 0}
+  - _itemSo: {fileID: 11400000, guid: 01f4e06fc8325be42b61ea230eb087e9, type: 2}
+  - _treasureSo: {fileID: 11400000, guid: 01f4e06fc8325be42b61ea230eb087e9, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

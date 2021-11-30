@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 
 public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);

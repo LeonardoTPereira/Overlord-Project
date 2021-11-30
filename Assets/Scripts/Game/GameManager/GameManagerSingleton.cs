@@ -39,7 +39,7 @@ namespace Game.GameManager
         public EnemyComponentsSO enemyComponents;
 
         public QuestLine currentQuestLine;
-        protected Program generator;
+        protected LevelGeneratorManager generator;
         public Dungeon createdDungeon;
 #if UNITY_EDITOR
         [Separator("Other Stuff")]
@@ -206,9 +206,9 @@ namespace Game.GameManager
                 targetCoordinates = new Coordinates(dungeonRoom.Coordinates.X, dungeonRoom.Coordinates.Y + 1);
                 newRoom.southDoor = CheckCorridor(targetCoordinates);
             }
-            if (dungeonRoom.Treasure > 0)
+            if (dungeonRoom.Items != null)
             {
-                maxTreasure += treasureSet.Items[dungeonRoom.Treasure-1].value;
+                maxTreasure += dungeonRoom.Items.GetTotalItems();
             }
             //Sets room transform position
             newRoom.gameObject.transform.position = 
@@ -247,15 +247,12 @@ namespace Game.GameManager
             {
                 throw new NotImplementedException("Need to implement method to pass DungeonSO");
             }
-            
-                        
-            //TODO DELETE THIS WHEN FIXED!!!
-
-            currentQuestLine.CreateDummyEnemyParameters();
 
             LoadMap(dungeonFileSo);
             
             EnemyDispenser.DistributeEnemiesInDungeon(map, currentQuestLine);
+            ItemDispenser.DistributeItemsInDungeon(map, currentQuestLine);
+            //Todo distribute npcs in dungeon
             
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 
@@ -317,7 +314,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBHV.GotTriforceEventHandler += LevelComplete;
-            FormBHV.PostTestFormAnswered += EndGame;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
         }
         void OnDisable()
         {
@@ -331,7 +328,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBHV.GotTriforceEventHandler -= LevelComplete;
-            FormBHV.PostTestFormAnswered -= EndGame;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
         }
 
         void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)

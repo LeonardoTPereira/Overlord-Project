@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5be4f87d63402a8a73f825ca2911cd, type: 3}
   m_Name: MasteryQuestLineList
   m_EditorClassIdentifier: 
-  QuestLines:
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
-  - {fileID: 11400000, guid: 05ca51ed0efdc5c45980b3d9babf1dd3, type: 2}
+  QuestLines: []

@@ -6,6 +6,7 @@ using Game.Events;
 using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -21,8 +22,10 @@ public class RoomBhv : MonoBehaviour
     public List<int> westDoor;
 
     public bool hasEnemies;
+    private bool _hasPlacedInCenter;
     public Dictionary<EnemySO, int> enemiesDictionary;
     private int enemiesDead;
+    private Vector3 position;
 
     public DoorBhv doorNorth;
     public DoorBhv doorSouth;
@@ -32,7 +35,7 @@ public class RoomBhv : MonoBehaviour
     public KeyBHV keyPrefab;
     public TriforceBHV triPrefab;
     public TreasureController treasurePrefab;
-    public NpcController[] npcPrefab;
+    public NpcController[] npcPrefabs;
 
     public Collider2D colNorth;
     public Collider2D colSouth;
@@ -59,6 +62,7 @@ public class RoomBhv : MonoBehaviour
     private void Awake()
     {
         hasEnemies = false;
+        _hasPlacedInCenter = false;
         enemiesDictionary = new Dictionary<EnemySO, int>();
         enemiesDead = 0;
         isArena = GameManagerSingleton.instance.arenaMode;
@@ -75,24 +79,24 @@ public class RoomBhv : MonoBehaviour
         }
 
         SetLayout();
-        SetCenterPosition();
+        position = transform.position;
         if (RoomHasKey())
         {
             PlaceKeysInRoom();
         }
         if (RoomHasTreasure())
         {
-            PlaceTreasureInRoom();
+            PlaceTreasuresInRoom();
         }
         if (RoomHasNpc())
         {
-            PlaceNpcInRoom();
+            PlaceNpcsInRoom();
         }
         if (roomData.IsStartRoom())
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
             minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(GetAvailablePosition()));
+            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(position));
         }
         else if (roomData.IsFinalRoom())
         {
@@ -308,6 +312,7 @@ public class RoomBhv : MonoBehaviour
     private void SelectEnemies()
     {
         if (roomData.EnemiesByType == null && !isArena) return;
+        if (roomData.EnemiesByType.EnemiesByTypeDictionary.Count == 0) return;
         hasEnemies = true;
         if (isArena)
         {
@@ -390,12 +395,12 @@ public class RoomBhv : MonoBehaviour
         foreach (int actualKey in roomData.KeyIDs)
         {
             PlaceKeyInRoom(actualKey);
-            availablePosition.x += 1;
         }
     }
 
     private void PlaceKeyInRoom(int keyId)
     {
+        GetAvailablePosition();
         KeyBHV key = Instantiate(keyPrefab, availablePosition, transform.rotation);
         key.transform.position = availablePosition;
         key.keyID = keyId;
@@ -403,42 +408,71 @@ public class RoomBhv : MonoBehaviour
 
     private bool RoomHasTreasure()
     {
-        return roomData.Treasure > 0;
+        return roomData.Items != null;
     }
 
-    private void PlaceTreasureInRoom()
+    private void PlaceTreasuresInRoom()
     {
-        TreasureController treasure = Instantiate(treasurePrefab, transform);
-        treasure.Treasure = GameManagerSingleton.instance.treasureSet.Items[roomData.Treasure-1];
-        treasure.transform.position = availablePosition;
-        availablePosition.x += 1;
+        foreach (var itemAmountPair in roomData.Items.ItemAmountBySo)
+        {
+            PlaceTreasureInRoom(itemAmountPair.Key, itemAmountPair.Value);
+        }
+    }
+    private void PlaceTreasureInRoom(ItemSo item, int amount)
+    {
+        for (var i = 0; i < amount; i++)
+        {
+            GetAvailablePosition();
+            var treasure = Instantiate(treasurePrefab, transform);
+            treasure.Treasure = item;
+            treasure.transform.position = availablePosition;
+        }
     }
 
     private void PlaceTriforceInRoom()
     {
+        GetAvailablePosition();
         TriforceBHV tri = Instantiate(triPrefab, transform);
         tri.transform.position = availablePosition;
-        availablePosition.x += 1;
+        
     }
 
-    private Vector3 GetAvailablePosition()
+    private void GetAvailablePosition()
     {
-        return availablePosition;
-    }
-
-    private void SetCenterPosition()
-    {
-        availablePosition = roomData.GetCenterMostFreeTilePosition() + transform.position;
+        if (!_hasPlacedInCenter)
+        {
+            availablePosition = roomData.GetCenterMostFreeTilePosition() + position;
+            _hasPlacedInCenter = true;
+        }
+        else
+        {
+            availablePosition = roomData.GetNextAvailablePosition(availablePosition - position) + position;
+        }
     }
 
     private bool RoomHasNpc(){
-        return roomData.NpcID > 0;
+        return roomData.Npcs != null;
+    }
+    
+    private void PlaceNpcsInRoom()
+    {
+        foreach (var npc in roomData.Npcs)
+        {
+            PlaceNpcInRoom(npc);
+        }
     }
 
-    private void PlaceNpcInRoom(){
-        NpcController npcController = Instantiate(npcPrefab[(roomData.NpcID-1)%3], transform);
+    private void PlaceNpcInRoom(NpcSO npc)
+    {
+        NpcController prefab = null;
+        foreach (var npcPrefab in npcPrefabs)
+        {
+            if (npcPrefab.NpcSo == npc)
+                prefab = npcPrefab;
+        }
+        var npcController = Instantiate(prefab, transform);
+        GetAvailablePosition();
         npcController.transform.position = availablePosition;
-        availablePosition.x += 1;
     }
     
     

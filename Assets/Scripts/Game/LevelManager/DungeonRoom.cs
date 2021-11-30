@@ -1,30 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.GameManager;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.NpcRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 
 namespace Game.LevelManager
 {
+    [Serializable]
     public class DungeonRoom : DungeonPart
     {
         protected Dimensions dimensions; // inicializar valores antes de acessar os tiles
         private int[,] tiles = null;
+        [SerializeField]
         private List<int> keyIDs;
-        protected int treasure;
-        private RoomBhv roomBHV;
-        private int npcID;
-        private Dictionary<WeaponTypeSO, int> _enemiesByType;
-        private int _totalEnemies;
+        [SerializeField]
+        protected ItemsAmount items;
+        [SerializeField]
+        private List<NpcSO> npcs;
+        [SerializeField]
+        private EnemiesByType enemiesByType;
+        [SerializeField]
+        private int totalEnemies;
+
+        [field: SerializeField] public bool HasItemPreference { get; set; }
+
+        [field: SerializeField] public bool HasNpcPreference { get; set; }
 
         public DungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int treasure, int totalEnemies, int npc) : base(coordinates, code)
         {
             KeyIDs = keyIDs;
-            Treasure = treasure;
+            HasItemPreference = treasure > 0;
+            if (HasItemPreference)
+            {
+                Debug.Log("Found a leaf Node!");
+            }
             TotalEnemies = totalEnemies;
-            NpcID = npc;
+            HasNpcPreference = npc > 0;
             EnemiesByType = null;
+            Items = null;
+            Npcs = null;
         }
 
         public void InitializeTiles()
@@ -34,10 +53,7 @@ namespace Game.LevelManager
 
         public Vector3 GetCenterMostFreeTilePosition()
         {
-            GameManagerSingleton gm = GameManagerSingleton.instance;
             Vector3 roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
-
-            DungeonRoom room = (DungeonRoom)gm.GetMap().DungeonPartByCoordinates[Coordinates];
             float minSqDist = Mathf.Infinity;
             int minX = 0; //será modificado
             int minY = 0; //será modificado
@@ -45,7 +61,7 @@ namespace Game.LevelManager
             {
                 for (int iy = 0; iy < dimensions.Height; iy++)
                 {
-                    if (room.Tiles[ix, iy] == (int) Enums.TileTypes.Floor)
+                    if (Tiles[ix, iy] == (int) Enums.TileTypes.Floor)
                     { //é passável?
                         float sqDist = Mathf.Pow(ix - roomSelfCenter.x, 2) + Mathf.Pow(iy - roomSelfCenter.y, 2);
                         if (sqDist <= minSqDist)
@@ -59,6 +75,24 @@ namespace Game.LevelManager
             }
             return new Vector3(minX, dimensions.Height - 1 - minY, 0) - roomSelfCenter;
         }
+        public Vector3 GetNextAvailablePosition(Vector3 currentPosition)
+        {
+            Debug.Log("Current pos: "+ currentPosition);
+            Vector3 roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
+            Debug.Log("Room center: "+ roomSelfCenter);
+            Vector3 newFreePosition = new Vector3(currentPosition.x, currentPosition.y, 0) + roomSelfCenter;
+            Debug.Log("New Position: " + newFreePosition);
+            do
+            {
+                Debug.Log("New Position in Loop: " + newFreePosition);
+                newFreePosition.x += 1;
+                if (newFreePosition.x <= 3 * dimensions.Width / 4) continue;
+                newFreePosition.x = dimensions.Width/4;
+                newFreePosition.y += 1;
+            } while (Tiles[(int)newFreePosition.x, (int)newFreePosition.y] != (int) Enums.TileTypes.Floor);
+
+            return new Vector3(newFreePosition.x, dimensions.Height - 1 - newFreePosition.y, 0) - roomSelfCenter;
+        }
 
         public void CreateRoom(Dimensions roomDimensions)
         {
@@ -70,19 +104,19 @@ namespace Game.LevelManager
 
         public int TotalEnemies 
         {
-            get => _totalEnemies;
-            set => _totalEnemies = value;
+            get => totalEnemies;
+            set => totalEnemies = value;
         }
-        public Dictionary<WeaponTypeSO, int> EnemiesByType 
+        public EnemiesByType EnemiesByType 
         {
-            get => _enemiesByType;
-            set => _enemiesByType = value;
+            get => enemiesByType;
+            set => enemiesByType = value;
         }
 
-        public int Treasure 
+        public ItemsAmount Items
         {
-            get => treasure; 
-            set => treasure = value;
+            get => items; 
+            set => items = value;
         }
 
         public Dimensions Dimensions 
@@ -103,10 +137,10 @@ namespace Game.LevelManager
             set => keyIDs = value;
         }
 
-        public int NpcID
+        public List<NpcSO> Npcs
         {
-            get => npcID; 
-            set => npcID = value;
+            get => npcs; 
+            set => npcs = value;
         }
     }
 }

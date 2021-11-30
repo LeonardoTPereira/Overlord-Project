@@ -5,7 +5,7 @@ using UnityEngine;
 public class TreasureController : PlaceableRoomObject
 {
     [SerializeField]
-    public TreasureSO Treasure { get; set; }
+    public ItemSo Treasure { get; set; }
     [SerializeField]
     private AudioClip takenSnd;
     private AudioSource audioSrc;

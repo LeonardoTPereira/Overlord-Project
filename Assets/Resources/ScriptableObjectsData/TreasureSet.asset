@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TreasureSet
   m_EditorClassIdentifier: 
   Items:
-  - {fileID: 11400000, guid: 6bf94bdd4c7554a44a570445805fb741, type: 2}
-  - {fileID: 11400000, guid: 01f4e06fc8325be42b61ea230eb087e9, type: 2}
-  - {fileID: 11400000, guid: 5b91b65df5066d44a94809f699a2a3d0, type: 2}
-  - {fileID: 11400000, guid: 1fd177b012743e448a789b93d102d145, type: 2}
-  - {fileID: 11400000, guid: f18d055cb2e688c408d981f341eabc94, type: 2}
+  - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+  - {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}
+  - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+  - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+  - {fileID: 11400000, guid: 6881e33f4c55a2846b553f11159e8bac, type: 2}

@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c069680a34ca77146b84919dda4b894e, type: 3}
+  m_Name: Narrative_Kill 10 None (ScriptableObjects.WeaponTypeSO)s (Game.NarrativeGenerator.Quests.QuestTerminals.KillQuestSO)
+  m_EditorClassIdentifier: 
+  graph:
+  - {fileID: 11400000, guid: 4f02e7c24f3468e44b6d70a0f98f0ec9, type: 2}
+  - {fileID: 11400000, guid: 3b4c128d81467a04b9d186cb8f06adc8, type: 2}
+  - {fileID: 11400000, guid: 94f68114d29d0d24baca436b973a417c, type: 2}
+  - {fileID: 11400000, guid: 8fe701c6df4f4bc4d962e8dd00014f15, type: 2}
+  - {fileID: 11400000, guid: 5c518fcaa7b024b4ebd792809799135e, type: 2}
+  - {fileID: 11400000, guid: 0591a1a56b46bfe429644c81d81c2816, type: 2}
+  - {fileID: 11400000, guid: 6d137ac7c4cd813409ac77132489f7e7, type: 2}
+  - {fileID: 11400000, guid: e9b98c040491d5a44aa2e3ff7795c381, type: 2}
+  - {fileID: 11400000, guid: 0fa96989ce8c01546955210f825cbd5e, type: 2}
+  - {fileID: 11400000, guid: 140078a96dbdbfe41ae0aacb08be68a8, type: 2}
+  - {fileID: 11400000, guid: 1714ee212e2f93943bf7e08421cefc51, type: 2}
+  - {fileID: 11400000, guid: f8d805c2731f1674aa25226d0fca6f37, type: 2}
+  - {fileID: 11400000, guid: a6cfaa8199aa42e489588c5eed267aaa, type: 2}
+  - {fileID: 11400000, guid: 6a98ebb2b62ba18489c51e5612739e93, type: 2}
+  - {fileID: 11400000, guid: 727770e9c063d784cbd3e8af1f148e80, type: 2}
+  - {fileID: 11400000, guid: d2fa0be2a1331b74a9b0f230984a1c03, type: 2}
+  - {fileID: 11400000, guid: 4380bb2499c40b04181130ac87e7e5f3, type: 2}
+  - {fileID: 11400000, guid: 727d0e174a25fe14d9ab21adbf027753, type: 2}
+  - {fileID: 11400000, guid: 9fec8a4d660583148ab56a62f5d42663, type: 2}
+  - {fileID: 11400000, guid: 06edef959bf55ab45b20fc95cc810674, type: 2}
+  _dungeonFileSos: []
+  _npcParametersForQuestLine:
+    totalNpcs: 0
+  _itemParametersForQuestLine:
+    <ItemsByType>k__BackingField:
+      itemAmountBySo:
+        reorderableList:
+          canAdd: 0
+          canRemove: 0
+          draggable: 0
+          expandable: 0
+          multipleSelection: 0
+          isExpanded: 0
+          label:
+            m_Text: 
+            m_Image: {fileID: 0}
+            m_Tooltip: 
+          headerHeight: 0
+          footerHeight: 0
+          slideEasing: 0
+          verticalSpacing: 0
+          showDefaultBackground: 0
+          elementDisplayType: 0
+          elementNameProperty: 
+          elementNameOverride: 
+          elementIcon: {fileID: 0}
+        reqReferences: {fileID: 0}
+        isExpanded: 0
+        _keyValues:
+        - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+        - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+        _keys:
+        - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+        - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+        _values: 0c00000001000000
+    <TotalItems>k__BackingField: 13
+  _enemySos:
+  - {fileID: 11400000, guid: a6474dc779018a747a57b094ed41abf8, type: 2}
+  - {fileID: 11400000, guid: e63899b81b352af4db13d0b01c085851, type: 2}
+  - {fileID: 11400000, guid: c53ced72e1891b849b2abd035bdf1739, type: 2}
+  - {fileID: 11400000, guid: b72f034dacbd12a40b4bd9c6fe5b2e42, type: 2}
+  - {fileID: 11400000, guid: 9b5603839060b554182a1e58cd9f750e, type: 2}
+  - {fileID: 11400000, guid: d9fdd7b2c9362a7449e0ccf50d90b2e5, type: 2}
+  - {fileID: 11400000, guid: 62daa850262673845bf56125df9fccfb, type: 2}
+  - {fileID: 11400000, guid: e654eb691fbf5cf4c825fbd81e3926eb, type: 2}
+  - {fileID: 11400000, guid: f4b6416801c30a04db8238eedd23f95d, type: 2}
+  - {fileID: 11400000, guid: 478c27b6669fe6f4188c38dd76f48e22, type: 2}
+  - {fileID: 11400000, guid: 45c3bd53973bedc4cab366b5c3d0db1d, type: 2}
+  - {fileID: 11400000, guid: eaf5d2651ba3bf7438e0f5b4a056884c, type: 2}
+  - {fileID: 11400000, guid: 22dddbbb1a662654596e01cba5aa938b, type: 2}
+  - {fileID: 11400000, guid: 30ea6079ccc9b444599f34dec5a00f49, type: 2}
+  - {fileID: 11400000, guid: bb99ae262a8f8e945a71b356830c1b68, type: 2}
+  - {fileID: 11400000, guid: a4164feb50c17aa4ca4dad95bc3bb560, type: 2}
+  - {fileID: 11400000, guid: 7a4bd3f528561fb419744146e5def2ee, type: 2}
+  - {fileID: 11400000, guid: 77083fa3f4ad92b42b460a23cf13d3d2, type: 2}
+  - {fileID: 11400000, guid: e680ebc5ebfd1f247b8e86ea66c8fd1c, type: 2}
+  - {fileID: 11400000, guid: 2b0b85f2bfa8073418a2584a17ee1e91, type: 2}
+  - {fileID: 11400000, guid: 56b69b9ef63d30e45b355a838b97cac1, type: 2}
+  - {fileID: 11400000, guid: 05ebeb3495f1cf94f9f427f2a8433ae7, type: 2}
+  - {fileID: 11400000, guid: 454d23fff458e6b409bba5a15865ea51, type: 2}
+  - {fileID: 11400000, guid: e9c4c6f898b800247b36041d66b95fbb, type: 2}
+  - {fileID: 11400000, guid: 6c4083327ec24ed45a624b62e44d885e, type: 2}
+  - {fileID: 11400000, guid: 54510f7e350d7bd439053f12eb477638, type: 2}
+  - {fileID: 11400000, guid: 0b29d868859d82045b3866dbf10870c7, type: 2}
+  - {fileID: 11400000, guid: 117c2f90fbbde7d4da9c3cc21c6c8938, type: 2}
+  - {fileID: 11400000, guid: 0b402e20f573a654ab08f59d220bc8f3, type: 2}
+  - {fileID: 11400000, guid: 7bfed66fc0405ef4d8438d16e5f56806, type: 2}
+  - {fileID: 11400000, guid: 220356ec4d7a96a40a37e3a38f3abac3, type: 2}
+  - {fileID: 11400000, guid: 32bf2a6dc952df84d9e92e63f0e0c4d0, type: 2}
+  - {fileID: 11400000, guid: 16594684f30ad4c44adb9069147304b9, type: 2}
+  - {fileID: 11400000, guid: 7a1ab9ad70ca88c4cb04d62415ff5edf, type: 2}
+  - {fileID: 11400000, guid: bb12f4cef412d814f80c85d9bd31e296, type: 2}
+  - {fileID: 11400000, guid: 30b0d006f0f8f55468eb91d3bb094b2b, type: 2}
+  - {fileID: 11400000, guid: aeede3b59bf45e748b9a3c7a99d9d290, type: 2}
+  - {fileID: 11400000, guid: 31a9b809875884c44b2a83efc4b83e28, type: 2}
+  - {fileID: 11400000, guid: a46bfe41332d5bd49b14f5ee3b530aef, type: 2}
+  - {fileID: 11400000, guid: 1167a7e4e5135b74bb72d09cc80572f5, type: 2}
+  - {fileID: 11400000, guid: 73077e1fe5a7d804bad962a0885578bd, type: 2}
+  - {fileID: 11400000, guid: 28bea8e583f47a743854e92ec8f7be13, type: 2}
+  _npcSos:
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  _itemSos:
+  - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+  - {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}
+  - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+  - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+  - {fileID: 11400000, guid: 6881e33f4c55a2846b553f11159e8bac, type: 2}
+  dungeonParametersForQuestLine:
+    _size: 24
+    <NKeys>k__BackingField: 3
+    <LinearityEnum>k__BackingField: 2
+  enemyParametersForQuestLine:
+    <TotalByType>k__BackingField:
+      enemiesByType:
+        reorderableList:
+          canAdd: 0
+          canRemove: 0
+          draggable: 0
+          expandable: 0
+          multipleSelection: 0
+          isExpanded: 0
+          label:
+            m_Text: 
+            m_Image: {fileID: 0}
+            m_Tooltip: 
+          headerHeight: 0
+          footerHeight: 0
+          slideEasing: 0
+          verticalSpacing: 0
+          showDefaultBackground: 0
+          elementDisplayType: 0
+          elementNameProperty: 
+          elementNameOverride: 
+          elementIcon: {fileID: 0}
+        reqReferences: {fileID: 0}
+        isExpanded: 0
+        _keyValues:
+        - {fileID: 11400000, guid: aa33993ac0a84824897db8146f732030, type: 2}
+        - {fileID: 11400000, guid: f03063efdc35e3b428c1b906a4a3d5c8, type: 2}
+        - {fileID: 11400000, guid: 76e26f142b9657047982d5625e65bac0, type: 2}
+        _keys:
+        - {fileID: 11400000, guid: aa33993ac0a84824897db8146f732030, type: 2}
+        - {fileID: 11400000, guid: f03063efdc35e3b428c1b906a4a3d5c8, type: 2}
+        - {fileID: 11400000, guid: 76e26f142b9657047982d5625e65bac0, type: 2}
+        _values: 2e0000000a0000000a000000
+    <NEnemies>k__BackingField: 66
+    <Difficulty>k__BackingField: 3

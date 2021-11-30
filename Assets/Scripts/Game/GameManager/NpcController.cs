@@ -9,8 +9,8 @@ namespace Game.GameManager
     {
         [SerializeField] private NpcDialogueSO dialogues;
         [SerializeField] private GameObject canvas, npcName, dialogue;
-        [SerializeField] private NpcSO npcSo;
-    
+        [field: SerializeField] public NpcSO NpcSo { get; }
+
         public static event EventHandler DialogueOpenEventHandler;
         public static event EventHandler DialogueCloseEventHandler;
 
@@ -18,7 +18,7 @@ namespace Game.GameManager
         public void Start()
         {
             dialogue.GetComponent<TextMeshProUGUI>().text = dialogues.Dialogues[UnityEngine.Random.Range(0, 3)];
-            npcName.GetComponent<TextMeshProUGUI>().text = npcSo.NpcName;
+            npcName.GetComponent<TextMeshProUGUI>().text = NpcSo.NpcName;
         }
 
         public void OnCollisionEnter2D(Collision2D collision)

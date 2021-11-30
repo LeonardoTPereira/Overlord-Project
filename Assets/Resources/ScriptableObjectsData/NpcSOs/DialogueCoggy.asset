@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae595d8f9891bb044a1d41a730eb881a, type: 3}
   m_Name: DialogueCoggy
   m_EditorClassIdentifier: 
-  npcName: Coggy
   dialogues:
   - "Hey, eu sou o Coggy. Obrigado por me salvar!\nMinhas engrenagens estavam enferrujando
     j\xE1."
   - "Yay! Estou livre!\nVou dar uma volta por a\xED. At\xE9!"
   - "Voc\xEA \xE9 meu her\xF3i!\nEstava preso nesse calabou\xE7o e quase morri de
     t\xE9dio! Fui!"
+  npc: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}

@@ -182,11 +182,12 @@ namespace Game.DataCollection
             HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
             GameManagerSingleton.FinishMapEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
-            FormBHV.FormQuestionAnsweredEventHandler += OnFormAnswered;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             Player.ExitRoomEventHandler += OnRoomExit;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             GameManagerSingleton.StartMapEventHandler += OnMapStart;
-            Manager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
+            QuestGeneratorManager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnProfileSelected;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             NpcController.DialogueOpenEventHandler += OnInteractNPC;
@@ -207,22 +208,25 @@ namespace Game.DataCollection
             HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
             GameManagerSingleton.FinishMapEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
-            FormBHV.FormQuestionAnsweredEventHandler -= OnFormAnswered;
+            FormBHV.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
+            FormBHV.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
             Player.ExitRoomEventHandler -= OnRoomExit;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
-            Manager.ProfileSelectedEventHandler -= OnProfileSelected;
+            QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             NpcController.DialogueOpenEventHandler -= OnInteractNPC;
         }
 
         //From FormBHV
-        private void OnFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
+        private void OnPreTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
-            if (eventArgs.FormID == (int)Enums.FormEnum.PreTestForm)
-                preFormAnswers.Add(eventArgs.AnswerValue);
-            else if (eventArgs.FormID == (int)Enums.FormEnum.PostTestForm)
-                postFormAnswers.Add(eventArgs.AnswerValue);
+            preFormAnswers = eventArgs.AnswerValue;
+        }
+        
+        private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
+        {
+            postFormAnswers = eventArgs.AnswerValue;
         }
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
@@ -648,7 +652,7 @@ namespace Game.DataCollection
             WrapHeatMapToString(currentMap);
             WrapLevelProfileToString();
             WrapLevelDetailedCombatProfileToString();
-            // StartCoroutine(PostData("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
+            StartCoroutine(PostData("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
             SaveToLocalFile("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
             string UploadFilePath = GameplayData.instance.sessionUID;
         }

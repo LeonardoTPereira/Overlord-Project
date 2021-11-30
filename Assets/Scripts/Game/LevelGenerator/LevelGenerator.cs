@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace LevelGenerator
@@ -54,6 +55,7 @@ namespace LevelGenerator
         /// Perform the level evolution process.
         private void Evolution()
         {
+            Debug.Log("Starting Evolution");
             // Initialize the random generator
             System.Random rand = new System.Random(prs.seed);
 
@@ -63,8 +65,11 @@ namespace LevelGenerator
                 SearchSpace.LeniencyRanges().Length
             );
 
+
+            var maxTries = INTERMEDIATE_POPULATION;
+            var currentTry = 0;
             // Generate the initial population
-            while (pop.Count() < prs.population)
+            while (pop.Count() < prs.population && currentTry < maxTries)
             {
                 Individual individual = Individual.GetRandom(
                     prs.enemies, ref rand
@@ -77,8 +82,9 @@ namespace LevelGenerator
                 individual.exploration = ce;
                 individual.leniency = le;
                 pop.PlaceIndividual(individual);
+                currentTry++;
             }
-
+            
             // Evolve the population
             int g = 0;
             DateTime start = DateTime.Now;
