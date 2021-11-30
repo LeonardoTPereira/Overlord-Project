@@ -118,6 +118,7 @@ namespace Game.NarrativeGenerator
                     
             CreateGeneratorParametersForQuestline(playerProfile);
 
+            Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
             Quests.EnemySos =  _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
             CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(Quests));
             //TODO create NPC RuntimeSet

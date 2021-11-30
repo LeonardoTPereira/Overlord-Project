@@ -53,6 +53,7 @@ namespace LevelGenerator
             int[,] map = new int[2 * dun.dimensions.Width, 2 * dun.dimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
             dungeonFileSO.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
+            dungeonFileSO.fitness = _individual.fitness;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.dimensions.Width; ++i)
             {

@@ -9,6 +9,7 @@ public class DungeonFileSo : ScriptableObject
 {
     public Dimensions dimensions;
     public List<SORoom> rooms;
+    public float fitness;
 
     private int _currentIndex = 0;
 

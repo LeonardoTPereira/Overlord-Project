@@ -50,7 +50,11 @@ namespace Game.NarrativeGenerator.Quests
             set => _itemParametersForQuestLine = value;
         }
 
-        public List<DungeonFileSo> DungeonFileSos => _dungeonFileSos;
+        public List<DungeonFileSo> DungeonFileSos
+        {
+            get => _dungeonFileSos;
+            set => _dungeonFileSos = value;
+        }
 
         public List<EnemySO> EnemySos
         {
