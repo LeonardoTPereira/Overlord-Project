@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextWhenSuccess: {fileID: 0}
   nextWhenFailure: {fileID: 0}
-  previous: {fileID: 11400000, guid: 2882be99ce5c7ba4cb6a79a5a06fbbf1, type: 2}
+  previous: {fileID: 11400000, guid: 25ba5a88f629a61459c674c988c7e839, type: 2}
   questName: Talk to Alasdoor
   endsStoryLine: 0
   reward: {fileID: 0}

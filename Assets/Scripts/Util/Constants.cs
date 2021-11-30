@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace Util
@@ -21,7 +22,17 @@ namespace Util
         public const int defaultRoomSizeX = 22;
         public const int defaultRoomSizeY = 19;
 
-
+        /// Define the room codes for printing purposes.
+        public static class RoomTypeString
+        {
+            public static readonly string CORRIDOR = "C";
+            public static readonly string LOCK = "L";
+            public static readonly string KEY = "K";
+            public static readonly string BOSS = "B";
+            public static readonly string TREASURE = "T";
+            public static readonly string START = "S";
+            public static readonly string NORMAL = "N";
+        }
 
         public const string KILL_QUEST = "Mastery";
         public const string GET_QUEST = "Achievement";

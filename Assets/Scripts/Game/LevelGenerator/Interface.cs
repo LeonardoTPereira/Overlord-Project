@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Game.NarrativeGenerator.Quests;
+using Util;
 
 namespace LevelGenerator
 {
@@ -131,12 +132,7 @@ namespace LevelGenerator
                         var roomGrid = dun.grid[x, y];
                         var coordinates = new Coordinates(i + dun.boundaries.MinBoundaries.X * 2, j + dun.boundaries.MinBoundaries.Y * 2);
                         //For Unity's dungeon file we need to save the x and y position of the room
-                        roomDataInFile = new SORoom
-                        {
-                            coordinates = new Coordinates(i, j)
-                        };
-                        roomDataInFile.Treasures = 0;
-                        roomDataInFile.Npcs = 0;
+                        roomDataInFile = new SORoom(i, j);
                         ConvertEaDungeonToSoDungeon(coordinates, roomDataInFile, roomGrid, roomType);
                     }
 
@@ -154,23 +150,24 @@ namespace LevelGenerator
             //If room is in (0,0) it is the starting one, we mark it with an "s" and save the "s"
             if (coordinates.X == 0 && coordinates.Y == 0)
             {
-                roomDataInFile.type = "s";
+                roomDataInFile.type = Constants.RoomTypeString.START;
                 roomDataInFile.TotalEnemies = roomGrid.enemies;
             }
             //If it is a corridor, writes "c" in the file
             else if (roomType == Common.RoomType.CORRIDOR)
             {
-                roomDataInFile.type = "c";
+                roomDataInFile.type = Constants.RoomTypeString.CORRIDOR;
             }
             //If is the boss room, writes "B". Currently is where the Triforce is located
             else if (roomType == Common.RoomType.BOSS)
             {
-                roomDataInFile.type = "B";
+                roomDataInFile.type = Constants.RoomTypeString.BOSS;
                 roomDataInFile.TotalEnemies = roomGrid.enemies;
             }
             //If negative, is a locked corridor, save it as the negative number of the key that opens it
             else if (roomType < 0)
             {
+                roomDataInFile.type = Constants.RoomTypeString.LOCK;
                 roomDataInFile.locks = new List<int>
                 {
                     roomType
@@ -180,7 +177,7 @@ namespace LevelGenerator
             //TODO: change this as now every room may contain treasures, enemies and/or keys
             else if (roomType == Common.RoomType.TREASURE)
             {
-                roomDataInFile.type = "T";
+                roomDataInFile.type = Constants.RoomTypeString.TREASURE;
                 roomDataInFile.treasures = 1;
                 roomDataInFile.npcs = 1;
                 roomDataInFile.TotalEnemies = roomGrid.enemies;
@@ -190,6 +187,7 @@ namespace LevelGenerator
             else if (roomType > 0)
             {
                 roomDataInFile.TotalEnemies = roomGrid.enemies;
+                roomDataInFile.type = Constants.RoomTypeString.KEY;
                 roomDataInFile.keys = new List<int>
                 {
                     roomType
@@ -198,6 +196,7 @@ namespace LevelGenerator
             //If the cell was none of the above, it must be an empty room
             else
             {
+                roomDataInFile.type = Constants.RoomTypeString.NORMAL;
                 roomDataInFile.TotalEnemies = roomGrid.enemies;
             }
         }

@@ -1,57 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.IO;
-using System.Linq;
-using Game.GameManager;
-using Game.NarrativeGenerator.Quests;
+﻿using Game.NarrativeGenerator.Quests;
 using MyBox;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
-public class DungeonLoader : MonoBehaviour
+namespace Game.NarrativeGenerator
 {
-    [SerializeField]
-    private bool isArena;
+    public class DungeonLoader : MonoBehaviour
+    {
+        [SerializeField]
+        private bool isArena;
     
-    public DungeonFileSo SelectedDungeon { get; set; }
-    public QuestLine LevelQuestLine { get; set; }
+        [field: SerializeField]
+        public DungeonFileSo SelectedDungeon { get; set; }
+        
+        [field: SerializeField]
+        public QuestLine LevelQuestLine { get; set; }
 
-    [SerializeField] 
-    private SceneReference dungeonScene;
+        [SerializeField] 
+        private SceneReference dungeonScene;
     
-    public static event LevelLoadEvent LoadLevelEventHandler;
+        public static event LevelLoadEvent LoadLevelEventHandler;
 
-    private void Start()
-    {
-        if (!dungeonScene.IsAssigned)
+        private void Start()
         {
-            dungeonScene.SceneName = null;
-            dungeonScene.SceneName = "LevelWithEnemies";
+            if (!dungeonScene.IsAssigned)
+            {
+                dungeonScene.SceneName = null;
+                dungeonScene.SceneName = "LevelWithEnemies";
+            }
+            if (isArena)
+            {
+                LoadLevel();
+            }
         }
-        if (isArena)
+
+        /// Load the level from the given filename.
+        public void LoadLevel()
         {
-            LoadLevel();
+            Debug.Log("Loading Level: "+SelectedDungeon.name + " Questline: "+ LevelQuestLine.name);
+            Debug.Log("Enemies in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.NEnemies);
+            Debug.Log("Enemy Types in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.TotalByType.EnemiesByTypeDictionary.Count);
+            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine));
+            SceneManager.LoadScene(dungeonScene.SceneName);
         }
-    }
 
-    /// Load the level from the given filename.
-    public void LoadLevel()
-    {
-        Debug.Log("Loading Level: "+SelectedDungeon.name + " Questline: "+ LevelQuestLine.name);
-        Debug.Log("Enemies in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.NEnemies);
-        Debug.Log("Enemy Types in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.TotalByType.EnemiesByTypeDictionary.Count);
-        LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine));
-        SceneManager.LoadScene(dungeonScene.SceneName);
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        void OnTriggerEnter2D(Collider2D other)
         {
-            LoadLevel();
+            if (other.gameObject.CompareTag("Player"))
+            {
+                LoadLevel();
+            }
         }
     }
 }

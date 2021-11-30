@@ -23,12 +23,13 @@ namespace Game.NarrativeGenerator
     [RequireComponent(typeof(EnemyGeneratorManager), typeof(LevelGeneratorManager))]
     public class QuestGeneratorManager : MonoBehaviour
     {
-        [MustBeAssigned, SerializeField]
+        [MustBeAssigned, SerializeReference, SerializeField]
         private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
         public static event CreateEADungeonEvent CreateEaDungeonEventHandler;
 
+        [SerializeReference, SerializeField]
         private QuestLineList _questLines;
 
         public bool createNarrative = false;
@@ -118,7 +119,18 @@ namespace Game.NarrativeGenerator
 
         private IEnumerator CreateNarrative(PlayerProfile playerProfile)
         {
-            _questLines = playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[playerProfile.PlayerProfileEnum.ToString()];
+            if (playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.TryGetValue(
+                playerProfile.PlayerProfileEnum.ToString(), out var questLines))
+            {
+                _questLines = questLines;
+            }
+            else
+            {
+                _questLines = ScriptableObject.CreateInstance<QuestLineList>();
+                _questLines.QuestLinesList = new List<QuestLine>();
+                _questLines.SaveAsAsset(playerProfile.PlayerProfileEnum.ToString());
+                playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLines);
+            }
             _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
                     
@@ -143,7 +155,10 @@ namespace Game.NarrativeGenerator
             _questLines.AddQuestLine(Quests);
 
 #if UNITY_EDITOR
+            EditorUtility.SetDirty(_questLines);
             AssetDatabase.SaveAssetIfDirty(_questLines);
+            
+            EditorUtility.SetDirty(playerProfileToQuestLinesDictionarySo);
             AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
 #endif
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));

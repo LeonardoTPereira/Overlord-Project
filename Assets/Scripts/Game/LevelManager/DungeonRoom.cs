@@ -98,7 +98,7 @@ namespace Game.LevelManager
         {
             Dimensions = roomDimensions;
             InitializeTiles(); // aloca memória para os tiles
-            int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomTypes.COUNT);
+            int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
             DefaultRoomCreator.CreateRoomOfType(this, roomType);
         }
 

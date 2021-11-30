@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Util;
 
 namespace Game.LevelManager
 {
@@ -6,7 +7,7 @@ namespace Game.LevelManager
     {
 
         private List<int> lockIDs;
-        public DungeonLockedCorridor(Coordinates coordinates, List<int> lockIDs) : base(coordinates, PartType.LOCKED)
+        public DungeonLockedCorridor(Coordinates coordinates, List<int> lockIDs) : base(coordinates, Constants.RoomTypeString.LOCK)
         {
             LockIDs = lockIDs;
         }

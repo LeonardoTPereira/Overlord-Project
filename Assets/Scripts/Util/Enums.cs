@@ -32,7 +32,7 @@ namespace Util
             COUNT
         }
         
-        public enum RoomTypes
+        public enum RoomPatterns
         {
             Empty,
             CheckerBoard,

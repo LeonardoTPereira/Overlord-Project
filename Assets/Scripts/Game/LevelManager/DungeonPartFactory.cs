@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
+using Util;
 
 namespace Game.LevelManager
 {
@@ -16,7 +17,7 @@ namespace Game.LevelManager
 
         public static DungeonPart CreateDungeonCorridorFromEACorridor(Coordinates coordinates, string partCode, List<int> lockIDs)
         {
-            if (partCode == DungeonPart.PartType.CORRIDOR)
+            if (partCode == Constants.RoomTypeString.CORRIDOR)
                 return new DungeonCorridor(coordinates, partCode);
             return new DungeonLockedCorridor(coordinates, lockIDs);
         }
@@ -25,7 +26,7 @@ namespace Game.LevelManager
         {
             if (dungeonRoom.type?.Equals("c") ?? false)
                 return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
-            if (dungeonRoom.locks.Count <= 0)
+            if (dungeonRoom.locks.Count == 0)
                 return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom.keys ?? new List<int>(),
                     dungeonRoom.Treasures, dungeonRoom.TotalEnemies, dungeonRoom.Npcs);
             for (var i = 0; i < dungeonRoom.locks.Count; ++i)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -20,6 +21,19 @@ namespace Game.NarrativeGenerator.Quests
         {
             var random = RandomSingleton.GetInstance().Random;
             return QuestLinesList[random.Next(QuestLinesList.Count)];
+        }
+        
+        public void SaveAsAsset(string profileName)
+        {
+#if UNITY_EDITOR
+            var target = "Assets";
+            target += Constants.SEPARATOR_CHARACTER + "Resources";
+            target += Constants.SEPARATOR_CHARACTER + "Experiment";
+            target += Constants.SEPARATOR_CHARACTER;
+            target += profileName+"QuestLineList.asset";
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(target);
+            AssetDatabase.CreateAsset(this, uniquePath);
+#endif
         }
     }
 }

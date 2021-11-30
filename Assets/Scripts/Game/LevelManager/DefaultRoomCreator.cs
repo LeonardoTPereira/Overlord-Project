@@ -7,30 +7,30 @@ namespace Game.LevelManager
     {
         public static void CreateRoomOfType(DungeonRoom room, int roomType)
         {
-            var roomTypeEnum = (Enums.RoomTypes) roomType;
+            var roomTypeEnum = (Enums.RoomPatterns) roomType;
             switch (roomTypeEnum)
             {
-                case Enums.RoomTypes.Empty:
+                case Enums.RoomPatterns.Empty:
                 {
                     CreateEmptyRoom(room);
                     break;
                 }
-                case Enums.RoomTypes.CheckerBoard:
+                case Enums.RoomPatterns.CheckerBoard:
                 {
                     CreateCheckerBoardRoom(room);
                     break;
                 }
-                case Enums.RoomTypes.HorizontalLines:
+                case Enums.RoomPatterns.HorizontalLines:
                 {
                     CreateHorizontalLinesRoom(room);
                     break;
                 }
-                case Enums.RoomTypes.VerticalLines:
+                case Enums.RoomPatterns.VerticalLines:
                 {
                     CreateVerticalLinesRoom(room);
                     break;
                 }
-                case Enums.RoomTypes.Cross:
+                case Enums.RoomPatterns.Cross:
                 {
                     CreateCrossRoom(room);
                     break;

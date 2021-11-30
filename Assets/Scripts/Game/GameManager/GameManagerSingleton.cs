@@ -7,6 +7,7 @@ using Game.DataCollection;
 using Game.Events;
 using Game.LevelManager;
 using Game.Maestro;
+using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using LevelGenerator;
 using MyBox;

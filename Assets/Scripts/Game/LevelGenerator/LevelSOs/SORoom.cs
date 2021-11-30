@@ -1,10 +1,9 @@
 using Game.LevelManager;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using ScriptableObjects;
-using UnityEngine;
+using LevelGenerator;
+using Util;
 
 [Serializable]
 public class SORoom
@@ -22,6 +21,17 @@ public class SORoom
     {
         get => totalEnemies;
         set => totalEnemies = value;
+    }
+
+    public SORoom(int x, int y)
+    {
+        coordinates = new Coordinates(x, y);
+        type = null;
+        keys = null;
+        locks = null;
+        treasures = -1;
+        npcs = -1;
+        totalEnemies = 0;
     }
 
     [DefaultValue(-1)]
