@@ -17,6 +17,15 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             set => enemiesByType = value;
         }
 
+        public int Count()
+        {
+            if (EnemiesByTypeDictionary == null)
+            {
+                return 0;
+            }
+            return EnemiesByTypeDictionary.Count;
+        }
+
         public EnemiesByType()
         {
             EnemiesByTypeDictionary = new WeaponTypeAmountDictionary();

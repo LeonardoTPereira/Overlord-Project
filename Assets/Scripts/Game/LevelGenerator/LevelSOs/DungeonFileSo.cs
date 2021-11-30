@@ -11,6 +11,7 @@ public class DungeonFileSo : ScriptableObject
     public Dimensions dimensions;
     [SerializeField]
     public List<SORoom> rooms;
+    public float fitness;
 
     private int _currentIndex = 0;
 

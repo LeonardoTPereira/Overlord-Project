@@ -145,6 +145,7 @@ namespace Game.NarrativeGenerator
             {
                 yield return null;
             }
+            Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
             Debug.Log("Continuing Quest Generator");
             //CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(Quests));
             //TODO create NPC RuntimeSet

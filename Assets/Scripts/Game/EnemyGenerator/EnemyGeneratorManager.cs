@@ -131,7 +131,8 @@ namespace Game.EnemyGenerator
             if (!AssetDatabase.IsValidFolder(filename))
             {
                 Debug.Log("Creating new Folder");
-                AssetDatabase.CreateFolder(foldername, subfoldername);
+                string guid = AssetDatabase.CreateFolder(foldername, subfoldername);
+                filename = AssetDatabase.GUIDToAssetPath(guid) + "/";
             }
 #endif
             var enemyList = new List<EnemySO>();
