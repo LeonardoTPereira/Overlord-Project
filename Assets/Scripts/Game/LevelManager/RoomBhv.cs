@@ -96,7 +96,8 @@ public class RoomBhv : MonoBehaviour
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
             minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(position));
+            GetAvailablePosition();
+            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(availablePosition));
         }
         else if (roomData.IsFinalRoom())
         {

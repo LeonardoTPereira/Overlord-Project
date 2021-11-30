@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8ebf78bee14af4189a8324c6ab969a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDungeonSO: {fileID: 11400000, guid: 85c80059a3e67a046a866e0ca2c6c75e, type: 2}
+  currentDungeonSO: {fileID: 11400000, guid: d8f478c832514cd49b868a96c7f1bc45, type: 2}
 --- !u!4 &494183438
 Transform:
   m_ObjectHideFlags: 0
@@ -180,13 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isArena: 1
-  <SelectedDungeon>k__BackingField: {fileID: 11400000, guid: 85c80059a3e67a046a866e0ca2c6c75e,
-    type: 2}
+  isArena: 0
   dungeonScene:
-    Scene: {fileID: 102900000, guid: 11ee7c01a4b13c644bc61ca2f22926e2, type: 3}
-    SceneName: Arena
-    sceneIndex: 0
+    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
+    SceneName: LevelWithEnemies
+    sceneIndex: 4
     sceneEnabled: 1
 --- !u!1 &1879570843
 GameObject:

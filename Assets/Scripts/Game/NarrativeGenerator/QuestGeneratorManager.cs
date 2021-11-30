@@ -1,6 +1,8 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Game.DataCollection;
 using Game.EnemyGenerator;
 using Game.Events;
@@ -80,10 +82,13 @@ namespace Game.NarrativeGenerator
             if (createNarrative)
             {
                 Selector.CreateMissions(this);
-                CreateNarrative(playerProfile);
+                StartCoroutine(CreateNarrative(playerProfile));
             }
+            else
+            {
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
 
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            }
         }
 
         private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
@@ -96,10 +101,13 @@ namespace Game.NarrativeGenerator
             if (createNarrative)
             {
                 Selector.CreateMissions(this);
-                CreateNarrative(playerProfile);
+                StartCoroutine(CreateNarrative(playerProfile));
+            }
+            else
+            {
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             }
 
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         private void Start()
@@ -108,7 +116,7 @@ namespace Game.NarrativeGenerator
             Debug.Log("Starting QuestGeneratorManager");
         }
 
-        private void CreateNarrative(PlayerProfile playerProfile)
+        private IEnumerator CreateNarrative(PlayerProfile playerProfile)
         {
             _questLines = playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[playerProfile.PlayerProfileEnum.ToString()];
             _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
@@ -118,23 +126,27 @@ namespace Game.NarrativeGenerator
                     
             CreateGeneratorParametersForQuestline(playerProfile);
 
-            Quests.EnemySos =  _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
-            CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(Quests));
+            Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
+            // Start the generation process
+            _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
+            while (!_levelGeneratorManager.hasFinished)
+            {
+                yield return null;
+            }
+            Debug.Log("Continuing Quest Generator");
+            //CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(Quests));
             //TODO create NPC RuntimeSet
             //TODO create these procedurally
             Quests.NpcSos = PlaceholderNpcs;
             Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
-            
             Quests.CreateAsset(playerProfile.PlayerProfileEnum);
-                    
             _questLines.AddQuestLine(Quests);
 
 #if UNITY_EDITOR
-            AssetDatabase.Refresh();
             AssetDatabase.SaveAssetIfDirty(_questLines);
-            AssetDatabase.Refresh();
             AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
 #endif
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         private void CreateGeneratorParametersForQuestline(PlayerProfile playerProfile)

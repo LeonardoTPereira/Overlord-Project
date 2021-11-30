@@ -89,7 +89,7 @@ namespace Game.GameManager
         {
             Debug.Log("Profile: "+playerProfile.PlayerProfileEnum);
             _questLineListForProfile = new List<QuestLine>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
-                playerProfile.PlayerProfileEnum.ToString()].QuestLines);
+                playerProfile.PlayerProfileEnum.ToString()].QuestLinesList);
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)

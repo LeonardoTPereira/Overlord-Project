@@ -17,7 +17,7 @@ namespace Game.NarrativeGenerator.Quests
     [Serializable]
     public class QuestLine : ScriptableObject
     {
-        public List<QuestSO> graph;
+        [SerializeField] public List<QuestSO> graph;
         [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
         [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
         [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
@@ -50,7 +50,11 @@ namespace Game.NarrativeGenerator.Quests
             set => _itemParametersForQuestLine = value;
         }
 
-        public List<DungeonFileSo> DungeonFileSos => _dungeonFileSos;
+        public List<DungeonFileSo> DungeonFileSos
+        {
+            get => _dungeonFileSos;
+            set => _dungeonFileSos = value;
+        }
 
         public List<EnemySO> EnemySos
         {

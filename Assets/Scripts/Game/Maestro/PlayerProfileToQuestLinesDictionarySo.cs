@@ -19,7 +19,7 @@ namespace Game.Maestro
             {
                 QuestLinesForProfile.Add(profile, CreateInstance<QuestLineList>());
             }
-            QuestLinesForProfile[profile].QuestLines.Add(questLine);
+            QuestLinesForProfile[profile].QuestLinesList.Add(questLine);
         }
 
         public void Remove(string profile)

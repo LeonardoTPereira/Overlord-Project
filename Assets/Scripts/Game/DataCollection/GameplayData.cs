@@ -161,12 +161,6 @@ namespace Game.DataCollection
             sessionUID += dateTime;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         protected void OnEnable()
         {
             ProjectileController.enemyHitEventHandler += IncrementCombo;

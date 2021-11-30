@@ -86,19 +86,19 @@ namespace LevelGenerator
                 fitness // Object that calculates the fitness of individuals
             );
             // Start the generation process
-            Thread t = new Thread(new ThreadStart(Evolve));
+            Thread t = new Thread(Evolve);
             t.Start();
             StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
         }
 
-        IEnumerator PrintAndSaveDungeonWhenFinished(Thread t)
+        private IEnumerator PrintAndSaveDungeonWhenFinished(Thread t)
         {
             // Wait until the dungeons were generated
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
             _dungeonFileSos = new List<DungeonFileSo>();
             // Write all the generated dungeons in ScriptableObjects
-            Population solution = generator.Solution;
+            var solution = generator.Solution;
             for (var e = 0; e < solution.dimension.exp; e++)
             {
                 for (var l = 0; l < solution.dimension.len; l++)
@@ -110,12 +110,10 @@ namespace LevelGenerator
                     }
                 }
             }
-            #if UNITY_EDITOR
-            AssetDatabase.Refresh();
-            #endif
             Debug.Log("The dungeons were printed!");
             // Set the first level as the option to be played in the scene
             aux = solution.map[0, 0].dungeon;
+            hasFinished = true;
         }
 
         public void Evolve()
@@ -125,7 +123,6 @@ namespace LevelGenerator
             generator = new LevelGenerator(_parameters, newEAGenerationEventHandler);
             generator.Evolve();
             Debug.Log("The dungeons were created!");
-            hasFinished = true;
         }
     }
 }

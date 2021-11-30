@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLineList", menuName = "Overlord-Project/QuestLineList", order = 0)]
+    [Serializable]
     public class QuestLineList : ScriptableObject
     {
-        public List<QuestLine> QuestLines;
-        
+        [field: SerializeField] public List<QuestLine> QuestLinesList { get; set; }
+
         public void AddQuestLine(QuestLine questLine)
         {
-            QuestLines.Add(questLine);
+            QuestLinesList.Add(questLine);
         }
 
         public QuestLine GetRandomQuestLine()
         {
             var random = RandomSingleton.GetInstance().Random;
-            return QuestLines[random.Next(QuestLines.Count)];
+            return QuestLinesList[random.Next(QuestLinesList.Count)];
         }
     }
 }

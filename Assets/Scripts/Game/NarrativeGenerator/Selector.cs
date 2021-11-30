@@ -87,34 +87,30 @@ namespace Game.NarrativeGenerator
             var chainCost = 0;
             do
             {
-                foreach (var item in questWeightsbyType)
+                foreach (var item in questWeightsbyType.Where(item => item.Value > newMissionDraw))
                 {
-                    newMissionDraw = RandomSingleton.GetInstance().Random.Next((int)Enums.QuestWeights.Loved)+chainCost;
-                    if (item.Value > newMissionDraw)
+                    switch (item.Key)
                     {
-                        switch (item.Key)
-                        {
-                            case Constants.TALK_QUEST:
-                                var t = new Talk(0, questWeightsbyType);
-                                t.Option(questsSos, possibleNpcs);
-                                break;
-                            case Constants.GET_QUEST:
-                                var g = new Get(0, questWeightsbyType);
-                                g.Option(questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
-                                break;
-                            case Constants.KILL_QUEST:
-                                var k = new Kill(0, questWeightsbyType);
-                                k.Option(questsSos, possibleNpcs, possibleEnemyTypes);
-                                break;
-                            case Constants.EXPLORE_QUEST:
-                                var e = new Explore(0, questWeightsbyType);
-                                e.Option(questsSos, possibleNpcs);
-                                break;
-                        }
+                        case Constants.TALK_QUEST:
+                            var t = new Talk(0, questWeightsbyType);
+                            t.Option(questsSos, possibleNpcs);
+                            break;
+                        case Constants.GET_QUEST:
+                            var g = new Get(0, questWeightsbyType);
+                            g.Option(questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                            break;
+                        case Constants.KILL_QUEST:
+                            var k = new Kill(0, questWeightsbyType);
+                            k.Option(questsSos, possibleNpcs, possibleEnemyTypes);
+                            break;
+                        case Constants.EXPLORE_QUEST:
+                            var e = new Explore(0, questWeightsbyType);
+                            e.Option(questsSos, possibleNpcs);
+                            break;
                     }
                 }
-
                 chainCost += (int)Enums.QuestWeights.Hated*2;
+                newMissionDraw = RandomSingleton.GetInstance().Random.Next((int)Enums.QuestWeights.Loved)+chainCost;
             } while (chainCost < (int)Enums.QuestWeights.Loved);
 
             return questsSos;

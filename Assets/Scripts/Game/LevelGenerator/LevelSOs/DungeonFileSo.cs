@@ -7,7 +7,9 @@ using UnityEngine;
 [Serializable, CreateAssetMenu]
 public class DungeonFileSo : ScriptableObject
 {
+    [SerializeField]
     public Dimensions dimensions;
+    [SerializeField]
     public List<SORoom> rooms;
 
     private int _currentIndex = 0;

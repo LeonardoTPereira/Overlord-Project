@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Enemy20
   m_EditorClassIdentifier: 
   health: 3
-  damage: 2
+  damage: 1
   movementSpeed: 0.8
-  activeTime: 7.5626035
-  restTime: 0.63108367
+  activeTime: 3.8272789
+  restTime: 0.6840209
   weapon: {fileID: 11400000, guid: 9825d811d256b7b4eaaec1b081b78374, type: 2}
   movement: {fileID: 11400000, guid: 69b7f9ffc6b42aa4195b16533359abf9, type: 2}
   behavior: {fileID: 11400000, guid: 7352eddfe7fc8e34dbc77c370d90c8bf, type: 2}
-  fitness: 0.21556854
-  attackSpeed: 0.7537577
-  projectileSpeed: 1.469129
+  fitness: 0.008621216
+  attackSpeed: 0.75
+  projectileSpeed: 2.1579552
