@@ -5,6 +5,7 @@ using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.LevelManager;
 using ScriptableObjects;
 using Util;
+using UnityEngine;
 
 namespace Game.Maestro
 {
@@ -15,85 +16,134 @@ namespace Game.Maestro
         private static int CHANCE = 50;
         private static int SINGLE_CHALLENGE = 1;
         private static int DOUBLE_CHALLENGE = 2;
-        private static int MULTIPLE_CHALLENGE = 3;
 
 
         /// Select semi-randomly enemies to populate a room. The enemies types
         /// are controlled by the weapon they hold.
         public static EnemiesByType Select(
             DungeonRoom room,
-            EnemiesByType enemies
+            ref EnemiesByType enemies
         ) {
             var selected = new EnemiesByType();
             // Get enemies by attack method
-            // TODO update lists to dictionaries, they must contain how much of every type is available to draw
-            // If not, quest requirements can't be met
-            List<WeaponTypeSO> melees = FilterMelees(enemies);
-            List<WeaponTypeSO> rangers = FilterRangers(enemies);
-            List<WeaponTypeSO> healers = FilterHealers(enemies);
-            List<WeaponTypeSO> soldiers = MergeEnemyLists(melees, rangers);
+            EnemiesByType melees = FilterMelees(enemies);
+            EnemiesByType rangers = FilterRangers(enemies);
+            EnemiesByType healers = FilterHealers(enemies);
             // Select enemies
-            Random rand = RandomSingleton.GetInstance().Random;
             var amount = room.TotalEnemies;
-            bool hasHealer = false;
+            bool healer = false;
             while (amount > 0)
             {
-                if (amount == SINGLE_CHALLENGE)
+                bool hasMelees = melees.Count() > 0;
+                bool hasRangers = rangers.Count() > 0;
+                bool hasHealers = healers.Count() > 0;
+                // Distribute enemies
+                if (amount == 1)
                 {
-                    AddEnemy(soldiers.Count > 0 ? GetRandomEnemy(soldiers) : healers[0], selected, enemies);
+                    // We only place a healer in a room with a single enemy if
+                    // no more melees or rangers remain.
+                    if (!hasMelees && !hasRangers && hasHealers)
+                    {
+                        AddRandomEnemy(ref healers, ref enemies, ref selected);
+                    }
+                    else
+                    {
+                        PlaceSoldier(ref melees, ref rangers, ref enemies, ref selected);
+                    }
                     amount -= SINGLE_CHALLENGE;
                 }
-                else if (amount == DOUBLE_CHALLENGE)
+                else if (amount >= 2)
                 {
-                    if (!hasHealer && rand.Next(CENT) < CHANCE)
+                    // We place a healer if there are at least two enemies in
+                    // the room. If the room already has a healer, we only add
+                    // another healer if there is no other type of enemy.
+                    if ((!healer && hasHealers) || (!hasMelees && !hasRangers))
                     {
-                        AddEnemy(healers[0], selected, enemies);
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                        hasHealer = true;
+                        AddRandomEnemy(ref healers, ref enemies, ref selected);
+                        amount -= SINGLE_CHALLENGE;
+                        healer = true;
                     }
+                    else if (melees.Count() + rangers.Count() > 1)
+                    {
+                        PlaceSoldier(ref melees, ref rangers, ref enemies, ref selected);
+                        PlaceSoldier(ref melees, ref rangers, ref enemies, ref selected);
+                        amount -= DOUBLE_CHALLENGE;
+                    }
+                    // If the code reaches this `else`, it means that there are
+                    // no melees or no rangers.
                     else
                     {
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
+                        PlaceSoldier(ref melees, ref rangers, ref enemies, ref selected);
+                        amount -= SINGLE_CHALLENGE;
                     }
-                    amount -= DOUBLE_CHALLENGE;
-                }
-                else if (amount >= MULTIPLE_CHALLENGE)
-                {
-                    if (!hasHealer && rand.Next(CENT) < CHANCE)
-                    {
-                        AddEnemy(healers[0], selected, enemies);
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                        hasHealer = true;
-                    }
-                    else
-                    {
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                        AddEnemy(GetRandomEnemy(soldiers), selected, enemies);
-                    }
-                    amount -= MULTIPLE_CHALLENGE;
                 }
             }
             return selected;
         }
 
-        /// Add the entered enemy in the entered dictionary of enemies.
-        private static void AddEnemy(WeaponTypeSO enemy, EnemiesByType enemies, EnemiesByType totalEnemies) {
-            if (enemies.EnemiesByTypeDictionary.TryGetValue(enemy, out var enemiesForType))
+        private static void PlaceSoldier(
+            ref EnemiesByType melees,
+            ref EnemiesByType rangers,
+            ref EnemiesByType enemies,
+            ref EnemiesByType selected
+        ) {
+            bool hasMelees = melees.Count() > 0;
+            bool hasRangers = rangers.Count() > 0;
+            if (hasMelees && hasRangers)
             {
-                enemies.EnemiesByTypeDictionary[enemy] = enemiesForType+1;
+                var rand = RandomSingleton.GetInstance().Random;
+                if (rand.Next(CENT) < CHANCE)
+                {
+                    AddRandomEnemy(ref melees, ref enemies, ref selected);
+                }
+                else
+                {
+                    AddRandomEnemy(ref rangers, ref enemies, ref selected);
+                }
+            }
+            else if (hasMelees)
+            {
+                AddRandomEnemy(ref melees, ref enemies, ref selected);
+            }
+            else if (hasRangers)
+            {
+                AddRandomEnemy(ref rangers, ref enemies, ref selected);
             }
             else
             {
-                enemies.EnemiesByTypeDictionary.Add(enemy, 1);
+                Debug.LogError("There are no more soldiers to place.");
             }
-            //Remove a unit of the selected enemy from the total list and 
-            totalEnemies.EnemiesByTypeDictionary[enemy] -= 1;
-            if (totalEnemies.EnemiesByTypeDictionary[enemy] <= 0)
+        }
+
+        /// Add the entered enemy in the entered dictionary of enemies.
+        private static void AddRandomEnemy(
+            ref EnemiesByType soldiers,
+            ref EnemiesByType enemies,
+            ref EnemiesByType selected
+        ) {
+            // Add a unity of the selected enemy
+            var enemy = soldiers.GetRandom().Key;
+            if (selected.EnemiesByTypeDictionary.TryGetValue(enemy, out var enemiesForType))
             {
-                totalEnemies.EnemiesByTypeDictionary.Remove(enemy);
+                selected.EnemiesByTypeDictionary[enemy] = enemiesForType + 1;
+            }
+            else
+            {
+                selected.EnemiesByTypeDictionary.Add(enemy, 1);
+            }
+            // Remove a unit of the selected enemy from the dictionaries
+            RemoveEnemy(ref soldiers, enemy);
+            RemoveEnemy(ref enemies, enemy);
+        }
+
+        private static void RemoveEnemy(
+            ref EnemiesByType enemies,
+            WeaponTypeSO enemy
+        ) {
+            enemies.EnemiesByTypeDictionary[enemy] -= 1;
+            if (enemies.EnemiesByTypeDictionary[enemy] <= 0)
+            {
+                enemies.EnemiesByTypeDictionary.Remove(enemy);
             }
         }
 
@@ -121,56 +171,48 @@ namespace Game.Maestro
         }
 
         /// Filter a dictionary of enemies and return the healer enemies.
-        private static List<WeaponTypeSO> FilterHealers(EnemiesByType enemies) {
-            List<WeaponTypeSO> healers = new List<WeaponTypeSO>();
-            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies.EnemiesByTypeDictionary)
+        private static EnemiesByType FilterHealers(EnemiesByType enemies)
+        {
+            EnemiesByType healers = new EnemiesByType();
+            WeaponTypeAmountDictionary dict = enemies.EnemiesByTypeDictionary;
+            foreach (KeyValuePair<WeaponTypeSO, int> enemy in dict)
             {
-                if (IsHealer(enemy.Key))
+                if (IsHealer(enemy.Key) && enemy.Value > 0)
                 {
-                    healers.Add(enemy.Key);
+                    healers.EnemiesByTypeDictionary.Add(enemy.Key, enemy.Value);
                 }
             }
             return healers;
         }
 
         /// Filter a dictionary of enemies and return the ranger enemies.
-        private static List<WeaponTypeSO> FilterRangers(EnemiesByType enemies) {
-            List<WeaponTypeSO> rangers = new List<WeaponTypeSO>();
-            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies.EnemiesByTypeDictionary)
+        private static EnemiesByType FilterRangers(EnemiesByType enemies)
+        {
+            EnemiesByType rangers = new EnemiesByType();
+            WeaponTypeAmountDictionary dict = enemies.EnemiesByTypeDictionary;
+            foreach (KeyValuePair<WeaponTypeSO, int> enemy in dict)
             {
-                if (IsRanger(enemy.Key))
+                if (IsRanger(enemy.Key) && enemy.Value > 0)
                 {
-                    rangers.Add(enemy.Key);
+                    rangers.EnemiesByTypeDictionary.Add(enemy.Key, enemy.Value);
                 }
             }
             return rangers;
         }
 
         /// Filter a dictionary of enemies and return the melee enemies.
-        private static List<WeaponTypeSO> FilterMelees(EnemiesByType enemies) {
-            List<WeaponTypeSO> melees = new List<WeaponTypeSO>();
-            foreach (KeyValuePair<WeaponTypeSO, int> enemy in enemies.EnemiesByTypeDictionary)
+        private static EnemiesByType FilterMelees(EnemiesByType enemies)
+        {
+            EnemiesByType melees = new EnemiesByType();
+            WeaponTypeAmountDictionary dict = enemies.EnemiesByTypeDictionary;
+            foreach (KeyValuePair<WeaponTypeSO, int> enemy in dict)
             {
-                if (IsMelee(enemy.Key))
+                if (IsMelee(enemy.Key) && enemy.Value > 0)
                 {
-                    melees.Add(enemy.Key);
+                    melees.EnemiesByTypeDictionary.Add(enemy.Key, enemy.Value);
                 }
             }
             return melees;
-        }
-
-        /// Merge two lists of enemies.
-        private static List<WeaponTypeSO> MergeEnemyLists(List<WeaponTypeSO> enemies1, List<WeaponTypeSO> enemies2) {
-            {
-            }
-            return enemies;
-        }
-
-        /// Return a random enemy (a pair of weapon type SO).
-        private static WeaponTypeSO GetRandomEnemy(List<WeaponTypeSO> enemies) {
-            System.Random rand = RandomSingleton.GetInstance().Random;
-            int index = rand.Next(enemies.Count);
-            return enemies[index];
         }
 
         /// Filter a list of enemies by removing bad enemies.
@@ -190,7 +232,7 @@ namespace Game.Maestro
                     selected.Add(enemy);
                 }
             }
-            return enemies;
+            return selected;
         }
     }
 }
