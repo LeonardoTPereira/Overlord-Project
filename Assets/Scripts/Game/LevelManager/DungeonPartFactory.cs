@@ -24,7 +24,7 @@ namespace Game.LevelManager
 
         public static DungeonPart CreateDungeonPartFromDungeonFileSO(SORoom dungeonRoom)
         {
-            if (dungeonRoom.type?.Equals("c") ?? false)
+            if (dungeonRoom.type?.Equals(Constants.RoomTypeString.CORRIDOR) ?? false)
                 return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
             if (dungeonRoom.locks.Count == 0)
                 return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom.keys ?? new List<int>(),

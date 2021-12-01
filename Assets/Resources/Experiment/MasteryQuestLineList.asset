@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MasteryQuestLineList
   m_EditorClassIdentifier: 
   <QuestLinesList>k__BackingField:
-  - {fileID: 11400000, guid: 2c44f4fdf40fee541a4a15aa4b14eae9, type: 2}
+  - {fileID: 11400000, guid: 92aeb1c4f4839714784e117b778ee070, type: 2}
+  - {fileID: 11400000, guid: e7a3039be38a06147bef3636b556f506, type: 2}

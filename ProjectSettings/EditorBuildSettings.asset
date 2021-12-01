@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Arena.unity
     guid: 11ee7c01a4b13c644bc61ca2f22926e2
   - enabled: 0
@@ -22,7 +22,7 @@ EditorBuildSettings:
     guid: 01db2214e2b7fd9428a4bfa5e4cf8c66
   - enabled: 0
     path: 
-    guid: d6b6935ecec9d2442a5c51862258813d
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Scenes/MainBreno.unity
     guid: 0aee47db5762d974a9836a1c6d5c0c88
@@ -34,35 +34,35 @@ EditorBuildSettings:
     guid: b59d5742fc93f864aaf1a68866046d12
   - enabled: 0
     path: 
-    guid: 5d3e5f334dbd39b4cae22b473ac252d8
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: e0ea5feeaff2cd64997e88e326f9eff4
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: 61c278546db608c429c037ae45810fe6
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: a616dc61427997444a713697ff78ead8
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: 3c1292370fb16a84299ce077de014eec
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: e75fb9fe6c26f8d46873ff5c80db9b9b
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: d5d1afe8614f031488943de4b05d2156
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: 751894384c95da44c90e5336e6dffe3f
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: ac24378537784dc42a59e53868cdfb84
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: 9d9068806dc490b43a7344de89d857f8
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: 0d48a8804dd105642b17eff3fef6a1d4
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

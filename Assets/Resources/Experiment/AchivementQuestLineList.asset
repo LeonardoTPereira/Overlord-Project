@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: AchivementQuestLineList
   m_EditorClassIdentifier: 
   <QuestLinesList>k__BackingField:
-  - {fileID: 11400000, guid: e79547bc31f76084388b4affa275bb60, type: 2}
+  - {fileID: 11400000, guid: 0c20cac1a5b78214d9ce07a0f7091cb9, type: 2}
+  - {fileID: 11400000, guid: 3d661632021cd2b479a6b62ae2242593, type: 2}
