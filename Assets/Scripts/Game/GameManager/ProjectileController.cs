@@ -111,6 +111,7 @@ public class ProjectileController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
+                OnEnemyHit();
                 collision.gameObject.GetComponent<EnemyController>().ApplyDamageEffects(collisionDirection);
                 collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection);
                 DestroyBullet();

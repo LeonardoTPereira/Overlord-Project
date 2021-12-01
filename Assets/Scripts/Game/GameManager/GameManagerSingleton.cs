@@ -243,6 +243,7 @@ namespace Game.GameManager
         public void LoadNewLevel(DungeonFileSo dungeonFileSo)
         {
             ChangeMusic(bgMusic);
+            maxTreasure = 0;
             //Loads map from data
             if (createMaps)
             {

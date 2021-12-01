@@ -39,7 +39,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
 
         public int GetTotalItems()
         {
-            return itemAmountBySo.Sum(itemAmountPair => itemAmountPair.Value);
+            return itemAmountBySo.Sum(itemAmountPair => itemAmountPair.Key.value * itemAmountPair.Value);
         }
     }
 }
