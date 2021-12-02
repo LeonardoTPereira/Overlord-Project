@@ -12,6 +12,7 @@ namespace Game.Maestro
     public static class EnemySelector
     {
         private static string HEALER_WEAPON_PREFAB_NAME = "EnemyHealArea";
+        private static string SWORD_WEAPON_PREFAB_NAME = "EnemySword";
         private static int CENT = 100;
         private static int CHANCE = 50;
         private static int SINGLE_CHALLENGE = 1;
@@ -215,19 +216,37 @@ namespace Game.Maestro
             return melees;
         }
 
+        /// Return true if an enemy is a healer.
+        private static bool IsSword(WeaponTypeSO enemy)
+        {
+            if (enemy.weaponPrefab == null)
+            {
+                return false;
+            }
+            string weapon = enemy.weaponPrefab.name;
+            return weapon.Equals(SWORD_WEAPON_PREFAB_NAME);
+        }
+
+        public static bool IsBadEnemy(EnemySO enemy)
+        {
+            Enums.MovementEnum movement = enemy.movement.enemyMovementIndex;
+            // All melees that cannot move are bad enemies
+            bool noMovement = movement == Enums.MovementEnum.None;
+            bool a = IsMelee(enemy.weapon) && noMovement;
+            // The melees with swords that flee from the player are bad enemies
+            bool fleeMovement = movement == Enums.MovementEnum.Flee;
+            bool flee1dMovement = movement == Enums.MovementEnum.Flee1D;
+            bool b = IsSword(enemy.weapon) && (fleeMovement || flee1dMovement);
+            return a || b;
+        }
+
         /// Filter a list of enemies by removing bad enemies.
         public static List<EnemySO> FilterEnemies(List<EnemySO> enemies)
         {
             List<EnemySO> selected = new List<EnemySO>();
             foreach (EnemySO enemy in enemies)
             {
-                Enums.MovementEnum movement = enemy.movement.enemyMovementIndex;
-                bool noMovement = movement == Enums.MovementEnum.None;
-                if (IsMelee(enemy.weapon) && !noMovement)
-                {
-                    selected.Add(enemy);
-                }
-                else if (!IsMelee(enemy.weapon))
+                if (!IsBadEnemy(enemy))
                 {
                     selected.Add(enemy);
                 }
