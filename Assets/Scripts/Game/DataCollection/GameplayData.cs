@@ -16,19 +16,19 @@ namespace Game.DataCollection
 {
     public struct CombatRoomInfo
     {
-        public int roomId;
-        public bool hasEnemies;
-        public int nEnemies;
-        public Dictionary<EnemySO, int> enemiesDictionary;
-        public int playerInitHealth;
-        public int playerFinalHealth;
-        public int timeToExit;
+        public int RoomId { get; set; }
+        public bool HasEnemies { get; set; }
+        public int NEnemies { get; set; }
+        public Dictionary<EnemySO, int> EnemiesDictionary { get; set; }
+        public int PlayerInitHealth { get; set; }
+        public int PlayerFinalHealth { get; set; }
+        public int TimeToExit { get; set; }
     }
 
     public class GameplayData : MonoBehaviour
     {
-        private static string CSV = ".csv";
-        private static string POST_DATA_URL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
+        private const string Csv = ".csv";
+        private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
         private static int POST_QUESTIONS = 8;
         private static int NUMBER_OF_ENEMIES = 210;
 
@@ -46,8 +46,7 @@ namespace Game.DataCollection
         private string detailedLevelProfileString;
 
 
-        [SerializeField]
-        public string sessionUID;
+        [SerializeField] private string sessionUID;
 
 
         [SerializeField]
@@ -92,17 +91,12 @@ namespace Game.DataCollection
         private int numberOfEnemies = 0;
         [SerializeField]
         private int numberOfKilledEnemies = 0;
-        [SerializeField]
-        private int numberOfNPCs = 0;
-        [SerializeField]
-        private int numberOfInteractedNPCs = 0;
-        [SerializeField]
-        public int totalTreasures = 0;
-        [SerializeField]
-        public int treasureCollected = 0;
-        [SerializeField]
-        public int maxCombo = 0;
-        private List<int> postFormAnswers = new List<int>();
+        [field: SerializeField] public int NumberOfNpCs { get; private set; } = 0;
+        [field: SerializeField] public int NumberOfInteractedNpCs { get; private set; } = 0;
+        [field: SerializeField] public int TotalTreasures { get; private set; }
+        [field: SerializeField] public int TreasureCollected { get; private set; } = 0;
+        [field: SerializeField] public int MAXCombo { get; private set; } = 0;
+        public List<int> PostFormAnswers { get; private set; } = new List<int>();
 
 
         [SerializeField]
@@ -220,7 +214,7 @@ namespace Game.DataCollection
         
         private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
-            postFormAnswers = eventArgs.AnswerValue;
+            PostFormAnswers = eventArgs.AnswerValue;
         }
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
@@ -240,25 +234,25 @@ namespace Game.DataCollection
 
         private void ResetCombo(object sender, EventArgs eventArgs)
         {
-            if (actualCombo > maxCombo)
-                maxCombo = actualCombo;
+            if (actualCombo > MAXCombo)
+                MAXCombo = actualCombo;
             actualCombo = 0;
         }
 
         private void ResetMaxCombo(object sender, EventArgs eventArgs)
         {
             actualCombo = 0;
-            maxCombo = 0;
+            MAXCombo = 0;
         }
 
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            treasureCollected += eventArgs.Amount;
+            TreasureCollected += eventArgs.Amount;
         }
 
         private void ResetTreasure(object sender, EventArgs eventArgs)
         {
-            treasureCollected = 0;
+            TreasureCollected = 0;
         }
 
         //From KeyBHV
@@ -284,7 +278,7 @@ namespace Game.DataCollection
 
         private void OnInteractNPC(object sender, EventArgs eventArgs)
         {
-            numberOfInteractedNPCs++;
+            NumberOfInteractedNpCs++;
         }
 
         private void OnEnemyDoesDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
@@ -309,15 +303,15 @@ namespace Game.DataCollection
             Debug.Log("VISITED: (x=" + eventArgs.RoomCoordinates.X + ",y=" + eventArgs.RoomCoordinates.Y);
             if (eventArgs.RoomHasEnemies)
             {
-                actualRoomInfo.roomId = 10 * eventArgs.RoomCoordinates.X + eventArgs.RoomCoordinates.Y;
-                actualRoomInfo.hasEnemies = eventArgs.RoomHasEnemies;
-                actualRoomInfo.playerInitHealth = eventArgs.PlayerHealthWhenEntering;
-                actualRoomInfo.nEnemies = eventArgs.EnemiesInRoom.Count;
-                actualRoomInfo.enemiesDictionary = eventArgs.EnemiesInRoom;
-                actualRoomInfo.timeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds);
+                actualRoomInfo.RoomId = 10 * eventArgs.RoomCoordinates.X + eventArgs.RoomCoordinates.Y;
+                actualRoomInfo.HasEnemies = eventArgs.RoomHasEnemies;
+                actualRoomInfo.PlayerInitHealth = eventArgs.PlayerHealthWhenEntering;
+                actualRoomInfo.NEnemies = eventArgs.EnemiesInRoom.Count;
+                actualRoomInfo.EnemiesDictionary = eventArgs.EnemiesInRoom;
+                actualRoomInfo.TimeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds);
             }
             else
-                actualRoomInfo.roomId = -1;
+                actualRoomInfo.RoomId = -1;
 
             // Check the room coordinates to avoid division by zero
             if (eventArgs.RoomCoordinates.X != 0 && eventArgs.RoomCoordinates.Y != 0) {
@@ -328,10 +322,10 @@ namespace Game.DataCollection
         //From DoorBHV
         private void OnRoomExit(object sender, ExitRoomEventArgs eventArgs)
         {
-            if (actualRoomInfo.roomId != -1)
+            if (actualRoomInfo.RoomId != -1)
             {
-                actualRoomInfo.playerFinalHealth = eventArgs.PlayerHealthWhenExiting;
-                actualRoomInfo.timeToExit = Convert.ToInt32(stopWatch.ElapsedMilliseconds) - actualRoomInfo.timeToExit;
+                actualRoomInfo.PlayerFinalHealth = eventArgs.PlayerHealthWhenExiting;
+                actualRoomInfo.TimeToExit = Convert.ToInt32(stopWatch.ElapsedMilliseconds) - actualRoomInfo.TimeToExit;
                 combatInfoList.Add(actualRoomInfo);
             }
         }
@@ -374,6 +368,7 @@ namespace Game.DataCollection
             // Initialize data for level data collection
             levelID = eventArgs.MapName;
             chosenWeapon = eventArgs.PlayerProjectileIndex;
+            TotalTreasures = eventArgs.TotalTreasure;
             elapsedTime = 0;
             hasFinished = false;
             hasDied = false;
@@ -390,11 +385,10 @@ namespace Game.DataCollection
             playerLostHealth = 0;
             numberOfEnemies = map.NEnemies;
             numberOfKilledEnemies = 0;
-            numberOfNPCs = map.NNPCs;
-            numberOfInteractedNPCs = 0;
-            totalTreasures = GameManagerSingleton.instance.maxTreasure;
-            treasureCollected = 0;
-            maxCombo = 0;
+            NumberOfNpCs = map.NNPCs;
+            NumberOfInteractedNpCs = 0;
+            TreasureCollected = 0;
+            MAXCombo = 0;
 
             stopWatch.Reset();
             stopWatch.Start();
@@ -425,7 +419,7 @@ namespace Game.DataCollection
 
             // Reset all values
             visitedRooms.Clear();
-            postFormAnswers.Clear();
+            PostFormAnswers.Clear();
             damageDoneByEnemy.Clear();
         }
 
@@ -442,10 +436,10 @@ namespace Game.DataCollection
             playerFinalHealth = 0;
             timesPlayerDied++;
 
-            if (actualRoomInfo.roomId != -1)
+            if (actualRoomInfo.RoomId != -1)
             {
-                actualRoomInfo.playerFinalHealth = 0;
-                actualRoomInfo.timeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds) - actualRoomInfo.timeToExit;
+                actualRoomInfo.PlayerFinalHealth = 0;
+                actualRoomInfo.TimeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds) - actualRoomInfo.TimeToExit;
                 combatInfoList.Add(actualRoomInfo);
             }
 
@@ -533,10 +527,10 @@ namespace Game.DataCollection
                 // {
                 //     levelProfileString += "Enemy" + i + "Damage,";
                 // }
-                if (postFormAnswers.Count > 0)
+                if (PostFormAnswers.Count > 0)
                 {
                     int i = 0;
-                    foreach (int answer in postFormAnswers)
+                    foreach (int answer in PostFormAnswers)
                     {
                         levelProfileString += "PostQuestion " + i + ",";
                         i++;
@@ -572,18 +566,18 @@ namespace Game.DataCollection
                 playerLostHealth + "," +
                 numberOfEnemies + "," +
                 numberOfKilledEnemies + "," +
-                numberOfNPCs + "," +
-                numberOfInteractedNPCs + "," +
-                totalTreasures + "," +
-                treasureCollected + "," +
-                maxCombo + ",";
+                NumberOfNpCs + "," +
+                NumberOfInteractedNpCs + "," +
+                TotalTreasures + "," +
+                TreasureCollected + "," +
+                MAXCombo + ",";
             // for (int i = 0; i < EnemyUtil.nBestEnemies; ++i)
             // {
             //     levelProfileString += damageDoneByEnemy[i] + ",";
             // }
-            if (postFormAnswers.Count > 0)
+            if (PostFormAnswers.Count > 0)
             {
-                foreach (int answer in postFormAnswers)
+                foreach (int answer in PostFormAnswers)
                 {
                     levelProfileString += answer + ",";
                 }
@@ -604,14 +598,14 @@ namespace Game.DataCollection
             foreach (CombatRoomInfo info in combatInfoList)
             {
                 detailedLevelProfileString += levelID + ",";
-                detailedLevelProfileString += info.roomId + ",";
-                detailedLevelProfileString += info.playerInitHealth + ",";
-                detailedLevelProfileString += info.playerFinalHealth + ",";
-                detailedLevelProfileString += (info.playerFinalHealth - info.playerInitHealth) + ",";
-                detailedLevelProfileString += info.timeToExit + ",";
-                detailedLevelProfileString += info.hasEnemies + ",";
-                detailedLevelProfileString += info.nEnemies + ",";
-                foreach (var enemy in info.enemiesDictionary)
+                detailedLevelProfileString += info.RoomId + ",";
+                detailedLevelProfileString += info.PlayerInitHealth + ",";
+                detailedLevelProfileString += info.PlayerFinalHealth + ",";
+                detailedLevelProfileString += (info.PlayerFinalHealth - info.PlayerInitHealth) + ",";
+                detailedLevelProfileString += info.TimeToExit + ",";
+                detailedLevelProfileString += info.HasEnemies + ",";
+                detailedLevelProfileString += info.NEnemies + ",";
+                foreach (var enemy in info.EnemiesDictionary)
                 {
                     detailedLevelProfileString += "Name: " + enemy.Key.name + ",";
                     detailedLevelProfileString += "Amount: " + enemy.Value + ",";
@@ -662,7 +656,7 @@ namespace Game.DataCollection
             target += "/" + sessionUID + "-" + name;
             if (!pretestAnswered)
             {
-                using (StreamWriter writer = new StreamWriter(target + "-Player" + CSV, true, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(target + "-Player" + Csv, true, Encoding.UTF8))
                 {
                     writer.Write(stringData);
                     writer.Flush();
@@ -671,21 +665,21 @@ namespace Game.DataCollection
                 pretestAnswered = true;
             }
 
-            using (StreamWriter writer = new StreamWriter(target + "-Heatmap" + CSV, true, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(target + "-Heatmap" + Csv, true, Encoding.UTF8))
             {
                 writer.Write(heatMapData);
                 writer.Flush();
                 writer.Close();
             }
 
-            using (StreamWriter writer = new StreamWriter(target + "-Level" + CSV, true, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(target + "-Level" + Csv, true, Encoding.UTF8))
             {
                 writer.Write(levelData);
                 writer.Flush();
                 writer.Close();
             }
 
-            using (StreamWriter writer = new StreamWriter(target + "-Detailed" + CSV, true, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(target + "-Detailed" + Csv, true, Encoding.UTF8))
             {
                 writer.Write(levelDetailedData);
                 writer.Flush();
@@ -702,14 +696,14 @@ namespace Game.DataCollection
             byte[] levelDetailedBinary = System.Text.Encoding.UTF8.GetBytes(levelDetailedData);
             //This connects to a server side php script that will write the data
             //string post_url = postDataURL + "name=" + WWW.EscapeURL(name) + "&data=" + data ;
-            string post_url = POST_DATA_URL;
+            string post_url = PostDataURL;
             Debug.Log("LogName:" + name);
             WWWForm form = new WWWForm();
             form.AddField("name", sessionUID);
-            form.AddBinaryData("data", data, name + "-Player" + CSV, "text/csv");
-            form.AddBinaryData("heatmap", heatMapBinary, name + "-Heatmap" + CSV, "text/csv");
-            form.AddBinaryData("level", levelBinary, name + "-Level" + CSV, "text/csv");
-            form.AddBinaryData("detailed", levelDetailedBinary, name + "-Detailed" + CSV, "text/csv");
+            form.AddBinaryData("data", data, name + "-Player" + Csv, "text/csv");
+            form.AddBinaryData("heatmap", heatMapBinary, name + "-Heatmap" + Csv, "text/csv");
+            form.AddBinaryData("level", levelBinary, name + "-Level" + Csv, "text/csv");
+            form.AddBinaryData("detailed", levelDetailedBinary, name + "-Detailed" + Csv, "text/csv");
 
             // Post the URL to the site and create a download object to get the result.
             WWW data_post = new WWW(post_url, form);

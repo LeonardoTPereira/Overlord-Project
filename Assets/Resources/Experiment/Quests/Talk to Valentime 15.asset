@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextWhenSuccess: {fileID: 0}
   nextWhenFailure: {fileID: 0}
-  previous: {fileID: 11400000, guid: 7796874bcc032dd44b597018782e94d4, type: 2}
+  previous: {fileID: 11400000, guid: 0a1f7f1df9264b044b82cf1379b7ad47, type: 2}
   questName: Talk to Valentime
   endsStoryLine: 0
   reward: {fileID: 0}

@@ -340,7 +340,8 @@ SpriteRenderer:
   m_SortingLayerID: -1691099297
   m_SortingLayer: 1
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 2baf6cd5fc7584144b17618acf1264bb, type: 3}
+  m_Sprite: {fileID: 8865208874398379130, guid: 54680492e643e724ba5b1b8ef96ef54a,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -403,6 +404,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e566eb9cb903c064aa74a9a523e3ff74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <RandomMovementSprite>k__BackingField: {fileID: 367959204307477146, guid: 54680492e643e724ba5b1b8ef96ef54a,
+    type: 3}
+  <FleeMovementSprite>k__BackingField: {fileID: -6652051979707390630, guid: 54680492e643e724ba5b1b8ef96ef54a,
+    type: 3}
+  <FollowMovementSprite>k__BackingField: {fileID: -9006457242435351090, guid: 54680492e643e724ba5b1b8ef96ef54a,
+    type: 3}
+  <NoneMovementSprite>k__BackingField: {fileID: 8865208874398379130, guid: 54680492e643e724ba5b1b8ef96ef54a,
+    type: 3}
   restTime: 0
   activeTime: 0
   movementSpeed: 0

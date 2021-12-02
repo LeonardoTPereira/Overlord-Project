@@ -55,9 +55,8 @@ namespace Game.LevelManager
          */
         public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, int mode = 0)
         {
-            GameManagerSingleton.instance.maxTreasure = 0;
-            GameManagerSingleton.instance.maxRooms = 0;
-            GameManagerSingleton.instance.maxEnemies = 0;
+            GameManagerSingleton.Instance.maxRooms = 0;
+            GameManagerSingleton.Instance.maxEnemies = 0;
             NTreasureRooms = 0;
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
@@ -103,7 +102,7 @@ namespace Game.LevelManager
             }
             Debug.Log("NTreasure Rooms in Map = "+NTreasureRooms);
 
-            GameManagerSingleton.instance.maxRooms = nRooms;
+            GameManagerSingleton.Instance.maxRooms = nRooms;
             foreach (SORoom room in dungeonFileSO.rooms)
             {
                 if (room.keys.Count != -1)
@@ -129,8 +128,7 @@ namespace Game.LevelManager
                 }
             }
 
-            GameManagerSingleton.instance.maxEnemies = nEnemies;
-            GameManagerSingleton.instance.maxTreasure = nTreasure;
+            GameManagerSingleton.Instance.maxEnemies = nEnemies;
         }
 
 

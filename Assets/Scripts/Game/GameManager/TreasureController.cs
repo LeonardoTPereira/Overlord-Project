@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TreasureController : PlaceableRoomObject
 {
-    [SerializeField]
+    [field: SerializeField]
     public ItemSo Treasure { get; set; }
     [SerializeField]
     private AudioClip takenSnd;
@@ -14,7 +14,7 @@ public class TreasureController : PlaceableRoomObject
     public static event TreasureCollectEvent treasureCollectEvent;
     
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         canDestroy = false;
         audioSrc = GetComponent<AudioSource>();
@@ -27,16 +27,15 @@ public class TreasureController : PlaceableRoomObject
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!audioSrc.isPlaying && canDestroy)
         {
             Destroy(gameObject);
         }
     }
-    public void DestroyTreasure()
+    private void DestroyTreasure()
     {
-        //Debug.Log("Destroying Bullet");
         audioSrc.PlayOneShot(takenSnd, 0.15f);
         canDestroy = true;
         GetComponent<Collider2D>().enabled = false;
@@ -45,16 +44,14 @@ public class TreasureController : PlaceableRoomObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            OnTreasureCollect();
-            DestroyTreasure();
-        }
+        if (!collision.gameObject.CompareTag("Player")) return;
+        OnTreasureCollect();
+        DestroyTreasure();
     }
 
     protected void OnTreasureCollect()
     {
         Debug.Log("Collected the treasure");
-        treasureCollectEvent(this, new TreasureCollectEventArgs(Treasure.value)); //Luana e Paolo
+        treasureCollectEvent?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
     }
 }

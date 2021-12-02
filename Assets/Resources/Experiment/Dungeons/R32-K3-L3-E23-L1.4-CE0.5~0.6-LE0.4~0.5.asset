@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: R32-K3-L3-E23-L1.4-CE0.5~0.6-LE0.4~0.5
   m_EditorClassIdentifier: 
   dimensions:
-    width: 24
+    width: 20
     height: 14
   rooms:
   - coordinates:
       x: 0
       y: 4
-    type: K
-    keys: 01000000
+    type: T
+    keys: 
     locks: 
-    treasures: -1
-    npcs: -1
+    treasures: 1
+    npcs: 1
     totalEnemies: 1
   - coordinates:
-      x: 1
-      y: 4
+      x: 0
+      y: 5
     type: C
     keys: 
     locks: 
@@ -35,17 +35,44 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 2
-      y: 0
-    type: T
+      x: 0
+      y: 6
+    type: N
     keys: 
     locks: 
-    treasures: 1
-    npcs: 1
+    treasures: -1
+    npcs: -1
     totalEnemies: 2
   - coordinates:
-      x: 2
-      y: 1
+      x: 0
+      y: 7
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 0
+      y: 8
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 1
+  - coordinates:
+      x: 1
+      y: 6
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 1
+      y: 8
     type: C
     keys: 
     locks: 
@@ -55,11 +82,11 @@ MonoBehaviour:
   - coordinates:
       x: 2
       y: 2
-    type: N
+    type: T
     keys: 
     locks: 
-    treasures: -1
-    npcs: -1
+    treasures: 1
+    npcs: 1
     totalEnemies: 1
   - coordinates:
       x: 2
@@ -78,108 +105,9 @@ MonoBehaviour:
     locks: 
     treasures: -1
     npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 3
-      y: 2
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 3
-      y: 4
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 4
-      y: 2
-    type: T
-    keys: 
-    locks: 
-    treasures: 1
-    npcs: 1
-    totalEnemies: 2
-  - coordinates:
-      x: 4
-      y: 4
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 4
-      y: 8
-    type: K
-    keys: 03000000
-    locks: 
-    treasures: -1
-    npcs: -1
     totalEnemies: 1
   - coordinates:
-      x: 4
-      y: 9
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 4
-      y: 10
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 2
-  - coordinates:
-      x: 5
-      y: 4
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 5
-      y: 8
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 5
-      y: 10
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 6
-      y: 4
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 6
+      x: 2
       y: 5
     type: C
     keys: 
@@ -188,71 +116,17 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 6
+      x: 2
       y: 6
     type: N
     keys: 
     locks: 
     treasures: -1
     npcs: -1
-    totalEnemies: 0
+    totalEnemies: 2
   - coordinates:
-      x: 6
+      x: 2
       y: 8
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 1
-  - coordinates:
-      x: 6
-      y: 10
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 1
-  - coordinates:
-      x: 6
-      y: 11
-    type: L
-    keys: 
-    locks: fdffffff
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 6
-      y: 12
-    type: B
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 7
-      y: 6
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 7
-      y: 8
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 8
-      y: 4
     type: T
     keys: 
     locks: 
@@ -260,8 +134,8 @@ MonoBehaviour:
     npcs: 1
     totalEnemies: 0
   - coordinates:
-      x: 8
-      y: 5
+      x: 3
+      y: 6
     type: C
     keys: 
     locks: 
@@ -269,8 +143,17 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 8
+      x: 4
       y: 6
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 4
+      y: 8
     type: S
     keys: 
     locks: 
@@ -278,52 +161,52 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 8
-      y: 8
-    type: N
+      x: 5
+      y: 6
+    type: C
     keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 5
+      y: 8
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 6
+      y: 2
+    type: T
+    keys: 
+    locks: 
+    treasures: 1
+    npcs: 1
+    totalEnemies: 1
+  - coordinates:
+      x: 6
+      y: 3
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 6
+      y: 4
+    type: K
+    keys: 03000000
     locks: 
     treasures: -1
     npcs: -1
     totalEnemies: 1
   - coordinates:
-      x: 9
-      y: 6
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 9
-      y: 8
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 10
-      y: 4
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 10
-      y: 5
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 10
+      x: 6
       y: 6
     type: N
     keys: 
@@ -332,8 +215,44 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 10
+      x: 6
       y: 7
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 6
+      y: 8
+    type: K
+    keys: 01000000
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 7
+      y: 4
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 7
+      y: 6
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 7
+      y: 8
     type: L
     keys: 
     locks: ffffffff
@@ -341,17 +260,8 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 10
-      y: 8
-    type: T
-    keys: 
-    locks: 
-    treasures: 1
-    npcs: 1
-    totalEnemies: 0
-  - coordinates:
-      x: 10
-      y: 10
+      x: 8
+      y: 2
     type: T
     keys: 
     locks: 
@@ -359,34 +269,16 @@ MonoBehaviour:
     npcs: 1
     totalEnemies: 1
   - coordinates:
-      x: 11
-      y: 4
-    type: C
+      x: 8
+      y: 3
+    type: L
     keys: 
-    locks: 
+    locks: feffffff
     treasures: -1
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 11
-      y: 8
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 11
-      y: 10
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 12
+      x: 8
       y: 4
     type: N
     keys: 
@@ -395,7 +287,7 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 12
+      x: 8
       y: 5
     type: C
     keys: 
@@ -404,7 +296,7 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 12
+      x: 8
       y: 6
     type: N
     keys: 
@@ -413,16 +305,16 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 12
+      x: 8
       y: 8
-    type: N
+    type: T
     keys: 
     locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 1
+    treasures: 1
+    npcs: 1
+    totalEnemies: 0
   - coordinates:
-      x: 12
+      x: 8
       y: 9
     type: C
     keys: 
@@ -431,43 +323,7 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 12
-      y: 10
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 1
-  - coordinates:
-      x: 13
-      y: 6
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 13
-      y: 10
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 14
-      y: 6
-    type: K
-    keys: 02000000
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 14
+      x: 8
       y: 10
     type: N
     keys: 
@@ -476,8 +332,8 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 2
   - coordinates:
-      x: 15
-      y: 6
+      x: 8
+      y: 11
     type: C
     keys: 
     locks: 
@@ -485,26 +341,8 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 15
-      y: 10
-    type: C
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 16
-      y: 6
-    type: N
-    keys: 
-    locks: 
-    treasures: -1
-    npcs: -1
-    totalEnemies: 0
-  - coordinates:
-      x: 16
-      y: 10
+      x: 8
+      y: 12
     type: T
     keys: 
     locks: 
@@ -512,8 +350,8 @@ MonoBehaviour:
     npcs: 1
     totalEnemies: 2
   - coordinates:
-      x: 17
-      y: 6
+      x: 9
+      y: 4
     type: C
     keys: 
     locks: 
@@ -521,8 +359,17 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 18
-      y: 6
+      x: 9
+      y: 8
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 10
+      y: 4
     type: N
     keys: 
     locks: 
@@ -530,7 +377,16 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 1
   - coordinates:
-      x: 18
+      x: 10
+      y: 6
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 10
       y: 7
     type: C
     keys: 
@@ -539,17 +395,17 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 18
+      x: 10
       y: 8
     type: N
     keys: 
     locks: 
     treasures: -1
     npcs: -1
-    totalEnemies: 1
+    totalEnemies: 0
   - coordinates:
-      x: 19
-      y: 8
+      x: 10
+      y: 9
     type: C
     keys: 
     locks: 
@@ -557,17 +413,17 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 20
-      y: 8
-    type: N
-    keys: 
+      x: 10
+      y: 10
+    type: K
+    keys: 02000000
     locks: 
     treasures: -1
     npcs: -1
     totalEnemies: 1
   - coordinates:
-      x: 21
-      y: 8
+      x: 11
+      y: 4
     type: C
     keys: 
     locks: 
@@ -575,12 +431,156 @@ MonoBehaviour:
     npcs: -1
     totalEnemies: 0
   - coordinates:
-      x: 22
-      y: 8
+      x: 11
+      y: 6
+    type: L
+    keys: 
+    locks: fdffffff
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 12
+      y: 4
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 1
+  - coordinates:
+      x: 12
+      y: 6
+    type: B
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 13
+      y: 4
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 14
+      y: 2
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 14
+      y: 3
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 14
+      y: 4
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 1
+  - coordinates:
+      x: 15
+      y: 2
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 16
+      y: 0
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 16
+      y: 1
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 16
+      y: 2
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 1
+  - coordinates:
+      x: 16
+      y: 3
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 16
+      y: 4
+    type: N
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 1
+  - coordinates:
+      x: 16
+      y: 5
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 16
+      y: 6
     type: T
     keys: 
     locks: 
     treasures: 1
     npcs: 1
     totalEnemies: 1
-  fitness: -0.42346066
+  - coordinates:
+      x: 17
+      y: 0
+    type: C
+    keys: 
+    locks: 
+    treasures: -1
+    npcs: -1
+    totalEnemies: 0
+  - coordinates:
+      x: 18
+      y: 0
+    type: T
+    keys: 
+    locks: 
+    treasures: 1
+    npcs: 1
+    totalEnemies: 1
+  fitness: -2.7200541

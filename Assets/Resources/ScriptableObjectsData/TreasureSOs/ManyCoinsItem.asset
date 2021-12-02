@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ManyCoinsItem
   m_EditorClassIdentifier: 
   sprite: {fileID: 7398020472909097734, guid: 29269b331c7bd2e4ca9b20f2eb3d526d, type: 3}
-  value: 40
+  <Value>k__BackingField: 40

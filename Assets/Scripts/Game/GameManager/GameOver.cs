@@ -17,6 +17,6 @@ public class GameOver : MonoBehaviour
 
     public void MainMenuButton()
     {
-        GameManagerSingleton.instance.MainMenu();
+        GameManagerSingleton.Instance.MainMenu();
     }
 }

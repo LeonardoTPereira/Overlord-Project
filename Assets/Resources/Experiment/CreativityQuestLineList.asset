@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: CreativityQuestLineList
   m_EditorClassIdentifier: 
   <QuestLinesList>k__BackingField:
-  - {fileID: 11400000, guid: e4893c0a66bfc8f4c99155fdd73b692c, type: 2}
-  - {fileID: 11400000, guid: 268cea39548b25e4aa3ccdec864f12f6, type: 2}
+  - {fileID: 11400000, guid: d1b93354b8edb5f4c9483533ddf8d792, type: 2}

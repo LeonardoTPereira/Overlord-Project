@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextWhenSuccess: {fileID: 0}
   nextWhenFailure: {fileID: 0}
-  previous: {fileID: 11400000, guid: 30a6f4a58a9a08e458ecdcef7382030e, type: 2}
+  previous: {fileID: 11400000, guid: cd78e01f92d054f47a43639899a8a1fa, type: 2}
   questName: Explore Room
   endsStoryLine: 0
   reward: {fileID: 0}

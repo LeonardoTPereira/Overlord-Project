@@ -65,7 +65,7 @@ public class RoomBhv : MonoBehaviour
         _hasPlacedInCenter = false;
         enemiesDictionary = new Dictionary<EnemySO, int>();
         enemiesDead = 0;
-        isArena = GameManagerSingleton.instance.arenaMode;
+        isArena = GameManagerSingleton.Instance.arenaMode;
     }
 
     // Use this for initialization
@@ -74,7 +74,7 @@ public class RoomBhv : MonoBehaviour
         // If the Arena Mode is on, then set up the Arena
         if (roomData.IsStartRoom() && isArena)
         {
-            roomData.TotalEnemies = GameManagerSingleton.instance.enemyLoader.arena.Length;
+            roomData.TotalEnemies = GameManagerSingleton.Instance.enemyLoader.arena.Length;
             hasEnemies = true;
         }
 
@@ -104,7 +104,7 @@ public class RoomBhv : MonoBehaviour
             PlaceTriforceInRoom();
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         }
-        if (GameManagerSingleton.instance.enemyMode)
+        if (GameManagerSingleton.Instance.enemyMode)
         {
             SelectEnemies();
         }
@@ -318,7 +318,7 @@ public class RoomBhv : MonoBehaviour
         if (isArena)
         {
             // Load all the enemies from the folder
-            EnemySO[] arena = GameManagerSingleton.instance.enemyLoader.arena;
+            EnemySO[] arena = GameManagerSingleton.Instance.enemyLoader.arena;
             foreach (var enemy in arena)
             {
                 enemiesDictionary.Add(enemy, 1);
@@ -346,7 +346,7 @@ public class RoomBhv : MonoBehaviour
                 {
                     actualSpawn = Random.Range(0, spawnPoints.Count);
                 } while (selectedSpawnPoints.Contains(actualSpawn));
-                var enemy = GameManagerSingleton.instance.enemyLoader.InstantiateEnemyFromScriptableObject(
+                var enemy = GameManagerSingleton.Instance.enemyLoader.InstantiateEnemyFromScriptableObject(
                     new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
                     transform.rotation, enemiesFromType.Key);
                 enemy.GetComponent<EnemyController>().SetRoom(this);

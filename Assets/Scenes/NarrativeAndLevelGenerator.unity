@@ -1922,6 +1922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
     type: 2}
+  _questLines: {fileID: 0}
   createNarrative: 1
   isFinished: 0
   preTestQuestionnaire: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,

@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayGame()
     {
-        GameManagerSingleton.instance.createMaps = true;
+        GameManagerSingleton.Instance.createMaps = true;
         SceneManager.LoadScene("LevelWithEnemies");
     }
     public void CreateLevels()
@@ -30,13 +30,13 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayLoadedLevel()
     {
-        GameManagerSingleton.instance.createMaps = false;
+        GameManagerSingleton.Instance.createMaps = false;
         SceneManager.LoadScene("LevelWithEnemies");
     }
 
     public void RetryLevel()
     {
-        GameManagerSingleton.instance.createMaps = false;
+        GameManagerSingleton.Instance.createMaps = false;
         SceneManager.LoadScene("LevelWithEnemies");
     }
 

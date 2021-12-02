@@ -96,7 +96,7 @@ namespace Game.LevelManager
             var enemiesBySo = new Dictionary<EnemySO, int>();
             foreach (var enemiesByType in roomBhv.roomData.EnemiesByType.EnemiesByTypeDictionary)
             {
-                var selectedEnemy = GameManagerSingleton.instance.enemyLoader.GetRandomEnemyOfType(enemiesByType.Key);
+                var selectedEnemy = GameManagerSingleton.Instance.enemyLoader.GetRandomEnemyOfType(enemiesByType.Key);
                 enemiesBySo.Add(selectedEnemy, enemiesByType.Value);
             }
             return enemiesBySo;

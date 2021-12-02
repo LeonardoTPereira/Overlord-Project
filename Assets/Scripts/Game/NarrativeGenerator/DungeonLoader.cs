@@ -12,9 +12,10 @@ namespace Game.NarrativeGenerator
     
         [field: SerializeField]
         public DungeonFileSo SelectedDungeon { get; set; }
-        
         [field: SerializeField]
         public QuestLine LevelQuestLine { get; set; }
+        [field: SerializeField]
+        public bool IsLastQuestLine { get; set; }
 
         [SerializeField] 
         private SceneReference dungeonScene;
@@ -40,7 +41,7 @@ namespace Game.NarrativeGenerator
             Debug.Log("Loading Level: "+SelectedDungeon.name + " Questline: "+ LevelQuestLine.name);
             Debug.Log("Enemies in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.NEnemies);
             Debug.Log("Enemy Types in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.TotalByType.EnemiesByTypeDictionary.Count);
-            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine));
+            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine, IsLastQuestLine));
             SceneManager.LoadScene(dungeonScene.SceneName);
         }
 

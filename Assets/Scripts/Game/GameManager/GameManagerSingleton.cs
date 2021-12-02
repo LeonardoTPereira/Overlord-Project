@@ -57,10 +57,7 @@ namespace Game.GameManager
         private DungeonFileSo currentDungeonSO;
         private List<EnemySO> currentDungeonEnemies;
 
-        public static GameManagerSingleton instance = null;
-        protected TextAsset mapFile;
-        private List<TextAsset> rooms = new List<TextAsset>();
-        private List<int> randomLevelList = new List<int>();
+        public static GameManagerSingleton Instance { get; private set; }
         private Map map = null;
         public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
         public AudioSource audioSource;
@@ -84,7 +81,7 @@ namespace Game.GameManager
         public HealthUI healthUI;
         public KeyUI keyUI;
 
-        public int nExecutions, nBatches;
+        public bool IsLastQuestLine { get; set; }
 
         public static event EventHandler NewLevelLoadedEventHandler;
         public static event EventHandler GameStartEventHandler;
@@ -102,20 +99,15 @@ namespace Game.GameManager
         public void Awake()
         {
             //Singleton
-            if (instance == null)
-            {
-                instance = this;
-
-                enemyLoader = gameObject.GetComponent<EnemyLoader>();
-                audioSource = GetComponent<AudioSource>();
-
-                DontDestroyOnLoad(gameObject);
-            }
-            else if (instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
-
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            enemyLoader = gameObject.GetComponent<EnemyLoader>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Process all files in the directory passed in, recurse on any directories 
@@ -131,36 +123,33 @@ namespace Game.GameManager
         }
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             GameStartEventHandler(null, EventArgs.Empty);
             //panelIntro.SetActive(true);   foi comentado
         }
 
-        void InstantiateRooms()
+        private void InstantiateRooms()
         {
-            foreach (DungeonPart currentPart in map.DungeonPartByCoordinates.Values)
+            foreach (var currentPart in map.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
-                if (currentPart is DungeonRoom)
-                {
-                    InstantiateRoom(currentPart as DungeonRoom);
-                }
+                InstantiateRoom(currentPart);
             }
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             secondsElapsed += Time.deltaTime;
             if (!isInGame && generator != null && generator.hasFinished)
             {
-                instance.createdDungeon = generator.aux;
+                Instance.createdDungeon = generator.aux;
                 if (startButton != null)
                     startButton.interactable = true;
             }
             if (isCompleted && generator != null && generator.hasFinished)
             {
-                instance.createdDungeon = generator.aux;
+                Instance.createdDungeon = generator.aux;
                 currentMapId++;
                 Scene scene = SceneManager.GetActiveScene();
                 SceneManager.LoadScene(scene.name);
@@ -178,9 +167,9 @@ namespace Game.GameManager
             return map;
         }
 
-        void InstantiateRoom(DungeonRoom dungeonRoom)
+        private void InstantiateRoom(DungeonRoom dungeonRoom)
         {
-            RoomBhv newRoom = Instantiate(roomPrefab, roomsParent);
+            var newRoom = Instantiate(roomPrefab, roomsParent);
             newRoom.roomData = dungeonRoom;
             Coordinates targetCoordinates;
             newRoom.westDoor = null;
@@ -258,7 +247,7 @@ namespace Game.GameManager
             
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 
-            instance.enemyLoader.LoadEnemies(currentQuestLine.EnemySos);
+            Instance.enemyLoader.LoadEnemies(currentQuestLine.EnemySos);
             InstantiateRooms();
             ConnectRoooms();
             OnStartMap(dungeonFileSo.name, currentTestBatchId, map);
@@ -267,13 +256,14 @@ namespace Game.GameManager
         private void OnStartMap(string mapName, int batch, Map map)
         {
             Debug.Log("Starting Map");
+            Debug.Log("Max Treasure: "+ maxTreasure);
             int totalEnemies = roomBHVMap[map.StartRoomCoordinates].enemiesDictionary.Sum(x => x.Value);
-            StartMapEventHandler(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType)));
-            EnterRoomEventHandler(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, null
+            StartMapEventHandler?.Invoke(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType), maxTreasure));
+            EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, null
                 , -1, roomBHVMap[map.StartRoomCoordinates].gameObject.transform.position, (map.DungeonPartByCoordinates[map.StartRoomCoordinates] as DungeonRoom).Dimensions));
         }
 
-        void OnApplicationQuit()
+        private void OnApplicationQuit()
         {
             AnalyticsEvent.GameOver();
         }
@@ -288,20 +278,11 @@ namespace Game.GameManager
             //Analytics for the level
             if (!createMaps && !survivalMode)
                 victoryScreen.SetActive(true);
-            else
-                CheckEndOfBatch();
-
-        }
-
-        public void CheckEndOfBatch()
-        {
-            FinishMapEventHandler(this, new FinishMapEventArgs(map));
-            isCompleted = true;
         }
 
         private void EndGame(object sender, EventArgs eventArgs)
         {
-            FinishMapEventHandler(this, new FinishMapEventArgs(map));
+            FinishMapEventHandler?.Invoke(this, new FinishMapEventArgs(map));
         }
 
         void OnEnable()
@@ -310,13 +291,12 @@ namespace Game.GameManager
             LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelSO;
             LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelQuestLine;
             WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
-            PostFormMenuBHV.postFormButtonEventHandler += SetCurrentLevelSO;
-            PostFormMenuBHV.postFormButtonEventHandler += SetCurrentLevelQuestLine;
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelSO;
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBHV.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
+            DungeonLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
         }
         void OnDisable()
         {
@@ -324,23 +304,20 @@ namespace Game.GameManager
             LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelSO;
             LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelQuestLine;
             WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
-            PostFormMenuBHV.postFormButtonEventHandler -= SetCurrentLevelSO;
-            PostFormMenuBHV.postFormButtonEventHandler -= SetCurrentLevelQuestLine;
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelSO;
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBHV.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
+            DungeonLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
         }
 
-        void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
+        private void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
         {
             projectileType = eventArgs.ProjectileSO;
         }
-
-
-
-        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        
+        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (scene.name == "Level" || scene.name == "LevelWithEnemies")
             {
@@ -402,15 +379,14 @@ namespace Game.GameManager
         {
             currentQuestLine = args.LevelQuestLine;
         }
-
-        public bool HasMoreLevels()
+        
+        public void CheckIfLastAvailableQuestline(object sender, LevelLoadEventArgs args)
         {
-            return false;
+            IsLastQuestLine = args.IsLastQuestLine;
         }
-
         public void OnLevelLoadedEvents()
         {
-            NewLevelLoadedEventHandler(null, EventArgs.Empty);
+            NewLevelLoadedEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
         public bool IsLeftEdge(Coordinates coordinates)
@@ -451,17 +427,18 @@ namespace Game.GameManager
             return null;
         }
 
-        public void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
+        private void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
         {
-            if (orientation == 1)
+            switch (orientation)
             {
-                roomBHVMap[sourceCoordinates].doorWest.SetDestination(roomBHVMap[targetCoordinates].doorEast);
-                roomBHVMap[targetCoordinates].doorEast.SetDestination(roomBHVMap[sourceCoordinates].doorWest);
-            }
-            else if (orientation == 2)
-            {
-                roomBHVMap[sourceCoordinates].doorNorth.SetDestination(roomBHVMap[targetCoordinates].doorSouth);
-                roomBHVMap[targetCoordinates].doorSouth.SetDestination(roomBHVMap[sourceCoordinates].doorNorth);
+                case 1:
+                    roomBHVMap[sourceCoordinates].doorWest.SetDestination(roomBHVMap[targetCoordinates].doorEast);
+                    roomBHVMap[targetCoordinates].doorEast.SetDestination(roomBHVMap[sourceCoordinates].doorWest);
+                    break;
+                case 2:
+                    roomBHVMap[sourceCoordinates].doorNorth.SetDestination(roomBHVMap[targetCoordinates].doorSouth);
+                    roomBHVMap[targetCoordinates].doorSouth.SetDestination(roomBHVMap[sourceCoordinates].doorNorth);
+                    break;
             }
         }
     }

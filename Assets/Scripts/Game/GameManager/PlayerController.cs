@@ -56,11 +56,11 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        projectileType = GameManagerSingleton.instance.projectileSet.Items[actualProjectile];
+        projectileType = GameManagerSingleton.Instance.projectileSet.Items[actualProjectile];
         healthCtrl.SetHealth(maxHealth);
         originalColor = sr.color;
         healthCtrl.SetOriginalColor(originalColor);
-        SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.instance.projectileType));
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.Instance.projectileType));
     }
 
     private void OnEnable()
@@ -280,8 +280,8 @@ public class PlayerController : MonoBehaviour
 
     public void NextProjectileSO()
     {
-        actualProjectile = (actualProjectile + 1) % GameManagerSingleton.instance.projectileSet.Items.Count;
-        projectileType = GameManagerSingleton.instance.projectileSet.Items[actualProjectile];
+        actualProjectile = (actualProjectile + 1) % GameManagerSingleton.Instance.projectileSet.Items.Count;
+        projectileType = GameManagerSingleton.Instance.projectileSet.Items[actualProjectile];
         SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
     }
 }

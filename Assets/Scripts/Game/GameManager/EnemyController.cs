@@ -1,5 +1,6 @@
 ﻿using Game.EnemyGenerator;
 using System;
+using System.ComponentModel;
 using Game.Events;
 using ScriptableObjects;
 using UnityEngine;
@@ -11,6 +12,15 @@ public class EnemyController : MonoBehaviour
     public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
     private static readonly int HIT_ENEMY = 0;
     private static readonly int ENEMY_DEATH = 1;
+
+    [field: SerializeField]
+    public Sprite RandomMovementSprite { get; set; }
+    [field: SerializeField]
+    public Sprite FleeMovementSprite { get; set; }
+    [field: SerializeField]
+    public Sprite FollowMovementSprite { get; set; }
+    [field: SerializeField]
+    public Sprite NoneMovementSprite { get; set; }
 
     protected bool isActive;
     protected bool canDestroy;
@@ -160,7 +170,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Walk()
+    private void Walk()
     {
         if (!hasMoveDirBeenChosen)
         {
@@ -193,14 +203,14 @@ public class EnemyController : MonoBehaviour
         walkUntil -= Time.deltaTime;
     }
 
-    void Wait()
+    private void Wait()
     {
         //TODO Scream
         rb.velocity = Vector3.zero;
         waitUntil -= Time.deltaTime;
     }
 
-    void WaitShotCoolDown()
+    private void WaitShotCoolDown()
     {
         coolDownTime -= Time.deltaTime;
     }
@@ -208,36 +218,30 @@ public class EnemyController : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            OnPlayerHit();
-            collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, indexOnEnemyList);
-        }
+        if (!collision.gameObject.CompareTag("Player")) return;
+        OnPlayerHit();
+        collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, indexOnEnemyList);
     }
 
     public void CheckDeath()
     {
-        if (healthCtrl.GetHealth() <= 0f)
+        if (!(healthCtrl.GetHealth() <= 0f)) return;
+        audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
+        canDestroy = true;
+        var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
+        var childrenCollider = GetComponentsInChildren<Collider2D>();
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        foreach (var childSpriteRenderer in childrenSpriteRenderer)
         {
-            //TODO Audio and Particles
-            //Instantiate(bloodParticle, transform.position, Quaternion.identity);
-            audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
-            canDestroy = true;
-            var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
-            var childrenCollider = GetComponentsInChildren<Collider2D>();
-            GetComponent<Collider2D>().enabled = false;
-            GetComponent<SpriteRenderer>().enabled = false;
-            foreach (var childSpriteRenderer in childrenSpriteRenderer)
-            {
-                childSpriteRenderer.enabled = false;
-            }
-            foreach (var childCollider in childrenCollider)
-            {
-                childCollider.enabled = false;
-            }
-            room.CheckIfAllEnemiesDead();
-            KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
+            childSpriteRenderer.enabled = false;
         }
+        foreach (var childCollider in childrenCollider)
+        {
+            childCollider.enabled = false;
+        }
+        room.CheckIfAllEnemiesDead();
+        KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     /// Restore the health of this enemy based on the given health amount.
@@ -306,6 +310,14 @@ public class EnemyController : MonoBehaviour
             projectilePrefab = null;
         movement = enemyData.movement;
         behavior = enemyData.behavior.enemyBehavior;
+        if (enemyData.weapon.hasProjectile || enemyData.weapon.name == "Cure")
+        {
+            ApplyMageHat();
+        }
+        else if (enemyData.weapon.name == "None")
+        {
+            ApplySlimeSprite();
+        }
         // ApplyEnemyColors();
         hasMoveDirBeenChosen = false;
         originalColor = sr.color;
@@ -326,6 +338,39 @@ public class EnemyController : MonoBehaviour
         dataHasBeenLoaded = true;
     }
 
+    private void ApplyMageHat()
+    {
+        var head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+        if (head == null) return;
+        head.sprite = movement.enemyMovementIndex switch
+        {
+            Enums.MovementEnum.Random => RandomMovementSprite,
+            Enums.MovementEnum.Random1D => RandomMovementSprite,
+            Enums.MovementEnum.Flee1D => FleeMovementSprite,
+            Enums.MovementEnum.Flee => FleeMovementSprite,
+            Enums.MovementEnum.Follow1D => FollowMovementSprite,
+            Enums.MovementEnum.Follow => FollowMovementSprite,
+            Enums.MovementEnum.None => NoneMovementSprite,
+            _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
+        };
+    }    
+    
+    private void ApplySlimeSprite()
+    {
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = movement.enemyMovementIndex switch
+        {
+            Enums.MovementEnum.Random => RandomMovementSprite,
+            Enums.MovementEnum.Random1D => RandomMovementSprite,
+            Enums.MovementEnum.Flee1D => FleeMovementSprite,
+            Enums.MovementEnum.Flee => FleeMovementSprite,
+            Enums.MovementEnum.Follow1D => FollowMovementSprite,
+            Enums.MovementEnum.Follow => FollowMovementSprite,
+            Enums.MovementEnum.None => NoneMovementSprite,
+            _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
+        };
+    }
+    
     private void ApplyEnemyColors()
     {
 
