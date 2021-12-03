@@ -170,7 +170,7 @@ namespace Game.DataCollection
             HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
             GameManagerSingleton.FinishMapEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
+            FormBHV.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             Player.ExitRoomEventHandler += OnRoomExit;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
@@ -475,21 +475,19 @@ namespace Game.DataCollection
             profileString = "";
             profileString += "Profile,";
             profileString += "ExperimentalProfile,";
-            if (preFormAnswers.Count > 0)
+            if (preFormAnswers.Count <= 0) return;
+            int i = 0;
+            foreach (var answer in preFormAnswers)
             {
-                int i = 0;
-                foreach (int answer in preFormAnswers)
-                {
-                    profileString += "PreQuestion " + i + ",";
-                    i++;
-                }
-                profileString += "\n";
-                profileString += playerProfile.PlayerProfileEnum+",";
-                profileString += givenPlayerProfile.PlayerProfileEnum+",";
-                foreach (int answer in preFormAnswers)
-                {
-                    profileString += answer + ",";
-                }
+                profileString += "PreQuestion " + i + ",";
+                i++;
+            }
+            profileString += "\n";
+            profileString += playerProfile.PlayerProfileEnum+",";
+            profileString += givenPlayerProfile.PlayerProfileEnum+",";
+            foreach (int answer in preFormAnswers)
+            {
+                profileString += answer + ",";
             }
         }
 
