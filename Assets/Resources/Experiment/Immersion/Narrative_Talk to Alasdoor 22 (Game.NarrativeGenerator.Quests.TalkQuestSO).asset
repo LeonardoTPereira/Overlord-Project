@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c069680a34ca77146b84919dda4b894e, type: 3}
+  m_Name: Narrative_Talk to Alasdoor 22 (Game.NarrativeGenerator.Quests.TalkQuestSO)
+  m_EditorClassIdentifier: 
+  graph:
+  - {fileID: 11400000, guid: 058dcf9d12879624c93f50ea42084fab, type: 2}
+  - {fileID: 11400000, guid: 294fa90ebc02c83438ad7f2c24fe2c66, type: 2}
+  - {fileID: 11400000, guid: 52c7b912bdc172a4c93f1970c01576d9, type: 2}
+  - {fileID: 11400000, guid: bf0765f84f7b2a844be13f8d918236cb, type: 2}
+  - {fileID: 11400000, guid: 170ffb73a5826cf459e0fcbad2bab6fb, type: 2}
+  - {fileID: 11400000, guid: 07fd3d6f4b1870c46854c83126ea9a8f, type: 2}
+  - {fileID: 11400000, guid: a03f478667afc1945a1b0256e17a81f8, type: 2}
+  - {fileID: 11400000, guid: f9d6d32243a2f5741a1e539a079536dc, type: 2}
+  - {fileID: 11400000, guid: 6adb581dab1d39d4b8e9a8133acedc1d, type: 2}
+  - {fileID: 11400000, guid: aec9f6024e90d5243910c98ea5c34915, type: 2}
+  - {fileID: 11400000, guid: da3c33bfd25ca3f4585d1c238dd3aa0c, type: 2}
+  - {fileID: 11400000, guid: 675f5cfc0b79e574790878e34f43b629, type: 2}
+  - {fileID: 11400000, guid: 900e726c73e4c3847b61bb1deedceb06, type: 2}
+  _dungeonFileSos:
+  - {fileID: 11400000, guid: 4cb5e71681b55fa4c8c0cf1768334b70, type: 2}
+  - {fileID: 11400000, guid: 9581da28789670d4cbe73fbaf1248b0a, type: 2}
+  - {fileID: 11400000, guid: be70db907e539ac43b0c5e190f5712f9, type: 2}
+  - {fileID: 11400000, guid: 516cf69c18587204fa558cc958207e37, type: 2}
+  - {fileID: 11400000, guid: 7b28d32b1f35b5a47acd4d2aa6c5a534, type: 2}
+  - {fileID: 11400000, guid: f68362eb23d00ae40a9b3262e6832dff, type: 2}
+  - {fileID: 11400000, guid: 009f279ddea1ca64c82e3dac228795a0, type: 2}
+  - {fileID: 11400000, guid: 50f8a93c473b2434699a132f42258440, type: 2}
+  - {fileID: 11400000, guid: 77b0c49824cffcd4698a345a8c6df426, type: 2}
+  - {fileID: 11400000, guid: d01672c7f55bf7f4796600bbf464f665, type: 2}
+  - {fileID: 11400000, guid: 097d0537b265dca438cd6253f221e371, type: 2}
+  - {fileID: 11400000, guid: 834001e487da3c44186c22ac09e8da47, type: 2}
+  - {fileID: 11400000, guid: a28ae7cdb628b6f4196418fa3c084e04, type: 2}
+  - {fileID: 11400000, guid: 216498f53f34c534b99d0d65b1e48a01, type: 2}
+  - {fileID: 11400000, guid: a242f36285a99e94f8564a78ddcf707c, type: 2}
+  - {fileID: 11400000, guid: 8a539a31d47bdbe479856bba2007de60, type: 2}
+  - {fileID: 11400000, guid: 150dedf2cfea68946b26e97c29141e0b, type: 2}
+  - {fileID: 11400000, guid: a52b8f8b4db92094e8d3c890869ce396, type: 2}
+  - {fileID: 11400000, guid: 71c0512d4fcea88419613328ab00cd23, type: 2}
+  - {fileID: 11400000, guid: b6ae1caa71665074bba7226627747bb2, type: 2}
+  - {fileID: 11400000, guid: 71dd3be38e48ce04c81f1537e1605870, type: 2}
+  - {fileID: 11400000, guid: ad3e52d59e2e65f46bad2647b9795206, type: 2}
+  - {fileID: 11400000, guid: 17cc1c06b75e6c54abce5d599c11207f, type: 2}
+  - {fileID: 11400000, guid: 9c69b14ed145a5d48bd27c0fbd5701cc, type: 2}
+  - {fileID: 11400000, guid: ad69e42ec83bdf943839b2fc1e682704, type: 2}
+  _npcParametersForQuestLine:
+    totalNpcs: 0
+  _itemParametersForQuestLine:
+    <ItemsByType>k__BackingField:
+      itemAmountBySo:
+        reorderableList:
+          canAdd: 0
+          canRemove: 0
+          draggable: 0
+          expandable: 0
+          multipleSelection: 0
+          isExpanded: 0
+          label:
+            m_Text: 
+            m_Image: {fileID: 0}
+            m_Tooltip: 
+          headerHeight: 0
+          footerHeight: 0
+          slideEasing: 0
+          verticalSpacing: 0
+          showDefaultBackground: 0
+          elementDisplayType: 0
+          elementNameProperty: 
+          elementNameOverride: 
+          elementIcon: {fileID: 0}
+        reqReferences: {fileID: 0}
+        isExpanded: 0
+        _keyValues:
+        - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+        _keys:
+        - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+        _values: 05000000
+    <TotalItems>k__BackingField: 5
+  _enemySos:
+  - {fileID: 11400000, guid: cd4090f48e3886640911f5bddbcf860f, type: 2}
+  - {fileID: 11400000, guid: 3146efb23fda2874eb1a74682615434c, type: 2}
+  - {fileID: 11400000, guid: c70747ae7f44f564b9b1f7225e27d071, type: 2}
+  - {fileID: 11400000, guid: a4aa7132fbcdc0c4ebc31db9ad4fab82, type: 2}
+  - {fileID: 11400000, guid: ad93c8a03454458419168d8cfba444c6, type: 2}
+  - {fileID: 11400000, guid: 1baa3a7776a1ac5479e8dd36fb3abe65, type: 2}
+  - {fileID: 11400000, guid: 8fdb562864e7cf0448beb6819314e834, type: 2}
+  - {fileID: 11400000, guid: 61f66c3c7a60e76409c788d1de2afe3e, type: 2}
+  - {fileID: 11400000, guid: c8373106b687cd14c8c0301c1145c9b7, type: 2}
+  - {fileID: 11400000, guid: 05a32abb030107944b8cfc2e937cd360, type: 2}
+  - {fileID: 11400000, guid: 549eb84a66f81684e932df7287c2ed78, type: 2}
+  - {fileID: 11400000, guid: 10d394dfcc53bc84a83b5397e57396b2, type: 2}
+  - {fileID: 11400000, guid: eaefca2184594884686b0578108c8086, type: 2}
+  - {fileID: 11400000, guid: 7a4d0458b7c4ff5488ea98aa4e076696, type: 2}
+  - {fileID: 11400000, guid: f7b0596388b84794f86312e57a889536, type: 2}
+  - {fileID: 11400000, guid: ab463192fa38bc84da86c50db39c0f64, type: 2}
+  - {fileID: 11400000, guid: 40c29ebd43223dc4f9bb90a47f592116, type: 2}
+  - {fileID: 11400000, guid: 193858edddef7d4459aae42c50204ce4, type: 2}
+  - {fileID: 11400000, guid: 57deb4759e320a245a9a68379679523a, type: 2}
+  - {fileID: 11400000, guid: 6bee0025d1011874483c06f62eb9ac50, type: 2}
+  - {fileID: 11400000, guid: 4e4ce7a524c4d484385db2ae76d1cb8e, type: 2}
+  - {fileID: 11400000, guid: a0452830b29a9c44c8d5f8107bbd215c, type: 2}
+  - {fileID: 11400000, guid: 35e675d9fa8bd5946833bebbb195b990, type: 2}
+  - {fileID: 11400000, guid: c78b13beca699eb4cb815b582c02bd7d, type: 2}
+  - {fileID: 11400000, guid: ac26832f2bfb2fd4ca541a1e63c40aed, type: 2}
+  - {fileID: 11400000, guid: 3205cfea3f945e54b944014d544456ca, type: 2}
+  - {fileID: 11400000, guid: 8acdee0877704b74b9ee515c55f7cae3, type: 2}
+  - {fileID: 11400000, guid: f73f36e87395b2347b53d775a2469c0b, type: 2}
+  - {fileID: 11400000, guid: 4a24183cc9a69694695dd4ea165f073e, type: 2}
+  - {fileID: 11400000, guid: 6ee4550aafdd89544a9e43bd34067c36, type: 2}
+  - {fileID: 11400000, guid: 13f4886c9e65b3345a9c608b10535e75, type: 2}
+  - {fileID: 11400000, guid: d4262da9d62d12143b0904c341d7d483, type: 2}
+  - {fileID: 11400000, guid: a14283c581ed56747815733cdc6cac9a, type: 2}
+  - {fileID: 11400000, guid: aae43cfb463101147a4d808646cb818b, type: 2}
+  - {fileID: 11400000, guid: 6e2c2799455bdca4da361ddb4f66615a, type: 2}
+  - {fileID: 11400000, guid: 1ebf6a4c09a030d4d9faf7241e921bc4, type: 2}
+  - {fileID: 11400000, guid: d9f5c02e761f19f48a9e06ac1a063da5, type: 2}
+  - {fileID: 11400000, guid: 416dcf04ed66ff84f996c8f7dc67b700, type: 2}
+  - {fileID: 11400000, guid: 4af7b1c57d3764642873eda9720a2fd8, type: 2}
+  - {fileID: 11400000, guid: e89b97814e25eec48831a0c97fb89192, type: 2}
+  - {fileID: 11400000, guid: c473fb796436a7d4dad1e02bed4f74e6, type: 2}
+  - {fileID: 11400000, guid: 4a7b6a31058f3c44a9f8d478cd4867d8, type: 2}
+  _npcSos:
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  _itemSos:
+  - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+  - {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}
+  - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+  - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+  - {fileID: 11400000, guid: 6881e33f4c55a2846b553f11159e8bac, type: 2}
+  dungeonParametersForQuestLine:
+    _size: 20
+    <NKeys>k__BackingField: 3
+    <LinearityEnum>k__BackingField: 2
+  enemyParametersForQuestLine:
+    <TotalByType>k__BackingField:
+      enemiesByType:
+        reorderableList:
+          canAdd: 0
+          canRemove: 0
+          draggable: 0
+          expandable: 0
+          multipleSelection: 0
+          isExpanded: 0
+          label:
+            m_Text: 
+            m_Image: {fileID: 0}
+            m_Tooltip: 
+          headerHeight: 0
+          footerHeight: 0
+          slideEasing: 0
+          verticalSpacing: 0
+          showDefaultBackground: 0
+          elementDisplayType: 0
+          elementNameProperty: 
+          elementNameOverride: 
+          elementIcon: {fileID: 0}
+        reqReferences: {fileID: 0}
+        isExpanded: 0
+        _keyValues:
+        - {fileID: 11400000, guid: 47b8db2b014647145bdbd766c2640dfe, type: 2}
+        - {fileID: 11400000, guid: f03063efdc35e3b428c1b906a4a3d5c8, type: 2}
+        _keys:
+        - {fileID: 11400000, guid: 47b8db2b014647145bdbd766c2640dfe, type: 2}
+        - {fileID: 11400000, guid: f03063efdc35e3b428c1b906a4a3d5c8, type: 2}
+        _values: 1700000005000000
+    <NEnemies>k__BackingField: 28
+    <Difficulty>k__BackingField: 2

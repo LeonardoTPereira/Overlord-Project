@@ -144,13 +144,13 @@ public class RoomBhv : MonoBehaviour
         //Instantiate corner props
         GameObject auxObj;
         auxObj = Instantiate(NWCollumn, transform, true);
-        auxObj.transform.localPosition = new Vector2(-0.5f - centerX, roomData.Dimensions.Height - 0.5f - centerY);
+        auxObj.transform.localPosition = new Vector2(-1f - centerX, roomData.Dimensions.Height - centerY);
         auxObj = Instantiate(SECollumn, transform, true);
-        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - 0.5f - centerX, -0.5f - centerY);
+        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, -1f - centerY);
         auxObj = Instantiate(NECollumn, transform, true);
-        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - 0.5f - centerX, roomData.Dimensions.Height - 0.5f - centerY);
+        auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, roomData.Dimensions.Height - centerY);
         auxObj = Instantiate(SWCollumn, transform, true);
-        auxObj.transform.localPosition = new Vector2(-0.5f - centerX, -0.5f - centerY);
+        auxObj.transform.localPosition = new Vector2(-1f - centerX, -1f - centerY);
         
         SetEnemySpawners(centerX, centerY);
     }

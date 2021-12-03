@@ -207,7 +207,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.7
+  m_fontSize: 49.05
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -890,8 +890,12 @@ MonoBehaviour:
   keyText: {fileID: 0}
   roomText: {fileID: 0}
   levelText: {fileID: 0}
-  roomPrefab: {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102,
-    type: 3}
+  roomPrefabs:
+  - {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102, type: 3}
+  - {fileID: 114939094486873598, guid: c44be27716565aa4bb90c9d82734fd40, type: 3}
+  - {fileID: 114939094486873598, guid: 21265ebc8154f094b98a29adfdbbebf1, type: 3}
+  - {fileID: 114939094486873598, guid: 962c76af55ff3be468234bd041d69557, type: 3}
+  - {fileID: 114939094486873598, guid: 57c99de9578f3bb4188e20cc716b0c5b, type: 3}
   roomsParent: {fileID: 0}
   roomSpacingX: 20
   roomSpacingY: 20
@@ -1811,7 +1815,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.9
+  m_fontSize: 54.75
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2277,7 +2281,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.55
+  m_fontSize: 33.25
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3317,7 +3321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2625642, y: 0.48266667}
   m_AnchorMax: {x: 0.47524107, y: 0.753}
-  m_AnchoredPosition: {x: 10.9, y: -0.000038146973}
+  m_AnchoredPosition: {x: 8.399994, y: -19.100014}
   m_SizeDelta: {x: 138.29, y: 129.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &413184651 stripped
@@ -4624,7 +4628,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.75
+  m_fontSize: 38.45
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5411,7 +5415,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.041145187, y: 0.48266667}
   m_AnchorMax: {x: 0.25631422, y: 0.753}
-  m_AnchoredPosition: {x: -0.5, y: 1.0999985}
+  m_AnchoredPosition: {x: -3, y: -18}
   m_SizeDelta: {x: 137.29, y: 129.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &702310301
@@ -6186,7 +6190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5318355, y: 0.48266667}
   m_AnchorMax: {x: 0.75076246, y: 0.753}
-  m_AnchoredPosition: {x: -13.1, y: -0.0000076294}
+  m_AnchoredPosition: {x: -15.600006, y: -19.099983}
   m_SizeDelta: {x: 134.29, y: 129.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &775895302
@@ -6662,7 +6666,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.5
+  m_fontSize: 34.25
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7314,7 +7318,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.25
+  m_fontSize: 49
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7791,7 +7795,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 31.55
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8145,7 +8149,7 @@ PrefabInstance:
         type: 3}
       propertyPath: questionsData
       value: 
-      objectReference: {fileID: 11400000, guid: 59b1b474f8ded4845b8406fcc6ec875b,
+      objectReference: {fileID: 11400000, guid: 58fe81fb1cc5ae146abaebca85520005,
         type: 2}
     - target: {fileID: 114377053600315374, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -8728,7 +8732,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 31.9
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8835,8 +8839,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Se quiser escolher outra fase, clique no bot\xE3o abaixo. Responda o question\xE1rio
-    que aparecer\xE1 e te daremos outra fase :)"
+  m_text: "Se quiser escolher seguir para a pr\xF3xima etapa, clique no bot\xE3o
+    abaixo. Responda o question\xE1rio que aparecer\xE1 e te daremos conjunto de
+    fases :)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8948,7 +8953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.75076246, y: 0.48266667}
   m_AnchorMax: {x: 0.96443754, y: 0.753}
-  m_AnchoredPosition: {x: -0.17999268, y: -0.00006866455}
+  m_AnchoredPosition: {x: -2.6799927, y: -19.100044}
   m_SizeDelta: {x: 137.29, y: 129.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1155755267
@@ -9930,7 +9935,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.65
+  m_fontSize: 33.45
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11094,7 +11099,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.7
+  m_fontSize: 49.05
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11535,7 +11540,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.25
+  m_fontSize: 49.15
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13572,7 +13577,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.75
+  m_fontSize: 34.85
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14908,7 +14913,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Voc\xEA morreu :(\nClique no bot\xE3o abaixo para tentar de novo"
+  m_text: "Voc\xEA morreu :(\nClique no bot\xE3o abaixo para tentar novamente, em
+    um n\xEDvel similar"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14935,7 +14941,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.25
+  m_fontSize: 72
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15627,7 +15633,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.05
+  m_fontSize: 33.45
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15912,7 +15918,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.15
+  m_fontSize: 50.05
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1

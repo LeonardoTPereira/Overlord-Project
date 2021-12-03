@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <QuestLinesList>k__BackingField:
   - {fileID: 11400000, guid: 72dda30d625c731409ae6a47f8c97b97, type: 2}
+  - {fileID: 11400000, guid: ab061db8f5cb4d34cb7c594bd1351430, type: 2}
+  - {fileID: 11400000, guid: 6e80f2cd7b4da994a989e9a192a12101, type: 2}
+  - {fileID: 11400000, guid: b8ab503cbae3d0c45b43c1519e0a4226, type: 2}
+  - {fileID: 11400000, guid: caba3a3e306fe354f87343642b75a863, type: 2}
+  - {fileID: 11400000, guid: 48bcc8576f19e294a932d1daa5e43b00, type: 2}

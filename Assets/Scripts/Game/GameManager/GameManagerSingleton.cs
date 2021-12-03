@@ -17,6 +17,8 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Util;
+using Random = System.Random;
 
 namespace Game.GameManager
 {
@@ -63,7 +65,7 @@ namespace Game.GameManager
         public AudioSource audioSource;
         public AudioClip bgMusic, fanfarreMusic;
         public TextMeshProUGUI keyText, roomText, levelText;
-        public RoomBhv roomPrefab;
+        public List<RoomBhv> roomPrefabs;
         public Transform roomsParent;  //Transform to hold rooms for leaner hierarchy view
         public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public float roomSpacingX = 30f; //Spacing between rooms: X
@@ -129,11 +131,11 @@ namespace Game.GameManager
             //panelIntro.SetActive(true);   foi comentado
         }
 
-        private void InstantiateRooms()
+        private void InstantiateRooms(RoomBhv roomBhv)
         {
             foreach (var currentPart in map.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
-                InstantiateRoom(currentPart);
+                InstantiateRoom(currentPart, roomBhv);
             }
         }
 
@@ -167,7 +169,7 @@ namespace Game.GameManager
             return map;
         }
 
-        private void InstantiateRoom(DungeonRoom dungeonRoom)
+        private void InstantiateRoom(DungeonRoom dungeonRoom, RoomBhv roomPrefab)
         {
             var newRoom = Instantiate(roomPrefab, roomsParent);
             newRoom.roomData = dungeonRoom;
@@ -248,7 +250,10 @@ namespace Game.GameManager
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 
             Instance.enemyLoader.LoadEnemies(currentQuestLine.EnemySos);
-            InstantiateRooms();
+
+            var random = new Random(dungeonFileSo.name.GetHashCode());
+            var selectedRoom = roomPrefabs[random.Next(roomPrefabs.Count)];
+            InstantiateRooms(selectedRoom);
             ConnectRoooms();
             OnStartMap(dungeonFileSo.name, currentTestBatchId, map);
         }
