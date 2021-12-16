@@ -19,9 +19,6 @@ namespace Game.LevelManager
 
         public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
         {
-            Debug.Log("QuestLine: " + questLine.name);
-            Debug.Log("EnemyParameters: " + questLine.EnemyParametersForQuestLine);
-            Debug.Log("Enemies: " + questLine.EnemyParametersForQuestLine.NEnemies + " - " + questLine.EnemyParametersForQuestLine.TotalByType);
             var enemiesInQuestByType = new EnemiesByType(questLine.EnemyParametersForQuestLine.TotalByType);
             
             foreach (var dungeonPart in map.DungeonPartByCoordinates)

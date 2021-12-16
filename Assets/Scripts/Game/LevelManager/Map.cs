@@ -100,8 +100,6 @@ namespace Game.LevelManager
                 }
                 DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
             }
-            Debug.Log("NTreasure Rooms in Map = "+NTreasureRooms);
-
             GameManagerSingleton.Instance.maxRooms = nRooms;
             foreach (SORoom room in dungeonFileSO.rooms)
             {

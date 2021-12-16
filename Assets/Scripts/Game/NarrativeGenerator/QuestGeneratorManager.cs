@@ -78,12 +78,11 @@ namespace Game.NarrativeGenerator
 
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
-            PlayerProfile playerProfile = Selector.SelectProfile(e);
-            Debug.Log("Profile For Narrative: "+playerProfile.PlayerProfileEnum);
+            var playerProfile = Selector.SelectProfile(e);
             if (createNarrative)
             {
                 Selector.CreateMissions(this);
-                StartCoroutine(CreateNarrative(playerProfile));
+                CreateNarrative(playerProfile);
             }
             else
             {
@@ -95,14 +94,12 @@ namespace Game.NarrativeGenerator
         private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
             var answers = e.AnswerValue;
-
-            Debug.Log("Answers: " + answers.Count);
-
+            
             var playerProfile = Selector.SelectProfile(answers);
             if (createNarrative)
             {
                 Selector.CreateMissions(this);
-                StartCoroutine(CreateNarrative(playerProfile));
+                CreateNarrative(playerProfile);
             }
             else
             {
@@ -114,13 +111,54 @@ namespace Game.NarrativeGenerator
         private void Start()
         {
             Quests.Init();
-            Debug.Log("Starting QuestGeneratorManager");
+            _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
+            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
-        private IEnumerator CreateNarrative(PlayerProfile playerProfile)
+        private void CreateNarrative(PlayerProfile playerProfile)
+        {
+            SetQuestLineListForProfile(playerProfile);
+            CreateGeneratorParametersForQuestline(playerProfile);
+            CreateContentsForQuestLine();
+            Quests.CreateAsset(playerProfile.PlayerProfileEnum);
+            _questLines.AddQuestLine(Quests);
+            SaveSOs();
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+        }
+
+        private void CreateContentsForQuestLine()
+        {
+            Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
+            StartCoroutine(CreateDungeonsForQuestLine());
+            Quests.NpcSos = PlaceholderNpcs;
+            Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
+        }
+
+        private IEnumerator CreateDungeonsForQuestLine()
+        {
+            _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
+            while (!_levelGeneratorManager.hasFinished)
+            {
+                yield return null;
+            }
+            Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
+        }
+
+        private void SaveSOs()
+        {
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(_questLines);
+            AssetDatabase.SaveAssetIfDirty(_questLines);
+
+            EditorUtility.SetDirty(playerProfileToQuestLinesDictionarySo);
+            AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
+#endif
+        }
+
+        private void SetQuestLineListForProfile(PlayerProfile playerProfile)
         {
             if (playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.TryGetValue(
-                playerProfile.PlayerProfileEnum.ToString(), out var questLines))
+                    playerProfile.PlayerProfileEnum.ToString(), out var questLines))
             {
                 _questLines = questLines;
             }
@@ -129,40 +167,9 @@ namespace Game.NarrativeGenerator
                 _questLines = ScriptableObject.CreateInstance<QuestLineList>();
                 _questLines.QuestLinesList = new List<QuestLine>();
                 _questLines.SaveAsAsset(playerProfile.PlayerProfileEnum.ToString());
-                playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLines);
+                playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(),
+                    _questLines);
             }
-            _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
-            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
-                    
-            MakeBranches();
-                    
-            CreateGeneratorParametersForQuestline(playerProfile);
-
-            Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
-            // Start the generation process
-            _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
-            while (!_levelGeneratorManager.hasFinished)
-            {
-                yield return null;
-            }
-            Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
-            Debug.Log("Continuing Quest Generator");
-            //CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(Quests));
-            //TODO create NPC RuntimeSet
-            //TODO create these procedurally
-            Quests.NpcSos = PlaceholderNpcs;
-            Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
-            Quests.CreateAsset(playerProfile.PlayerProfileEnum);
-            _questLines.AddQuestLine(Quests);
-
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(_questLines);
-            AssetDatabase.SaveAssetIfDirty(_questLines);
-            
-            EditorUtility.SetDirty(playerProfileToQuestLinesDictionarySo);
-            AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
-#endif
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         private void CreateGeneratorParametersForQuestline(PlayerProfile playerProfile)
@@ -176,44 +183,6 @@ namespace Game.NarrativeGenerator
             Quests.EnemyParametersForQuestLine.CalculateDifficultyFromProfile(playerProfile);
             Quests.NpcParametersForQuestLine.CalculateNpcsFromQuests(Quests);
             Quests.ItemParametersForQuestLine.CalculateItemsFromQuests(Quests);
-        }
-
-        private void MakeBranches()
-        {
-            var index = 0;
-            Debug.Log("NQuests: "+ Quests.graph.Count);
-            /*while (index < Quests.graph.Count)
-            {
-                var b = Random.Range(0, 100);
-                var currentQuest = Quests.graph[index];
-                if (b % 2 == 0)
-                {
-                    var childIndex = Random.Range(index + 1, Quests.graph.Count);
-                    var nextWhenSuccess = Quests.graph[childIndex];
-                    if (childIndex < Quests.graph.Count)
-                    {
-                        nextWhenSuccess.Previous = currentQuest;
-                    }
-                    childIndex = Random.Range(index + 1, Quests.graph.Count);
-                    var nextWhenFailure = Quests.graph[childIndex];
-                    if (childIndex < Quests.graph.Count)
-                    {
-                        nextWhenFailure.Previous = currentQuest;
-                    }
-
-                    currentQuest.NextWhenSuccess = nextWhenSuccess;
-                    if (nextWhenSuccess != nextWhenFailure)
-                    {
-                        currentQuest.NextWhenFailure = nextWhenFailure;
-                    }
-                }
-                else if (index + 1 < Quests.graph.Count && Quests.graph[index + 1].Previous == null)
-                {
-                    Quests.graph[index + 1].Previous = currentQuest;
-                    Quests.graph[index].NextWhenSuccess = Quests.graph[index + 1];
-                }
-                index++;
-            }*/
         }
     }
 }

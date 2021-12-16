@@ -81,11 +81,10 @@ public class Player : PlaceableRoomObject
 
     public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
     {
-        Debug.Log("Adjusting Camera: " + eventArgs.RoomPosition.x + " - " + eventArgs.RoomPosition.y);
-        int roomWidth = eventArgs.RoomDimensions.Width;
-        float cameraXPosition = eventArgs.RoomPosition.x + roomWidth / 3.5f;
-        float cameraYPosition = eventArgs.RoomPosition.y;
-        float cameraZPosition = -5f;
+        var roomWidth = eventArgs.RoomDimensions.Width;
+        var cameraXPosition = eventArgs.RoomPosition.x + roomWidth / 3.5f;
+        var cameraYPosition = eventArgs.RoomPosition.y;
+        var cameraZPosition = -5f;
         cam.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         //minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
     }

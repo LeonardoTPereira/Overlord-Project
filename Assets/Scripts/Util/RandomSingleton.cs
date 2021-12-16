@@ -1,13 +1,18 @@
 ﻿using System;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Util
 {
     public class RandomSingleton
     {
-        private const int randomSeed = 42;
         private RandomSingleton()
         {
-            random = new Random(randomSeed);
+            var seed = (int) DateTime.Now.Ticks & 0x0000FFFF;
+            random = new Random(seed);
+            #if UNITY_EDITOR
+                Debug.Log("Random Seed: " + seed);
+            #endif
         }
 
         private static RandomSingleton _instance;

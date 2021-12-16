@@ -51,7 +51,6 @@ public class TreasureController : PlaceableRoomObject
 
     protected void OnTreasureCollect()
     {
-        Debug.Log("Collected the treasure");
         treasureCollectEvent?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
     }
 }

@@ -17,9 +17,7 @@ namespace Game.LevelManager
 
         public static DungeonPart CreateDungeonCorridorFromEACorridor(Coordinates coordinates, string partCode, List<int> lockIDs)
         {
-            if (partCode == Constants.RoomTypeString.CORRIDOR)
-                return new DungeonCorridor(coordinates, partCode);
-            return new DungeonLockedCorridor(coordinates, lockIDs);
+            return partCode == Constants.RoomTypeString.CORRIDOR ? new DungeonCorridor(coordinates, partCode) : new DungeonLockedCorridor(coordinates, lockIDs);
         }
 
         public static DungeonPart CreateDungeonPartFromDungeonFileSO(SORoom dungeonRoom)

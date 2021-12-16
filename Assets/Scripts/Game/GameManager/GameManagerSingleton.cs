@@ -260,8 +260,6 @@ namespace Game.GameManager
 
         private void OnStartMap(string mapName, int batch, Map map)
         {
-            Debug.Log("Starting Map");
-            Debug.Log("Max Treasure: "+ maxTreasure);
             int totalEnemies = roomBHVMap[map.StartRoomCoordinates].enemiesDictionary.Sum(x => x.Value);
             StartMapEventHandler?.Invoke(this, new StartMapEventArgs(mapName, batch, map, projectileSet.Items.IndexOf(projectileType), maxTreasure));
             EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(map.StartRoomCoordinates, roomBHVMap[map.StartRoomCoordinates].hasEnemies, null

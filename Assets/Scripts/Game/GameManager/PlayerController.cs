@@ -228,7 +228,6 @@ public class PlayerController : MonoBehaviour
 
     private void CheckDeath(object sender, PlayerIsDamagedEventArgs eventArgs)
     {
-        Debug.Log("Check Death");
         var mainParticle= bloodParticle.main;
         mainParticle.startSpeed = 0;
         var forceOverLifetime = bloodParticle.forceOverLifetime;

@@ -55,9 +55,8 @@ namespace LevelGenerator
         /// Perform the level evolution process.
         private void Evolution()
         {
-            Debug.Log("Starting Evolution");
             // Initialize the random generator
-            System.Random rand = new System.Random(prs.seed);
+            var rand = new System.Random(prs.seed);
 
             // Initialize the MAP-Elites population
             Population pop = new Population(

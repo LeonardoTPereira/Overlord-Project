@@ -103,7 +103,6 @@ namespace LevelGenerator
 
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
             _questLine.DungeonFileSos.Add(dungeonFileSO);
-            Debug.Log("Finished Writing dungeon data");
 #endif
         }
 

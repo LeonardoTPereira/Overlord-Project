@@ -66,11 +66,7 @@ namespace LevelGenerator
         public void EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
         {
             fitness = eventArgs.Fitness;
-            Debug.Log($"Fitness - room={fitness.DesiredRooms}, keys={fitness.DesiredKeys}, " +
-                      $"locks={fitness.DesiredLocks}, linearity={fitness.DesiredLinearity}, " +
-                      $"enemies{fitness.DesiredEnemies}");
             _questLine = eventArgs.QuestLineForDungeon;
-            Debug.Log("Quest Line: "+_questLine.name);
             // Define the evolutionary parameters
             _parameters = new Parameters(
                 (new System.Random()).Next(), // Random seed
@@ -110,7 +106,6 @@ namespace LevelGenerator
                     }
                 }
             }
-            Debug.Log("The dungeons were printed!");
             // Set the first level as the option to be played in the scene
             aux = solution.map[0, 0].dungeon;
             hasFinished = true;
@@ -119,10 +114,8 @@ namespace LevelGenerator
         public void Evolve()
         {
             hasFinished = false;
-            Debug.Log("Start creating dungeons...");
             generator = new LevelGenerator(_parameters, newEAGenerationEventHandler);
             generator.Evolve();
-            Debug.Log("The dungeons were created!");
         }
     }
 }

@@ -225,7 +225,7 @@ public class EnemyController : MonoBehaviour
 
     public void CheckDeath()
     {
-        if (!(healthCtrl.GetHealth() <= 0f)) return;
+        if (healthCtrl.GetHealth() > 0f) return;
         audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
         canDestroy = true;
         var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();

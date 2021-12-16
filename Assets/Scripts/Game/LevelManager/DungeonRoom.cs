@@ -35,10 +35,6 @@ namespace Game.LevelManager
         {
             KeyIDs = keyIDs;
             HasItemPreference = treasure > 0;
-            if (HasItemPreference)
-            {
-                Debug.Log("Found a leaf Node!");
-            }
             TotalEnemies = totalEnemies;
             HasNpcPreference = npc > 0;
             EnemiesByType = null;
@@ -77,14 +73,10 @@ namespace Game.LevelManager
         }
         public Vector3 GetNextAvailablePosition(Vector3 currentPosition)
         {
-            Debug.Log("Current pos: "+ currentPosition);
-            Vector3 roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
-            Debug.Log("Room center: "+ roomSelfCenter);
-            Vector3 newFreePosition = new Vector3(currentPosition.x, currentPosition.y, 0) + roomSelfCenter;
-            Debug.Log("New Position: " + newFreePosition);
+            var roomSelfCenter = new Vector3(dimensions.Width / 2.0f - 0.5f, dimensions.Height / 2.0f - 0.5f, 0);
+            var newFreePosition = new Vector3(currentPosition.x, currentPosition.y, 0) + roomSelfCenter;
             do
             {
-                Debug.Log("New Position in Loop: " + newFreePosition);
                 newFreePosition.x += 1;
                 if (newFreePosition.x <= 3 * dimensions.Width / 4) continue;
                 newFreePosition.x = dimensions.Width/4;

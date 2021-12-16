@@ -175,8 +175,8 @@ namespace Game.DataCollection
             Player.ExitRoomEventHandler += OnRoomExit;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             GameManagerSingleton.StartMapEventHandler += OnMapStart;
-            QuestGeneratorManager.ProfileSelectedEventHandler += OnExperimentProfileSelected;
-            ExperimentController.ProfileSelectedEventHandler += OnProfileSelected;
+            QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
+            ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             NpcController.DialogueOpenEventHandler += OnInteractNPC;
         }
@@ -300,7 +300,6 @@ namespace Game.DataCollection
             }
             playerFinalHealth = eventArgs.PlayerHealthWhenEntering;
 
-            Debug.Log("VISITED: (x=" + eventArgs.RoomCoordinates.X + ",y=" + eventArgs.RoomCoordinates.Y);
             if (eventArgs.RoomHasEnemies)
             {
                 actualRoomInfo.RoomId = 10 * eventArgs.RoomCoordinates.X + eventArgs.RoomCoordinates.Y;
@@ -639,7 +638,7 @@ namespace Game.DataCollection
             WrapLevelProfileToString();
             WrapLevelDetailedCombatProfileToString();
             StartCoroutine(PostData("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString)); //TODO: verificar corretamente como serão salvos os arquivos
-            SaveToLocalFile("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
+            //SaveToLocalFile("Map" + levelID, profileString, heatMapString, levelProfileString, detailedLevelProfileString);
             string UploadFilePath = GameplayData.instance.sessionUID;
         }
 
@@ -695,7 +694,6 @@ namespace Game.DataCollection
             //This connects to a server side php script that will write the data
             //string post_url = postDataURL + "name=" + WWW.EscapeURL(name) + "&data=" + data ;
             string post_url = PostDataURL;
-            Debug.Log("LogName:" + name);
             WWWForm form = new WWWForm();
             form.AddField("name", sessionUID);
             form.AddBinaryData("data", data, name + "-Player" + Csv, "text/csv");
@@ -710,10 +708,6 @@ namespace Game.DataCollection
             if (data_post.error != null)
             {
                 print("There was an error saving data: " + data_post.error);
-            }
-            else
-            {
-                Debug.Log("Upload complete!");
             }
         }
     }

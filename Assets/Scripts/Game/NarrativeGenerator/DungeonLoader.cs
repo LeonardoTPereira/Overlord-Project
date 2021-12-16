@@ -38,9 +38,6 @@ namespace Game.NarrativeGenerator
         /// Load the level from the given filename.
         public void LoadLevel()
         {
-            Debug.Log("Loading Level: "+SelectedDungeon.name + " Questline: "+ LevelQuestLine.name);
-            Debug.Log("Enemies in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.NEnemies);
-            Debug.Log("Enemy Types in Quest Line: "+ LevelQuestLine.EnemyParametersForQuestLine.TotalByType.EnemiesByTypeDictionary.Count);
             LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine, IsLastQuestLine));
             SceneManager.LoadScene(dungeonScene.SceneName);
         }
