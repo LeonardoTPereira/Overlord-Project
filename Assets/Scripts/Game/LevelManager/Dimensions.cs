@@ -1,17 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class Dimensions
+namespace Game.LevelManager
 {
-    [SerializeField]
-    private int width, height;
-    public Dimensions(int width, int height)
+    [Serializable]
+    public class Dimensions
     {
-        Width = width;
-        Height = height;
-    }
+        [SerializeField]
+        private int width, height;
+        public Dimensions(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
 
-    public int Width { get => width; set => width = value; }
-    public int Height { get => height; set => height = value; }
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
+    }
 }

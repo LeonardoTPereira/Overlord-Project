@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.GameManager;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
 public class KeyUI : MonoBehaviour
 {
@@ -24,13 +26,13 @@ public class KeyUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.NewLevelLoadedEventHandler += ResetKeyGUI;
+        GameManagerSingleton.NewLevelLoadedEventHandler += ResetKeyGUI;
         KeyBHV.KeyCollectEventHandler += CreateKeyImage;
     }
 
     private void OnDisable()
     {
-        GameManager.NewLevelLoadedEventHandler -= ResetKeyGUI;
+        GameManagerSingleton.NewLevelLoadedEventHandler -= ResetKeyGUI;
         KeyBHV.KeyCollectEventHandler -= CreateKeyImage;
     }
 
@@ -70,7 +72,7 @@ public class KeyUI : MonoBehaviour
             // Set heart sprite
             Image keyImageUI = keyGameObject.GetComponent<Image>();
             keyImageUI.sprite = keySprite;
-            keyImageUI.color = Util.colorId[playerKeys[i] - 1];
+            keyImageUI.color = Constants.colorId[playerKeys[i] - 1];
 
 
             keyList.Add(keyImageUI);

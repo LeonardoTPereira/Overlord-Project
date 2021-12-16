@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu]
-public class FormQuestionData : ScriptableObject
+namespace Game.DataCollection
 {
-    [TextArea]
-    public string question;
-    public string description;
-    public int answer;
+    [CreateAssetMenu]
+    public class FormQuestionData : ScriptableObject
+    {
+        [TextArea]
+        public string question;
+        public string description;
+        public int answer;
+    }
 }

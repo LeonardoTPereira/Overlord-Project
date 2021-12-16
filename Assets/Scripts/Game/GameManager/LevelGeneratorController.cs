@@ -1,17 +1,24 @@
 ﻿using LevelGenerator;
 using MyBox;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using Game.Maestro;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Program), typeof(NarrativeConfigSO))]
+[RequireComponent(typeof(LevelGeneratorManager), typeof(NarrativeConfigSO))]
 public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 {
+
+    [SerializeField, MustBeAssigned]
+    private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
+
     public static event CreateEADungeonEvent createEADungeonEventHandler;
+    private string playerProfile;
 
     protected Dictionary<string, TMP_InputField> inputFields;
     [SerializeField]
@@ -24,8 +31,6 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     [Separator("Fitness Parameters to Create Dungeons")]
     [SerializeField]
     protected Fitness fitness;
-    [SerializeField]
-    protected NarrativeConfigSO narrativeConfigSO;
 
     public void Awake()
     {
@@ -39,46 +44,41 @@ public class LevelGeneratorController : MonoBehaviour, IMenuPanel
 
     public void OnEnable()
     {
-        Program.newEAGenerationEventHandler += UpdateProgressBar;
+        LevelGeneratorManager.newEAGenerationEventHandler += UpdateProgressBar;
+        QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
     }
     public void OnDisable()
     {
-        Program.newEAGenerationEventHandler -= UpdateProgressBar;
+        LevelGeneratorManager.newEAGenerationEventHandler -= UpdateProgressBar;
+        QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
     }
 
-    public void CreateLevel()
+    public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
     {
-        int nRooms, nKeys, nLocks;
+        inputCanvas.SetActive(false);
+        progressCanvas.SetActive(true);
+    }
+
+        public void CreateLevelFromInput()
+    {
+        int nRooms, nKeys, nLocks, nEnemies;
         float linearity;
-        /*try
+        try
         {
             nRooms = int.Parse(inputFields["RoomsInputField"].text);
             nKeys = int.Parse(inputFields["KeysInputField"].text);
             nLocks = int.Parse(inputFields["LocksInputField"].text);
+            nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
             linearity = float.Parse(inputFields["LinearityInputField"].text);
-            fitness = new Fitness(nRooms, nKeys, nLocks, linearity);
+            fitness = new Fitness(nRooms, nKeys, nLocks, nEnemies, linearity);
+            createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(fitness));
         }
         catch (KeyNotFoundException)
         {
             Debug.LogWarning("Input Fields for Dungeon Generator incorrect. Using values from the Editor");
-        }*/
+        }
         inputCanvas.SetActive(false);
         progressCanvas.SetActive(true);
-        DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath +
-        "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Enemy");
-        FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-        string narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
-            "/Enemy/"+fileInfos[0].Name.Replace(".json", "")).text;
-        JSonWriter.ParametersMonsters parametersMonsters = JsonConvert.DeserializeObject<JSonWriter.ParametersMonsters>(narrativeText);
-
-        directoryInfo = new DirectoryInfo(Application.dataPath +
-        "\\Resources\\" + narrativeConfigSO.narrativeFileName + "\\Dungeon");
-        fileInfos = directoryInfo.GetFiles("*.*");
-        narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + 
-            "/Dungeon/" + fileInfos[0].Name.Replace(".json", "")).text;
-        JSonWriter.ParametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.ParametersDungeon>(narrativeText);
-
-        createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parametersDungeon, parametersMonsters));
     }
 
     public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)

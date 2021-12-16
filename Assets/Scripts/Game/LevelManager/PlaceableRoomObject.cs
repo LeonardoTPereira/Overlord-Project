@@ -1,16 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlaceableRoomObject : MonoBehaviour
+namespace Game.LevelManager
 {
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
+    public abstract class PlaceableRoomObject : MonoBehaviour
     {
 
     }

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
     [CreateAssetMenu]
-    public class TreasureRuntimeSetSO : RuntimeSetSO<TreasureSO>
+    public class TreasureRuntimeSetSO : RuntimeSetSO<ItemSo>
     {
     }
 }

@@ -1,6 +1,10 @@
-﻿using EnemyGenerator;
+﻿using Game.EnemyGenerator;
 using System;
+using Game.Events;
+using Game.GameManager;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,17 +15,21 @@ public class PlayerController : MonoBehaviour
     protected int shootDmg, maxHealth;
     [SerializeField]
     protected GameObject bulletSpawn, bulletPrefab;
-
+    [SerializeField]
+    protected ParticleSystem bloodParticle;
+    
+    private bool canMove;
 
     Animator anim;
     float lastX, lastY;
-    private AudioSource audioSrc;
 
     [SerializeField]
     private float timeAfterShoot, rotatedAngle;
     private Vector2 shootForce = new Vector2(0f, 0f);
     private Color originalColor;
     protected Rigidbody2D rb;
+    private Collider2D collider;
+    private SpriteRenderer sr;
 
     private int actualProjectile;
 
@@ -31,43 +39,55 @@ public class PlayerController : MonoBehaviour
     private ProjectileTypeSO projectileType;
 
     public static event EventHandler PlayerDeathEventHandler;
+    public static event EventHandler ResetHealthEventHandler;
 
     public void Awake()
     {
         actualProjectile = 0;
-        projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
-        anim = GetComponent<Animator>();
         timeAfterShoot = 0.0f;
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        originalColor = sr.color;
         healthCtrl = gameObject.GetComponent<HealthController>();
-        healthCtrl.SetOriginalColor(originalColor);
+        anim = GetComponent<Animator>();
+        sr = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        SetProjectileSO(null, new LoadWeaponButtonEventArgs(GameManager.instance.projectileType));
+        collider = gameObject.GetComponent<Collider2D>();
+        canMove = true;
     }
 
     // Use this for initialization
     void Start()
     {
+        projectileType = GameManagerSingleton.Instance.projectileSet.Items[actualProjectile];
         healthCtrl.SetHealth(maxHealth);
-        anim = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        originalColor = sr.color;
+        healthCtrl.SetOriginalColor(originalColor);
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.Instance.projectileType));
     }
 
     private void OnEnable()
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
         HealthController.PlayerIsDamagedEventHandler += CheckDeath;
+        NpcController.DialogueOpenEventHandler += StopInput;
+        NpcController.DialogueCloseEventHandler += RestartInput;
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
+
     private void OnDisable()
     {
         WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
         HealthController.PlayerIsDamagedEventHandler -= CheckDeath;
+        NpcController.DialogueOpenEventHandler -= StopInput;
+        NpcController.DialogueCloseEventHandler -= RestartInput;
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "Overworld" || scene.name == "LevelWithEnemies")
+        {
+            canMove = true;
+            collider.enabled = true;
+        }
     }
 
     void FixedUpdate()
@@ -84,17 +104,28 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
             NextProjectileSO();
-
-        Move(movement, shootDir);
-
-        if (coolDownTime > 0.0f)
+        if (canMove)
         {
-            coolDownTime -= Time.fixedDeltaTime;
+            Move(movement, shootDir);
+            if (coolDownTime > 0.0f)
+            {
+                coolDownTime -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                Shoot(shootDir, movement);
+            }
         }
-        else
-        {
-            Shoot(shootDir, movement);
-        }
+    }
+
+    private void StopInput(object sender, EventArgs eventArgs)
+    {
+        canMove = false;
+    }
+
+    private void RestartInput(object sender, EventArgs eventArgs)
+    {
+        canMove = true;
     }
 
     protected void Move(Vector2 movement, Vector2 shoot)
@@ -140,7 +171,6 @@ public class PlayerController : MonoBehaviour
         bulletSpawn.transform.rotation = Quaternion.Euler(0, 0, rotatedAngle);
         if (willShoot)
         {
-
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             bullet.tag = "Bullet"; //adicionado por Luana e Paolo
             bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
@@ -196,18 +226,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PlayGetkey()
-    {
-        audioSrc.PlayOneShot(audioSrc.clip, 1.0f);
-    }
-
     private void CheckDeath(object sender, PlayerIsDamagedEventArgs eventArgs)
     {
+        var mainParticle= bloodParticle.main;
+        mainParticle.startSpeed = 0;
+        var forceOverLifetime = bloodParticle.forceOverLifetime;
+        forceOverLifetime.enabled = true;
+        forceOverLifetime.x = eventArgs.ImpactDirection.x * 20;
+        forceOverLifetime.y = eventArgs.ImpactDirection.y * 20;
+        forceOverLifetime.z = eventArgs.ImpactDirection.z * 20;
+
+        bloodParticle.Play();
         if (eventArgs.PlayerHealth <= 0)
         {
             //TODO KILL
-            Time.timeScale = 0f;
-            PlayerDeathEventHandler?.Invoke(this, EventArgs.Empty);
+            canMove = false;
+            collider.enabled = false;
+            PlayerDeathEventHandler?.Invoke(null, EventArgs.Empty);
             //Debug.Log("RIP");
         }
     }
@@ -224,6 +259,7 @@ public class PlayerController : MonoBehaviour
     public void ResetHealth()
     {
         healthCtrl.SetHealth(maxHealth);
+        ResetHealthEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     public int GetHealth()
@@ -236,11 +272,15 @@ public class PlayerController : MonoBehaviour
         return maxHealth;
     }
 
-    public void NextProjectileSO()
+    public bool IsInvincible()
     {
-        actualProjectile = (actualProjectile + 1) % GameManager.instance.projectileSet.Items.Count;
-        projectileType = GameManager.instance.projectileSet.Items[actualProjectile];
-        SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
+        return healthCtrl.IsInvincible();
     }
 
+    public void NextProjectileSO()
+    {
+        actualProjectile = (actualProjectile + 1) % GameManagerSingleton.Instance.projectileSet.Items.Count;
+        projectileType = GameManagerSingleton.Instance.projectileSet.Items[actualProjectile];
+        SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
+    }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
     [CreateAssetMenu]
     public class BehaviorTypeRuntimeSetSO : RuntimeSetSO<BehaviorTypeSO>

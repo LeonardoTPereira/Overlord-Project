@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
     public class RuntimeSetSO<T> : ScriptableObject
     {

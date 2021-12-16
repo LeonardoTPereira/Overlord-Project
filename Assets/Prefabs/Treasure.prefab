@@ -48,6 +48,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -59,6 +61,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -71,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -1691099297
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -228357258890464381, guid: 29269b331c7bd2e4ca9b20f2eb3d526d,
+  m_Sprite: {fileID: 5830663447770310669, guid: 2029ebd237c51d9458a6a3e19a84d009,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9f8911b73c17947a22f3dcc8dde83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Treasure>k__BackingField: {fileID: 0}
   takenSnd: {fileID: 8300000, guid: b0fecfaa9d9cd26448eca762aa7710bd, type: 3}
 --- !u!58 &8366201993581959792
 CircleCollider2D:

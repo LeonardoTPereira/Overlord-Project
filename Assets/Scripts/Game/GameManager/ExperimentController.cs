@@ -1,183 +1,108 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using Game.Maestro;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
+using MyBox;
 using UnityEngine;
-using static Enums;
+using UnityEngine.SceneManagement;
+using Util;
+using Random = UnityEngine.Random;
 
-
-
-public class ExperimentController : MonoBehaviour
+namespace Game.GameManager
 {
-    private class NarrativeClassPlaceholder
+    public class ExperimentController : MonoBehaviour
     {
-        public string name;
-    }
+        public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
-    private static readonly char SEPARATOR_CHARACTER = Path.DirectorySeparatorChar;
-    private static readonly string EXPERIMENT_DIRECTORY = SEPARATOR_CHARACTER + "Experiment";
-    private static string PROFILE_DIRECTORY;
-    [SerializeField]
-    private DungeonEntrance[] dungeonEntrances;
-    private List<TextAsset> dungeonAssetsList, narrativeAssetsList;
-    private List<string> enemyDirectoriesList;
+        [SerializeField, MustBeAssigned]
+        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
+        private List<QuestLine> _questLineListForProfile;
 
-    private void Awake()
-    {
-        dungeonAssetsList = null;
-        narrativeAssetsList = null;
-        enemyDirectoriesList = null;
-    }
+        [SerializeField]
+        private DungeonLoader[] dungeonEntrances;
 
-    private void OnEnable()
-    {
-        Manager.ProfileSelectedEventHandler += LoadDataForExperiment;
-    }
-
-    private void OnDisable()
-    {
-        Manager.ProfileSelectedEventHandler -= LoadDataForExperiment;
-    }
-
-    public void Start()
-    {
-        dungeonEntrances = FindObjectsOfType<DungeonEntrance>();
-    }
-
-    private void SetProfileDirectory(PlayerProfileEnum playerProfile)
-    {
-        PROFILE_DIRECTORY = EXPERIMENT_DIRECTORY + SEPARATOR_CHARACTER + playerProfile.ToString() + SEPARATOR_CHARACTER;
-    }
-
-    private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
-    {
-        SetProfileDirectory(profileSelectedEventArgs.PlayerProfile);
-        NarrativeClassPlaceholder narrative = SelectNarrative();
-        LoadAvailableLevelsForNarrative(narrative.name);
-        LoadAvailableEnemiesForNarrative(narrative.name);
-
-    }
-
-    private NarrativeClassPlaceholder SelectNarrative()
-    {
-        if (narrativeAssetsList == null)
+        private void Awake()
         {
-            TextAsset[] narrativeAssets = LoadAllNarratives();
-            narrativeAssetsList = narrativeAssets.ToList();
+            _questLineListForProfile = null;
         }
-        int selectedNarrativeIndex = Random.Range(0, narrativeAssetsList.Count);
-        string narrativeContent = narrativeAssetsList[selectedNarrativeIndex].text;
-        narrativeAssetsList.RemoveAt(selectedNarrativeIndex);
-        return JsonConvert.DeserializeObject<NarrativeClassPlaceholder>(narrativeContent);
-    }
 
-    private void LoadAvailableLevelsForNarrative(string narrativeName)
-    {
-        if (dungeonAssetsList == null)
+        private void OnEnable()
         {
-            TextAsset[] dungeonAssets = LoadAllDungeons(narrativeName);
-            dungeonAssetsList = dungeonAssets.ToList();
+            QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
-        string[] levelFileNames = SelectDungeonsForThisRound();
-        SetFilesToDungeonEntrances(levelFileNames);
-    }
 
-    private void LoadAvailableEnemiesForNarrative(string narrativeName)
-    {
-        if (enemyDirectoriesList == null)
+        private void OnDisable()
         {
-            string[] enemieDirectories = LoadAllEnemieDirectories(narrativeName);
-            enemyDirectoriesList = enemieDirectories.ToList();
+            QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
+            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
-        string[] enemyDirectoriesName = SelectEnemiesForThisRound();
-        SetEnemiesToDungeonEntrances(enemyDirectoriesName);
-    }
 
-    private void SetFilesToDungeonEntrances(string []levelFileNames)
-    {
-        for (int i = 0; i < dungeonEntrances.Length; ++i)
+        IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
         {
-            dungeonEntrances[i].LevelFileName = levelFileNames[i];
+            yield return new WaitUntil(() => CanLoadNarrativesToDungeonEntrances(scene));
+            SelectNarrativeAndSetDungeonsToEntrances();
         }
-    }
 
-    private void SetEnemiesToDungeonEntrances(string[] enemyFileNames)
-    {
-        for (int i = 0; i < dungeonEntrances.Length; ++i)
+        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            dungeonEntrances[i].EnemyFileName = enemyFileNames[i];
+            StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
+        }
+
+        private bool CanLoadNarrativesToDungeonEntrances(Scene scene)
+        {
+            return scene.name == "Overworld";
+        }
+
+        private void SelectNarrativeAndSetDungeonsToEntrances()
+        {
+            QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
+            List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
+            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
+            foreach (var dungeonEntrance in dungeonEntrances)
+            {
+                int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
+                dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
+                dungeonEntrance.LevelQuestLine = selectedQuestLine;
+                dungeonEntrance.IsLastQuestLine = _questLineListForProfile.Count == 0;
+                dungeonFileSos.RemoveAt(selectedIndex);
+            }
+        }
+
+        private QuestLine GetAndRemoveRandomQuestLine()
+        {
+            QuestLine questLine;
+            int selectedIndex = RandomSingleton.GetInstance().Random.Next(_questLineListForProfile.Count);
+            questLine = _questLineListForProfile[selectedIndex];
+            _questLineListForProfile.RemoveAt(selectedIndex);
+            return questLine;
+        }
+
+        private void SetQuestLinesForProfile(PlayerProfile playerProfile)
+        {
+            _questLineListForProfile = new List<QuestLine>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
+                playerProfile.PlayerProfileEnum.ToString()].QuestLinesList);
+        }
+
+        private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
+        {
+            PlayerProfile selectedProfile;
+            if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
+            {
+                selectedProfile = profileSelectedEventArgs.PlayerProfile;
+            }
+            else
+            {
+                selectedProfile = new PlayerProfile();
+                do
+                {
+                    selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
+                } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
+            }
+            ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
+            SetQuestLinesForProfile(selectedProfile);
         }
     }
-
-    private string[] SelectDungeonsForThisRound()
-    {
-        string[] levelFileNames = new string[dungeonEntrances.Length - 1];
-        for (int i = 0; i < dungeonEntrances.Length; ++i)
-        {
-            int selectedDungeon = Random.Range(0, dungeonAssetsList.Count);
-            levelFileNames[i] = dungeonAssetsList[selectedDungeon].name;
-            dungeonAssetsList.RemoveAt(selectedDungeon);
-        }
-        return levelFileNames;
-    }
-
-    private string[] SelectEnemiesForThisRound()
-    {
-        string[] enemyDirectoryNames = new string[dungeonEntrances.Length - 1];
-        for (int i = 0; i < dungeonEntrances.Length; ++i)
-        {
-            int selectedEnemy = Random.Range(0, enemyDirectoriesList.Count);
-            enemyDirectoryNames[i] = enemyDirectoriesList[selectedEnemy];
-            dungeonAssetsList.RemoveAt(selectedEnemy);
-        }
-        return enemyDirectoryNames;
-    }
-
-    private TextAsset[] LoadAllNarratives()
-    {
-        string narrativeDirectoryPath = PROFILE_DIRECTORY + "Narratives" + SEPARATOR_CHARACTER;
-        return Resources.LoadAll<TextAsset>(narrativeDirectoryPath);
-    }
-
-    private TextAsset[] LoadAllDungeons(string narrativeDirectoryName)
-    {
-        string dungeonDirectoryPath = PROFILE_DIRECTORY + SEPARATOR_CHARACTER + "Dungeons" + SEPARATOR_CHARACTER + narrativeDirectoryName + SEPARATOR_CHARACTER;
-        return Resources.LoadAll<TextAsset>(dungeonDirectoryPath);
-    }
-
-    private string[] LoadAllEnemieDirectories(string narrativeDirectoryName)
-    {
-        List<TextAsset[]> enemiesPerDirectory = new List<TextAsset[]>();
-        string enemyDirectoryPath = PROFILE_DIRECTORY + SEPARATOR_CHARACTER + "Enemies" + SEPARATOR_CHARACTER + narrativeDirectoryName + SEPARATOR_CHARACTER;
-        return Directory.GetDirectories(Application.dataPath + SEPARATOR_CHARACTER + enemyDirectoryPath);
-    }
-
 }
-
-
-
-//This loads the narratives for creating dungeons in real time when needed
-/*public void LoadAvailableNarrativesForProfile(PlayerProfileEnum playerProfile)
-{
-    // Get the directory separator
-    char sep = Path.DirectorySeparatorChar;
-
-    // Define the JSON file extension
-    const string extension = ".json";
-
-    DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + sep + "Resources" + sep + narrativeSO.narrativeFileName + sep + "Dungeon");
-    FileInfo[] fileInfos = directoryInfo.GetFiles("*.*");
-    string narrativeText = Resources.Load<TextAsset>(narrativeSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
-    JSonWriter.parametersDungeon parametersDungeon = JsonConvert.DeserializeObject<JSonWriter.parametersDungeon>(narrativeText);
-
-    //narrativeText = Resources.Load<TextAsset>(narrativeConfigSO.narrativeFileName + sep + "Dungeon" + sep + fileInfos[0].Name.Replace(extension, "")).text;
-    TextAsset[] levelAssets = Resources.LoadAll<TextAsset>("Levels" + sep);
-    string levelName = "R" + parametersDungeon.size + "-K" + parametersDungeon.nKeys + "-L" + parametersDungeon.nKeys + "-L" + parametersDungeon.linearity;
-    Debug.Log(levelName);
-    Debug.Log(levelAssets[0].name);
-    TextAsset[] availableDungeons = levelAssets.Where(l => l.name.Contains(levelName)).ToArray();
-
-    Debug.Log("DungeonFileName: " + availableDungeons[0].name);
-    loadLevelEventHandler(this, new LevelLoadEventArgs(availableDungeons[0].name, "Enemies" + sep + "Hard" + sep));
-    SceneManager.LoadScene("LevelWithEnemies");
-}*/

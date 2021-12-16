@@ -1,5 +1,6 @@
-﻿using EnemyGenerator;
+﻿using Game.EnemyGenerator;
 using MyBox;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,8 +12,8 @@ public class WeaponLoaderBHV : MonoBehaviour, IMenuPanel
     GameObject previousPanel;
     [SerializeField]
     Button button;
-    [SerializeField, Scene]
-    protected string levelToLoad;
+    [SerializeField]
+    SceneReference levelToLoad;
     public static event LoadWeaponButtonEvent LoadWeaponButtonEventHandler;
 
     protected void OnEnable()
@@ -35,7 +36,7 @@ public class WeaponLoaderBHV : MonoBehaviour, IMenuPanel
     public void GoToNext()
     {
         LoadWeaponButtonEventHandler(this, new LoadWeaponButtonEventArgs(projectileSO));
-        SceneManager.LoadScene(levelToLoad);
+        SceneManager.LoadScene(levelToLoad.SceneName);
         gameObject.SetActive(false);
     }
 

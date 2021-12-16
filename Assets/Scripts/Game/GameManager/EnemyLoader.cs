@@ -1,42 +1,115 @@
-﻿using EnemyGenerator;
+﻿using System.Collections.Generic;
+using Game.GameManager;
+using Game.Maestro;
+using Game.EnemyGenerator;
 using System.Linq;
+using MyBox;
+using ScriptableObjects;
 using UnityEngine;
-using static Enums;
+using static Util.Enums;
+using Newtonsoft.Json.Linq;
+using Util;
 
 public class EnemyLoader : MonoBehaviour
 {
-    [SerializeField]
-    public EnemySO[] bestEnemies;
-    public GameObject enemyPrefab, bomberEnemyPrefab;
+    private List<EnemySO> enemyListForCurrentDungeon;
 
-    public void LoadEnemies(string difficultyFileName)
+    
+    public WeaponTypeRuntimeSetSO WeaponTypes => _weaponTypes;
+
+    [SerializeField]
+    public EnemySO[] arena;
+    public GameObject enemyPrefab;
+    public GameObject barehandEnemyPrefab;
+    public GameObject shooterEnemyPrefab;
+    public GameObject bomberEnemyPrefab;
+    public GameObject healerEnemyPrefab;
+    [SerializeField]
+    [MustBeAssigned] private WeaponTypeRuntimeSetSO _weaponTypes;
+
+    public void LoadEnemies(List<EnemySO> enemyList)
     {
-        Debug.Log("Enemy File: " + difficultyFileName);
-        //string foldername = "Enemies/"+difficultyFileName;
-        bestEnemies = Resources.LoadAll(difficultyFileName, typeof(EnemySO)).Cast<EnemySO>().ToArray();
+        enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
         ApplyDelegates();
     }
 
-
-    public GameObject InstantiateEnemyWithIndex(int index, Vector3 position, Quaternion rotation)
+    public EnemySO GetRandomEnemyOfType(WeaponTypeSO enemyType)
     {
-        //Debug.Log("Begin instantiating");
+        List<EnemySO> currentEnemies = GetEnemiesFromType(enemyType);
+        return currentEnemies[Random.Range(0, currentEnemies.Count)];
+    }
+
+    public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)
+    {
+        EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
         GameObject enemy;
-        if (bestEnemies[index].weapon.name == "BombThrower")
+        //TODO change to use weaponType in comparison
+        if (currentEnemy.weapon.name == "None")
+        {
+            enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemy.weapon.name == "Bow")
+        {
+            enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemy.weapon.name == "BombThrower")
+        {
             enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+        }
+        else if (currentEnemy.weapon.name == "Cure")
+        {
+            enemy = Instantiate(healerEnemyPrefab, position, rotation);
+        }
         else
+        {
             enemy = Instantiate(enemyPrefab, position, rotation);
-        enemy.GetComponent<EnemyController>().LoadEnemyData(bestEnemies[index], index);
+        }
+        enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy);
         return enemy;
     }
+    
+    public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
+    {
+        GameObject enemy;
+        //TODO change to use weaponType in comparison
+        if (enemySo.weapon.name == "None")
+        {
+            enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+        }
+        else if (enemySo.weapon.name == "Bow")
+        {
+            enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+        }
+        else if (enemySo.weapon.name == "BombThrower")
+        {
+            enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+        }
+        else if (enemySo.weapon.name == "Cure")
+        {
+            enemy = Instantiate(healerEnemyPrefab, position, rotation);
+        }
+        else
+        {
+            enemy = Instantiate(enemyPrefab, position, rotation);
+        }
+        enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo);
+        return enemy;
+    }
+
+    private List<EnemySO> GetEnemiesFromType(WeaponTypeSO weaponType)
+    {
+        //TODO create these lists only once per type on dungeon load
+        return enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
+    }
+
     private void ApplyDelegates()
     {
-        foreach (EnemySO enemy in bestEnemies)
+        foreach (var enemy in enemyListForCurrentDungeon)
         {
             enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
         }
     }
-    public MovementType GetMovementType(Enums.MovementEnum moveTypeEnum)
+    public MovementType GetMovementType(MovementEnum moveTypeEnum)
     {
         switch (moveTypeEnum)
         {

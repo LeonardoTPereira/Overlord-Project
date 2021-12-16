@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu] [Serializable]
     public class WeaponTypeSO : ScriptableObject
     {
         public float multiplier;
         public bool hasProjectile;
+        [SerializeField]
         public ProjectileTypeSO projectile;
+        [SerializeField]
         public GameObject weaponPrefab;
     }
 }

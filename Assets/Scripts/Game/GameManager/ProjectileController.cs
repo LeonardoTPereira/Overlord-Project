@@ -1,8 +1,10 @@
 ﻿
-using EnemyGenerator;
+using Game.EnemyGenerator;
 using System;
+using Game.Events;
+using ScriptableObjects;
 using UnityEngine;
-using static Util;
+using Util;
 
 public class ProjectileController : MonoBehaviour
 {
@@ -27,9 +29,7 @@ public class ProjectileController : MonoBehaviour
     private int damage;
     [SerializeField]
     public ProjectileTypeSO ProjectileSO { get; set; }
-
-    private Quantities quantities; //Luana e Paolo
-
+    
     // Use this for initialization
     void Awake()
     {
@@ -37,8 +37,6 @@ public class ProjectileController : MonoBehaviour
         audioSrc = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         isSin = false;
-
-        quantities = FindObjectOfType<Quantities>();
     }
 
     private void Start()
@@ -47,6 +45,21 @@ public class ProjectileController : MonoBehaviour
             Debug.LogError("NO PROJECTILE SO!!!");
         MoveSpeed = ProjectileSO.moveSpeed;
         damage = ProjectileSO.damage;
+    }
+
+    void OnEnable()
+    {
+        PlayerController.PlayerDeathEventHandler += PlayerHasDied;
+    }
+
+    void OnDisable()
+    {
+        PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
+    }
+
+    private void PlayerHasDied(object sender, EventArgs eventArgs)
+    {
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -74,22 +87,23 @@ public class ProjectileController : MonoBehaviour
 
     protected virtual void OnEnemyHit()
     {
-        enemyHitEventHandler(this, EventArgs.Empty);
+        enemyHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     protected virtual void OnPlayerHit()
     {
-        playerHitEventHandler(this, EventArgs.Empty);
+        playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var collisionDirection = Vector3.Normalize(collision.gameObject.transform.position - gameObject.transform.position);
         if (CompareTag("EnemyBullet"))
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                //OnPlayerHit();
-                //collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, enemyThatShot);
+                OnPlayerHit();
+                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, enemyThatShot);
                 DestroyBullet();
             }
         }
@@ -97,10 +111,9 @@ public class ProjectileController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                quantities.numberEnemies++;
-
                 OnEnemyHit();
-                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage);
+                collision.gameObject.GetComponent<EnemyController>().ApplyDamageEffects(collisionDirection);
+                collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection);
                 DestroyBullet();
             }
             if (collision.gameObject.CompareTag("Shield"))
@@ -121,16 +134,16 @@ public class ProjectileController : MonoBehaviour
 
     public void Shoot(Vector2 facingDirection)
     {
-        PlayerProjectileEnum projEnum = ProjectileSO.projectileBehaviorIndex;
+        Enums.PlayerProjectileEnum projEnum = ProjectileSO.projectileBehaviorIndex;
         switch (projEnum)
         {
-            case PlayerProjectileEnum.STRAIGHT:
+            case Enums.PlayerProjectileEnum.STRAIGHT:
                 StraightShot(facingDirection);
                 break;
-            case PlayerProjectileEnum.SIN:
+            case Enums.PlayerProjectileEnum.SIN:
                 SinShot(facingDirection);
                 break;
-            case PlayerProjectileEnum.TRIPLE:
+            case Enums.PlayerProjectileEnum.TRIPLE:
                 TripleShot(facingDirection);
                 break;
         }

@@ -1,21 +1,29 @@
 ﻿using System;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.Quests;
 
 public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
 public class CreateEADungeonEventArgs : EventArgs
 {
     private Fitness fitness;
-    private JSonWriter.ParametersMonsters parametersMonsters;
+    public QuestLine QuestLineForDungeon { get; }
+    private string playerProfile;
+
     public CreateEADungeonEventArgs(Fitness fitness)
     {
         Fitness = fitness;
+        QuestLineForDungeon = null;
     }
-    public CreateEADungeonEventArgs(JSonWriter.ParametersDungeon parametersDungeon, JSonWriter.ParametersMonsters parametersMonsters)
+    //TODO refactor Fitness to accept only the parameter classes
+    public CreateEADungeonEventArgs(QuestLine questLine)
     {
-        Fitness = new Fitness(parametersDungeon.size, parametersDungeon.nKeys, parametersDungeon.nKeys, parametersDungeon.linearity);
-        ParametersMonsters = parametersMonsters;
+        QuestLineForDungeon = questLine;
+        QuestDungeonsParameters questDungeonParameters = questLine.DungeonParametersForQuestLine;
+        QuestEnemiesParameters questEnemiesParameters = questLine.EnemyParametersForQuestLine;
+        Fitness = new Fitness(questDungeonParameters.Size, questDungeonParameters.NKeys, 
+                questDungeonParameters.NKeys, questEnemiesParameters.NEnemies, questDungeonParameters.GetLinearity());
     }
-
-
+    
     public Fitness Fitness { get => fitness; set => fitness = value; }
-    public JSonWriter.ParametersMonsters ParametersMonsters { get => parametersMonsters; set => parametersMonsters = value; }
 }

@@ -1,52 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Events;
+using UnityEditor;
 using UnityEngine;
 
-public class FormBHV : MonoBehaviour
+namespace Game.DataCollection
 {
-
-    public FormQuestionsData questionsData;
-    public GameObject questionPrefab;
-    public RectTransform questionsPanel;
-    public RectTransform submitButton;
-    public float extraQuestionsPanelHeight = 100;
-    private List<FormQuestionBHV> questions = new List<FormQuestionBHV>();
-    public int formID; //0 for pretest, 1 for posttest
-
-    public static event FormAnsweredEvent FormQuestionAnsweredEventHandler;
-    public static event EventHandler PostTestFormAnswered;
-
-    // Use this for initialization
-    void Start()
+    public class FormBHV : MonoBehaviour
     {
-        foreach (FormQuestionData q in questionsData.questions)
+
+        public FormQuestionsData questionsData;
+        public GameObject questionPrefab;
+        public RectTransform questionsPanel;
+        public RectTransform submitButton;
+        public float extraQuestionsPanelHeight = 100;
+        private List<FormQuestionBHV> questions = new List<FormQuestionBHV>();
+        public int formID; //0 for pretest, 1 for posttest
+
+        public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
+        public static event FormAnsweredEvent PostTestFormQuestionAnsweredEventHandler;
+
+        // Use this for initialization
+        void Start()
         {
-            GameObject g = Instantiate(questionPrefab);
-            g.GetComponent<FormQuestionBHV>().LoadData(q);
-            g.transform.SetParent(questionsPanel);
-            questions.Add(g.GetComponent<FormQuestionBHV>());
+            foreach (FormQuestionData q in questionsData.questions)
+            {
+                GameObject g = Instantiate(questionPrefab);
+                g.GetComponent<FormQuestionBHV>().LoadData(q);
+                g.transform.SetParent(questionsPanel);
+                questions.Add(g.GetComponent<FormQuestionBHV>());
+            }
+            float panelHeight = questionsData.questions.Count
+                                * questionPrefab.GetComponent<RectTransform>().rect.height;
+            panelHeight += extraQuestionsPanelHeight;
+            questionsPanel.sizeDelta = new Vector2(0.0f, panelHeight);
+            submitButton.SetAsLastSibling();
         }
-        float panelHeight = questionsData.questions.Count
-            * questionPrefab.GetComponent<RectTransform>().rect.height;
-        panelHeight += extraQuestionsPanelHeight;
-        questionsPanel.sizeDelta = new Vector2(0.0f, panelHeight);
-        submitButton.SetAsLastSibling();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void Submit()
-    {
-        foreach (FormQuestionBHV q in questions)
+        // Update is called once per frame
+        void Update()
         {
-            FormQuestionAnsweredEventHandler(this, new FormAnsweredEventArgs(formID, q.questionData.answer));
-            q.ResetToggles();
+
         }
-        if (formID == 1)
-            PostTestFormAnswered?.Invoke(null, EventArgs.Empty);
+
+        public void Submit()
+        {
+            #if UNITY_EDITOR
+            AssetDatabase.SaveAssetIfDirty(questionsData);
+            #endif
+            List<int> answers = new List<int>();
+            foreach (FormQuestionBHV q in questions)
+            {
+                answers.Add(q.questionData.answer);
+                q.ResetToggles();
+            }
+            if (formID == 1)
+                PostTestFormQuestionAnsweredEventHandler?.Invoke(null, new FormAnsweredEventArgs(formID, answers));
+            else
+            {
+                PreTestFormQuestionAnsweredEventHandler?.Invoke(this, new FormAnsweredEventArgs(formID, answers));
+            }
+        }
     }
 }

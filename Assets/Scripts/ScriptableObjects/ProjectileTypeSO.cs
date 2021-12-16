@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using static Util;
+using Util;
 
-namespace EnemyGenerator
+namespace ScriptableObjects
 {
     public delegate void ProjectileBehavior(Vector2 shootDirection);
 
@@ -13,7 +13,7 @@ namespace EnemyGenerator
         //These data are for player's projectiles only (for now)
         public int damage;
         public float atkSpeed, moveSpeed;
-        public PlayerProjectileEnum projectileBehaviorIndex;
+        public Enums.PlayerProjectileEnum projectileBehaviorIndex;
         public string projectileName, description;
         public Color color;
     }

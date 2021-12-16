@@ -20,7 +20,7 @@ PlayerSettings:
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
-  m_SplashScreenAnimation: 1
+  m_SplashScreenAnimation: 0
   m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 0
   m_SplashScreenBackgroundAnimationZoom: 1
@@ -39,13 +39,15 @@ PlayerSettings:
     y: 0
     width: 1
     height: 1
-  m_SplashScreenLogos: []
+  m_SplashScreenLogos:
+  - logo: {fileID: -1913766561011900796, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
+    duration: 5
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
-  defaultScreenWidthWeb: 1600
-  defaultScreenHeightWeb: 900
+  defaultScreenWidthWeb: 1280
+  defaultScreenHeightWeb: 720
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 1
   m_MTRendering: 1
@@ -70,7 +72,7 @@ PlayerSettings:
   androidBlitType: 0
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 0
+  runInBackground: 1
   captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
@@ -145,7 +147,8 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.LeonardoTrtoroPereira.ProCoG
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -256,7 +259,14 @@ PlayerSettings:
   AndroidMinifyDebug: 0
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 150
-  m_BuildTargetIcons: []
+  m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: eff781a1fda002e41ba31de86c0dcab2, type: 3}
+      m_Width: 128
+      m_Height: 128
+      m_Kind: 0
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsJobs:
@@ -285,7 +295,7 @@ PlayerSettings:
   - m_BuildTarget: AndroidPlayer
     m_GraphicsJobs: 0
   - m_BuildTarget: WebGLSupport
-    m_GraphicsJobs: 0
+    m_GraphicsJobs: 1
   m_BuildTargetGraphicsJobMode:
   - m_BuildTarget: PS4Player
     m_GraphicsJobMode: 0
@@ -314,6 +324,8 @@ PlayerSettings:
     m_EncodingQuality: 1
   - m_BuildTarget: PS4
     m_EncodingQuality: 1
+  - m_BuildTarget: WebGL
+    m_EncodingQuality: 0
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetNormalMapEncoding: []
   playModeTestRunnerEnabled: 0
@@ -462,6 +474,8 @@ PlayerSettings:
   switchNetworkInterfaceManagerInitializeEnabled: 1
   switchPlayerConnectionEnabled: 1
   switchUseNewStyleFilepaths: 0
+  switchUseMicroSleepForYield: 1
+  switchMicroSleepForYieldTime: 25
   ps4NPAgeRating: 12
   ps4NPTitleSecret: 
   ps4NPTrophyPackPath: 
@@ -532,6 +546,7 @@ PlayerSettings:
   ps4videoRecordingFeaturesUsed: 0
   ps4contentSearchFeaturesUsed: 0
   ps4CompatibilityPS5: 0
+  ps4AllowPS5Detection: 0
   ps4GPU800MHz: 1
   ps4attribEyeToEyeDistanceSettingVR: 0
   ps4IncludedModules: []
@@ -542,25 +557,25 @@ PlayerSettings:
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
   webGLMemorySize: 256
-  webGLExceptionSupport: 1
-  webGLNameFilesAsHashes: 0
-  webGLDataCaching: 0
-  webGLDebugSymbols: 0
+  webGLExceptionSupport: 0
+  webGLNameFilesAsHashes: 1
+  webGLDataCaching: 1
+  webGLDebugSymbols: 1
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: APPLICATION:Default
+  webGLTemplate: PROJECT:responsive-template-2020
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 2
-  webGLWasmArithmeticExceptions: 0
+  webGLWasmArithmeticExceptions: 1
   webGLLinkerTarget: 0
   webGLThreadsSupport: 0
-  webGLDecompressionFallback: 0
+  webGLDecompressionFallback: 1
   scriptingDefineSymbols:
-    1: UNITY_POST_PROCESSING_STACK_V2
+    1: UNITY_POST_PROCESSING_STACK_V2;RH_SerializedDictionary
     4: UNITY_POST_PROCESSING_STACK_V2
     7: UNITY_POST_PROCESSING_STACK_V2
-    13: UNITY_POST_PROCESSING_STACK_V2
+    13: UNITY_POST_PROCESSING_STACK_V2;RH_SerializedDictionary
     14: UNITY_POST_PROCESSING_STACK_V2
     19: UNITY_POST_PROCESSING_STACK_V2
     21: UNITY_POST_PROCESSING_STACK_V2

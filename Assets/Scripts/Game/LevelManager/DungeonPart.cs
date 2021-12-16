@@ -1,39 +1,44 @@
-﻿public abstract class DungeonPart
+﻿using Util;
+
+namespace Game.LevelManager
 {
-    public string type;
-    public Coordinates coordinates;
+    public abstract class DungeonPart
+    {
+        private string type;
+        private Coordinates coordinates;
 
-    public static class Type
-    {
-        public const string START_ROOM = "s";
-        public const string FINAL_ROOM = "B";
-        public const string TREASURE_ROOM = "T";
-        public const string CORRIDOR = "c";
-        public const string LOCKED = "L";
-    }
-    public DungeonPart(Coordinates coordinates, string type)
-    {
-        this.coordinates = coordinates;
-        this.type = type;
-    }
-    public Coordinates GetCoordinates()
-    {
-        return coordinates;
-    }
+        public Coordinates Coordinates { get => coordinates; set => coordinates = value; }
+        public string Type { get => type; set => type = value; }
+        
+        protected DungeonPart(Coordinates coordinates, string type)
+        {
+            Coordinates = coordinates;
+            Type = type;
+        }
+        public Coordinates GetCoordinates()
+        {
+            return Coordinates;
+        }
 
-    public bool IsRoom()
-    {
-        return ((coordinates.X % 2) + (coordinates.Y % 2)) == 0;
-    }
+        public bool IsRoom()
+        {
+            return Coordinates.X % 2 + Coordinates.Y % 2 == 0;
+        }
 
-    public bool IsStartRoom()
-    {
-        return type?.Equals(Type.START_ROOM) ?? false;
-    }
+        public bool IsStartRoom()
+        {
+            return Type?.Equals(Constants.RoomTypeString.START) ?? false;
+        }
 
-    public bool IsFinalRoom()
-    {
-        return type?.Equals(Type.FINAL_ROOM) ?? false;
-    }
+        public bool IsFinalRoom()
+        {
+            return Type?.Equals(Constants.RoomTypeString.BOSS) ?? false;
+        }
+        
+        public bool IsTreasureRoom()
+        {
+            return Type?.Equals(Constants.RoomTypeString.TREASURE) ?? false;
+        }
 
+    }
 }

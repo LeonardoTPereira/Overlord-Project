@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.GameManager;
+using UnityEngine;
 
 public class GameOver : MonoBehaviour
 {
@@ -16,6 +17,6 @@ public class GameOver : MonoBehaviour
 
     public void MainMenuButton()
     {
-        GameManager.instance.MainMenu();
+        GameManagerSingleton.Instance.MainMenu();
     }
 }

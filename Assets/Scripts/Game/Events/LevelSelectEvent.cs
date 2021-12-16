@@ -1,4 +1,5 @@
 ﻿using System;
+using ScriptableObjects;
 
 public delegate void LevelSelectEvent(object sender, LevelSelectEventArgs e);
 public class LevelSelectEventArgs : EventArgs

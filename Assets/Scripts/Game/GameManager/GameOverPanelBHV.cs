@@ -21,8 +21,8 @@ public class GameOverPanelBHV : MonoBehaviour, IMenuPanel
     {
         //PlayerProfile.instance.OnMapComplete();
         //WeaponSelectPanel.SetActive(true);
-        //gameObject.SetActive(false);
-        SceneManager.LoadScene("LuanaPaolo");
-        Destroy(gm);
+        gameObject.SetActive(false);
+        SceneManager.LoadScene("LevelWithEnemies");
+        //Destroy(gm);
     }
 }

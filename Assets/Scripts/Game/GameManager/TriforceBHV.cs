@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.LevelManager;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,6 @@ public class TriforceBHV : PlaceableRoomObject
         if (other.tag == "Player")
         {
             GotTriforceEventHandler?.Invoke(this, EventArgs.Empty);
-            SceneManager.LoadScene("LuanaPaolo"); //Luana
         }
     }
 }

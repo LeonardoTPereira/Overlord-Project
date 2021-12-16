@@ -1,21 +1,43 @@
-﻿using EnemyGenerator;
+﻿using Game.EnemyGenerator;
 using System;
+using System.ComponentModel;
+using Game.Events;
+using ScriptableObjects;
 using UnityEngine;
-using static Enums;
+using Util;
 
 public class EnemyController : MonoBehaviour
 {
+    /// This constant holds the weapon prefab name of healers
+    public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
+    private static readonly int HIT_ENEMY = 0;
+    private static readonly int ENEMY_DEATH = 1;
+
+    [field: SerializeField]
+    public Sprite RandomMovementSprite { get; set; }
+    [field: SerializeField]
+    public Sprite FleeMovementSprite { get; set; }
+    [field: SerializeField]
+    public Sprite FollowMovementSprite { get; set; }
+    [field: SerializeField]
+    public Sprite NoneMovementSprite { get; set; }
+
+    protected bool isActive;
+    protected bool canDestroy;
     [SerializeField]
     protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
     protected int damage;
     [SerializeField]
-    protected GameObject playerObj, bloodParticle, weaponPrefab, projectilePrefab, projectileSpawn, weaponSpawn, shieldSpawn;
+    protected GameObject playerObj, weaponPrefab, projectilePrefab, projectileSpawn, weaponSpawn, shieldSpawn;
+    [SerializeField]
+    protected ParticleSystem bloodParticle;
     [SerializeField]
     protected MovementTypeSO movement;
     protected BehaviorType behavior;
     protected ProjectileTypeSO projectileType;
 
     protected Animator anim;
+    private AudioSource[] audioSrcs;
     [SerializeField]
     protected float walkUntil, waitUntil, coolDownTime;
     protected bool isWalking, hasProjectile, isShooting;
@@ -25,7 +47,7 @@ public class EnemyController : MonoBehaviour
     protected float lastX, lastY;
     [SerializeField]
     protected Vector3 targetMoveDir;
-    protected RoomBHV room;
+    protected RoomBhv room;
     [SerializeField]
     protected int indexOnEnemyList;
     protected HealthController healthCtrl;
@@ -33,32 +55,76 @@ public class EnemyController : MonoBehaviour
     protected Rigidbody2D rb;
 
     public static event EventHandler playerHitEventHandler;
+    public static event EventHandler KillEnemyEventHandler;
 
     /// <summary>
     /// Awakes this instance.
     /// </summary>
     private void Awake()
     {
-
+        isActive = true;
+        canDestroy = false;
         dataHasBeenLoaded = false;
-        playerObj = Player.instance.gameObject;
+        playerObj = Player.Instance.gameObject;
         anim = GetComponent<Animator>();
+        audioSrcs = GetComponents<AudioSource>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         healthCtrl = gameObject.GetComponent<HealthController>();
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
+    void OnEnable()
+    {
+        PlayerController.PlayerDeathEventHandler += PlayerHasDied;
+    }
+
+    void OnDisable()
+    {
+        PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
+    }
+
     protected virtual void OnPlayerHit()
     {
-        playerHitEventHandler(this, EventArgs.Empty);
+        playerHitEventHandler?.Invoke(null, EventArgs.Empty);
     }
+
+    public void ApplyDamageEffects(Vector3 impactDirection)
+    {
+        if (healthCtrl.GetHealth() > 0 && !audioSrcs[HIT_ENEMY].isPlaying)
+        {
+            audioSrcs[HIT_ENEMY].PlayOneShot(audioSrcs[HIT_ENEMY].clip, 1.0f);
+            var mainParticle= bloodParticle.main;
+            mainParticle.startSpeed = 0;
+            var forceOverLifetime = bloodParticle.forceOverLifetime;
+            forceOverLifetime.enabled = true;
+            forceOverLifetime.x = impactDirection.x * 40;
+            forceOverLifetime.y = impactDirection.y * 40;
+            forceOverLifetime.z = impactDirection.z * 40;
+            
+            bloodParticle.Play();
+        }
+    }
+
+    private void PlayerHasDied(object sender, EventArgs eventArgs)
+    {
+        isActive = false;
+    }
+
+    void Update()
+    {
+        if (!audioSrcs[ENEMY_DEATH].isPlaying && canDestroy)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (dataHasBeenLoaded)
+        if (dataHasBeenLoaded && isActive && !canDestroy)
         {
             if (isWalking)
             {
@@ -104,7 +170,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Walk()
+    private void Walk()
     {
         if (!hasMoveDirBeenChosen)
         {
@@ -137,36 +203,64 @@ public class EnemyController : MonoBehaviour
         walkUntil -= Time.deltaTime;
     }
 
-    void Wait()
+    private void Wait()
     {
         //TODO Scream
         rb.velocity = Vector3.zero;
         waitUntil -= Time.deltaTime;
     }
 
-    void WaitShotCoolDown()
+    private void WaitShotCoolDown()
     {
         coolDownTime -= Time.deltaTime;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            OnPlayerHit();
-            collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, indexOnEnemyList);
-        }
+        var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
+        if (!collision.gameObject.CompareTag("Player")) return;
+        OnPlayerHit();
+        collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, indexOnEnemyList);
     }
 
     public void CheckDeath()
     {
-        if (healthCtrl.GetHealth() <= 0f)
+        if (healthCtrl.GetHealth() > 0f) return;
+        audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
+        canDestroy = true;
+        var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
+        var childrenCollider = GetComponentsInChildren<Collider2D>();
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        foreach (var childSpriteRenderer in childrenSpriteRenderer)
         {
-            //TODO Audio and Particles
-            //Instantiate(bloodParticle, transform.position, Quaternion.identity);
-            room.CheckIfAllEnemiesDead();
-            Destroy(gameObject);
+            childSpriteRenderer.enabled = false;
         }
+        foreach (var childCollider in childrenCollider)
+        {
+            childCollider.enabled = false;
+        }
+        room.CheckIfAllEnemiesDead();
+        KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
+    }
+
+    /// Restore the health of this enemy based on the given health amount.
+    /// ATTENTION: This method can be called only by a healer enemy.
+    public bool Heal(int health)
+    {
+        // Healers cannot cure other healers
+        if (weaponPrefab != null &&
+            weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
+        {
+            return false;
+        }
+        // Heal this enemy
+        return healthCtrl.ApplyHeal(health);
+    }
+
+    public float GetAttackSpeed()
+    {
+        return attackSpeed;
     }
 
     protected void UpdateAnimation(Vector2 movement)
@@ -191,7 +285,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     /// <param name="enemyData">The enemy data.</param>
     /// <param name="index">The index.</param>
-    public void LoadEnemyData(EnemySO enemyData, int index)
+    public void LoadEnemyData(EnemySO enemyData)
     {
         healthCtrl.SetHealth(enemyData.health);
         damage = enemyData.damage;
@@ -216,16 +310,24 @@ public class EnemyController : MonoBehaviour
             projectilePrefab = null;
         movement = enemyData.movement;
         behavior = enemyData.behavior.enemyBehavior;
-        ApplyEnemyColors();
-        indexOnEnemyList = index;
+        if (enemyData.weapon.hasProjectile || enemyData.weapon.name == "Cure")
+        {
+            ApplyMageHat();
+        }
+        else if (enemyData.weapon.name == "None")
+        {
+            ApplySlimeSprite();
+        }
+        // ApplyEnemyColors();
         hasMoveDirBeenChosen = false;
         originalColor = sr.color;
         healthCtrl.SetOriginalColor(originalColor);
-        if (hasProjectile)
-            if (projectilePrefab.name == "EnemyBomb")
-                attackSpeed /= 2;
+        if (hasProjectile && projectilePrefab.name == "EnemyBomb")
+        {
+            attackSpeed /= 2;
+        }
         //If the movement needs to be fixed for the whole active time, set the flag here
-        if (movement.enemyMovementIndex == MovementEnum.Random || movement.enemyMovementIndex == MovementEnum.Random1D || movement.enemyMovementIndex == MovementEnum.Flee1D || movement.enemyMovementIndex == MovementEnum.Follow1D)
+        if (movement.enemyMovementIndex == Enums.MovementEnum.Random || movement.enemyMovementIndex == Enums.MovementEnum.Random1D || movement.enemyMovementIndex == Enums.MovementEnum.Flee1D || movement.enemyMovementIndex == Enums.MovementEnum.Follow1D)
             hasFixedMoveDir = true;
         else
             hasFixedMoveDir = false;
@@ -236,28 +338,73 @@ public class EnemyController : MonoBehaviour
         dataHasBeenLoaded = true;
     }
 
+    private void ApplyMageHat()
+    {
+        var head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+        if (head == null) return;
+        head.sprite = movement.enemyMovementIndex switch
+        {
+            Enums.MovementEnum.Random => RandomMovementSprite,
+            Enums.MovementEnum.Random1D => RandomMovementSprite,
+            Enums.MovementEnum.Flee1D => FleeMovementSprite,
+            Enums.MovementEnum.Flee => FleeMovementSprite,
+            Enums.MovementEnum.Follow1D => FollowMovementSprite,
+            Enums.MovementEnum.Follow => FollowMovementSprite,
+            Enums.MovementEnum.None => NoneMovementSprite,
+            _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
+        };
+    }    
+    
+    private void ApplySlimeSprite()
+    {
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = movement.enemyMovementIndex switch
+        {
+            Enums.MovementEnum.Random => RandomMovementSprite,
+            Enums.MovementEnum.Random1D => RandomMovementSprite,
+            Enums.MovementEnum.Flee1D => FleeMovementSprite,
+            Enums.MovementEnum.Flee => FleeMovementSprite,
+            Enums.MovementEnum.Follow1D => FollowMovementSprite,
+            Enums.MovementEnum.Follow => FollowMovementSprite,
+            Enums.MovementEnum.None => NoneMovementSprite,
+            _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
+        };
+    }
+    
     private void ApplyEnemyColors()
     {
 
-        originalColor = Color.HSVToRGB(0.0f, Util.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 0, 1.0f) / 1.0f, 1.0f);
+        originalColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 0, 1.0f) / 1.0f, 1.0f);
         //originalColor = new Color(, 0, 1 - Util.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 30, 225)/225f);
-        armsColor = Color.HSVToRGB(0.0f, Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 0, 1.0f) / 1.0f, 1.0f);
-        legsColor = Color.HSVToRGB(0.0f, Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 0, 1.0f) / 1.0f, 1.0f);
+        armsColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 0, 1.0f) / 1.0f, 1.0f);
+        legsColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 0, 1.0f) / 1.0f, 1.0f);
         //armsColor = new Color(Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 30, 225)/ 225f, 0, 1 - Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 30, 225)/ 225f);
         //legsColor = new Color(Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 30, 225)/ 225f, 0, 1 - Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 30, 225)/ 225f);
         //TODO change head color according to movement
         headColor = originalColor;
         sr.color = originalColor;
-        gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>().color = armsColor;
-        gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>().color = legsColor;
-        gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>().color = headColor;
+        SpriteRenderer arms = gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>();
+        if (arms != null)
+        {
+            arms.color = armsColor;
+        }
+        SpriteRenderer legs = gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>();
+        if (legs != null)
+        {
+            legs.color = legsColor;
+        }
+        SpriteRenderer head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+        if (head != null)
+        {
+            head.color = headColor;
+        }
     }
 
     /// <summary>
     /// Sets the room.
     /// </summary>
     /// <param name="_room">The room.</param>
-    public void SetRoom(RoomBHV _room)
+    public void SetRoom(RoomBhv _room)
     {
         room = _room;
     }

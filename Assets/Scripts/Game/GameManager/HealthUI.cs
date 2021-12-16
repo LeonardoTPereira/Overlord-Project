@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Game.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
-    private List<Image> heartList;
+    private List<Image> heartList = null;
     // Start is called before the first frame update
 
     [SerializeField]
@@ -16,24 +18,29 @@ public class HealthUI : MonoBehaviour
     private void OnEnable()
     {
         HealthController.PlayerIsDamagedEventHandler += OnDamage;
+        PlayerController.ResetHealthEventHandler += ResetHealth;
     }
 
     private void OnDisable()
     {
         HealthController.PlayerIsDamagedEventHandler -= OnDamage;
+        PlayerController.ResetHealthEventHandler -= ResetHealth;
     }
 
-    private void Awake()
-    {
-    }
     void Start()
     {
-        //CreateHeartImage();
+        CreateHeartImage();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ResetHealth(object sender, EventArgs eventArgs)
     {
+        if(heartList != null)
+        {
+            for (int i = 0; i < Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
+            {
+                heartList[i].sprite = fullheartSprite;
+            }
+        }
     }
 
 
@@ -47,9 +54,9 @@ public class HealthUI : MonoBehaviour
         heartList = new List<Image>();
 
         float rowColSize = fullheartSprite.rect.size.x * multiplier;
-        int actualHealth = Player.instance.GetComponent<HealthController>().GetHealth();
+        int actualHealth = Player.Instance.GetComponent<HealthController>().GetHealth();
 
-        for (int i = 0; i < Player.instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
+        for (int i = 0; i < Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
         {
 
             Vector2 heartAnchoredPosition = new Vector2(col * rowColSize, -row * rowColSize);
@@ -93,6 +100,5 @@ public class HealthUI : MonoBehaviour
             heartList[i].sprite = fullheartSprite;
         for (int i = eventArgs.PlayerHealth; i < heartList.Count; ++i)
             heartList[i].sprite = emptyheartSprite;
-        //foi comentado
     }
 }

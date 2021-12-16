@@ -1,282 +1,189 @@
 ﻿using LevelGenerator;
 using System;
 using System.Collections.Generic;
+using Game.GameManager;
+using ScriptableObjects;
 using UnityEngine;
 
-public class Map
+namespace Game.LevelManager
 {
-
-    private static class MapFileType
+    public class Map
     {
-        public const int ONE_KEY_ONE_DOOR = 0;
-        public const int N_KEYS_N_DOORS = 1;
-    }
 
-    public int nRooms;
-
-    // Usar variáveis acima do escopo das funções de interpretação de arquivos
-    // (parser) torna a compreensão de terceiros mais difícil
-    public Dictionary<Coordinates, DungeonPart> dungeonPartByCoordinates;
-    public Coordinates startRoomCoordinates, finalRoomCoordinates;
-    public Dimensions dimensions;
-    private string currentMapFile;
-    private int nEnemies;
-
-    private string[] currentMapParsedFile;
-    private int currentMapFileLineIndex;
-
-    // Valores para gerar salas sem o arquivo de definição interna
-
-    public static int defaultTileID = 2;
-
-    public int NEnemies { get => nEnemies; set => nEnemies = value; }
-
-    /**
-     * Constructor of the Map object that uses an input file for the dungeon
-     */
-    public Map(string text, string roomsFilePath = null, int mode = 0)
-    {
-        GameManager.instance.maxTreasure = 0;
-        GameManager.instance.maxRooms = 0;
-        // Create a Room grid with the sizes read
-        dungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
-
-        ReadMapFile(text, mode); // lê o mapa global
-        if (roomsFilePath != null)
+        private static class MapFileType
         {
-            // Dá a opção de gerar o mapa com ou sem os tiles
-            // Debug.Log("Has Room File");
-            // Lê cada sala, com seus tiles
-            ReadRoomsFile(roomsFilePath);
+            public const int ONE_KEY_ONE_DOOR = 0;
+            public const int N_KEYS_N_DOORS = 1;
         }
-        else
+
+
+        // Usar variáveis acima do escopo das funções de interpretação de arquivos
+        // (parser) torna a compreensão de terceiros mais difícil
+        private Dictionary<Coordinates, DungeonPart> dungeonPartByCoordinates;
+        private Coordinates startRoomCoordinates;
+        private Coordinates finalRoomCoordinates;
+        private Dimensions dimensions;
+        private int nRooms;
+        private int nKeys;
+        private int nLocks;
+        private int nEnemies;
+        private int nNPCs;
+        private int nTreasure;
+        private int nTreasureRooms;
+
+        // Valores para gerar salas sem o arquivo de definição interna
+
+        public const int defaultTileID = 2;
+
+        public int NRooms { get => nRooms; set => nRooms = value; }
+        public int NKeys { get => nKeys; set => nKeys = value; }
+        public int NLocks { get => nLocks; set => nLocks = value; }
+        public int NEnemies { get => nEnemies; set => nEnemies = value; }
+        public int NNPCs { get => nNPCs; set => nNPCs = value; }
+        public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get => dungeonPartByCoordinates; set => dungeonPartByCoordinates = value; }
+        public Coordinates StartRoomCoordinates { get => startRoomCoordinates; set => startRoomCoordinates = value; }
+        public Coordinates FinalRoomCoordinates { get => finalRoomCoordinates; set => finalRoomCoordinates = value; }
+        public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
+        public int NTreasureRooms
         {
-            // Sala vazia padrão
-            Debug.Log("Doesn't Have Room File");
-            BuildDefaultRooms();
+            get => nTreasureRooms;
+            set => nTreasureRooms = value;
         }
-    }
 
-
-    private void ReadMapFile(string text, int mode)
-    {
-        if (mode == 1)
+        /**
+         * Constructor of the Map object that uses an input file for the dungeon
+         */
+        public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, int mode = 0)
         {
-            JSONMapFileHandler mapFileHandler = new JSONMapFileHandler(text);
-            dimensions = mapFileHandler.GetDimensions();
+            GameManagerSingleton.Instance.maxRooms = 0;
+            GameManagerSingleton.Instance.maxEnemies = 0;
+            NTreasureRooms = 0;
+            // Create a Room grid with the sizes read
+            DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
+
+            ReadMapFile(dungeonFileSo, mode); // lê o mapa global
+            if (roomsFilePath != null)
+            {
+                // Lê cada sala, com seus tiles
+                ReadRoomsFile(roomsFilePath);
+            }
+            else
+            {
+                // Sala vazia padrão
+                BuildDefaultRooms();
+            }
+        }
+
+        //TODO passes level's SO when created in real time to take place of old method that used the "Dungeon" object
+        private void ReadMapFile(DungeonFileSo dungeonFileSO, int mode)
+        {
+            Dimensions = dungeonFileSO.dimensions;
             DungeonPart currentDungeonPart;
-            while ((currentDungeonPart = mapFileHandler.GetNextPart()) != null)
+            dungeonFileSO.ResetIndex();
+            while ((currentDungeonPart = dungeonFileSO.GetNextPart()) != null)
             {
+                if (currentDungeonPart.IsRoom())
+                {
+                    nRooms++;
+                    if (currentDungeonPart.IsTreasureRoom())
+                    {
+                        NTreasureRooms++;
+                    }
+                }
                 if (currentDungeonPart.IsStartRoom())
-                    startRoomCoordinates = currentDungeonPart.GetCoordinates();
-                else if (currentDungeonPart.IsFinalRoom())
-                    finalRoomCoordinates = currentDungeonPart.GetCoordinates();
-                dungeonPartByCoordinates.Add(currentDungeonPart.coordinates, currentDungeonPart);
-            }
-        }
-        else
-        {
-            MapFileHandler mapFileHandler = new MapFileHandler(text);
-            dimensions = mapFileHandler.GetMapDimensions();
-            string dungeonPartCode;
-            DungeonPart currentDungeonPart;
-            while (mapFileHandler.HasMoreLines())
-            {
-                currentDungeonPart = DungeonPartFactory.CreateDungeonPartFromFile(mapFileHandler);
-                if (currentDungeonPart.IsStartRoom())
-                    startRoomCoordinates = currentDungeonPart.GetCoordinates();
+                {
+                    StartRoomCoordinates = currentDungeonPart.GetCoordinates();
+                }
                 else if (currentDungeonPart.IsFinalRoom())
                 {
-                    finalRoomCoordinates = currentDungeonPart.GetCoordinates();
+                    FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
                 }
-                dungeonPartByCoordinates.Add(currentDungeonPart.coordinates, currentDungeonPart);
+                DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
             }
-        }
-    }
-
-
-    //Recebe os dados de tiles das salas
-    private void ReadRoomsFile(string text)
-    {
-        var splitFile = new string[] { "\r\n", "\r", "\n" };
-
-        //StreamReader streamReaderMap = new StreamReader(filepath);
-        var NameLines = text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
-
-        //sizeX = int.Parse(streamReaderMap.ReadLine());
-        //sizeY = int.Parse(streamReaderMap.ReadLine());
-        int roomWidth, roomHeight;
-        DungeonRoom currentRoom;
-        Coordinates currentRoomCoordinates;
-        roomWidth = int.Parse(NameLines[0]);
-        roomHeight = int.Parse(NameLines[1]);
-
-        int txtLine = 3;
-        for (uint i = 2; i < NameLines.Length;)
-        {
-            int roomX, roomY;
-            roomX = int.Parse(NameLines[i++]);
-            roomY = int.Parse(NameLines[i++]);
-            currentRoomCoordinates = new Coordinates(roomX, roomY);
-            txtLine += 2;
-            try
+            GameManagerSingleton.Instance.maxRooms = nRooms;
+            foreach (SORoom room in dungeonFileSO.rooms)
             {
-                currentRoom = (DungeonRoom)dungeonPartByCoordinates[currentRoomCoordinates];
-                currentRoom.Dimensions = new Dimensions(roomWidth, roomHeight);
-                currentRoom.InitializeTiles(); // aloca memória para os tiles
-                for (int x = 0; x < currentRoom.Dimensions.Width; x++)
+                if (room.keys.Count != -1)
                 {
-                    for (int y = 0; y < currentRoom.Dimensions.Height; y++)
-                    {
-                        currentRoom.tiles[x, y] = int.Parse(NameLines[i++]); // FIXME Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
-                        txtLine++;
-                    }
+                    nKeys += room.keys.Count;
                 }
-            }
-            catch (InvalidCastException)
-            {
-                Debug.LogError($"One of the rooms in the file has the wrong coordinates - x = {currentRoomCoordinates.X}, y = {currentRoomCoordinates.Y}");
-            }
-        }
-        Debug.Log("Rooms read.");
-    }
-
-    //Cria salas vazias no tamanho padrão
-    private void BuildDefaultRooms()
-    {
-        Dimensions dimensions = new Dimensions(Util.defaultRoomSizeX, Util.defaultRoomSizeY);
-        foreach (DungeonPart currentPart in dungeonPartByCoordinates.Values)
-        {
-            if (currentPart is DungeonRoom room)
-            {
-                Debug.Log("building a default room");
-                room.Dimensions = dimensions;
-                room.InitializeTiles(); // aloca memória para os tiles
-                for (int x = 0; x < room.Dimensions.Width; x++)
-                    for (int y = 0; y < room.Dimensions.Height; y++)
-                        room.tiles[x, y] = defaultTileID;
-            }
-        }
-    }
-
-
-
-    // ============================================================================================================== //
-
-
-
-    //Constructs a Map based on the Dungeon created in "real-time" from the EA
-    //For now, we aren't changing this to the new method that adds treasures and enemies, but is the same principle.
-    public Map(Dungeon dun)
-    {
-        Room actualRoom, parent;
-        RoomGrid grid = dun.roomGrid;
-        Coordinates currentRoomCoordinates;
-        LevelGenerator.Type type;
-        string dungeonPartCode;
-        int iPositive, jPositive;
-        int treasure, difficulty, enemyType, items, npcs;
-
-        List<int> lockedRooms = new List<int>();
-        List<int> keys = new List<int>();
-
-        List<int> keyIDs, lockIDs;
-
-        int corridorx, corridory;
-        foreach (Room room in dun.RoomList)
-        {
-            if (room.Type == LevelGenerator.Type.key)
-                keys.Add(room.KeyToOpen);
-            else if (room.Type == LevelGenerator.Type.locked)
-                lockedRooms.Add(room.KeyToOpen);
-        }
-        dun.SetBoundariesFromRoomList();
-
-        //The size is normalized to be always positive (easier to handle a matrix)
-        dun.SetDimensionsFromBoundaries();
-
-        dungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
-
-        for (int i = dun.boundaries.MinBoundaries.X; i < dun.boundaries.MaxBoundaries.X + 1; ++i)
-        {
-            for (int j = dun.boundaries.MinBoundaries.Y; j < dun.boundaries.MaxBoundaries.Y + 1; ++j)
-            {
-                iPositive = i - dun.boundaries.MinBoundaries.X;
-                jPositive = j - dun.boundaries.MinBoundaries.Y;
-                actualRoom = grid[i, j];
-                treasure = 0;
-                difficulty = 0; //TODO Creat enemies with EA
-                enemyType = -1;
-                items = 0;
-                npcs = 0;
-                keyIDs = null;
-                lockIDs = null;
-                dungeonPartCode = null;
-                if (actualRoom != null)
+                if (room.locks.Count != -1)
                 {
-                    currentRoomCoordinates = new Coordinates(2 * iPositive, 2 * jPositive);
-                    type = actualRoom.Type;
+                    nLocks += room.locks.Count;
+                }
 
-                    if (i == 0 && j == 0)
-                    {
-                        Debug.Log("Found start");
-                        startRoomCoordinates = new Coordinates(iPositive * 2, jPositive * 2);
-                        dungeonPartCode = DungeonPart.Type.START_ROOM;
-                    }
-                    else if (type == LevelGenerator.Type.normal)
-                    {
-                        if (actualRoom.IsLeafNode())
-                        {
-                            treasure = UnityEngine.Random.Range(0, GameManager.instance.treasureSet.Items.Count);
-                            dungeonPartCode = DungeonPart.Type.TREASURE_ROOM;
-                            Debug.Log("This is a Leaf Node Room! " + (iPositive * 2) + " - " + (jPositive * 2));
-                        }
-                        //rooms[iPositive * 2, jPositive * 2].keyID = 0;
-                    }
-                    else if (type == LevelGenerator.Type.key)
-                    {
-                        keyIDs = new List<int>();
-                        keyIDs.Add(keys.IndexOf(actualRoom.KeyToOpen) + 1);
-                    }
-                    else if (type == LevelGenerator.Type.locked)
-                    {
-                        if (lockedRooms.IndexOf(actualRoom.KeyToOpen) == lockedRooms.Count - 1)
-                        {
-                            finalRoomCoordinates = new Coordinates(iPositive * 2, jPositive * 2);
-                            dungeonPartCode = DungeonPart.Type.FINAL_ROOM;
-                        }
+                if (room.Treasures != -1)
+                {
+                    nTreasure += room.Treasures;
+                }
+                if (room.TotalEnemies != -1)
+                {
+                    nEnemies += room.TotalEnemies;
+                }
+                if (room.Npcs != -1)
+                {
+                    nNPCs += room.Npcs;
+                }
+            }
 
-                        /*else
-                            rooms[iPositive * 2, jPositive * 2].keyID = 0;*/
-                    }
-                    else
-                    {
-                        Debug.Log("Something went wrong printing the tree!\n");
-                        Debug.Log("This Room type does not exist!\n\n");
-                    }
-                    dungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonRoomFromEARoom(currentRoomCoordinates, dungeonPartCode, keyIDs, difficulty, treasure, enemyType, items, npcs));
+            GameManagerSingleton.Instance.maxEnemies = nEnemies;
+        }
 
-                    parent = actualRoom.Parent;
-                    if (parent != null)
+
+        //Recebe os dados de tiles das salas
+        private void ReadRoomsFile(string text)
+        {
+            var splitFile = new string[] { "\r\n", "\r", "\n" };
+
+            var NameLines = text.Split(splitFile, StringSplitOptions.RemoveEmptyEntries);
+
+            int roomWidth, roomHeight;
+            DungeonRoom currentRoom;
+            Coordinates currentRoomCoordinates;
+            roomWidth = int.Parse(NameLines[0]);
+            roomHeight = int.Parse(NameLines[1]);
+
+            int txtLine = 3;
+            for (uint i = 2; i < NameLines.Length;)
+            {
+                int roomX, roomY;
+                roomX = int.Parse(NameLines[i++]);
+                roomY = int.Parse(NameLines[i++]);
+                currentRoomCoordinates = new Coordinates(roomX, roomY);
+                txtLine += 2;
+                try
+                {
+                    currentRoom = (DungeonRoom)DungeonPartByCoordinates[currentRoomCoordinates];
+                    currentRoom.Dimensions = new Dimensions(roomWidth, roomHeight);
+                    currentRoom.InitializeTiles(); // aloca memória para os tiles
+                    for (int x = 0; x < currentRoom.Dimensions.Width; x++)
                     {
-                        corridorx = parent.X - actualRoom.X + 2 * iPositive;
-                        corridory = parent.Y - actualRoom.Y + 2 * jPositive;
-                        currentRoomCoordinates = new Coordinates(corridorx, corridory);
-                        dungeonPartCode = DungeonPart.Type.CORRIDOR;
-                        if (type == LevelGenerator.Type.locked)
+                        for (int y = 0; y < currentRoom.Dimensions.Height; y++)
                         {
-                            lockIDs = new List<int>();
-                            lockIDs.Add(keys.IndexOf(actualRoom.KeyToOpen) + 1);
-                            dungeonPartCode = DungeonPart.Type.LOCKED;
+                            int tileID = int.Parse(NameLines[i++]);
+                            currentRoom.Tiles[x, y] = tileID; // FIXME Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
+                            txtLine++;
                         }
-                        dungeonPartByCoordinates.Add(currentRoomCoordinates, DungeonPartFactory.CreateDungeonCorridorFromEACorridor(currentRoomCoordinates, dungeonPartCode, lockIDs));
                     }
+                }
+                catch (InvalidCastException)
+                {
+                    Debug.LogError($"One of the rooms in the file has the wrong coordinates - x = {currentRoomCoordinates.X}, y = {currentRoomCoordinates.Y}");
                 }
             }
         }
-        Debug.Log("Starts:" + startRoomCoordinates.X + "-" + startRoomCoordinates.Y);
-        Debug.Log("Dungeon read.");
 
-        BuildDefaultRooms();
+        //Cria salas vazias no tamanho padrão
+        private void BuildDefaultRooms()
+        {
+            Dimensions roomDimensions = new Dimensions(Util.Constants.defaultRoomSizeX, Util.Constants.defaultRoomSizeY);
+            foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
+            {
+                if (currentPart is DungeonRoom room)
+                {
+                    room.CreateRoom(roomDimensions);
+                }
+            }
+        }
     }
 }

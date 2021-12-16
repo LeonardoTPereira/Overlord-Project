@@ -99,3 +99,11 @@ Assets/External/Editor/Doxygen/html/
 Packages/System.Collections.4.3.0/
 .sonarlint/
 .sonarqube/
+C4.puml
+C4_Component.puml
+C4_Container.puml
+C4_Context.puml
+System.plant
+.idea/
+*.csproj
+Assets/StreamingAssets/PlayerData/

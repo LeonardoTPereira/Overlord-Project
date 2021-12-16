@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class LevelLoaderBHV : MonoBehaviour, IMenuPanel
 {
-    string levelFile, levelEnemyFile;
+    string levelFile;
     [SerializeField]
     GameObject previousPanel, nextPanel;
     [SerializeField]
@@ -24,13 +24,12 @@ public class LevelLoaderBHV : MonoBehaviour, IMenuPanel
     protected void PrepareLevel(object sender, LevelSelectEventArgs args)
     {
         levelFile = args.LevelSO.fileName;
-        levelEnemyFile = args.LevelSO.enemyDifficultyFile;
         button.interactable = true;
     }
 
     public void GoToNext()
     {
-        loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile, levelEnemyFile));
+        loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile));
         nextPanel.SetActive(true);
         gameObject.SetActive(false);
     }

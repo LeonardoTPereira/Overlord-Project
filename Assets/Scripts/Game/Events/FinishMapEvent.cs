@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.LevelManager;
+using System;
 
 public delegate void FinishMapEvent(object sender, FinishMapEventArgs e);
 public class FinishMapEventArgs : EventArgs

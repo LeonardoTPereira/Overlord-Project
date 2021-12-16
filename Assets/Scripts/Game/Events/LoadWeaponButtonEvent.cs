@@ -1,5 +1,6 @@
-﻿using EnemyGenerator;
+﻿using Game.EnemyGenerator;
 using System;
+using ScriptableObjects;
 
 public delegate void LoadWeaponButtonEvent(object sender, LoadWeaponButtonEventArgs eventArgs);
 public class LoadWeaponButtonEventArgs : EventArgs
