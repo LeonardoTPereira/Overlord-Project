@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.NarrativeGenerator.Quests;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative

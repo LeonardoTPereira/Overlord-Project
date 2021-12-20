@@ -1,6 +1,6 @@
 ﻿using System;
-using RotaryHeart.Lib.SerializableDictionary;
 using ScriptableObjects;
+using ScriptableObjects.SerializableDictionaryLite;
 
 namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 {

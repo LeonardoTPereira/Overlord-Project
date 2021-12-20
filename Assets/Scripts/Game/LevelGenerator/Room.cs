@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// The types of rooms that a dungeon may have.
     ///

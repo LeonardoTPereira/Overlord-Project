@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds the dungeon levels measurement-related functions.
     class Metric

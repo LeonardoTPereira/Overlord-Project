@@ -1,7 +1,7 @@
-﻿using LevelGenerator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Game.GameManager;
+using Game.LevelGenerator.LevelSOs;
 using ScriptableObjects;
 using UnityEngine;
 

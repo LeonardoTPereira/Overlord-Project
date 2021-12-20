@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class is responsible for create rooms of dungeons.
     public class RoomFactory

@@ -1,4 +1,4 @@
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class defines the discretization of the search space of dungeon
     /// levels for mapping the MAP-Elites population.

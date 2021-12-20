@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Game.EnemyGenerator;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestTerminals;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
 using UnityEngine;
 

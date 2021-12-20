@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     class PathFinding
     {

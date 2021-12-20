@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     class DFS : PathFinding
     {

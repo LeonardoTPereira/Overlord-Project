@@ -1,8 +1,8 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds the crossover operator.
     public class Crossover

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine;
+using Game.Events;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds the evolutionary level generation algorithm.
     public class LevelGenerator

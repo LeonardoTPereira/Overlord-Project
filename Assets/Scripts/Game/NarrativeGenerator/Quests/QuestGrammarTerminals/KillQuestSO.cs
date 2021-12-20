@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.Quests.QuestTerminals
+namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class KillQuestSO : QuestSO
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Game.Events;
 using Game.NarrativeGenerator;
 using ScriptableObjects;
 using Unity.Collections;

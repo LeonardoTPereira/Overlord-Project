@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 
-public class DestroyParticle : MonoBehaviour
+namespace Game.GameManager
 {
-    // Start is called before the first frame update
-    void Start()
+    public class DestroyParticle : MonoBehaviour
     {
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Destroy(gameObject, 0.7f);
+        // Update is called once per frame
+        void Update()
+        {
+            Destroy(gameObject, 0.7f);
+        }
     }
 }

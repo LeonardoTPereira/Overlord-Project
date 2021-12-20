@@ -1,6 +1,6 @@
 using System;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This struct holds the most relevant data of the evolutionary process.
     [Serializable]

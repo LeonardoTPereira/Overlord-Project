@@ -1,10 +1,8 @@
-﻿using Game.LevelManager;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests;
+using Game.LevelManager;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     public class Dungeon
     {

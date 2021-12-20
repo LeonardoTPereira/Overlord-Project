@@ -1,16 +1,18 @@
-﻿using Game.LevelManager;
-using System;
+﻿using System;
+using Game.LevelManager;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class TriforceBHV : PlaceableRoomObject
+namespace Game.GameManager
 {
-    public static event EventHandler GotTriforceEventHandler;
-    void OnTriggerEnter2D(Collider2D other)
+    public class TriforceBHV : PlaceableRoomObject
     {
-        if (other.tag == "Player")
+        public static event EventHandler GotTriforceEventHandler;
+        void OnTriggerEnter2D(Collider2D other)
         {
-            GotTriforceEventHandler?.Invoke(this, EventArgs.Empty);
+            if (other.tag == "Player")
+            {
+                GotTriforceEventHandler?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ using Game.GameManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
-using LevelGenerator;
 using MyBox;
 using ScriptableObjects;
 using Unity.Mathematics;

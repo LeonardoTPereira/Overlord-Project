@@ -1,7 +1,7 @@
 using System;
+using Game.EnemyGenerator;
 
-
-namespace Game.EnemyGenerator
+namespace Game.Events
 {
     public delegate void CreateEAEnemyEvent(object sender, CreateEAEnemyEventArgs e);
 

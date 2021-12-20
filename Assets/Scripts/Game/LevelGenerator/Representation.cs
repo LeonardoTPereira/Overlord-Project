@@ -1,6 +1,6 @@
 using System;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class represents an individual.
     ///

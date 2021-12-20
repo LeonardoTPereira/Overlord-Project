@@ -1,440 +1,443 @@
-﻿using Game.EnemyGenerator;
-using System;
+﻿using System;
 using System.ComponentModel;
-using Game.Events;
+using Game.EnemyGenerator;
+using Game.LevelManager;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
 
-public class EnemyController : MonoBehaviour
+namespace Game.GameManager
 {
-    /// This constant holds the weapon prefab name of healers
-    public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
-    private static readonly int HIT_ENEMY = 0;
-    private static readonly int ENEMY_DEATH = 1;
-
-    [field: SerializeField]
-    public Sprite RandomMovementSprite { get; set; }
-    [field: SerializeField]
-    public Sprite FleeMovementSprite { get; set; }
-    [field: SerializeField]
-    public Sprite FollowMovementSprite { get; set; }
-    [field: SerializeField]
-    public Sprite NoneMovementSprite { get; set; }
-
-    protected bool isActive;
-    protected bool canDestroy;
-    [SerializeField]
-    protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
-    protected int damage;
-    [SerializeField]
-    protected GameObject playerObj, weaponPrefab, projectilePrefab, projectileSpawn, weaponSpawn, shieldSpawn;
-    [SerializeField]
-    protected ParticleSystem bloodParticle;
-    [SerializeField]
-    protected MovementTypeSO movement;
-    protected BehaviorType behavior;
-    protected ProjectileTypeSO projectileType;
-
-    protected Animator anim;
-    private AudioSource[] audioSrcs;
-    [SerializeField]
-    protected float walkUntil, waitUntil, coolDownTime;
-    protected bool isWalking, hasProjectile, isShooting;
-    [SerializeField]
-    protected bool hasMoveDirBeenChosen, hasFixedMoveDir, dataHasBeenLoaded;
-    protected Color originalColor, armsColor, headColor, legsColor;
-    protected float lastX, lastY;
-    [SerializeField]
-    protected Vector3 targetMoveDir;
-    protected RoomBhv room;
-    [SerializeField]
-    protected int indexOnEnemyList;
-    protected HealthController healthCtrl;
-    protected SpriteRenderer sr;
-    protected Rigidbody2D rb;
-
-    public static event EventHandler playerHitEventHandler;
-    public static event EventHandler KillEnemyEventHandler;
-
-    /// <summary>
-    /// Awakes this instance.
-    /// </summary>
-    private void Awake()
+    public class EnemyController : MonoBehaviour
     {
-        isActive = true;
-        canDestroy = false;
-        dataHasBeenLoaded = false;
-        playerObj = Player.Instance.gameObject;
-        anim = GetComponent<Animator>();
-        audioSrcs = GetComponents<AudioSource>();
-        sr = gameObject.GetComponent<SpriteRenderer>();
-        healthCtrl = gameObject.GetComponent<HealthController>();
-        rb = gameObject.GetComponent<Rigidbody2D>();
-    }
+        /// This constant holds the weapon prefab name of healers
+        public static readonly string HEALER_PREFAB_NAME = "EnemyHealArea";
+        private static readonly int HIT_ENEMY = 0;
+        private static readonly int ENEMY_DEATH = 1;
 
-    void OnEnable()
-    {
-        PlayerController.PlayerDeathEventHandler += PlayerHasDied;
-    }
+        [field: SerializeField]
+        public Sprite RandomMovementSprite { get; set; }
+        [field: SerializeField]
+        public Sprite FleeMovementSprite { get; set; }
+        [field: SerializeField]
+        public Sprite FollowMovementSprite { get; set; }
+        [field: SerializeField]
+        public Sprite NoneMovementSprite { get; set; }
 
-    void OnDisable()
-    {
-        PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
-    }
+        protected bool isActive;
+        protected bool canDestroy;
+        [SerializeField]
+        protected float restTime, activeTime, movementSpeed, attackSpeed, projectileSpeed;
+        protected int damage;
+        [SerializeField]
+        protected GameObject playerObj, weaponPrefab, projectilePrefab, projectileSpawn, weaponSpawn, shieldSpawn;
+        [SerializeField]
+        protected ParticleSystem bloodParticle;
+        [SerializeField]
+        protected MovementTypeSO movement;
+        protected BehaviorType behavior;
+        protected ProjectileTypeSO projectileType;
 
-    protected virtual void OnPlayerHit()
-    {
-        playerHitEventHandler?.Invoke(null, EventArgs.Empty);
-    }
+        protected Animator anim;
+        private AudioSource[] audioSrcs;
+        [SerializeField]
+        protected float walkUntil, waitUntil, coolDownTime;
+        protected bool isWalking, hasProjectile, isShooting;
+        [SerializeField]
+        protected bool hasMoveDirBeenChosen, hasFixedMoveDir, dataHasBeenLoaded;
+        protected Color originalColor, armsColor, headColor, legsColor;
+        protected float lastX, lastY;
+        [SerializeField]
+        protected Vector3 targetMoveDir;
+        protected RoomBhv room;
+        [SerializeField]
+        protected int indexOnEnemyList;
+        protected HealthController healthCtrl;
+        protected SpriteRenderer sr;
+        protected Rigidbody2D rb;
 
-    public void ApplyDamageEffects(Vector3 impactDirection)
-    {
-        if (healthCtrl.GetHealth() > 0 && !audioSrcs[HIT_ENEMY].isPlaying)
+        public static event EventHandler playerHitEventHandler;
+        public static event EventHandler KillEnemyEventHandler;
+
+        /// <summary>
+        /// Awakes this instance.
+        /// </summary>
+        private void Awake()
         {
-            audioSrcs[HIT_ENEMY].PlayOneShot(audioSrcs[HIT_ENEMY].clip, 1.0f);
-            var mainParticle= bloodParticle.main;
-            mainParticle.startSpeed = 0;
-            var forceOverLifetime = bloodParticle.forceOverLifetime;
-            forceOverLifetime.enabled = true;
-            forceOverLifetime.x = impactDirection.x * 40;
-            forceOverLifetime.y = impactDirection.y * 40;
-            forceOverLifetime.z = impactDirection.z * 40;
+            isActive = true;
+            canDestroy = false;
+            dataHasBeenLoaded = false;
+            playerObj = Player.Instance.gameObject;
+            anim = GetComponent<Animator>();
+            audioSrcs = GetComponents<AudioSource>();
+            sr = gameObject.GetComponent<SpriteRenderer>();
+            healthCtrl = gameObject.GetComponent<HealthController>();
+            rb = gameObject.GetComponent<Rigidbody2D>();
+        }
+
+        void OnEnable()
+        {
+            PlayerController.PlayerDeathEventHandler += PlayerHasDied;
+        }
+
+        void OnDisable()
+        {
+            PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
+        }
+
+        protected virtual void OnPlayerHit()
+        {
+            playerHitEventHandler?.Invoke(null, EventArgs.Empty);
+        }
+
+        public void ApplyDamageEffects(Vector3 impactDirection)
+        {
+            if (healthCtrl.GetHealth() > 0 && !audioSrcs[HIT_ENEMY].isPlaying)
+            {
+                audioSrcs[HIT_ENEMY].PlayOneShot(audioSrcs[HIT_ENEMY].clip, 1.0f);
+                var mainParticle= bloodParticle.main;
+                mainParticle.startSpeed = 0;
+                var forceOverLifetime = bloodParticle.forceOverLifetime;
+                forceOverLifetime.enabled = true;
+                forceOverLifetime.x = impactDirection.x * 40;
+                forceOverLifetime.y = impactDirection.y * 40;
+                forceOverLifetime.z = impactDirection.z * 40;
             
-            bloodParticle.Play();
-        }
-    }
-
-    private void PlayerHasDied(object sender, EventArgs eventArgs)
-    {
-        isActive = false;
-    }
-
-    void Update()
-    {
-        if (!audioSrcs[ENEMY_DEATH].isPlaying && canDestroy)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (dataHasBeenLoaded && isActive && !canDestroy)
-        {
-            if (isWalking)
-            {
-                if (walkUntil > 0)
-                    Walk();
-                else
-                {
-                    walkUntil = 0.0f;
-                    isWalking = false;
-                    waitUntil = restTime;
-                    hasMoveDirBeenChosen = false;
-                }
+                bloodParticle.Play();
             }
-            else
+        }
+
+        private void PlayerHasDied(object sender, EventArgs eventArgs)
+        {
+            isActive = false;
+        }
+
+        void Update()
+        {
+            if (!audioSrcs[ENEMY_DEATH].isPlaying && canDestroy)
             {
-                if (waitUntil > 0f)
-                    Wait();
-                else
-                {
-                    waitUntil = 0;
-                    isWalking = true;
-                    walkUntil = activeTime;
-                }
+                Destroy(gameObject);
             }
-            if (hasProjectile)
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            if (dataHasBeenLoaded && isActive && !canDestroy)
             {
-                if (isShooting)
+                if (isWalking)
                 {
-                    Shoot();
-                    isShooting = false;
-                    coolDownTime = 1.0f / attackSpeed;
-                }
-                else
-                {
-                    if (coolDownTime > 0.0f)
-                        WaitShotCoolDown();
+                    if (walkUntil > 0)
+                        Walk();
                     else
                     {
-                        isShooting = true;
+                        walkUntil = 0.0f;
+                        isWalking = false;
+                        waitUntil = restTime;
+                        hasMoveDirBeenChosen = false;
+                    }
+                }
+                else
+                {
+                    if (waitUntil > 0f)
+                        Wait();
+                    else
+                    {
+                        waitUntil = 0;
+                        isWalking = true;
+                        walkUntil = activeTime;
+                    }
+                }
+                if (hasProjectile)
+                {
+                    if (isShooting)
+                    {
+                        Shoot();
+                        isShooting = false;
+                        coolDownTime = 1.0f / attackSpeed;
+                    }
+                    else
+                    {
+                        if (coolDownTime > 0.0f)
+                            WaitShotCoolDown();
+                        else
+                        {
+                            isShooting = true;
+                        }
                     }
                 }
             }
         }
-    }
 
-    private void Walk()
-    {
-        if (!hasMoveDirBeenChosen)
+        private void Walk()
         {
-            int xOffset, yOffset;
-            //Vector2 target = new Vector2(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y);
-            if (movement.movementType == null)
-                Debug.LogError("NO MOVEMENT FUNCTION!");
-            targetMoveDir = movement.movementType(playerObj.transform.position, gameObject.transform.position);
-            targetMoveDir.Normalize();
-            //TODO Animate the enemy
-            //UpdateAnimation(targetMoveDir);
-            if (targetMoveDir.x > 0)
-                xOffset = 1;
-            else if (targetMoveDir.x < 0)
-                xOffset = -1;
+            if (!hasMoveDirBeenChosen)
+            {
+                int xOffset, yOffset;
+                //Vector2 target = new Vector2(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y);
+                if (movement.movementType == null)
+                    Debug.LogError("NO MOVEMENT FUNCTION!");
+                targetMoveDir = movement.movementType(playerObj.transform.position, gameObject.transform.position);
+                targetMoveDir.Normalize();
+                //TODO Animate the enemy
+                //UpdateAnimation(targetMoveDir);
+                if (targetMoveDir.x > 0)
+                    xOffset = 1;
+                else if (targetMoveDir.x < 0)
+                    xOffset = -1;
+                else
+                    xOffset = 0;
+                if (targetMoveDir.y > 0)
+                    yOffset = 1;
+                else if (targetMoveDir.y < 0)
+                    yOffset = -1;
+                else
+                    yOffset = 0;
+                targetMoveDir = new Vector3((targetMoveDir.x + xOffset), (targetMoveDir.y + yOffset), 0f);
+                if (hasFixedMoveDir)
+                    hasMoveDirBeenChosen = true;
+            }
+            transform.position += new Vector3(targetMoveDir.x * movementSpeed * Time.fixedDeltaTime, targetMoveDir.y * movementSpeed * Time.fixedDeltaTime, 0f);
+            //transform.position += new Vector3((target.x + xOffset) * movementSpeed * Time.deltaTime, (target.y + yOffset) * movementSpeed * Time.deltaTime, 0f);
+            walkUntil -= Time.deltaTime;
+        }
+
+        private void Wait()
+        {
+            //TODO Scream
+            rb.velocity = Vector3.zero;
+            waitUntil -= Time.deltaTime;
+        }
+
+        private void WaitShotCoolDown()
+        {
+            coolDownTime -= Time.deltaTime;
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
+            if (!collision.gameObject.CompareTag("Player")) return;
+            OnPlayerHit();
+            collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, indexOnEnemyList);
+        }
+
+        public void CheckDeath()
+        {
+            if (healthCtrl.GetHealth() > 0f) return;
+            audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
+            canDestroy = true;
+            var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
+            var childrenCollider = GetComponentsInChildren<Collider2D>();
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+            foreach (var childSpriteRenderer in childrenSpriteRenderer)
+            {
+                childSpriteRenderer.enabled = false;
+            }
+            foreach (var childCollider in childrenCollider)
+            {
+                childCollider.enabled = false;
+            }
+            room.CheckIfAllEnemiesDead();
+            KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
+        }
+
+        /// Restore the health of this enemy based on the given health amount.
+        /// ATTENTION: This method can be called only by a healer enemy.
+        public bool Heal(int health)
+        {
+            // Healers cannot cure other healers
+            if (weaponPrefab != null &&
+                weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
+            {
+                return false;
+            }
+            // Heal this enemy
+            return healthCtrl.ApplyHeal(health);
+        }
+
+        public float GetAttackSpeed()
+        {
+            return attackSpeed;
+        }
+
+        protected void UpdateAnimation(Vector2 movement)
+        {
+            if (movement.x == 0f && movement.y == 0f)
+            {
+                anim.SetFloat("LastDirX", lastX);
+                anim.SetFloat("LastDirY", lastY);
+                anim.SetBool("IsMoving", false);
+            }
             else
-                xOffset = 0;
-            if (targetMoveDir.y > 0)
-                yOffset = 1;
-            else if (targetMoveDir.y < 0)
-                yOffset = -1;
+            {
+                lastX = movement.x;
+                lastY = movement.y;
+                anim.SetBool("IsMoving", true);
+            }
+            anim.SetFloat("DirX", movement.x);
+            anim.SetFloat("DirY", movement.y);
+        }
+        /// <summary>
+        /// Loads the enemy data.
+        /// </summary>
+        /// <param name="enemyData">The enemy data.</param>
+        /// <param name="index">The index.</param>
+        public void LoadEnemyData(EnemySO enemyData)
+        {
+            healthCtrl.SetHealth(enemyData.health);
+            damage = enemyData.damage;
+            movementSpeed = enemyData.movementSpeed;
+            restTime = enemyData.restTime;
+            activeTime = enemyData.activeTime;
+            attackSpeed = enemyData.attackSpeed;
+            projectileSpeed = enemyData.projectileSpeed * 4;
+
+
+            if (enemyData.weapon.name == "Shield")
+                weaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, shieldSpawn.transform);
+            else if (enemyData.weapon.name != "None")
+                weaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, weaponSpawn.transform);
+            hasProjectile = enemyData.weapon.hasProjectile;
+            if (hasProjectile)
+            {
+                projectilePrefab = enemyData.weapon.projectile.projectilePrefab;
+                projectileType = enemyData.weapon.projectile;
+            }
             else
-                yOffset = 0;
-            targetMoveDir = new Vector3((targetMoveDir.x + xOffset), (targetMoveDir.y + yOffset), 0f);
-            if (hasFixedMoveDir)
-                hasMoveDirBeenChosen = true;
+                projectilePrefab = null;
+            movement = enemyData.movement;
+            behavior = enemyData.behavior.enemyBehavior;
+            if (enemyData.weapon.hasProjectile || enemyData.weapon.name == "Cure")
+            {
+                ApplyMageHat();
+            }
+            else if (enemyData.weapon.name == "None")
+            {
+                ApplySlimeSprite();
+            }
+            // ApplyEnemyColors();
+            hasMoveDirBeenChosen = false;
+            originalColor = sr.color;
+            healthCtrl.SetOriginalColor(originalColor);
+            if (hasProjectile && projectilePrefab.name == "EnemyBomb")
+            {
+                attackSpeed /= 2;
+            }
+            //If the movement needs to be fixed for the whole active time, set the flag here
+            if (movement.enemyMovementIndex == Enums.MovementEnum.Random || movement.enemyMovementIndex == Enums.MovementEnum.Random1D || movement.enemyMovementIndex == Enums.MovementEnum.Flee1D || movement.enemyMovementIndex == Enums.MovementEnum.Follow1D)
+                hasFixedMoveDir = true;
+            else
+                hasFixedMoveDir = false;
+            isWalking = false;
+            isShooting = false;
+            waitUntil = 0.5f;
+            coolDownTime = 0.5f;
+            dataHasBeenLoaded = true;
         }
-        transform.position += new Vector3(targetMoveDir.x * movementSpeed * Time.fixedDeltaTime, targetMoveDir.y * movementSpeed * Time.fixedDeltaTime, 0f);
-        //transform.position += new Vector3((target.x + xOffset) * movementSpeed * Time.deltaTime, (target.y + yOffset) * movementSpeed * Time.deltaTime, 0f);
-        walkUntil -= Time.deltaTime;
-    }
 
-    private void Wait()
-    {
-        //TODO Scream
-        rb.velocity = Vector3.zero;
-        waitUntil -= Time.deltaTime;
-    }
-
-    private void WaitShotCoolDown()
-    {
-        coolDownTime -= Time.deltaTime;
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
-        if (!collision.gameObject.CompareTag("Player")) return;
-        OnPlayerHit();
-        collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, indexOnEnemyList);
-    }
-
-    public void CheckDeath()
-    {
-        if (healthCtrl.GetHealth() > 0f) return;
-        audioSrcs[ENEMY_DEATH].PlayOneShot(audioSrcs[ENEMY_DEATH].clip, 1.0f);
-        canDestroy = true;
-        var childrenSpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
-        var childrenCollider = GetComponentsInChildren<Collider2D>();
-        GetComponent<Collider2D>().enabled = false;
-        GetComponent<SpriteRenderer>().enabled = false;
-        foreach (var childSpriteRenderer in childrenSpriteRenderer)
+        private void ApplyMageHat()
         {
-            childSpriteRenderer.enabled = false;
-        }
-        foreach (var childCollider in childrenCollider)
-        {
-            childCollider.enabled = false;
-        }
-        room.CheckIfAllEnemiesDead();
-        KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
-    }
-
-    /// Restore the health of this enemy based on the given health amount.
-    /// ATTENTION: This method can be called only by a healer enemy.
-    public bool Heal(int health)
-    {
-        // Healers cannot cure other healers
-        if (weaponPrefab != null &&
-            weaponPrefab.name.Contains(HEALER_PREFAB_NAME))
-        {
-            return false;
-        }
-        // Heal this enemy
-        return healthCtrl.ApplyHeal(health);
-    }
-
-    public float GetAttackSpeed()
-    {
-        return attackSpeed;
-    }
-
-    protected void UpdateAnimation(Vector2 movement)
-    {
-        if (movement.x == 0f && movement.y == 0f)
-        {
-            anim.SetFloat("LastDirX", lastX);
-            anim.SetFloat("LastDirY", lastY);
-            anim.SetBool("IsMoving", false);
-        }
-        else
-        {
-            lastX = movement.x;
-            lastY = movement.y;
-            anim.SetBool("IsMoving", true);
-        }
-        anim.SetFloat("DirX", movement.x);
-        anim.SetFloat("DirY", movement.y);
-    }
-    /// <summary>
-    /// Loads the enemy data.
-    /// </summary>
-    /// <param name="enemyData">The enemy data.</param>
-    /// <param name="index">The index.</param>
-    public void LoadEnemyData(EnemySO enemyData)
-    {
-        healthCtrl.SetHealth(enemyData.health);
-        damage = enemyData.damage;
-        movementSpeed = enemyData.movementSpeed;
-        restTime = enemyData.restTime;
-        activeTime = enemyData.activeTime;
-        attackSpeed = enemyData.attackSpeed;
-        projectileSpeed = enemyData.projectileSpeed * 4;
-
-
-        if (enemyData.weapon.name == "Shield")
-            weaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, shieldSpawn.transform);
-        else if (enemyData.weapon.name != "None")
-            weaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, weaponSpawn.transform);
-        hasProjectile = enemyData.weapon.hasProjectile;
-        if (hasProjectile)
-        {
-            projectilePrefab = enemyData.weapon.projectile.projectilePrefab;
-            projectileType = enemyData.weapon.projectile;
-        }
-        else
-            projectilePrefab = null;
-        movement = enemyData.movement;
-        behavior = enemyData.behavior.enemyBehavior;
-        if (enemyData.weapon.hasProjectile || enemyData.weapon.name == "Cure")
-        {
-            ApplyMageHat();
-        }
-        else if (enemyData.weapon.name == "None")
-        {
-            ApplySlimeSprite();
-        }
-        // ApplyEnemyColors();
-        hasMoveDirBeenChosen = false;
-        originalColor = sr.color;
-        healthCtrl.SetOriginalColor(originalColor);
-        if (hasProjectile && projectilePrefab.name == "EnemyBomb")
-        {
-            attackSpeed /= 2;
-        }
-        //If the movement needs to be fixed for the whole active time, set the flag here
-        if (movement.enemyMovementIndex == Enums.MovementEnum.Random || movement.enemyMovementIndex == Enums.MovementEnum.Random1D || movement.enemyMovementIndex == Enums.MovementEnum.Flee1D || movement.enemyMovementIndex == Enums.MovementEnum.Follow1D)
-            hasFixedMoveDir = true;
-        else
-            hasFixedMoveDir = false;
-        isWalking = false;
-        isShooting = false;
-        waitUntil = 0.5f;
-        coolDownTime = 0.5f;
-        dataHasBeenLoaded = true;
-    }
-
-    private void ApplyMageHat()
-    {
-        var head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
-        if (head == null) return;
-        head.sprite = movement.enemyMovementIndex switch
-        {
-            Enums.MovementEnum.Random => RandomMovementSprite,
-            Enums.MovementEnum.Random1D => RandomMovementSprite,
-            Enums.MovementEnum.Flee1D => FleeMovementSprite,
-            Enums.MovementEnum.Flee => FleeMovementSprite,
-            Enums.MovementEnum.Follow1D => FollowMovementSprite,
-            Enums.MovementEnum.Follow => FollowMovementSprite,
-            Enums.MovementEnum.None => NoneMovementSprite,
-            _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
-        };
-    }    
+            var head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+            if (head == null) return;
+            head.sprite = movement.enemyMovementIndex switch
+            {
+                Enums.MovementEnum.Random => RandomMovementSprite,
+                Enums.MovementEnum.Random1D => RandomMovementSprite,
+                Enums.MovementEnum.Flee1D => FleeMovementSprite,
+                Enums.MovementEnum.Flee => FleeMovementSprite,
+                Enums.MovementEnum.Follow1D => FollowMovementSprite,
+                Enums.MovementEnum.Follow => FollowMovementSprite,
+                Enums.MovementEnum.None => NoneMovementSprite,
+                _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
+            };
+        }    
     
-    private void ApplySlimeSprite()
-    {
-        var spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = movement.enemyMovementIndex switch
+        private void ApplySlimeSprite()
         {
-            Enums.MovementEnum.Random => RandomMovementSprite,
-            Enums.MovementEnum.Random1D => RandomMovementSprite,
-            Enums.MovementEnum.Flee1D => FleeMovementSprite,
-            Enums.MovementEnum.Flee => FleeMovementSprite,
-            Enums.MovementEnum.Follow1D => FollowMovementSprite,
-            Enums.MovementEnum.Follow => FollowMovementSprite,
-            Enums.MovementEnum.None => NoneMovementSprite,
-            _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
-        };
-    }
+            var spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = movement.enemyMovementIndex switch
+            {
+                Enums.MovementEnum.Random => RandomMovementSprite,
+                Enums.MovementEnum.Random1D => RandomMovementSprite,
+                Enums.MovementEnum.Flee1D => FleeMovementSprite,
+                Enums.MovementEnum.Flee => FleeMovementSprite,
+                Enums.MovementEnum.Follow1D => FollowMovementSprite,
+                Enums.MovementEnum.Follow => FollowMovementSprite,
+                Enums.MovementEnum.None => NoneMovementSprite,
+                _ => throw new InvalidEnumArgumentException("Movement Enum does not exist")
+            };
+        }
     
-    private void ApplyEnemyColors()
-    {
+        private void ApplyEnemyColors()
+        {
 
-        originalColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 0, 1.0f) / 1.0f, 1.0f);
-        //originalColor = new Color(, 0, 1 - Util.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 30, 225)/225f);
-        armsColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 0, 1.0f) / 1.0f, 1.0f);
-        legsColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 0, 1.0f) / 1.0f, 1.0f);
-        //armsColor = new Color(Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 30, 225)/ 225f, 0, 1 - Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 30, 225)/ 225f);
-        //legsColor = new Color(Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 30, 225)/ 225f, 0, 1 - Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 30, 225)/ 225f);
-        //TODO change head color according to movement
-        headColor = originalColor;
-        sr.color = originalColor;
-        SpriteRenderer arms = gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>();
-        if (arms != null)
-        {
-            arms.color = armsColor;
+            originalColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 0, 1.0f) / 1.0f, 1.0f);
+            //originalColor = new Color(, 0, 1 - Util.LogNormalization(healthCtrl.GetHealth(), EnemyUtil.minHealth, EnemyUtil.maxHealth, 30, 225)/225f);
+            armsColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 0, 1.0f) / 1.0f, 1.0f);
+            legsColor = Color.HSVToRGB(0.0f, Constants.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 0, 1.0f) / 1.0f, 1.0f);
+            //armsColor = new Color(Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 30, 225)/ 225f, 0, 1 - Util.LogNormalization(damage, EnemyUtil.minDamage, EnemyUtil.maxDamage, 30, 225)/ 225f);
+            //legsColor = new Color(Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 30, 225)/ 225f, 0, 1 - Util.LogNormalization(movementSpeed, EnemyUtil.minMoveSpeed, EnemyUtil.maxMoveSpeed, 30, 225)/ 225f);
+            //TODO change head color according to movement
+            headColor = originalColor;
+            sr.color = originalColor;
+            SpriteRenderer arms = gameObject.transform.Find("EnemyArms").GetComponent<SpriteRenderer>();
+            if (arms != null)
+            {
+                arms.color = armsColor;
+            }
+            SpriteRenderer legs = gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>();
+            if (legs != null)
+            {
+                legs.color = legsColor;
+            }
+            SpriteRenderer head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
+            if (head != null)
+            {
+                head.color = headColor;
+            }
         }
-        SpriteRenderer legs = gameObject.transform.Find("EnemyLegs").GetComponent<SpriteRenderer>();
-        if (legs != null)
+
+        /// <summary>
+        /// Sets the room.
+        /// </summary>
+        /// <param name="_room">The room.</param>
+        public void SetRoom(RoomBhv _room)
         {
-            legs.color = legsColor;
+            room = _room;
         }
-        SpriteRenderer head = gameObject.transform.Find("EnemyHead").GetComponent<SpriteRenderer>();
-        if (head != null)
+        /// <summary>
+        /// Shoots this instance.
+        /// </summary>
+        protected void Shoot()
         {
-            head.color = headColor;
+            Vector2 target = new Vector2(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y);
+            target.Normalize();
+            target *= projectileSpeed;
+
+
+            GameObject bullet = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+            //bullet.GetComponent<Rigidbody2D>().AddForce(target, ForceMode2D.Impulse);
+            if (projectilePrefab.name == "EnemyBomb")
+            {
+                //Debug.Log("It's a bomb");
+                bullet.GetComponent<BombController>().damage = damage;
+                bullet.GetComponent<BombController>().SetEnemyThatShot(indexOnEnemyList);
+
+            }
+            else
+            {
+                //bullet.GetComponent<ProjectileController>().damage = damage;
+                bullet.GetComponent<ProjectileController>().SetEnemyThatShot(indexOnEnemyList);
+                bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
+            }
+            bullet.SendMessage("Shoot", target);
         }
+
+        //TODO method to shoot a bomb
     }
-
-    /// <summary>
-    /// Sets the room.
-    /// </summary>
-    /// <param name="_room">The room.</param>
-    public void SetRoom(RoomBhv _room)
-    {
-        room = _room;
-    }
-    /// <summary>
-    /// Shoots this instance.
-    /// </summary>
-    protected void Shoot()
-    {
-        Vector2 target = new Vector2(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y);
-        target.Normalize();
-        target *= projectileSpeed;
-
-
-        GameObject bullet = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-        //bullet.GetComponent<Rigidbody2D>().AddForce(target, ForceMode2D.Impulse);
-        if (projectilePrefab.name == "EnemyBomb")
-        {
-            //Debug.Log("It's a bomb");
-            bullet.GetComponent<BombController>().damage = damage;
-            bullet.GetComponent<BombController>().SetEnemyThatShot(indexOnEnemyList);
-
-        }
-        else
-        {
-            //bullet.GetComponent<ProjectileController>().damage = damage;
-            bullet.GetComponent<ProjectileController>().SetEnemyThatShot(indexOnEnemyList);
-            bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
-        }
-        bullet.SendMessage("Shoot", target);
-    }
-
-    //TODO method to shoot a bomb
 }

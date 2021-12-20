@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds level debug-purpose functions.
     class LevelDebug

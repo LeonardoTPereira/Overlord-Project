@@ -1,4 +1,4 @@
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This struct holds the parameters of the evolutionary level generator.
     public struct Parameters

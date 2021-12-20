@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
 
-namespace Game.NarrativeGenerator.Quests.nao_terminais
+namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Get : NonTerminalQuest
     {

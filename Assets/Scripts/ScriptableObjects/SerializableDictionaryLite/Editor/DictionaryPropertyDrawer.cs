@@ -1,10 +1,10 @@
-using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
-namespace RotaryHeart.Lib.SerializableDictionary
+namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(DrawableDictionary), true)]
@@ -21,7 +21,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
         readonly GUIContent valueContent = new GUIContent("Value");
         readonly GUIStyle tooTipStyle = new GUIStyle("Tooltip");
 
-        ReorderableList list;
+        ReorderableList.ReorderableList list;
 
         string title;
 
@@ -53,7 +53,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
             reqReferences = property.FindPropertyRelative("reqReferences");
             isExpanded = property.FindPropertyRelative("isExpanded");
 
-            list = GetTargetObjectOfProperty(listProp) as ReorderableList;
+            list = GetTargetObjectOfProperty(listProp) as ReorderableList.ReorderableList;
 
             KeysValues = property.FindPropertyRelative("_keyValues");
             KeysProp = property.FindPropertyRelative("_keys");
@@ -325,7 +325,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
             {
                 if (!list.HasList)
                 {
-                    list = new ReorderableList(KeysProp, true, true, true);
+                    list = new ReorderableList.ReorderableList(KeysProp, true, true, true);
 
                     //Required callbacks
                     list.onRemoveCallback += List_onRemoveCallback;
@@ -650,7 +650,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
             #endregion Value Field
         }
 
-        private void List_onAddCallback(ReorderableList list)
+        private void List_onAddCallback(ReorderableList.ReorderableList list)
         {
             KeysValues.arraySize = ValuesProp.arraySize = ++KeysProp.arraySize;
 
@@ -664,7 +664,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
             //SetPropertyDefault(ValuesProp.GetArrayElementAtIndex(ValuesProp.arraySize - 1), null);
         }
 
-        private void List_onRemoveCallback(ReorderableList list)
+        private void List_onRemoveCallback(ReorderableList.ReorderableList list)
         {
             for (int i = list.Selected.Length - 1; i >= 0; i--)
             {

@@ -1,6 +1,6 @@
 ﻿using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class TalkQuestSO : QuestSO
     {

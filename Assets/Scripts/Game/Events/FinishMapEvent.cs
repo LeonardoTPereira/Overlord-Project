@@ -1,14 +1,17 @@
-﻿using Game.LevelManager;
-using System;
+﻿using System;
+using Game.LevelManager;
 
-public delegate void FinishMapEvent(object sender, FinishMapEventArgs e);
-public class FinishMapEventArgs : EventArgs
+namespace Game.Events
 {
-    private Map map;
-
-    public FinishMapEventArgs(Map map)
+    public delegate void FinishMapEvent(object sender, FinishMapEventArgs e);
+    public class FinishMapEventArgs : EventArgs
     {
-        Map = map;
+        private Map map;
+
+        public FinishMapEventArgs(Map map)
+        {
+            Map = map;
+        }
+        public Map Map { get => map; set => map = value; }
     }
-    public Map Map { get => map; set => map = value; }
 }
