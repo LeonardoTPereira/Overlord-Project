@@ -14,7 +14,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
                 "RH_SerializedDictionary"
             };
             
-            RotaryHeart.Lib.Definer.ApplyDefines(defines);
+            Shared.Editor.Definer.ApplyDefines(defines);
         }
     }
     #endif

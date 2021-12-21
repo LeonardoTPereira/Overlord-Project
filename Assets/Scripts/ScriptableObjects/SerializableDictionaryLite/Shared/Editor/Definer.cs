@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 
-namespace RotaryHeart.Lib
+namespace ScriptableObjects.SerializableDictionaryLite.Shared.Editor
 {
 
     public static class Definer
