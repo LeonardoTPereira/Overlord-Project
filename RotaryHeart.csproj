@@ -52,8 +52,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Rotary Heart\Shared\Editor\BaseSupportWindow.cs" />
-     <Compile Include="Assets\Rotary Heart\Shared\Editor\Definer.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObjects\SerializableDictionaryLite\Shared\Editor\BaseSupportWindow.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObjects\SerializableDictionaryLite\Shared\Editor\Definer.cs" />
  <Reference Include="UnityEngine">
  <HintPath>E:/UnityVersions/2020.3.16f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

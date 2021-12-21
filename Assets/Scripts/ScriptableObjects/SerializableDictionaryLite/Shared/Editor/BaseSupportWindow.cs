@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
-namespace RotaryHeart.Lib
+namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
     public class BaseSupportWindow : EditorWindow
     {

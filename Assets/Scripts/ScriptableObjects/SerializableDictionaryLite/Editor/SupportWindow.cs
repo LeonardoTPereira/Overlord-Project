@@ -1,5 +1,4 @@
-﻿using RotaryHeart.Lib;
-using UnityEditor;
+﻿using UnityEditor;
 
 namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
