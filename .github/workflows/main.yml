@@ -1,14 +1,14 @@
 name: Actions
 
-on: 
-    pull_request:
-        branches:
-            - main
-            - develop
-    push:
-        branches:
-            - main
-            - develop
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
