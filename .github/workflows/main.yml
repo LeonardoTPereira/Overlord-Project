@@ -30,6 +30,7 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     testRunner:
+        needs: sonarcloud
         name: Test in ${{ matrix.testMode }} ✨
         runs-on: ubuntu-latest
         strategy:
