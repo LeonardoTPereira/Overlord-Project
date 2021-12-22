@@ -5,6 +5,10 @@ on:
         branches:
             - main
             - develop
+    push:
+        branches:
+            - main
+            - develop
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
