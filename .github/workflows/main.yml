@@ -5,10 +5,6 @@ on:
     branches:
       - master
       - develop
-  push:
-    branches:
-      - master
-      - develop
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -23,13 +19,12 @@ jobs:
             fetch-depth: 0
         - name: SonarCloud Scan
           uses: sonarsource/sonarcloud-github-action@master
-          with:
-            projectBaseDir: Assets/Scripts
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     testRunner:
+        needs: sonarcloud
         name: Test in ${{ matrix.testMode }} ✨
         runs-on: ubuntu-latest
         strategy:
