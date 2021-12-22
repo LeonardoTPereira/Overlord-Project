@@ -1,4 +1,4 @@
-name: Actions 😎
+name: Actions
 
 on: 
     pull_request:
@@ -14,15 +14,15 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-                with:
-                    fetch-depth: 0
+              with:
+                fetch-depth: 0
             - name: SonarCloud Scan
                 uses: sonarsource/sonarcloud-github-action@master
                 with:
-                    projectBaseDir: Assets/Scripts
+                  projectBaseDir: Assets/Scripts
                 env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     testRunner:
         name: Test in ${{ matrix.testMode }} ✨
