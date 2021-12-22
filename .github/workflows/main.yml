@@ -3,11 +3,11 @@ name: Actions
 on:
   pull_request:
     branches:
-      - main
+      - master
       - develop
   push:
     branches:
-      - main
+      - master
       - develop
 
 env:
