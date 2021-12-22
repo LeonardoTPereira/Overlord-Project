@@ -47,7 +47,7 @@ jobs:
             shell: powershell
             run: |
               .\.sonar\scanner\dotnet-sonarscanner begin /k:"LeonardoTPereira_Overlord-Project" /o:"leonardotpereira" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-              MSBuild /t:build Overlord-Project.sln
+              MSBuild.exe /t:build Overlord-Project.sln
               .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     #testRunner:
     #    needs: sonarcloud
