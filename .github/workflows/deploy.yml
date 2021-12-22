@@ -1,11 +1,11 @@
-name: Build and Test
+name: Deploy
 
 on:
-  pull_request:
+  push:
     branches:
       - main
       - develop
-
+      
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
@@ -90,3 +90,22 @@ jobs:
             with:
               name: Build
               path: build
+              
+    deployPages:
+      needs: buildWebGL
+      name: Deploy to Github Pages 🚀
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - uses: actions/download-artifact@v2
+          with:
+            name: build-WebGL
+            path: build
+
+        - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@4.1.4
+          with:
+            branch: gh-pages
+            folder: build/WebGL
