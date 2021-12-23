@@ -46,27 +46,27 @@ jobs:
       - name: Install Sonar Scanner
         run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
         
-      - name: Run editor Tests
-        run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
-        timeout-minutes: 20
-        
-      - name: Run play Tests
-        run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform playmode -testResults Tests/playmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
-        timeout-minutes: 20
-
-      - name: Archive test results
-        uses: actions/upload-artifact@v2.3.1
-        if: always()
-        with:
-          name: Test results
-          path: Tests
-
-      - name: Publish test results
-        uses: MirageNet/nunit-reporter@v1.0.11
-        if: always()
-        with:
-          path: "Tests/*.xml"
-          access-token: ${{ secrets.GITHUB_TOKEN }}
+      #- name: Run editor Tests
+      #  run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
+      #  timeout-minutes: 20
+      #  
+      #- name: Run play Tests
+      #  run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform playmode -testResults Tests/playmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
+      #  timeout-minutes: 20
+      #
+      #- name: Archive test results
+      #  uses: actions/upload-artifact@v2.3.1
+      #  if: always()
+      #  with:
+      #    name: Test results
+      #    path: Tests
+      #
+      #- name: Publish test results
+      #  uses: MirageNet/nunit-reporter@v1.0.11
+      #  if: always()
+      #  with:
+      #    path: "Tests/*.xml"
+      #    access-token: ${{ secrets.GITHUB_TOKEN }}
             
       - uses: actions/setup-node@v2
         with:
@@ -99,12 +99,12 @@ jobs:
             /k:LeonardoTPereira_Overlord-Project \
             /n:Overlord \
             /d:sonar.verbose=false \
+            /d:sonar.projectBaseDir=Assets \
             /d:sonar.login=$SONAR_TOKEN \
             /d:sonar.host.url=https://sonarcloud.io \
             /d:sonar.cpd.exclusions=Assets/Tests/** \
+            /d:sonar.coverage.exclusions=Assets/Tests/** \
             ${{ steps.semantic.outputs.new_release_published == 'true' && format('/v:{0}',steps.semantic.outputs.new_release_version) || '' }} \
-            /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playmode-results.xml \
-            /d:sonar.cs.opencover.reportsPaths=Tests/Overlord-opencov/EditMode/TestCoverageResults_0000.xml,Tests/Overlord-opencov/PlayMode/TestCoverageResults_0000.xml
           $DOTNET_ROOT/dotnet build Overlord-Project.sln
           ./dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
     #testRunner:
