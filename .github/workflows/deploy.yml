@@ -96,54 +96,54 @@ jobs:
     #            name: Test results (${{ matrix.testMode }})
     #            path: ${{ steps.testRunner.outputs.artifactsPath }}
 
-    buildWebGL:
-        needs: sonarcloud
-        name: Build for WebGL 🖥️
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v2
-
-          - name: Restore Library cache
-            uses: actions/cache@v2
-            with:
-              path: Library
-              key: Library-build-WebGL
-              restore-keys: |
-                Library-build-
-                Library-
-          - uses: game-ci/unity-builder@v2
-            with:
-              targetPlatform: WebGL
-
-          - uses: actions/upload-artifact@v2
-            with:
-              name: build-WebGL
-              path: build/WebGL
-
-          # Output
-          - uses: actions/upload-artifact@v2
-            with:
-              name: Build
-              path: build
-              
-    deployPages:
-      needs: buildWebGL
-      name: Deploy to Github Pages 🚀
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-
-        - uses: actions/download-artifact@v2
-          with:
-            name: build-WebGL
-            path: build
-
-        - name: Deploy 🚀
-          uses: JamesIves/github-pages-deploy-action@4.1.4
-          with:
-            branch: gh-pages
-            folder: build/WebGL
+  buildWebGL:
+    needs: sonarcloud
+    name: Build for WebGL 🖥️
+    runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Restore Library cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-build-WebGL
+          restore-keys: |
+            Library-build-
+            Library-
+      - uses: game-ci/unity-builder@v2
+        with:
+          targetPlatform: WebGL
+    
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build-WebGL
+          path: build/WebGL
+    
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
+            
+  deployPages:
+    needs: buildWebGL
+    name: Deploy to Github Pages 🚀
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - uses: actions/download-artifact@v2
+        with:
+          name: build-WebGL
+          path: build
+  
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: build/WebGL
