@@ -29,16 +29,7 @@ jobs:
           unity-editor -nographics -logFile /dev/stdout -manualLicenseFile UnityLicenseFile.ulf -quit | echo "Activation finished"
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Update
-        run: apt update
         
-      - name: Install JDK
-        run: apt install -y openjdk-11-jre-headless
-        
-      - name: Install Sonar Scanner
-        run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
-
       - name: Cache Library
         id: cache-library
         uses: actions/cache@v2
@@ -48,6 +39,21 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
+
+      - name: Update
+        run: apt update
+        
+      - name: Install JDK
+        run: apt install -y openjdk-11-jre-headless
+        
+      - name: Install Sonar Scanner
+        run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
+      
+      - name: Download previous build
+        uses: actions/download-artifact@v2
+        with:
+          name: build-WebGL
+          path: build/WebGL
         
       - name: Run editor Tests
         run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
@@ -72,7 +78,7 @@ jobs:
           access-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Solution
-        run: unity-editor -nographics -logFile /dev/stdout -customBuildName Overlord-Project -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
+        run: unity-editor -nographics -logFile /dev/stdout -customBuildName Overlord-Project -projectPath . -executeMethod UnityEditor.SyncVS.SyncSolution -quit
         
       - name: SonarQube analysis
         env:
