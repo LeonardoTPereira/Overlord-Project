@@ -37,7 +37,7 @@ jobs:
           key: Library-2020.3.16
           
       - name: Download previous build
-      - uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2
         with:
           name: build-WebGL
           path: build/WebGL
