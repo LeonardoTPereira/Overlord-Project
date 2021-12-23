@@ -39,6 +39,7 @@ jobs:
             Library-build-
             Library-
 
+      - name: Download previous build
       - uses: actions/download-artifact@v2
         with:
           name: build-WebGL
@@ -120,10 +121,13 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
+      
+      - name: Build WebGL
       - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
 
+      - name: Upload Build as Artifact
       - uses: actions/upload-artifact@v2
         with:
           name: build-WebGL
