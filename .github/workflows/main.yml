@@ -37,11 +37,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-2020.1.17
+          key: Library-2020.3.16
 
       - name: Install sonar scanner
         run: |
-          $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
+          $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.2.0
           apt update
           apt install -y openjdk-11-jre-headless
       - name: Run editor Tests
@@ -120,7 +120,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-build-WebGL
+          key: Library-2020.3.16
           restore-keys: |
             Library-build-
             Library-
