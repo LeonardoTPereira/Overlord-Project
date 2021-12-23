@@ -78,8 +78,8 @@ jobs:
           access-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Solution
-        run: unity-editor -nographics -logFile /dev/stdout -customBuildName Overlord-Project -projectPath . -executeMethod UnityEditor.SyncVS.SyncSolution -quit
-        
+        run: unity-editor -nographics -logFile /dev/stdout -customBuildName Overlord-Project -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
+
       - name: SonarQube analysis
         env:
           FrameworkPathOverride: /opt/unity/Editor/Data/MonoBleedingEdge/
