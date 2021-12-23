@@ -45,43 +45,27 @@ jobs:
       - name: Install Sonar Scanner
         run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
         
-      #- name: Run editor Tests
-      #  run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
-      #  timeout-minutes: 20
-      #  
-      #- name: Run play Tests
-      #  run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform playmode -testResults Tests/playmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
-      #  timeout-minutes: 20
-      #
-      #- name: Archive test results
-      #  uses: actions/upload-artifact@v2.3.1
-      #  if: always()
-      #  with:
-      #    name: Test results
-      #    path: Tests
-      #
-      #- name: Publish test results
-      #  uses: MirageNet/nunit-reporter@v1.0.11
-      #  if: always()
-      #  with:
-      #    path: "Tests/*.xml"
-      #    access-token: ${{ secrets.GITHUB_TOKEN }}
-            
-      - uses: actions/setup-node@v2
+      - name: Run editor Tests
+        run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
+        timeout-minutes: 20
+        
+      - name: Run play Tests
+        run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform playmode -testResults Tests/playmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
+        timeout-minutes: 20
+      
+      - name: Archive test results
+        uses: actions/upload-artifact@v2.3.1
+        if: always()
         with:
-          node-version: '14'
-
-      - name: Release
-        uses: cycjimmy/semantic-release-action@v2
-        id: semantic
+          name: Test results
+          path: Tests
+      
+      - name: Publish test results
+        uses: MirageNet/nunit-reporter@v1.0.11
+        if: always()
         with:
-          extra_plugins: |
-            @semantic-release/exec
-            @semantic-release/changelog
-            @semantic-release/git
-          branch: master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: "Tests/*.xml"
+          access-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Solution
         run: unity-editor -nographics -logFile /dev/stdout -customBuildName Overlord-Project -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
