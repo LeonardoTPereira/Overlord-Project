@@ -23,8 +23,6 @@ jobs:
       - name: Activate unity
         # exit code is 1 for manual activation
         continue-on-error: true
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
         run: |          
           echo "$UNITY_LICENSE" | tr -d '\r' > UnityLicenseFile.ulf
           unity-editor -nographics -logFile /dev/stdout -manualLicenseFile UnityLicenseFile.ulf -quit 
@@ -41,7 +39,7 @@ jobs:
 
       - name: Install sonar scanner
         run: |
-          $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.2.0
+          $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
           apt update
           apt install -y openjdk-11-jre-headless
       - name: Run editor Tests
