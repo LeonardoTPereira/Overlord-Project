@@ -9,36 +9,35 @@ on:
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-jobs:   
-  downloadBuild:
-    - name: Download artifact
-    uses: dawidd6/action-download-artifact@v2
-    with:
-      # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
-      # Required, if artifact is from a different repo
-      # Required, if repo is private a Personal Access Token with `repo` scope is needed
-      github_token: ${{secrets.GITHUB_TOKEN}}
-      # Required, workflow file name or ID
-      workflow: main.yml
-      # Optional, the status or conclusion of a completed workflow to search for
-      # Can be one of a workflow conclusion:
-      #   "failure", "success", "neutral", "cancelled", "skipped", "timed_out", "action_required"
-      # Or a workflow status:
-      #   "completed", "in_progress", "queued"
-      workflow_conclusion: success
-      # Optional, will get head commit SHA
-      # Optional, uploaded artifact name,
-      # will download all artifacts if not specified
-      # and extract them in respective subdirectories
-      # https://github.com/actions/download-artifact#download-all-artifacts
-      name: build-WebGL
-      # Optional, directory where to extract artifact. Defaults to the artifact name (see `name` input)
-      path: build/WebGL
-            
+jobs:            
   deployPages:
     name: Deploy to Github Pages 🚀
     runs-on: ubuntu-latest
     steps:
+      - name: Download artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
+        # Required, if artifact is from a different repo
+        # Required, if repo is private a Personal Access Token with `repo` scope is needed
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        # Required, workflow file name or ID
+        workflow: main.yml
+        # Optional, the status or conclusion of a completed workflow to search for
+        # Can be one of a workflow conclusion:
+        #   "failure", "success", "neutral", "cancelled", "skipped", "timed_out", "action_required"
+        # Or a workflow status:
+        #   "completed", "in_progress", "queued"
+        workflow_conclusion: success
+        # Optional, will get head commit SHA
+        # Optional, uploaded artifact name,
+        # will download all artifacts if not specified
+        # and extract them in respective subdirectories
+        # https://github.com/actions/download-artifact#download-all-artifacts
+        name: build-WebGL
+        # Optional, directory where to extract artifact. Defaults to the artifact name (see `name` input)
+        path: build/WebGL
+      
       - name: Checkout code
         uses: actions/checkout@v2
 
