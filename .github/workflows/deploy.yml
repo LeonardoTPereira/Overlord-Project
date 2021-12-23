@@ -97,9 +97,8 @@ jobs:
           ./dotnet-sonarscanner begin \
             /o:leonardotpereira \
             /k:LeonardoTPereira_Overlord-Project \
-            /n:Overlord \
+            /n:Overlord-Project \
             /d:sonar.verbose=false \
-            /d:sonar.projectBaseDir=Assets \
             /d:sonar.login=$SONAR_TOKEN \
             /d:sonar.host.url=https://sonarcloud.io \
             /d:sonar.cpd.exclusions=Assets/Tests/** \
