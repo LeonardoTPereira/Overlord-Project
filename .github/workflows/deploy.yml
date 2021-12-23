@@ -46,7 +46,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-        ls -l
+          ls -l
           ./dotnet-sonarscanner begin \
             /o:leonardotpereira \
             /k:LeonardoTPereira_Overlord \
