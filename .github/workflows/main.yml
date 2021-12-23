@@ -20,6 +20,7 @@ jobs:
       DOTNET_ROOT: '/opt/unity/Editor/Data/NetCore/Sdk-2.2.107'
 
     steps:
+      
       - name: Activate unity
       # exit code is 1 for manual activation
         continue-on-error: true
@@ -28,6 +29,15 @@ jobs:
           unity-editor -nographics -logFile /dev/stdout -manualLicenseFile UnityLicenseFile.ulf -quit | echo "Activation finished"
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Update
+        run: apt update
+        
+      - name: Install JDK
+        run: apt install -y openjdk-11-jre-headless
+        
+      - name: Install Sonar Scanner
+        run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
 
       - name: Cache Library
         id: cache-library
@@ -38,21 +48,12 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
-
+      
       - name: Download previous build
-      - uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2
         with:
           name: build-WebGL
           path: build/WebGL
-
-      - name: Update
-        run: apt update
-        
-      - name: Install JDK
-        run: apt install -y openjdk-11-jre-headless
-        
-      - name: Install Sonar Scanner
-        run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
         
       - name: Run editor Tests
         run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
@@ -110,9 +111,6 @@ jobs:
     strategy:
         fail-fast: false
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
