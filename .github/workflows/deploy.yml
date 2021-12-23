@@ -11,44 +11,37 @@ env:
 
 jobs:   
     sonarcloud:
-        name: Sonar Cloud Validation
-        runs-on: windows-latest
-        steps:
-          - name: Set up JDK 11
-            uses: actions/setup-java@v1
-            with:
-              java-version: 1.11
-          - uses: actions/checkout@v2
-            with:
-              fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-          - name: Cache SonarCloud packages
-            uses: actions/cache@v1
-            with:
-              path: ~\sonar\cache
-              key: ${{ runner.os }}-sonar
-              restore-keys: ${{ runner.os }}-sonar
-          - name: Cache SonarCloud scanner
-            id: cache-sonar-scanner
-            uses: actions/cache@v1
-            with:
-              path: .\.sonar\scanner
-              key: ${{ runner.os }}-sonar-scanner
-              restore-keys: ${{ runner.os }}-sonar-scanner
-          - name: Install SonarCloud scanner
-            if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-            shell: powershell
-            run: |
-              New-Item -Path .\.sonar\scanner -ItemType Directory
-              dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          - name: Build and analyze
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            shell: powershell
-            run: |
-              .\.sonar\scanner\dotnet-sonarscanner begin /k:"LeonardoTPereira_Overlord-Project" /o:"leonardotpereira" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-              msbuild /t:Rebuild Overlord-Project.sln
-              .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      name: SonarCloud
+      runs-on: ubuntu-latest
+      container: unityci/editor:ubuntu-2020.3.16f1-base-0.13.0
+      env:
+        DOTNET_ROOT: '/opt/unity/Editor/Data/NetCore/Sdk-2.2.107'
+        
+      - steps:
+        - name: Generate Solution
+          run: unity-editor -nographics -logFile /dev/stdout -customBuildName ProCoG -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
+        
+        - name: SonarQube Analysis
+          env:
+            FrameworkPathOverride: /opt/unity/Editor/Data/MonoBleedingEdge/
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            ls -l
+            ./dotnet-sonarscanner begin \
+              /o:leonardotpereira \
+              /k:LeonardoTPereira_Overlord \
+              /n:ProCoG \
+              /d:sonar.verbose=false \
+              /d:sonar.login=$SONAR_TOKEN \
+              /d:sonar.host.url=https://sonarcloud.io \
+              /d:sonar.cpd.exclusions=Assets/Tests/** \
+              /d:sonar.coverage.exclusions=Assets/Tests/** \
+              ${{ steps.semantic.outputs.new_release_published == 'true' && format('/v:{0}',steps.semantic.outputs.new_release_version) || '' }} \
+              /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playmode-results.xml \
+              /d:sonar.cs.opencover.reportsPaths=Tests/Overlord-Project-opencov/EditMode/TestCoverageResults_0000.xml,Tests/Overlord-Project-opencov/PlayMode/TestCoverageResults_0000.xml
+            $DOTNET_ROOT/dotnet build Overlord-Project.sln
+            ./dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
     #testRunner:
     #    needs: sonarcloud
     #    name: Test in ${{ matrix.testMode }} ✨
