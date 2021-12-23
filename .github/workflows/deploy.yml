@@ -14,6 +14,10 @@ jobs:
     name: Deploy to Github Pages 🚀
     runs-on: ubuntu-latest
     steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
@@ -37,14 +41,6 @@ jobs:
           name: build-WebGL
           # Optional, directory where to extract artifact. Defaults to the artifact name (see `name` input)
           path: build/WebGL
-      
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: build-WebGL
-          path: build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
