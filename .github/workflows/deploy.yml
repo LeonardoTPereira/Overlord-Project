@@ -13,7 +13,7 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
-    container: unityci/editor:ubuntu-2020.3.16f1-base-0.13.0
+    container: unityci/editor:ubuntu-2020.3.11f1-base-0.13.0
     env:
       DOTNET_ROOT: '/opt/unity/Editor/Data/NetCore/Sdk-2.2.107'
       
