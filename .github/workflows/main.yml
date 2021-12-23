@@ -10,38 +10,57 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:   
-    sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      container: unityci/editor:ubuntu-2020.3.16f1-base-0.13.0
-      env:
-        DOTNET_ROOT: '/opt/unity/Editor/Data/NetCore/Sdk-2.2.107'
-        
-      - steps:
-        - name: Generate Solution
-          run: unity-editor -nographics -logFile /dev/stdout -customBuildName ProCoG -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
-        
-        - name: SonarQube Analysis
-          env:
-            FrameworkPathOverride: /opt/unity/Editor/Data/MonoBleedingEdge/
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            ls -l
-            ./dotnet-sonarscanner begin \
-              /o:leonardotpereira \
-              /k:LeonardoTPereira_Overlord \
-              /n:ProCoG \
-              /d:sonar.verbose=false \
-              /d:sonar.login=$SONAR_TOKEN \
-              /d:sonar.host.url=https://sonarcloud.io \
-              /d:sonar.cpd.exclusions=Assets/Tests/** \
-              /d:sonar.coverage.exclusions=Assets/Tests/** \
-              ${{ steps.semantic.outputs.new_release_published == 'true' && format('/v:{0}',steps.semantic.outputs.new_release_version) || '' }} \
-              /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playmode-results.xml \
-              /d:sonar.cs.opencover.reportsPaths=Tests/Overlord-Project-opencov/EditMode/TestCoverageResults_0000.xml,Tests/Overlord-Project-opencov/PlayMode/TestCoverageResults_0000.xml
-            $DOTNET_ROOT/dotnet build Overlord-Project.sln
-            ./dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    container: unityci/editor:ubuntu-2020.3.16f1-base-0.13.0
+    env:
+      DOTNET_ROOT: '/opt/unity/Editor/Data/NetCore/Sdk-2.2.107'
+      
+    steps:
+      - name: Activate unity
+        # exit code is 1 for manual activation
+        continue-on-error: true
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        run: |          
+          echo "$UNITY_LICENSE" | tr -d '\r' > UnityLicenseFile.ulf
+          unity-editor -nographics -logFile /dev/stdout -manualLicenseFile UnityLicenseFile.ulf -quit | echo "Activation finished"
+      
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Cache Library
+        id: cache-library
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-2020.3.11
+      
+      - name: Generate Solution
+        run: unity-editor -nographics -logFile /dev/stdout -customBuildName ProCoG -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
+      
+      - name: SonarQube Analysis
+        env:
+          FrameworkPathOverride: /opt/unity/Editor/Data/MonoBleedingEdge/
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+        ls -l
+          ./dotnet-sonarscanner begin \
+            /o:leonardotpereira \
+            /k:LeonardoTPereira_Overlord \
+            /n:ProCoG \
+            /d:sonar.verbose=false \
+            /d:sonar.login=$SONAR_TOKEN \
+            /d:sonar.host.url=https://sonarcloud.io \
+            /d:sonar.cpd.exclusions=Assets/Tests/** \
+            /d:sonar.coverage.exclusions=Assets/Tests/** \
+            ${{ steps.semantic.outputs.new_release_published == 'true' && format('/v:{0}',steps.semantic.outputs.new_release_version) || '' }} \
+            /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playmode-results.xml \
+            /d:sonar.cs.opencover.reportsPaths=Tests/Overlord-Project-opencov/EditMode/TestCoverageResults_0000.xml,Tests/Overlord-Project-opencov/PlayMode/TestCoverageResults_0000.xml
+          $DOTNET_ROOT/dotnet build Overlord-Project.sln
+          ./dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
     #testRunner:
     #    needs: sonarcloud
     #    name: Test in ${{ matrix.testMode }} ✨
