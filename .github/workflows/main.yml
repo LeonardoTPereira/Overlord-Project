@@ -110,6 +110,7 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
+
       - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
@@ -118,9 +119,3 @@ jobs:
         with:
           name: build-WebGL
           path: build/WebGL
-
-      # Output
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build
-          path: build
