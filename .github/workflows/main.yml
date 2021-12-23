@@ -32,10 +32,10 @@ jobs:
           key: Library-2020.3.16
 
       - name: Install sonar scanner
-        run: |
-          $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
-          apt update
-          apt install -y openjdk-11-jre-headless=11.0.11+9-0ubuntu2~18.04
+        run: apt update
+        run: apt install -y openjdk-11-jre-headless
+        run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
+        
       - name: Run editor Tests
         run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
         timeout-minutes: 20
