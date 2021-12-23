@@ -31,9 +31,13 @@ jobs:
           path: Library
           key: Library-2020.3.16
 
-      - name: Install sonar scanner
+      - name: Update
         run: apt update
+        
+      - name: Install JDK
         run: apt install -y openjdk-11-jre-headless
+        
+      - name: Install Sonar Scanner
         run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
         
       - name: Run editor Tests
