@@ -35,6 +35,14 @@ jobs:
         with:
           path: Library
           key: Library-2020.3.16
+          restore-keys: |
+            Library-build-
+            Library-
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: build-WebGL
+          path: build/WebGL
 
       - name: Update
         run: apt update
@@ -91,6 +99,8 @@ jobs:
             /d:sonar.cs.opencover.reportsPaths=Tests/Overlord-Project-opencov/EditMode/TestCoverageResults_0000.xml,Tests/Overlord-Project-opencov/PlayMode/TestCoverageResults_0000.xml
           $DOTNET_ROOT/dotnet build Overlord-Project.sln
           ./dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
+          
+        - name: Upload Build
 
   buildWebGL:
     needs: sonarcloud
@@ -118,9 +128,3 @@ jobs:
         with:
           name: build-WebGL
           path: build/WebGL
-
-      # Output
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build
-          path: build
