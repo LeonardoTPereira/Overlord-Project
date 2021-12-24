@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - master
-      - develop
+      - Develop
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
