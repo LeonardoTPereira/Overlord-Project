@@ -38,15 +38,15 @@ namespace Game.LevelGenerator
 
             //  The starting location is room (0,0)
             Location start = new Location {
-                X = -2 * _dungeon.minX,
-                Y = -2 * _dungeon.minY
+                X = -2 * _dungeon.MinX,
+                Y = -2 * _dungeon.MinY
             };
             Location target = null;
 
             int g = 0;
             // Size of the new grid
-            sizeX = _dungeon.maxX - _dungeon.minX + 1;
-            sizeY = _dungeon.maxY - _dungeon.minY + 1;
+            sizeX = _dungeon.MaxX - _dungeon.MinX + 1;
+            sizeY = _dungeon.MaxY - _dungeon.MinY + 1;
             int[,] map = new int[2 * sizeX, 2 * sizeY];
 
             // 101 is EMPTY
@@ -58,31 +58,31 @@ namespace Game.LevelGenerator
                 }
             }
             // Fill the new grid
-            for (int i = _dungeon.minX; i < _dungeon.maxX + 1; i++)
+            for (int i = _dungeon.MinX; i < _dungeon.MaxX + 1; i++)
             {
-                for (int j = _dungeon.minY; j < _dungeon.maxY + 1; j++)
+                for (int j = _dungeon.MinY; j < _dungeon.MaxY + 1; j++)
                 {
                     // Convert the original coordinates (may be negative) to positive
-                    int iPositive = i - _dungeon.minX;
-                    int jPositive = j - _dungeon.minY;
-                    Room current = _dungeon.grid[i, j];
+                    int iPositive = i - _dungeon.MinX;
+                    int jPositive = j - _dungeon.MinY;
+                    Room current = _dungeon.DungeonGrid[i, j];
                     // If the position has a room, check its type and fill the grid accordingly
                     if (current != null)
                     {
                         // 0 is a NORMAL ROOM
-                        if (current.type == RoomType.Normal)
+                        if (current.Type1 == RoomType.Normal)
                         {
                             map[iPositive * 2, jPositive * 2] = 0;
                         }
                         // The sequential, positivie index of the key is its representation
-                        else if (current.type == RoomType.Key)
+                        else if (current.Type1 == RoomType.Key)
                         {
-                            map[iPositive * 2, jPositive * 2] = _dungeon.keyIds.IndexOf(current.key)+1;
+                            map[iPositive * 2, jPositive * 2] = _dungeon.KeyIds.IndexOf(current.Key)+1;
                         }
                         // If the room is locked, the room is a normal room, only the corridor is locked. But is the lock is the last one in the sequential order, than the room is the objective
-                        else if (current.type == RoomType.Locked)
+                        else if (current.Type1 == RoomType.Locked)
                         {
-                            if (_dungeon.lockIds.IndexOf(current.key) == _dungeon.lockIds.Count -1)
+                            if (_dungeon.LockIds.IndexOf(current.Key) == _dungeon.LockIds.Count -1)
                             {
                                 map[iPositive * 2, jPositive * 2] = 102;
                                 target = new Location { X = iPositive * 2, Y = jPositive * 2 };
@@ -90,20 +90,20 @@ namespace Game.LevelGenerator
                             else
                                 map[iPositive * 2, jPositive * 2] = 0;
                         }
-                        Room parent = current.parent;
+                        Room parent = current.Parent;
                         // If the current room is a locked room and has a parent, then the connection between then is locked and is represented by the negative value of the index of the key that opens the lock
                         if (parent != null)
                         {
 
-                            int x = parent.x - current.x + iPositive * 2;
-                            int y = parent.y - current.y + jPositive * 2;
-                            if (current.type == RoomType.Locked)
+                            int x = parent.X - current.X + iPositive * 2;
+                            int y = parent.Y - current.Y + jPositive * 2;
+                            if (current.Type1 == RoomType.Locked)
                             {
                                 locksLocation.Add(new Location { X = x, Y = y, Parent = new Location {
-                                    X = 2 * (parent.x - current.x) + iPositive * 2,
-                                    Y = 2 * (parent.y - current.y) + jPositive * 2 } }
+                                    X = 2 * (parent.X - current.X) + iPositive * 2,
+                                    Y = 2 * (parent.Y - current.Y) + jPositive * 2 } }
                                 );
-                                map[x, y] = -(_dungeon.keyIds.IndexOf(current.key)+1);
+                                map[x, y] = -(_dungeon.KeyIds.IndexOf(current.Key)+1);
                             }
                             // If the connection is open, 100 represents a normal corridor
                             else

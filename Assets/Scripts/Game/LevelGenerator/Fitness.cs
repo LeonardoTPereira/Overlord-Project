@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 namespace Game.LevelGenerator
@@ -54,15 +55,12 @@ namespace Game.LevelGenerator
         /// the negative value of the sparsity of enemies. The last item is
         /// negative because this fitness aims to minimize its value while
         /// maximizing the sparsity of enemies.
-        public void Calculate(
-            ref Individual _individual,
-            ref System.Random _rand
-        ) {
+        public void Calculate(ref Individual _individual) {
             // Create aliases for the individual's attributes
             Dungeon dungeon = _individual.dungeon;
-            int rooms = dungeon.rooms.Count;
-            int keys = dungeon.keyIds.Count;
-            int locks = dungeon.lockIds.Count;
+            int rooms = dungeon.Rooms.Count;
+            int keys = dungeon.KeyIds.Count;
+            int locks = dungeon.LockIds.Count;
             float linearCoefficient = _individual.linearCoefficient;
             // Calculate the distance between the attributes of the generated
             // dungeon to the entered parameters
@@ -77,27 +75,20 @@ namespace Game.LevelGenerator
             float distance = fRooms + fKeys + fLocks + fLC;
             float fit = 2 * distance;
             // If the level has locked doors
-            if (dungeon.lockIds.Count > 0)
+            if (dungeon.LockIds.Count > 0)
             {
-                try
-                {
-                    // Calculate the number of locks needed to finish the level
-                    _individual.neededLocks = AStar.FindRoute(dungeon);
-                }
-                catch (UnfeasibleLevelException exception)
-                {
-                    throw;
-                }
+                // Calculate the number of locks needed to finish the level
+                _individual.neededLocks = AStar.FindRoute(dungeon);
                 // Validate the calculated number of needed locks
-                if (_individual.neededLocks > dungeon.lockIds.Count)
+                if (_individual.neededLocks > dungeon.LockIds.Count)
                 {
-                    throw new Exception("Inconsistency! The number of " +
+                    throw new InvalidDataException("Inconsistency! The number of " +
                                         "needed locks is higher than the number of total " +
                                         "locks of the level." +
-                                        "\n  Total locks=" + dungeon.lockIds.Count +
+                                        "\n  Total locks=" + dungeon.LockIds.Count +
                                         "\n  Needed locks=" + _individual.neededLocks);
                 }
-                float fNeededLocks = dungeon.lockIds.Count * 0.8f -
+                float fNeededLocks = dungeon.LockIds.Count * 0.8f -
                                      _individual.neededLocks;
                 _individual.fNeededLocks = fNeededLocks;
                 // Calculate the number of rooms needed to finish the level
@@ -105,20 +96,20 @@ namespace Game.LevelGenerator
                 for (int i = 0; i < 3; i++)
                 {
                     DFS dfs = new DFS(dungeon);
-                    dfs.FindRoute(ref _rand);
+                    dfs.FindRoute();
                     neededRooms += dfs.NVisitedRooms;
                 }
                 _individual.neededRooms = neededRooms / 3.0f;
                 // Validate the calculated number of needed rooms
-                if (_individual.neededRooms > dungeon.rooms.Count)
+                if (_individual.neededRooms > dungeon.Rooms.Count)
                 {
-                    throw new Exception("Inconsistency! The number of " +
-                                        "needed rooms is higher than the number of total " +
-                                        "rooms of the level." +
-                                        "\n  Total rooms=" + dungeon.rooms.Count +
-                                        "\n  Needed rooms=" + _individual.neededRooms);
+                    throw new InvalidDataException("Inconsistency! The number of " +
+                                                   "needed rooms is higher than the number of total " +
+                                                   "rooms of the level." +
+                                                   "\n  Total rooms=" + dungeon.Rooms.Count +
+                                                   "\n  Needed rooms=" + _individual.neededRooms);
                 }
-                float fNeededRooms = dungeon.rooms.Count -
+                float fNeededRooms = dungeon.Rooms.Count -
                                      _individual.neededRooms;
                 _individual.fNeededRooms = fNeededRooms;
                 // Update the fitness by summing the number of needed rooms and
@@ -144,25 +135,25 @@ namespace Game.LevelGenerator
             // Calculate the average position of enemies
             float avg_x = 0f;
             float avg_y = 0f;
-            foreach (Room room in _dungeon.rooms)
+            foreach (Room room in _dungeon.Rooms)
             {
-                int xp = room.x + _dungeon.minX;
-                int yp = room.y + _dungeon.minY;
-                avg_x += xp * room.enemies;
-                avg_y += yp * room.enemies;
+                int xp = room.X + _dungeon.MinX;
+                int yp = room.Y + _dungeon.MinY;
+                avg_x += xp * room.Enemies;
+                avg_y += yp * room.Enemies;
             }
             avg_x = avg_x / _enemies;
             avg_y = avg_y / _enemies;
             // Calculate the sparsity
             float sparsity = 0f;
-            foreach (Room room in _dungeon.rooms)
+            foreach (Room room in _dungeon.Rooms)
             {
-                int xp = room.x + _dungeon.minX;
-                int yp = room.y + _dungeon.minY;
+                int xp = room.X + _dungeon.MinX;
+                int yp = room.Y + _dungeon.MinY;
                 double dist = 0f;
                 dist += Math.Pow(xp - avg_x, 2);
                 dist += Math.Pow(yp - avg_y, 2);
-                dist *= room.enemies;
+                dist *= room.Enemies;
                 sparsity += (float) Math.Sqrt(dist);
             }
             return sparsity / _enemies;
@@ -175,16 +166,16 @@ namespace Game.LevelGenerator
         ) {
             // The start and goal rooms are not count because they are mandatory
             // empty rooms
-            float rooms = _dungeon.rooms.Count - 2;
+            float rooms = _dungeon.Rooms.Count - 2;
             float mean = _enemies / rooms;
             // Calculate standard deviation
             float std = 0f;
-            for (int i = 1; i < _dungeon.rooms.Count; i++)
+            for (int i = 1; i < _dungeon.Rooms.Count; i++)
             {
-                Room room = _dungeon.rooms[i];
+                Room room = _dungeon.Rooms[i];
                 if (!room.Equals(_dungeon.GetGoal()))
                 {
-                    std += (float) Math.Pow(room.enemies - mean, 2);
+                    std += (float) Math.Pow(room.Enemies - mean, 2);
                 }
             }
             return (float) Math.Sqrt(std / rooms);

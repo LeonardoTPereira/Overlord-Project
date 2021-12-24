@@ -77,18 +77,18 @@ namespace Game.LevelGenerator
         {
             linearCoefficient = 0f;
             int leafs = 0;
-            foreach (Room room in dungeon.rooms)
+            foreach (Room room in dungeon.Rooms)
             {
                 int childs = 0;
-                if (room.right != null && room.right.parent != null)
+                if (room.Right != null && room.Right.Parent != null)
                 {
                     childs++;
                 }
-                if (room.left != null && room.left.parent != null)
+                if (room.Left != null && room.Left.Parent != null)
                 {
                     childs++;
                 }
-                if (room.bottom != null && room.bottom.parent != null)
+                if (room.Bottom != null && room.Bottom.Parent != null)
                 {
                     childs++;
                 }
@@ -98,7 +98,7 @@ namespace Game.LevelGenerator
                 }
                 linearCoefficient += childs;
             }
-            int total = dungeon.rooms.Count;
+            int total = dungeon.Rooms.Count;
             linearCoefficient = linearCoefficient / (total - leafs);
         }
 
@@ -110,11 +110,11 @@ namespace Game.LevelGenerator
             Console.WriteLine(LevelDebug.INDENT +
                 "Fitness=" + fitness);
             Console.WriteLine(LevelDebug.INDENT +
-                "Rooms=" + dungeon.rooms.Count);
+                "Rooms=" + dungeon.Rooms.Count);
             Console.WriteLine(LevelDebug.INDENT +
-                "Keys=" + dungeon.keyIds.Count);
+                "Keys=" + dungeon.KeyIds.Count);
             Console.WriteLine(LevelDebug.INDENT +
-                "Locks=" + dungeon.lockIds.Count);
+                "Locks=" + dungeon.LockIds.Count);
             Console.WriteLine(LevelDebug.INDENT +
                 "Enemies=" + dungeon.GetNumberOfEnemies());
             Console.WriteLine(LevelDebug.INDENT +
@@ -132,13 +132,10 @@ namespace Game.LevelGenerator
         }
 
         /// Generate and return a random individual.
-        public static Individual GetRandom(
-            int _enemies,
-            ref Random _rand
-        ) {
+        public static Individual GetRandom(int _enemies) {
             Dungeon dungeon = new Dungeon();
-            dungeon.GenerateRooms(ref _rand);
-            dungeon.PlaceEnemies(_enemies, ref _rand);
+            dungeon.GenerateRooms();
+            dungeon.PlaceEnemies(_enemies);
             return new Individual(dungeon);
         }
     }

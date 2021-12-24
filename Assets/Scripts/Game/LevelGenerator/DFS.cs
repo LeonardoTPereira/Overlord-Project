@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Util;
 
 namespace Game.LevelGenerator
 {
@@ -9,9 +10,7 @@ namespace Game.LevelGenerator
             : base(_dungeon) {}
 
         /// The DFS Algorithm.
-        public int FindRoute(
-            ref Random _rand
-        ) {
+        public int FindRoute() {
             openList.Add(start);
             path.Add(start);
             while (openList.Count > 0)
@@ -39,18 +38,15 @@ namespace Game.LevelGenerator
                 // Remove it from the open list
                 openList.Remove(current);
                 // If we added the destination to the closed list, we've found a path
-                if (ClosedList.Count > 0)
+                if (ClosedList.Count > 0 && ClosedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
                 {
-                    if (ClosedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
-                    {
-                        break;
-                    }
+                    break;
                 }
 
                 // Check all adjacent squares from the current node
                 var adjacentSquares = GetWalkableAdjacentSquares(current.X, current.Y, sizeX, sizeY, map);
 
-                int value = _rand.Next();
+                int value = RandomSingleton.GetInstance().Random.Next();
                 adjacentSquares = adjacentSquares.OrderBy(X => value).ToList();
 
                 foreach (var adjacentSquare in adjacentSquares)

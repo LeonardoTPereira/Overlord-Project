@@ -33,15 +33,15 @@ namespace Game.LevelGenerator
             DungeonFileSo dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
 
             //saves where the dungeon grid begins and ends in each direction
-            foreach (Room room in dun.rooms)
+            foreach (Room room in dun.Rooms)
             {
-                if (room.type == RoomType.Key)
+                if (room.Type1 == RoomType.Key)
                 {
-                    keys.Add(room.key);
+                    keys.Add(room.Key);
                 }
-                else if (room.type == RoomType.Locked)
+                else if (room.Type1 == RoomType.Locked)
                 {
-                    lockedRooms.Add(room.key);
+                    lockedRooms.Add(room.Key);
                 }
             }
 
@@ -52,14 +52,14 @@ namespace Game.LevelGenerator
 
             //Creates a matrix to hold each room and corridor (there may be a corridor between each room, that must be saved
             //hence 2*size
-            int[,] map = new int[2 * dun.dimensions.Width, 2 * dun.dimensions.Height];
+            int[,] map = new int[2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
-            dungeonFileSO.dimensions = new Dimensions(2 * dun.dimensions.Width, 2 * dun.dimensions.Height);
+            dungeonFileSO.dimensions = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
             dungeonFileSO.fitness = _individual.fitness;
             //We initialize the map with the equivalent of an empty cell
-            for (int i = 0; i < 2 * dun.dimensions.Width; ++i)
+            for (int i = 0; i < 2 * dun.DungeonDimensions.Width; ++i)
             {
-                for (int j = 0; j < 2 * dun.dimensions.Height; ++j)
+                for (int j = 0; j < 2 * dun.DungeonDimensions.Height; ++j)
                 {
                     map[i, j] = Common.RoomType.NOTHING;
                 }
@@ -111,15 +111,15 @@ namespace Game.LevelGenerator
         {
             dungeonFileSO.rooms = new List<SORoom>();
             //Now we print it/save to a file/whatever
-            for (var i = 0; i < dun.dimensions.Width * 2; ++i)
+            for (var i = 0; i < dun.DungeonDimensions.Width * 2; ++i)
             {
-                for (var j = 0; j < dun.dimensions.Height * 2; ++j)
+                for (var j = 0; j < dun.DungeonDimensions.Height * 2; ++j)
                 {
                     SORoom roomDataInFile;
                     
                     // Calculate the room position in the grid
-                    int x = i / 2 + dun.boundaries.MinBoundaries.X;
-                    int y = j / 2 + dun.boundaries.MinBoundaries.Y;
+                    int x = i / 2 + dun.DungeonBoundaries.MinBoundaries.X;
+                    int y = j / 2 + dun.DungeonBoundaries.MinBoundaries.Y;
 
                     //If cell is empty, do nothing (or print empty space in console)
                     if (map[i, j] == Common.RoomType.NOTHING)
@@ -130,8 +130,8 @@ namespace Game.LevelGenerator
                     else
                     {
                         var roomType = map[i, j];
-                        var roomGrid = dun.grid[x, y];
-                        var coordinates = new Coordinates(i + dun.boundaries.MinBoundaries.X * 2, j + dun.boundaries.MinBoundaries.Y * 2);
+                        var roomGrid = dun.DungeonGrid[x, y];
+                        var coordinates = new Coordinates(i + dun.DungeonBoundaries.MinBoundaries.X * 2, j + dun.DungeonBoundaries.MinBoundaries.Y * 2);
                         //For Unity's dungeon file we need to save the x and y position of the room
                         roomDataInFile = new SORoom(i, j);
                         ConvertEaDungeonToSoDungeon(coordinates, roomDataInFile, roomGrid, roomType);
@@ -152,7 +152,7 @@ namespace Game.LevelGenerator
             if (coordinates.X == 0 && coordinates.Y == 0)
             {
                 roomDataInFile.type = Constants.RoomTypeString.START;
-                roomDataInFile.TotalEnemies = roomGrid.enemies;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If it is a corridor, writes "c" in the file
             else if (roomType == Common.RoomType.CORRIDOR)
@@ -163,7 +163,7 @@ namespace Game.LevelGenerator
             else if (roomType == Common.RoomType.BOSS)
             {
                 roomDataInFile.type = Constants.RoomTypeString.BOSS;
-                roomDataInFile.TotalEnemies = roomGrid.enemies;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If negative, is a locked corridor, save it as the negative number of the key that opens it
             else if (roomType < 0)
@@ -181,13 +181,13 @@ namespace Game.LevelGenerator
                 roomDataInFile.type = Constants.RoomTypeString.TREASURE;
                 roomDataInFile.treasures = 1;
                 roomDataInFile.npcs = 1;
-                roomDataInFile.TotalEnemies = roomGrid.enemies;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If the room has a positive value, it holds a key.
             //Save the key index so we know what key it is
             else if (roomType > 0)
             {
-                roomDataInFile.TotalEnemies = roomGrid.enemies;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataInFile.type = Constants.RoomTypeString.KEY;
                 roomDataInFile.keys = new List<int>
                 {
@@ -198,22 +198,22 @@ namespace Game.LevelGenerator
             else
             {
                 roomDataInFile.type = Constants.RoomTypeString.NORMAL;
-                roomDataInFile.TotalEnemies = roomGrid.enemies;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
         }
 
         private static void InitializeMapFromDungeon(Dungeon dun, int[,] map, List<int> keys, List<int> lockedRooms)
         {
             //Now we visit each room and save the info on the corresponding cell of the matrix
-            for (int i = dun.boundaries.MinBoundaries.X; i < dun.boundaries.MaxBoundaries.X + 1; ++i)
+            for (int i = dun.DungeonBoundaries.MinBoundaries.X; i < dun.DungeonBoundaries.MaxBoundaries.X + 1; ++i)
             {
-                for (int j = dun.boundaries.MinBoundaries.Y; j < dun.boundaries.MaxBoundaries.Y + 1; ++j)
+                for (int j = dun.DungeonBoundaries.MinBoundaries.Y; j < dun.DungeonBoundaries.MaxBoundaries.Y + 1; ++j)
                 {
                     //Converts the coordinate of the original grid (can be negative) to the positive ones used in the matrix
-                    int iPositive = i - dun.boundaries.MinBoundaries.X;
-                    int jPositive = j - dun.boundaries.MinBoundaries.Y;
+                    int iPositive = i - dun.DungeonBoundaries.MinBoundaries.X;
+                    int jPositive = j - dun.DungeonBoundaries.MinBoundaries.Y;
                     //Gets the actual room
-                    Room actualRoom = dun.grid[i, j];
+                    Room actualRoom = dun.DungeonGrid[i, j];
                     //If there is something in this position in the grid:
                     SetRoomTypeInMap(map, keys, lockedRooms, actualRoom, iPositive, jPositive);
                 }
@@ -224,7 +224,7 @@ namespace Game.LevelGenerator
         {
             if (actualRoom != null)
             {
-                switch (actualRoom.type)
+                switch (actualRoom.Type1)
                 {
                     //If it is a normal room, check if is a leaf node. We are currently placing treasures there
                     //If not a leaf, just save as an empty room for now
@@ -236,12 +236,12 @@ namespace Game.LevelGenerator
                     //If the room has a key, saves the corresponding key index in the matrix
                     //TODO: Must also change to allow the generation of treasures and enemies
                     case RoomType.Key:
-                        map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.key) + 1;
+                        map[iPositive * 2, jPositive * 2] = keys.IndexOf(actualRoom.Key) + 1;
                         break;
                     //If the room is locked from its parent, check if it is a boss room by checking if the key to open is the last one created
                     //It guarantees at least that is the deepest key in the tree, but not the longest route
                     //TODO: Must also change to allow the generation of treasures and enemies
-                    case RoomType.Locked when lockedRooms.IndexOf(actualRoom.key) == lockedRooms.Count - 1:
+                    case RoomType.Locked when lockedRooms.IndexOf(actualRoom.Key) == lockedRooms.Count - 1:
                         map[iPositive * 2, jPositive * 2] = Common.RoomType.BOSS;
                         break;
                     case RoomType.Locked:
@@ -256,16 +256,16 @@ namespace Game.LevelGenerator
 
                 //As (for now) every room must be connected to its parent or children
                 //We need only to check its parent to create the corridors
-                Room parent = actualRoom.parent;
+                Room parent = actualRoom.Parent;
                 if (parent == null) return;
                 int x = parent.X - actualRoom.X + 2 * iPositive;
                 int y = parent.Y - actualRoom.Y + 2 * jPositive;
                 //If corridor is lockes, save the index of the key that opens it
                 //But as a negative value. A negative corridor is locked!
                 //If not, save it only as a normal corridor
-                if (actualRoom.type == RoomType.Locked)
+                if (actualRoom.Type1 == RoomType.Locked)
                 {
-                    map[x, y] = -(keys.IndexOf(actualRoom.key) + 1);
+                    map[x, y] = -(keys.IndexOf(actualRoom.Key) + 1);
                 }
                 else
                 {

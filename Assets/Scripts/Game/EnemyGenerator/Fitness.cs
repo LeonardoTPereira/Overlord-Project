@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Game.EnemyGenerator
 {
     /// This class holds all the fitness-related functions.
-    public class Fitness
+    public static class Fitness
     {
         /// The error message of cannot compare individuals.
         public static readonly string CANNOT_COMPARE_INDIVIDUALS =
@@ -18,7 +18,7 @@ namespace Game.EnemyGenerator
             ref Individual _individual,
             float goal
         ) {
-            _individual.fitness = Math.Abs(goal - _individual.difficulty);
+            _individual.FitnessValue = Math.Abs(goal - _individual.DifficultyLevel);
         }
 
         /// Return true if the first individual (`_i1`) is best than the second
@@ -39,7 +39,7 @@ namespace Game.EnemyGenerator
             );
             if (_i1 is null) { return false; }
             if (_i2 is null) { return true; }
-            return _i2.fitness > _i1.fitness;
+            return _i2.FitnessValue > _i1.FitnessValue;
         }
     }
 }

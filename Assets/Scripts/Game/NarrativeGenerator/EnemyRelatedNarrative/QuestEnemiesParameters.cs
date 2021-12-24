@@ -19,13 +19,13 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         public int NEnemies { get; set; }
 
         [field: SerializeField]
-        public DifficultyEnum Difficulty { get; set; }
+        public DifficultyLevels Difficulty { get; set; }
 
         public QuestEnemiesParameters()
         {
             NEnemies = 0;
             TotalByType = new EnemiesByType();
-            Difficulty = DifficultyEnum.Medium;
+            Difficulty = DifficultyLevels.Medium;
         }
 
         public override string ToString()
@@ -42,15 +42,15 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         {
             if (playerProfile.PlayerProfileEnum == PlayerProfile.PlayerProfileCategory.Mastery)
             {
-                Difficulty = DifficultyEnum.Hard;
+                Difficulty = DifficultyLevels.Hard;
             }
             else if (MasteryIsLessPreferred(playerProfile))
             {
-                Difficulty = DifficultyEnum.Easy;
+                Difficulty = DifficultyLevels.Easy;
             }
             else
             {
-                Difficulty = DifficultyEnum.Medium;
+                Difficulty = DifficultyLevels.Medium;
             }
         }
 

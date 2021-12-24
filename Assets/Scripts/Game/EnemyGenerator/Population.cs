@@ -75,8 +75,8 @@ namespace Game.EnemyGenerator
             Individual _individual
         ) {
             // Calculate the individual slot (Elite)
-            int m = (int) _individual.enemy.movementType;
-            int w = (int) _individual.weapon.weaponType;
+            int m = (int) _individual.Enemy.Movement;
+            int w = (int) _individual.Weapon.Weapon;
             // If the new individual deserves to survive
             if (Fitness.IsBest(_individual, map[m, w]))
             {

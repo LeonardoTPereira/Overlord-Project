@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Events;
+using Util;
 
 namespace Game.LevelGenerator
 {
@@ -54,9 +55,6 @@ namespace Game.LevelGenerator
         /// Perform the level evolution process.
         private void Evolution()
         {
-            // Initialize the random generator
-            var rand = new System.Random(prs.seed);
-
             // Initialize the MAP-Elites population
             Population pop = new Population(
                 SearchSpace.CoefficientOfExplorationRanges().Length,
@@ -69,12 +67,10 @@ namespace Game.LevelGenerator
             // Generate the initial population
             while (pop.Count() < prs.population && currentTry < maxTries)
             {
-                Individual individual = Individual.GetRandom(
-                    prs.enemies, ref rand
-                );
-                individual.dungeon.Fix(prs, ref rand);
+                Individual individual = Individual.GetRandom(prs.enemies);
+                individual.dungeon.Fix(prs);
                 individual.CalculateLinearCoefficient();
-                prs.fitness.Calculate(ref individual, ref rand);
+                prs.fitness.Calculate(ref individual);
                 float ce = Metric.CoefficientOfExploration(individual);
                 float le = Metric.Leniency(individual);
                 individual.exploration = ce;
@@ -94,15 +90,13 @@ namespace Game.LevelGenerator
                 {
                     // Apply the crossover operation
                     Individual[] parents = Selection.Select(
-                        CROSSOVER_PARENTS, prs.competitors, pop, ref rand
-                    );
+                        CROSSOVER_PARENTS, prs.competitors, pop);
                     Individual[] offspring = Crossover.Apply(
-                        parents[0], parents[1], ref rand
-                    );
+                        parents[0], parents[1]);
                     // Apply the mutation operation with a random chance or
                     // always that the crossover was not successful
                     if (offspring.Length == 0 ||
-                        prs.mutation > Common.RandomPercent(ref rand)
+                        prs.mutation > RandomSingleton.GetInstance().RandomPercent()
                     ) {
                         if (offspring.Length == CROSSOVER_PARENTS)
                         {
@@ -113,15 +107,15 @@ namespace Game.LevelGenerator
                         {
                             offspring = new Individual[2];
                         }
-                        offspring[0] = Mutation.Apply(parents[0], ref rand);
-                        offspring[1] = Mutation.Apply(parents[1], ref rand);
+                        offspring[0] = Mutation.Apply(parents[0]);
+                        offspring[1] = Mutation.Apply(parents[1]);
                     }
                     // Place the offspring in the MAP-Elites population
                     for (int i = 0; i < offspring.Length; i++)
                     {
-                        offspring[i].dungeon.Fix(prs, ref rand);
+                        offspring[i].dungeon.Fix(prs);
                         offspring[i].CalculateLinearCoefficient();
-                        prs.fitness.Calculate(ref offspring[i], ref rand);
+                        prs.fitness.Calculate(ref offspring[i]);
                         float c = Metric.CoefficientOfExploration(offspring[i]);
                         float l = Metric.Leniency(offspring[i]);
                         offspring[i].exploration = c;

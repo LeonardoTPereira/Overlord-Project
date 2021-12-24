@@ -252,8 +252,7 @@ namespace Game.GameManager
 
             Instance.enemyLoader.LoadEnemies(currentQuestLine.EnemySos);
 
-            var random = new Random(dungeonFileSo.name.GetHashCode());
-            var selectedRoom = roomPrefabs[random.Next(roomPrefabs.Count)];
+            var selectedRoom = roomPrefabs[RandomSingleton.GetInstance().Random.Next(roomPrefabs.Count)];
             InstantiateRooms(selectedRoom);
             ConnectRoooms();
             OnStartMap(dungeonFileSo.name, currentTestBatchId, map);

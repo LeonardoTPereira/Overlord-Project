@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using Util;
 
 namespace Game.EnemyGenerator
 {
     /// This class holds the crossover operator.
-    public class Crossover
+    public static class Crossover
     {
         /// Perform a custom BLX-Alpha crossover composed of two stages.
         ///
@@ -14,89 +15,84 @@ namespace Game.EnemyGenerator
         /// individuals are different, the BLX-alpha for the projectile speed
         /// is not performed.
         public static Individual[] Apply(
-            Individual _parent1,
-            Individual _parent2,
-            ref System.Random _rand
+            Individual parent1,
+            Individual parent2
         ) {
             // Create aliases for the parents' genes
-            Enemy p1e = _parent1.enemy;
-            Weapon p1w = _parent1.weapon;
-            Enemy p2e = _parent2.enemy;
-            Weapon p2w = _parent2.weapon;
+            var parent1Enemy = parent1.Enemy;
+            var parent1Weapon = parent1.Weapon;
+            var parent2Enemy = parent2.Enemy;
+            var parent2Weapon = parent2.Weapon;
             // Initialize the two new individuals performing a fixed 1-point
             // crossover (crossing enemy and weapon genes)
             Individual[] children = new Individual[2];
-            children[0] = new Individual(p1e, p2w);
-            children[1] = new Individual(p2e, p1w);
+            children[0] = new Individual(parent1Enemy, parent2Weapon);
+            children[1] = new Individual(parent2Enemy, parent1Weapon);
             // Apply BLX-alpha on enemy attributes
-            float alpha = Common.RandomFloat((0f, 1f), ref _rand);
-            (children[0].enemy.health,
-             children[1].enemy.health) =
+            float alpha = (float)RandomSingleton.GetInstance().Random.NextDouble();
+            var enemy1 = children[0].Enemy;
+            var enemy2 = children[1].Enemy;
+            (enemy1.Health,
+             enemy2.Health) =
                 BLXAlpha(
-                    children[0].enemy.health,
-                    children[1].enemy.health,
+                    enemy1.Health,
+                    enemy2.Health,
                     SearchSpace.Instance.rHealth,
-                    alpha,
-                    ref _rand
-                );
-            (children[0].enemy.strength,
-             children[1].enemy.strength) =
-                BLXAlpha(
-                    children[0].enemy.strength,
-                    children[1].enemy.strength,
+                    alpha
+                    );
+            (enemy1.Strength,
+             enemy2.Strength) =
+                BLXAlpha(enemy1.Strength,
+                    enemy2.Strength,
                     SearchSpace.Instance.rStrength,
-                    alpha,
-                    ref _rand
-                );
-            (children[0].enemy.attackSpeed,
-             children[1].enemy.attackSpeed) =
+                    alpha
+                    );
+            (enemy1.AttackSpeed,
+             enemy2.AttackSpeed) =
                 BLXAlpha(
-                    children[0].enemy.attackSpeed,
-                    children[1].enemy.attackSpeed,
+                    enemy1.AttackSpeed,
+                    enemy2.AttackSpeed,
                     SearchSpace.Instance.rAttackSpeed,
-                    alpha,
-                    ref _rand
-                );
-            (children[0].enemy.movementSpeed,
-             children[1].enemy.movementSpeed) =
+                    alpha
+                    );
+            (enemy1.MovementSpeed,
+             enemy2.MovementSpeed) =
                 BLXAlpha(
-                    children[0].enemy.movementSpeed,
-                    children[1].enemy.movementSpeed,
+                    enemy1.MovementSpeed,
+                    enemy2.MovementSpeed,
                     SearchSpace.Instance.rMovementSpeed,
-                    alpha,
-                    ref _rand
-                );
-            (children[0].enemy.activeTime,
-             children[1].enemy.activeTime) =
+                    alpha
+                    );
+            (enemy1.ActiveTime,
+             enemy2.ActiveTime) =
                 BLXAlpha(
-                    children[0].enemy.activeTime,
-                    children[1].enemy.activeTime,
+                    enemy1.ActiveTime,
+                    enemy2.ActiveTime,
                     SearchSpace.Instance.rActiveTime,
-                    alpha,
-                    ref _rand
-                );
-            (children[0].enemy.restTime,
-             children[1].enemy.restTime) =
+                    alpha
+                    );
+            (enemy1.RestTime,
+             enemy2.RestTime) =
                 BLXAlpha(
-                    children[0].enemy.restTime,
-                    children[1].enemy.restTime,
+                    enemy1.RestTime,
+                    enemy2.RestTime,
                     SearchSpace.Instance.rRestTime,
-                    alpha,
-                    ref _rand
-                );
+                    alpha
+                    );
             // If both weapons are of the same type, then apply BLX-alpha on
             // weapon attributes, otherwise, skip it
-            if (p1w.weaponType == p2w.weaponType)
+            if (parent1Weapon.Weapon == parent2Weapon.Weapon)
             {
-                (children[0].weapon.projectileSpeed,
-                 children[1].weapon.projectileSpeed) =
+                var weapon1 = children[0].Weapon;
+                var weapon2 = children[1].Weapon;
+                (weapon1.ProjectileSpeed,
+                        weapon2.ProjectileSpeed) =
                     BLXAlpha(
-                        children[0].weapon.projectileSpeed,
-                        children[1].weapon.projectileSpeed,
+                        weapon1.ProjectileSpeed,
+                        weapon2.ProjectileSpeed,
                         SearchSpace.Instance.rProjectileSpeed,
-                        alpha,
-                        ref _rand
-                    );
+                        alpha
+                        );
             }
             return children;
         }
@@ -106,9 +102,8 @@ namespace Game.EnemyGenerator
             T _v1,
             T _v2,
             (T min, T max) _bounds,
-            float _alpha,
-            ref System.Random _rand
-        ) {
+            float _alpha
+            ) {
             // Convert the entered values to float
             Type ft = typeof(float);
             float fv1 = (float) Convert.ChangeType(_v1, ft);
@@ -121,9 +116,8 @@ namespace Game.EnemyGenerator
             // Calculate the crossover values
             float max_alpha = max + _alpha;
             float min_alpha = min - _alpha;
-            (float, float) range = (max_alpha, min_alpha);
-            float c1 = Common.RandomFloat(range, ref _rand);
-            float c2 = Common.RandomFloat(range, ref _rand);
+            float c1 = RandomSingleton.GetInstance().Next(min_alpha, max_alpha);
+            float c2 = RandomSingleton.GetInstance().Next(min_alpha, max_alpha);
             // If the values extrapolate the attribute's range of values, then
             // truncate the result to the closest value
             float a = Mathf.Max(Mathf.Min(c1, fb), fa);
