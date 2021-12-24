@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace AndroidUltimatePlugin.Helpers.Editor
+namespace Editor
 {
     #if UNITY_EDITOR
     public class FindMissingScriptsRecursively : EditorWindow
@@ -26,24 +26,18 @@ namespace AndroidUltimatePlugin.Helpers.Editor
                 FindAll();
             }
             EditorGUILayout.BeginHorizontal();
-            {
-                EditorGUILayout.LabelField("Component Scanned:");
-                EditorGUILayout.LabelField("" + (_componentsCount == -1 ? "---" : _componentsCount.ToString()));
-            }
+            EditorGUILayout.LabelField("Component Scanned:");
+            EditorGUILayout.LabelField("" + (_componentsCount == -1 ? "---" : _componentsCount.ToString()));
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.BeginHorizontal();
-            {
-                EditorGUILayout.LabelField("Object Scanned:");
-                EditorGUILayout.LabelField("" + (_goCount == -1 ? "---" : _goCount.ToString()));
-            }
+            EditorGUILayout.LabelField("Object Scanned:");
+            EditorGUILayout.LabelField("" + (_goCount == -1 ? "---" : _goCount.ToString()));
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.BeginHorizontal();
-            {
-                EditorGUILayout.LabelField("Possible Missing Scripts:");
-                EditorGUILayout.LabelField("" + (_missingCount == -1 ? "---" : _missingCount.ToString()));
-            }
+            EditorGUILayout.LabelField("Possible Missing Scripts:");
+            EditorGUILayout.LabelField("" + (_missingCount == -1 ? "---" : _missingCount.ToString()));
             EditorGUILayout.EndHorizontal();
         }
 
@@ -60,13 +54,9 @@ namespace AndroidUltimatePlugin.Helpers.Editor
                 Object[] data = LoadAllAssetsAtPath(assetPath);
                 foreach (Object o in data)
                 {
-                    if (o != null)
-                    {
-                        if (o is GameObject)
-                        {
-                            FindInGO((GameObject) o);
-                        }
-                    }
+                    if (o == null) continue;
+                    if (!(o is GameObject)) continue;
+                    FindInGO((GameObject) o);
                 }
             }
             
@@ -123,7 +113,6 @@ namespace AndroidUltimatePlugin.Helpers.Editor
             // Now recurse through each child GO (if there are any):
             foreach (Transform childT in g.transform)
             {
-                //Debug.Log("Searching " + childT.name  + " " );
                 FindInGO(childT.gameObject);
             }
         }
