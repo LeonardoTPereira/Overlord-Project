@@ -130,7 +130,7 @@ namespace ScriptableObjects.SerializableDictionaryLite
         {
             get
             {
-                if (_dict == null)
+                if (_keys == null)
                     _dict = new Dictionary<TKey, TValue>();
 
                 return _dict.Keys;
@@ -141,7 +141,7 @@ namespace ScriptableObjects.SerializableDictionaryLite
         {
             get
             {
-                if (_dict == null)
+                if (_values == null)
                     _dict = new Dictionary<TKey, TValue>();
 
                 return _dict.Values;

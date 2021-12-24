@@ -68,7 +68,6 @@ namespace Game.LevelGenerator
             _questLine = eventArgs.QuestLineForDungeon;
             // Define the evolutionary parameters
             _parameters = new Parameters(
-                (new System.Random()).Next(), // Random seed
                 MAX_TIME,                 // Maximum time
                 INITIAL_POPULATION_SIZE,  // Initial population size
                 MUATION_RATE,             // Mutation chance

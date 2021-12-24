@@ -9,46 +9,29 @@ namespace Game.LevelManager
 {
     public class Map
     {
-
-        private static class MapFileType
-        {
-            public const int ONE_KEY_ONE_DOOR = 0;
-            public const int N_KEYS_N_DOORS = 1;
-        }
-
-
         // Usar variáveis acima do escopo das funções de interpretação de arquivos
         // (parser) torna a compreensão de terceiros mais difícil
-        private Dictionary<Coordinates, DungeonPart> dungeonPartByCoordinates;
-        private Coordinates startRoomCoordinates;
-        private Coordinates finalRoomCoordinates;
-        private Dimensions dimensions;
-        private int nRooms;
-        private int nKeys;
-        private int nLocks;
-        private int nEnemies;
-        private int nNPCs;
         private int nTreasure;
-        private int nTreasureRooms;
 
         // Valores para gerar salas sem o arquivo de definição interna
 
         public const int defaultTileID = 2;
 
-        public int NRooms { get => nRooms; set => nRooms = value; }
-        public int NKeys { get => nKeys; set => nKeys = value; }
-        public int NLocks { get => nLocks; set => nLocks = value; }
-        public int NEnemies { get => nEnemies; set => nEnemies = value; }
-        public int NNPCs { get => nNPCs; set => nNPCs = value; }
-        public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get => dungeonPartByCoordinates; set => dungeonPartByCoordinates = value; }
-        public Coordinates StartRoomCoordinates { get => startRoomCoordinates; set => startRoomCoordinates = value; }
-        public Coordinates FinalRoomCoordinates { get => finalRoomCoordinates; set => finalRoomCoordinates = value; }
-        public Dimensions Dimensions { get => dimensions; set => dimensions = value; }
-        public int NTreasureRooms
-        {
-            get => nTreasureRooms;
-            set => nTreasureRooms = value;
-        }
+        public int NRooms { get; set; }
+
+        public int NKeys { get; set; }
+
+        public int NLocks { get; set; }
+
+        public int NEnemies { get; set; }
+
+        public int NNPCs { get; set; }
+
+        public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get; set; }
+        public Coordinates StartRoomCoordinates { get; set; }
+        public Coordinates FinalRoomCoordinates { get; set; }
+        public Dimensions Dimensions { get; set; }
+        public int NTreasureRooms { get; set; }
 
         /**
          * Constructor of the Map object that uses an input file for the dungeon
@@ -61,7 +44,7 @@ namespace Game.LevelManager
             // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
 
-            ReadMapFile(dungeonFileSo, mode); // lê o mapa global
+            ReadMapFile(dungeonFileSo); // lê o mapa global
             if (roomsFilePath != null)
             {
                 // Lê cada sala, com seus tiles
@@ -75,41 +58,25 @@ namespace Game.LevelManager
         }
 
         //TODO passes level's SO when created in real time to take place of old method that used the "Dungeon" object
-        private void ReadMapFile(DungeonFileSo dungeonFileSO, int mode)
+        private void ReadMapFile(DungeonFileSo dungeonFileSO)
         {
             Dimensions = dungeonFileSO.dimensions;
             DungeonPart currentDungeonPart;
             dungeonFileSO.ResetIndex();
             while ((currentDungeonPart = dungeonFileSO.GetNextPart()) != null)
             {
-                if (currentDungeonPart.IsRoom())
-                {
-                    nRooms++;
-                    if (currentDungeonPart.IsTreasureRoom())
-                    {
-                        NTreasureRooms++;
-                    }
-                }
-                if (currentDungeonPart.IsStartRoom())
-                {
-                    StartRoomCoordinates = currentDungeonPart.GetCoordinates();
-                }
-                else if (currentDungeonPart.IsFinalRoom())
-                {
-                    FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
-                }
-                DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
+                ProcessDungeonPart(currentDungeonPart);
             }
-            GameManagerSingleton.Instance.maxRooms = nRooms;
+            GameManagerSingleton.Instance.maxRooms = NRooms;
             foreach (SORoom room in dungeonFileSO.rooms)
             {
-                if (room.keys.Count != -1)
+                if (room.keys.Count > 0)
                 {
-                    nKeys += room.keys.Count;
+                    NKeys += room.keys.Count;
                 }
-                if (room.locks.Count != -1)
+                if (room.locks.Count > 0)
                 {
-                    nLocks += room.locks.Count;
+                    NLocks += room.locks.Count;
                 }
 
                 if (room.Treasures != -1)
@@ -118,15 +85,43 @@ namespace Game.LevelManager
                 }
                 if (room.TotalEnemies != -1)
                 {
-                    nEnemies += room.TotalEnemies;
+                    NEnemies += room.TotalEnemies;
                 }
                 if (room.Npcs != -1)
                 {
-                    nNPCs += room.Npcs;
+                    NNPCs += room.Npcs;
                 }
             }
 
-            GameManagerSingleton.Instance.maxEnemies = nEnemies;
+            GameManagerSingleton.Instance.maxEnemies = NEnemies;
+        }
+
+        private void ProcessDungeonPart(DungeonPart currentDungeonPart)
+        {
+            if (currentDungeonPart.IsRoom())
+            {
+                AddRoomData(currentDungeonPart);
+            }
+
+            if (currentDungeonPart.IsStartRoom())
+            {
+                StartRoomCoordinates = currentDungeonPart.GetCoordinates();
+            }
+            else if (currentDungeonPart.IsFinalRoom())
+            {
+                FinalRoomCoordinates = currentDungeonPart.GetCoordinates();
+            }
+
+            DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
+        }
+
+        private void AddRoomData(DungeonPart currentDungeonPart)
+        {
+            NRooms++;
+            if (currentDungeonPart.IsTreasureRoom())
+            {
+                NTreasureRooms++;
+            }
         }
 
 
@@ -161,7 +156,7 @@ namespace Game.LevelManager
                         for (int y = 0; y < currentRoom.Dimensions.Height; y++)
                         {
                             int tileID = int.Parse(NameLines[i++]);
-                            currentRoom.Tiles[x, y] = tileID; // FIXME Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
+                            currentRoom.Tiles[x, y] = tileID; // TODO Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
                             txtLine++;
                         }
                     }

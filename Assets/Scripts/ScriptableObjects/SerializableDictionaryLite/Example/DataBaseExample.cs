@@ -44,7 +44,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Example
         public class AdvancedGenericClass
         {
             [Range(0, 100)]
-            public float value;
+            public readonly float value;
 
             public bool Equals(AdvancedGenericClass other)
             {

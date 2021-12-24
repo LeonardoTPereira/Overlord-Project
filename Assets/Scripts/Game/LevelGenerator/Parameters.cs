@@ -3,8 +3,6 @@ namespace Game.LevelGenerator
     /// This struct holds the parameters of the evolutionary level generator.
     public struct Parameters
     {
-        /// The seed that initializes the random generator.
-        public int seed { get; }
         /// The maximum time.
         public int time { get; }
         /// The initial population size.
@@ -27,9 +25,7 @@ namespace Game.LevelGenerator
         public Fitness fitness { get; }
 
         /// Parameters constructor.
-        public Parameters(
-            int _seed,
-            int _time,
+        public Parameters(int _time,
             int _population,
             int _mutation,
             int _competitors,
@@ -40,7 +36,6 @@ namespace Game.LevelGenerator
             float _linearCoefficient,
             Fitness _fitness
         ) {
-            seed = _seed;
             time = _time;
             population = _population;
             mutation = _mutation;
