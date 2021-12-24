@@ -18,6 +18,7 @@ namespace Game.EnemyGenerator
 #if UNITY_EDITOR
         [field: Foldout("Scriptable Objects")]
         [field: Header("Enemy Components")]
+#endif
         public EnemyComponentsSO EnemyComponents { get; }
 
         [field: SerializeField] public bool IsEnable { get; } = false;
@@ -175,5 +176,4 @@ namespace Game.EnemyGenerator
             return enemyList;
         }
     }
-#endif
 }
