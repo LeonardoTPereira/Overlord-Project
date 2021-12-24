@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace RotaryHeart.Lib.SerializableDictionary
+namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
     
 #if UNITY_EDITOR

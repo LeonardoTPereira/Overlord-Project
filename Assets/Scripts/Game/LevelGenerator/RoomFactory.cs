@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Util;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class is responsible for create rooms of dungeons.
-    public class RoomFactory
+    public static class RoomFactory
     {
         /// Probability of normal rooms to be created.
         public static readonly float PROB_NORMAL_ROOM = 70f;
@@ -33,9 +34,7 @@ namespace LevelGenerator
         /// The created room will have one of the following types: a normal
         /// room, a room with a key, or a locked room. Besides, locks and keys
         /// are placed in the dungeon without bound one to the other.
-        public static Room CreateRoom(
-            ref Random _rand
-        ) {
+        public static Room CreateRoom() {
             // Probability penalty for levels with exceding number of locks
             float penalty = 0.0f;
             // The more keys without locks higher the chances to create a lock
@@ -45,7 +44,7 @@ namespace LevelGenerator
             }
             // Create a random room
             Room room = null;
-            int prob = Common.RandomPercent(ref _rand);
+            int prob = RandomSingleton.GetInstance().RandomPercent();
             if (PROB_NORMAL_ROOM - penalty > prob)
             {
                 // Create a normal room
@@ -58,7 +57,7 @@ namespace LevelGenerator
             ) {
                 // Create a room with a key with room ID
                 room = new Room(RoomType.Key);
-                availableKeys.Add(room.id);
+                availableKeys.Add(room.RoomID);
             }
             else
             {
@@ -66,7 +65,7 @@ namespace LevelGenerator
                 int key = availableKeys[0];
                 availableKeys.RemoveAt(0);
                 room = new Room(RoomType.Locked, key);
-                usedKeys.Add(room.id);
+                usedKeys.Add(room.RoomID);
             }
             return room;
         }

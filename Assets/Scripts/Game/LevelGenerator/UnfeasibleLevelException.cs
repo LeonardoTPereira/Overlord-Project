@@ -1,10 +1,13 @@
 ﻿using System;
 
-[Serializable]
-public class UnfeasibleLevelException : Exception
+namespace Game.LevelGenerator
 {
-    public UnfeasibleLevelException() : base($"Dungeon is infeasible") 
+    [Serializable]
+    public class UnfeasibleLevelException : Exception
     {
+        public UnfeasibleLevelException() : base($"Dungeon is infeasible") 
+        {
         
+        }
     }
 }

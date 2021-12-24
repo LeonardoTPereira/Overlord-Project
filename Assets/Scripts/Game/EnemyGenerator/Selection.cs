@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Util;
 
 namespace Game.EnemyGenerator
 {
@@ -8,7 +9,7 @@ namespace Game.EnemyGenerator
     using Coordinate = System.ValueTuple<int, int>;
 
     /// This class holds the selector operator.
-    public class Selection
+    public static class Selection
     {
         /// The error message of not enough competitors.
         public static readonly string NOT_ENOUGH_COMPETITORS =
@@ -23,12 +24,7 @@ namespace Game.EnemyGenerator
         /// population. Instead of selecting directly an individual, we select
         /// its coordinate from the auxiliary list and remove it then it is not
         /// available for the next selection.
-        public static Individual[] Select(
-            int _amount,
-            int _competitors,
-            Population _pop,
-            ref Random _rand
-        ) {
+        public static Individual[] Select(int _amount,  int _competitors,  Population _pop) {
             // Get the list of Elites' coordinates (the available competitors)
             List<Coordinate> avco = _pop.GetElitesCoordinates();
             // Ensure the population size is enough for the tournament
@@ -44,8 +40,7 @@ namespace Game.EnemyGenerator
                 (Coordinate coordinate, Individual individual) = Tournament(
                     _competitors, // Number of competitors
                     _pop,         // Population
-                    avco,         // List of available competitors
-                    ref _rand     // Random number generator
+                    avco         // List of available competitors
                 );
                 // Select an individual and remove it from available competitors
                 individuals[i] = individual;
@@ -62,8 +57,7 @@ namespace Game.EnemyGenerator
         static (Coordinate, Individual) Tournament(
             int _competitors,
             Population _pop,
-            List<Coordinate> _avco,
-            ref Random _rand
+            List<Coordinate> _avco
         ) {
             // List of available competitors
             List<Coordinate> avco = new List<Coordinate>(_avco);
@@ -74,7 +68,7 @@ namespace Game.EnemyGenerator
             // then remove the competitor from available competitors
             for (int i = 0; i < _competitors; i++)
             {
-                Coordinate rc = Common.RandomElementFromList(avco, ref _rand);
+                Coordinate rc = RandomSingleton.GetInstance().RandomElementFromList(avco);
                 competitors[i] = _pop.map[rc.Item1, rc.Item2];
                 coordinates[i] = rc;
                 avco.Remove(rc);

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Util;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// The types of rooms that a dungeon may have.
     ///
@@ -33,38 +34,43 @@ namespace LevelGenerator
         private static readonly int DEGREE_360 = 360;
 
         /// The room ID.
-        public int id = -1;
+        public int RoomID { get; set; }
+
         /// The type of the room.
-        public RoomType type = RoomType.Normal;
+        public RoomType Type1 { get; set; }
+
         /// The ID of the key that opens this room. The ID is equal to -1 when
         /// the room is not locked and does not have a key.
-        public int key = -1;
+        public int Key { get; set; } = -1;
+
         /// The number of enemies in this room.
-        public int enemies = 0;
+        public int Enemies { get; set; } = 0;
+
         /// The depth of the room in the tree. This is used to control the
         /// depth of the dungeon level.
-        public int depth = 0;
-        /// The x position of the room in the grid.
-        public int x = 0;
-        /// The y position of the room in the grid.
-        public int y = 0;
+        public int Depth { get; set; } = 0;
+
         /// The rotation of the individual's parent position is related to the
         /// normal cartesian orientation. 0 means that the parent is in the
         /// North (above) of the child, 90 the parent is in the East (right),
         /// and so on. This is used to build the dungeon grid.
-        public int rotation = 0;
+        public int Rotation { get; set; } = 0;
 
         /// The room's left child.
-        public Room left = null;
+        public Room Left { get; set; } = null;
+
         /// The room's bottom child.
-        public Room bottom = null;
+        public Room Bottom { get; set; } = null;
+
         /// The room's right child.
-        public Room right = null;
+        public Room Right { get; set; } = null;
+
         /// The room's parent.
-        public Room parent = null;
+        public Room Parent { get; set; } = null;
+
         /// The direction from what the parent connects with this room.
         /// This attribute reduces operations at crossover.
-        public Common.Direction parentDirection = Common.Direction.Down;
+        public Common.Direction ParentDirection { get; set; } = Common.Direction.Down;
 
         /// Room constructor.
         ///
@@ -76,42 +82,42 @@ namespace LevelGenerator
             int _key = -1,
             int _id = -1
         ) {
-            type = _type;
-            id = _id == -1 ? Room.GetNextId() : _id;
-            key = type == RoomType.Key ? id : key;
-            key = type == RoomType.Locked ? _key : key;
+            Type1 = _type;
+            RoomID = _id == -1 ? Room.GetNextId() : _id;
+            Key = Type1 == RoomType.Key ? RoomID : Key;
+            Key = Type1 == RoomType.Locked ? _key : Key;
         }
 
         /// Return a clone this room.
         public Room Clone()
         {
-            Room room = new Room(type, key, id);
-            room.enemies = enemies;
-            room.depth = depth;
-            room.x = x;
-            room.y = y;
-            room.rotation = rotation;
-            room.left = left;
-            room.bottom = bottom;
-            room.right = right;
-            room.parent = parent;
-            room.parentDirection = parentDirection;
+            Room room = new Room(Type1, Key, RoomID);
+            room.Enemies = Enemies;
+            room.Depth = Depth;
+            room.X = X;
+            room.Y = Y;
+            room.Rotation = Rotation;
+            room.Left = Left;
+            room.Bottom = Bottom;
+            room.Right = Right;
+            room.Parent = Parent;
+            room.ParentDirection = ParentDirection;
             return room;
         }
 
         /// Return true if the room is a leaf node.
         public bool IsLeafNode()
         {
-            return bottom == null && left == null && right == null;
+            return Bottom == null && Left == null && Right == null;
         }
 
         /// Return an array with the left, bottom, and right children.
         public Room[] GetChildren()
         {
             return new Room[] {
-                    left,
-                    bottom,
-                    right,
+                    Left,
+                    Bottom,
+                    Right,
                 };
         }
 
@@ -119,10 +125,10 @@ namespace LevelGenerator
         public Room[] GetNeighbors()
         {
             return new Room[] {
-                    parent,
-                    left,
-                    bottom,
-                    right,
+                    Parent,
+                    Left,
+                    Bottom,
+                    Right,
                 };
         }
 
@@ -133,45 +139,45 @@ namespace LevelGenerator
         ) {
             int cx = 0;
             int cy = 0;
-            int rot = (rotation / DEGREE_90) % 2;
+            int rot = (Rotation / DEGREE_90) % 2;
             switch (_dir)
             {
                 case Common.Direction.Right:
                     if (rot != 0)
                     {
-                        cx = x;
-                        cy = rotation == DEGREE_90 ? y + 1 : y - 1;
+                        cx = X;
+                        cy = Rotation == DEGREE_90 ? Y + 1 : Y - 1;
                     }
                     else
                     {
-                        cx = rotation == 0 ? x + 1 : x - 1;
-                        cy = y;
+                        cx = Rotation == 0 ? X + 1 : X - 1;
+                        cy = Y;
                     }
                     break;
 
                 case Common.Direction.Down:
                     if (rot != 0)
                     {
-                        cx = rotation == DEGREE_90 ? x + 1 : x - 1;
-                        cy = y;
+                        cx = Rotation == DEGREE_90 ? X + 1 : X - 1;
+                        cy = Y;
                     }
                     else
                     {
-                        cx = x;
-                        cy = rotation == 0 ? y - 1 : y + 1;
+                        cx = X;
+                        cy = Rotation == 0 ? Y - 1 : Y + 1;
                     }
                     break;
 
                 case Common.Direction.Left:
                     if (rot != 0)
                     {
-                        cx = x;
-                        cy = rotation == DEGREE_90 ? y - 1 : y + 1;
+                        cx = X;
+                        cy = Rotation == DEGREE_90 ? Y - 1 : Y + 1;
                     }
                     else
                     {
-                        cx = rotation == 0 ? x - 1 : x + 1;
-                        cy = y;
+                        cx = Rotation == 0 ? X - 1 : X + 1;
+                        cy = Y;
                     }
                     break;
             }
@@ -204,27 +210,27 @@ namespace LevelGenerator
             Common.Direction _dir
         ) {
             (int x, int y) = GetChildPositionInGrid(_dir);
-            _child.x = x;
-            _child.y = y;
-            _child.rotation = (rotation + DEGREE_90) % DEGREE_360;
+            _child.X = x;
+            _child.Y = y;
+            _child.Rotation = (Rotation + DEGREE_90) % DEGREE_360;
             Room room = _grid[x, y];
             if (room != null) { return; }
             switch (_dir)
             {
                 case Common.Direction.Right:
-                    right = _child;
-                    right.parent = this;
-                    right.depth = depth + 1;
+                    Right = _child;
+                    Right.Parent = this;
+                    Right.Depth = Depth + 1;
                     break;
                 case Common.Direction.Down:
-                    bottom = _child;
-                    bottom.parent = this;
-                    bottom.depth = depth + 1;
+                    Bottom = _child;
+                    Bottom.Parent = this;
+                    Bottom.Depth = Depth + 1;
                     break;
                 case Common.Direction.Left:
-                    left = _child;
-                    left.parent = this;
-                    left.depth = depth + 1;
+                    Left = _child;
+                    Left.Parent = this;
+                    Left.Depth = Depth + 1;
                     break;
             }
         }
@@ -234,10 +240,7 @@ namespace LevelGenerator
         /// This method must be called after a successful crossover. This fix
         /// reinserts the mission rooms in the old branch to maintain the
         /// occurring order of missions to guarantee feasibility.
-        public void FixBranch(
-            List<int> _missions,
-            ref Random _rand
-        ) {
+        public void FixBranch(List<int> _missions) {
             // If both lock and key are in the branch, assign to them new IDs,
             // and add all the missions in the new missions list
             Queue<int> newMissions = new Queue<int>();
@@ -270,7 +273,7 @@ namespace LevelGenerator
                 branch.Enqueue(current);
                 foreach (Room child in current.GetChildren())
                 {
-                    if (child != null && current.Equals(child.parent))
+                    if (child != null && current.Equals(child.Parent))
                     {
                         toVisit.Enqueue(child);
                     }
@@ -281,15 +284,15 @@ namespace LevelGenerator
             while (branch.Count > newMissions.Count)
             {
                 Room current = branch.Dequeue();
-                int prob = Common.RandomPercent(ref _rand);
+                int prob = RandomSingleton.GetInstance().RandomPercent();
                 // If there are no missions left, then assign the remaining
                 // rooms as normal rooms; otherwise, check if the current room
                 // will not receive a mission
                 if (newMissions.Count == 0 ||
                     RoomFactory.PROB_NORMAL_ROOM > prob
                 ) {
-                    current.type = RoomType.Normal;
-                    current.key = -1;
+                    current.Type1 = RoomType.Normal;
+                    current.Key = -1;
                 }
                 else
                 {
@@ -301,7 +304,7 @@ namespace LevelGenerator
             }
 
             // If new missions are remaining, it means that the number of
-            // remaining rooms is the same as the number of mission rooms;
+            // Remaining rooms is the same as the number of mission rooms
             // thus, place the missions in those rooms
             while (branch.Count > 0 && newMissions.Count > 0)
             {
@@ -321,21 +324,21 @@ namespace LevelGenerator
         ) {
             if (_mission > 0)
             {
-                _room.type = RoomType.Key;
-                _room.id = _mission;
-                _room.key = _mission;
+                _room.Type1 = RoomType.Key;
+                _room.RoomID = _mission;
+                _room.Key = _mission;
             }
             else
             {
-                _room.type = RoomType.Locked;
-                _room.key = -_mission;
+                _room.Type1 = RoomType.Locked;
+                _room.Key = -_mission;
             }
         }
 
-        public RoomType Type { get => type; set => type = value; }
-        public int Key { get => key; set => key = value; }
-        public Room Parent { get => parent; set => parent = value; }
-        public int X { get => x; set => x = value; }
-        public int Y { get => y; set => y = value; }
+        /// The x position of the room in the grid.
+        public int X { get; set; }
+
+        /// The y position of the room in the grid.
+        public int Y { get; set; }
     }
 }

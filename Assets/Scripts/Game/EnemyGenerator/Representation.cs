@@ -1,4 +1,5 @@
 using System;
+using Util;
 
 namespace Game.EnemyGenerator
 {
@@ -14,19 +15,19 @@ namespace Game.EnemyGenerator
     /// easier to manage the MAP-Elites population.
     public class Individual
     {
-        public Enemy enemy;
-        public Weapon weapon;
-        public float difficulty;
-        public float fitness;
-        public int generation;
+        public EnemyData Enemy { get; }
+        public WeaponData Weapon { get; }
+        public float DifficultyLevel { get; set; }
+        public float FitnessValue { get; set; }
+        public int Generation { get; set; }
 
         /// Individual contructor.
         public Individual(
-            Enemy _enemy,
-            Weapon _weapon
+            EnemyData enemy,
+            WeaponData weapon
         ) {
-            enemy = _enemy;
-            weapon = _weapon;
+            Enemy = enemy;
+            Weapon = weapon;
         }
 
         /// Return a clone of the individual.
@@ -36,106 +37,109 @@ namespace Game.EnemyGenerator
         /// value instead of doing a deep copy.
         public Individual Clone()
         {
-            Individual individual = new Individual(enemy, weapon);
-            individual.difficulty = difficulty;
-            individual.fitness = fitness;
-            individual.generation = generation;
+            Individual individual = new Individual(Enemy, Weapon);
+            individual.DifficultyLevel = DifficultyLevel;
+            individual.FitnessValue = FitnessValue;
+            individual.Generation = Generation;
             return individual;
         }
 
         /// Print the individual attributes.
         public void Debug()
         {
-            Console.WriteLine("  G=" + generation);
-            Console.WriteLine("  F=" + fitness);
-            Console.WriteLine("  D=" + difficulty);
-            Console.WriteLine("  He=" + enemy.health);
-            Console.WriteLine("  St=" + enemy.strength);
-            Console.WriteLine("  AS=" + enemy.attackSpeed);
-            Console.WriteLine("  MT=" + enemy.movementType);
-            Console.WriteLine("  MS=" + enemy.movementSpeed);
-            Console.WriteLine("  AT=" + enemy.activeTime);
-            Console.WriteLine("  RT=" + enemy.restTime);
-            Console.WriteLine("  WT=" + weapon.weaponType);
-            Console.WriteLine("  PS=" + weapon.projectileSpeed);
+            Console.WriteLine("  G=" + Generation);
+            Console.WriteLine("  F=" + FitnessValue);
+            Console.WriteLine("  D=" + DifficultyLevel);
+            Console.WriteLine("  He=" + Enemy.Health);
+            Console.WriteLine("  St=" + Enemy.Strength);
+            Console.WriteLine("  AS=" + Enemy.AttackSpeed);
+            Console.WriteLine("  MT=" + Enemy.Movement);
+            Console.WriteLine("  MS=" + Enemy.MovementSpeed);
+            Console.WriteLine("  AT=" + Enemy.ActiveTime);
+            Console.WriteLine("  RT=" + Enemy.RestTime);
+            Console.WriteLine("  WT=" + Weapon.Weapon);
+            Console.WriteLine("  PS=" + Weapon.ProjectileSpeed);
             Console.WriteLine();
         }
 
         /// Return a random individual.
-        public static Individual GetRandom(
-            ref Random _rand
-        ) {
+        public static Individual GetRandom() {
             SearchSpace ss = SearchSpace.Instance;
             // Create a random enemy
-            Enemy e = new Enemy(
-                Common.RandomInt(ss.rHealth, ref _rand),
-                Common.RandomInt(ss.rStrength, ref _rand),
-                Common.RandomFloat(ss.rAttackSpeed, ref _rand),
-                Common.RandomElementFromArray(ss.rMovementType, ref _rand),
-                Common.RandomFloat(ss.rMovementSpeed, ref _rand),
-                Common.RandomFloat(ss.rActiveTime, ref _rand),
-                Common.RandomFloat(ss.rRestTime, ref _rand)
-            );
+            var (min, max) = ss.rHealth;
+            var health = RandomSingleton.GetInstance().Next(min, max + 1);
+            (min, max) = ss.rStrength;
+            var strength = RandomSingleton.GetInstance().Next(min, max + 1);
+            var (minFloat, maxFloat) = ss.rAttackSpeed;
+            var attackSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
+            var movementType = RandomSingleton.GetInstance().RandomElementFromArray(ss.rMovementType);
+            (minFloat, maxFloat) = ss.rMovementSpeed;
+            var movementSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
+            (minFloat, maxFloat) = ss.rActiveTime;
+            var activeTime = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
+            (minFloat, maxFloat) = ss.rRestTime;
+            var restTime = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
+            EnemyData e = new EnemyData(health, strength, attackSpeed, movementType, movementSpeed, activeTime, restTime);
             // Create a random weapon
-            Weapon w = new Weapon(
-                Common.RandomElementFromArray(ss.rWeaponType, ref _rand),
-                Common.RandomFloat(ss.rProjectileSpeed, ref _rand)
-            );
+            var weaponType = RandomSingleton.GetInstance().RandomElementFromArray(ss.rWeaponType);
+            (minFloat, maxFloat) = ss.rProjectileSpeed;
+            var projectileSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
+            WeaponData w = new WeaponData(weaponType, projectileSpeed);
             // Combine the genes to create a new individual
             Individual individual = new Individual(e, w);
-            individual.difficulty = Common.UNKNOWN;
-            individual.generation = Common.UNKNOWN;
-            individual.fitness = Common.UNKNOWN;
+            individual.DifficultyLevel = Common.UNKNOWN;
+            individual.Generation = Common.UNKNOWN;
+            individual.FitnessValue = Common.UNKNOWN;
             return individual;
         }
     }
 
     /// This struct represents an enemy.
     [Serializable]
-    public struct Enemy
+    public struct EnemyData
     {
-        public int health;
-        public int strength;
-        public float attackSpeed;
-        public MovementType movementType;
-        public float movementSpeed;
-        public float activeTime;
-        public float restTime;
+        public int Health { get; set; }
+        public int Strength { get; set; }
+        public float AttackSpeed { get; set; }
+        public MovementType Movement { get; set; }
+        public float MovementSpeed { get; set; }
+        public float ActiveTime { get; set; }
+        public float RestTime { get; set; }
 
         /// Enemy contructor.
-        public Enemy(
-            int _health,
-            int _strength,
-            float _attackSpeed,
-            MovementType _movementType,
-            float _movementSpeed,
-            float _activeTime,
-            float _restTime
+        public EnemyData(
+            int health,
+            int strength,
+            float attackSpeed,
+            MovementType movement,
+            float movementSpeed,
+            float activeTime,
+            float restTime
         ) {
-            health = _health;
-            strength = _strength;
-            attackSpeed = _attackSpeed;
-            movementType = _movementType;
-            movementSpeed = _movementSpeed;
-            activeTime = _activeTime;
-            restTime = _restTime;
+            Health = health;
+            Strength = strength;
+            AttackSpeed = attackSpeed;
+            Movement = movement;
+            MovementSpeed = movementSpeed;
+            ActiveTime = activeTime;
+            RestTime = restTime;
         }
     }
 
     /// This struc represents a weapon.
     [Serializable]
-    public struct Weapon
+    public struct WeaponData
     {
-        public WeaponType weaponType;
-        public float projectileSpeed;
+        public WeaponType Weapon { get; set; }
+        public float ProjectileSpeed { get; set; }
 
         /// Weapon constructor.
-        public Weapon(
-            WeaponType _weaponType,
-            float _projectileSpeed
+        public WeaponData(
+            WeaponType weapon,
+            float projectileSpeed
         ) {
-            weaponType = _weaponType;
-            projectileSpeed = _projectileSpeed;
+            Weapon = weapon;
+            ProjectileSpeed = projectileSpeed;
         }
     }
 }

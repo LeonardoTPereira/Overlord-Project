@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds level debug-purpose functions.
-    class LevelDebug
+    public static class LevelDebug
     {
         /// Indent of debugging functions and methods.
         public static readonly string INDENT = "  ";
@@ -15,7 +16,7 @@ namespace LevelGenerator
             string _indent
         ) {
             // Get tree root
-            Room root = _dungeon.rooms[0];
+            Room root = _dungeon.Rooms[0];
             // This list holds lists of nodes children
             List<List<Room>> stacks = new List<List<Room>>();
             // Add the root in the list of stacks
@@ -36,24 +37,24 @@ namespace LevelGenerator
                 // Get the first node and remove if from the list of nodes
                 Room node = current[0];
                 current.RemoveAt(0);
-                string indent = _indent;
+                StringBuilder indent = new StringBuilder(_indent);
                 // Print the nodes in the current stack
                 for (int i = 0; i < last; i++)
                 {
-                    indent += (stacks[i].Count > 0) ? "|  " : "   ";
+                    indent.Append(stacks[i].Count > 0 ? "|  " : "   ");
                 }
                 // Tag the nodes with the respective room type
                 string tag = "";
-                tag += node.type == RoomType.Normal ? "N" : "";
-                tag += node.type == RoomType.Key ? "K" : "";
-                tag += node.type == RoomType.Locked ? "L" : "";
-                Console.WriteLine(indent + "+- " + node.id + "-" + tag);
+                tag += node.Type1 == RoomType.Normal ? "N" : "";
+                tag += node.Type1 == RoomType.Key ? "K" : "";
+                tag += node.Type1 == RoomType.Locked ? "L" : "";
+                Console.WriteLine(indent + "+- " + node.RoomID + "-" + tag);
                 // Get non-null children nodes
                 List<Room> next = new List<Room>();
                 Room[] children = new Room[] {
-                    node.left,
-                    node.bottom,
-                    node.right
+                    node.Left,
+                    node.Bottom,
+                    node.Right
                 };
                 foreach (Room child in children)
                 {
@@ -76,8 +77,8 @@ namespace LevelGenerator
             string _indent
         ) {
             // Initialize the auxiliary map
-            int sizeX = _dungeon.maxX - _dungeon.minX + 1;
-            int sizeY = _dungeon.maxY - _dungeon.minY + 1;
+            int sizeX = _dungeon.MaxX - _dungeon.MinX + 1;
+            int sizeY = _dungeon.MaxY - _dungeon.MinY + 1;
             int[,] map = new int[2 * sizeX, 2 * sizeY];
             for (int i = 0; i < 2 * sizeX; i++)
             {
@@ -88,34 +89,34 @@ namespace LevelGenerator
             }
 
             // Set the corridors, keys and locked rooms
-            RoomGrid grid = _dungeon.grid;
-            for (int i = _dungeon.minX; i < _dungeon.maxX + 1; ++i)
+            RoomGrid grid = _dungeon.DungeonGrid;
+            for (int i = _dungeon.MinX; i < _dungeon.MaxX + 1; ++i)
             {
-                for (int j = _dungeon.minY; j < _dungeon.maxY + 1; ++j)
+                for (int j = _dungeon.MinY; j < _dungeon.MaxY + 1; ++j)
                 {
-                    int iep = (i - _dungeon.minX) * 2;
-                    int jep = (j - _dungeon.minY) * 2;
+                    int iep = (i - _dungeon.MinX) * 2;
+                    int jep = (j - _dungeon.MinY) * 2;
                     Room current = grid[i, j];
                     if (current != null)
                     {
-                        if (current.type == RoomType.Normal)
+                        if (current.Type1 == RoomType.Normal)
                         {
                             map[iep, jep] = Common.RoomType.EMPTY;
                         }
                         // The key ID is the sequential positive index
-                        else if (current.type == RoomType.Key)
+                        else if (current.Type1 == RoomType.Key)
                         {
-                            int _key = _dungeon.keyIds.IndexOf(current.key);
+                            int _key = _dungeon.KeyIds.IndexOf(current.Key);
                             map[iep, jep] = _key + 1;
                         }
                         // If the room is locked, the room is a normal room,
                         // and the corridor is locked; but if the lock is the
                         // last one in the sequential order, then the room is
                         // the goal room
-                        else if (current.type == RoomType.Locked)
+                        else if (current.Type1 == RoomType.Locked)
                         {
-                            int _lock = _dungeon.lockIds.IndexOf(current.key);
-                            if (_lock == _dungeon.lockIds.Count - 1)
+                            int _lock = _dungeon.LockIds.IndexOf(current.Key);
+                            if (_lock == _dungeon.LockIds.Count - 1)
                             {
                                 map[iep, jep] = Common.RoomType.BOSS;
                             }
@@ -128,17 +129,17 @@ namespace LevelGenerator
                         // parent, then the connection between then is locked
                         // and is represented by the negative value of the
                         // index of the key that opens the lock
-                        Room parent = current.parent;
+                        Room parent = current.Parent;
                         if (parent != null)
                         {
                             // Get the corridor between both rooms
-                            int x = parent.x - current.x + iep;
-                            int y = parent.y - current.y + jep;
+                            int x = parent.X - current.X + iep;
+                            int y = parent.Y - current.Y + jep;
                             // If the current room is locked
-                            if (current.type == RoomType.Locked)
+                            if (current.Type1 == RoomType.Locked)
                             {
                                 // Then, the corridor is locked
-                                int _key = _dungeon.keyIds.IndexOf(current.key);
+                                int _key = _dungeon.KeyIds.IndexOf(current.Key);
                                 map[x, y] = _key != -1 ? -(_key + 1) :
                                     Common.RoomType.NOTHING;
                             }
@@ -167,7 +168,7 @@ namespace LevelGenerator
                     }
                     else
                     {
-                        if (i + _dungeon.minX * 2 == 0 && j + _dungeon.minY * 2 == 0)
+                        if (i + _dungeon.MinX * 2 == 0 && j + _dungeon.MinY * 2 == 0)
                         {
                             Console.Write(" s");
                         }
@@ -185,7 +186,7 @@ namespace LevelGenerator
                         }
                         else
                         {
-                            Console.Write(" _", map[i, j]);
+                            Console.Write(" _");
                         }
                     }
                 }
@@ -199,8 +200,8 @@ namespace LevelGenerator
             string _indent
         ) {
             // Initialize the auxiliary map
-            int sizeX = _dungeon.maxX - _dungeon.minX + 1;
-            int sizeY = _dungeon.maxY - _dungeon.minY + 1;
+            int sizeX = _dungeon.MaxX - _dungeon.MinX + 1;
+            int sizeY = _dungeon.MaxY - _dungeon.MinY + 1;
             int[,] map = new int[2 * sizeX, 2 * sizeY];
             for (int i = 0; i < 2 * sizeX; i++)
             {
@@ -211,32 +212,32 @@ namespace LevelGenerator
             }
 
             // Set the corridors, keys and locked rooms
-            RoomGrid grid = _dungeon.grid;
-            for (int i = _dungeon.minX; i < _dungeon.maxX + 1; ++i)
+            RoomGrid grid = _dungeon.DungeonGrid;
+            for (int i = _dungeon.MinX; i < _dungeon.MaxX + 1; ++i)
             {
-                for (int j = _dungeon.minY; j < _dungeon.maxY + 1; ++j)
+                for (int j = _dungeon.MinY; j < _dungeon.MaxY + 1; ++j)
                 {
-                    int iep = (i - _dungeon.minX) * 2;
-                    int jep = (j - _dungeon.minY) * 2;
+                    int iep = (i - _dungeon.MinX) * 2;
+                    int jep = (j - _dungeon.MinY) * 2;
                     Room current = grid[i, j];
                     if (current != null)
                     {
-                        map[iep, jep] = current.enemies;
+                        map[iep, jep] = current.Enemies;
                         // If the current room is a locked room and has a
                         // parent, then the connection between then is locked
                         // and is represented by the negative value of the
                         // index of the key that opens the lock
-                        Room parent = current.parent;
+                        Room parent = current.Parent;
                         if (parent != null)
                         {
                             // Get the corridor between both rooms
-                            int x = parent.x - current.x + iep;
-                            int y = parent.y - current.y + jep;
+                            int x = parent.X - current.X + iep;
+                            int y = parent.Y - current.Y + jep;
                             // If the current room is locked
-                            if (current.type == RoomType.Locked)
+                            if (current.Type1 == RoomType.Locked)
                             {
                                 // Then, the corridor is locked
-                                int _key = _dungeon.keyIds.IndexOf(current.key);
+                                int _key = _dungeon.KeyIds.IndexOf(current.Key);
                                 map[x, y] = _key != -1 ? -(_key + 1) :
                                     Common.RoomType.NOTHING;
                             }
@@ -265,7 +266,7 @@ namespace LevelGenerator
                     }
                     else
                     {
-                        if (i + _dungeon.minX * 2 == 0 && j + _dungeon.minY * 2 == 0)
+                        if (i + _dungeon.MinX * 2 == 0 && j + _dungeon.MinY * 2 == 0)
                         {
                             Console.Write(" s");
                         }
@@ -283,7 +284,7 @@ namespace LevelGenerator
                         }
                         else
                         {
-                            Console.Write(" _", map[i, j]);
+                            Console.Write(" _");
                         }
                     }
                 }

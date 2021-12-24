@@ -1,23 +1,26 @@
-﻿using Game.LevelManager;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Game.LevelManager;
 using UnityEngine;
 
-public delegate void ExitRoomEvent(object sender, ExitRoomEventArgs e);
-public class ExitRoomEventArgs : EventArgs
+namespace Game.Events
 {
-    private Coordinates roomCoordinates;
-    private Vector3 entrancePosition;
-    private int playerHealthWhenExiting;
-
-    public ExitRoomEventArgs(Coordinates roomCoordinates, int playerHealthWhenExiting, Vector3 entrancePosition)
+    public delegate void ExitRoomEvent(object sender, ExitRoomEventArgs e);
+    public class ExitRoomEventArgs : EventArgs
     {
-        RoomCoordinates = roomCoordinates;
-        PlayerHealthWhenExiting = playerHealthWhenExiting;
-        EntrancePosition = entrancePosition;
-    }
+        private Coordinates roomCoordinates;
+        private Vector3 entrancePosition;
+        private int playerHealthWhenExiting;
 
-    public Coordinates RoomCoordinates { get => roomCoordinates; set => roomCoordinates = value; }
-    public int PlayerHealthWhenExiting { get => playerHealthWhenExiting; set => playerHealthWhenExiting = value; }
-    public Vector3 EntrancePosition { get => entrancePosition; set => entrancePosition = value; }
+        public ExitRoomEventArgs(Coordinates roomCoordinates, int playerHealthWhenExiting, Vector3 entrancePosition)
+        {
+            RoomCoordinates = roomCoordinates;
+            PlayerHealthWhenExiting = playerHealthWhenExiting;
+            EntrancePosition = entrancePosition;
+        }
+
+        public Coordinates RoomCoordinates { get => roomCoordinates; set => roomCoordinates = value; }
+        public int PlayerHealthWhenExiting { get => playerHealthWhenExiting; set => playerHealthWhenExiting = value; }
+        public Vector3 EntrancePosition { get => entrancePosition; set => entrancePosition = value; }
+    }
 }

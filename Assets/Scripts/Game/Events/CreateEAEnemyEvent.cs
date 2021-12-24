@@ -1,20 +1,20 @@
 using System;
+using Game.EnemyGenerator;
 
-
-namespace Game.EnemyGenerator
+namespace Game.Events
 {
     public delegate void CreateEAEnemyEvent(object sender, CreateEAEnemyEventArgs e);
 
     public class CreateEAEnemyEventArgs : EventArgs
     {
-        private DifficultyEnum difficulty;
+        private DifficultyLevels difficulty;
 
-        public CreateEAEnemyEventArgs(DifficultyEnum difficulty)
+        public CreateEAEnemyEventArgs(DifficultyLevels difficulty)
         {
             Difficulty = difficulty;
         }
 
-        public DifficultyEnum Difficulty
+        public DifficultyLevels Difficulty
         {
             get => difficulty;
             set => difficulty = value;

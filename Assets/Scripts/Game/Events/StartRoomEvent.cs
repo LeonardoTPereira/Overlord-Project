@@ -1,12 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-public delegate void StartRoomEvent(object sender, StartRoomEventArgs e);
-public class StartRoomEventArgs : EventArgs
+namespace Game.Events
 {
-    public Vector3 position;
-    public StartRoomEventArgs(Vector3 position)
+    public delegate void StartRoomEvent(object sender, StartRoomEventArgs e);
+    public class StartRoomEventArgs : EventArgs
     {
-        this.position = position;
+        public Vector3 position;
+        public StartRoomEventArgs(Vector3 position)
+        {
+            this.position = position;
+        }
     }
 }

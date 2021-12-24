@@ -1,21 +1,18 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Util;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds the crossover operator.
-    public class Crossover
+    public static class Crossover
     {
         /// Choose a random room to switch between the parents and arrange
         /// every aspect of the room needed after the change. Including the
         /// grid, and also the exceptions where the new nodes overlap the old
         /// ones.
-        public static Individual[] Apply(
-            Individual _parent1,
-            Individual _parent2,
-            ref Random _rand
-        ) {
+        public static Individual[] Apply(Individual _parent1, Individual _parent2) {
             // Initialize the two new individuals
             Individual[] individuals = new Individual[0];
             Dungeon dungeon1;
@@ -47,9 +44,8 @@ namespace LevelGenerator
                 dungeon2 = _parent2.dungeon.Clone();
                 // Get a random node from the parent as the root of the branch
                 // that will be traded
-                (int, int) range = (1, dungeon1.rooms.Count - 1);
-                int index = Common.RandomInt(range, ref _rand);
-                roomCut1 = dungeon1.rooms[index];
+                int index = RandomSingleton.GetInstance().Next(1, dungeon1.Rooms.Count);
+                roomCut1 = dungeon1.Rooms[index];
                 // Calculate the number of keys, locks and rooms in the branch
                 // of the cut point in dungeon 1
                 CalculateBranchRooms(ref nRooms1, ref missions1, roomCut1);
@@ -62,15 +58,14 @@ namespace LevelGenerator
                 {
                     do
                     {
-                        range = (1, dungeon2.rooms.Count - 1);
-                        index = Common.RandomInt(range, ref _rand);
-                        roomCut2 = dungeon2.rooms[index];
+                        index = RandomSingleton.GetInstance().Next(1, dungeon2.Rooms.Count);
+                        roomCut2 = dungeon2.Rooms[index];
                     } while (failedRooms.Contains(roomCut2));
                     // Add the cut room in the list of failed rooms
                     failedRooms.Add(roomCut2);
                     // If no room can be the cut point, then the crossover
                     // operation is impossible
-                    if (failedRooms.Count == dungeon2.rooms.Count - 1)
+                    if (failedRooms.Count == dungeon2.Rooms.Count - 1)
                     {
                         isImpossible = true;
                     }
@@ -89,27 +84,27 @@ namespace LevelGenerator
                     SwapBranch(ref roomCut2, ref roomCut1);
 
                     // Change the parent of each node
-                    Room auxRoom = roomCut1.parent;
-                    roomCut1.parent = roomCut2.parent;
-                    roomCut2.parent = auxRoom;
+                    Room auxRoom = roomCut1.Parent;
+                    roomCut1.Parent = roomCut2.Parent;
+                    roomCut2.Parent = auxRoom;
 
                     // Remove the original nodes from the old level grid
                     dungeon1.RemoveFromGrid(roomCut1);
                     dungeon2.RemoveFromGrid(roomCut2);
 
                     // Swap the nodes attributes
-                    int x = roomCut1.x;
-                    int y = roomCut1.y;
-                    Common.Direction dir = roomCut1.parentDirection;
-                    int rotation = roomCut1.rotation;
-                    roomCut1.x = roomCut2.x;
-                    roomCut1.y = roomCut2.y;
-                    roomCut1.parentDirection = roomCut2.parentDirection;
-                    roomCut1.rotation = roomCut2.rotation;
-                    roomCut2.x = x;
-                    roomCut2.y = y;
-                    roomCut2.parentDirection = dir;
-                    roomCut2.rotation = rotation;
+                    int x = roomCut1.X;
+                    int y = roomCut1.Y;
+                    Common.Direction dir = roomCut1.ParentDirection;
+                    int rotation = roomCut1.Rotation;
+                    roomCut1.X = roomCut2.X;
+                    roomCut1.Y = roomCut2.Y;
+                    roomCut1.ParentDirection = roomCut2.ParentDirection;
+                    roomCut1.Rotation = roomCut2.Rotation;
+                    roomCut2.X = x;
+                    roomCut2.Y = y;
+                    roomCut2.ParentDirection = dir;
+                    roomCut2.Rotation = rotation;
 
                     // Update the grid of the two new dungeons
                     // If any conflicts arise here, they will be handled in the
@@ -140,8 +135,8 @@ namespace LevelGenerator
 
             if (!isImpossible)
             {
-                roomCut2.FixBranch(missions1, ref _rand);
-                roomCut1.FixBranch(missions2, ref _rand);
+                roomCut2.FixBranch(missions1);
+                roomCut1.FixBranch(missions2);
                 individuals = new Individual[2];
                 individuals[0] = new Individual(dungeon1);
                 individuals[1] = new Individual(dungeon2);
@@ -169,28 +164,28 @@ namespace LevelGenerator
             {
                 _rooms++;
                 Room current = toVisit.Dequeue();
-                if (current.type == RoomType.Key)
+                if (current.Type1 == RoomType.Key)
                 {
                     if(_missions.Count > 0)
                     {
-                        int lockIndex = _missions.IndexOf(-current.key);
+                        int lockIndex = _missions.IndexOf(-current.Key);
                         if (lockIndex != -1)
                         {
-                            _missions.Insert(lockIndex, current.key);
+                            _missions.Insert(lockIndex, current.Key);
                         }
                         else
                         {
-                            _missions.Add(current.key);
+                            _missions.Add(current.Key);
                         }
                     }
                     else
                     {
-                        _missions.Add(current.key);
+                        _missions.Add(current.Key);
                     }
                 }
-                else if (current.type == RoomType.Locked)
+                else if (current.Type1 == RoomType.Locked)
                 {
-                    _missions.Add(-current.key);
+                    _missions.Add(-current.Key);
                 }
                 foreach (Room room in current.GetChildren())
                 {
@@ -207,23 +202,25 @@ namespace LevelGenerator
         private static void SwapBranch(
             ref Room _room1,
             ref Room _room2
-        ) {
+        )
+        {
             // No room involved in this operation can be null
             Debug.Assert(
-                _room1 != null && _room2 != null && _room1.parent != null,
+                _room1 != null && _room2 != null && _room1.Parent != null,
                 Common.PROBLEM_IN_THE_DUNGEON
             );
             // Set `_room2` as a child of the parent of `_room1`
-            switch (_room1.parentDirection)
+            if (_room1 == null) return;
+            switch (_room1.ParentDirection)
             {
                 case Common.Direction.Left:
-                    _room1.parent.left = _room2;
+                    _room1.Parent.Left = _room2;
                     break;
                 case Common.Direction.Down:
-                    _room1.parent.bottom = _room2;
+                    _room1.Parent.Bottom = _room2;
                     break;
                 case Common.Direction.Right:
-                    _room1.parent.right = _room2;
+                    _room1.Parent.Right = _room2;
                     break;
             }
         }

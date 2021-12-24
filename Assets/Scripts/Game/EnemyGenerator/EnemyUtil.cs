@@ -1,6 +1,6 @@
 ﻿namespace Game.EnemyGenerator
 {
-	public enum DifficultyEnum
+	public enum DifficultyLevels
 	{
 		VeryEasy,
 		Easy,
@@ -12,12 +12,7 @@
     public static class EnemyUtil
     {
         //The population size of the EA
-		public static int popSize = 10000;
-		public const int crossChance = 99;
-		public const int mutChance = 10;
-		public static int maxGenerations = 30;
-		public static float desiredDifficulty;
-		public const float veryEasyDifficulty = 10.0f;
+        public const float veryEasyDifficulty = 10.0f;
 		public const float easyDifficulty = 14.0f;
 		public const float mediumDifficulty = 18.0f;
 		public const float hardDifficulty = 22f;

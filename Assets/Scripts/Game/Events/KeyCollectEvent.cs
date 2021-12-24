@@ -1,14 +1,17 @@
 ﻿using System;
 
-public delegate void KeyCollectEvent(object sender, KeyCollectEventArgs e);
-
-public class KeyCollectEventArgs : EventArgs
+namespace Game.Events
 {
-    private int keyIndex;
+    public delegate void KeyCollectEvent(object sender, KeyCollectEventArgs e);
 
-    public KeyCollectEventArgs(int index)
+    public class KeyCollectEventArgs : EventArgs
     {
-        KeyIndex = index;
+        private int keyIndex;
+
+        public KeyCollectEventArgs(int index)
+        {
+            KeyIndex = index;
+        }
+        public int KeyIndex { get => keyIndex; set => keyIndex = value; }
     }
-    public int KeyIndex { get => keyIndex; set => keyIndex = value; }
 }

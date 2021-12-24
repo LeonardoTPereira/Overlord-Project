@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     /// This class holds the dungeon levels measurement-related functions.
     class Metric
@@ -11,13 +11,13 @@ namespace LevelGenerator
         ) {
             Dungeon dungeon = _individual.dungeon;
             Queue<Room> unvisited = new Queue<Room>();
-            unvisited.Enqueue(dungeon.rooms[0]);
+            unvisited.Enqueue(dungeon.Rooms[0]);
             // Calculate the number of safe rooms
             int safe = 0;
             while (unvisited.Count > 0)
             {
                 Room current = unvisited.Dequeue();
-                if (current.enemies == 0) { safe++; }
+                if (current.Enemies == 0) { safe++; }
                 foreach (Room neighbor in current.GetChildren())
                 {
                     if (neighbor != null)
@@ -27,7 +27,7 @@ namespace LevelGenerator
                 }
             }
             // Calculate and return the dungeon leniency
-            return (float) safe / dungeon.rooms.Count;
+            return (float) safe / dungeon.Rooms.Count;
         }
 
         /// Calculate and return the coefficient of exploration.
@@ -41,23 +41,23 @@ namespace LevelGenerator
             List<Room> reached = FloodFill(dungeon, start, target);
             float sum = (float) reached.Count / dungeon.GetNumberOfRooms();
             // Get the all the rooms with keys and locks
-            Room[] keys = new Room[dungeon.keyIds.Count];
-            Room[] locks = new Room[dungeon.keyIds.Count];
-            foreach (Room room in dungeon.rooms)
+            Room[] keys = new Room[dungeon.KeyIds.Count];
+            Room[] locks = new Room[dungeon.KeyIds.Count];
+            foreach (Room room in dungeon.Rooms)
             {
                 // Place the key
-                if (room.type == RoomType.Key)
+                if (room.Type1 == RoomType.Key)
                 {
-                    int ki = dungeon.keyIds.IndexOf(room.key);
+                    int ki = dungeon.KeyIds.IndexOf(room.Key);
                     if (ki != -1)
                     {
                         keys[ki] = room;
                     }
                 }
                 // Place the lock at the same index as its the key
-                if (room.type == RoomType.Locked)
+                if (room.Type1 == RoomType.Locked)
                 {
-                    int li = dungeon.keyIds.IndexOf(room.key);
+                    int li = dungeon.KeyIds.IndexOf(room.Key);
                     if (li != -1)
                     {
                         locks[li] = room;

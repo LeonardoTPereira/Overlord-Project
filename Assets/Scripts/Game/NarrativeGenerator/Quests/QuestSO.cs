@@ -1,7 +1,7 @@
-﻿using ScriptableObjects;
+﻿using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using Game.NarrativeGenerator.Quests.QuestTerminals;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests

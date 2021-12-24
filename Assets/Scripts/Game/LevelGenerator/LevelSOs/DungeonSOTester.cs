@@ -2,7 +2,7 @@
 using UnityEngine;
 using Util;
 
-namespace Assets.Scripts.Game.LevelGenerator.LevelSOs
+namespace Game.LevelGenerator.LevelSOs
 {
     public class DungeonSOTester : MonoBehaviour
     {

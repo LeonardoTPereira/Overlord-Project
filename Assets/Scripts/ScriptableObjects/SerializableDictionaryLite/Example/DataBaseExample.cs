@@ -1,7 +1,6 @@
-using RotaryHeart.Lib.SerializableDictionary;
 using UnityEngine;
 
-namespace RotaryHeart.Lib
+namespace ScriptableObjects.SerializableDictionaryLite.Example
 {
     [CreateAssetMenu(fileName = "DataBase.asset", menuName = "Data Base")]
     public class DataBaseExample : ScriptableObject

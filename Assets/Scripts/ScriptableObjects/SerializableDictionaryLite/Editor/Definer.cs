@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace RotaryHeart.Lib.SerializableDictionary
+namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
     #if UNITY_EDITOR
     [InitializeOnLoad]
@@ -14,7 +14,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
                 "RH_SerializedDictionary"
             };
             
-            RotaryHeart.Lib.Definer.ApplyDefines(defines);
+            Shared.Editor.Definer.ApplyDefines(defines);
         }
     }
     #endif

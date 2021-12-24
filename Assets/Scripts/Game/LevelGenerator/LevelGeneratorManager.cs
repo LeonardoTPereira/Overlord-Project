@@ -1,17 +1,16 @@
-﻿using Game.EnemyGenerator;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Game.Events;
+using Game.GameManager;
+using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
-using UnityEditor;
 using UnityEngine;
-using static Util.Enums;
 
-namespace LevelGenerator
+namespace Game.LevelGenerator
 {
     public class LevelGeneratorManager : MonoBehaviour
     {

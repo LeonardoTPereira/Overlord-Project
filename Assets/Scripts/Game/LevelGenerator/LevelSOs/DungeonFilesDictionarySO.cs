@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "DungeonFiles/DungeonFilesDictionarySO")]
-public class DungeonFilesDictionarySO : ScriptableObject
+namespace Game.LevelGenerator.LevelSOs
 {
-    public ProfileDungeonDictionary dungeonsForProfile = new ProfileDungeonDictionary();
-    public void Add(string profile, DungeonFileSo dungeonSO)
+    [CreateAssetMenu(menuName = "DungeonFiles/DungeonFilesDictionarySO")]
+    public class DungeonFilesDictionarySO : ScriptableObject
     {
-        if (!dungeonsForProfile.ContainsKey(profile))
+        public ProfileDungeonDictionary dungeonsForProfile = new ProfileDungeonDictionary();
+        public void Add(string profile, DungeonFileSo dungeonSO)
         {
-            dungeonsForProfile.Add(profile, new DungeonFileSOList());
+            if (!dungeonsForProfile.ContainsKey(profile))
+            {
+                dungeonsForProfile.Add(profile, new DungeonFileSOList());
+            }
+            dungeonsForProfile[profile].dungeonFileSOList.Add(dungeonSO);
         }
-        dungeonsForProfile[profile].dungeonFileSOList.Add(dungeonSO);
-    }
 
-    public void Remove(string profile)
-    {
-        if (dungeonsForProfile.ContainsKey(profile))
-            dungeonsForProfile.Remove(profile);
+        public void Remove(string profile)
+        {
+            if (dungeonsForProfile.ContainsKey(profile))
+                dungeonsForProfile.Remove(profile);
+        }
     }
 }

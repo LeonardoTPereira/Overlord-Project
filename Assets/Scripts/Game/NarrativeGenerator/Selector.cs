@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Events;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.nao_terminais;
+using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using ScriptableObjects;
 using UnityEngine;
 using Util;

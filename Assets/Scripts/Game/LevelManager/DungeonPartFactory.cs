@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.LevelGenerator.LevelSOs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;

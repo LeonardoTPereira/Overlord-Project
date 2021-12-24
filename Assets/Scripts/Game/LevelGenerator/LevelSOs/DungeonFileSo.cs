@@ -1,29 +1,31 @@
-﻿using Game.LevelManager;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using Game.LevelManager;
 using UnityEngine;
 
-[Serializable, CreateAssetMenu]
-public class DungeonFileSo : ScriptableObject
+namespace Game.LevelGenerator.LevelSOs
 {
-    [SerializeField]
-    public Dimensions dimensions;
-    [SerializeField]
-    public List<SORoom> rooms;
-    public float fitness;
-
-    private int _currentIndex = 0;
-
-    public void ResetIndex()
+    [Serializable, CreateAssetMenu]
+    public class DungeonFileSo : ScriptableObject
     {
-        _currentIndex = 0;
-    }
+        [SerializeField]
+        public Dimensions dimensions;
+        [SerializeField]
+        public List<SORoom> rooms;
+        public float fitness;
 
-    public DungeonPart GetNextPart()
-    {
-        if (_currentIndex < rooms.Count)
-            return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(rooms[_currentIndex++]);
-        return null;
+        private int _currentIndex = 0;
+
+        public void ResetIndex()
+        {
+            _currentIndex = 0;
+        }
+
+        public DungeonPart GetNextPart()
+        {
+            if (_currentIndex < rooms.Count)
+                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(rooms[_currentIndex++]);
+            return null;
+        }
     }
 }

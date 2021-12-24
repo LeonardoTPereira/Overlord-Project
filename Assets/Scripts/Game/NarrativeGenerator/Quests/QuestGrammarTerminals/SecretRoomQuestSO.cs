@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class SecretRoomQuestSO : QuestSO
     {

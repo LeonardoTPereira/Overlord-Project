@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Game.NarrativeGenerator.Quests.nao_terminais
+namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Explore : NonTerminalQuest
     {

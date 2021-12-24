@@ -1,15 +1,17 @@
-﻿using Game.EnemyGenerator;
-using System;
+﻿using System;
 using ScriptableObjects;
 
-public delegate void LoadWeaponButtonEvent(object sender, LoadWeaponButtonEventArgs eventArgs);
-public class LoadWeaponButtonEventArgs : EventArgs
+namespace Game.Events
 {
-    protected ProjectileTypeSO projectileSO;
-
-    public LoadWeaponButtonEventArgs(ProjectileTypeSO projectileSO)
+    public delegate void LoadWeaponButtonEvent(object sender, LoadWeaponButtonEventArgs eventArgs);
+    public class LoadWeaponButtonEventArgs : EventArgs
     {
-        ProjectileSO = projectileSO;
+        protected ProjectileTypeSO projectileSO;
+
+        public LoadWeaponButtonEventArgs(ProjectileTypeSO projectileSO)
+        {
+            ProjectileSO = projectileSO;
+        }
+        public ProjectileTypeSO ProjectileSO { get => projectileSO; set => projectileSO = value; }
     }
-    public ProjectileTypeSO ProjectileSO { get => projectileSO; set => projectileSO = value; }
 }

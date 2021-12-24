@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
-namespace Game.NarrativeGenerator.Quests.nao_terminais
+namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public abstract class NonTerminalQuest
     {

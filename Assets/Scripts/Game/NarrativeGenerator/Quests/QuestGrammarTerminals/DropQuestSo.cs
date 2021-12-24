@@ -5,7 +5,7 @@ using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/DropQuest"), Serializable]
     public class DropQuestSo : ItemQuestSo

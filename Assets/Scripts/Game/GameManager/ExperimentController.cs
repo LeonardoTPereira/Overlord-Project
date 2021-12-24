@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Events;
+using Game.LevelGenerator.LevelSOs;
 using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;

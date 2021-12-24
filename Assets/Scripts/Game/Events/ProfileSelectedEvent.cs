@@ -1,16 +1,19 @@
 ﻿using System;
 using Game.NarrativeGenerator;
 
-public delegate void ProfileSelectedEvent(object sender, ProfileSelectedEventArgs e);
-
-public class ProfileSelectedEventArgs : EventArgs
+namespace Game.Events
 {
-    private PlayerProfile playerProfile;
+    public delegate void ProfileSelectedEvent(object sender, ProfileSelectedEventArgs e);
 
-    public ProfileSelectedEventArgs(PlayerProfile playerProfile)
+    public class ProfileSelectedEventArgs : EventArgs
     {
-        PlayerProfile = playerProfile;
-    }
+        private PlayerProfile playerProfile;
 
-    public PlayerProfile PlayerProfile { get => playerProfile; set => playerProfile = value; }
+        public ProfileSelectedEventArgs(PlayerProfile playerProfile)
+        {
+            PlayerProfile = playerProfile;
+        }
+
+        public PlayerProfile PlayerProfile { get => playerProfile; set => playerProfile = value; }
+    }
 }

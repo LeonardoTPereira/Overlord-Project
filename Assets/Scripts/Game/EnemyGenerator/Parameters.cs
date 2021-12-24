@@ -3,8 +3,6 @@ namespace Game.EnemyGenerator
     /// This struct holds the parameters of the evolutionary enemy generator.
     public struct Parameters
     {
-        /// The seed that initializes the random generator.
-        public int seed { get; }
         /// The maximum number of generations.
         public int generations { get; }
         /// The initial population size.
@@ -22,7 +20,6 @@ namespace Game.EnemyGenerator
 
         /// Parameters constructor.
         public Parameters(
-            int _seed,
             int _generations,
             int _population,
             int _intermediate,
@@ -31,7 +28,6 @@ namespace Game.EnemyGenerator
             int _competitors,
             float _difficulty
         ) {
-            seed = _seed;
             generations = _generations;
             population = _population;
             intermediate = _intermediate;
