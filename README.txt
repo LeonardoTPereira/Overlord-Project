@@ -1,1 +1,1 @@
-I'm just an example 3 :)
+I'm just an example :)
