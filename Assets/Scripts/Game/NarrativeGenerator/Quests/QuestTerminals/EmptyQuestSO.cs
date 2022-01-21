@@ -9,15 +9,14 @@ namespace Game.NarrativeGenerator.Quests
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
     class EmptyQuestSO : QuestSO, Symbol
     {
-        public Dictionary<SymbolType,Func<float,float>> nextSymbolChances {get; set;}
-
-        public EmptyQuestSO ()
-        {
-            canDrawNext = false;
-            symbolType = Constants.EMPTY_TERMINAL;
+        public override string symbolType { 
+            get { return Constants.EMPTY_TERMINAL;} 
+        }
+        public override bool canDrawNext { 
+            get { return false; } 
         }
 
-        void SetDictionary( Dictionary<SymbolType, Func<float,float>> _nextSymbolChances )
+        void SetDictionary( Dictionary<string, Func<float,float>> _nextSymbolChances )
         {
             nextSymbolChances = _nextSymbolChances;
         }

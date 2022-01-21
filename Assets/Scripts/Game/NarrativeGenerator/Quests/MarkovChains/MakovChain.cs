@@ -22,65 +22,72 @@ namespace Game.NarrativeGenerator.Quests
     }
     public class MarkovChain
     {
-        public Symbol symbol;
-        public string symbolType;
+        public List<Symbol> symbolList = new List<Symbol>();
         public int symbolNumber = 0;
 
+        #region MarkovChain Implementation
+        /// <summary>
+        /// Initializes the markov chain
+        /// </summary>
         public MarkovChain ()
         {
-            symbol = new NonTerminalQuest();
-            symbolType = SymbolType.Start.ToString();
+            symbolList.Add( new NonTerminalQuest() );
             symbolNumber = 0;
+            symbolList[0].canDrawNext = true;
+            symbolList[0].symbolType = Constants.SECRET_TERMINAL;
         }
 
+        /// <summary>
+        /// Sets the next symbol of the chain
+        /// </summary>
         public void SetSymbol ( string _symbol )
         {
-            symbolType = _symbol;
             symbolNumber++;
             switch ( _symbol )
             {
                 case Constants.KILL_QUEST:
-                    this.symbol = new Kill();
+                    symbolList.Add( new Kill() );
                 break;
                 case Constants.TALK_QUEST:
-                    this.symbol = new Talk();
+                    symbolList.Add( new Talk() );
                 break;
                 case Constants.GET_QUEST:
-                    this.symbol = new Get();
+                    symbolList.Add( new Get() );
                 break;
                 case Constants.EXPLORE_QUEST:
-                    this.symbol = new Explore();
+                    symbolList.Add( new Explore() );
                 break;
                 case Constants.KILL_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<KillQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<KillQuestSO>() );
                 break;
                 case Constants.TALK_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<TalkQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<TalkQuestSO>() );
                 break;
                 case Constants.EMPTY_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<EmptyQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSO>() );
                 break;
                 case Constants.GET_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<GetQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<GetQuestSO>() );
                 break;
                 case Constants.DROP_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<DropQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<DropQuestSO>() );
                 break;
                 case Constants.ITEM_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<ItemQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<ItemQuestSO>() );
                 break;
                 case Constants.SECRET_TERMINAL:
-                    this.symbol = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
+                    symbolList.Add( ScriptableObject.CreateInstance<SecretRoomQuestSO>() );
                 break;
                 default:
                     Debug.LogError("Symbol type not found!");
                 break;
             }
         }
+        #endregion
 
-        public Symbol GetSymbol ()
+        public Symbol GetLastSymbol ()
         {
-            return this.symbol;
+            return this.symbolList[symbolNumber];
         }
     }
 }

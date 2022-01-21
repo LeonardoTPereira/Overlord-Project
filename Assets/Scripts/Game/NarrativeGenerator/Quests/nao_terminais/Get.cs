@@ -2,10 +2,15 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
+using Util;
 
 public class Get : NonTerminalQuest
 {
     private const int chance = 1/3;
+    public override string symbolType {
+        get { return Constants.GET_QUEST; }
+        set {}
+    }
     public Get()//(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.8f;

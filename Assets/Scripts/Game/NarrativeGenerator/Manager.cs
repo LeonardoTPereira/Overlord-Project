@@ -72,8 +72,11 @@ namespace Game.NarrativeGenerator
             PlayerProfile playerProfile;
             List<int> answers = new List<int>();
             //teste
-            questLines = ScriptableObject.CreateInstance<QuestLineList>();
-            makeBranches();
+            if ( questLines == null )
+            {
+                questLines = ScriptableObject.CreateInstance<QuestLineList>();
+            }
+            // makeBranches();
             //
             if (PreTestQuestionnaire != null)
             {
@@ -110,88 +113,52 @@ namespace Game.NarrativeGenerator
             for (int i = 0; i < 10; i++)
             {
                 Selector.DrawMissions( this );
-                QuestLine questLine = new QuestLine();
+                QuestLine questLine = new QuestLine();// create instance
+                //dar merge
                 questLine.graph = Quests.graph;
                 questLines.AddQuestLine( questLine );
             }
             /// leo
-            int index = 0, b;
-            QuestSO nextWhenSuccess;
-            QuestSO nextWhenFailure;
+            // int index = 0, b;
+            // QuestSO nextWhenSuccess;
+            // QuestSO nextWhenFailure;
 
-            Quests.graph[index].Previous = null;
-
-            while (index < Quests.graph.Count)
-            {
-                Debug.Log("entrou");
-                b = Random.Range(0, 100);
-                QuestSO currentQuest = Quests.graph[index];
-                if (b % 2 == 0)
-                {
-                    int childIndex = Random.Range(index + 1, Quests.graph.Count);
-                    nextWhenSuccess = Quests.graph[childIndex];
-                    if (childIndex < Quests.graph.Count)
-                    {
-                        nextWhenSuccess.Previous = currentQuest;
-                    }
-                    childIndex = Random.Range(index + 1, Quests.graph.Count);
-                    nextWhenFailure = Quests.graph[childIndex];
-                    if (childIndex < Quests.graph.Count)
-                    {
-                        nextWhenFailure.Previous = currentQuest;
-                    }
-
-                    currentQuest.NextWhenSuccess = nextWhenSuccess;
-                    if (nextWhenSuccess != nextWhenFailure)
-                    {
-                        currentQuest.NextWhenFailure = nextWhenFailure;
-                    }
-                }
-                else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].Previous == null)
-                {
-                    Quests.graph[index + 1].Previous = currentQuest;
-                    Quests.graph[index].NextWhenSuccess = Quests.graph[index + 1];
-                }
-                index++;
-            }
-            ui.CreateQuestList( questLines );
-            
-            // int index = 0, b, c1, c2;
-
-            // Quests.graph[index].parent = -1;
+            // Quests.graph[index].Previous = null;
 
             // while (index < Quests.graph.Count)
             // {
+            //     Debug.Log("entrou");
             //     b = Random.Range(0, 100);
-
+            //     QuestSO currentQuest = Quests.graph[index];
             //     if (b % 2 == 0)
             //     {
-            //         c1 = Random.Range(index + 1, Quests.graph.Count);
-            //         if (c1 < Quests.graph.Count)
+            //         int childIndex = Random.Range(index + 1, Quests.graph.Count);
+            //         nextWhenSuccess = Quests.graph[childIndex];
+            //         if (childIndex < Quests.graph.Count)
             //         {
-            //             Quests.graph[c1].parent = index;
+            //             nextWhenSuccess.Previous = currentQuest;
+            //         }
+            //         childIndex = Random.Range(index + 1, Quests.graph.Count);
+            //         nextWhenFailure = Quests.graph[childIndex];
+            //         if (childIndex < Quests.graph.Count)
+            //         {
+            //             nextWhenFailure.Previous = currentQuest;
             //         }
 
-            //         c2 = Random.Range(index + 1, Quests.graph.Count);
-            //         if (c2 < Quests.graph.Count)
+            //         currentQuest.NextWhenSuccess = nextWhenSuccess;
+            //         if (nextWhenSuccess != nextWhenFailure)
             //         {
-            //             Quests.graph[c2].parent = index;
-            //         }
-
-            //         Quests.graph[index].c1 = c1;
-            //         if (c1 != c2)
-            //         {
-            //             Quests.graph[index].c2 = c2;
+            //             currentQuest.NextWhenFailure = nextWhenFailure;
             //         }
             //     }
-            //     else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].parent == -1)
+            //     else if ((index + 1) < Quests.graph.Count && Quests.graph[index + 1].Previous == null)
             //     {
-            //         Quests.graph[index + 1].parent = index;
-            //         Quests.graph[index].c1 = index + 1;
+            //         Quests.graph[index + 1].Previous = currentQuest;
+            //         Quests.graph[index].NextWhenSuccess = Quests.graph[index + 1];
             //     }
-
             //     index++;
             // }
+            ui.CreateQuestList( questLines );
         }
     }
 }

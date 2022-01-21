@@ -27,6 +27,8 @@ namespace Game.NarrativeGenerator.Quests
         
         public void CreateAsset(PlayerProfile.PlayerProfileCategory playerProfileCategory)
         {
+            if ( graph[0].symbolType == "empty" )
+                return;
             // Define the JSON file extension
             const string extension = ".asset";
 
@@ -42,8 +44,8 @@ namespace Game.NarrativeGenerator.Quests
             }
 
             string fileName = "Narrative_" + graph[0] + extension;
-
-            AssetDatabase.CreateAsset(this, fileName);
+            Debug.Log("SAVING FILE AT Assets/ScriptableObjectsData/NarrativeTests/"+fileName);
+            AssetDatabase.CreateAsset(this, "Assets/ScriptableObjectsData/NarrativeTests/"+fileName);
 
             /*            Resources.UnloadUnusedAssets();
             #if UNITY_EDITOR

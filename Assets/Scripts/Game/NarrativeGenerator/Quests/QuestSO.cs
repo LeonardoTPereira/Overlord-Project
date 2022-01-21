@@ -11,9 +11,12 @@ namespace Game.NarrativeGenerator.Quests
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
     public class QuestSO : ScriptableObject, Symbol {
-        public string symbolType;
+        public virtual string symbolType {get; set;}
         public Dictionary<string, Func<float,float>> nextSymbolChances {get; set;}
-        public bool canDrawNext { get ; set; }
+        public virtual bool canDrawNext {
+            get { return true; } 
+            set {} 
+        }
         private QuestSO nextWhenSuccess;
         private QuestSO nextWhenFailure;
         private QuestSO previous;
@@ -62,14 +65,14 @@ namespace Game.NarrativeGenerator.Quests
         {
             float chance = (float) UnityEngine.Random.Range( 0, 100 ) / 100 ;
             float cumulativeProbability = 0;
-            Debug.Log(chance);
             foreach ( KeyValuePair<string, Func<float,float>> nextSymbolChance in nextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
-                if ( cumulativeProbability > chance )
+                if ( cumulativeProbability >= chance )
                 {
                     string nextSymbol = nextSymbolChance.Key;
                     chain.SetSymbol( nextSymbol );
+                    break;
                 }
             }
         }

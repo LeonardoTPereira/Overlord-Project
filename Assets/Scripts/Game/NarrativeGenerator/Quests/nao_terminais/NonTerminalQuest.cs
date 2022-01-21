@@ -8,8 +8,14 @@ using Util;
 public class NonTerminalQuest : Symbol
 {
     public Dictionary<string, Func<float,float>> nextSymbolChances {get; set;}
-    public bool canDrawNext {get; set;}
-    // Symbol symbol = new NonTerminalQuest();
+    public virtual bool canDrawNext {
+        get { return true; }
+        set {}
+    }
+    public virtual string symbolType {
+        get { return "Non-Terminal"; }
+        set {}
+    }
     protected float r;
     protected int lim;
     protected float maxQuestChance;
@@ -54,14 +60,14 @@ public class NonTerminalQuest : Symbol
     {
         float chance = (float) UnityEngine.Random.Range( 0, 100 ) / 100 ;
         float cumulativeProbability = 0;
-        Debug.Log(chance);
         foreach ( KeyValuePair<string, Func<float,float>> nextSymbolChance in nextSymbolChances )
         {
             cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
-            if ( cumulativeProbability > chance )
+            if ( cumulativeProbability >= chance )
             {
                 string nextSymbol = nextSymbolChance.Key;
                 chain.SetSymbol( nextSymbol );
+                break;
             }
         }
     }

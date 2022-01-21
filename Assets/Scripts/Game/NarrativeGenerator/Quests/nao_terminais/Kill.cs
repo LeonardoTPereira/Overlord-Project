@@ -2,9 +2,14 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests.QuestTerminals;
 using UnityEngine;
+using Util;
 
 public class Kill : NonTerminalQuest
 {
+    public override string symbolType {
+        get { return Constants.KILL_QUEST; }
+        set {}
+    }
     public Kill()//(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.5f;

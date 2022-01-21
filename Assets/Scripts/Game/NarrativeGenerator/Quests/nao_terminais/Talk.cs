@@ -3,10 +3,14 @@ using System.Dynamic;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
+using Util;
 
 public class Talk : NonTerminalQuest
 {
-
+    public override string symbolType {
+        get { return Constants.TALK_QUEST; }
+        set {}
+    }
     public Talk()//(int lim, Dictionary<string, int> questWeightsbyType) : base(lim, questWeightsbyType)
     {
         maxQuestChance = 2.4f;

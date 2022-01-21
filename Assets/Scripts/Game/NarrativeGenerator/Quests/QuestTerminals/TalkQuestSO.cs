@@ -1,10 +1,14 @@
 ﻿using ScriptableObjects;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
     class TalkQuestSO : QuestSO
     {
         public NpcSO npc { get; set; }
+        public override string symbolType { 
+            get { return Constants.TALK_TERMINAL;} 
+        }
 
         public override void Init()
         {

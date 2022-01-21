@@ -9,11 +9,10 @@ namespace Game.NarrativeGenerator.Quests.QuestTerminals
     {
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
-        
-        public KillQuestSO ()
-        {
-            symbolType = Constants.KILL_TERMINAL;
+        public override string symbolType { 
+            get { return Constants.KILL_TERMINAL;} 
         }
+        
         public override void Init()
         {
             base.Init();

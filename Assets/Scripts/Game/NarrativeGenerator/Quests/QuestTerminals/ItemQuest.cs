@@ -7,9 +7,8 @@ namespace Game.NarrativeGenerator.Quests
     public class ItemQuestSO : QuestSO
     {
         public Dictionary<ItemSO, int> ItemsToCollectByType { get; set; }
-        public ItemQuestSO ()
-        {
-            symbolType = Constants.ITEM_TERMINAL;
+        public override string symbolType { 
+            get { return Constants.ITEM_TERMINAL;} 
         }
 
         public override void Init()
