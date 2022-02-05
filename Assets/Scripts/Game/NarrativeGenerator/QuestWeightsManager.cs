@@ -1,12 +1,14 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Game.NarrativeGenerator
 {
     public class QuestWeightsManager
     {
-        private float CalculateTotalQuestionsWeight (List<int> answers)
+        public int CalculateTotalQuestionsWeight (List<int> answers)
         {
-            float totalQuestionsWeight = 0;
+            int totalQuestionsWeight = 0;
             for (var i = 2; i < 12; i++)
             {
                 if ( i < 11 )
@@ -28,55 +30,58 @@ namespace Game.NarrativeGenerator
             return totalQuestionsWeight;
         }
 
-        private void CalculateTerminalSymbolsWeights ()
+        public void CalculateTerminalSymbolsWeights ()
         {
-            killSymbolWeights.Add( Constants.KILL_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
-            killSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
+            // killSymbolWeights.Add( Constants.KILL_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
+            // killSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
 
-            talkSymbolWeights.Add( Constants.TALK_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
-            talkSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
+            // talkSymbolWeights.Add( Constants.TALK_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
+            // talkSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
 
-            getSymbolWeights.Add( Constants.ITEM_TERMINAL, x => Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, .3f));
-            getSymbolWeights.Add( Constants.DROP_TERMINAL, x => Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, .3f));
-            getSymbolWeights.Add( Constants.GET_TERMINAL, x => Mathf.Clamp(  0.3f*(1/(x*0.25f)), 0, .3f));
-            getSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
+            // getSymbolWeights.Add( Constants.ITEM_TERMINAL, x => Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, .3f));
+            // getSymbolWeights.Add( Constants.DROP_TERMINAL, x => Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, .3f));
+            // getSymbolWeights.Add( Constants.GET_TERMINAL, x => Mathf.Clamp(  0.3f*(1/(x*0.25f)), 0, .3f));
+            // getSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
 
-            exploreSymbolWeights.Add( Constants.SECRET_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
-            exploreSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
+            // exploreSymbolWeights.Add( Constants.SECRET_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
+            // exploreSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
         }
         
-        private float GetTalkQuestWeight ( List<int> answers, float totalQuestionsWeight )
-            {
-            float [] talkWeightQuestions = {(float)answers[9], (float)answers[10], (float)(-1*(answers[11]-3)), (float)(-1*(answers[12]-3))};
-            float talkWeight = CalculateWeightSum( talkWeightQuestions, totalQuestionsWeight );
+        public int GetTalkQuestWeight ( List<int> answers, int totalQuestionsWeight )
+        {
+            // Talk questions = 10, 11
+            int [] talkWeightQuestions = {answers[9], answers[10], (-1*(answers[11]-3)), (-1*(answers[12]-3))};
+            int talkWeight = CalculateWeightSum( talkWeightQuestions, totalQuestionsWeight );
             return talkWeight;
         }
 
-        private float GetGetQuestWeight ( List<int> answers, float totalQuestionsWeight )
+        public int GetGetQuestWeight ( List<int> answers, int totalQuestionsWeight )
         {
-            float [] getWeightQuestions = {(float)answers[7], (float)answers[8], (float)(-1*(answers[11]-3)), (float)(-1*(answers[12]-3))};
-            float getWeight = CalculateWeightSum( getWeightQuestions, totalQuestionsWeight );
+            // Get questions = 7, 8
+            int [] getWeightQuestions = {answers[7], answers[8], (-1*(answers[11]-3)), (-1*(answers[12]-3))};
+            int getWeight = CalculateWeightSum( getWeightQuestions, totalQuestionsWeight );
             return getWeight;
         }
 
-        private float GetExploreQuestWeight ( List<int> answers, float totalQuestionsWeight )
+        public int GetExploreQuestWeight ( List<int> answers, int totalQuestionsWeight )
         {
-            float [] exploreWeightQuestions = {(float)answers[5], (float)answers[6], (float)(-1*(answers[11]-3)), (float)(-1*(answers[12]-3))};
-            float exploreWeight = CalculateWeightSum( exploreWeightQuestions, totalQuestionsWeight );
+            // Explore questions = 5, 6
+            int [] exploreWeightQuestions = {answers[5], answers[6], (-1*(answers[11]-3)), (-1*(answers[12]-3))};
+            int exploreWeight = CalculateWeightSum( exploreWeightQuestions, totalQuestionsWeight );
             return exploreWeight;
         }
 
-        private float GetKillQuestWeight ( List<int> answers, float totalQuestionsWeight )
+        public int GetKillQuestWeight ( List<int> answers, int totalQuestionsWeight )
         {
-            float [] killWeightQuestions = {(float)answers[2]-3, (float)answers[3], (float)answers[4]};
-            float killWeight = CalculateWeightSum( killWeightQuestions, totalQuestionsWeight );
+            // Kill questions = 2, 3 e 4
+            int [] killWeightQuestions = {answers[2]-3, answers[3], answers[4]};
+            int killWeight = CalculateWeightSum( killWeightQuestions, totalQuestionsWeight );
             return killWeight;
         }
 
-        private float CalculateWeightSum ( float [] answers, float totalQuestionsWeight )
+        private int CalculateWeightSum ( int [] answers, int totalQuestionsWeight )
         {
-            float weightSum = answers.Sum() / totalQuestionsWeight;
-            weightSum = float.IsNaN( weightSum ) ? 0 : weightSum;
+            int weightSum = (int)((float)(answers.Sum()/totalQuestionsWeight)*100);
             return weightSum;
         }
     }
