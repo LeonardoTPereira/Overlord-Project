@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494183438}
   - component: {fileID: 494183437}
+  - component: {fileID: 494183440}
   m_Layer: 0
   m_Name: EADungeonTester
   m_TagString: Untagged
@@ -152,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8ebf78bee14af4189a8324c6ab969a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDungeonSO: {fileID: 0}
+  currentDungeonSO: {fileID: 11400000, guid: d36b882a03964384ba52b0a46d66eedf, type: 2}
 --- !u!4 &494183438
 Transform:
   m_ObjectHideFlags: 0
@@ -167,6 +168,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &494183440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494183436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isArena: 1
+  <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 11400000, guid: ca8616087bafaac49b15017c1382ee36,
+    type: 2}
+  dungeonScene:
+    Scene: {fileID: 102900000, guid: 11ee7c01a4b13c644bc61ca2f22926e2, type: 3}
+    SceneName: Arena
+    sceneIndex: 0
+    sceneEnabled: 1
 --- !u!1 &1879570843
 GameObject:
   m_ObjectHideFlags: 0

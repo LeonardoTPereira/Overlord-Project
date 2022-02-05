@@ -1,15 +1,18 @@
 ﻿using System;
 using ScriptableObjects;
 
-public delegate void LevelSelectEvent(object sender, LevelSelectEventArgs e);
-public class LevelSelectEventArgs : EventArgs
+namespace Game.Events
 {
-    private LevelConfigSO levelSO;
-
-    public LevelSelectEventArgs(LevelConfigSO levelSO)
+    public delegate void LevelSelectEvent(object sender, LevelSelectEventArgs e);
+    public class LevelSelectEventArgs : EventArgs
     {
-        LevelSO = levelSO;
-    }
+        private LevelConfigSO levelSO;
 
-    public LevelConfigSO LevelSO { get => levelSO; set => levelSO = value; }
+        public LevelSelectEventArgs(LevelConfigSO levelSO)
+        {
+            LevelSO = levelSO;
+        }
+
+        public LevelConfigSO LevelSO { get => levelSO; set => levelSO = value; }
+    }
 }

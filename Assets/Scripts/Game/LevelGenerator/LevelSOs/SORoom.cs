@@ -1,28 +1,42 @@
-using Game.LevelManager;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEngine;
+using Game.LevelManager;
 
-[Serializable]
-public class SORoom
+namespace Game.LevelGenerator.LevelSOs
 {
-    public Coordinates coordinates;
-    public string type;
-    public List<int> keys;
-    public List<int> locks;
-    private int enemies = -1;
-    private int treasures = -1;
-    private int enemyType = -1;
-    private int npcs = -1;
+    [Serializable]
+    public class SORoom
+    {
+        public Coordinates coordinates;
+        public string type;
+        public List<int> keys;
+        public List<int> locks;
 
-    [DefaultValue(-1)]
-    public int Enemies { get => enemies; set => enemies = value; }
-    [DefaultValue(-1)]
-    public int Treasures { get => treasures; set => treasures = value; }
-    [DefaultValue(-1)]
-    public int EnemiesType { get => enemyType; set => enemyType = value; }
-    [DefaultValue(-1)]
-    public int Npcs { get => npcs; set => npcs = value; }
+        public int treasures = -1;
+        public int npcs = -1;
+        public int totalEnemies;
+
+        public int TotalEnemies
+        {
+            get => totalEnemies;
+            set => totalEnemies = value;
+        }
+
+        public SORoom(int x, int y)
+        {
+            coordinates = new Coordinates(x, y);
+            type = null;
+            keys = null;
+            locks = null;
+            treasures = -1;
+            npcs = -1;
+            totalEnemies = 0;
+        }
+
+        [DefaultValue(-1)]
+        public int Treasures { get => treasures; set => treasures = value; }
+        [DefaultValue(-1)]
+        public int Npcs { get => npcs; set => npcs = value; }
+    }
 }

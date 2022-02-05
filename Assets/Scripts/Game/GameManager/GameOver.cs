@@ -1,22 +1,24 @@
-﻿using Game.GameManager;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class GameOver : MonoBehaviour
+namespace Game.GameManager
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GameOver : MonoBehaviour
     {
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
 
-    }
+        }
 
-    public void MainMenuButton()
-    {
-        GameManagerSingleton.instance.MainMenu();
+        public void MainMenuButton()
+        {
+            GameManagerSingleton.Instance.MainMenu();
+        }
     }
 }

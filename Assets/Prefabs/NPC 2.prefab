@@ -545,6 +545,7 @@ MonoBehaviour:
   canvas: {fileID: 804351720952846550}
   npcName: {fileID: 3268435254522351018}
   dialogue: {fileID: 3340485443177149995}
+  npcSo: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
 --- !u!58 &5451320152689680047
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -1,42 +1,46 @@
-﻿using UnityEngine;
+﻿using Game.Events;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelLoaderBHV : MonoBehaviour, IMenuPanel
+namespace Game.GameManager
 {
-    string levelFile;
-    [SerializeField]
-    GameObject previousPanel, nextPanel;
-    [SerializeField]
-    Button button;
-    public static event LevelLoadEvent loadLevelButtonEventHandler;
-
-    protected void OnEnable()
+    public class LevelLoaderBHV : MonoBehaviour, IMenuPanel
     {
-        button.interactable = false;
-        LevelSelectButtonBHV.selectLevelButtonEventHandler += PrepareLevel;
-    }
+        string levelFile;
+        [SerializeField]
+        GameObject previousPanel, nextPanel;
+        [SerializeField]
+        Button button;
+        public static event LevelLoadEvent loadLevelButtonEventHandler;
 
-    protected void OnDisable()
-    {
-        LevelSelectButtonBHV.selectLevelButtonEventHandler -= PrepareLevel;
-    }
+        protected void OnEnable()
+        {
+            button.interactable = false;
+            LevelSelectButtonBHV.selectLevelButtonEventHandler += PrepareLevel;
+        }
 
-    protected void PrepareLevel(object sender, LevelSelectEventArgs args)
-    {
-        levelFile = args.LevelSO.fileName;
-        button.interactable = true;
-    }
+        protected void OnDisable()
+        {
+            LevelSelectButtonBHV.selectLevelButtonEventHandler -= PrepareLevel;
+        }
 
-    public void GoToNext()
-    {
-        loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile));
-        nextPanel.SetActive(true);
-        gameObject.SetActive(false);
-    }
+        protected void PrepareLevel(object sender, LevelSelectEventArgs args)
+        {
+            levelFile = args.LevelSO.fileName;
+            button.interactable = true;
+        }
 
-    public void GoToPrevious()
-    {
-        previousPanel.SetActive(true);
-        gameObject.SetActive(false);
+        public void GoToNext()
+        {
+            loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile));
+            nextPanel.SetActive(true);
+            gameObject.SetActive(false);
+        }
+
+        public void GoToPrevious()
+        {
+            previousPanel.SetActive(true);
+            gameObject.SetActive(false);
+        }
     }
 }

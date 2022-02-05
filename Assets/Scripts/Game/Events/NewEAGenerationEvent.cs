@@ -1,15 +1,18 @@
 ﻿using System;
 
-public delegate void NewEAGenerationEvent(object sender, NewEAGenerationEventArgs e);
-
-public class NewEAGenerationEventArgs : EventArgs
+namespace Game.Events
 {
-    private int completionRate;
+    public delegate void NewEAGenerationEvent(object sender, NewEAGenerationEventArgs e);
 
-    public NewEAGenerationEventArgs(int completionRate)
+    public class NewEAGenerationEventArgs : EventArgs
     {
-        CompletionRate = completionRate;
-    }
+        private int completionRate;
 
-    public int CompletionRate { get => completionRate; set => completionRate = value; }
+        public NewEAGenerationEventArgs(int completionRate)
+        {
+            CompletionRate = completionRate;
+        }
+
+        public int CompletionRate { get => completionRate; set => completionRate = value; }
+    }
 }

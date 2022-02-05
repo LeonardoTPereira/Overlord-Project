@@ -1,6 +1,6 @@
-﻿using RotaryHeart.Lib.SerializableDictionary;
-using System;
+﻿using System;
 using Game.NarrativeGenerator.Quests;
+using ScriptableObjects.SerializableDictionaryLite;
 
 namespace Game.Maestro
 {

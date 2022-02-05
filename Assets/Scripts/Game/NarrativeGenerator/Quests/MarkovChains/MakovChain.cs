@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests.QuestTerminals;
+// using Game.NarrativeGenerator.Quests.QuestTerminals;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests
@@ -31,7 +31,7 @@ namespace Game.NarrativeGenerator.Quests
         /// </summary>
         public MarkovChain ()
         {
-            symbolList.Add( new NonTerminalQuest() );
+            // symbolList.Add( new NonTerminalQuest() );
             symbolNumber = 0;
             symbolList[0].canDrawNext = true;
             symbolList[0].symbolType = Constants.SECRET_TERMINAL;
@@ -42,46 +42,46 @@ namespace Game.NarrativeGenerator.Quests
         /// </summary>
         public void SetSymbol ( string _symbol )
         {
-            symbolNumber++;
-            switch ( _symbol )
-            {
-                case Constants.KILL_QUEST:
-                    symbolList.Add( new Kill() );
-                break;
-                case Constants.TALK_QUEST:
-                    symbolList.Add( new Talk() );
-                break;
-                case Constants.GET_QUEST:
-                    symbolList.Add( new Get() );
-                break;
-                case Constants.EXPLORE_QUEST:
-                    symbolList.Add( new Explore() );
-                break;
-                case Constants.KILL_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<KillQuestSO>() );
-                break;
-                case Constants.TALK_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<TalkQuestSO>() );
-                break;
-                case Constants.EMPTY_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSO>() );
-                break;
-                case Constants.GET_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<GetQuestSO>() );
-                break;
-                case Constants.DROP_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<DropQuestSO>() );
-                break;
-                case Constants.ITEM_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<ItemQuestSO>() );
-                break;
-                case Constants.SECRET_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<SecretRoomQuestSO>() );
-                break;
-                default:
-                    Debug.LogError("Symbol type not found!");
-                break;
-            }
+            // symbolNumber++;
+            // switch ( _symbol )
+            // {
+            //     case Constants.KILL_QUEST:
+            //         symbolList.Add( new Kill() );
+            //     break;
+            //     case Constants.TALK_QUEST:
+            //         symbolList.Add( new Talk() );
+            //     break;
+            //     case Constants.GET_QUEST:
+            //         symbolList.Add( new Get() );
+            //     break;
+            //     case Constants.EXPLORE_QUEST:
+            //         symbolList.Add( new Explore() );
+            //     break;
+            //     case Constants.KILL_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<KillQuestSO>() ); //
+            //     break;
+            //     case Constants.TALK_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<TalkQuestSO>() ); //
+            //     break;
+            //     case Constants.EMPTY_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSO>() ); //
+            //     break;
+            //     case Constants.GET_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<GetQuestSO>() ); //
+            //     break;
+            //     case Constants.DROP_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<DropQuestSO>() ); //
+            //     break;
+            //     case Constants.ITEM_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<ItemQuestSO>() ); //
+            //     break;
+            //     case Constants.SECRET_TERMINAL:
+            //         symbolList.Add( ScriptableObject.CreateInstance<SecretRoomQuestSO>() ); //
+            //     break;
+            //     default:
+            //         Debug.LogError("Symbol type not found!");
+            //     break;
+            // }
         }
         #endregion
 

@@ -1372,7 +1372,7 @@ MonoBehaviour:
   levelToLoad:
     Scene: {fileID: 102900000, guid: fba6505088753494183d3d71679a850f, type: 3}
     SceneName: Overworld
-    sceneIndex: 1
+    sceneIndex: 3
     sceneEnabled: 1
 --- !u!114 &154568199
 MonoBehaviour:
@@ -3367,10 +3367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6a3a1fbf9cba244861028aae791d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dungeonList: {fileID: 0}
-  levelFileName: R32-K3-L3-L1.4-1
-  narrativeFilesSet: {fileID: 11400000, guid: e905bd29ff494ba4dbb22ec95ecf3e41, type: 2}
-  dungeonFileSO: {fileID: 11400000, guid: b5081a9d1dc2f154dbe594ee801e2917, type: 2}
 --- !u!1 &389387747
 GameObject:
   m_ObjectHideFlags: 0
@@ -9756,6 +9752,7 @@ GameObject:
   - component: {fileID: 1411817027}
   - component: {fileID: 1411817026}
   - component: {fileID: 1411817025}
+  - component: {fileID: 1411817034}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -9775,7 +9772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103c2899cce79bc45a67e3e1fa8336de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeFilesSet: {fileID: 11400000, guid: e905bd29ff494ba4dbb22ec95ecf3e41, type: 2}
+  playerProfileToQuestLinesDictionarySo: {fileID: 0}
   dungeonEntrances:
   - {fileID: 0}
   - {fileID: 0}
@@ -9826,25 +9823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generationCounter: 0
-  startTime: 0
-  difficulty: 2
-  enemyGenerated: 0
-  enemyPrinted: 0
-  enemyReady: 0
-  enemySorted: 0
-  bestIdx: 0
-  projectileSet: {fileID: 11400000, guid: fd434a2423766d64bbde424b0396009a, type: 2}
-  movementSet: {fileID: 11400000, guid: 41a11a660db4ab245943b826556cf0af, type: 2}
-  behaviorSet: {fileID: 11400000, guid: be34bae1919ce2c458128eba2838077a, type: 2}
-  weaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
-  timeToConverge: 0
-  timeAfterSort: 0
-  bestFitness: 0
-  averageNBestFitness: 0
-  averageFitness: 0
-  stdDevNBestFitness: 0
-  stdDevFitness: 0
+  enemyComponents: {fileID: 0}
+  isEnable: 0
 --- !u!114 &1411817029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9857,12 +9837,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d338a50bdd1bf6e4f921463ea3ef690b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arena: []
   easy: []
   medium: []
   hard: []
   enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
     type: 3}
+  barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
+    type: 3}
+  shooterEnemyPrefab: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
+    type: 3}
   bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
+    type: 3}
+  healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
 --- !u!82 &1411817030
 AudioSource:
@@ -9972,25 +9959,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b56930cb38f844c9fcca9370788a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sessionUID: 
   profileString: 
   heatMapString: 
   levelProfileString: 
   detailedLevelProfileString: 
-  mapCount: 0
-  curBatchId: 0
-  curMapName: 
-  visitedRooms: []
-  mapVisitedCount: 0
-  mapVisitedCountUnique: 0
-  keysTaken: 0
-  keysUsed: 0
+  sessionUID: 
   preFormAnswers: 
-  postFormAnswers: 
-  secondsToFinish: 0
-  actualCombo: 0
-  maxCombo: 0
+  levelID: 
+  chosenWeapon: -1
+  elapsedTime: 0
+  hasFinished: 0
+  hasDied: 0
+  totalKeys: 0
+  collectedKeys: 0
+  totalLocks: 0
+  openedLocks: 0
+  totalRooms: 0
+  numberOfVisitedRooms: 0
+  totalVisits: 0
+  numberOfOverVisitedRooms: 0
+  playerInitialHealth: 0
+  playerFinalHealth: 0
+  playerLostHealth: 0
+  numberOfEnemies: 0
+  numberOfKilledEnemies: 0
+  numberOfNPCs: 0
+  numberOfInteractedNPCs: 0
+  totalTreasures: 0
   treasureCollected: 0
+  maxCombo: 0
+  visitedRooms: []
+  actualCombo: 0
 --- !u!114 &1411817032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10006,6 +10005,7 @@ MonoBehaviour:
   treasureSet: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
   projectileSet: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281, type: 2}
   projectileType: {fileID: 11400000, guid: 2365d76e2564e2a46a0215da234263a2, type: 2}
+  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
   levelSet: {fileID: 11400000, guid: 714001a36672c8747b10738c78789140, type: 2}
@@ -10039,6 +10039,7 @@ MonoBehaviour:
   mapFileMode: 1
   panelIntro: {fileID: 1978301727}
   levelFile: 
+  arenaMode: 1
 --- !u!4 &1411817033
 Transform:
   m_ObjectHideFlags: 0
@@ -10055,6 +10056,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1411817034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411817024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367f9cda2f054d3499866e0a2dec2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isArena: 1
+  <SelectedDungeon>k__BackingField: {fileID: 11400000, guid: d62bee67b16665b42809370637dc656f,
+    type: 2}
+  dungeonScene:
+    Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
+    SceneName: LevelWithEnemies
+    sceneIndex: 4
+    sceneEnabled: 1
 --- !u!1 &1425033869
 GameObject:
   m_ObjectHideFlags: 0
@@ -12641,7 +12662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 0.8693481}
-  m_AnchoredPosition: {x: 0, y: 0.5000019}
+  m_AnchoredPosition: {x: 0, y: 0.5000038}
   m_SizeDelta: {x: -2, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1732476122

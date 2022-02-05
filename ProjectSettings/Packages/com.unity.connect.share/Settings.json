@@ -4,14 +4,9 @@
     "m_Dictionary": {
         "m_DictionaryValues": [
             {
-                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
-                "key": "firstTime",
-                "value": "{\"m_Value\":true}"
-            },
-            {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"D:/Doutorado/BuildGeradorDeNarrativas2;D:/Doutorado/BuildGeradorDeNarrativas1/TemplateData;D:/Doutorado/BuildGeradorDeNarrativas1;/home/breno/Documents/Workspace/Projects/Overlord-Project/Build/ProCoG;;;;;;\"}"
+                "value": "{\"m_Value\":\"E:/Doutorado/ProCoG/TestForCD;;;;;;;;;\"}"
             }
         ]
     }

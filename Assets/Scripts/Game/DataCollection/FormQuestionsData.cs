@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class FormQuestionsData : ScriptableObject
+namespace Game.DataCollection
 {
-    public List<FormQuestionData> questions;
+    [CreateAssetMenu]
+    public class FormQuestionsData : ScriptableObject
+    {
+        public List<FormQuestionData> questions;
+    }
 }

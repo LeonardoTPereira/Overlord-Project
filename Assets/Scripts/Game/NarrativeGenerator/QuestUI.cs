@@ -13,14 +13,15 @@ namespace Game.NarrativeGenerator
         [SerializeField] private TextMeshProUGUI questList;
         public void CreateQuestList ( QuestLineList narratives )
         {
-            string questDescription = "";
-            foreach ( QuestLine narrative in narratives.QuestLines )
-            {
-                string nextQuest = narrative.graph[0].symbolType.ToString();
-                if ( narrative.graph[0].symbolType != Constants.EMPTY_TERMINAL )
-                    questDescription += $" - {nextQuest}\n";
-            }
-            questList.text = questDescription;
+            // TODO: Rever este código
+            // string questDescription = "";
+            // foreach ( QuestLine narrative in narratives.QuestLines )
+            // {
+            //     string nextQuest = narrative.graph[0].symbolType.ToString();
+            //     if ( narrative.graph[0].symbolType != Constants.EMPTY_TERMINAL )
+            //         questDescription += $" - {nextQuest}\n";
+            // }
+            // questList.text = questDescription;
         }
 
         public void CreateOpenQuestList ( QuestLine quests )

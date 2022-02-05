@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45500f27fdb019f4ca5bcf13fa9209a2, type: 3}
   m_Name: Enemy2
   m_EditorClassIdentifier: 
-  health: 1
-  damage: 1
-  movementSpeed: 2.098651
-  activeTime: 5.7921553
-  restTime: 0.88577324
+  health: 3
+  damage: 4
+  movementSpeed: 1.0029873
+  activeTime: 7.7209826
+  restTime: 1.5
   weapon: {fileID: 11400000, guid: 9825d811d256b7b4eaaec1b081b78374, type: 2}
-  movement: {fileID: 11400000, guid: 69b7f9ffc6b42aa4195b16533359abf9, type: 2}
+  movement: {fileID: 11400000, guid: 60100cc28d1df554dac90b092fe95e74, type: 2}
   behavior: {fileID: 11400000, guid: 7352eddfe7fc8e34dbc77c370d90c8bf, type: 2}
-  fitness: 13.999172
-  attackSpeed: 1.6007689
-  projectileSpeed: 1.7638415
+  fitness: 0.016510963
+  attackSpeed: 1.4864304
+  projectileSpeed: 3.9893577

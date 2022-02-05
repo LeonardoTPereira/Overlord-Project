@@ -1,85 +1,60 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Util;
 
-namespace Assets.Scripts.Game.LevelGenerator.LevelSOs
+namespace Game.LevelGenerator.LevelSOs
 {
     public class DungeonSOTester : MonoBehaviour
     {
         [SerializeField]
-        DungeonFileSO currentDungeonSO;
+        DungeonFileSo currentDungeonSO;
 
         public void OnDrawGizmos()
         {
-            foreach (SORoom room in currentDungeonSO.rooms)
+            foreach (var room in currentDungeonSO.rooms)
             {
-                Vector3 size = new Vector3(3, 3, 0);
+                var size = new Vector3(3, 3, 0);
                 // Draw a yellow sphere at the transform's position
-                if (room.type == "c")
+                if (room.type == Constants.RoomTypeString.CORRIDOR)
                 {
                     Gizmos.color = Color.gray;
                 }
                 else
                 {
                     size = new Vector3(5, 5, 0);
-                    if (room.type == "s")
-                    {
-                        Gizmos.color = Color.white;
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.magenta;
-                    }
+                    Gizmos.color = room.type == Constants.RoomTypeString.START ? Color.white : Color.magenta;
                 }
-                Vector3 position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 0);
+                var position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 0);
                 Gizmos.DrawCube(position, size);
-                if (room.keys.Count > 0)
+                if (room.keys?.Count > 0)
                 {
-                    if (room.keys[0] == 1)
+                    Gizmos.color = room.keys[0] switch
                     {
-                        Gizmos.color = Color.yellow;
-                    }
-                    else if (room.keys[0] == 2)
-                    {
-                        Gizmos.color = Color.blue;
-                    }
-                    else if (room.keys[0] == 3)
-                    {
-                        Gizmos.color = Color.green;
-                    }
-                    else if (room.keys[0] == 4)
-                    {
-                        Gizmos.color = Color.red;
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.cyan;
-                    }
+                        1 => Color.yellow,
+                        2 => Color.blue,
+                        3 => Color.green,
+                        4 => Color.red,
+                        5 => new Color(255, 165, 0),
+                        6 => new Color(230, 230, 250),
+                        _ => Color.cyan
+                    };
                     position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 5);
                     Gizmos.DrawSphere(position, 2);
                 }
-                if (room.locks.Count > 0)
-                {
-                    if (room.locks[0] == -1)
+
+                if (room.locks?.Count <= 0) continue;
+                if (room.locks != null)
+                    Gizmos.color = Math.Abs(room.locks[0]) switch
                     {
-                        Gizmos.color = Color.yellow;
-                    }
-                    else if (room.locks[0] == -2)
-                    {
-                        Gizmos.color = Color.blue;
-                    }
-                    else if (room.locks[0] == -3)
-                    {
-                        Gizmos.color = Color.green;
-                    }
-                    else if (room.locks[0] == -4)
-                    {
-                        Gizmos.color = Color.red;
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.cyan;
-                    }
-                    Gizmos.DrawCube(position, size);
-                }
+                        1 => Color.yellow,
+                        2 => Color.blue,
+                        3 => Color.green,
+                        4 => Color.red,
+                        5 => new Color(255, 165, 0),
+                        6 => new Color(230, 230, 250),
+                        _ => Color.cyan
+                    };
+                Gizmos.DrawCube(position, size);
             }
         }
     }    

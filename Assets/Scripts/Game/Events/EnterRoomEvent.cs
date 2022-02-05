@@ -1,32 +1,38 @@
-﻿using Game.LevelManager;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Game.EnemyGenerator;
+using Game.LevelManager;
+using ScriptableObjects;
 using UnityEngine;
+using Util;
 
-public delegate void EnterRoomEvent(object sender, EnterRoomEventArgs e);
-public class EnterRoomEventArgs : EventArgs
+namespace Game.Events
 {
-    private Coordinates roomCoordinates;
-    private bool roomHasEnemies;
-    private List<int> roomEnemiesIndex;
-    private int playerHealthWhenEntering;
-    private Vector3 roomPosition;
-    private Dimensions roomDimensions;
-
-    public EnterRoomEventArgs(Coordinates roomCoordinates, bool roomHasEnemies, List<int> roomEnemiesIndex, int playerHealthWhenEntering, Vector3 roomPosition, Dimensions roomDimensions)
+    public delegate void EnterRoomEvent(object sender, EnterRoomEventArgs e);
+    public class EnterRoomEventArgs : EventArgs
     {
-        RoomCoordinates = roomCoordinates;
-        RoomHasEnemies = roomHasEnemies;
-        RoomEnemiesIndex = roomEnemiesIndex;
-        PlayerHealthWhenEntering = playerHealthWhenEntering;
-        RoomPosition = roomPosition;
-        RoomDimensions = roomDimensions;
-    }
+        private Coordinates _roomCoordinates;
+        private bool _roomHasEnemies;
+        private Dictionary<EnemySO, int> _enemiesInRoom;
+        private int _playerHealthWhenEntering;
+        private Vector3 _roomPosition;
+        private Dimensions _roomDimensions;
 
-    public Coordinates RoomCoordinates { get => roomCoordinates; set => roomCoordinates = value; }
-    public bool RoomHasEnemies { get => roomHasEnemies; set => roomHasEnemies = value; }
-    public List<int> RoomEnemiesIndex { get => roomEnemiesIndex; set => roomEnemiesIndex = value; }
-    public int PlayerHealthWhenEntering { get => playerHealthWhenEntering; set => playerHealthWhenEntering = value; }
-    public Vector3 RoomPosition { get => roomPosition; set => roomPosition = value; }
-    public Dimensions RoomDimensions { get => roomDimensions; set => roomDimensions = value; }
+        public EnterRoomEventArgs(Coordinates roomCoordinates, bool roomHasEnemies, Dictionary<EnemySO, int> enemiesInEnemiesInRoom, int playerHealthWhenEntering, Vector3 roomPosition, Dimensions roomDimensions)
+        {
+            RoomCoordinates = roomCoordinates;
+            RoomHasEnemies = roomHasEnemies;
+            EnemiesInRoom = enemiesInEnemiesInRoom;
+            PlayerHealthWhenEntering = playerHealthWhenEntering;
+            RoomPosition = roomPosition;
+            RoomDimensions = roomDimensions;
+        }
+
+        public Coordinates RoomCoordinates { get => _roomCoordinates; set => _roomCoordinates = value; }
+        public bool RoomHasEnemies { get => _roomHasEnemies; set => _roomHasEnemies = value; }
+        public  Dictionary<EnemySO, int> EnemiesInRoom { get => _enemiesInRoom; set => _enemiesInRoom = value; }
+        public int PlayerHealthWhenEntering { get => _playerHealthWhenEntering; set => _playerHealthWhenEntering = value; }
+        public Vector3 RoomPosition { get => _roomPosition; set => _roomPosition = value; }
+        public Dimensions RoomDimensions { get => _roomDimensions; set => _roomDimensions = value; }
+    }
 }

@@ -1,6 +1,9 @@
-﻿public interface IMenuPanel
+﻿namespace Game.GameManager
 {
-    void GoToNext();
+    public interface IMenuPanel
+    {
+        void GoToNext();
 
-    void GoToPrevious();
+        void GoToPrevious();
+    }
 }

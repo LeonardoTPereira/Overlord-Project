@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    public class NpcSO
+    [CreateAssetMenu(fileName = "NpcSO", menuName = "Overlord-Project/Npcs", order = 0)]    
+    public class NpcSO : ScriptableObject
     {
         public string NpcName
         {
@@ -11,8 +13,8 @@ namespace ScriptableObjects
         }
 
         [SerializeField] private Sprite npcSprite;
+        [FormerlySerializedAs("_npcName")] [SerializeField] private string npcName;
 
-        private string npcName;
         /*TODO add NPC settings according to Akira and Yago's generator*/
         
     }

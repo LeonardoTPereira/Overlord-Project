@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Game.Events;
+using Game.LevelGenerator.LevelSOs;
 using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -7,6 +10,7 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {
@@ -15,21 +19,26 @@ namespace Game.GameManager
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
         [SerializeField, MustBeAssigned]
-        private PlayerProfileToQuestLinesDictionarySO playerProfileToQuestLinesDictionarySo;
+        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         private List<QuestLine> _questLineListForProfile;
 
         [SerializeField]
-        private DungeonEntrance[] dungeonEntrances;
+        private DungeonLoader[] dungeonEntrances;
+
+        private void Awake()
+        {
+            _questLineListForProfile = null;
+        }
 
         private void OnEnable()
         {
-            Manager.ProfileSelectedEventHandler += LoadDataForExperiment;
+            QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
         private void OnDisable()
         {
-            Manager.ProfileSelectedEventHandler -= LoadDataForExperiment;
+            QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 
@@ -51,16 +60,16 @@ namespace Game.GameManager
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
-
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
-            List<DungeonFileSO> dungeonFileSos = new List<DungeonFileSO>(selectedQuestLine.DungeonFileSos);
-            dungeonEntrances = FindObjectsOfType<DungeonEntrance>();
-            for (int i = 0; i < dungeonEntrances.Length; ++i)
+            List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
+            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
+            foreach (var dungeonEntrance in dungeonEntrances)
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
-                dungeonEntrances[i].DungeonFileSo = dungeonFileSos[selectedIndex];
+                dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
+                dungeonEntrance.LevelQuestLine = selectedQuestLine;
+                dungeonEntrance.IsLastQuestLine = _questLineListForProfile.Count == 0;
                 dungeonFileSos.RemoveAt(selectedIndex);
-                Debug.Log("Dungeon Entrance Filename: " + dungeonEntrances[i].DungeonFileSo.name);
             }
         }
 
@@ -76,14 +85,13 @@ namespace Game.GameManager
         private void SetQuestLinesForProfile(PlayerProfile playerProfile)
         {
             _questLineListForProfile = new List<QuestLine>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
-                playerProfile.PlayerProfileEnum.ToString()].QuestLines);
+                playerProfile.PlayerProfileEnum.ToString()].QuestLinesList);
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
-            Debug.Log("Loading Data For Experiment. Profile: " + profileSelectedEventArgs.PlayerProfile.ToString());
             PlayerProfile selectedProfile;
-            if (Random.Range(0, 100) < 50)
+            if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
             {
                 selectedProfile = profileSelectedEventArgs.PlayerProfile;
             }
@@ -92,7 +100,7 @@ namespace Game.GameManager
                 selectedProfile = new PlayerProfile();
                 do
                 {
-                    selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)Random.Range(0, 4);
+                    selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
                 } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
             }
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));

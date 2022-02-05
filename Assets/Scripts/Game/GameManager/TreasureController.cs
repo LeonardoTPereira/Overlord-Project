@@ -1,60 +1,60 @@
-﻿using Game.LevelManager;
+﻿using Game.Events;
+using Game.LevelManager;
 using ScriptableObjects;
 using UnityEngine;
 
-public class TreasureController : PlaceableRoomObject
+namespace Game.GameManager
 {
-    [SerializeField]
-    public TreasureSO Treasure { get; set; }
-    [SerializeField]
-    private AudioClip takenSnd;
-    private AudioSource audioSrc;
-    private bool canDestroy;
+    public class TreasureController : PlaceableRoomObject
+    {
+        [field: SerializeField]
+        public ItemSo Treasure { get; set; }
+        [SerializeField]
+        private AudioClip takenSnd;
+        private AudioSource audioSrc;
+        private bool canDestroy;
 
-    public static event TreasureCollectEvent treasureCollectEvent;
+        public static event TreasureCollectEvent treasureCollectEvent;
     
-    // Start is called before the first frame update
-    void Awake()
-    {
-        canDestroy = false;
-        audioSrc = GetComponent<AudioSource>();
-    }
-
-    private void Start()
-    {
-        if (Treasure != null)
-            GetComponent<SpriteRenderer>().sprite = Treasure.sprite;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!audioSrc.isPlaying && canDestroy)
+        // Start is called before the first frame update
+        private void Awake()
         {
-            Destroy(gameObject);
+            canDestroy = false;
+            audioSrc = GetComponent<AudioSource>();
         }
-    }
-    public void DestroyTreasure()
-    {
-        //Debug.Log("Destroying Bullet");
-        audioSrc.PlayOneShot(takenSnd, 0.15f);
-        canDestroy = true;
-        GetComponent<Collider2D>().enabled = false;
-        GetComponent<SpriteRenderer>().enabled = false;
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        private void Start()
         {
+            if (Treasure != null)
+                GetComponent<SpriteRenderer>().sprite = Treasure.sprite;
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            if (!audioSrc.isPlaying && canDestroy)
+            {
+                Destroy(gameObject);
+            }
+        }
+        private void DestroyTreasure()
+        {
+            audioSrc.PlayOneShot(takenSnd, 0.15f);
+            canDestroy = true;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!collision.gameObject.CompareTag("Player")) return;
             OnTreasureCollect();
             DestroyTreasure();
         }
-    }
 
-    protected void OnTreasureCollect()
-    {
-        Debug.Log("Collected the treasure");
-        treasureCollectEvent(this, new TreasureCollectEventArgs(Treasure.value)); //Luana e Paolo
+        protected void OnTreasureCollect()
+        {
+            treasureCollectEvent?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
+        }
     }
 }

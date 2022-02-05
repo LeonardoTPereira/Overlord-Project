@@ -1,14 +1,17 @@
 ﻿using System;
 
-public delegate void TreasureCollectEvent(object sender, TreasureCollectEventArgs e);
-
-public class TreasureCollectEventArgs : EventArgs
+namespace Game.Events
 {
-    private int amount;
+    public delegate void TreasureCollectEvent(object sender, TreasureCollectEventArgs e);
 
-    public TreasureCollectEventArgs(int amount)
+    public class TreasureCollectEventArgs : EventArgs
     {
-        Amount = amount;
+        private int amount;
+
+        public TreasureCollectEventArgs(int amount)
+        {
+            Amount = amount;
+        }
+        public int Amount { get => amount; set => amount = value; }
     }
-    public int Amount { get => amount; set => amount = value; }
 }

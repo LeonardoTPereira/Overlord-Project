@@ -6,11 +6,20 @@ using static Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
-    [Serializeable]
+    [Serializable]
     public class QuestDungeonsParameters
     {
-        public int Size { get; set; } = 0;
+        [SerializeField]
+        private int _size = 0;
+        public int Size
+        {
+            get => _size;
+            set => _size = value;
+        }
+
+        [field: SerializeField]
         public int NKeys { get; set; } = 0;
+        [field: SerializeField]
         public int LinearityEnum { get; set; }
 
         public QuestDungeonsParameters()
@@ -42,23 +51,21 @@ namespace Game.NarrativeGenerator
                     explorationQuests++;
                     objectiveQuests++;
                 }
-                if (quest.IsTalkQuest())
+                else if (quest.IsTalkQuest())
                 {
-                    objectiveQuests++;
+                    explorationQuests++;
                 }
             }
+            Debug.Log("ExplorationQuests: "+explorationQuests + " objective quests: "+objectiveQuests);
             LinearityEnum = GetLinearityFromEnum(explorationQuests);
             NKeys = GetNKeys(objectiveQuests);
         }
 
         private int GetSizeFromEnum(int totalQuests, float explorationPreference)
         {
-            var explorationMultiplier = explorationPreference / 2.0f + 1;
+            var explorationMultiplier = explorationPreference / 7.0f + 1;
             int dungeonSizeCoefficient = (int)(totalQuests * explorationMultiplier);
-            var sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.VeryLarge;
-            if (sizeFromEnum > 0)
-                return dungeonSizeCoefficient;
-            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Large;
+            var sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Large;
             if (sizeFromEnum > 0)
                 return (int)DungeonSize.VeryLarge;
             sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Medium;
@@ -75,7 +82,8 @@ namespace Game.NarrativeGenerator
 
         private int GetLinearityFromEnum(int linearityMetric)
         {
-            float linearityCoefficient = linearityMetric/(float)Size;
+            var linearityCoefficient = linearityMetric/(float)Size;
+            Debug.Log("Linearity Coefficient: "+ linearityCoefficient);
             if (linearityCoefficient < 0.2f)
             {
                 return (int)DungeonLinearity.VeryLinear;
@@ -97,7 +105,8 @@ namespace Game.NarrativeGenerator
 
         private int GetNKeys(int objectiveQuests)
         {
-            float achievementCoefficient = objectiveQuests / (float) Size;
+            var achievementCoefficient = (objectiveQuests + 1) / (float) Size;
+            Debug.Log("Achievement Coefficient: "+ achievementCoefficient);
             if (achievementCoefficient < 0.2f)
             {
                 return (int)DungeonKeys.AFewKeys;
@@ -116,9 +125,5 @@ namespace Game.NarrativeGenerator
             }
             return (int)DungeonKeys.LotsOfKeys;
         }
-    }
-
-    public class SerializeableAttribute : Attribute
-    {
     }
 }

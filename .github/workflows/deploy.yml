@@ -1,0 +1,131 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+      
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:      
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    # available list of containers here:
+    # https://hub.docker.com/r/unityci/editor/tags?page=1&ordering=last_updated&name=ubuntu-2020.1.17f1-base
+    container: unityci/editor:ubuntu-2020.3.16f1-webgl-0.15.0
+    env:
+      DOTNET_ROOT: '/opt/unity/Editor/Data/NetCore/Sdk-2.2.107'
+
+    steps:
+      - name: Activate unity
+      # exit code is 1 for manual activation
+        continue-on-error: true
+        run: |          
+          echo "$UNITY_LICENSE" | tr -d '\r' > UnityLicenseFile.ulf
+          unity-editor -nographics -logFile /dev/stdout -manualLicenseFile UnityLicenseFile.ulf -quit | echo "Activation finished"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Cache Library
+        id: cache-library
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-2020.3.16
+
+      - name: Update
+        run: apt update
+        
+      - name: Install JDK
+        run: apt install -y openjdk-11-jre-headless
+        
+      - name: Install Sonar Scanner
+        run: $DOTNET_ROOT/dotnet tool install dotnet-sonarscanner --tool-path . --version 5.4.0
+        
+      - name: Run editor Tests
+        run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform editmode -testResults Tests/editmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
+        timeout-minutes: 20
+        
+      - name: Run play Tests
+        run: unity-editor -nographics -logFile /dev/stdout -runTests -testPlatform playmode -testResults Tests/playmode-results.xml -enableCodeCoverage -coverageResultsPath Tests -debugCodeOptimization 
+        timeout-minutes: 20
+      
+      - name: Archive test results
+        uses: actions/upload-artifact@v2.3.1
+        if: always()
+        with:
+          name: Test results
+          path: Tests
+      
+      - name: Publish test results
+        uses: MirageNet/nunit-reporter@v1.0.11
+        if: always()
+        with:
+          path: "Tests/*.xml"
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Solution
+        run: unity-editor -nographics -logFile /dev/stdout -customBuildName Overlord-Project -projectPath . -executeMethod  UnityEditor.SyncVS.SyncSolution -quit
+
+      - name: SonarQube analysis
+        env:
+          FrameworkPathOverride: /opt/unity/Editor/Data/MonoBleedingEdge/
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ls -l
+          ./dotnet-sonarscanner begin \
+            /o:leonardotpereira \
+            /k:LeonardoTPereira_Overlord-Project \
+            /n:Overlord-Project \
+            /d:sonar.verbose=false \
+            /d:sonar.login=$SONAR_TOKEN \
+            /d:sonar.host.url=https://sonarcloud.io \
+            /d:sonar.cpd.exclusions=Assets/Tests/** \
+            /d:sonar.coverage.exclusions=Assets/Tests/** \
+            /d:sonar.exclusions=Packages/** \
+            ${{ steps.semantic.outputs.new_release_published == 'true' && format('/v:{0}',steps.semantic.outputs.new_release_version) || '' }} \
+            /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playmode-results.xml \
+            /d:sonar.cs.opencover.reportsPaths=Tests/Overlord-Project-opencov/EditMode/TestCoverageResults_0000.xml,Tests/Overlord-Project-opencov/PlayMode/TestCoverageResults_0000.xml
+          $DOTNET_ROOT/dotnet build Overlord-Project.sln
+          ./dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
+      
+  deployPages:
+    name: Deploy to Github Pages 🚀
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
+          # Required, if artifact is from a different repo
+          # Required, if repo is private a Personal Access Token with `repo` scope is needed
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          # Required, workflow file name or ID
+          workflow: main.yml
+          # Optional, the status or conclusion of a completed workflow to search for
+          # Can be one of a workflow conclusion:
+          #   "failure", "success", "neutral", "cancelled", "skipped", "timed_out", "action_required"
+          # Or a workflow status:
+          #   "completed", "in_progress", "queued"
+          workflow_conclusion: success
+          # Optional, will get head commit SHA
+          # Optional, uploaded artifact name,
+          # will download all artifacts if not specified
+          # and extract them in respective subdirectories
+          # https://github.com/actions/download-artifact#download-all-artifacts
+          name: build-WebGL
+          # Optional, directory where to extract artifact. Defaults to the artifact name (see `name` input)
+          path: build/WebGL
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: build/WebGL

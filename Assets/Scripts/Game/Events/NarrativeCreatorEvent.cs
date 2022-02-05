@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public delegate void NarrativeCreatorEvent(object sender, NarrativeCreatorEventArgs e);
-
-public class NarrativeCreatorEventArgs : EventArgs
+namespace Game.Events
 {
-    private Dictionary<string, int> questWeightsbyType;
+    public delegate void NarrativeCreatorEvent(object sender, NarrativeCreatorEventArgs e);
 
-    public NarrativeCreatorEventArgs(Dictionary<string, int> questWeightsbyType)
+    public class NarrativeCreatorEventArgs : EventArgs
     {
-        QuestWeightsbyType = questWeightsbyType;
-    }
+        private Dictionary<string, int> questWeightsbyType;
 
-    public Dictionary<string, int> QuestWeightsbyType { get => questWeightsbyType; set => questWeightsbyType = value; }
+        public NarrativeCreatorEventArgs(Dictionary<string, int> questWeightsbyType)
+        {
+            QuestWeightsbyType = questWeightsbyType;
+        }
+
+        public Dictionary<string, int> QuestWeightsbyType { get => questWeightsbyType; set => questWeightsbyType = value; }
+    }
 }

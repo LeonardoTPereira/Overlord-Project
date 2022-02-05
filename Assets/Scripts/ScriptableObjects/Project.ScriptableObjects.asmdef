@@ -2,7 +2,8 @@
     "name": "Project.ScripableObjects",
     "rootNamespace": "",
     "references": [
-        "GUID:a37419e4b8e996d4da23a301a44013e3"
+        "GUID:a37419e4b8e996d4da23a301a44013e3",
+        "GUID:10ebc479cc081044d87faf0f7bd87988"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,112 +1,135 @@
-﻿using EnemyGenerator;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Game.EnemyManager;
+using Game.Maestro;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
-using Util;
 using static Util.Enums;
 
-public class EnemyLoader : MonoBehaviour
+namespace Game.GameManager
 {
-
-    private static readonly string ENEMY_FOLDER = "Enemies";
-
-    [SerializeField]
-    public EnemySO[] easy, medium, hard;
-    public GameObject enemyPrefab, bomberEnemyPrefab;
-
-    public void LoadEnemies(int enemyType)
+    public class EnemyLoader : MonoBehaviour
     {
-        GetEnemyFilenameFromType(enemyType);
-    }
+        private List<EnemySO> enemyListForCurrentDungeon;
 
-    private void GetEnemyFilenameFromType(int enemyType)
-    {
-        string enemyFolder = ENEMY_FOLDER + "/";
-        switch (enemyType)
+    
+        public WeaponTypeRuntimeSetSO WeaponTypes => _weaponTypes;
+
+        [SerializeField]
+        public EnemySO[] arena;
+        public GameObject enemyPrefab;
+        public GameObject barehandEnemyPrefab;
+        public GameObject shooterEnemyPrefab;
+        public GameObject bomberEnemyPrefab;
+        public GameObject healerEnemyPrefab;
+        [SerializeField]
+        [MustBeAssigned] private WeaponTypeRuntimeSetSO _weaponTypes;
+
+        public void LoadEnemies(List<EnemySO> enemyList)
         {
-            case (int)EnemyTypeEnum.EASY:
-                enemyFolder += "Easy/";
-                easy = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
-                ApplyDelegates(easy);
-                break;
-            case (int)EnemyTypeEnum.MEDIUM:
-                enemyFolder += "Medium/";
-                medium = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
-                ApplyDelegates(medium);
-                break;
-            case (int)EnemyTypeEnum.HARD:
-                enemyFolder += "Hard/";
-                hard = Resources.LoadAll(enemyFolder, typeof(EnemySO)).Cast<EnemySO>().ToArray();
-                ApplyDelegates(hard);
-                break;
+            enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
+            ApplyDelegates();
         }
-    }
 
-    public int GetRandomEnemyIndex(int enemyType)
-    {
-        EnemySO[] currentEnemies = GetEnemiesFromType(enemyType);
-        return Random.Range(0, currentEnemies.Length);
-    }
-
-    public GameObject InstantiateEnemyWithIndex(int index, Vector3 position, Quaternion rotation, int enemyType)
-    {
-        Debug.Log("Index: "+index);
-        EnemySO[] currentEnemies = GetEnemiesFromType(enemyType);
-        GameObject enemy;
-        if (currentEnemies[index].weapon.name == "BombThrower")
-            enemy = Instantiate(bomberEnemyPrefab, position, rotation);
-        else
-            enemy = Instantiate(enemyPrefab, position, rotation);
-        enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemies[index], index);
-        return enemy;
-    }
-
-    private EnemySO[] GetEnemiesFromType(int enemyType)
-    {
-        Debug.Log("Enemy Type: " + enemyType);
-        switch(enemyType)
+        public EnemySO GetRandomEnemyOfType(WeaponTypeSO enemyType)
         {
-            case (int)EnemyTypeEnum.EASY:
-                return easy;
-                break;
-            case (int)EnemyTypeEnum.MEDIUM:
-                return medium;
-                break;
-            case (int)EnemyTypeEnum.HARD:
-                return hard;
-                break;
+            List<EnemySO> currentEnemies = GetEnemiesFromType(enemyType);
+            return currentEnemies[Random.Range(0, currentEnemies.Count)];
         }
-        return medium;
-    }
 
-    private void ApplyDelegates(EnemySO []enemies)
-    {
-        foreach (EnemySO enemy in enemies)
+        public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)
         {
-            enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
+            EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
+            GameObject enemy;
+            //TODO change to use weaponType in comparison
+            if (currentEnemy.weapon.name == "None")
+            {
+                enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+            }
+            else if (currentEnemy.weapon.name == "Bow")
+            {
+                enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+            }
+            else if (currentEnemy.weapon.name == "BombThrower")
+            {
+                enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+            }
+            else if (currentEnemy.weapon.name == "Cure")
+            {
+                enemy = Instantiate(healerEnemyPrefab, position, rotation);
+            }
+            else
+            {
+                enemy = Instantiate(enemyPrefab, position, rotation);
+            }
+            enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy);
+            return enemy;
         }
-    }
-    public MovementType GetMovementType(Enums.MovementEnum moveTypeEnum)
-    {
-        switch (moveTypeEnum)
+    
+        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
         {
-            case MovementEnum.None:
-                return EnemyMovement.NoMovement;
-            case MovementEnum.Random:
-                return EnemyMovement.MoveRandomly;
-            case MovementEnum.Flee:
-                return EnemyMovement.FleeFromPlayer;
-            case MovementEnum.Follow:
-                return EnemyMovement.FollowPlayer;
-            case MovementEnum.Follow1D:
-                return EnemyMovement.FollowPlayer1D;
-            case MovementEnum.Random1D:
-                return EnemyMovement.MoveRandomly1D;
-            case MovementEnum.Flee1D:
-                return EnemyMovement.FleeFromPlayer1D;
-            default:
-                Debug.Log("No Movement Attached to Enemy");
-                return null;
+            GameObject enemy;
+            //TODO change to use weaponType in comparison
+            if (enemySo.weapon.name == "None")
+            {
+                enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+            }
+            else if (enemySo.weapon.name == "Bow")
+            {
+                enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+            }
+            else if (enemySo.weapon.name == "BombThrower")
+            {
+                enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+            }
+            else if (enemySo.weapon.name == "Cure")
+            {
+                enemy = Instantiate(healerEnemyPrefab, position, rotation);
+            }
+            else
+            {
+                enemy = Instantiate(enemyPrefab, position, rotation);
+            }
+            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo);
+            return enemy;
+        }
+
+        private List<EnemySO> GetEnemiesFromType(WeaponTypeSO weaponType)
+        {
+            //TODO create these lists only once per type on dungeon load
+            return enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
+        }
+
+        private void ApplyDelegates()
+        {
+            foreach (var enemy in enemyListForCurrentDungeon)
+            {
+                enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
+            }
+        }
+        public MovementType GetMovementType(MovementEnum moveTypeEnum)
+        {
+            switch (moveTypeEnum)
+            {
+                case MovementEnum.None:
+                    return EnemyMovement.NoMovement;
+                case MovementEnum.Random:
+                    return EnemyMovement.MoveRandomly;
+                case MovementEnum.Flee:
+                    return EnemyMovement.FleeFromPlayer;
+                case MovementEnum.Follow:
+                    return EnemyMovement.FollowPlayer;
+                case MovementEnum.Follow1D:
+                    return EnemyMovement.FollowPlayer1D;
+                case MovementEnum.Random1D:
+                    return EnemyMovement.MoveRandomly1D;
+                case MovementEnum.Flee1D:
+                    return EnemyMovement.FleeFromPlayer1D;
+                default:
+                    Debug.Log("No Movement Attached to Enemy");
+                    return null;
+            }
         }
     }
 }

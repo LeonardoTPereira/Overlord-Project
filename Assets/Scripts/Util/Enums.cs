@@ -24,6 +24,23 @@ namespace Util
             Bomb,
             COUNT
         }
+        
+        public enum TileTypes
+        {
+            Floor,
+            Block,
+            COUNT
+        }
+        
+        public enum RoomPatterns
+        {
+            Empty,
+            CheckerBoard,
+            HorizontalLines,
+            VerticalLines,
+            Cross,
+            COUNT
+        }
 
         public enum FormEnum
         {
@@ -86,7 +103,8 @@ namespace Util
         {
             EASY = 0,
             MEDIUM = 1,
-            HARD = 2
+            HARD = 2,
+            ARENA = 3
         }
     }
 

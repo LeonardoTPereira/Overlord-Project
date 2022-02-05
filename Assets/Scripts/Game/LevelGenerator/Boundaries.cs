@@ -1,16 +1,19 @@
 ﻿using Game.LevelManager;
 
-public class Boundaries
+namespace Game.LevelGenerator
 {
-    protected Coordinates maxBoundaries;
-    protected Coordinates minBoundaries;
-
-    public Boundaries(Coordinates minBoundaries, Coordinates maxBoundaries)
+    public class Boundaries
     {
-        MinBoundaries = minBoundaries;
-        MaxBoundaries = maxBoundaries;
-    }
+        protected Coordinates maxBoundaries;
+        protected Coordinates minBoundaries;
 
-    public Coordinates MinBoundaries { get => minBoundaries; set => minBoundaries = value; }
-    public Coordinates MaxBoundaries { get => maxBoundaries; set => maxBoundaries = value; }
+        public Boundaries(Coordinates minBoundaries, Coordinates maxBoundaries)
+        {
+            MinBoundaries = minBoundaries;
+            MaxBoundaries = maxBoundaries;
+        }
+
+        public Coordinates MinBoundaries { get => minBoundaries; set => minBoundaries = value; }
+        public Coordinates MaxBoundaries { get => maxBoundaries; set => maxBoundaries = value; }
+    }
 }

@@ -1,7 +1,10 @@
-using RotaryHeart.Lib.SerializableDictionary;
 using System;
+using ScriptableObjects.SerializableDictionaryLite;
 
-[Serializable]
-public class ProfileDungeonDictionary : SerializableDictionaryBase<string, DungeonFileSOList>
+namespace Game.LevelGenerator.LevelSOs
 {
+    [Serializable]
+    public class ProfileDungeonDictionary : SerializableDictionaryBase<string, DungeonFileSOList>
+    {
+    }
 }
