@@ -8,23 +8,23 @@ namespace Game.LevelManager
     public class Coordinates
     {
         [SerializeField]
-        private int x, y;
+        private readonly int _x, _y;
         public Coordinates(int x, int y)
         {
-            X = x;
-            Y = y;
+            _x = x;
+            _y = y;
         }
         [DefaultValue(-1)]
-        public int X { get => x; set => x = value; }
+        public int X { get => _x; }
         [DefaultValue(-1)]
-        public int Y { get => y; set => y = value; }
+        public int Y { get => _y; }
 
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
                 return false;
             Coordinates coordinates = (Coordinates)obj;
-            return coordinates.x == x && coordinates.y == y;
+            return coordinates.X == _x && coordinates.Y == _y;
         }
 
         public override string ToString()
@@ -34,7 +34,7 @@ namespace Game.LevelManager
 
         public override int GetHashCode()
         {
-            return x ^ y;
+            return _x ^ _y;
         }
     }
 }
