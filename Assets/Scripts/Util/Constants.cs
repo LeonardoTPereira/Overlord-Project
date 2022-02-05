@@ -44,6 +44,7 @@ namespace Util
         public const string ITEM_TERMINAL = "item";
         public const string SECRET_TERMINAL = "secret";
         #endregion
+        //TODO: e isso aqui? -lu
         // public const string KILL_QUEST = "Kill";
         // public const string GET_QUEST = "Get";
         // public const string EXPLORE_QUEST = "Explore";
