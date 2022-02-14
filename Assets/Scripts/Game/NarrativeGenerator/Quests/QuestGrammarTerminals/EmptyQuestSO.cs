@@ -16,7 +16,12 @@ namespace Game.NarrativeGenerator.Quests
             get { return false; } 
         }
 
-        void SetDictionary( Dictionary<string, Func<float,float>> _nextSymbolChances )
+        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        {
+            
+        }
+
+        void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances )
         {
             nextSymbolChances = _nextSymbolChances;
         }

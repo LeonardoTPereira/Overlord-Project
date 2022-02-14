@@ -7,20 +7,6 @@ using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
-    public enum SymbolType
-    {
-        // Non-terminals
-        Start,
-        // Terminals
-        explore,
-        kill,
-        talk,
-        empty,
-        get,
-        drop,
-        item,
-        secret
-    }
     public class MarkovChain
     {
         public List<Symbol> symbolList = new List<Symbol>();
@@ -35,7 +21,7 @@ namespace Game.NarrativeGenerator.Quests
             // symbolList.Add( new NonTerminalQuest() );
             symbolNumber = 0;
             symbolList[0].canDrawNext = true;
-            symbolList[0].symbolType = Constants.SECRET_TERMINAL;
+            // symbolList[0].symbolType = Constants.SECRET_TERMINAL; // ?
         }
 
         /// <summary>

@@ -14,11 +14,11 @@ namespace Game.NarrativeGenerator
     //Seleciona a linha de missões de acordo com os pesos do perfil do jogador
     public class Selector
     {
-        Dictionary<string, Func<float,float>> startSymbolWeights = new Dictionary<string, Func<float,float>>();
-        Dictionary<string, Func<float,float>> killSymbolWeights = new Dictionary<string, Func<float,float>>();
-        Dictionary<string, Func<float,float>> talkSymbolWeights = new Dictionary<string, Func<float,float>>();
-        Dictionary<string, Func<float,float>> getSymbolWeights = new Dictionary<string, Func<float,float>>();
-        Dictionary<string, Func<float,float>> exploreSymbolWeights = new Dictionary<string, Func<float,float>>();
+        Dictionary<string, Func<int,int>> startSymbolWeights = new Dictionary<string, Func<int,int>>();
+        Dictionary<string, Func<int,int>> killSymbolWeights = new Dictionary<string, Func<int,int>>();
+        Dictionary<string, Func<int,int>> talkSymbolWeights = new Dictionary<string, Func<int,int>>();
+        Dictionary<string, Func<int,int>> getSymbolWeights = new Dictionary<string, Func<int,int>>();
+        Dictionary<string, Func<int,int>> exploreSymbolWeights = new Dictionary<string, Func<int,int>>();
         //leo
         public class QuestWeight
         {
@@ -86,7 +86,7 @@ namespace Game.NarrativeGenerator
         private List<QuestSO> DrawMissions(List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             var questsSos = new List<QuestSO>();
-            Dictionary<string, Func<float,float>> symbolWeights = startSymbolWeights;
+            Dictionary<string, Func<int,int>> symbolWeights = startSymbolWeights;
             MarkovChain questChain = new MarkovChain();
             while ( questChain.GetLastSymbol().canDrawNext )
             {
@@ -135,7 +135,7 @@ namespace Game.NarrativeGenerator
             return questsSos;
         }
 
-        private void SelectNextMission ( MarkovChain questChain, Dictionary<string, Func<float,float>> symbolWeights )
+        private void SelectNextMission ( MarkovChain questChain, Dictionary<string, Func<int,int>> symbolWeights )
         {
             switch ( questChain.GetLastSymbol().symbolType )
             {

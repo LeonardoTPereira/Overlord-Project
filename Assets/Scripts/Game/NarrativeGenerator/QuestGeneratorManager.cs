@@ -115,23 +115,8 @@ namespace Game.NarrativeGenerator
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
-        // TODO: Incluir este código
-        // public Selector Selector { get; set; }
-        // public QuestUI ui;
-
         private void CreateNarrative(PlayerProfile playerProfile)
         {
-
-            // for (int i = 0; i < 10; i++)
-            // {
-            //     Selector.DrawMissions( this );
-            //     QuestLine questLine = new QuestLine();// create instance
-            //     //dar merge
-            //     questLine.graph = Quests.graph;
-            //     questLines.AddQuestLine( questLine );
-            // }
-            // ui.CreateQuestList( questLines );
-
             SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestline(playerProfile);
             CreateContentsForQuestLine();

@@ -12,7 +12,7 @@ namespace Game.NarrativeGenerator.Quests
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
     public class QuestSO : ScriptableObject, Symbol {
         public virtual string symbolType {get; set;}
-        public Dictionary<string, Func<float,float>> nextSymbolChances {get; set;}
+        public Dictionary<string, Func<int,int>> nextSymbolChances {get; set;}
         public virtual bool canDrawNext {
             get { return true; } 
             set {} 
@@ -52,16 +52,16 @@ namespace Game.NarrativeGenerator.Quests
             Reward = null;
         }
 
-        void Symbol.SetDictionary( Dictionary<string, Func<float,float>> _nextSymbolChances  )
+        void Symbol.SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances  )
         {
             nextSymbolChances = _nextSymbolChances;
         }
 
         void Symbol.SetNextSymbol(MarkovChain chain)
         {
-            float chance = (float) UnityEngine.Random.Range( 0, 100 ) / 100 ;
-            float cumulativeProbability = 0;
-            foreach ( KeyValuePair<string, Func<float,float>> nextSymbolChance in nextSymbolChances )
+            int chance = (int) UnityEngine.Random.Range( 0, 100 );
+            int cumulativeProbability = 0;
+            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
                 if ( cumulativeProbability >= chance )
