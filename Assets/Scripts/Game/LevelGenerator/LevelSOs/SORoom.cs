@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Game.LevelManager;
+using UnityEngine;
 
 namespace Game.LevelGenerator.LevelSOs
 {
     [Serializable]
     public class SORoom
     {
-        public Coordinates coordinates;
+        [field: SerializeField] public Coordinates PositionInGrid { get; set; }
         public string type;
         public List<int> keys;
         public List<int> locks;
@@ -25,7 +26,7 @@ namespace Game.LevelGenerator.LevelSOs
 
         public SORoom(int x, int y)
         {
-            coordinates = new Coordinates(x, y);
+            PositionInGrid = new Coordinates(x, y);
             type = null;
             keys = null;
             locks = null;
