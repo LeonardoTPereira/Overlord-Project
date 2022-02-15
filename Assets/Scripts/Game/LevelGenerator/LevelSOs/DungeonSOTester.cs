@@ -24,7 +24,7 @@ namespace Game.LevelGenerator.LevelSOs
                     size = new Vector3(5, 5, 0);
                     Gizmos.color = room.type == Constants.RoomTypeString.START ? Color.white : Color.magenta;
                 }
-                var position = new Vector3(room.PositionInGrid.X * 10, room.PositionInGrid.Y * 10, 0);
+                var position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 0);
                 Gizmos.DrawCube(position, size);
                 if (room.keys?.Count > 0)
                 {
@@ -38,7 +38,7 @@ namespace Game.LevelGenerator.LevelSOs
                         6 => new Color(230, 230, 250),
                         _ => Color.cyan
                     };
-                    position = new Vector3(room.PositionInGrid.X * 10, room.PositionInGrid.Y * 10, 5);
+                    position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 5);
                     Gizmos.DrawSphere(position, 2);
                 }
 

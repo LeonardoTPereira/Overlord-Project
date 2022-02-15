@@ -9,7 +9,7 @@ namespace Game.LevelGenerator.LevelSOs
     [Serializable]
     public class SORoom
     {
-        [field: SerializeField] public Coordinates PositionInGrid { get; set; }
+        public Coordinates coordinates;
         public string type;
         public List<int> keys;
         public List<int> locks;
@@ -26,7 +26,7 @@ namespace Game.LevelGenerator.LevelSOs
 
         public SORoom(int x, int y)
         {
-            PositionInGrid = new Coordinates(x, y);
+            coordinates = new Coordinates(x, y);
             type = null;
             keys = null;
             locks = null;
