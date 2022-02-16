@@ -128,10 +128,12 @@ namespace Game.NarrativeGenerator
 
         private void CreateContentsForQuestLine()
         {
+#if UNITY_EDITOR
             Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
             StartCoroutine(CreateDungeonsForQuestLine());
             Quests.NpcSos = PlaceholderNpcs;
             Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
+#endif
         }
 
         private IEnumerator CreateDungeonsForQuestLine()
