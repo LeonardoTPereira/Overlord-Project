@@ -18,13 +18,12 @@ namespace Game.LevelManager
         public int X { get => x; set => x = value; }
         [DefaultValue(-1)]
         public int Y { get => y; set => y = value; }
-
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
                 return false;
             Coordinates coordinates = (Coordinates)obj;
-            return coordinates.x == x && coordinates.y == y;
+            return coordinates.X == X && coordinates.Y == Y;
         }
 
         public override string ToString()
@@ -34,7 +33,7 @@ namespace Game.LevelManager
 
         public override int GetHashCode()
         {
-            return x ^ y;
+            return X ^ Y;
         }
     }
 }
