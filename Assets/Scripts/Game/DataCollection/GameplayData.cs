@@ -11,6 +11,8 @@ using Game.NarrativeGenerator;
 using Game.DataInterfaces;
 using ScriptableObjects;
 using UnityEngine;
+// using UnityEditor.Scripting.Python;
+using Util;
 
 namespace Game.DataCollection
 {
@@ -219,7 +221,6 @@ namespace Game.DataCollection
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            //TODO change to a list of profiles
             playerProfile = eventArgs.PlayerProfile;
         }
 
@@ -717,6 +718,11 @@ namespace Game.DataCollection
             {
                 print("There was an error saving data: " + data_post.error);
             }
+        }
+
+        private static void ProcessPlayerData ()
+        {
+            // PythonRunner.RunFile($"{Application.dataPath}/ensure_naming.py");
         }
     }
 }

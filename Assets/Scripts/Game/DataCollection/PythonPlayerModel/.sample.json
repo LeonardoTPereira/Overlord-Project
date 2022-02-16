@@ -1,0 +1,4 @@
+{
+    "displayName" : "Py Player Model",
+    "description" : "Processes the player's data in order to build their model."
+}

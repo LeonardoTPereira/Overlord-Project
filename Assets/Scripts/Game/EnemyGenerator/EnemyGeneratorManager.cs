@@ -175,5 +175,6 @@ namespace Game.EnemyGenerator
 
             return enemyList;
         }
+#endif
     }
 }
