@@ -8,6 +8,7 @@ using Game.Events;
 using Game.GameManager;
 using Game.LevelManager;
 using Game.NarrativeGenerator;
+using Game.DataInterfaces;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -417,7 +418,10 @@ namespace Game.DataCollection
             SendProfileToServer(map);
             
             //TODO create data class to pass to ML profiler
-            //var playerAndGameplayData = PlayerAndGameplayData(...);
+            var playerAndGameplayData = new PlayerAndGameplayData( 
+                preFormAnswers, PostFormAnswers, hasDied, hasFinished, totalVisits, totalRooms, numberOfVisitedRooms, 
+                collectedKeys, totalKeys, openedLocks, totalLocks, TreasureCollected, TotalTreasures, numberOfKilledEnemies, numberOfEnemies 
+                );
             //Event to pass the data
 
             // Reset all values
