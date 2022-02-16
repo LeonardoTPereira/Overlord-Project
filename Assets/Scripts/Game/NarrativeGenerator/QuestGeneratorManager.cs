@@ -79,16 +79,8 @@ namespace Game.NarrativeGenerator
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
             var playerProfile = Selector.SelectProfile(e);
-            if (createNarrative)
-            {
-                Selector.CreateMissions(this);
-                CreateNarrative(playerProfile);
-            }
-            else
-            {
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            CreateOrSelectNarrative(playerProfile);
 
-            }
         }
 
         private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
@@ -96,6 +88,20 @@ namespace Game.NarrativeGenerator
             var answers = e.AnswerValue;
             
             var playerProfile = Selector.SelectProfile(answers);
+            
+            CreateOrSelectNarrative(playerProfile);
+
+        }
+        
+        private void SelectPlayerProfile(object sender, ProfileAnalystFinishedEventArgs e)
+        {
+            var answers = e.AnswerByQuestion;
+            var playerProfile = Selector.SelectProfile(answers);
+            CreateOrSelectNarrative(playerProfile);
+        }
+
+        private void CreateOrSelectNarrative(PlayerProfile playerProfile)
+        {
             if (createNarrative)
             {
                 Selector.CreateMissions(this);
@@ -105,9 +111,8 @@ namespace Game.NarrativeGenerator
             {
                 ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             }
-
         }
-
+        
         private void Start()
         {
             Quests.Init();

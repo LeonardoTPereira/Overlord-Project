@@ -10,7 +10,6 @@ using Game.LevelManager;
 using Game.NarrativeGenerator;
 using ScriptableObjects;
 using UnityEngine;
-using Util;
 
 namespace Game.DataCollection
 {
@@ -219,6 +218,7 @@ namespace Game.DataCollection
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
+            //TODO change to a list of profiles
             playerProfile = eventArgs.PlayerProfile;
         }
 
@@ -415,6 +415,10 @@ namespace Game.DataCollection
 
             //Save to remote file
             SendProfileToServer(map);
+            
+            //TODO create data class to pass to ML profiler
+            //var playerAndGameplayData = PlayerAndGameplayData(...);
+            //Event to pass the data
 
             // Reset all values
             visitedRooms.Clear();

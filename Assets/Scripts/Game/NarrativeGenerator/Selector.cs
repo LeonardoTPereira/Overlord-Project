@@ -49,6 +49,15 @@ namespace Game.NarrativeGenerator
             return playerProfile;
         }        
         
+        public PlayerProfile SelectProfile(Dictionary<string, int> answers)
+        {
+            CalculateProfileWeights(answers);
+
+            CreateProfileWithWeights();
+            
+            return playerProfile;
+        }        
+        
         public PlayerProfile SelectProfile(NarrativeCreatorEventArgs eventArgs)
         {
             questWeightsbyType = eventArgs.QuestWeightsbyType;
@@ -115,6 +124,12 @@ namespace Game.NarrativeGenerator
             } while (chainCost < (int)Enums.QuestWeights.Loved);
 
             return questsSos;
+        }
+
+        private void CalculateProfileWeights(Dictionary<string, int> answers)
+        {
+            //TODO implement logic
+            throw new NotImplementedException();
         }
 
         private void CalculateProfileWeights(List<int> answers)
