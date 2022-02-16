@@ -241,6 +241,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.scripting.python": {
+      "version": "4.0.0-pre.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.searcher": {
       "version": "4.3.2",
       "depth": 1,
