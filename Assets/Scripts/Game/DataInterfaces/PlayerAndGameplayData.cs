@@ -25,7 +25,7 @@ namespace Game.DataInterfaces
             _enemiesDefeated = enemiesDefeated;
             _totalEnemies = totalEnemies;
 
-            PreTestAnswers.AddRange( preTestAnswers )
+            PreTestAnswers.AddRange( preTestAnswers );
             PostTestAnswers.AddRange( postTestAnswers );
         }
         
