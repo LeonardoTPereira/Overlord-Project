@@ -34,7 +34,7 @@ namespace Game.DataCollection
         private static int POST_QUESTIONS = 12;
         private static int NUMBER_OF_ENEMIES = 210;
 
-
+        public static event SendGameAndPlayerDataEvent SendGameAndPlayerDataEventHandler;
         public static GameplayData instance = null;
 
 
@@ -416,7 +416,7 @@ namespace Game.DataCollection
                 preFormAnswers, PostFormAnswers, hasDied, hasFinished, totalVisits, totalRooms, numberOfVisitedRooms, 
                 collectedKeys, totalKeys, openedLocks, totalLocks, TreasureCollected, TotalTreasures, numberOfKilledEnemies, numberOfEnemies 
                 );
-            //Event to pass the data
+            SendGameAndPlayerDataEventHandler?.Invoke( this, new SendGameAndPlayerDataArgs( playerAndGameplayData) );
 
             // Reset all values
             visitedRooms.Clear();
