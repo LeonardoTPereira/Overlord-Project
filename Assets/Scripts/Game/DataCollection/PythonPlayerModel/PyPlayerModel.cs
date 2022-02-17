@@ -5,32 +5,47 @@ using UnityEditor.Scripting.Python;
 #endif
 using UnityEngine;
 using Python.Runtime;
+using Game.Events;
+using Game.DataInterfaces;
+using System;
 
 namespace Game.DataCollection
 {
     public class PyPlayerModel : MonoBehaviour
     {
         const string kStateName = "com.unity.scripting.python.samples.pyside";
+        // Used for testing
+        // private void Start() {
+        //     PredictPlayerModel( null, null );
+        // }
 
-        /// <summary>
-        /// Hack to get the current file's directory
-        /// </summary>
-        /// <param name="fileName">Leave it blank to the current file's directory</param>
-        /// <returns></returns>
-        private static string __DIR__([System.Runtime.CompilerServices.CallerFilePath] string fileName = "")
+        protected void OnEnable()
         {
-            return Path.GetDirectoryName(fileName);
+            GameplayData.SendGameAndPlayerDataEventHandler += PredictPlayerModel;
         }
 
-        private void Start() {
-            CreateOrReinitialize();
+        protected void OnDisable()
+        {
+            GameplayData.SendGameAndPlayerDataEventHandler -= PredictPlayerModel;
         }
 
-       static void CreateOrReinitialize()
+       static void PredictPlayerModel ( object sender, SendGameAndPlayerDataArgs eventArgs )
        {
-            string dir = __DIR__();
+            PlayerAndGameplayData data = eventArgs.PlayerGameplayData;
             PythonRunner.EnsureInitialized();
-            PythonRunner.RunFile(dir+"/PyPlayerModel.py");
+            using (Py.GIL())
+            {
+                dynamic pickle = Py.Import("pickle");
+                // dynamic modelQ7 = pickle.load( open("modeloQ7.sav", "rb") );
+                // dynamic question7 = modelQ7.predict
+                // ( 
+                //     data.PreTestAnswers[6], data.PostTestAnswers[6], data.HasDied, 
+                //     data.HasFinished, data.TotalVisits, data.TotalRooms, data.NumberOfVisitedRooms, 
+                //     data.CollectedKeys, data.TotalKeys, data.OpenedLocks, data.TotalLocks, 
+                //     data.CollectedTreasures, data.TotalTreasures, data.EnemiesDefeated,
+                //     data.TotalEnemies 
+                // );
+            }
         }
     }
 }

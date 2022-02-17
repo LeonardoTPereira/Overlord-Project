@@ -53,16 +53,13 @@ for f in files_player:
             #Adicionando o nome do arquivo ao último campo Arq para identificação
             l = l.replace('\n', f.split('\\')[2]).split(',')
             linhas_player.append(l)
-linhas_player
 
 import pandas as pd
 import numpy as np
 
 Level = pd.DataFrame(linhas_level[1:], columns=linhas_level[0].split(','))
-Level
 
 Player = pd.DataFrame(linhas_player[1:], columns=linhas_player[0].split(','))
-Player
 
 #Tratamento pré-teste
 preTeste = Player.copy()
@@ -73,7 +70,6 @@ preTeste = preTeste.drop_duplicates() #Todo gameplay repetiu os dados, por isso 
 #Depois de deletar os números -1, deletar todas as linhas que são sem valores
 preTeste = preTeste.dropna(axis=0, subset=['PreQuestion 0', 'PreQuestion 1', 'PreQuestion 2', 'PreQuestion 3', 'PreQuestion 4', 'PreQuestion 5', 'PreQuestion 6', 'PreQuestion 7', 'PreQuestion 8', 'PreQuestion 9', 'PreQuestion 10', 'PreQuestion 11'])
 preTeste = preTeste.drop(columns=['Arq'])
-preTeste
 
 #Tratamento gameplay
 gameplay = Level[['has_finished', 'has_died', 'total_keys', 'collected_keys', 'total_locks', 'opened_locks', 'total_rooms', 'number_of_visited_rooms', 'total_visits', 'player_lost_health','number_of_enemies', 'number_of_killed_enemies', 'number_of_npcs', 'number_of_interacted_npcs', 'total_treasures', 'collected_treasures', 'max_combo', 'Arq']]
@@ -105,19 +101,14 @@ posTeste
 
 #Realizando um inner join para garantir que não há linhas de gameplay sem pré-teste e/ou pós-teste
 comb = gameplay.merge(preTeste, on='ID', how='inner').merge(posTeste, on='ID', how='inner')
-comb
 
 #seleção de features
 features = comb[['has_finished', 'has_died', 'player_lost_health', 'max_combo', 'rooms_visited', 'unique_rooms_conclusion', 'keys_found', 'doors_unlocked', 'treasures_foud', 'enemies_fought', 'PreQuestion 0', 'PreQuestion 1', 'PreQuestion 2', 'PreQuestion 3', 'PreQuestion 4', 'PreQuestion 5', 'PreQuestion 6', 'PreQuestion 7', 'PreQuestion 8', 'PreQuestion 9', 'PreQuestion 10', 'PreQuestion 11']]
-features
-
 #separação das features numéricas
 features_num = features[['player_lost_health', 'max_combo', 'rooms_visited', 'unique_rooms_conclusion', 'keys_found', 'doors_unlocked', 'treasures_foud', 'enemies_fought']]
-features_num
 
 #normalização desses valores numéricos
 features_norm = pd.DataFrame(StandardScaler().fit_transform(features_num))
-features_norm
 
 #Geração dos valores de pré-teste como one-hot-encoding
 
