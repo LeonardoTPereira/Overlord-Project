@@ -331,13 +331,6 @@ namespace Game.DataCollection
             }
         }
 
-        //From inheritance
-        private void OnApplicationQuit()
-        {
-            //Log
-        }
-
-
         private void OnGameStart(object sender, EventArgs eventArgs)
         {
             profileString = "";

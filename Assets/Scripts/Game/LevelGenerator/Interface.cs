@@ -175,7 +175,6 @@ namespace Game.LevelGenerator
                 };
             }
             //If it was a room with treasure, save it as a "T"
-            //TODO: change this as now every room may contain treasures, enemies and/or keys
             else if (roomType == Common.RoomType.TREASURE)
             {
                 roomDataInFile.type = Constants.RoomTypeString.TREASURE;

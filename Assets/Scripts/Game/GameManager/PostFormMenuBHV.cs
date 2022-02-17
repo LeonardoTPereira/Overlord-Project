@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,17 +22,30 @@ namespace Game.GameManager
 
         private void OnEnable()
         {
+            playMoreButton.interactable = false;
             var hasMoreLevels = !GameManagerSingleton.Instance.IsLastQuestLine;
             if (hasMoreLevels) return;
             postFormText.text = noMoreLevelsText;
-            playMoreButton.interactable = false;
+            ExperimentController.ProfileSelectedEventHandler += NewProfileSelected;
         }
+
+        private void OnDisable()
+        {
+            ExperimentController.ProfileSelectedEventHandler -= NewProfileSelected;
+        }
+
         public void GoToNext()
         {
             gameObject.SetActive(false);
             SceneManager.LoadScene("Overworld");
             GameManagerSingleton.Instance.StopMusic();
         }
+
+        private void NewProfileSelected(object sender, EventArgs e)
+        {
+            playMoreButton.interactable = true;
+        }
+
 
         public void GoToPrevious()
         {

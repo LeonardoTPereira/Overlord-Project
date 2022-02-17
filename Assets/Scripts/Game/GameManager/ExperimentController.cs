@@ -91,7 +91,7 @@ namespace Game.GameManager
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
             PlayerProfile selectedProfile;
-            if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
+            if (UseTrueProfile())
             {
                 selectedProfile = profileSelectedEventArgs.PlayerProfile;
             }
@@ -103,8 +103,13 @@ namespace Game.GameManager
                     selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
                 } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
             }
-            ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
             SetQuestLinesForProfile(selectedProfile);
+            ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
+        }
+
+        private static bool UseTrueProfile()
+        {
+            return RandomSingleton.GetInstance().Random.Next(0, 100) < 100;
         }
     }
 }
