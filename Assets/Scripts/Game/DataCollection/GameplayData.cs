@@ -11,7 +11,6 @@ using Game.LevelManager;
 using Game.NarrativeGenerator;
 using ScriptableObjects;
 using UnityEngine;
-// using UnityEditor.Scripting.Python;
 using Util;
 
 namespace Game.DataCollection
@@ -711,11 +710,6 @@ namespace Game.DataCollection
             {
                 print("There was an error saving data: " + data_post.error);
             }
-        }
-
-        private static void ProcessPlayerData ()
-        {
-            // PythonRunner.RunFile($"{Application.dataPath}/ensure_naming.py");
         }
     }
 }
