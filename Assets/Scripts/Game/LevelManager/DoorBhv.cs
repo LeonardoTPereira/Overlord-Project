@@ -2,6 +2,7 @@
 using System.Linq;
 using Game.Events;
 using Game.GameManager;
+using Game.GameManager.Player;
 using UnityEngine;
 using Util;
 

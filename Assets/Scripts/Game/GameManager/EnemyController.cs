@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Game.EnemyGenerator;
+using Game.GameManager.Player;
 using Game.LevelManager;
 using ScriptableObjects;
 using UnityEngine;
@@ -67,7 +68,7 @@ namespace Game.GameManager
             isActive = true;
             canDestroy = false;
             dataHasBeenLoaded = false;
-            playerObj = Player.Instance.gameObject;
+            playerObj = Player.Player.Instance.gameObject;
             anim = GetComponent<Animator>();
             audioSrcs = GetComponents<AudioSource>();
             sr = gameObject.GetComponent<SpriteRenderer>();

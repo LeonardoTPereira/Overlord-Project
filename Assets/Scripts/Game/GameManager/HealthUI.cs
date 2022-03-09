@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
+using Game.GameManager.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,7 +39,7 @@ namespace Game.GameManager
         {
             if(heartList != null)
             {
-                for (int i = 0; i < Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
+                for (int i = 0; i < Player.Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
                 {
                     heartList[i].sprite = fullheartSprite;
                 }
@@ -56,9 +57,9 @@ namespace Game.GameManager
             heartList = new List<Image>();
 
             float rowColSize = fullheartSprite.rect.size.x * multiplier;
-            int actualHealth = Player.Instance.GetComponent<HealthController>().GetHealth();
+            int actualHealth = Player.Player.Instance.GetComponent<HealthController>().GetHealth();
 
-            for (int i = 0; i < Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
+            for (int i = 0; i < Player.Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
             {
 
                 Vector2 heartAnchoredPosition = new Vector2(col * rowColSize, -row * rowColSize);

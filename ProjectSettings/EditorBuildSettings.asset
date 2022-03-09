@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 99ec3263bfe19b5438fb08251f190f78
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Overworld.unity
     guid: fba6505088753494183d3d71679a850f
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelWithEnemies.unity
     guid: 01db2214e2b7fd9428a4bfa5e4cf8c66
   - enabled: 0
@@ -65,7 +65,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/PythonTest.unity
-    guid: 0d9006e311d71a245b08ee34989c9f0c
-  m_configObjects: {}
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 5485ac31a41ef9b46bd1b977b05b8368,
+      type: 2}

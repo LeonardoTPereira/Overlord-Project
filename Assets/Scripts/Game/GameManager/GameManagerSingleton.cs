@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Game.DataCollection;
 using Game.Events;
+using Game.GameManager.Player;
 using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;

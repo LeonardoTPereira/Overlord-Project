@@ -4,7 +4,7 @@ using Game.Events;
 using Game.LevelManager;
 using UnityEngine;
 
-namespace Game.GameManager
+namespace Game.GameManager.Player
 {
     public class Player : PlaceableRoomObject
     {

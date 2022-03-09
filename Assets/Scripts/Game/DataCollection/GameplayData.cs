@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Game.Events;
 using Game.GameManager;
+using Game.GameManager.Player;
 using Game.LevelManager;
 using Game.NarrativeGenerator;
 using ScriptableObjects;
