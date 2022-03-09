@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Game.DataCollection;
 using Game.Events;
+using Game.GameManager.Player;
 using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
@@ -297,7 +298,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelSO;
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler += GameOver;
-            TriforceBHV.GotTriforceEventHandler += LevelComplete;
+            TriforceBhv.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
             DungeonLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
         }
@@ -310,7 +311,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelSO;
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
-            TriforceBHV.GotTriforceEventHandler -= LevelComplete;
+            TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
             DungeonLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
         }

@@ -20,13 +20,13 @@ namespace Game.GameManager
 
         protected void OnEnable()
         {
-            TreasureController.treasureCollectEvent += IncrementTreasure;
+            TreasureController.TreasureCollectEventHandler += IncrementTreasure;
             GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
         }
 
         protected void OnDisable()
         {
-            TreasureController.treasureCollectEvent -= IncrementTreasure;
+            TreasureController.TreasureCollectEventHandler -= IncrementTreasure;
             GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
         }
 

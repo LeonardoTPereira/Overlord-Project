@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.GameManager.Player;
 using UnityEngine;
 
 namespace Game.GameManager

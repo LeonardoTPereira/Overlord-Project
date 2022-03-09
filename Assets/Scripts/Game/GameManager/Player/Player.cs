@@ -4,7 +4,7 @@ using Game.Events;
 using Game.LevelManager;
 using UnityEngine;
 
-namespace Game.GameManager
+namespace Game.GameManager.Player
 {
     public class Player : PlaceableRoomObject
     {
@@ -45,7 +45,7 @@ namespace Game.GameManager
         {
             GameManagerSingleton.NewLevelLoadedEventHandler += ResetValues;
             RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
-            KeyBHV.KeyCollectEventHandler += GetKey;
+            KeyBhv.KeyCollectEventHandler += GetKey;
             GameManagerSingleton.EnterRoomEventHandler += GetHealth;
             GameManagerSingleton.EnterRoomEventHandler += AdjustCamera;
             RoomBhv.EnterRoomEventHandler += GetHealth;
@@ -61,7 +61,7 @@ namespace Game.GameManager
         {
             GameManagerSingleton.NewLevelLoadedEventHandler -= ResetValues;
             RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
-            KeyBHV.KeyCollectEventHandler -= GetKey;
+            KeyBhv.KeyCollectEventHandler -= GetKey;
             GameManagerSingleton.EnterRoomEventHandler -= GetHealth;
             GameManagerSingleton.EnterRoomEventHandler -= AdjustCamera;
             RoomBhv.EnterRoomEventHandler -= GetHealth;

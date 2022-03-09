@@ -14,54 +14,47 @@ namespace Game.GameManager
 
         [SerializeField]
         protected Sprite keySprite;
-        List<int> playerKeys;
+        private List<int> playerKeys;
 
         private void Awake()
         {
             playerKeys = new List<int>();
             keyList = new List<Image>();
         }
-        void Start()
-        {
-            //CreateHeartImage();
-        }
 
         private void OnEnable()
         {
             GameManagerSingleton.NewLevelLoadedEventHandler += ResetKeyGUI;
-            KeyBHV.KeyCollectEventHandler += CreateKeyImage;
+            KeyBhv.KeyCollectEventHandler += CreateKeyImage;
         }
 
         private void OnDisable()
         {
             GameManagerSingleton.NewLevelLoadedEventHandler -= ResetKeyGUI;
-            KeyBHV.KeyCollectEventHandler -= CreateKeyImage;
+            KeyBhv.KeyCollectEventHandler -= CreateKeyImage;
         }
 
 
         private void CreateKeyImage(object sender, KeyCollectEventArgs eventArgs)
         {
-            int row = 0;
-            int col = 0;
-            int colMax = 1;
+            var row = 0;
+            var col = 0;
+            var colMax = 1;
 
-            clearKeyImages();
+            ClearKeyImages();
 
             keyList = new List<Image>();
 
-            float rowColSize = keySprite.rect.size.x * 2.0f;
+            var rowColSize = keySprite.rect.size.x * 2.0f;
 
             playerKeys.Add(eventArgs.KeyIndex);
 
-            int currentKeys = playerKeys.Count;
+            var currentKeys = playerKeys.Count;
 
-            for (int i = 0; i < currentKeys; i++)
+            var keyAnchoredPosition = new Vector2(col * rowColSize, -row * rowColSize);
+            var keyGameObject = new GameObject("Key", typeof(Image));
+            for (var i = 0; i < currentKeys; i++)
             {
-
-                Vector2 keyAnchoredPosition = new Vector2(col * rowColSize, -row * rowColSize);
-
-                GameObject keyGameObject = new GameObject("Key", typeof(Image));
-
                 // Set as child of this transform
                 keyGameObject.transform.SetParent(transform, false);
                 keyGameObject.transform.localPosition = Vector3.zero;
@@ -72,7 +65,7 @@ namespace Game.GameManager
                 keyGameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(35, 35);
 
                 // Set heart sprite
-                Image keyImageUI = keyGameObject.GetComponent<Image>();
+                var keyImageUI = keyGameObject.GetComponent<Image>();
                 keyImageUI.sprite = keySprite;
                 keyImageUI.color = Constants.colorId[playerKeys[i] - 1];
 
@@ -80,24 +73,22 @@ namespace Game.GameManager
                 keyList.Add(keyImageUI);
 
                 col++;
-                if (col >= colMax)
-                {
-                    row++;
-                    col = 0;
-                }
+                if (col < colMax) continue;
+                row++;
+                col = 0;
             }
 
         }
         private void ResetKeyGUI(object sender, EventArgs eventArgs)
         {
             playerKeys.Clear();
-            clearKeyImages();
+            ClearKeyImages();
 
         }
 
-        private void clearKeyImages()
+        private void ClearKeyImages()
         {
-            for (int i = keyList.Count - 1; i > -1; --i)
+            for (var i = keyList.Count - 1; i > -1; --i)
             {
                 Destroy(keyList[i].gameObject);
             }

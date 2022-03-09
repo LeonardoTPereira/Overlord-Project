@@ -14,7 +14,7 @@ namespace Game.GameManager
         private AudioSource audioSrc;
         private bool canDestroy;
 
-        public static event TreasureCollectEvent treasureCollectEvent;
+        public static event TreasureCollectEvent TreasureCollectEventHandler;
     
         // Start is called before the first frame update
         private void Awake()
@@ -47,14 +47,14 @@ namespace Game.GameManager
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!collision.gameObject.CompareTag("Player")) return;
+            if (!collision.gameObject.CompareTag("PlayerTrigger")) return;
             OnTreasureCollect();
             DestroyTreasure();
         }
 
-        protected void OnTreasureCollect()
+        private void OnTreasureCollect()
         {
-            treasureCollectEvent?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
+            TreasureCollectEventHandler?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
         }
     }
 }
