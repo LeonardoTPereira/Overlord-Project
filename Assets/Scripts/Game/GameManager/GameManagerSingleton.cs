@@ -298,7 +298,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelSO;
             DungeonLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler += GameOver;
-            TriforceBHV.GotTriforceEventHandler += LevelComplete;
+            TriforceBhv.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
             DungeonLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
         }
@@ -311,7 +311,7 @@ namespace Game.GameManager
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelSO;
             DungeonLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
-            TriforceBHV.GotTriforceEventHandler -= LevelComplete;
+            TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
             DungeonLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
         }

@@ -9,8 +9,14 @@ namespace Game.GameManager.Player
 {
     public class PlayerShot : PlayerInput
     {
+        
+        private struct BulletForceAndRotation
+        {
+            public Vector2 Force;
+            public int Rotation;
+        }
         [SerializeField]
-        protected float shootSpeed, coolDownTime, atkSpeed;
+        protected float shootSpeed, atkSpeed;
         private bool _canShoot;
         private bool _isHoldingShoot;
         private int _currentProjectile;
@@ -74,41 +80,58 @@ namespace Game.GameManager.Player
             {
                 yield return null;
                 if (!_canShoot) continue;
-                int rotatedAngle;
-                Vector2 shootForce;
-                if (shotDirection.x > 0.01f)
-                {
-                    rotatedAngle = 0;
-                    shootForce = new Vector2(shootSpeed, 0f);
-                }
-                else if (shotDirection.x < -0.01f)
-                {
-                    rotatedAngle = 180;
-                    shootForce = new Vector2(-shootSpeed, 0f);
-                }
-                else if (shotDirection.y > 0.01f)
-                {
-                    rotatedAngle = 90;
-                    shootForce = new Vector2(0f, shootSpeed);
-                }
-                else
-                {
-                    rotatedAngle = 270;
-                    shootForce = new Vector2(0f, -shootSpeed);
-                }
+                var bulletForceAndRotation = GetBulletForceAndRotation(shotDirection);
                 UpdateShotAnimation(shotDirection);
-                bulletSpawn.transform.rotation = Quaternion.Euler(0, 0, rotatedAngle);
-                var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-                var bulletController = bullet.GetComponent<ProjectileController>();
-                bulletController.ProjectileSO = projectileType;
-                bulletController.Shoot(shootForce  + _rigidbody2D.velocity.normalized);
-                var position = transform.position;
-                bulletSpawn.transform.RotateAround(position, Vector3.forward, rotatedAngle + 90);
-                bullet.GetComponent<Rigidbody2D>().AddForce(shootForce + _rigidbody2D.velocity.normalized, ForceMode2D.Impulse);
-                bulletSpawn.transform.RotateAround(position, Vector3.forward, -rotatedAngle);
-                coolDownTime = 1.0f / atkSpeed;
+                RotateSpawnPoint(bulletForceAndRotation);
+                SpawnAndShootBullet(bulletForceAndRotation);
+                var coolDownTime = GetCooldown();
                 StartCoroutine(CountCooldown(coolDownTime));
             }
+        }
+
+        private float GetCooldown()
+        {
+            return 1.0f / atkSpeed;
+        }
+
+        private void SpawnAndShootBullet(BulletForceAndRotation bulletForceAndRotation)
+        {
+            var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+            var bulletController = bullet.GetComponent<ProjectileController>();
+            bulletController.ProjectileSO = projectileType;
+            bulletController.Shoot(bulletForceAndRotation.Force + _rigidbody2D.velocity.normalized);
+        }
+
+        private void RotateSpawnPoint(BulletForceAndRotation bulletForceAndRotation)
+        {
+            bulletSpawn.transform.rotation = Quaternion.Euler(0, 0, bulletForceAndRotation.Rotation);
+        }
+
+        private BulletForceAndRotation GetBulletForceAndRotation(Vector2 shotDirection)
+        {
+            BulletForceAndRotation bulletForceAndRotation;
+            if (shotDirection.x > 0.01f)
+            {
+                bulletForceAndRotation.Rotation = 0;
+                bulletForceAndRotation.Force = new Vector2(shootSpeed, 0f);
+            }
+            else if (shotDirection.x < -0.01f)
+            {
+                bulletForceAndRotation.Rotation = 180;
+                bulletForceAndRotation.Force = new Vector2(-shootSpeed, 0f);
+            }
+            else if (shotDirection.y > 0.01f)
+            {
+                bulletForceAndRotation.Rotation = 90;
+                bulletForceAndRotation.Force = new Vector2(0f, shootSpeed);
+            }
+            else
+            {
+                bulletForceAndRotation.Rotation = 270;
+                bulletForceAndRotation.Force = new Vector2(0f, -shootSpeed);
+            }
+
+            return bulletForceAndRotation;
         }
 
         public void ChangeWeapon(InputAction.CallbackContext context)
@@ -127,14 +150,6 @@ namespace Game.GameManager.Player
         {
             PlayerAnimator.SetFloat(LastDirX, shotDirection.x);
             PlayerAnimator.SetFloat(LastDirY, shotDirection.y);
-        }
-        
-        private void FixedUpdate()
-        {
-            if (coolDownTime > 0.0f)
-            {
-                coolDownTime -= Time.fixedDeltaTime;
-            }
         }
 
         protected override void StartInput(object sender, EventArgs eventArgs)

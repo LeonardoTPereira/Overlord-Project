@@ -5,10 +5,9 @@ using Util;
 
 namespace Game.GameManager
 {
-    public class KeyBHV : PlaceableRoomObject
+    public class KeyBhv : PlaceableRoomObject
     {
-
-        public int keyID;
+        public int KeyID { get; set; }
         private Color color;
 
         public static event KeyCollectEvent KeyCollectEventHandler;
@@ -18,7 +17,7 @@ namespace Game.GameManager
         {
             //Render the key sprite with the color relative to its ID
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            sr.color = Constants.colorId[keyID - 1];
+            sr.color = Constants.colorId[KeyID - 1];
             color = sr.color;
         }
 
@@ -29,24 +28,16 @@ namespace Game.GameManager
             Gizmos.DrawSphere(transform.position, 4);
         }
 
-        // Update is called once per frame
-        private void Update()
-        {
-
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.tag == "Player")
-            {
-                OnGetKey();
-                Destroy(gameObject);
-            }
+            if (!other.CompareTag("PlayerTrigger")) return;
+            OnGetKey();
+            Destroy(gameObject);
         }
 
         private void OnGetKey()
         {
-            KeyCollectEventHandler(this, new KeyCollectEventArgs(keyID));
+            KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(KeyID));
         }
     }
 }

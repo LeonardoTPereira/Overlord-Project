@@ -9,7 +9,7 @@ namespace Game.GameManager
     {
         [SerializeField] private NpcDialogueSO dialogues;
         [SerializeField] private GameObject canvas, npcName, dialogue;
-        [field: SerializeField] public NpcSO NpcSo { get; }
+        [field: SerializeField] public NpcSO NpcSo { get; set; }
 
         public static event EventHandler DialogueOpenEventHandler;
         public static event EventHandler DialogueCloseEventHandler;
@@ -21,13 +21,11 @@ namespace Game.GameManager
             npcName.GetComponent<TextMeshProUGUI>().text = NpcSo.NpcName;
         }
 
-        public void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if(collision.gameObject.CompareTag("Player"))
-            {
-                canvas.SetActive(true);
-                DialogueOpenEventHandler?.Invoke(null, EventArgs.Empty);
-            }
+            if (!other.gameObject.CompareTag("PlayerTrigger")) return;
+            canvas.SetActive(true);
+            DialogueOpenEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
         public void Update()

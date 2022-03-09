@@ -31,8 +31,8 @@ namespace Game.LevelManager
         public DoorBhv doorEast;
         public DoorBhv doorWest;
 
-        public KeyBHV keyPrefab;
-        public TriforceBHV triPrefab;
+        public KeyBhv keyPrefab;
+        public TriforceBhv triPrefab;
         public TreasureController treasurePrefab;
         public NpcController[] npcPrefabs;
 
@@ -401,9 +401,9 @@ namespace Game.LevelManager
         private void PlaceKeyInRoom(int keyId)
         {
             GetAvailablePosition();
-            KeyBHV key = Instantiate(keyPrefab, availablePosition, transform.rotation);
+            KeyBhv key = Instantiate(keyPrefab, availablePosition, transform.rotation);
             key.transform.position = availablePosition;
-            key.keyID = keyId;
+            key.KeyID = keyId;
         }
 
         private bool RoomHasTreasure()
@@ -432,7 +432,7 @@ namespace Game.LevelManager
         private void PlaceTriforceInRoom()
         {
             GetAvailablePosition();
-            TriforceBHV tri = Instantiate(triPrefab, transform);
+            TriforceBhv tri = Instantiate(triPrefab, transform);
             tri.transform.position = availablePosition;
         
         }

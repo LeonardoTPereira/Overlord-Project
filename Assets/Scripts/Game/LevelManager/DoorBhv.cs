@@ -10,8 +10,6 @@ namespace Game.LevelManager
 {
     public class DoorBhv : MonoBehaviour
     {
-
-        //public GameManager gm;
         public List<int> keyID;
         public bool isOpen;
         public bool isClosedByEnemies;
@@ -20,8 +18,6 @@ namespace Game.LevelManager
         public Sprite openedSprite;
         public Transform teleportTransform;
         public Material gradientMaterial;
-        //	public int moveX;
-        //	public int moveY;
         [SerializeField]
         private DoorBhv destination;
         [SerializeField]
@@ -42,7 +38,7 @@ namespace Game.LevelManager
         }
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             int firstKeyID = -1;
             if (keyID != null)
@@ -58,7 +54,7 @@ namespace Game.LevelManager
             if (firstKeyID > 0)
             {
                 //Render the locked door sprite with the color relative to its ID
-                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                var sr = GetComponent<SpriteRenderer>();
                 sr.sprite = lockedSprite;
                 sr.material = gradientMaterial;
                 sr.material.SetColor("gradientColor1", Constants.colorId[firstKeyID - 1]);
@@ -117,39 +113,31 @@ namespace Game.LevelManager
                 new Vector3(4 + Mathf.Abs(offsetX), 4 + Mathf.Abs(offsetY), 1));
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.tag == "Player")
+            if (!other.CompareTag("PlayerTrigger")) return;
+            var commonKeys = keyID.Intersect(Player.Instance.keys).ToList();
+            if (keyID.Count == 0 || isOpen)
             {
-                List<int> commonKeys = keyID.Intersect(Player.Instance.keys).ToList();
-                if (keyID.Count == 0 || isOpen)
+                if (isClosedByEnemies) return;
+                audioSrc.PlayOneShot(audioSrc.clip, 0.8f);
+                MovePlayerToNextRoom();
+            }
+            else if (commonKeys.Count == keyID.Count)
+            {
+                if (isClosedByEnemies) return;
+                audioSrc.PlayOneShot(unlockSnd, 0.7f);
+                foreach (var key in commonKeys.Where(key => !Player.Instance.usedKeys.Contains(key)))
                 {
-                    if (!isClosedByEnemies)
-                    {
-                        audioSrc.PlayOneShot(audioSrc.clip, 0.8f);
-                        MovePlayerToNextRoom();
-                    }
+                    Player.Instance.usedKeys.Add(key);
                 }
-                else if (commonKeys.Count == keyID.Count)
-                {
-                    if (!isClosedByEnemies)
-                    {
-                        audioSrc.PlayOneShot(unlockSnd, 0.7f);
-                        foreach (int key in commonKeys)
-                        {
-                            if (!Player.Instance.usedKeys.Contains(key))
-                                Player.Instance.usedKeys.Add(key);
-                        }
-
-                        OpenDoor();
-                        if (!destination.parentRoom.hasEnemies)
-                            destination.OpenDoor();
-                        isOpen = true;
-                        destination.isOpen = true;
-                        OnKeyUsed(commonKeys.First());
-                        MovePlayerToNextRoom();
-                    }
-                }
+                OpenDoor();
+                if (!destination.parentRoom.hasEnemies)
+                    destination.OpenDoor();
+                isOpen = true;
+                destination.isOpen = true;
+                OnKeyUsed(commonKeys.First());
+                MovePlayerToNextRoom();
             }
         }
 

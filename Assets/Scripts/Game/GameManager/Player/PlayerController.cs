@@ -66,12 +66,10 @@ namespace Game.GameManager.Player
             forceOverLifetime.z = eventArgs.ImpactDirection.z * 20;
 
             bloodParticle.Play();
-            if (eventArgs.PlayerHealth <= 0)
-            {
-                SceneLoaded?.Invoke(null, EventArgs.Empty);
-                playerCollider.enabled = false;
-                PlayerDeathEventHandler?.Invoke(null, EventArgs.Empty);
-            }
+            if (eventArgs.PlayerHealth > 0) return;
+            SceneLoaded?.Invoke(null, EventArgs.Empty);
+            playerCollider.enabled = false;
+            PlayerDeathEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
         public void ResetHealth()

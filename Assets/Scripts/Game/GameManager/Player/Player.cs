@@ -45,7 +45,7 @@ namespace Game.GameManager.Player
         {
             GameManagerSingleton.NewLevelLoadedEventHandler += ResetValues;
             RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
-            KeyBHV.KeyCollectEventHandler += GetKey;
+            KeyBhv.KeyCollectEventHandler += GetKey;
             GameManagerSingleton.EnterRoomEventHandler += GetHealth;
             GameManagerSingleton.EnterRoomEventHandler += AdjustCamera;
             RoomBhv.EnterRoomEventHandler += GetHealth;
@@ -61,7 +61,7 @@ namespace Game.GameManager.Player
         {
             GameManagerSingleton.NewLevelLoadedEventHandler -= ResetValues;
             RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
-            KeyBHV.KeyCollectEventHandler -= GetKey;
+            KeyBhv.KeyCollectEventHandler -= GetKey;
             GameManagerSingleton.EnterRoomEventHandler -= GetHealth;
             GameManagerSingleton.EnterRoomEventHandler -= AdjustCamera;
             RoomBhv.EnterRoomEventHandler -= GetHealth;

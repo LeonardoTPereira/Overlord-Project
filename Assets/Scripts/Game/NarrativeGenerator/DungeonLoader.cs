@@ -38,15 +38,15 @@ namespace Game.NarrativeGenerator
         }
 
         /// Load the level from the given filename.
-        public void LoadLevel()
+        private void LoadLevel()
         {
             LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine, IsLastQuestLine));
             SceneManager.LoadScene(dungeonScene.SceneName);
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("PlayerTrigger"))
             {
                 LoadLevel();
             }
