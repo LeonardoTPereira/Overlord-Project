@@ -10,6 +10,24 @@
         "com.unity.modules.physics2d": "1.0.0"
       }
     },
+    "com.fellowshipofthegame.dialoguemodule": {
+      "version": "https://github.com/FellowshipOfTheGame/DialogueModule.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.malee.reorderablelist": "https://github.com/cfoulston/Unity-Reorderable-List.git#1.0.1",
+        "com.unity.inputsystem": "1.0.2",
+        "com.unity.textmeshpro": "3.0.6"
+      },
+      "hash": "eac98d204dc5a0044849620e0cb2afb1b9d11058"
+    },
+    "com.malee.reorderablelist": {
+      "version": "https://github.com/cfoulston/Unity-Reorderable-List.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ac1f508240fb752b1f9d7c222c231d7f2a33df87"
+    },
     "com.unity.2d.pixel-perfect": {
       "version": "4.0.1",
       "depth": 0,

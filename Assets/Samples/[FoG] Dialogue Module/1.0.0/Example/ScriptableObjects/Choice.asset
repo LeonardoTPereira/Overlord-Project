@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529705b8796ed924e955d1704552ec7a, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  lines:
+    array:
+    - speaker: {fileID: 11400000, guid: 975b2c08788ba4543874afd4c71eacad, type: 2}
+      text: You can have options too
+  question:
+    speaker: {fileID: 11400000, guid: 975b2c08788ba4543874afd4c71eacad, type: 2}
+    text: Pick a choice, A or B?
+  options:
+  - text: A
+    nextDialogue: {fileID: 11400000, guid: 7822ad54727c52146878e8332ac5a369, type: 2}
+  - text: B
+    nextDialogue: {fileID: 11400000, guid: 90a40f2ca2871234a83fec26468dcfea, type: 2}
