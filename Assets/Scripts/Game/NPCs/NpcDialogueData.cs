@@ -1,7 +1,7 @@
 ﻿using Fog.Dialogue;
 using UnityEngine;
 
-namespace Game.Dialogues
+namespace Game.NPCs
 {
     [CreateAssetMenu(fileName = "NewDialogueEntity", menuName = "DialogueModule/DialogueData")]
     public class NpcDialogueData : DialogueEntity
@@ -12,7 +12,7 @@ namespace Game.Dialogues
         [SerializeField] private string dialogueName = "";
         public override string DialogueName => dialogueName;
 
-        [SerializeField] private Sprite dialoguePortrait = null;
+        [SerializeField] private Sprite dialoguePortrait;
         public override Sprite DialoguePortrait => dialoguePortrait;
     }
 }

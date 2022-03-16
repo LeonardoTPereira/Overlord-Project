@@ -1,6 +1,5 @@
 ﻿using System;
 using Game.Dialogues;
-using Game.NPCs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
