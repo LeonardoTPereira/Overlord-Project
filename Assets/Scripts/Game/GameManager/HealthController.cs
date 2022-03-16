@@ -5,8 +5,7 @@ namespace Game.GameManager
 {
     public class HealthController : MonoBehaviour
     {
-        [SerializeField]
-        int health;
+        [SerializeField] private int health;
         int maxHealth;
         bool isInvincible;
         float invincibilityTime, invincibilityCount;
@@ -22,73 +21,52 @@ namespace Game.GameManager
             invincibilityTime = 0.2f;
         }
 
-        // Start is called before the first frame update
-        void Start()
+        private void Update()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            if (isInvincible)
+            if (!isInvincible) return;
+            if (invincibilityTime < invincibilityCount)
             {
-                if (invincibilityTime < invincibilityCount)
-                {
-                    isInvincible = false;
-                    gameObject.GetComponent<SpriteRenderer>().color = originalColor;
-                }
-                else
-                {
-                    invincibilityCount += Time.deltaTime;
-                }
+                isInvincible = false;
+                gameObject.GetComponent<SpriteRenderer>().color = originalColor;
+            }
+            else
+            {
+                invincibilityCount += Time.deltaTime;
             }
         }
 
         public void ApplyDamage(int damage, Vector3 impactDirection, int enemyIndex = -1)
         {
-            if (!isInvincible)
+            if (isInvincible) return;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            health -= damage;
+            isInvincible = true;
+            invincibilityCount = 0f;
+            if (gameObject.CompareTag("Player"))
             {
-                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                health -= damage;
-                isInvincible = true;
-                invincibilityCount = 0f;
-                if (gameObject.CompareTag("Player"))
-                {
-                    PlayerIsDamagedEventHandler?.Invoke(this, new PlayerIsDamagedEventArgs(enemyIndex, damage, health, impactDirection));
-                }
-                else if (gameObject.CompareTag("Enemy"))
-                {
-                    gameObject.GetComponent<EnemyController>().CheckDeath();
-                }
+                PlayerIsDamagedEventHandler?.Invoke(this, new PlayerIsDamagedEventArgs(enemyIndex, damage, health, impactDirection));
+            }
+            else if (gameObject.CompareTag("Enemy"))
+            {
+                gameObject.GetComponent<EnemyController>().CheckDeath();
             }
         }
-
-        /// This method restores the health with the given amount of health when
-        /// the health is lesser than the max health. Return true if the enemy was
-        /// healed, and false otherwise.
-        public bool ApplyHeal(int _health)
+        
+        public bool ApplyHeal(int healing)
         {
-            // If the enemy is injured, then heal it; if not, ignore it
-            if (GetMaxHealth() > GetHealth())
-            {
-                // Calculate the new health
-                int newHealth = health + _health;
-                // The new health cannot be higher than the max health
-                health = maxHealth >= newHealth ? newHealth : maxHealth;
-                return true;
-            }
-            return false;
+            if (GetMaxHealth() <= GetHealth()) return false;
+            var newHealth = health + healing;
+            health = maxHealth >= newHealth ? newHealth : maxHealth;
+            return true;
         }
 
-        public void SetHealth(int _health)
+        public void SetHealth(int newHealth)
         {
-            // If not initialized, then define the max health
             if (maxHealth == -1)
             {
-                maxHealth = _health;
+                maxHealth = newHealth;
             }
-            health = _health;
+            health = newHealth;
         }
 
         public int GetHealth()
@@ -106,9 +84,9 @@ namespace Game.GameManager
             return isInvincible;
         }
 
-        public void SetOriginalColor(Color _color)
+        public void SetOriginalColor(Color color)
         {
-            originalColor = _color;
+            originalColor = color;
         }
     }
 }

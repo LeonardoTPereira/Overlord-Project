@@ -2451,7 +2451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0612e60c07adfe44db1a63dba7ee9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelConfigSO: {fileID: 11400000, guid: 4b4ceee8b94a2c849befda6f635f65c9, type: 2}
+  levelConfigSO: {fileID: 0}
 --- !u!222 &323361076
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6474,6 +6474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
     type: 2}
+  _questLines: {fileID: 0}
   createNarrative: 0
   isFinished: 0
   preTestQuestionnaire: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,
@@ -6510,8 +6511,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
-  isEnable: 0
 --- !u!1 &972305397
 GameObject:
   m_ObjectHideFlags: 0
@@ -7282,6 +7281,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 0
+  <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 0}
+  <IsLastQuestLine>k__BackingField: 0
   dungeonScene:
     Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
     SceneName: LevelWithEnemies
@@ -7322,8 +7324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyComponents: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92, type: 2}
-  isEnable: 0
 --- !u!114 &1044382107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7480,11 +7480,11 @@ MonoBehaviour:
   playerLostHealth: 0
   numberOfEnemies: 0
   numberOfKilledEnemies: 0
-  numberOfNPCs: 0
-  numberOfInteractedNPCs: 0
-  totalTreasures: 0
-  treasureCollected: 0
-  maxCombo: 0
+  <NumberOfNpCs>k__BackingField: 0
+  <NumberOfInteractedNpCs>k__BackingField: 0
+  <TotalTreasures>k__BackingField: 0
+  <TreasureCollected>k__BackingField: 0
+  <MAXCombo>k__BackingField: 0
   visitedRooms: []
   actualCombo: 0
 --- !u!114 &1044382110
@@ -7506,7 +7506,7 @@ MonoBehaviour:
   currentQuestLine: {fileID: 0}
   startButton: {fileID: 0}
   progressText: {fileID: 0}
-  levelSet: {fileID: 11400000, guid: 04462e4169ee42b4fad5143c2ae3f5af, type: 2}
+  levelSet: {fileID: 0}
   createMaps: 0
   audioSource: {fileID: 0}
   bgMusic: {fileID: 8300000, guid: 1aa95e0fec72b734ba2baed670245abf, type: 3}
@@ -7514,8 +7514,7 @@ MonoBehaviour:
   keyText: {fileID: 0}
   roomText: {fileID: 0}
   levelText: {fileID: 0}
-  roomPrefab: {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102,
-    type: 3}
+  roomPrefabs: []
   roomsParent: {fileID: 0}
   roomSpacingX: 20
   roomSpacingY: 20
@@ -7530,8 +7529,6 @@ MonoBehaviour:
   enemyLoader: {fileID: 0}
   healthUI: {fileID: 0}
   keyUI: {fileID: 0}
-  nExecutions: 0
-  nBatches: 0
   maxTreasure: 0
   maxRooms: 0
   maxEnemies: 0
@@ -7677,6 +7674,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 0
+  <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 0}
+  <IsLastQuestLine>k__BackingField: 0
   dungeonScene:
     Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
     SceneName: LevelWithEnemies
@@ -10936,6 +10936,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isArena: 0
+  <SelectedDungeon>k__BackingField: {fileID: 0}
+  <LevelQuestLine>k__BackingField: {fileID: 0}
+  <IsLastQuestLine>k__BackingField: 0
   dungeonScene:
     Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
     SceneName: LevelWithEnemies
