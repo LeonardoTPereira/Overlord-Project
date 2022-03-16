@@ -1,4 +1,6 @@
 ﻿using System;
+using Game.Dialogues;
+using Game.NPCs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,8 +12,8 @@ namespace Game.GameManager.Player
 
         protected virtual void OnEnable()
         {
-            NpcController.DialogueOpenEventHandler += StopInput;
-            NpcController.DialogueCloseEventHandler += StartInput;
+            DialogueController.DialogueOpenEventHandler += StopInput;
+            DialogueController.DialogueCloseEventHandler += StartInput;
             PlayerController.PlayerDeathEventHandler += StopInput;
             PlayerController.SceneLoaded += StartInput;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -27,8 +29,8 @@ namespace Game.GameManager.Player
         
         protected virtual void OnDisable()
         {
-            NpcController.DialogueOpenEventHandler -= StopInput;
-            NpcController.DialogueCloseEventHandler -= StartInput;
+            DialogueController.DialogueOpenEventHandler -= StopInput;
+            DialogueController.DialogueCloseEventHandler -= StartInput;
             PlayerController.PlayerDeathEventHandler -= StopInput;
             PlayerController.SceneLoaded -= StartInput;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
