@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 5730454567037571343}
   - component: {fileID: 3528728104417823832}
   - component: {fileID: 2894253577423451289}
+  - component: {fileID: 2057696069}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772544863890580}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -117,7 +118,7 @@ SpriteRenderer:
   m_SortingLayerID: -1691099297
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2056932241187373566, guid: 2029ebd237c51d9458a6a3e19a84d009,
+  m_Sprite: {fileID: -6985117363303071740, guid: b92c1c44f604d074595ba5ee0e831239,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -610,6 +611,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 56f63649-960e-49e0-9831-606763e5840f
     m_ActionName: Player/ChangeWeapon[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5d17bb64-e884-47e3-ac4b-40a77a9bc64a
+    m_ActionName: Player/Action[/Keyboard/x,/DualShock4GamepadHID/buttonEast,/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -645,6 +650,23 @@ MonoBehaviour:
   bulletSpawn: {fileID: 8485515136786634743}
   bulletPrefab: {fileID: 0}
   projectileType: {fileID: 0}
+--- !u!114 &2057696069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772544863890580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61fbc9755b8ebab4eb88425974730ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInteractions: 1
+  nFramesCooldown: 5
+  canInteract: 0
+  interactAction: {fileID: -8568699243675934657, guid: 770109cbba2bb474da09f4d3062a9aab,
+    type: 3}
 --- !u!1 &2858675162137386229
 GameObject:
   m_ObjectHideFlags: 0

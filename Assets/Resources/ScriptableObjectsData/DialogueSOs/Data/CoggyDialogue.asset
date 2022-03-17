@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17427d55ede4e399de9c3879140566b, type: 3}
+  m_Name: CoggyDialogue
+  m_EditorClassIdentifier: 
+  dialogueColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+  dialogueName: Coggy
+  dialoguePortrait: {fileID: 1217950955772457077, guid: 82d8215451ad6684bae0746348e62e67,
+    type: 3}
