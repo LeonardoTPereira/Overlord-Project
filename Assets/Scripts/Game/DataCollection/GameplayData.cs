@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Fog.Dialogue;
+using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
@@ -179,7 +181,7 @@ namespace Game.DataCollection
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
-            NpcController.DialogueOpenEventHandler += OnInteractNPC;
+            DialogueController.DialogueOpenEventHandler += OnInteractNPC;
         }
 
         protected void OnDisable()
@@ -204,7 +206,7 @@ namespace Game.DataCollection
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
-            NpcController.DialogueOpenEventHandler -= OnInteractNPC;
+            DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
         }
 
         //From FormBHV
