@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -16,13 +17,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             maxQuestChance = 2.8f;
         }
     
-        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public void Option(List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             DrawQuestType();
             DefineNextQuest(questSos, possibleNpcSos, possibleItems, enemyTypes);
         }
 
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             if (r > 2.8)
             {

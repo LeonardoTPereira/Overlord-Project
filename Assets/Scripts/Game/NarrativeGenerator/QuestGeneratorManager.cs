@@ -13,6 +13,7 @@ using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
+using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEditor;
@@ -41,10 +42,10 @@ namespace Game.NarrativeGenerator
         private LevelGeneratorManager _levelGeneratorManager;
 
         
-        public List<NpcSO> PlaceholderNpcs => _placeholderNpcs;
+        public List<NpcSo> PlaceholderNpcs => _placeholderNpcs;
         public TreasureRuntimeSetSO PlaceholderItems => _placeholderItems;
 
-        [SerializeField, MustBeAssigned] private List<NpcSO> _placeholderNpcs;
+        [SerializeField, MustBeAssigned] private List<NpcSo> _placeholderNpcs;
         [SerializeField, MustBeAssigned] private TreasureRuntimeSetSO _placeholderItems;
         [SerializeField, MustBeAssigned] private WeaponTypeRuntimeSetSO _possibleWeapons;
 
@@ -130,7 +131,6 @@ namespace Game.NarrativeGenerator
         {
             Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
             StartCoroutine(CreateDungeonsForQuestLine());
-            Quests.NpcSos = PlaceholderNpcs;
             Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
         }
 

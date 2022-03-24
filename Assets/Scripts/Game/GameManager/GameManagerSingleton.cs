@@ -247,7 +247,7 @@ namespace Game.GameManager
             
             EnemyDispenser.DistributeEnemiesInDungeon(map, currentQuestLine);
             ItemDispenser.DistributeItemsInDungeon(map, currentQuestLine);
-            //Todo distribute npcs in dungeon
+            NpcDispenser.DistributeNpcsInDungeon(map, currentQuestLine);
             
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.NPCs;
 using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -7,7 +8,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         private Dictionary<ItemSo, int> ItemsToCollectByType { get; set; }
-        private NpcSO Npc { get; set; }
+        private NpcSo Npc { get; set; }
 
         public override void Init()
         {
@@ -29,7 +30,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemsToCollectByType = itemsByType;
         }
         
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, NpcSO npc)
+        public void Init(string questName, bool endsStoryLine, QuestSO previous, NpcSo npc)
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
@@ -58,7 +59,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
         
-        public void SetNpc(NpcSO npc)
+        public void SetNpc(NpcSo npc)
         {
             Npc = npc;
         }

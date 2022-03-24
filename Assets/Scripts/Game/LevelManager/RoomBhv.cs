@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Events;
 using Game.GameManager;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -34,7 +35,7 @@ namespace Game.LevelManager
         public KeyBhv keyPrefab;
         public TriforceBhv triPrefab;
         public TreasureController treasurePrefab;
-        //public NpcController[] npcPrefabs;
+        public GameObject[] npcPrefabs;
 
         public Collider2D colNorth;
         public Collider2D colSouth;
@@ -458,22 +459,22 @@ namespace Game.LevelManager
         {
             foreach (var npc in roomData.Npcs)
             {
-                //PlaceNpcInRoom(npc);
+                PlaceNpcInRoom(npc);
             }
         }
 
-        /*private void PlaceNpcInRoom(NpcSO npc)
+        private void PlaceNpcInRoom(NpcSo npc)
         {
-            NpcController prefab = null;
+            GameObject prefab = null;
             foreach (var npcPrefab in npcPrefabs)
             {
-                if (npcPrefab.NpcSo == npc)
+                if (npcPrefab.GetComponent<NpcController>().Npc == npc)
                     prefab = npcPrefab;
             }
             var npcController = Instantiate(prefab, transform);
             GetAvailablePosition();
             npcController.transform.position = availablePosition;
-        }*/
+        }
 
     }
 }

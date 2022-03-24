@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Enums = Util.Enums;
 
 namespace Game.LevelManager
 {
@@ -16,7 +18,7 @@ namespace Game.LevelManager
         [SerializeField]
         protected ItemsAmount items;
         [SerializeField]
-        private List<NpcSO> npcs;
+        private List<NpcSo> npcs;
         [SerializeField]
         private EnemiesByType enemiesByType;
         [SerializeField]
@@ -113,7 +115,7 @@ namespace Game.LevelManager
             set => keyIDs = value;
         }
 
-        public List<NpcSO> Npcs
+        public List<NpcSo> Npcs
         {
             get => npcs; 
             set => npcs = value;

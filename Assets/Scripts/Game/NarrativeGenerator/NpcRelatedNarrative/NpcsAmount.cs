@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.NarrativeGenerator.NpcRelatedNarrative;
+using Game.NarrativeGenerator.Quests;
+using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
@@ -26,13 +28,13 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
         public NpcsAmount(NpcsAmount original)
         {
             NpcAmountBySo = new NpcAmountDictionary();
-            foreach (var weaponTypeAmountPair in original.NpcAmountBySo)
+            foreach (var npcTypeAmountPair in original.NpcAmountBySo)
             {
-                NpcAmountBySo.Add(weaponTypeAmountPair.Key, weaponTypeAmountPair.Value);
+                NpcAmountBySo.Add(npcTypeAmountPair.Key, npcTypeAmountPair.Value);
             }
         }
 
-        public KeyValuePair<NpcSO, int> GetRandom()
+        public KeyValuePair<NpcSo, QuestList> GetRandom()
         {
             return NpcAmountBySo.GetRandom();
         }

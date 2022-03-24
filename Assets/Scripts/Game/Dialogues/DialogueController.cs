@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Fog.Dialogue;
+using Game.NPCs;
 using UnityEngine;
 
 namespace Game.Dialogues
@@ -19,6 +22,12 @@ namespace Game.Dialogues
             DialogueCloseEventHandler?.Invoke(null, EventArgs.Empty);
             base.AfterDialogue();
             DialogueHandler.instance.OnDialogueStart -= AfterDialogue;
+        }
+
+        public void AddDialogue(NpcSo speaker, string dialogueLine)
+        {
+            lines ??= new ReorderableDialogueList();
+            lines.Add(new DialogueLine(speaker.DialogueData, dialogueLine));
         }
     }
 }

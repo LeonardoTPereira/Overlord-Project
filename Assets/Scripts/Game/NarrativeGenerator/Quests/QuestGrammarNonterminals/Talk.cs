@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
@@ -14,13 +15,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             maxQuestChance = 2.4f;
         }
     
-        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public void Option(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
             DrawQuestType();
             DefineNextQuest(questSos, possibleNpcSos);
         }
     
-        private void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        private void DefineNextQuest(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
             if (r > 2.7)
             {
@@ -33,7 +34,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             }
         }
 
-        private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
             var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
             var selectedNpc = possibleNpcSos.GetRandom();

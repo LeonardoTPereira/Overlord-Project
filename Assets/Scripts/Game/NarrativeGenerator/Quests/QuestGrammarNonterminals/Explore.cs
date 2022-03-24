@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -12,13 +13,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             maxQuestChance = 2.6f;
         }
         
-        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public void Option(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
             DrawQuestType();
             DefineNextQuest(questSos, possibleNpcSos);
         }
 
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
 
             if (r > 2.6)

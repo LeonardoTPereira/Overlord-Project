@@ -19,9 +19,9 @@ namespace Game.EnemyGenerator
         [field: Foldout("Scriptable Objects")]
         [field: Header("Enemy Components")]
 #endif
-        public EnemyComponentsSO EnemyComponents { get; }
+        [field: SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
 
-        [field: SerializeField] public bool IsEnable { get; } = false;
+        [field: SerializeField] public bool IsEnable { get; set; } = false;
 
         /// Evolutionary parameters
         private static readonly int MAX_GENERATIONS = 300;
