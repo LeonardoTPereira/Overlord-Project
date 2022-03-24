@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8660505651422530651}
   m_Layer: 0
   m_Name: CoggyBasePrefab
-  m_TagString: Untagged
+  m_TagString: Npc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0089da0d011640ad8a8988be9b3f760c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: b7023bf55f2cfde4b9fa3a22eceda84e, type: 2}
+  dialogue: {fileID: 11400000, guid: 763c2c54e410c364995ade9282d04a7c, type: 2}
+  npc: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
 --- !u!1 &8660505652315594279
 GameObject:
   m_ObjectHideFlags: 0

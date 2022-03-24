@@ -4,9 +4,11 @@ using System.Linq;
 using Game.Events;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Enums = Util.Enums;
 using Random = UnityEngine.Random;
 
 namespace Game.NarrativeGenerator
@@ -81,7 +83,7 @@ namespace Game.NarrativeGenerator
             playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
 
-        private List<QuestSO> DrawMissions(List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             var questsSos = new List<QuestSO>();
             var newMissionDraw = 0.0f;

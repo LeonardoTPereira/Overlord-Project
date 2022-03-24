@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
@@ -8,18 +9,17 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
     [Serializable]
     public class QuestNpcsParameters
     {
-        [SerializeField] private int totalNpcs;
-        public int TotalNpcs => totalNpcs;
-
         [field: SerializeField]
-        private NpcAmountDictionary NpcsByType { get; }
+        public NpcAmountDictionary NpcsBySo { get; set; }
 
         public QuestNpcsParameters()
         {
-            totalNpcs = 0;
-            NpcsByType = new NpcAmountDictionary();
+            NpcsBySo = new NpcAmountDictionary();
         }
 
+        
+        //TODO this must receive the next quest as well.
+        //Here we will need to change the talk quest to hold NPC data as well.
         public void CalculateNpcsFromQuests(QuestLine quests)
         {
             for (var i = 0; i < quests.graph.Count; i++)
@@ -38,14 +38,15 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
 
         private void AddNpcs(TalkQuestSO quest)
         {
-            Debug.Log("Quest: " + quest.name + " NPC: "+ quest.npc);
-            if (NpcsByType.TryGetValue(quest.npc, out var currentNpcCounter))
+            Debug.Log("Quest: " + quest.name + " NPC: "+ quest.Npc);
+            if (NpcsBySo.TryGetValue(quest.Npc, out var npcQuestList))
             {
-                NpcsByType[quest.npc] = currentNpcCounter+1;
+                npcQuestList.Quests.Add(quest);
             }
             else
             {
-                NpcsByType.Add(quest.npc, 1);
+                NpcsBySo.Add(quest.Npc, new QuestList());
+                NpcsBySo[quest.Npc].Quests.Add(quest);
             }
         }
 

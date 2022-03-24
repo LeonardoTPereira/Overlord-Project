@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33ab4be3aeb124478dbc61856c494c4, type: 3}
   m_Name: CoggyNpcSO
   m_EditorClassIdentifier: 
-  npcSprite: {fileID: 1217950955772457077, guid: 82d8215451ad6684bae0746348e62e67,
-    type: 3}
   npcName: Coggy
+  age: 400
+  job: 9
+  race: 4
+  traumaFactor: 4
+  violenceFactor: 2
+  attainFactor: 6
+  explorationFactor: 8
+  socialFactor: 6
+  gameSprite: {fileID: 1217950955772457077, guid: 82d8215451ad6684bae0746348e62e67,
+    type: 3}
+  dialogueData: {fileID: 11400000, guid: 3495fa02f2d81fb44a4a55b32f618680, type: 2}

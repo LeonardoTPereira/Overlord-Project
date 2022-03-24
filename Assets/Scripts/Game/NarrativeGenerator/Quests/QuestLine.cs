@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using Game.GameManager;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
@@ -9,7 +7,6 @@ using Game.NarrativeGenerator.NpcRelatedNarrative;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests
@@ -23,7 +20,6 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
         [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
         [SerializeField] private List<EnemySO> _enemySos;
-        [SerializeField] private List<NpcSO> _npcSos;
         [SerializeField] private List<ItemSo> _itemSos;
         [SerializeField] private QuestDungeonsParameters dungeonParametersForQuestLine;
         [SerializeField] private QuestEnemiesParameters enemyParametersForQuestLine;
@@ -63,12 +59,6 @@ namespace Game.NarrativeGenerator.Quests
             set => _enemySos = value;
         }
 
-        public List<NpcSO> NpcSos
-        {
-            get => _npcSos;
-            set => _npcSos = value;
-        }
-
         public List<ItemSo> ItemSos
         {
             get => _itemSos;
@@ -80,7 +70,6 @@ namespace Game.NarrativeGenerator.Quests
             graph = new List<QuestSO>();
             _dungeonFileSos = new List<DungeonFileSo>();
             _enemySos = new List<EnemySO>();
-            _npcSos = new List<NpcSO>();
             _itemSos = new List<ItemSo>();
             DungeonParametersForQuestLine = new QuestDungeonsParameters();
             EnemyParametersForQuestLine = new QuestEnemiesParameters();

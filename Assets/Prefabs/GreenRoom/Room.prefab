@@ -1640,7 +1640,10 @@ MonoBehaviour:
     type: 3}
   treasurePrefab: {fileID: 3809042944178231462, guid: 8077682c221f2e64fbc7d07b99c1a5a8,
     type: 3}
-  npcPrefabs: []
+  npcPrefabs:
+  - {fileID: 8660505651422530647, guid: c17eb1ae432cb65449e7e4101eacb2a4, type: 3}
+  - {fileID: 8660505651422530647, guid: 4bd60b72951525c409a275bfa0e02c9b, type: 3}
+  - {fileID: 8660505651422530647, guid: d4adacb8ed3efe446add959004f88150, type: 3}
   colNorth: {fileID: 61238966288715422}
   colSouth: {fileID: 61780886207372558}
   colEast: {fileID: 61785919300248960}
