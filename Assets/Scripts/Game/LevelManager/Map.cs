@@ -70,11 +70,11 @@ namespace Game.LevelManager
             GameManagerSingleton.Instance.maxRooms = NRooms;
             foreach (SORoom room in dungeonFileSO.rooms)
             {
-                if (room.keys.Count > 0)
+                if ((room.keys?.Count??0) > 0)
                 {
                     NKeys += room.keys.Count;
                 }
-                if (room.locks.Count > 0)
+                if ((room.locks?.Count??0) > 0)
                 {
                     NLocks += room.locks.Count;
                 }

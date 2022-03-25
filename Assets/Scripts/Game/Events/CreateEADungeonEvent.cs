@@ -10,7 +10,7 @@ namespace Game.Events
     public class CreateEADungeonEventArgs : EventArgs
     {
         private Fitness fitness;
-        public QuestLine QuestLineForDungeon { get; }
+        public QuestLine QuestLineForDungeon { get; set; }
         private string playerProfile;
 
         public CreateEADungeonEventArgs(Fitness fitness)

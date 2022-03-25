@@ -104,6 +104,7 @@ namespace Game.LevelGenerator
 
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
             _questLine.DungeonFileSos.Add(dungeonFileSO);
+            Debug.Log("Added Dungeon File");
 #endif
         }
 

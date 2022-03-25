@@ -18,6 +18,7 @@ using MyBox;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.NarrativeGenerator
 {
@@ -28,7 +29,7 @@ namespace Game.NarrativeGenerator
         private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-        public static event CreateEADungeonEvent CreateEaDungeonEventHandler;
+        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
 
         [SerializeReference, SerializeField]
         private QuestLineList _questLines;
@@ -88,7 +89,6 @@ namespace Game.NarrativeGenerator
             else
             {
                 ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-
             }
         }
 
@@ -100,7 +100,7 @@ namespace Game.NarrativeGenerator
             if (createNarrative)
             {
                 Selector.CreateMissions(this);
-                CreateNarrative(playerProfile);
+                StartCoroutine(CreateNarrative(playerProfile));
             }
             else
             {
@@ -116,31 +116,35 @@ namespace Game.NarrativeGenerator
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
-        private void CreateNarrative(PlayerProfile playerProfile)
+        private IEnumerator CreateNarrative(PlayerProfile playerProfile)
         {
             SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestline(playerProfile);
-            CreateContentsForQuestLine();
+            yield return StartCoroutine(CreateContentsForQuestLine());
             Quests.CreateAsset(playerProfile.PlayerProfileEnum);
-            _questLines.AddQuestLine(Quests);
-            SaveSOs();
+            //_questLines.AddQuestLine(Quests);
+            //SaveSOs();
+            Debug.Log("Created Contents");
+            Debug.Log(Quests.DungeonFileSos.Count);
+            Debug.Log(Quests.EnemySos.Count);
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
+            Debug.Log("Created Narratives");
         }
 
-        private void CreateContentsForQuestLine()
+        private IEnumerator CreateContentsForQuestLine()
         {
             Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
-            StartCoroutine(CreateDungeonsForQuestLine());
             Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
+            yield return StartCoroutine(CreateDungeonsForQuestLine());
         }
 
         private IEnumerator CreateDungeonsForQuestLine()
         {
+            Debug.Log("Creating Dungeons");
             _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
-            while (!_levelGeneratorManager.hasFinished)
-            {
-                yield return null;
-            }
+            yield return new WaitUntil(() => _levelGeneratorManager.hasFinished);
+            Debug.Log("Created Dungeons");
             Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 

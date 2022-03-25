@@ -12,13 +12,9 @@ using UnityEngine.SceneManagement;
 
 namespace Game.GameManager
 {
-    [RequireComponent(typeof(LevelGeneratorManager), typeof(NarrativeConfigSO))]
+    [RequireComponent(typeof(LevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
-
-        [SerializeField, MustBeAssigned]
-        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
-
         public static event CreateEADungeonEvent createEADungeonEventHandler;
         private string playerProfile;
 
@@ -36,12 +32,18 @@ namespace Game.GameManager
 
         public void Awake()
         {
-            inputCanvas.SetActive(true);
+            if (inputCanvas != null)
+            {
+                inputCanvas.SetActive(true);
+                inputFields = inputCanvas.GetComponentsInChildren<TMP_InputField>().ToDictionary(key => key.name, inputFieldObj => inputFieldObj);
+            }
+
+            if (progressCanvas == null) return;
             progressCanvas.SetActive(true);
             Debug.LogWarning(progressCanvas.transform.Find("ProgressPanel/ProgressText"));
             progressTextUI = progressCanvas.transform.Find("ProgressPanel/ProgressText").GetComponent<TextMeshProUGUI>();
-            inputFields = inputCanvas.GetComponentsInChildren<TMP_InputField>().ToDictionary(key => key.name, inputFieldObj => inputFieldObj);
             progressCanvas.SetActive(false);
+
         }
 
         public void OnEnable()
@@ -57,8 +59,15 @@ namespace Game.GameManager
 
         public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            inputCanvas.SetActive(false);
-            progressCanvas.SetActive(true);
+            if (inputCanvas != null)
+            {
+                inputCanvas.SetActive(false);
+            }
+
+            if (progressCanvas != null)
+            {
+                progressCanvas.SetActive(true);
+            }
         }
 
         public void CreateLevelFromInput()

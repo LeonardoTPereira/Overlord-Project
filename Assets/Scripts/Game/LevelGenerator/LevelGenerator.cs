@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Events;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
@@ -55,6 +56,7 @@ namespace Game.LevelGenerator
         /// Perform the level evolution process.
         private void Evolution()
         {
+            Debug.Log("Begins Evolution");
             // Initialize the MAP-Elites population
             Population pop = new Population(
                 SearchSpace.CoefficientOfExplorationRanges().Length,
@@ -137,8 +139,7 @@ namespace Game.LevelGenerator
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
                 int progress = (int) (100 * (seconds / prs.time));
-                eventHandler?.Invoke(this,
-                    new NewEAGenerationEventArgs(progress));
+                //eventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
             }
 
             // Get the final population (solution)

@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c069680a34ca77146b84919dda4b894e, type: 3}
+  m_Name: Narrative_Talk to Valentime (Game.NarrativeGenerator.Quests.QuestGrammarTerminals.TalkQuestSO)
+  m_EditorClassIdentifier: 
+  graph:
+  - {fileID: 11400000, guid: a1c3bd584c4a1eb4785560fb8db498d4, type: 2}
+  - {fileID: 11400000, guid: 7f72d9a1e3c77a34faff91d12acea4dc, type: 2}
+  - {fileID: 11400000, guid: 44a1a7df77f9bce4f850b53564823fa9, type: 2}
+  - {fileID: 11400000, guid: 496706e2ccddca3448774eebc1f9c1d1, type: 2}
+  - {fileID: 11400000, guid: 3c61203c5d3cdde428f8a07db39a1397, type: 2}
+  - {fileID: 11400000, guid: 7af22d5edb005cb499452237cee908c2, type: 2}
+  - {fileID: 11400000, guid: 9b630be0dd5da69449585cec2bc261be, type: 2}
+  - {fileID: 11400000, guid: 2fdbe65e6fe699343a697e70e9117171, type: 2}
+  - {fileID: 11400000, guid: 4e257564986c549409c38a345993015b, type: 2}
+  - {fileID: 11400000, guid: ebcae7ced02af3744a57c1d14a6f5d6e, type: 2}
+  - {fileID: 11400000, guid: 7c782cbf682f9e746a5b4458a08886fc, type: 2}
+  - {fileID: 11400000, guid: 1436f0f1c0f20244f8714c9523bdd4fe, type: 2}
+  - {fileID: 11400000, guid: 8fbb51979d5c6a44f86c71cbff4b58c3, type: 2}
+  - {fileID: 11400000, guid: 9f98655d5eac91049ae26c79da525f71, type: 2}
+  - {fileID: 11400000, guid: ed6f7105b5b487047a9cb7fe8d720970, type: 2}
+  - {fileID: 11400000, guid: 1056abf5f79e164479ba7c6eeb59cae1, type: 2}
+  - {fileID: 11400000, guid: 0ec24adec7702a04c9dbaa904d68dc5f, type: 2}
+  _dungeonFileSos:
+  - {fileID: 11400000, guid: 2169a575f66084449b8f9f9292099fcc, type: 2}
+  - {fileID: 11400000, guid: 8050275489ba00b40b7210dafac6a40c, type: 2}
+  - {fileID: 11400000, guid: 7245113db26e3374283e16b8241c0f60, type: 2}
+  - {fileID: 11400000, guid: 9c936c54758d79c4fb5aa99e178242b6, type: 2}
+  - {fileID: 11400000, guid: 27631c84247e9b9498f0b5dc99c02f71, type: 2}
+  - {fileID: 11400000, guid: e0fef8925827f2943aec1f3fc7b47ae5, type: 2}
+  - {fileID: 11400000, guid: 96a87bcd63b1a5d40a3f7f784ed261d9, type: 2}
+  - {fileID: 11400000, guid: e4d576fb35e739b48877ddabafa68170, type: 2}
+  - {fileID: 11400000, guid: 5b5d099c2f488e54da538f90cc42a457, type: 2}
+  - {fileID: 11400000, guid: 5b497cec0666d92498433c8fa12e0566, type: 2}
+  - {fileID: 11400000, guid: f8e3ac99c3bc6b440820d5221f67fd53, type: 2}
+  - {fileID: 11400000, guid: 632a63042b9424142a790c988b203be0, type: 2}
+  - {fileID: 11400000, guid: 7304aa5d4be44e44aa6210b322ccb0dd, type: 2}
+  - {fileID: 11400000, guid: 29ea0649899644242913b9c4af04843f, type: 2}
+  - {fileID: 11400000, guid: 125ccc3979f78584da2b385454f26291, type: 2}
+  - {fileID: 11400000, guid: bbc6b5a0e2714524a81068348539c8d9, type: 2}
+  - {fileID: 11400000, guid: f05706b2e81930b459985993f4f5eef6, type: 2}
+  - {fileID: 11400000, guid: 66e32c084ab54a043b2c34eb05782eaf, type: 2}
+  - {fileID: 11400000, guid: e03280469fc7e1f4e9b8610a66788c62, type: 2}
+  - {fileID: 11400000, guid: bda737de33fad5b4a9432bd6d4f322f2, type: 2}
+  - {fileID: 11400000, guid: 23aca9a12e4c85144a8a47e5c4ffbce2, type: 2}
+  - {fileID: 11400000, guid: ab512210af2756841be75a4eb6c107df, type: 2}
+  - {fileID: 11400000, guid: ef46e659974c4a5408c415d3b135782e, type: 2}
+  - {fileID: 11400000, guid: 48e4d8e8d9f66cd4889509158bb0cffd, type: 2}
+  - {fileID: 11400000, guid: dbd829c87877d614086fc11a710cfa1b, type: 2}
+  _npcParametersForQuestLine:
+    <NpcsBySo>k__BackingField:
+      reorderableList:
+        canAdd: 0
+        canRemove: 0
+        draggable: 0
+        expandable: 0
+        multipleSelection: 0
+        isExpanded: 0
+        label:
+          m_Text: 
+          m_Image: {fileID: 0}
+          m_Tooltip: 
+        headerHeight: 0
+        footerHeight: 0
+        slideEasing: 0
+        verticalSpacing: 0
+        showDefaultBackground: 0
+        elementDisplayType: 0
+        elementNameProperty: 
+        elementNameOverride: 
+        elementIcon: {fileID: 0}
+      reqReferences: {fileID: 0}
+      isExpanded: 0
+      _keyValues:
+      - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+      - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+      - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+      _keys:
+      - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+      - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+      - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+      _values:
+      - quests:
+        - {fileID: 11400000, guid: a1c3bd584c4a1eb4785560fb8db498d4, type: 2}
+        - {fileID: 11400000, guid: 7f72d9a1e3c77a34faff91d12acea4dc, type: 2}
+        - {fileID: 11400000, guid: 9b630be0dd5da69449585cec2bc261be, type: 2}
+        - {fileID: 11400000, guid: 1056abf5f79e164479ba7c6eeb59cae1, type: 2}
+      - quests:
+        - {fileID: 11400000, guid: 496706e2ccddca3448774eebc1f9c1d1, type: 2}
+        - {fileID: 11400000, guid: ed6f7105b5b487047a9cb7fe8d720970, type: 2}
+      - quests:
+        - {fileID: 11400000, guid: 3c61203c5d3cdde428f8a07db39a1397, type: 2}
+  _itemParametersForQuestLine:
+    <ItemsByType>k__BackingField:
+      itemAmountBySo:
+        reorderableList:
+          canAdd: 0
+          canRemove: 0
+          draggable: 0
+          expandable: 0
+          multipleSelection: 0
+          isExpanded: 0
+          label:
+            m_Text: 
+            m_Image: {fileID: 0}
+            m_Tooltip: 
+          headerHeight: 0
+          footerHeight: 0
+          slideEasing: 0
+          verticalSpacing: 0
+          showDefaultBackground: 0
+          elementDisplayType: 0
+          elementNameProperty: 
+          elementNameOverride: 
+          elementIcon: {fileID: 0}
+        reqReferences: {fileID: 0}
+        isExpanded: 0
+        _keyValues:
+        - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+        - {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}
+        - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+        - {fileID: 11400000, guid: 6881e33f4c55a2846b553f11159e8bac, type: 2}
+        - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+        _keys:
+        - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+        - {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}
+        - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+        - {fileID: 11400000, guid: 6881e33f4c55a2846b553f11159e8bac, type: 2}
+        - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+        _values: 0100000001000000010000000100000001000000
+    <TotalItems>k__BackingField: 5
+  _enemySos:
+  - {fileID: 11400000, guid: c9e9a92a3a44d434fa210b81e8b9e470, type: 2}
+  - {fileID: 11400000, guid: f8b97a5df879ec545a084718e3acde17, type: 2}
+  - {fileID: 11400000, guid: 3071ad731e956e4418c4f11db2eb41a7, type: 2}
+  - {fileID: 11400000, guid: 8c93013a48ee6954a81736cc1e53e87f, type: 2}
+  - {fileID: 11400000, guid: 2d79ae8b0efedfc43b5bbc62dec63bb3, type: 2}
+  - {fileID: 11400000, guid: bdce41eec926a1b4581552fb4709c978, type: 2}
+  - {fileID: 11400000, guid: a7484a0f17e5c4e4e8ecf36a72e9d90b, type: 2}
+  - {fileID: 11400000, guid: fbc1740780cfd3442bf82ab16313bbb3, type: 2}
+  - {fileID: 11400000, guid: 74f76ab3307a9b4428adea29efe013e8, type: 2}
+  - {fileID: 11400000, guid: d88aa3d35cfea5e43b1d8d999568d3a1, type: 2}
+  - {fileID: 11400000, guid: dcaf8654f4907154081d4c2d3abee4de, type: 2}
+  - {fileID: 11400000, guid: 69172065259501440983cfa11f9d17ef, type: 2}
+  - {fileID: 11400000, guid: 9bf7a4145fc27b64a9597ac6ff1decb0, type: 2}
+  - {fileID: 11400000, guid: ddacafca4aefec143b47225f92795538, type: 2}
+  - {fileID: 11400000, guid: ab01fb5a009eb794881a2d0a74745946, type: 2}
+  - {fileID: 11400000, guid: 2ef129b4bbed2d3408ebac0212f82c28, type: 2}
+  - {fileID: 11400000, guid: 4773d6b9209277b4895010a63427036b, type: 2}
+  - {fileID: 11400000, guid: 9f17d20dc69ba6843b09a279c33f71ee, type: 2}
+  - {fileID: 11400000, guid: 537e6b7ad2b89444fae57b33a571d995, type: 2}
+  - {fileID: 11400000, guid: df6ea4e63b252284db80798c016eef8d, type: 2}
+  - {fileID: 11400000, guid: faf2558af5cb68d4c898f282284918e4, type: 2}
+  - {fileID: 11400000, guid: 3d169e6070687794f94e69ef48495941, type: 2}
+  - {fileID: 11400000, guid: 5d1c96ac23a49a34e8be0575ef8b043b, type: 2}
+  - {fileID: 11400000, guid: 49ab787fb7142304eb2869393aa8b3a2, type: 2}
+  - {fileID: 11400000, guid: 3a2a32a52668055439377db70f220f46, type: 2}
+  - {fileID: 11400000, guid: a4ffdf211927f8a488e67548556f65f0, type: 2}
+  - {fileID: 11400000, guid: 98721ce213727f3459924e5e8fa5b8fb, type: 2}
+  - {fileID: 11400000, guid: 1d2b55a8838d228439ddf461fec4944d, type: 2}
+  - {fileID: 11400000, guid: 2b51bd73003070b459cbf79640912f5d, type: 2}
+  - {fileID: 11400000, guid: 6df3a0b0910527649b7fef848d0b428e, type: 2}
+  - {fileID: 11400000, guid: 7b7f0e4734bb8a74e96987cd9646ec45, type: 2}
+  - {fileID: 11400000, guid: 30749c0460970184aab8ec637f6229c2, type: 2}
+  - {fileID: 11400000, guid: dd56f99aeafc5434991c1f80ef7826c2, type: 2}
+  - {fileID: 11400000, guid: 7444acc850f5c4043984c62ec8af662c, type: 2}
+  - {fileID: 11400000, guid: 1ca4d2041f99fff4fb4738f3da03d013, type: 2}
+  - {fileID: 11400000, guid: 4dc4499b63fda5b478e5f119d3bb5b5a, type: 2}
+  - {fileID: 11400000, guid: 9d33079ba523bce49a0e47ea35af478c, type: 2}
+  - {fileID: 11400000, guid: b2654b193c4dbf240b15abf02955e7a8, type: 2}
+  - {fileID: 11400000, guid: e63df67eb99d78a4b9283684a680a044, type: 2}
+  - {fileID: 11400000, guid: 0b5e93505549f6446b88e37919b57a93, type: 2}
+  - {fileID: 11400000, guid: 872a6ea0f6070344fbded5a5cfffd082, type: 2}
+  - {fileID: 11400000, guid: 6cbb58e06f4c193428abacfc96fc0c43, type: 2}
+  _itemSos:
+  - {fileID: 11400000, guid: f6083390d163fde4cab16d7896e01390, type: 2}
+  - {fileID: 11400000, guid: 7c5f97cda3a8b7041b415a41141e1ba6, type: 2}
+  - {fileID: 11400000, guid: 48b2b5ce25301b64db6fd856a43011c3, type: 2}
+  - {fileID: 11400000, guid: 8e902c2321f303d48a30bad84884c0e4, type: 2}
+  - {fileID: 11400000, guid: 6881e33f4c55a2846b553f11159e8bac, type: 2}
+  dungeonParametersForQuestLine:
+    _size: 32
+    <NKeys>k__BackingField: 3
+    <LinearityEnum>k__BackingField: 1
+  enemyParametersForQuestLine:
+    <TotalByType>k__BackingField:
+      enemiesByType:
+        reorderableList:
+          canAdd: 0
+          canRemove: 0
+          draggable: 0
+          expandable: 0
+          multipleSelection: 0
+          isExpanded: 0
+          label:
+            m_Text: 
+            m_Image: {fileID: 0}
+            m_Tooltip: 
+          headerHeight: 0
+          footerHeight: 0
+          slideEasing: 0
+          verticalSpacing: 0
+          showDefaultBackground: 0
+          elementDisplayType: 0
+          elementNameProperty: 
+          elementNameOverride: 
+          elementIcon: {fileID: 0}
+        reqReferences: {fileID: 0}
+        isExpanded: 0
+        _keyValues:
+        - {fileID: 11400000, guid: 47b8db2b014647145bdbd766c2640dfe, type: 2}
+        - {fileID: 11400000, guid: f03063efdc35e3b428c1b906a4a3d5c8, type: 2}
+        - {fileID: 11400000, guid: aa33993ac0a84824897db8146f732030, type: 2}
+        _keys:
+        - {fileID: 11400000, guid: 47b8db2b014647145bdbd766c2640dfe, type: 2}
+        - {fileID: 11400000, guid: f03063efdc35e3b428c1b906a4a3d5c8, type: 2}
+        - {fileID: 11400000, guid: aa33993ac0a84824897db8146f732030, type: 2}
+        _values: 0b0000000c0000000c000000
+    <NEnemies>k__BackingField: 35
+    <Difficulty>k__BackingField: 3

@@ -52,13 +52,11 @@ namespace Game.LevelGenerator
         public void OnEnable()
         {
             LevelGeneratorController.createEADungeonEventHandler += EvolveDungeonPopulation;
-            QuestGeneratorManager.CreateEaDungeonEventHandler += EvolveDungeonPopulation;
         }
 
         public void OnDisable()
         {
             LevelGeneratorController.createEADungeonEventHandler -= EvolveDungeonPopulation;
-            QuestGeneratorManager.CreateEaDungeonEventHandler -= EvolveDungeonPopulation;
         }
 
         // The "Main" behind the Dungeon Generator
@@ -66,6 +64,11 @@ namespace Game.LevelGenerator
         {
             fitness = eventArgs.Fitness;
             _questLine = eventArgs.QuestLineForDungeon;
+            Debug.Log(fitness.DesiredEnemies + " " + fitness.DesiredKeys + " " + fitness.DesiredRooms);
+            Debug.Log("Quest Line to Evolve: " + _questLine);
+            Debug.Log("Quest Line to Evolve: " + _questLine.graph);
+            Debug.Log("Quest Line to Evolve: " + _questLine.EnemySos.Count);
+
             // Define the evolutionary parameters
             _parameters = new Parameters(
                 MAX_TIME,                 // Maximum time
@@ -90,6 +93,7 @@ namespace Game.LevelGenerator
             // Wait until the dungeons were generated
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
+            Debug.Log("Finished evolving, save dungoen SOs");
             _dungeonFileSos = new List<DungeonFileSo>();
             // Write all the generated dungeons in ScriptableObjects
             var solution = generator.Solution;
