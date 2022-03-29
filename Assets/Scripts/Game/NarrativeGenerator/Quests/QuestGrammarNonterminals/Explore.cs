@@ -39,7 +39,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
             secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[questSos.Count-1] : null);
             //TODO initiate data for secretRoomQuest
-            secretRoomQuest.SaveAsAsset();
+            //ecretRoomQuest.SaveAsAsset();
             questSos.Add(secretRoomQuest);
         }
     }

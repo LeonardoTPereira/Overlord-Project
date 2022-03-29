@@ -4,48 +4,56 @@ namespace Game.LevelGenerator
     public struct Parameters
     {
         /// The maximum time.
-        public int time { get; }
+        public int Time { get; }
         /// The initial population size.
-        public int population { get; }
+        public int Population { get; }
         /// The mutation chance.
-        public int mutation { get; }
+        public int Mutation { get; }
         /// The number of competitors of tournament selection.
-        public int competitors { get; }
+        public int Competitors { get; }
+
+        public int MinimumElite { get; }
+        public float AcceptableFitness { get; }
+
         /// The aimed number of rooms.
-        public int rooms { get; }
+        public int Rooms { get; }
         /// The aimed number of keys.
-        public int keys { get; }
+        public int Keys { get; }
         /// The aimed number of locks.
-        public int locks { get; }
+        public int Locks { get; }
         /// The aimed number of enemies.
-        public int enemies { get; }
+        public int Enemies { get; }
         /// The aimed linear coefficient.
-        public float linearCoefficient { get; }
+        public float LinearCoefficient { get; }
         /// The object that calculates fitness values of individuals.
-        public Fitness fitness { get; }
+        public Fitness Fitness { get; }
 
         /// Parameters constructor.
-        public Parameters(int _time,
-            int _population,
-            int _mutation,
-            int _competitors,
-            int _rooms,
-            int _keys,
-            int _locks,
-            int _enemies,
-            float _linearCoefficient,
-            Fitness _fitness
+        public Parameters(int time,
+            int population,
+            int mutation,
+            int competitors,
+            int minimumElite,
+            float acceptableFitness,
+            int rooms,
+            int keys,
+            int locks,
+            int enemies,
+            float linearCoefficient,
+            Fitness fitness
         ) {
-            time = _time;
-            population = _population;
-            mutation = _mutation;
-            competitors = _competitors;
-            rooms = _rooms;
-            keys = _keys;
-            locks = _locks;
-            enemies = _enemies;
-            linearCoefficient = _linearCoefficient;
-            fitness = _fitness;
+            Time = time;
+            Population = population;
+            Mutation = mutation;
+            Competitors = competitors;
+            MinimumElite = minimumElite;
+            AcceptableFitness = acceptableFitness;
+            Rooms = rooms;
+            Keys = keys;
+            Locks = locks;
+            Enemies = enemies;
+            LinearCoefficient = linearCoefficient;
+            Fitness = fitness;
         }
     }
 }

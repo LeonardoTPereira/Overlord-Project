@@ -118,15 +118,18 @@ namespace Game.NarrativeGenerator
 
         private IEnumerator CreateNarrative(PlayerProfile playerProfile)
         {
+            var startTime = Time.realtimeSinceStartup;
             SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestline(playerProfile);
             yield return StartCoroutine(CreateContentsForQuestLine());
-            Quests.CreateAsset(playerProfile.PlayerProfileEnum);
+            //Quests.CreateAsset(playerProfile.PlayerProfileEnum);
             //_questLines.AddQuestLine(Quests);
             //SaveSOs();
             Debug.Log("Created Contents");
             Debug.Log(Quests.DungeonFileSos.Count);
             Debug.Log(Quests.EnemySos.Count);
+            var endTime = Time.realtimeSinceStartup;
+            Debug.Log("Time taken: "+(endTime-startTime));
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
             Debug.Log("Created Narratives");
@@ -170,7 +173,7 @@ namespace Game.NarrativeGenerator
             {
                 _questLines = ScriptableObject.CreateInstance<QuestLineList>();
                 _questLines.QuestLinesList = new List<QuestLine>();
-                _questLines.SaveAsAsset(playerProfile.PlayerProfileEnum.ToString());
+                //_questLines.SaveAsAsset(playerProfile.PlayerProfileEnum.ToString());
                 playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(),
                     _questLines);
             }

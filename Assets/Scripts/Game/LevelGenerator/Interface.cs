@@ -71,7 +71,7 @@ namespace Game.LevelGenerator
             //The assetdatabase stuff only works in the Unity's Editor
             //As is, we can't save a level file in a released build of the game
 #if UNITY_EDITOR
-            int count = 0;
+            /*int count = 0;
             string path;
 
             Directory.CreateDirectory(foldername);
@@ -103,9 +103,9 @@ namespace Game.LevelGenerator
             }
 
             AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
-            _questLine.DungeonFileSos.Add(dungeonFileSO);
-            Debug.Log("Added Dungeon File");
+            Debug.Log("Added Dungeon File");*/
 #endif
+            _questLine.DungeonFileSos.Add(dungeonFileSO);
         }
 
         private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSO, Dungeon dun, int[,] map)

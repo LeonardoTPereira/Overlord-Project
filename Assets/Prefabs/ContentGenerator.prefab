@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4018679261465369121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4018679261465369150}
+  - component: {fileID: 4018679261465369146}
+  - component: {fileID: 4018679261465369149}
+  - component: {fileID: 4018679261465369148}
+  - component: {fileID: 4018679261465369151}
+  m_Layer: 0
+  m_Name: ContentGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4018679261465369150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018679261465369121}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4018679261465369146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018679261465369121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
+    type: 2}
+  <IsEnable>k__BackingField: 0
+  MAX_GENERATIONS: 300
+  INITIAL_POPULATION_SIZE: 35
+  INTERMEDIATE_POPULATION_SIZE: 100
+  MUATION_RATE: 20
+  GENE_MUTATION_RATE: 40
+  NUMBER_OF_COMPETITORS: 3
+--- !u!114 &4018679261465369149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018679261465369121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTime: 60
+  initialPopulationSize: 20
+  mutationRate: 15
+  numberOfCompetitors: 2
+  numberOfDesiredElites: 8
+  minimumAcceptableFitness: 0.5
+  hasFinished: 0
+  treasureRuntimeSetSO: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+    type: 2}
+  weaponTypeRuntimeSetSO: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+    type: 2}
+--- !u!114 &4018679261465369148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018679261465369121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70525adb7a52ee0439c81de57524ccd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+    type: 2}
+  _questLines: {fileID: 0}
+  createNarrative: 1
+  isFinished: 0
+  preTestQuestionnaire: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,
+    type: 2}
+  _placeholderNpcs:
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  _placeholderItems: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
+  _possibleWeapons: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
+--- !u!114 &4018679261465369151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018679261465369121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83822e62a2362634a8c80653da2e3d27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressCanvas: {fileID: 0}
+  inputCanvas: {fileID: 0}
+  levelToLoad: LevelWithEnemies
+  fitness:
+    desiredRooms: 55
+    desiredKeys: 2
+    desiredLocks: 10
+    desiredEnemies: 0
+    desiredLinearity: 1.764

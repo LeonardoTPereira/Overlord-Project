@@ -28,8 +28,8 @@ namespace Game.ExperimentControllers
             QuestGeneratorManager.QuestLineCreatedEventHandler -= LoadQuestData;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
-        
-        IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
+
+        private IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
         {
             yield return new WaitUntil(() => CanLoadNarrativesToDungeonEntrances(scene));
             SetQuestLineInDungeons();

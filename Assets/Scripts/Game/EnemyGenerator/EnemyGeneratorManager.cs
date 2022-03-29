@@ -24,13 +24,14 @@ namespace Game.EnemyGenerator
         [field: SerializeField] public bool IsEnable { get; set; } = false;
 
         /// Evolutionary parameters
-        private static readonly int MAX_GENERATIONS = 300;
-
-        private static readonly int INITIAL_POPULATION_SIZE = 35;
-        private static readonly int INTERMEDIATE_POPULATION_SIZE = 100;
-        private static readonly int MUATION_RATE = 20;
-        private static readonly int GENE_MUTATION_RATE = 40;
-        private static readonly int NUMBER_OF_COMPETITORS = 3;
+        [SerializeField] private int maxGenerations = 500;
+        [SerializeField] private int initialPopulationSize = 35;
+        [SerializeField] private int intermediatePopulationSize = 100;
+        [SerializeField] private int mutationRate = 20;
+        [SerializeField] private int geneMutationRate = 30;
+        [SerializeField] private int numberOfCompetitors = 2;
+        [SerializeField] private int numberOfDesiredElitesPerEnemy = 3;
+        [SerializeField] private float minimumAcceptableFitnessPerEnemy = 0.5f;
 
         /// Singleton
         public static EnemyGeneratorManager Instance { get; set; } = null;
@@ -85,12 +86,14 @@ namespace Game.EnemyGenerator
             difficulty = difficultyLevels;
             float goal = GetDesiredDifficulty();
             Parameters prs = new Parameters(
-                MAX_GENERATIONS, // Number of generations
-                INITIAL_POPULATION_SIZE, // Initial population size
-                INTERMEDIATE_POPULATION_SIZE, // Intermediate population size
-                MUATION_RATE, // Mutation chance
-                GENE_MUTATION_RATE, // Mutation chance of a single gene
-                NUMBER_OF_COMPETITORS, // Number of tournament competitors
+                maxGenerations, // Number of generations
+                initialPopulationSize, // Initial population size
+                intermediatePopulationSize, // Intermediate population size
+                mutationRate, // Mutation chance
+                geneMutationRate, // Mutation chance of a single gene
+                numberOfCompetitors, // Number of tournament competitors
+                numberOfDesiredElitesPerEnemy,
+                minimumAcceptableFitnessPerEnemy,
                 goal // Aimed difficulty of enemies
             );
             generator = new EnemyGenerator(prs);
@@ -129,19 +132,19 @@ namespace Game.EnemyGenerator
             filename = foldername + "/" + subfoldername + "/";
 
 #if UNITY_EDITOR
-            if (!AssetDatabase.IsValidFolder(filename))
+            /*if (!AssetDatabase.IsValidFolder(filename))
             {
                 Debug.Log("Creating new Folder");
                 string guid = AssetDatabase.CreateFolder(foldername, subfoldername);
                 filename = AssetDatabase.GUIDToAssetPath(guid) + "/";
-            }
+            }*/
 #endif
             var enemyList = new List<EnemySO>();
             var i = 0;
             foreach (Individual individual in generator.Solution.ToList())
             {
 #if UNITY_EDITOR
-                AssetDatabase.DeleteAsset(filename + "Enemy" + i + ".asset");
+                //AssetDatabase.DeleteAsset(filename + "Enemy" + i + ".asset");
 #endif
                 int weaponIndex = (int) individual.Weapon.Weapon;
                 int movementIndex = (int) individual.Enemy.Movement;
@@ -162,14 +165,14 @@ namespace Game.EnemyGenerator
                     individual.Weapon.ProjectileSpeed
                 );
 #if UNITY_EDITOR
-                AssetDatabase.CreateAsset(enemySo, filename + "Enemy" + i + ".asset");
+                //AssetDatabase.CreateAsset(enemySo, filename + "Enemy" + i + ".asset");
 #endif
                 enemyList.Add(enemySo);
 
                 i++;
             }
 #if UNITY_EDITOR
-            AssetDatabase.Refresh();
+            //AssetDatabase.Refresh();
 #endif
             Debug.Log("The enemies were created!");
 

@@ -497,13 +497,13 @@ namespace Game.LevelGenerator
             }
             // Get the total number of enemies
             int tEnemies = GetNumberOfEnemies();
-            if (_prs.enemies > tEnemies)
+            if (_prs.Enemies > tEnemies)
             {
-                Redistribute(_prs.enemies, _prs.enemies - tEnemies);
+                Redistribute(_prs.Enemies, _prs.Enemies - tEnemies);
             }
-            else if (tEnemies > _prs.enemies)
+            else if (tEnemies > _prs.Enemies)
             {
-                RemoveEnemies(_prs.enemies, tEnemies - _prs.enemies);
+                RemoveEnemies(_prs.Enemies, tEnemies - _prs.Enemies);
             }
         }
 

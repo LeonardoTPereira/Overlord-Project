@@ -67,12 +67,12 @@ namespace Game.LevelGenerator
             var maxTries = INTERMEDIATE_POPULATION;
             var currentTry = 0;
             // Generate the initial population
-            while (pop.Count() < prs.population && currentTry < maxTries)
+            while (pop.Count() < prs.Population && currentTry < maxTries)
             {
-                Individual individual = Individual.GetRandom(prs.enemies);
+                Individual individual = Individual.GetRandom(prs.Enemies);
                 individual.dungeon.Fix(prs);
                 individual.CalculateLinearCoefficient();
-                prs.fitness.Calculate(ref individual);
+                prs.Fitness.Calculate(ref individual);
                 float ce = Metric.CoefficientOfExploration(individual);
                 float le = Metric.Leniency(individual);
                 individual.exploration = ce;
@@ -85,20 +85,20 @@ namespace Game.LevelGenerator
             int g = 0;
             DateTime start = DateTime.Now;
             DateTime end = DateTime.Now;
-            while ((end - start).TotalSeconds < prs.time)
+            while (!HasReachedStopCriteria(end, start, pop.Count(), pop.IndividualsBetterThan(prs.AcceptableFitness)))
             {
                 List<Individual> intermediate = new List<Individual>();
                 while (intermediate.Count < INTERMEDIATE_POPULATION)
                 {
                     // Apply the crossover operation
                     Individual[] parents = Selection.Select(
-                        CROSSOVER_PARENTS, prs.competitors, pop);
+                        CROSSOVER_PARENTS, prs.Competitors, pop);
                     Individual[] offspring = Crossover.Apply(
                         parents[0], parents[1]);
                     // Apply the mutation operation with a random chance or
                     // always that the crossover was not successful
                     if (offspring.Length == 0 ||
-                        prs.mutation > RandomSingleton.GetInstance().RandomPercent()
+                        prs.Mutation > RandomSingleton.GetInstance().RandomPercent()
                     ) {
                         if (offspring.Length == CROSSOVER_PARENTS)
                         {
@@ -117,7 +117,7 @@ namespace Game.LevelGenerator
                     {
                         offspring[i].dungeon.Fix(prs);
                         offspring[i].CalculateLinearCoefficient();
-                        prs.fitness.Calculate(ref offspring[i]);
+                        prs.Fitness.Calculate(ref offspring[i]);
                         float c = Metric.CoefficientOfExploration(offspring[i]);
                         float l = Metric.Leniency(offspring[i]);
                         offspring[i].exploration = c;
@@ -138,12 +138,21 @@ namespace Game.LevelGenerator
 
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
-                int progress = (int) (100 * (seconds / prs.time));
+                int progress = (int) (100 * (seconds / prs.Time));
                 //eventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
             }
 
             // Get the final population (solution)
             solution = pop;
+        }
+
+        private bool HasReachedStopCriteria(DateTime end, DateTime start, int totalElites, float elitesWithAcceptableFitness)
+        {
+            Debug.Log("Dungeon Elites: "+totalElites+", "+"Acceptable Fitness: "+ elitesWithAcceptableFitness);
+            if (totalElites < prs.MinimumElite) return false;
+            if (elitesWithAcceptableFitness >= prs.MinimumElite) return true;
+            var elapsedTime = (end - start).TotalSeconds;
+            return elapsedTime > prs.Time;
         }
     }
 }

@@ -136,5 +136,22 @@ namespace Game.LevelGenerator
                 }
             }
         }
+
+        public int IndividualsBetterThan(float acceptableFitness)
+        {
+            var betterCounter = 0;
+            for (var e = 0; e < dimension.exp; e++)
+            {
+                for (var l = 0; l < dimension.len; l++)
+                {
+                    if ((map[e, l]?.fitness ?? float.MaxValue) < acceptableFitness)
+                    {
+                        betterCounter++;
+                    }
+                }
+            }
+
+            return betterCounter;
+        }
     }
 }

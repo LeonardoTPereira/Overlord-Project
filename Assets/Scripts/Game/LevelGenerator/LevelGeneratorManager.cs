@@ -15,10 +15,12 @@ namespace Game.LevelGenerator
     public class LevelGeneratorManager : MonoBehaviour
     {
         /// The parameters of the evolutionary process
-        private static readonly int MAX_TIME = 60;
-        private static readonly int INITIAL_POPULATION_SIZE = 20;
-        private static readonly int MUATION_RATE = 5;
-        private static readonly int NUMBER_OF_COMPETITORS = 2;
+        [SerializeField] private int maxTime = 60;
+        [SerializeField] private int initialPopulationSize = 20;
+        [SerializeField] private int mutationRate = 15;
+        [SerializeField] private int numberOfCompetitors = 2;
+        [SerializeField] private int numberOfDesiredElites = 8;
+        [SerializeField] private float minimumAcceptableFitness = 0.5f;
         private Parameters _parameters;
 
         /// Level generator
@@ -71,10 +73,12 @@ namespace Game.LevelGenerator
 
             // Define the evolutionary parameters
             _parameters = new Parameters(
-                MAX_TIME,                 // Maximum time
-                INITIAL_POPULATION_SIZE,  // Initial population size
-                MUATION_RATE,             // Mutation chance
-                NUMBER_OF_COMPETITORS,    // Number of tournament competitors
+                maxTime,                 // Maximum time
+                initialPopulationSize,  // Initial population size
+                mutationRate,             // Mutation chance
+                numberOfCompetitors,    // Number of tournament competitors
+                numberOfDesiredElites,
+                minimumAcceptableFitness,
                 fitness.DesiredRooms,     // Number of rooms
                 fitness.DesiredKeys,      // Number of keys
                 fitness.DesiredLocks,     // Number of locks
@@ -93,7 +97,7 @@ namespace Game.LevelGenerator
             // Wait until the dungeons were generated
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
-            Debug.Log("Finished evolving, save dungoen SOs");
+            Debug.Log("Finished evolving, save dungeon SOs");
             _dungeonFileSos = new List<DungeonFileSo>();
             // Write all the generated dungeons in ScriptableObjects
             var solution = generator.Solution;
