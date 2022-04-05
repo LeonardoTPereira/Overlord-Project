@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Util;
 
 namespace Game.LevelGenerator

@@ -2,10 +2,9 @@
 using System.Linq;
 using Game.Events;
 using Game.LevelGenerator;
-using Game.Maestro;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.NarrativeGenerator;
 using MyBox;
-using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,9 +25,9 @@ namespace Game.GameManager
         protected string levelToLoad;
         protected string progressText;
 
-        [Separator("Fitness Parameters to Create Dungeons")]
+        [Separator("Parameters to Create Dungeons")]
         [SerializeField]
-        protected Fitness fitness;
+        protected Parameters parameters;
 
         public void Awake()
         {
@@ -81,8 +80,8 @@ namespace Game.GameManager
                 nLocks = int.Parse(inputFields["LocksInputField"].text);
                 nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
                 linearity = float.Parse(inputFields["LinearityInputField"].text);
-                fitness = new Fitness(nRooms, nKeys, nLocks, nEnemies, linearity);
-                createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(fitness));
+                parameters.FitnessParameters = new FitnessParameters(nRooms, nKeys, nLocks, nEnemies, linearity);
+                createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parameters));
             }
             catch (KeyNotFoundException)
             {

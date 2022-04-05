@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Events;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using UnityEngine;
 using Util;
 
@@ -69,10 +70,10 @@ namespace Game.LevelGenerator
             // Generate the initial population
             while (pop.Count() < prs.Population && currentTry < maxTries)
             {
-                Individual individual = Individual.GetRandom(prs.Enemies);
-                individual.dungeon.Fix(prs);
+                Individual individual = Individual.CreateRandom(prs.FitnessParameters);
+                individual.Fix();
                 individual.CalculateLinearCoefficient();
-                prs.Fitness.Calculate(ref individual);
+                individual.Fitness.Calculate(ref individual);
                 float ce = Metric.CoefficientOfExploration(individual);
                 float le = Metric.Leniency(individual);
                 individual.exploration = ce;
@@ -91,10 +92,8 @@ namespace Game.LevelGenerator
                 while (intermediate.Count < INTERMEDIATE_POPULATION)
                 {
                     // Apply the crossover operation
-                    Individual[] parents = Selection.Select(
-                        CROSSOVER_PARENTS, prs.Competitors, pop);
-                    Individual[] offspring = Crossover.Apply(
-                        parents[0], parents[1]);
+                    var parents = Selection.Select(CROSSOVER_PARENTS, prs.Competitors, pop);
+                    var offspring = Crossover.Apply(parents[0], parents[1]);
                     // Apply the mutation operation with a random chance or
                     // always that the crossover was not successful
                     if (offspring.Length == 0 ||
@@ -115,9 +114,9 @@ namespace Game.LevelGenerator
                     // Place the offspring in the MAP-Elites population
                     for (int i = 0; i < offspring.Length; i++)
                     {
-                        offspring[i].dungeon.Fix(prs);
+                        offspring[i].Fix();
                         offspring[i].CalculateLinearCoefficient();
-                        prs.Fitness.Calculate(ref offspring[i]);
+                        offspring[i].Fitness.Calculate(ref offspring[i]);
                         float c = Metric.CoefficientOfExploration(offspring[i]);
                         float l = Metric.Leniency(offspring[i]);
                         offspring[i].exploration = c;
@@ -139,7 +138,7 @@ namespace Game.LevelGenerator
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
                 int progress = (int) (100 * (seconds / prs.Time));
-                //eventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
+                eventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
             }
 
             // Get the final population (solution)

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5be4f87d63402a8a73f825ca2911cd, type: 3}
   m_Name: ImmersionQuestLineList
   m_EditorClassIdentifier: 
-  <QuestLinesList>k__BackingField: []
+  <QuestLinesList>k__BackingField:
+  - {fileID: 11400000, guid: 782b5747a5f821b4885f2fdd7d9b7a2b, type: 2}

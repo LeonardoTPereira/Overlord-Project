@@ -641,6 +641,107 @@ PrefabInstance:
       propertyPath: minimumAcceptableFitnessPerEnemy
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: possibleWeapons
+      value: 
+      objectReference: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+        type: 2}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: placeholderItems
+      value: 
+      objectReference: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+        type: 2}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: playerProfileToQuestLines
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+        type: 2}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: placeholderNpcs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: placeholderNpcs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b,
+        type: 2}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: placeholderNpcs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8,
+        type: 2}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: placeholderNpcs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206,
+        type: 2}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <MustCreateNarrative>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.time
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.mutation
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.population
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.competitors
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.minimumElite
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.acceptableFitness
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.fitnessParameters.desiredKeys
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.fitnessParameters.desiredLocks
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.fitnessParameters.desiredRooms
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.fitnessParameters.desiredEnemies
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: parameters.fitnessParameters.desiredLinearity
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566211, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: m_RootOrder

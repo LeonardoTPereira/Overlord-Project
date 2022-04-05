@@ -486,7 +486,7 @@ namespace Game.DataCollection
             }
             profileString += "\n";
             profileString += playerProfile.PlayerProfileEnum+",";
-            profileString += givenPlayerProfile.PlayerProfileEnum+",";
+            profileString += (givenPlayerProfile?.PlayerProfileEnum.ToString()??"unknown")+",";
             foreach (int answer in preFormAnswers)
             {
                 profileString += answer + ",";

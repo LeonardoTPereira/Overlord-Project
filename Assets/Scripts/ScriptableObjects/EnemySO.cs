@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
+using Util;
 
 namespace ScriptableObjects
 {
-    public class EnemySO : ScriptableObject
+    public class EnemySO : ScriptableObject, SaveableGeneratedContent
     {
         public int health;
         public int damage;
@@ -33,6 +35,22 @@ namespace ScriptableObjects
             fitness = _fitness;
             attackSpeed = _attackSpeed;
             projectileSpeed = _projectileSpeed;
+        }
+        public void SaveAsset(string directory)
+        {
+#if UNITY_EDITOR
+            const string newFolder = "Enemies";
+            var fileName = directory;
+            if (!AssetDatabase.IsValidFolder(fileName + Constants.SEPARATOR_CHARACTER + newFolder))
+            {
+                AssetDatabase.CreateFolder(fileName, newFolder);
+            }
+            fileName += Constants.SEPARATOR_CHARACTER + newFolder;
+            fileName += Constants.SEPARATOR_CHARACTER;
+            fileName += weapon+".asset";
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
+            AssetDatabase.CreateAsset(this, uniquePath);
+#endif
         }
     }
 }

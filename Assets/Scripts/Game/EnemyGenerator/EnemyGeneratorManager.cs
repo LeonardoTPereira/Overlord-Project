@@ -84,8 +84,8 @@ namespace Game.EnemyGenerator
         {
             Debug.Log("Start creating enemies...");
             difficulty = difficultyLevels;
-            float goal = GetDesiredDifficulty();
-            Parameters prs = new Parameters(
+            var goal = GetDesiredDifficulty();
+            var prs = new Parameters(
                 maxGenerations, // Number of generations
                 initialPopulationSize, // Initial population size
                 intermediatePopulationSize, // Intermediate population size
@@ -98,57 +98,17 @@ namespace Game.EnemyGenerator
             );
             generator = new EnemyGenerator(prs);
             generator.Evolve();
-            return CreateSOBestEnemies();
+            return CreateSoBestEnemies();
         }
 
-        public List<EnemySO> CreateSOBestEnemies()
+        private List<EnemySO> CreateSoBestEnemies()
         {
-            string foldername = "Assets/Resources/Enemies";
-            string subfoldername;
-            string filename;
-            switch (difficulty)
-            {
-                case DifficultyLevels.VeryEasy:
-                    subfoldername = "VeryEasy";
-                    break;
-                case DifficultyLevels.Easy:
-                    subfoldername = "Easy";
-                    break;
-                case DifficultyLevels.Medium:
-                    subfoldername = "Medium";
-                    break;
-                case DifficultyLevels.Hard:
-                    subfoldername = "Hard";
-                    break;
-                case DifficultyLevels.VeryHard:
-                    subfoldername = "VeryHard";
-                    break;
-                default:
-                    subfoldername = "Unknown";
-                    Debug.LogError("Difficulty to Create Enemies not Chosen");
-                    break;
-            }
-
-            filename = foldername + "/" + subfoldername + "/";
-
-#if UNITY_EDITOR
-            /*if (!AssetDatabase.IsValidFolder(filename))
-            {
-                Debug.Log("Creating new Folder");
-                string guid = AssetDatabase.CreateFolder(foldername, subfoldername);
-                filename = AssetDatabase.GUIDToAssetPath(guid) + "/";
-            }*/
-#endif
             var enemyList = new List<EnemySO>();
-            var i = 0;
-            foreach (Individual individual in generator.Solution.ToList())
+            foreach (var individual in generator.Solution.ToList())
             {
-#if UNITY_EDITOR
-                //AssetDatabase.DeleteAsset(filename + "Enemy" + i + ".asset");
-#endif
-                int weaponIndex = (int) individual.Weapon.Weapon;
-                int movementIndex = (int) individual.Enemy.Movement;
-                int behaviorIndex = 0; // Behaviors are not implemented yet
+                var weaponIndex = (int) individual.Weapon.Weapon;
+                var movementIndex = (int) individual.Enemy.Movement;
+                var behaviorIndex = 0; // Behaviors are not implemented yet
 
                 EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
                 enemySo.Init(
@@ -164,18 +124,9 @@ namespace Game.EnemyGenerator
                     individual.Enemy.AttackSpeed,
                     individual.Weapon.ProjectileSpeed
                 );
-#if UNITY_EDITOR
-                //AssetDatabase.CreateAsset(enemySo, filename + "Enemy" + i + ".asset");
-#endif
                 enemyList.Add(enemySo);
-
-                i++;
             }
-#if UNITY_EDITOR
-            //AssetDatabase.Refresh();
-#endif
             Debug.Log("The enemies were created!");
-
             return enemyList;
         }
     }

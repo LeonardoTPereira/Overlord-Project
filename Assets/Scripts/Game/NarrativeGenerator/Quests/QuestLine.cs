@@ -13,7 +13,7 @@ namespace Game.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLine", menuName = "Overlord-Project/QuestLine", order = 0)]
     [Serializable]
-    public class QuestLine : ScriptableObject
+    public class QuestLine : ScriptableObject, SaveableGeneratedContent
     {
         [SerializeField] public List<QuestSO> graph;
         [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
@@ -77,28 +77,47 @@ namespace Game.NarrativeGenerator.Quests
             _npcParametersForQuestLine = new QuestNpcsParameters();
         }
 
-        public void CreateAsset(PlayerProfile.PlayerProfileCategory playerProfileCategory)
+        public void SaveAsset(string directory)
         {
 #if UNITY_EDITOR
-            // Define the JSON file extension
+            var newDirectory = Constants.SEPARATOR_CHARACTER + "QuestLine";
+            var guid = AssetDatabase.CreateFolder(directory, newDirectory);
+            newDirectory = AssetDatabase.GUIDToAssetPath(guid);
+            CreateAssetsForQuests(newDirectory);
+            CreateAssetsForDungeons(newDirectory);
+            CreateAssetsForEnemies(newDirectory);
             const string extension = ".asset";
-
             Debug.Log("Quest Size: " + graph.Count);
-            // Build the target path
-            var target = "Assets";
-            target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "Experiment";
-            var newFolder = Constants.SEPARATOR_CHARACTER + playerProfileCategory.ToString();
-            if (!AssetDatabase.IsValidFolder(target + newFolder))
-            {
-                AssetDatabase.CreateFolder(target, newFolder);
-            }
-            target += newFolder;
-            var fileName = target+ Constants.SEPARATOR_CHARACTER +"Narrative_" + graph[0] + extension;
+
+            var fileName = newDirectory+ Constants.SEPARATOR_CHARACTER +"Narrative_" + graph[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             AssetDatabase.Refresh();
 #endif
         }
+
+        public void CreateAssetsForQuests(string directory)
+        {
+            foreach (var quest in graph)
+            {
+                quest.SaveAsset(directory);
+            }
+        }
+        public void CreateAssetsForDungeons(string directory)
+        {
+            foreach (var dungeon in _dungeonFileSos)
+            {
+                dungeon.SaveAsset(directory);
+            }
+        }
+        
+        public void CreateAssetsForEnemies(string directory)
+        {
+            foreach (var enemy in _enemySos)
+            {
+                enemy.SaveAsset(directory);
+            }
+        }
+        
     }
 }
