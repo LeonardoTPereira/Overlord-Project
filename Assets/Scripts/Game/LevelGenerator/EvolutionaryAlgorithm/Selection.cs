@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Util;
@@ -6,7 +5,7 @@ using Util;
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
     /// Alias for the coordinate of MAP-Elites matrix.
-    using Coordinate = ValueTuple<int, int>;
+    using Coordinate = System.ValueTuple<int, int>;
 
     /// This class holds the selector operator.
     public static class Selection
@@ -55,7 +54,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             Coordinate coordinate = (Common.UNKNOWN, Common.UNKNOWN);
             for (int i = 0; i < totalCompetitors; i++)
             {
-                if (winner is not null && competitors[i].Fitness.result <= winner.Fitness.result) continue;
+                if (winner != null && competitors[i].Fitness.result <= winner.Fitness.result) continue;
                 winner = competitors[i];
                 coordinate = coordinates[i];
             }
