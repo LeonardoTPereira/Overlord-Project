@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
 using UnityEngine;
 
-namespace Game.LevelGenerator
+namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
     public class Fitness
@@ -48,13 +47,13 @@ namespace Game.LevelGenerator
         /// the negative value of the sparsity of enemies. The last item is
         /// negative because this fitness aims to minimize its value while
         /// maximizing the sparsity of enemies.
-        public void Calculate(ref Individual _individual) {
+        public void Calculate(ref Individual individual) {
             // Create aliases for the individual's attributes
-            Dungeon dungeon = _individual.dungeon;
+            Dungeon dungeon = individual.dungeon;
             int rooms = dungeon.Rooms.Count;
             int keys = dungeon.KeyIds.Count;
             int locks = dungeon.LockIds.Count;
-            float linearCoefficient = _individual.linearCoefficient;
+            float linearCoefficient = individual.linearCoefficient;
             // Calculate the distance between the attributes of the generated
             // dungeon to the entered parameters
             fRooms = Math.Abs(DesiredParameters.DesiredRooms - rooms);
@@ -67,17 +66,17 @@ namespace Game.LevelGenerator
             if (dungeon.LockIds.Count > 0)
             {
                 // Calculate the number of locks needed to finish the level
-                _individual.neededLocks = AStar.FindRoute(dungeon);
+                individual.neededLocks = AStar.FindRoute(dungeon);
                 // Validate the calculated number of needed locks
-                if (_individual.neededLocks > dungeon.LockIds.Count)
+                if (individual.neededLocks > dungeon.LockIds.Count)
                 {
                     throw new InvalidDataException("Inconsistency! The number of " +
                                         "needed locks is higher than the number of total " +
                                         "locks of the level." +
                                         "\n  Total locks=" + dungeon.LockIds.Count +
-                                        "\n  Needed locks=" + _individual.neededLocks);
+                                        "\n  Needed locks=" + individual.neededLocks);
                 }
-                fNeededLocks = dungeon.LockIds.Count - _individual.neededLocks;
+                fNeededLocks = dungeon.LockIds.Count - individual.neededLocks;
                 // Calculate the number of rooms needed to finish the level
                 float neededRooms = 0f;
                 for (int i = 0; i < 3; i++)
@@ -86,17 +85,17 @@ namespace Game.LevelGenerator
                     dfs.FindRoute();
                     neededRooms += dfs.NVisitedRooms;
                 }
-                _individual.neededRooms = neededRooms / 3.0f;
+                individual.neededRooms = neededRooms / 3.0f;
                 // Validate the calculated number of needed rooms
-                if (_individual.neededRooms > dungeon.Rooms.Count)
+                if (individual.neededRooms > dungeon.Rooms.Count)
                 {
                     throw new InvalidDataException("Inconsistency! The number of " +
                                                    "needed rooms is higher than the number of total " +
                                                    "rooms of the level." +
                                                    "\n  Total rooms=" + dungeon.Rooms.Count +
-                                                   "\n  Needed rooms=" + _individual.neededRooms);
+                                                   "\n  Needed rooms=" + individual.neededRooms);
                 }
-                fNeededRooms = dungeon.Rooms.Count - _individual.neededRooms;
+                fNeededRooms = dungeon.Rooms.Count - individual.neededRooms;
                 // Update the fitness by summing the number of needed rooms and
                 // the number of needed locks
                 fit += fNeededLocks + fNeededRooms;

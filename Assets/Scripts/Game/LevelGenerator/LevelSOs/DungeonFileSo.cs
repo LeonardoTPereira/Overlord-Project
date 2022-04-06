@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelManager;
 using UnityEditor;
 using UnityEngine;

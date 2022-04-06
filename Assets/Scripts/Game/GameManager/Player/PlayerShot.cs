@@ -37,20 +37,20 @@ namespace Game.GameManager.Player
         protected override void OnEnable()
         {
             base.OnEnable();
-            WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSO;
+            WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSo;
         }
         
         protected override void OnDisable()
         {
             base.OnEnable();
-            WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSO;
+            WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSo;
         }
 
         protected override void Start()
         {
             base.Start();         
             projectileType = GameManagerSingleton.Instance.projectileSet.Items[_currentProjectile];
-            SetProjectileSO(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.Instance.projectileType));
+            SetProjectileSo(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.Instance.projectileType));
             _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         }
 
@@ -136,7 +136,7 @@ namespace Game.GameManager.Player
 
         public void ChangeWeapon(InputAction.CallbackContext context)
         {
-            NextProjectileSO();
+            NextProjectileSo();
         }
 
         private IEnumerator CountCooldown(float bulletCooldown)
@@ -162,7 +162,7 @@ namespace Game.GameManager.Player
             _canShoot = false;
         }
         
-        private void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
+        private void SetProjectileSo(object sender, LoadWeaponButtonEventArgs eventArgs)
         {
             projectileType = eventArgs.ProjectileSO;
             bulletPrefab = projectileType.projectilePrefab;
@@ -171,11 +171,11 @@ namespace Game.GameManager.Player
             bulletPrefab.GetComponent<SpriteRenderer>().color = eventArgs.ProjectileSO.color;
         }
         
-        private void NextProjectileSO()
+        private void NextProjectileSo()
         {
             _currentProjectile = (_currentProjectile + 1) % GameManagerSingleton.Instance.projectileSet.Items.Count;
             projectileType = GameManagerSingleton.Instance.projectileSet.Items[_currentProjectile];
-            SetProjectileSO(this, new LoadWeaponButtonEventArgs(projectileType));
+            SetProjectileSo(this, new LoadWeaponButtonEventArgs(projectileType));
         }
     }
 }

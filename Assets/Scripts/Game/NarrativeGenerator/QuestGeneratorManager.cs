@@ -142,6 +142,7 @@ namespace Game.NarrativeGenerator
 
         private void SaveSOs(string profileName)
         {
+#if UNITY_EDITOR
             // Build the target path
             var target = "Assets";
             target += Constants.SEPARATOR_CHARACTER + "Resources";
@@ -156,7 +157,7 @@ namespace Game.NarrativeGenerator
             target += Constants.SEPARATOR_CHARACTER + newFolder;
             Quests.SaveAsset(target);
             questLines.AddQuestLine(Quests);
-#if UNITY_EDITOR
+
             EditorUtility.SetDirty(questLines);
             AssetDatabase.SaveAssetIfDirty(questLines);
 
