@@ -1,4 +1,5 @@
 using System;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 
 namespace Game.LevelGenerator
 {

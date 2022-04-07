@@ -1,4 +1,6 @@
 ﻿using Game.Events;
+using Game.NarrativeGenerator;
+using Game.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
@@ -16,23 +18,41 @@ namespace Game.GameManager
         Button button;
         [SerializeField]
         SceneReference levelToLoad;
+
+        private bool isProjectileChosen = false;
+        private bool isQuestGenerated = false;
         public static event LoadWeaponButtonEvent LoadWeaponButtonEventHandler;
 
         protected void OnEnable()
         {
             button.interactable = false;
+            QuestGeneratorManager.QuestLineCreatedEventHandler += EnableNextButton;
             WeaponSelectionButtonBHV.SelectWeaponButtonEvent += PrepareWeapon;
         }
 
         protected void OnDisable()
         {
             WeaponSelectionButtonBHV.SelectWeaponButtonEvent -= PrepareWeapon;
+            QuestGeneratorManager.QuestLineCreatedEventHandler -= EnableNextButton;
         }
 
         protected void PrepareWeapon(object sender, LoadWeaponButtonEventArgs eventArgs)
         {
             projectileSO = eventArgs.ProjectileSO;
-            button.interactable = true;
+            isProjectileChosen = true;
+            if (isQuestGenerated)
+            {
+                button.interactable = true;
+            }
+        }
+        
+        private void EnableNextButton(object sender, QuestLineCreatedEventArgs args)
+        {
+            isQuestGenerated = true;
+            if (isProjectileChosen)
+            {
+                button.interactable = true;
+            }
         }
 
         public void GoToNext()

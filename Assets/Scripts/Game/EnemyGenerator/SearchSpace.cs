@@ -82,11 +82,11 @@ namespace Game.EnemyGenerator
                 if (instance is null)
                 {
                     instance = new SearchSpace(
-                        (1, 5),                         // Health
+                        (1, 6),                         // Health
                         (1, 4),                         // Strength
                         (0.75f, 4f),                    // Attack Speed
                         SearchSpace.AllMovementTypes(), // Movement Types
-                        (0.8f, 2.8f),                   // Movement Speed
+                        (0.8f, 3.2f),                   // Movement Speed
                         (1.5f, 10f),                    // Active Time
                         (0.3f, 1.5f),                   // Rest Time
                         SearchSpace.AllWeaponTypes(),   // Weapon Types

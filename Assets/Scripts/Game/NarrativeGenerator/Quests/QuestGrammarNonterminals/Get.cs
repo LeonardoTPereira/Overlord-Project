@@ -60,7 +60,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var selectedItem = possibleItems.GetRandomItem();
             selectedItems.Add(selectedItem, 1);
             getItemQuest.Init(ItemsToString(selectedItems), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedItems);
-            getItemQuest.SaveAsAsset();
+            //getItemQuest.SaveAsAsset();
             questSos.Add(getItemQuest);
 
         }
@@ -81,7 +81,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
             dropItemData.Add(selectedItem, selectedEnemyTypes);
             dropQuest.Init(DropItemsToString(dropItemData), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, dropItemData);
-            dropQuest.SaveAsAsset();
+            //dropQuest.SaveAsAsset();
             questSos.Add(dropQuest);
         }
 

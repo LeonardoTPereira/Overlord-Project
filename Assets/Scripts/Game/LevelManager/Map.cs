@@ -60,7 +60,7 @@ namespace Game.LevelManager
         //TODO passes level's SO when created in real time to take place of old method that used the "Dungeon" object
         private void ReadMapFile(DungeonFileSo dungeonFileSO)
         {
-            Dimensions = dungeonFileSO.dimensions;
+            Dimensions = dungeonFileSO.DungeonSizes;
             DungeonPart currentDungeonPart;
             dungeonFileSO.ResetIndex();
             while ((currentDungeonPart = dungeonFileSO.GetNextPart()) != null)
@@ -68,13 +68,13 @@ namespace Game.LevelManager
                 ProcessDungeonPart(currentDungeonPart);
             }
             GameManagerSingleton.Instance.maxRooms = NRooms;
-            foreach (SORoom room in dungeonFileSO.rooms)
+            foreach (SORoom room in dungeonFileSO.Rooms)
             {
-                if (room.keys.Count > 0)
+                if ((room.keys?.Count??0) > 0)
                 {
                     NKeys += room.keys.Count;
                 }
-                if (room.locks.Count > 0)
+                if ((room.locks?.Count??0) > 0)
                 {
                     NLocks += room.locks.Count;
                 }

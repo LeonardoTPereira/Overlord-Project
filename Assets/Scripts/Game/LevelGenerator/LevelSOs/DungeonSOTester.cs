@@ -11,7 +11,7 @@ namespace Game.LevelGenerator.LevelSOs
 
         public void OnDrawGizmos()
         {
-            foreach (var room in currentDungeonSO.rooms)
+            foreach (var room in currentDungeonSO.Rooms)
             {
                 var size = new Vector3(3, 3, 0);
                 // Draw a yellow sphere at the transform's position

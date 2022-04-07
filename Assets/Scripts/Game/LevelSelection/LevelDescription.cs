@@ -27,8 +27,8 @@ namespace Game.LevelSelection
         private void CreateDungeonDescription(DungeonFileSo dungeon)
         {
             DungeonDescription = "";
-            DungeonDescription += "Rooms: " + dungeon.rooms.Count;
-            DungeonDescription += "\nFitness: " + dungeon.fitness;
+            DungeonDescription += "Rooms: " + dungeon.Rooms.Count;
+            DungeonDescription += "\nFitness: " + dungeon.FitnessFromEa;
         }
         
         private void CreateQuestDescription(QuestLine quests)

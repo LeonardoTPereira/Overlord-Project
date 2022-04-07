@@ -39,7 +39,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
             var selectedNpc = possibleNpcSos.GetRandom();
             talkQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedNpc);
-            talkQuest.SaveAsAsset();
+            //talkQuest.SaveAsAsset();
             questSos.Add(talkQuest);
         }
     }

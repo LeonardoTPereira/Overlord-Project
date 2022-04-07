@@ -12,11 +12,11 @@
     public static class EnemyUtil
     {
         //The population size of the EA
-        public const float veryEasyDifficulty = 10.0f;
-		public const float easyDifficulty = 14.0f;
-		public const float mediumDifficulty = 18.0f;
-		public const float hardDifficulty = 22f;
-		public const float veryHardDifficulty = 26f;
+        public const float veryEasyDifficulty = 11.0f;
+		public const float easyDifficulty = 13.0f;
+		public const float mediumDifficulty = 15.0f;
+		public const float hardDifficulty = 17f;
+		public const float veryHardDifficulty = 19f;
 		public const int nBestEnemies = 20;
 		public const int minDamage = 1;
 		public const int maxDamage = 4;

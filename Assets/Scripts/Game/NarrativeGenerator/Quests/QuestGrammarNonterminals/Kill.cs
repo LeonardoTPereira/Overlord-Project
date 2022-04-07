@@ -48,7 +48,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 10;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
             killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedEnemyTypes);
-            killQuest.SaveAsAsset();
+            //killQuest.SaveAsAsset();
             questSos.Add(killQuest);
         }
         

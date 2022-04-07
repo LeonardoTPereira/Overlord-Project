@@ -25,7 +25,7 @@ namespace Game.LevelManager
         {
             if (dungeonRoom.type?.Equals(Constants.RoomTypeString.CORRIDOR) ?? false)
                 return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
-            if (dungeonRoom.locks.Count == 0)
+            if ((dungeonRoom.locks?.Count ?? 0) == 0)
                 return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom.keys ?? new List<int>(),
                     dungeonRoom.Treasures, dungeonRoom.TotalEnemies, dungeonRoom.Npcs);
             for (var i = 0; i < dungeonRoom.locks.Count; ++i)

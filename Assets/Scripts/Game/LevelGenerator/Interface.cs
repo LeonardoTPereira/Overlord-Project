@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
 using Game.NarrativeGenerator.Quests;
-using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -17,8 +16,7 @@ namespace Game.LevelGenerator
          * We now save it directly into a Unity's Resource Directory
          */
         public static void PrintNumericalGridWithConnections(
-            Individual _individual,
-            Fitness _fitness, QuestLine _questLine)
+            Individual _individual, QuestLine _questLine)
         {
             Dungeon dun = _individual.dungeon;
 
@@ -26,10 +24,7 @@ namespace Game.LevelGenerator
             List<int> lockedRooms = new List<int>();
             List<int> keys = new List<int>();
 
-            string foldername = "Assets/Resources/Experiment/Dungeons";
-
-            var filename = GetFilename(_individual, _fitness);
-
+            
             DungeonFileSo dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
 
             //saves where the dungeon grid begins and ends in each direction
@@ -54,8 +49,8 @@ namespace Game.LevelGenerator
             //hence 2*size
             int[,] map = new int[2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
-            dungeonFileSO.dimensions = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
-            dungeonFileSO.fitness = _individual.fitness;
+            dungeonFileSO.DungeonSizes = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
+            dungeonFileSO.FitnessFromEa = _individual.Fitness;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.DungeonDimensions.Width; ++i)
             {
@@ -70,46 +65,12 @@ namespace Game.LevelGenerator
             InitializeDungeonSoFromMap(dungeonFileSO, dun, map);
             //The assetdatabase stuff only works in the Unity's Editor
             //As is, we can't save a level file in a released build of the game
-#if UNITY_EDITOR
-            int count = 0;
-            string path;
-
-            Directory.CreateDirectory(foldername);
-
-            //Saves the file with the name of its input for the EA and adds a number at the end if a file with the same name exists
-            //This prevents the file is overwritten
-            path = AssetDatabase.AssetPathToGUID($"{foldername}/{filename}.txt");
-            while (path != "")
-            {
-                count++;
-                path = AssetDatabase.AssetPathToGUID($"{foldername}/{filename}-{count}.txt");
-            }
-
-            if (count > 0)
-                filename += "-" + count;
-            filename = foldername + "/" + filename;
-
-
-            int sameFilenameCounter = 0;
-
-            if (File.Exists(filename + ".asset"))
-            {
-                do
-                {
-                    sameFilenameCounter++;
-                } while (File.Exists(filename + "-" + sameFilenameCounter + ".asset"));
-
-                filename += "-" + sameFilenameCounter;
-            }
-
-            AssetDatabase.CreateAsset(dungeonFileSO, filename + ".asset");
             _questLine.DungeonFileSos.Add(dungeonFileSO);
-#endif
         }
 
         private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSO, Dungeon dun, int[,] map)
         {
-            dungeonFileSO.rooms = new List<SORoom>();
+            dungeonFileSO.Rooms = new List<SORoom>();
             //Now we print it/save to a file/whatever
             for (var i = 0; i < dun.DungeonDimensions.Width * 2; ++i)
             {
@@ -139,7 +100,7 @@ namespace Game.LevelGenerator
 
                     if (roomDataInFile != null)
                     {
-                        dungeonFileSO.rooms.Add(roomDataInFile);
+                        dungeonFileSO.Rooms.Add(roomDataInFile);
                     }
                 }
             }
@@ -286,31 +247,6 @@ namespace Game.LevelGenerator
             }
         }
 
-        private static string GetFilename(Individual _individual, Fitness _fitness)
-        {
-            // Get the coordinate values corresponding to the Elite
-            float ce = _individual.exploration;
-            float le = _individual.leniency;
-            int e = SearchSpace.GetCoefficientOfExplorationIndex(ce);
-            int l = SearchSpace.GetLeniencyIndex(le);
-            (float, float)[] listCE = SearchSpace.CoefficientOfExplorationRanges();
-            (float, float)[] listLE = SearchSpace.LeniencyRanges();
-            string strCE = ("" + listCE[e])
-                .Replace(" ", "").Replace("(", "")
-                .Replace(")", "").Replace(",", "~");
-            string strLE = ("" + listLE[l])
-                .Replace(" ", "").Replace("(", "")
-                .Replace(")", "").Replace(",", "~");
-            // Set the dungeon filename
-            string filename = "";
-            filename = "R" + _fitness.DesiredRooms +
-                       "-K" + _fitness.DesiredKeys +
-                       "-L" + _fitness.DesiredLocks +
-                       "-E" + _fitness.DesiredEnemies +
-                       "-L" + _fitness.DesiredLinearity +
-                       "-CE" + strCE +
-                       "-LE" + strLE;
-            return filename;
-        }
+
     }
 }

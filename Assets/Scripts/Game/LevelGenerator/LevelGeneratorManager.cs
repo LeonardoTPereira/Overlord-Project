@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Game.Events;
 using Game.GameManager;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -14,16 +15,9 @@ namespace Game.LevelGenerator
 {
     public class LevelGeneratorManager : MonoBehaviour
     {
-        /// The parameters of the evolutionary process
-        private static readonly int MAX_TIME = 60;
-        private static readonly int INITIAL_POPULATION_SIZE = 20;
-        private static readonly int MUATION_RATE = 5;
-        private static readonly int NUMBER_OF_COMPETITORS = 2;
-        private Parameters _parameters;
-
         /// Level generator
         private LevelGenerator generator;
-        private Fitness fitness;
+        private Parameters parameters;
 
         /// Attributes to communicate to Game Manager
         // Flags if the dungeon has been gerated for Unity's Game Manager to handle things after
@@ -52,33 +46,24 @@ namespace Game.LevelGenerator
         public void OnEnable()
         {
             LevelGeneratorController.createEADungeonEventHandler += EvolveDungeonPopulation;
-            QuestGeneratorManager.CreateEaDungeonEventHandler += EvolveDungeonPopulation;
         }
 
         public void OnDisable()
         {
             LevelGeneratorController.createEADungeonEventHandler -= EvolveDungeonPopulation;
-            QuestGeneratorManager.CreateEaDungeonEventHandler -= EvolveDungeonPopulation;
         }
 
         // The "Main" behind the Dungeon Generator
         public void EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
         {
-            fitness = eventArgs.Fitness;
+            parameters = eventArgs.Parameters;
             _questLine = eventArgs.QuestLineForDungeon;
-            // Define the evolutionary parameters
-            _parameters = new Parameters(
-                MAX_TIME,                 // Maximum time
-                INITIAL_POPULATION_SIZE,  // Initial population size
-                MUATION_RATE,             // Mutation chance
-                NUMBER_OF_COMPETITORS,    // Number of tournament competitors
-                fitness.DesiredRooms,     // Number of rooms
-                fitness.DesiredKeys,      // Number of keys
-                fitness.DesiredLocks,     // Number of locks
-                fitness.DesiredEnemies,   // Number of enemies
-                fitness.DesiredLinearity, // Linear coefficient
-                fitness // Object that calculates the fitness of individuals
-            );
+            var fitnessParameters = parameters.FitnessParameters;
+            Debug.Log(fitnessParameters.DesiredEnemies + " " + fitnessParameters.DesiredKeys + " " + fitnessParameters.DesiredRooms);
+            Debug.Log("Quest Line to Evolve: " + _questLine);
+            Debug.Log("Quest Line to Evolve: " + _questLine.graph);
+            Debug.Log("Quest Line to Evolve: " + _questLine.EnemySos.Count);
+
             // Start the generation process
             Thread t = new Thread(Evolve);
             t.Start();
@@ -90,6 +75,7 @@ namespace Game.LevelGenerator
             // Wait until the dungeons were generated
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
+            Debug.Log("Finished evolving, save dungeon SOs");
             _dungeonFileSos = new List<DungeonFileSo>();
             // Write all the generated dungeons in ScriptableObjects
             var solution = generator.Solution;
@@ -100,7 +86,7 @@ namespace Game.LevelGenerator
                     var individual = solution.map[e, l];
                     if (individual != null)
                     {
-                        Interface.PrintNumericalGridWithConnections(individual, fitness, _questLine);
+                        Interface.PrintNumericalGridWithConnections(individual, _questLine);
                     }
                 }
             }
@@ -112,7 +98,7 @@ namespace Game.LevelGenerator
         public void Evolve()
         {
             hasFinished = false;
-            generator = new LevelGenerator(_parameters, newEAGenerationEventHandler);
+            generator = new LevelGenerator(parameters, newEAGenerationEventHandler);
             generator.Evolve();
         }
     }
