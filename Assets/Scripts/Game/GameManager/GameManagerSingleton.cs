@@ -9,6 +9,7 @@ using Game.GameManager.Player;
 using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
+using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -301,6 +302,9 @@ namespace Game.GameManager
             TriforceBhv.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
             DungeonLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
+            LevelSelectItem.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
+            LevelSelectItem.LoadLevelEventHandler += SetCurrentLevelQuestLine;
+            LevelSelectItem.LoadLevelEventHandler += SetCurrentLevelSO;
         }
         void OnDisable()
         {
@@ -314,6 +318,9 @@ namespace Game.GameManager
             TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
             DungeonLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
+            LevelSelectItem.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
+            LevelSelectItem.LoadLevelEventHandler -= SetCurrentLevelSO;
+            LevelSelectItem.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
         }
 
         private void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)
