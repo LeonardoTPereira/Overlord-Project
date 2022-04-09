@@ -108,7 +108,7 @@ namespace Game.EnemyGenerator
                 }
                 g++;
             }
-            pop.Debug();
+            //pop.Debug();
             // Get the final population (solution)
             _solution = pop;
 

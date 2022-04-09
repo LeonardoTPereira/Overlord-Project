@@ -202,9 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d225af0c012a401b9fbdd077c1f67464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Quests>k__BackingField: {fileID: 11400000, guid: bc85fbed345c7f44d8f6efe39a0ecc78,
+  <Quests>k__BackingField: {fileID: 11400000, guid: 782b5747a5f821b4885f2fdd7d9b7a2b,
     type: 2}
-  <Dungeon>k__BackingField: {fileID: 11400000, guid: ae983bbce9b0b394ca96d211cbac4743,
+  <Dungeon>k__BackingField: {fileID: 11400000, guid: f70a9ff607640de448ffa2294f5bc99e,
     type: 2}
   levelDescription: {fileID: 0}
 --- !u!114 &1302385854558196042
@@ -278,19 +278,7 @@ MonoBehaviour:
     m_ActionId: 7d691fa3-874e-4835-a5eb-041e8bd2f6e9
     m_ActionName: UI/Point[/Mouse/position,/Pen/position]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1302385854558196041}
-        m_TargetAssemblyTypeName: Game.LevelSelection.LevelSelectItem, Project.Game
-        m_MethodName: ConfirmStageSelection
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 5b23e057-6cc7-4712-95e4-107ff56a97e7
     m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip]
   - m_PersistentCalls:
@@ -355,10 +343,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+    m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

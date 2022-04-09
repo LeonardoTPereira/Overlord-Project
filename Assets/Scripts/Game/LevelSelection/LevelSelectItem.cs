@@ -12,8 +12,8 @@ namespace Game.LevelSelection
     public class LevelSelectItem : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         public string LevelId { get; set; }
-        [field:SerializeField] public QuestLine Quests { get; set; }
-        [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
+
+        [field: SerializeField] public LevelData levelData { get; set; }
 
         [SerializeField] private LevelDescription levelDescription;
 
@@ -30,14 +30,15 @@ namespace Game.LevelSelection
         {
             if(!isSelected) return;
             Debug.Log("Confirmed Level!");
-            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(Dungeon, Quests, false));
+            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(levelData.Dungeon, levelData.Quests, false));
             SceneManager.LoadScene("LevelWithEnemies");
         }
+
         public void OnSelect(BaseEventData eventData)
         {
             Debug.Log("Selected Level!");
             isSelected = true;
-            levelDescription.CreateDescriptions(Dungeon, Quests);
+            levelDescription.CreateDescriptions(levelData);
         }
 
         public void OnDeselect(BaseEventData eventData)

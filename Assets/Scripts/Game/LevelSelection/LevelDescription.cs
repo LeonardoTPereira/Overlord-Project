@@ -16,10 +16,10 @@ namespace Game.LevelSelection
 
         private bool _isShowingDungeon;
 
-        public void CreateDescriptions(DungeonFileSo dungeon, QuestLine quests)
+        public void CreateDescriptions(LevelData levelData)
         {
-            CreateDungeonDescription(dungeon);
-            CreateQuestDescription(quests);
+            CreateDungeonDescription(levelData.Dungeon);
+            CreateQuestDescription(levelData.Quests);
             _isShowingDungeon = false;
             ChangeDescription();
         }

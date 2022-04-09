@@ -10,7 +10,6 @@ using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
 using Game.LevelSelection;
-using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
@@ -21,16 +20,11 @@ using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Util;
-using Random = System.Random;
 
 namespace Game.GameManager
 {
     public class GameManagerSingleton : MonoBehaviour
     {
-#if UNITY_EDITOR
-        [Foldout("Scriptable Objects"), Header("Set With All Possible Treasures")]
-#endif
-        public TreasureRuntimeSetSO treasureSet;
 #if UNITY_EDITOR
         [Foldout("Scriptable Objects"), Header("Set With All Possible Projectiles")]
 #endif
@@ -42,18 +36,13 @@ namespace Game.GameManager
 #if UNITY_EDITOR
         [Foldout("Scriptable Objects"), Header("Enemy Components")]
 #endif
-        public EnemyComponentsSO enemyComponents;
-
         public QuestLine currentQuestLine;
         protected LevelGeneratorManager generator;
-        public Dungeon createdDungeon;
 #if UNITY_EDITOR
         [Separator("Other Stuff")]
 #endif
         [SerializeField]
         Button startButton;
-        [SerializeField]
-        TextMeshProUGUI progressText;
         private IEnumerator coroutine;
         private bool isCompleted;
         private bool isInGame;
@@ -67,24 +56,17 @@ namespace Game.GameManager
         public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
         public AudioSource audioSource;
         public AudioClip bgMusic, fanfarreMusic;
-        public TextMeshProUGUI keyText, roomText, levelText;
         public List<RoomBhv> roomPrefabs;
         public Transform roomsParent;  //Transform to hold rooms for leaner hierarchy view
         public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public float roomSpacingX = 30f; //Spacing between rooms: X
         public float roomSpacingY = 20f; //Spacing between rooms: Y
         private string mapDirectory;
-        private int currentMapId = 0;
         private int currentTestBatchId = 0;
-        public bool readRooms = true;
-        public GameObject gameOverScreen, victoryScreen, introScreen, gameUI;
-
-        private static float secondsElapsed = 0;
-
-        public bool createEnemy, survivalMode, enemyMode;
+        public GameObject gameOverScreen, victoryScreen, introScreen;
+        
+        public bool survivalMode, enemyMode;
         public EnemyLoader enemyLoader;
-        public HealthUI healthUI;
-        public KeyUI keyUI;
 
         public bool IsLastQuestLine { get; set; }
 
@@ -96,11 +78,11 @@ namespace Game.GameManager
 
         public int maxTreasure, maxRooms, maxEnemies;
         public int mapFileMode;
-        public GameObject panelIntro;
 
-        /*Luana e Paolo*/
-        public string levelFile;
         public bool arenaMode = false;
+
+        [field: Scene] public string GameUI { get; set; } = "GameUI";
+
         public void Awake()
         {
             //Singleton
@@ -113,18 +95,6 @@ namespace Game.GameManager
             DontDestroyOnLoad(gameObject);
             enemyLoader = gameObject.GetComponent<EnemyLoader>();
             audioSource = GetComponent<AudioSource>();
-        }
-
-        // Process all files in the directory passed in, recurse on any directories 
-        // that are found, and process the files they contain.
-        public static void ProcessDirectory(string targetDirectory, string search, ref string[] files)
-        {
-            // Process the list of files found in the directory.
-            files = Directory.GetFiles(targetDirectory, search);
-            foreach (string file in files)
-            {
-                TextAsset asset = Resources.Load<TextAsset>("test");
-            }
         }
 
         // Use this for initialization
@@ -141,27 +111,7 @@ namespace Game.GameManager
                 InstantiateRoom(currentPart, roomBhv);
             }
         }
-
-        // Update is called once per frame
-        private void Update()
-        {
-            secondsElapsed += Time.deltaTime;
-            if (!isInGame && generator != null && generator.hasFinished)
-            {
-                Instance.createdDungeon = generator.aux;
-                if (startButton != null)
-                    startButton.interactable = true;
-            }
-            if (isCompleted && generator != null && generator.hasFinished)
-            {
-                Instance.createdDungeon = generator.aux;
-                currentMapId++;
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
-            }
-
-        }
-
+        
         void LoadMap(DungeonFileSo dungeonFileSO)
         {
             map = new Map(dungeonFileSO, null, mapFileMode);
@@ -276,7 +226,7 @@ namespace Game.GameManager
         private void LevelComplete(object sender, EventArgs eventArgs)
         {
             ChangeMusic(fanfarreMusic);
-            gameUI.SetActive(false);
+            SceneManager.UnloadSceneAsync(GameUI);
             //TODO save every gameplay data
             //TODO make it load a new level
 
@@ -336,9 +286,7 @@ namespace Game.GameManager
                 startButton = null;
                 isCompleted = false;
 
-                gameUI.SetActive(true);
-                healthUI = gameUI.GetComponentInChildren<HealthUI>();
-                keyUI = gameUI.GetComponentInChildren<KeyUI>();
+                SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
                 OnLevelLoadedEvents();
                 LoadNewLevel(currentDungeonSO);
             }
@@ -371,7 +319,7 @@ namespace Game.GameManager
         //TODO display something about the player losing and call a continue screen os something like this.
         private void GameOver(object sender, EventArgs eventArgs)
         {
-            gameUI.SetActive(false);
+            SceneManager.UnloadSceneAsync(GameUI);
             gameOverScreen.SetActive(true);
         }
 

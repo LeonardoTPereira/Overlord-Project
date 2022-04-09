@@ -22,18 +22,7 @@ namespace Game.LevelGenerator
         /// Attributes to communicate to Game Manager
         // Flags if the dungeon has been gerated for Unity's Game Manager to handle things after
         public bool hasFinished;
-        // The aux the Game Manager will access to load the created dungeon
-        public Dungeon aux;
-        // The event to handle the progress bar update
-        public static event NewEAGenerationEvent newEAGenerationEventHandler;
-
-        /// The external parameters of printing purposes
-        [MustBeAssigned]
-        public TreasureRuntimeSetSO treasureRuntimeSetSO;
-        [MustBeAssigned]
-        public WeaponTypeRuntimeSetSO weaponTypeRuntimeSetSO;
         private QuestLine _questLine;
-        private List<DungeonFileSo> _dungeonFileSos;
 
         /**
          * The constructor of the "Main" behind the EA
@@ -76,7 +65,6 @@ namespace Game.LevelGenerator
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
             Debug.Log("Finished evolving, save dungeon SOs");
-            _dungeonFileSos = new List<DungeonFileSo>();
             // Write all the generated dungeons in ScriptableObjects
             var solution = generator.Solution;
             for (var e = 0; e < solution.dimension.exp; e++)
@@ -90,15 +78,13 @@ namespace Game.LevelGenerator
                     }
                 }
             }
-            // Set the first level as the option to be played in the scene
-            aux = solution.map[0, 0].dungeon;
             hasFinished = true;
         }
 
         public void Evolve()
         {
             hasFinished = false;
-            generator = new LevelGenerator(parameters, newEAGenerationEventHandler);
+            generator = new LevelGenerator(parameters);
             generator.Evolve();
         }
     }

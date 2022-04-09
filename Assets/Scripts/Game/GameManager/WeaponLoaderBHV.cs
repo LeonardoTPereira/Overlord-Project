@@ -57,7 +57,7 @@ namespace Game.GameManager
 
         public void GoToNext()
         {
-            LoadWeaponButtonEventHandler(this, new LoadWeaponButtonEventArgs(projectileSO));
+            LoadWeaponButtonEventHandler?.Invoke(this, new LoadWeaponButtonEventArgs(projectileSO));
             SceneManager.LoadScene(levelToLoad.SceneName);
             gameObject.SetActive(false);
         }

@@ -20,10 +20,8 @@ namespace Game.GameManager
         protected Dictionary<string, TMP_InputField> inputFields;
         [SerializeField]
         protected GameObject progressCanvas, inputCanvas;
-        protected TextMeshProUGUI progressTextUI;
         [SerializeField, Scene]
         protected string levelToLoad;
-        protected string progressText;
 
         [Separator("Parameters to Create Dungeons")]
         [SerializeField]
@@ -39,20 +37,16 @@ namespace Game.GameManager
 
             if (progressCanvas == null) return;
             progressCanvas.SetActive(true);
-            Debug.LogWarning(progressCanvas.transform.Find("ProgressPanel/ProgressText"));
-            progressTextUI = progressCanvas.transform.Find("ProgressPanel/ProgressText").GetComponent<TextMeshProUGUI>();
             progressCanvas.SetActive(false);
 
         }
 
         public void OnEnable()
         {
-            LevelGeneratorManager.newEAGenerationEventHandler += UpdateProgressBar;
             QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            LevelGeneratorManager.newEAGenerationEventHandler -= UpdateProgressBar;
             QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
         }
 
@@ -89,12 +83,6 @@ namespace Game.GameManager
             }
             inputCanvas.SetActive(false);
             progressCanvas.SetActive(true);
-        }
-
-        public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)
-        {
-            progressText = eventArgs.CompletionRate.ToString() + "%";
-            UnityMainThreadDispatcher.Instance().Enqueue(() => progressTextUI.text = progressText);
         }
 
         public void GoToNext()

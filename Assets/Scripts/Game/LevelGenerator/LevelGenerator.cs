@@ -30,18 +30,14 @@ namespace Game.LevelGenerator
 
 
         /// The event to handle the progress bar update.
-        public static event NewEAGenerationEvent eventHandler;
+        public static event NewEAGenerationEvent NewEaGenerationEventHandler;
 
 
         /// Level Generator constructor.
-        public LevelGenerator(
-            Parameters _prs,
-            NewEAGenerationEvent _eventHandler
-        ) {
+        public LevelGenerator(Parameters _prs) {
             prs = _prs;
             data = new Data();
             data.parameters = prs;
-            eventHandler = _eventHandler;
         }
 
         /// Generate and return a set of levels.
@@ -137,10 +133,10 @@ namespace Game.LevelGenerator
 
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
-                int progress = (int) (100 * (seconds / prs.Time));
-                eventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
+                var progress = (float)seconds / prs.Time;
+                NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
             }
-
+            NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f));
             // Get the final population (solution)
             solution = pop;
         }

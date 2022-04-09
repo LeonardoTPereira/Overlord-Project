@@ -6,6 +6,7 @@ using Game.DataCollection;
 using Game.EnemyGenerator;
 using Game.Events;
 using Game.LevelGenerator;
+using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
@@ -25,32 +26,23 @@ namespace Game.NarrativeGenerator
     {
         [MustBeAssigned, SerializeReference, SerializeField]
         private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines;
-        
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
         public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
-
-        [SerializeReference, SerializeField]
-        private QuestLineList questLines;
-
+        [SerializeReference, SerializeField] private QuestLineList questLines;
         [field:SerializeField] public bool MustCreateNarrative { get; set; } = false;
-
         private bool isRealTimeGeneration;
-        
         [SerializeField] private FormQuestionsData preTestQuestionnaire;
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
-
-        
         public List<NpcSo> PlaceholderNpcs => placeholderNpcs;
         public TreasureRuntimeSetSO PlaceholderItems => placeholderItems;
-
         [SerializeField, MustBeAssigned] private List<NpcSo> placeholderNpcs;
         [SerializeField, MustBeAssigned] private TreasureRuntimeSetSO placeholderItems;
         [SerializeField, MustBeAssigned] private WeaponTypeRuntimeSetSO possibleWeapons;
-
         public WeaponTypeRuntimeSetSO PossibleWeapons => possibleWeapons;
         public Selector Selector { get; set; }
         public QuestLine Quests { get; set; }
+        [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -120,6 +112,7 @@ namespace Game.NarrativeGenerator
             {
                 SaveSOs(playerProfile.PlayerProfileEnum.ToString());
             }
+            EliteSelector.SelectEliteForEachLevel(Quests, SelectedLevels);
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
         }
