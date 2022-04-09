@@ -202,10 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d225af0c012a401b9fbdd077c1f67464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Quests>k__BackingField: {fileID: 11400000, guid: 782b5747a5f821b4885f2fdd7d9b7a2b,
-    type: 2}
-  <Dungeon>k__BackingField: {fileID: 11400000, guid: f70a9ff607640de448ffa2294f5bc99e,
-    type: 2}
+  <levelData>k__BackingField:
+    <Quests>k__BackingField: {fileID: 0}
+    <Dungeon>k__BackingField: {fileID: 0}
   levelDescription: {fileID: 0}
 --- !u!114 &1302385854558196042
 MonoBehaviour:
@@ -254,19 +253,7 @@ MonoBehaviour:
     m_ActionId: 0dc6cc35-4e35-4800-a9b3-9d0e6aa7fe68
     m_ActionName: UI/Navigate[/DualShock4GamepadHID/leftStick/up,/DualShock4GamepadHID/rightStick/up,/DualShock4GamepadHID/leftStick/down,/DualShock4GamepadHID/rightStick/down,/DualShock4GamepadHID/leftStick/left,/DualShock4GamepadHID/rightStick/left,/DualShock4GamepadHID/leftStick/right,/DualShock4GamepadHID/rightStick/right,/DualShock4GamepadHID/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1302385854558196041}
-        m_TargetAssemblyTypeName: Game.LevelSelection.LevelSelectItem, Project.Game
-        m_MethodName: ConfirmStageSelection
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 1bde1db8-55f1-4336-9923-a516f228fc7e
     m_ActionName: UI/Submit[/Keyboard/enter,/DualShock4GamepadHID/buttonSouth]
   - m_PersistentCalls:
@@ -306,7 +293,19 @@ MonoBehaviour:
     m_ActionId: b74b3d16-428f-4aff-af15-af0a13ada3a6
     m_ActionName: MenuNavigation/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/DualShock4GamepadHID/dpad,/DualShock4GamepadHID/leftStick]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1302385854558196041}
+        m_TargetAssemblyTypeName: Game.LevelSelection.LevelSelectItem, Project.Game
+        m_MethodName: ConfirmStageSelection
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9eb85cc0-d915-4aad-8319-0dd7f56cf310
     m_ActionName: MenuNavigation/Confirm[/Keyboard/x,/DualShock4GamepadHID/buttonEast,/Keyboard/space]
   - m_PersistentCalls:

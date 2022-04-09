@@ -51,6 +51,8 @@ namespace Game.LevelGenerator
             //The top of the dungeon's file in unity must contain its dimensions
             dungeonFileSO.DungeonSizes = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
             dungeonFileSO.FitnessFromEa = _individual.Fitness;
+            dungeonFileSO.ExplorationCoefficient = _individual.exploration;
+            dungeonFileSO.LeniencyCoefficient = _individual.leniency;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.DungeonDimensions.Width; ++i)
             {

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Game.GameManager.Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -10,9 +12,7 @@ namespace Game.LevelSelection
     {
         [field: SerializeField] public SelectedLevels Selected { get; set; }
         [field: SerializeField] public List<LevelSelectItem> LevelItems { get; set; }
-
-        [field: SerializeField] public GameObject FirstLevel { set; get; }
-
+        
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -26,7 +26,6 @@ namespace Game.LevelSelection
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "LevelSelector") return;
-            EventSystem.current.firstSelectedGameObject = FirstLevel;
             LoadLevelsToItems();
         }
 

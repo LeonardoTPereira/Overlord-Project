@@ -9,8 +9,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     {
         [Foldout("EA Parameters", true)]
         [SerializeField, Range(1, 120)] private int time = 60;
-        [SerializeField, Range(1, 100)] private int population = 20;
-        [SerializeField, Range(0, 100)] private int mutation = 15;
+        [SerializeField, Range(1, 100)] private int population = 25;
+        [SerializeField, Range(0, 100)] private int mutation = 10;
         [SerializeField, Range(1, 10)] private int competitors = 2;
         [SerializeField, Range(1, 40)] private int minimumElite = 8;
         [SerializeField, Range(0.0f, 10.0f)] private float acceptableFitness = 0.5f;
@@ -30,6 +30,10 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public Parameters(FitnessParameters fitnessParameters)
         {
+            Debug.Log("time: "+time);
+            Debug.Log("population: "+population);
+            Debug.Log("mutation: "+mutation);
+            Debug.Log("competitors: "+competitors);
             FitnessParameters = fitnessParameters;
         }
         
