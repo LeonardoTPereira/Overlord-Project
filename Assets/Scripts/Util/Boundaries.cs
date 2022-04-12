@@ -1,6 +1,4 @@
-﻿using Game.LevelManager;
-
-namespace Game.LevelGenerator
+﻿namespace Util
 {
     public class Boundaries
     {

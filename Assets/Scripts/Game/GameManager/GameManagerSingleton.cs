@@ -252,9 +252,9 @@ namespace Game.GameManager
             TriforceBhv.GotTriforceEventHandler += LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += EndGame;
             DungeonLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
-            LevelSelectItem.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
-            LevelSelectItem.LoadLevelEventHandler += SetCurrentLevelQuestLine;
-            LevelSelectItem.LoadLevelEventHandler += SetCurrentLevelSO;
+            LevelSelectManager.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
+            LevelSelectManager.LoadLevelEventHandler += SetCurrentLevelQuestLine;
+            LevelSelectManager.LoadLevelEventHandler += SetCurrentLevelSO;
         }
         void OnDisable()
         {
@@ -268,9 +268,9 @@ namespace Game.GameManager
             TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndGame;
             DungeonLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
-            LevelSelectItem.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
-            LevelSelectItem.LoadLevelEventHandler -= SetCurrentLevelSO;
-            LevelSelectItem.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
+            LevelSelectManager.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
+            LevelSelectManager.LoadLevelEventHandler -= SetCurrentLevelSO;
+            LevelSelectManager.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
         }
 
         private void SetProjectileSO(object sender, LoadWeaponButtonEventArgs eventArgs)

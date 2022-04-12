@@ -256,7 +256,7 @@
             "actions": [
                 {
                     "name": "Navigate",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "0dc6cc35-4e35-4800-a9b3-9d0e6aa7fe68",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -264,7 +264,7 @@
                 },
                 {
                     "name": "Submit",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "1bde1db8-55f1-4336-9923-a516f228fc7e",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -272,7 +272,7 @@
                 },
                 {
                     "name": "Cancel",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "44f7940b-576e-4582-bb16-66aeb3f057be",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -762,7 +762,7 @@
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "b74b3d16-428f-4aff-af15-af0a13ada3a6",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -770,7 +770,7 @@
                 },
                 {
                     "name": "Confirm",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "9eb85cc0-d915-4aad-8319-0dd7f56cf310",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -778,7 +778,7 @@
                 },
                 {
                     "name": "Cancel",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "4231595a-a4d5-4e30-8e70-8dd409dbd197",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -786,7 +786,7 @@
                 },
                 {
                     "name": "ChangeDescription",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "ba373954-b52a-4709-8901-aed820fbc078",
                     "expectedControlType": "Button",
                     "processors": "",

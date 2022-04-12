@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Events;
 using Game.GameManager.Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Game.LevelSelection
@@ -12,7 +14,7 @@ namespace Game.LevelSelection
     {
         [field: SerializeField] public SelectedLevels Selected { get; set; }
         [field: SerializeField] public List<LevelSelectItem> LevelItems { get; set; }
-        
+        public static event LevelLoadEvent LoadLevelEventHandler;
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -33,9 +35,20 @@ namespace Game.LevelSelection
         {
             Debug.Log("Loading levels to items");
             var totalLevels = LevelItems.Count;
-            for (var i = 0; i < totalLevels; ++i)
+            for (var i = 0; i < totalLevels; i++)
             {
-                LevelItems[i].levelData = Selected.Levels[i];
+                LevelItems[i].LevelData = Selected.Levels[i];
+            }
+        }
+        
+        public void ConfirmStageSelection(InputAction.CallbackContext context)
+        {
+            foreach (var level in LevelItems)
+            {
+                if (!level.IsSelected) continue;
+                LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(level.LevelData.Dungeon, level.LevelData.Quests, false));
+                SceneManager.LoadScene("LevelWithEnemies");
+                break;
             }
         }
     }

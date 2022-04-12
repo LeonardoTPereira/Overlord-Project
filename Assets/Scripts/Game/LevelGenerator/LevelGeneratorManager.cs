@@ -66,17 +66,10 @@ namespace Game.LevelGenerator
                 yield return new WaitForSeconds(0.1f);
             Debug.Log("Finished evolving, save dungeon SOs");
             // Write all the generated dungeons in ScriptableObjects
-            var solution = generator.Solution;
-            for (var e = 0; e < solution.dimension.exp; e++)
+            var solutions = generator.Solution.GetBestEliteForEachBiome();
+            foreach (var individual in solutions)
             {
-                for (var l = 0; l < solution.dimension.len; l++)
-                {
-                    var individual = solution.map[e, l];
-                    if (individual != null)
-                    {
-                        Interface.PrintNumericalGridWithConnections(individual, _questLine);
-                    }
-                }
+                Interface.PrintNumericalGridWithConnections(individual, _questLine);
             }
             hasFinished = true;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
@@ -136,6 +137,46 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public void Fix()
         {
             dungeon.Fix(Fitness.DesiredParameters.DesiredEnemies);
+        }
+
+        public void CalculateFitness()
+        {
+            CalculateLinearCoefficient();
+            if (dungeon.LockIds.Count > 0)
+            {
+                // Calculate the number of locks needed to finish the level
+                neededLocks = AStar.FindRoute(dungeon);
+                // Validate the calculated number of needed locks
+                if (neededLocks > dungeon.LockIds.Count)
+                {
+                    throw new InvalidDataException("Inconsistency! The number of " +
+                                                   "needed locks is higher than the number of total " +
+                                                   "locks of the level." +
+                                                   "\n  Total locks=" + dungeon.LockIds.Count +
+                                                   "\n  Needed locks=" + neededLocks);
+                }
+                neededRooms = 0;
+                // Calculate the number of rooms needed to finish the level
+                for (int i = 0; i < 3; i++)
+                {
+                    DFS dfs = new DFS(dungeon);
+                    dfs.FindRoute();
+                    neededRooms += dfs.NVisitedRooms;
+                }
+                neededRooms /= 3.0f;
+                // Validate the calculated number of needed rooms
+                if (neededRooms > dungeon.Rooms.Count)
+                {
+                    throw new InvalidDataException("Inconsistency! The number of " +
+                                                   "needed rooms is higher than the number of total " +
+                                                   "rooms of the level." +
+                                                   "\n  Total rooms=" + dungeon.Rooms.Count +
+                                                   "\n  Needed rooms=" + neededRooms);
+                }
+            }
+            Fitness.Calculate(this);
+            exploration = Metric.CoefficientOfExploration(this);
+            leniency = Metric.Leniency(this);
         }
         
         public Fitness Fitness

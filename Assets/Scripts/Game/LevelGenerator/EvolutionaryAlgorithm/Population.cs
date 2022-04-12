@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Game.Maestro;
+using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
-    /// Alias for the coordinate of MAP-Elites matrix.
-    using Coordinate = System.ValueTuple<int, int>;
-
     /// This struct represents a MAP-Elites population.
     ///
     /// The MAP-Elites population is an N-dimensional array of individuals,
@@ -14,55 +13,25 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     /// This particular population is mapped into the level's coefficient of
     /// exploration and leniency. Thus, each Elite (or matrix cell) corresponds
     /// to a combination of a different degree of exploration and leniency.
-    public struct Population
+    public class Population
     {
-        /// The MAP-Elites dimension. The dimension is defined by the number of
-        /// ranges of coefficient of exploration and leniency.
-        public (int exp, int len) dimension { get; }
         /// The MAP-Elites map (a matrix of individuals).
-        public Individual[,] map { get; }
+        public int LeniencyEliteCount { get; }
+        public int ExplorationEliteCount { get; }
+        public int TotalElites { get; private set; }
+        public List<Individual> EliteList { get; set; }
+        public BiomeMap BiomeMap { get; set; }
+        public MapElites MapElites { get; set; }
 
         /// Population constructor.
-        public Population(
-            int _exp,
-            int _len
-        ) {
-            dimension = (_exp, _len);
-            map = new Individual[dimension.exp, dimension.len];
-        }
-
-        /// Return the number of Elites of the population.
-        public int Count()
+        public Population(int explorationSize, int leniencySize)
         {
-            int count = 0;
-            for (int e = 0; e < dimension.exp; e++)
-            {
-                for (int l = 0; l < dimension.len; l++)
-                {
-                    if (map[e, l] != null)
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
-        /// Return a list corresponding to the Elites coordinates.
-        public List<Coordinate> GetElitesCoordinates()
-        {
-            List<Coordinate> coordinates = new List<Coordinate>();
-            for (int e = 0; e < dimension.exp; e++)
-            {
-                for (int l = 0; l < dimension.len; l++)
-                {
-                    if (map[e, l] != null)
-                    {
-                        coordinates.Add((e, l));
-                    }
-                }
-            }
-            return coordinates;
+            LeniencyEliteCount = leniencySize;
+            ExplorationEliteCount = explorationSize;
+            MapElites = new MapElites(ExplorationEliteCount, LeniencyEliteCount);
+            EliteList = new List<Individual>();
+            TotalElites = 0;
+            BiomeMap = new BiomeMap();
         }
 
         /// Add an individual in the MAP-Elites population.
@@ -71,66 +40,45 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// Then, if the corresponding Elite is empty, the individual is placed
         /// there. Otherwise, we compare the both old and new individuals, and
         /// the best individual is placed in the corresponding Elite.
-        public void PlaceIndividual(
-            Individual _individual
-        ) {
-            // Calculate the individual slot (Elite)
-            float ce = _individual.exploration;
-            float le = _individual.leniency;
-            int e = SearchSpace.GetCoefficientOfExplorationIndex(ce);
-            int l = SearchSpace.GetLeniencyIndex(le);
+        public void PlaceIndividual(Individual individual) {
+            int explorationIndex = SearchSpace.GetCoefficientOfExplorationIndex(individual.exploration);
+            int leniencyIndex = SearchSpace.GetLeniencyIndex(individual.leniency);
             // Check if the level is within the search space
-            if (e < 0 ||
-                e >= dimension.exp ||
-                l < 0 ||
-                l >= dimension.len
-            ) {
+            if (explorationIndex < 0 || explorationIndex >= ExplorationEliteCount || leniencyIndex < 0 || leniencyIndex >= LeniencyEliteCount) {
                 return;
             }
-            // If the new individual deserves to survive
-            if (Fitness.IsBest(_individual, map[e, l]))
+            var currentElite = MapElites.GetElite(explorationIndex, leniencyIndex);
+            if (currentElite == null)
             {
-                // Then, place the individual in the MAP-Elites population
-                map[e, l] = _individual;
+                TotalElites++;
+                EliteList.Add(individual);
             }
-        }
-
-        /// Return a list with the population individuals.
-        public List<Individual> ToList()
-        {
-            List<Individual> list = new List<Individual>();
-            for (int e = 0; e < dimension.exp; e++)
+            else
             {
-                for (int l = 0; l < dimension.len; l++)
-                {
-                    list.Add(map[e, l]);
-                }
+                if (!Fitness.IsBest(individual, currentElite)) return;
+                EliteList[EliteList.IndexOf(currentElite)] = individual;
             }
-            return list;
+            MapElites.SetElite(explorationIndex, leniencyIndex, individual);
         }
 
         /// Print all the individuals of the MAP-Elites population.
         public void Debug()
         {
-            for (int e = 0; e < dimension.exp; e++)
+            for (int exploration = 0; exploration < ExplorationEliteCount; exploration++)
             {
-                for (int l = 0; l < dimension.len; l++)
+                for (int leniency = 0; leniency < LeniencyEliteCount; leniency++)
                 {
-                    (float, float)[] listCE = SearchSpace.
-                        CoefficientOfExplorationRanges();
-                    (float, float)[] listLE = SearchSpace.
-                        LeniencyRanges();
                     string log = "Elite ";
-                    log += "CE" + listCE[e] + "-";
-                    log += "LE" + listLE[l];
+                    log += "CE" + SearchSpace.ExplorationRanges[exploration] + "-";
+                    log += "LE" + SearchSpace.LeniencyRanges[leniency];
                     Console.WriteLine(log);
-                    if (map[e, l] is null)
+                    if (MapElites.GetElite(exploration, leniency) is null)
                     {
                         Console.WriteLine(LevelDebug.INDENT + "Empty");
                     }
                     else
                     {
-                        map[e, l].Debug();
+                        MapElites.GetElite(exploration, leniency).Debug();
                     }
                     Console.WriteLine();
                 }
@@ -140,18 +88,42 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public int IndividualsBetterThan(float acceptableFitness)
         {
             var betterCounter = 0;
-            for (var e = 0; e < dimension.exp; e++)
+            for (var exploration = 0; exploration < ExplorationEliteCount; exploration++)
             {
-                for (var l = 0; l < dimension.len; l++)
+                for (var leniency = 0; leniency < LeniencyEliteCount; leniency++)
                 {
-                    if ((map[e, l]?.Fitness.result ?? float.MaxValue) < acceptableFitness)
+                    if ((MapElites.GetElite(exploration, leniency)?.Fitness.result ?? float.MaxValue) < acceptableFitness)
                     {
                         betterCounter++;
                     }
                 }
             }
-
             return betterCounter;
+        }
+
+        public void UpdateBiomes()
+        {
+            BiomeMap.UpdateBiomes(MapElites);
+        }
+
+        public int GetAmountOfBiomesWithElites()
+        {
+            return BiomeMap.BiomesWithElites;
+        }
+
+        public int GetAmountOfBiomesWithElitesBetterThan(float fitness)
+        {
+            return BiomeMap.BiomesWithElitesBetterThan(fitness);
+        }
+
+        public List<Individual> GetBestEliteForEachBiome()
+        {
+            return BiomeMap.GetBestEliteForEachBiome();
+        }
+
+        public Individual GetRandomIndividualFromList()
+        {
+            return RandomSingleton.GetInstance().RandomElementFromList(EliteList);
         }
     }
 }

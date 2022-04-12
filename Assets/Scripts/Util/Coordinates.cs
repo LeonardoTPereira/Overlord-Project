@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using UnityEngine;
 
-namespace Game.LevelManager
+namespace Util
 {
     [Serializable]
     public class Coordinates

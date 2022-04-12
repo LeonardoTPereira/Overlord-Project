@@ -1,4 +1,6 @@
-﻿namespace Game.LevelManager
+﻿using Util;
+
+namespace Game.LevelManager
 {
     public class DungeonCorridor : DungeonPart
     {

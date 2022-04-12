@@ -1,11 +1,6 @@
-﻿using System;
-using Game.Events;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
+﻿using Game.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 namespace Game.LevelSelection
 {
@@ -13,38 +8,26 @@ namespace Game.LevelSelection
     {
         public string LevelId { get; set; }
 
-        [field: SerializeField] public LevelData levelData { get; set; }
+        [field: SerializeField] public LevelData LevelData { get; set; }
 
         [SerializeField] private LevelDescription levelDescription;
 
-        private bool isSelected;
-        
-        public static event LevelLoadEvent LoadLevelEventHandler;
+        public bool IsSelected { get; private set; }
 
         private void Start()
         {
-            isSelected = false;
-        }
-
-        public void ConfirmStageSelection(InputAction.CallbackContext context)
-        {
-            if(!isSelected) return;
-            Debug.Log("Confirmed Level!");
-            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(levelData.Dungeon, levelData.Quests, false));
-            SceneManager.LoadScene("LevelWithEnemies");
+            IsSelected = false;
         }
 
         public void OnSelect(BaseEventData eventData)
         {
-            Debug.Log("Selected Level!");
-            isSelected = true;
-            levelDescription.CreateDescriptions(levelData);
+            IsSelected = true;
+            levelDescription.CreateDescriptions(LevelData);
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
-            Debug.Log("Deselected Level!");
-            isSelected = false;
+            IsSelected = false;
         }
     }
 }

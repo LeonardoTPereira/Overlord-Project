@@ -112,7 +112,7 @@ namespace Game.NarrativeGenerator
             {
                 SaveSOs(playerProfile.PlayerProfileEnum.ToString());
             }
-            EliteSelector.SelectEliteForEachLevel(Quests, SelectedLevels);
+            SelectedLevels.Init(Quests);
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
         }
@@ -130,7 +130,7 @@ namespace Game.NarrativeGenerator
             _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
             yield return new WaitUntil(() => _levelGeneratorManager.hasFinished);
             Debug.Log("Created Dungeons");
-            Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
+            //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 
         private void SaveSOs(string profileName)
