@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using UnityEngine;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
@@ -7,94 +6,57 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     [Serializable]
     public class Fitness
     {
-        /// The fitness factor for the number of rooms.
-        public float fRooms;
-        /// The fitness factor for the number of keys.
-        public float fKeys;
-        /// The fitness factor for the number of locks.
-        public float fLocks;
-        /// The fitness factor for the linear coefficient.
-        public float fLinearCoefficient;
-        /// The fitness factor for the enemy sparsity.
-        public float fEnemySparsity;
-        /// The fitness factor for the number of needed rooms.
-        public float fNeededRooms;
-        /// The fitness factor for the number of needed locks.
-        public float fNeededLocks;
-        public float result;
+        public float Result { get; set; }
+        public float Distance { get; set; }
+        public float Usage { get; set; }
+        public float EnemySparsity { get; set; }
+        public float EnemyStandardDeviation { get; set; }
         public FitnessParameters DesiredParameters { get; set; }
 
         public Fitness( FitnessParameters parameters )
         {
             DesiredParameters = parameters;
-            result = Common.UNKNOWN;
+            Result = Common.UNKNOWN;
         }
-
-        /// Calculate the fitness value of the entered individual.
-        ///
-        /// An individual's fitness is defined by two factors: the user aimed
-        /// settings and the gameplay factor. The user aimed settings are
-        /// measured by the distance of the aimed number of rooms, number of
-        /// keys, number of locks and the linear coefficient. The gameplay
-        /// factor sums: (1) the distance between the total number of locks
-        /// weighted by 0.8 and the number of needed locks to open to finish
-        /// the level; (2) the distance between the total number of rooms and
-        /// the number of needed rooms to visit to finish the level, and; (3)
-        /// the negative value of the sparsity of enemies. The last item is
-        /// negative because this fitness aims to minimize its value while
-        /// maximizing the sparsity of enemies.
+        
         public void Calculate(Individual individual) {
-            // Create aliases for the individual's attributes
-            Dungeon dungeon = individual.dungeon;
-            int rooms = dungeon.Rooms.Count;
-            int keys = dungeon.KeyIds.Count;
-            int locks = dungeon.LockIds.Count;
-            float linearCoefficient = individual.linearCoefficient;
-            fRooms = Math.Abs(DesiredParameters.DesiredRooms - rooms);
-            fKeys = Math.Abs(DesiredParameters.DesiredKeys - keys);
-            fLocks = Math.Abs(DesiredParameters.DesiredLocks - locks);
-            fLinearCoefficient = Math.Abs(DesiredParameters.DesiredLinearity - linearCoefficient);
-            float distance = fRooms + fKeys + fLocks + fLinearCoefficient;
-            float fit = 2 * distance;
-            fNeededLocks = dungeon.LockIds.Count - individual.neededLocks;
-            fNeededRooms = dungeon.Rooms.Count - individual.neededRooms;
-            fit += fNeededLocks + fNeededRooms;
-            // Update the fitness by subtracting the enemy sparsity
-            // (the higher the better)
-            float sparsity = -EnemySparsity(dungeon, DesiredParameters.DesiredEnemies);
-            fEnemySparsity = sparsity;
-            float std = StdDevEnemyByRoom(dungeon, DesiredParameters.DesiredEnemies);
-            fit = fit + sparsity + std;
-            result = fit;
+            var dungeon = individual.dungeon;
+            Distance = DistanceFromInput(individual, dungeon);
+            Usage = GetUsageOfRoomsAndLocks(individual, dungeon);
+            EnemySparsity = 1.0f - EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon, DesiredParameters.DesiredEnemies);
+            EnemyStandardDeviation = StdDevEnemyByRoom(dungeon, DesiredParameters.DesiredEnemies);
+            Result = Distance + Usage + EnemySparsity + EnemyStandardDeviation;
         }
 
-        /// Calculate and return the enemy sparsity in the entered dungeon.
-        private static float EnemySparsity( in Dungeon _dungeon, in int _enemies ) {
-            // Calculate the average position of enemies
-            float avgX = 0f;
-            float avgY = 0f;
-            foreach (Room room in _dungeon.Rooms)
+        private float GetUsageOfRoomsAndLocks(Individual individual, Dungeon dungeon, float desiredPercentage = 1.0f)
+        {
+            float fNeededLocks;
+            if (dungeon.LockIds.Count > 0)
             {
-                int xp = room.X + _dungeon.MinX;
-                int yp = room.Y + _dungeon.MinY;
-                avgX += xp * room.Enemies;
-                avgY += yp * room.Enemies;
+                fNeededLocks = Math.Abs(dungeon.LockIds.Count * desiredPercentage - individual.neededLocks)/(dungeon.LockIds.Count * desiredPercentage);
             }
-            avgX /= _enemies;
-            avgY /= _enemies;
-            // Calculate the sparsity
-            float sparsity = 0f;
-            foreach (Room room in _dungeon.Rooms)
+            else
             {
-                int xp = room.X + _dungeon.MinX;
-                int yp = room.Y + _dungeon.MinY;
-                double dist = 0f;
-                dist += Math.Pow(xp - avgX, 2);
-                dist += Math.Pow(yp - avgY, 2);
-                dist *= room.Enemies;
-                sparsity += (float) Math.Sqrt(dist);
+                fNeededLocks = individual.neededLocks;
             }
-            return sparsity / _enemies;
+            var fNeededRooms = Math.Abs(dungeon.Rooms.Count * desiredPercentage - individual.neededRooms)/(dungeon.Rooms.Count * desiredPercentage);
+            var result = fNeededLocks + fNeededRooms;
+            return result;
+        }
+
+        private float DistanceFromInput(Individual individual, Dungeon dungeon)
+        {
+            var rooms = dungeon.Rooms.Count;
+            var keys = dungeon.KeyIds.Count;
+            var locks = dungeon.LockIds.Count;
+            var linearCoefficient = individual.linearCoefficient;
+            var fRooms = Math.Abs(DesiredParameters.DesiredRooms - rooms) / (float) DesiredParameters.DesiredRooms;
+            var fKeys = Math.Abs(DesiredParameters.DesiredKeys - keys) / (float) DesiredParameters.DesiredKeys;
+            var fLocks = Math.Abs(DesiredParameters.DesiredLocks - locks) / (float) DesiredParameters.DesiredLocks;
+            var fLinearCoefficient = Math.Abs(DesiredParameters.DesiredLinearity - linearCoefficient) /
+                                 DesiredParameters.DesiredLinearity;
+            var distance = fRooms + fKeys + fLocks + fLinearCoefficient;
+            return distance;
         }
 
         /// Return the standard deviation of number of enemies by room.
@@ -102,6 +64,10 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             // The start and goal rooms are not count because they are mandatory
             // empty rooms
             float rooms = dungeon.Rooms.Count - 2;
+            if (rooms <= 0)
+            {
+                return 1;
+            }
             float mean = enemies / rooms;
             // Calculate standard deviation
             float std = 0f;
@@ -113,25 +79,13 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     std += (float) Math.Pow(room.Enemies - mean, 2);
                 }
             }
-            return (float) Math.Sqrt(std / rooms);
+            var result = (float) Math.Sqrt(std / rooms)/mean;
+            return result;
         }
 
-        /// Return true if the first individual (`_i1`) is best than the second
-        /// (`_i2`), and false otherwise.
-        ///
-        /// The best is the individual that is closest to the local goal in the
-        /// MAP-Elites population. This is, the best is the one that's fitness
-        /// has the lesser value. If `_i1` is null, then `_i2` is the best
-        /// individual. If `_i2` is null, then `_i1` is the best individual. If
-        /// both individuals are null, then the comparison cannot be performed.
-        public static bool IsBest(in Individual individual1, in Individual individual2) {
-            Debug.Assert(
-                individual1 != null || individual2 != null,
-                Common.CANNOT_COMPARE_INDIVIDUALS
-            );
-            if (individual1 is null) { return false; }
-            if (individual2 is null) { return true; }
-            return individual2.Fitness.result > individual1.Fitness.result;
+        public bool IsBetter(Fitness other)
+        {
+            return Result < other.Result;
         }
     }
 }

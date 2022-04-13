@@ -35,6 +35,11 @@ namespace Game.LevelGenerator
 
         /// Level Generator constructor.
         public LevelGenerator(Parameters _prs) {
+            Debug.Log("NEnemies: " + _prs.FitnessParameters.DesiredEnemies);
+            Debug.Log("NRooms: " + _prs.FitnessParameters.DesiredRooms);
+            Debug.Log("NKeys: " + _prs.FitnessParameters.DesiredKeys);
+            Debug.Log("NLocks: " + _prs.FitnessParameters.DesiredLocks);
+            Debug.Log("Linearity: " + _prs.FitnessParameters.DesiredLinearity);
             prs = _prs;
             data = new Data();
             data.parameters = prs;
@@ -58,6 +63,7 @@ namespace Game.LevelGenerator
             EvolvePopulation(pop);
             // Get the final population (solution)
             solution = pop;
+            solution.Debug();
         }
 
         private Population InitializePopulation()
@@ -102,9 +108,9 @@ namespace Game.LevelGenerator
                 double seconds = (end - start).TotalSeconds;
                 var progress = (float) seconds / prs.Time;
                 NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
-                pop.UpdateBiomes();
+                pop.UpdateBiomes(g);
             }
-
+            pop.SaveJson();
             NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f));
         }
 

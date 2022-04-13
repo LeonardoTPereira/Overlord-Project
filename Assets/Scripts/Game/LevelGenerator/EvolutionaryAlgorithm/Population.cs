@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Events;
 using Game.Maestro;
 using Util;
 
@@ -22,6 +23,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public List<Individual> EliteList { get; set; }
         public BiomeMap BiomeMap { get; set; }
         public MapElites MapElites { get; set; }
+        private readonly FitnessJson _fitnessJson;
 
         /// Population constructor.
         public Population(int explorationSize, int leniencySize)
@@ -32,6 +34,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             EliteList = new List<Individual>();
             TotalElites = 0;
             BiomeMap = new BiomeMap();
+            _fitnessJson = new FitnessJson();
         }
 
         /// Add an individual in the MAP-Elites population.
@@ -41,12 +44,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// there. Otherwise, we compare the both old and new individuals, and
         /// the best individual is placed in the corresponding Elite.
         public void PlaceIndividual(Individual individual) {
-            int explorationIndex = SearchSpace.GetCoefficientOfExplorationIndex(individual.exploration);
-            int leniencyIndex = SearchSpace.GetLeniencyIndex(individual.leniency);
-            // Check if the level is within the search space
-            if (explorationIndex < 0 || explorationIndex >= ExplorationEliteCount || leniencyIndex < 0 || leniencyIndex >= LeniencyEliteCount) {
-                return;
-            }
+            var explorationIndex = SearchSpace.GetCoefficientOfExplorationIndex(individual.exploration);
+            var leniencyIndex = SearchSpace.GetLeniencyIndex(individual.leniency);
+            
+            if (!MapElites.IsCellInMapRange(explorationIndex, leniencyIndex)) return;
+            
             var currentElite = MapElites.GetElite(explorationIndex, leniencyIndex);
             if (currentElite == null)
             {
@@ -55,7 +57,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             }
             else
             {
-                if (!Fitness.IsBest(individual, currentElite)) return;
+                if (currentElite.IsBetterThan(individual)) return;
                 EliteList[EliteList.IndexOf(currentElite)] = individual;
             }
             MapElites.SetElite(explorationIndex, leniencyIndex, individual);
@@ -71,16 +73,15 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     string log = "Elite ";
                     log += "CE" + SearchSpace.ExplorationRanges[exploration] + "-";
                     log += "LE" + SearchSpace.LeniencyRanges[leniency];
-                    Console.WriteLine(log);
+                    UnityEngine.Debug.Log(log);
                     if (MapElites.GetElite(exploration, leniency) is null)
                     {
-                        Console.WriteLine(LevelDebug.INDENT + "Empty");
+                        UnityEngine.Debug.Log(LevelDebug.INDENT + "Empty");
                     }
                     else
                     {
                         MapElites.GetElite(exploration, leniency).Debug();
                     }
-                    Console.WriteLine();
                 }
             }
         }
@@ -92,7 +93,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             {
                 for (var leniency = 0; leniency < LeniencyEliteCount; leniency++)
                 {
-                    if ((MapElites.GetElite(exploration, leniency)?.Fitness.result ?? float.MaxValue) < acceptableFitness)
+                    if ((MapElites.GetElite(exploration, leniency)?.Fitness.Result ?? float.MaxValue) < acceptableFitness)
                     {
                         betterCounter++;
                     }
@@ -101,8 +102,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             return betterCounter;
         }
 
-        public void UpdateBiomes()
+        public void UpdateBiomes(int generation)
         {
+            foreach (var elite in EliteList)
+            {
+                _fitnessJson.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+            }
             BiomeMap.UpdateBiomes(MapElites);
         }
 
@@ -124,6 +129,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public Individual GetRandomIndividualFromList()
         {
             return RandomSingleton.GetInstance().RandomElementFromList(EliteList);
+        }
+
+        public void SaveJson()
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(_fitnessJson.SaveJson);
         }
     }
 }

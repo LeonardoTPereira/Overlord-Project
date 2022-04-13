@@ -18,7 +18,7 @@ namespace Game.Maestro
             List<DungeonFileSo> selected = new List<DungeonFileSo>();
             foreach (DungeonFileSo dungeon in levels)
             {
-                if (dungeon.FitnessFromEa.result <= 2)
+                if (dungeon.FitnessFromEa.Result <= 2)
                 {
                     selected.Add(dungeon);
                 }

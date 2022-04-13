@@ -39,7 +39,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     } while (Array.IndexOf(competitors, selected) != -1);
                     competitors[selectedCount++] = selected;
                 } while (selectedCount < competitorsAmount);
-                parents[i] = Tournament(competitors);
+                parents[i] = Tournament(competitors).Clone();
             }
             return parents;
         }
@@ -55,7 +55,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             Individual winner = null;
             for (int i = 0; i < totalCompetitors; i++)
             {
-                if (winner != null && competitors[i].Fitness.result <= winner.Fitness.result) continue;
+                if (winner?.IsBetterThan(competitors[i])??false) continue;
                 winner = competitors[i];
             }
             return winner;

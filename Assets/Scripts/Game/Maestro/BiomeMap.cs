@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using MyBox;
+using UnityEngine;
 using Util;
 
 namespace Game.Maestro
@@ -82,7 +83,7 @@ namespace Game.Maestro
             foreach (var biome in Enum.GetValues(typeof(Biomes)).Cast<Biomes>())
             {
                 var elites = LevelsByBiome[biome];
-                if (elites.Any(elite => elite.Fitness.result < value))
+                if (elites.Any(elite => elite.Fitness.Result < value))
                 {
                     betterBiomesCount++;
                 }
@@ -95,8 +96,26 @@ namespace Game.Maestro
             var selectedLevels = new List<Individual>();
             foreach (var biome in Enum.GetValues(typeof(Biomes)).Cast<Biomes>())
             {
+                Debug.Log("Biome: "+biome);
                 var elites = LevelsByBiome[biome];
-                var bestElite = elites.MinBy(best => best.Fitness.result);
+                Individual bestElite = null;
+                foreach (var elite in elites)
+                {
+                    Debug.Log("Elite Biome - " + biome + " : Rooms=" + elite.dungeon.Rooms.Count + "Fitness=" +
+                              elite.Fitness.Result);
+
+                    if (bestElite == null)
+                    {
+                        bestElite = elite;
+                    }
+                    else
+                    {
+                        if (elite.IsBetterThan(bestElite))
+                        {
+                            bestElite = elite;
+                        }
+                    }
+                }
                 selectedLevels.Add(bestElite);
             }
             return selectedLevels;
