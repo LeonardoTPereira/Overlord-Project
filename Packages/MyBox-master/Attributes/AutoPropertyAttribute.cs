@@ -17,7 +17,7 @@ namespace MyBox.Internal
 {
 	using UnityEditor;
 	using EditorTools;
-	using UnityEditor.Experimental.SceneManagement;
+	
 	using Object = UnityEngine.Object;
 
 	[CustomPropertyDrawer(typeof(AutoPropertyAttribute))]
@@ -40,7 +40,7 @@ namespace MyBox.Internal
 			// this event is for Gameobjects in the scene.
 			MyEditorEvents.OnSave += CheckComponentsInScene;
 			// this event is for prefabs saved in edit mode.
-			PrefabStage.prefabSaved += CheckComponentsInPrefab;
+			UnityEditor.SceneManagement.PrefabStage.prefabSaved += CheckComponentsInPrefab;
 		}
 
 		private static void CheckComponentsInScene()

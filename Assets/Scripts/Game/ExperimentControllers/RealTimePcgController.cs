@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Game.Events;
+using Game.GameManager.DungeonManager;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -15,7 +16,7 @@ namespace Game.ExperimentControllers
         private QuestLine _questLine;
         
         [SerializeField]
-        private DungeonLoader[] dungeonEntrances;
+        private DungeonSceneLoader[] dungeonEntrances;
         
         private void OnEnable()
         {
@@ -41,7 +42,7 @@ namespace Game.ExperimentControllers
             Debug.Log(_questLine.DungeonFileSos.Count);
             Debug.Log(_questLine.EnemySos.Count);
             var dungeonFileSos = new List<DungeonFileSo>(_questLine.DungeonFileSos);
-            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
+            dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)
             {
                 var selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);

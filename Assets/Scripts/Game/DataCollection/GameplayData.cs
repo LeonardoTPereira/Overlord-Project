@@ -8,6 +8,7 @@ using Fog.Dialogue;
 using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
+using Game.GameManager.DungeonManager;
 using Game.GameManager.Player;
 using Game.LevelManager;
 using Game.NarrativeGenerator;
@@ -165,19 +166,19 @@ namespace Game.DataCollection
             BombController.PlayerHitEventHandler += ResetCombo;
             EnemyController.playerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetMaxCombo;
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetMaxCombo;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetTreasure;
             GameManagerSingleton.GameStartEventHandler += OnGameStart;
             Player.EnterRoomEventHandler += OnRoomEnter;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
             HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
-            GameManagerSingleton.FinishMapEventHandler += OnMapComplete;
+            DungeonSceneManager.FinishMapEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             FormBHV.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             Player.ExitRoomEventHandler += OnRoomExit;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
-            GameManagerSingleton.StartMapEventHandler += OnMapStart;
+            DungeonLoader.StartMapEventHandler += OnMapStart;
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
@@ -191,18 +192,19 @@ namespace Game.DataCollection
             BombController.PlayerHitEventHandler -= ResetCombo;
             EnemyController.playerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetMaxCombo;
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetTreasure;
             GameManagerSingleton.GameStartEventHandler -= OnGameStart;
             Player.EnterRoomEventHandler -= OnRoomEnter;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
             HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
-            GameManagerSingleton.FinishMapEventHandler -= OnMapComplete;
+            DungeonSceneManager.FinishMapEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBHV.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
             Player.ExitRoomEventHandler -= OnRoomExit;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
+            DungeonLoader.StartMapEventHandler -= OnMapStart;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
@@ -365,12 +367,9 @@ namespace Game.DataCollection
                 playedLevels.Add(eventArgs.MapName);
             }
             map = eventArgs.Map;
-            curBatchId = eventArgs.MapBatch;
 
             // Initialize data for level data collection
             levelID = eventArgs.MapName;
-            chosenWeapon = eventArgs.PlayerProjectileIndex;
-            TotalTreasures = eventArgs.TotalTreasure;
             elapsedTime = 0;
             hasFinished = false;
             hasDied = false;

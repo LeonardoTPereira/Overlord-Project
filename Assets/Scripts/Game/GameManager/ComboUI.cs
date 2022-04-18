@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.GameManager.DungeonManager;
 using TMPro;
 using UnityEngine;
 
@@ -57,7 +58,7 @@ namespace Game.GameManager
             BombController.PlayerHitEventHandler += ResetCombo;
             ProjectileController.playerHitEventHandler += ResetCombo;
             EnemyController.playerHitEventHandler += ResetCombo;
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetCombo;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetCombo;
         }
 
         protected void OnDisable()
@@ -66,7 +67,7 @@ namespace Game.GameManager
             BombController.PlayerHitEventHandler -= ResetCombo;
             ProjectileController.playerHitEventHandler -= ResetCombo;
             EnemyController.playerHitEventHandler -= ResetCombo;
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetCombo;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetCombo;
         }
 
         public void IncrementCombo(object sender, EventArgs eventArgs)

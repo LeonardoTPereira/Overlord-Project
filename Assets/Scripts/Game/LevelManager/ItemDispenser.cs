@@ -89,16 +89,5 @@ namespace Game.LevelManager
                 enemiesInQuestByType.ItemAmountBySo.Remove(selectedType);
             }
         }
-
-        public static Dictionary<EnemySO, int> GetEnemiesForRoom(RoomBhv roomBhv)
-        {
-            var enemiesBySo = new Dictionary<EnemySO, int>();
-            foreach (var enemiesByType in roomBhv.roomData.EnemiesByType.EnemiesByTypeDictionary)
-            {
-                var selectedEnemy = GameManagerSingleton.Instance.enemyLoader.GetRandomEnemyOfType(enemiesByType.Key);
-                enemiesBySo.Add(selectedEnemy, enemiesByType.Value);
-            }
-            return enemiesBySo;
-        }
     }
 }

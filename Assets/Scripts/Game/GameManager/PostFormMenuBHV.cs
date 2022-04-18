@@ -30,7 +30,6 @@ namespace Game.GameManager
         {
             gameObject.SetActive(false);
             SceneManager.LoadScene("Overworld");
-            GameManagerSingleton.Instance.StopMusic();
         }
 
         public void GoToPrevious()

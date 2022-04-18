@@ -5,9 +5,9 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Game.NarrativeGenerator
+namespace Game.GameManager.DungeonManager
 {
-    public class DungeonLoader : MonoBehaviour
+    public class DungeonSceneLoader : MonoBehaviour
     {
         [SerializeField]
         private bool isArena;

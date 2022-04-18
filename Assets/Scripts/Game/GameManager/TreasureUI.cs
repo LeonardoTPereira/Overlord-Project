@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Events;
+using Game.GameManager.DungeonManager;
 using TMPro;
 using UnityEngine;
 
@@ -21,13 +22,13 @@ namespace Game.GameManager
         protected void OnEnable()
         {
             TreasureController.TreasureCollectEventHandler += IncrementTreasure;
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetTreasure;
         }
 
         protected void OnDisable()
         {
             TreasureController.TreasureCollectEventHandler -= IncrementTreasure;
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetTreasure;
         }
 
         public void IncrementTreasure(object sender, TreasureCollectEventArgs eventArgs)

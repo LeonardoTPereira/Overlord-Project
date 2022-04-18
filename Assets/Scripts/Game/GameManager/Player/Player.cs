@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
+using Game.GameManager.DungeonManager;
 using Game.LevelManager;
 using UnityEngine;
 
@@ -43,11 +44,9 @@ namespace Game.GameManager.Player
 
         public void OnEnable()
         {
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetValues;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetValues;
             RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler += GetKey;
-            GameManagerSingleton.EnterRoomEventHandler += GetHealth;
-            GameManagerSingleton.EnterRoomEventHandler += AdjustCamera;
             RoomBhv.EnterRoomEventHandler += GetHealth;
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
@@ -59,11 +58,9 @@ namespace Game.GameManager.Player
 
         public void OnDisable()
         {
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetValues;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetValues;
             RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler -= GetKey;
-            GameManagerSingleton.EnterRoomEventHandler -= GetHealth;
-            GameManagerSingleton.EnterRoomEventHandler -= AdjustCamera;
             RoomBhv.EnterRoomEventHandler -= GetHealth;
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;

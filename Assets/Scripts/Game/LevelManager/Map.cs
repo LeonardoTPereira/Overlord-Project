@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.GameManager;
 using Game.LevelGenerator.LevelSOs;
-using ScriptableObjects;
 using UnityEngine;
 using Util;
 
@@ -10,22 +8,10 @@ namespace Game.LevelManager
 {
     public class Map
     {
-        // Usar variáveis acima do escopo das funções de interpretação de arquivos
-        // (parser) torna a compreensão de terceiros mais difícil
-        private int nTreasure;
-
-        // Valores para gerar salas sem o arquivo de definição interna
-
-        public const int defaultTileID = 2;
-
         public int NRooms { get; set; }
-
         public int NKeys { get; set; }
-
         public int NLocks { get; set; }
-
         public int NEnemies { get; set; }
-
         public int NNPCs { get; set; }
 
         public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get; set; }
@@ -39,16 +25,11 @@ namespace Game.LevelManager
          */
         public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, int mode = 0)
         {
-            GameManagerSingleton.Instance.maxRooms = 0;
-            GameManagerSingleton.Instance.maxEnemies = 0;
             NTreasureRooms = 0;
-            // Create a Room grid with the sizes read
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
-
-            ReadMapFile(dungeonFileSo); // lê o mapa global
+            ReadMapFile(dungeonFileSo);
             if (roomsFilePath != null)
             {
-                // Lê cada sala, com seus tiles
                 ReadRoomsFile(roomsFilePath);
             }
             else
@@ -58,18 +39,16 @@ namespace Game.LevelManager
             }
         }
 
-        //TODO passes level's SO when created in real time to take place of old method that used the "Dungeon" object
-        private void ReadMapFile(DungeonFileSo dungeonFileSO)
+        private void ReadMapFile(DungeonFileSo dungeonFileSo)
         {
-            Dimensions = dungeonFileSO.DungeonSizes;
+            Dimensions = dungeonFileSo.DungeonSizes;
             DungeonPart currentDungeonPart;
-            dungeonFileSO.ResetIndex();
-            while ((currentDungeonPart = dungeonFileSO.GetNextPart()) != null)
+            dungeonFileSo.ResetIndex();
+            while ((currentDungeonPart = dungeonFileSo.GetNextPart()) != null)
             {
                 ProcessDungeonPart(currentDungeonPart);
             }
-            GameManagerSingleton.Instance.maxRooms = NRooms;
-            foreach (SORoom room in dungeonFileSO.Rooms)
+            foreach (var room in dungeonFileSo.Rooms)
             {
                 if ((room.keys?.Count??0) > 0)
                 {
@@ -79,22 +58,7 @@ namespace Game.LevelManager
                 {
                     NLocks += room.locks.Count;
                 }
-
-                if (room.Treasures != -1)
-                {
-                    nTreasure += room.Treasures;
-                }
-                if (room.TotalEnemies != -1)
-                {
-                    NEnemies += room.TotalEnemies;
-                }
-                if (room.Npcs != -1)
-                {
-                    NNPCs += room.Npcs;
-                }
             }
-
-            GameManagerSingleton.Instance.maxEnemies = NEnemies;
         }
 
         private void ProcessDungeonPart(DungeonPart currentDungeonPart)
@@ -131,20 +95,20 @@ namespace Game.LevelManager
         {
             var splitFile = new string[] { "\r\n", "\r", "\n" };
 
-            var NameLines = text.Split(splitFile, StringSplitOptions.RemoveEmptyEntries);
+            var nameLines = text.Split(splitFile, StringSplitOptions.RemoveEmptyEntries);
 
             int roomWidth, roomHeight;
             DungeonRoom currentRoom;
             Coordinates currentRoomCoordinates;
-            roomWidth = int.Parse(NameLines[0]);
-            roomHeight = int.Parse(NameLines[1]);
+            roomWidth = int.Parse(nameLines[0]);
+            roomHeight = int.Parse(nameLines[1]);
 
             int txtLine = 3;
-            for (uint i = 2; i < NameLines.Length;)
+            for (uint i = 2; i < nameLines.Length;)
             {
                 int roomX, roomY;
-                roomX = int.Parse(NameLines[i++]);
-                roomY = int.Parse(NameLines[i++]);
+                roomX = int.Parse(nameLines[i++]);
+                roomY = int.Parse(nameLines[i++]);
                 currentRoomCoordinates = new Coordinates(roomX, roomY);
                 txtLine += 2;
                 try
@@ -156,7 +120,7 @@ namespace Game.LevelManager
                     {
                         for (int y = 0; y < currentRoom.Dimensions.Height; y++)
                         {
-                            int tileID = int.Parse(NameLines[i++]);
+                            int tileID = int.Parse(nameLines[i++]);
                             currentRoom.Tiles[x, y] = tileID; // TODO Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
                             txtLine++;
                         }
@@ -172,7 +136,7 @@ namespace Game.LevelManager
         //Cria salas vazias no tamanho padrão
         private void BuildDefaultRooms()
         {
-            Dimensions roomDimensions = new Dimensions(Util.Constants.defaultRoomSizeX, Util.Constants.defaultRoomSizeY);
+            Dimensions roomDimensions = new Dimensions(Constants.defaultRoomSizeX, Constants.defaultRoomSizeY);
             foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
             {
                 if (currentPart is DungeonRoom room)

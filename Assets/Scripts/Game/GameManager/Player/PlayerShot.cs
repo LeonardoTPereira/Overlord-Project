@@ -20,10 +20,10 @@ namespace Game.GameManager.Player
         private bool _canShoot;
         private bool _isHoldingShoot;
         private int _currentProjectile;
-        [SerializeField]
-        protected GameObject bulletSpawn, bulletPrefab;
-        [SerializeField]
-        private ProjectileTypeSO projectileType;
+        [SerializeField] private GameObject bulletSpawn;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private ProjectileTypeSO projectileType;
+        [SerializeField] private ProjectileTypeRuntimeSetSO projectilesAvailable;
         private Rigidbody2D _rigidbody2D;
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
@@ -48,9 +48,9 @@ namespace Game.GameManager.Player
 
         protected override void Start()
         {
-            base.Start();         
-            projectileType = GameManagerSingleton.Instance.projectileSet.Items[_currentProjectile];
-            SetProjectileSo(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.Instance.projectileType));
+            base.Start();
+            projectileType = projectilesAvailable.Items[_currentProjectile];
+            SetProjectileSo(this, new LoadWeaponButtonEventArgs(projectileType));
             _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         }
 
@@ -173,8 +173,8 @@ namespace Game.GameManager.Player
         
         private void NextProjectileSo()
         {
-            _currentProjectile = (_currentProjectile + 1) % GameManagerSingleton.Instance.projectileSet.Items.Count;
-            projectileType = GameManagerSingleton.Instance.projectileSet.Items[_currentProjectile];
+            _currentProjectile = (_currentProjectile + 1) % projectilesAvailable.Items.Count;
+            projectileType = projectilesAvailable.Items[_currentProjectile];
             SetProjectileSo(this, new LoadWeaponButtonEventArgs(projectileType));
         }
     }

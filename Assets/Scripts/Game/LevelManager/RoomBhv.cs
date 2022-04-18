@@ -46,7 +46,7 @@ namespace Game.LevelManager
         public BlockBhv blockPrefab;
 
         public Sprite northWall, southWall, eastWall, westWall;
-        public GameObject NWCollumn, NECollumn, SECollumn, SWCollumn;
+        public GameObject NWColumn, NEColumn, SEColumn, SWColumn;
 
         public GameObject minimapIcon;
 
@@ -74,7 +74,7 @@ namespace Game.LevelManager
             // If the Arena Mode is on, then set up the Arena
             if (roomData.IsStartRoom() && isArena)
             {
-                roomData.TotalEnemies = GameManagerSingleton.Instance.enemyLoader.arena.Length;
+                roomData.TotalEnemies = EnemyLoader.arena.Length;
                 hasEnemies = true;
             }
 
@@ -104,10 +104,7 @@ namespace Game.LevelManager
                 PlaceTriforceInRoom();
                 transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
             }
-            if (GameManagerSingleton.Instance.enemyMode)
-            {
-                SelectEnemies();
-            }
+            SelectEnemies();
 
             minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
 
@@ -142,15 +139,14 @@ namespace Game.LevelManager
             InstantiateTiles(centerX, centerY);
 
             //Instantiate corner props
-            GameObject auxObj;
-            auxObj = Instantiate(NWCollumn, transform, true);
-            auxObj.transform.localPosition = new Vector2(-1f - centerX, roomData.Dimensions.Height - centerY);
-            auxObj = Instantiate(SECollumn, transform, true);
-            auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, -1f - centerY);
-            auxObj = Instantiate(NECollumn, transform, true);
-            auxObj.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, roomData.Dimensions.Height - centerY);
-            auxObj = Instantiate(SWCollumn, transform, true);
-            auxObj.transform.localPosition = new Vector2(-1f - centerX, -1f - centerY);
+            var nwColumnObject = Instantiate(NWColumn, transform, true);
+            nwColumnObject.transform.localPosition = new Vector2(-1f - centerX, roomData.Dimensions.Height - centerY);
+            var seColumnObject = Instantiate(SEColumn, transform, true);
+            seColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, -1f - centerY);
+            var neColumnObject  = Instantiate(NEColumn, transform, true);
+            neColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, roomData.Dimensions.Height - centerY);
+            var swColumnObject = Instantiate(SWColumn, transform, true);
+            swColumnObject.transform.localPosition = new Vector2(-1f - centerX, -1f - centerY);
         
             SetEnemySpawners(centerX, centerY);
         }
@@ -172,14 +168,14 @@ namespace Game.LevelManager
                         {
                             if (iy == 0)
                             {
-                                auxObj = Instantiate(NWCollumn, transform, true);
+                                auxObj = Instantiate(NWColumn, transform, true);
                                 auxObj.transform.localPosition =
                                     new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                             }
 
                             if (iy == (roomData.Dimensions.Height - 1))
                             {
-                                auxObj = Instantiate(SWCollumn, transform, true);
+                                auxObj = Instantiate(SWColumn, transform, true);
                                 auxObj.transform.localPosition =
                                     new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                             }
@@ -194,7 +190,7 @@ namespace Game.LevelManager
                         {
                             if (iy == (roomData.Dimensions.Height - 1))
                             {
-                                auxObj = Instantiate(SECollumn, transform, true);
+                                auxObj = Instantiate(SEColumn, transform, true);
                                 auxObj.transform.localPosition =
                                     new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
                             }
@@ -318,7 +314,7 @@ namespace Game.LevelManager
             if (isArena)
             {
                 // Load all the enemies from the folder
-                EnemySO[] arena = GameManagerSingleton.Instance.enemyLoader.arena;
+                EnemySO[] arena = EnemyLoader.arena;
                 foreach (var enemy in arena)
                 {
                     enemiesDictionary.Add(enemy, 1);
@@ -326,7 +322,7 @@ namespace Game.LevelManager
             }
             else
             {
-                enemiesDictionary = EnemyDispenser.GetEnemiesForRoom(this);
+                enemiesDictionary = EnemyLoader.GetEnemiesForRoom(this);
             }
         }
 
@@ -346,7 +342,7 @@ namespace Game.LevelManager
                     {
                         actualSpawn = Random.Range(0, spawnPoints.Count);
                     } while (selectedSpawnPoints.Contains(actualSpawn));
-                    var enemy = GameManagerSingleton.Instance.enemyLoader.InstantiateEnemyFromScriptableObject(
+                    var enemy = EnemyLoader.InstantiateEnemyFromScriptableObject(
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key);
                     enemy.GetComponent<EnemyController>().SetRoom(this);

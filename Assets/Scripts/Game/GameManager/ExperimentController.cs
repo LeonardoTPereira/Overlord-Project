@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Game.Events;
+using Game.GameManager.DungeonManager;
 using Game.LevelGenerator.LevelSOs;
 using Game.Maestro;
 using Game.NarrativeGenerator;
@@ -23,7 +24,7 @@ namespace Game.GameManager
         private List<QuestLine> _questLineListForProfile;
 
         [SerializeField]
-        private DungeonLoader[] dungeonEntrances;
+        private DungeonSceneLoader[] dungeonEntrances;
 
         private void Awake()
         {
@@ -62,7 +63,7 @@ namespace Game.GameManager
         {
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
-            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
+            dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);

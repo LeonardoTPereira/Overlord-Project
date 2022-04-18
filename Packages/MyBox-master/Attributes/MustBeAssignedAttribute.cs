@@ -18,7 +18,7 @@ namespace MyBox.Internal
 	using System.Linq;
 	using System.Reflection;
 	using UnityEditor;
-	using UnityEditor.Experimental.SceneManagement;
+	
 	using EditorTools;
 
 	[InitializeOnLoad]
@@ -32,7 +32,7 @@ namespace MyBox.Internal
 		static MustBeAssignedAttributeChecker()
 		{
 			MyEditorEvents.OnSave += AssertComponentsInScene;
-			PrefabStage.prefabSaved += AssertComponentsInPrefab;
+			UnityEditor.SceneManagement.PrefabStage.prefabSaved += AssertComponentsInPrefab;
 		}
 
 		private static void AssertComponentsInScene()
