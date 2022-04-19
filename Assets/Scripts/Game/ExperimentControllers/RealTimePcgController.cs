@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Game.Events;
 using Game.GameManager.DungeonManager;
 using Game.LevelGenerator.LevelSOs;
+using Game.LevelSelection;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace Game.ExperimentControllers
     public class RealTimePcgController : MonoBehaviour
     {
         private QuestLine _questLine;
-        
+        [field: SerializeField] private LevelData CurrentLevel { set; get; }
+
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
         

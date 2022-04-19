@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using Game.Audio;
 using Game.DataCollection;
 using Game.Events;
 using Game.GameManager.Player;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
 using Game.LevelSelection;
-using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Util;
 
 namespace Game.GameManager.DungeonManager
 {
-    public class DungeonSceneManager : MonoBehaviour
+    public class DungeonSceneManager : MonoBehaviour, ISoundEmitter
     {
         public GameObject gameOverScreen, victoryScreen;
         private bool isCompleted;
@@ -26,27 +23,15 @@ namespace Game.GameManager.DungeonManager
         public static event EventHandler NewLevelLoadedEventHandler;
         public static event FinishMapEvent FinishMapEventHandler;
         public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
-        public AudioSource audioSource;
-        public AudioClip bgMusic, fanfarreMusic;
 
         public bool survivalMode, enemyMode;
-        public GameObject introScreen;
-        private Map map;
         public QuestLine currentQuestLine;
         public int maxTreasure;
-        public EnemyLoader enemyLoader;
-        public int mapFileMode;
         public ProjectileTypeSO projectileType;
-        public ProjectileTypeRuntimeSetSO projectileSet;
         private DungeonFileSo currentDungeonSo;
-
-        private void Awake()
-        {
-            enemyLoader = gameObject.GetComponent<EnemyLoader>();
-            audioSource = GetComponent<AudioSource>();
-        }
-        
-
+        private DungeonLoader _dungeonLoader;
+        [field: SerializeField] private LevelData _currentLevel;
+        private Map _map;
         private void OnEnable()
         {
             PlayerController.PlayerDeathEventHandler += GameOver;
@@ -57,6 +42,14 @@ namespace Game.GameManager.DungeonManager
             DungeonSceneLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
             FormBHV.PostTestFormQuestionAnsweredEventHandler += EndDungeon;
             LevelSelectManager.LoadLevelEventHandler += SetCurrentLevelQuestLine;
+        }
+
+        private void Start()
+        {
+            _dungeonLoader = GetComponent<DungeonLoader>();
+            _map = _dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLine);
+            EnemyLoader.LoadEnemies(currentQuestLine.EnemySos);
+            PlayBgm(AudioManager.BgmTracks.DungeonTheme);
         }
 
         private void OnDisable()
@@ -73,22 +66,19 @@ namespace Game.GameManager.DungeonManager
         
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Level" || scene.name == "LevelWithEnemies")
-            {
-                isInGame = true;
-                isCompleted = false;
+            if (scene.name is not ("Level" or "LevelWithEnemies")) return;
+            isInGame = true;
+            isCompleted = false;
+            currentDungeonSo = _currentLevel.Dungeon;
+            currentQuestLine = _currentLevel.Quests;
+            SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
+            OnLevelLoadedEvents();
+            maxTreasure = currentQuestLine.ItemParametersForQuestLine.TotalItems;
+        }
 
-                SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
-                OnLevelLoadedEvents();
-                ChangeMusic(bgMusic);
-                maxTreasure = currentQuestLine.ItemParametersForQuestLine.TotalItems;
-                EnemyLoader.LoadEnemies(currentQuestLine.EnemySos);
-                DungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLine, map.Dimensions);
-            }
-            if (scene.name == "Main")
-            {
-                introScreen.SetActive(true);
-            }
+        private void PlayBgm(AudioManager.BgmTracks bgmTrack)
+        {
+            ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(bgmTrack));
         }
 
         //TODO display something about the player losing and call a continue screen os something like this.
@@ -100,7 +90,7 @@ namespace Game.GameManager.DungeonManager
         
         private void LevelComplete(object sender, EventArgs eventArgs)
         {
-            ChangeMusic(fanfarreMusic);
+            PlayBgm(AudioManager.BgmTracks.VictoryTheme);            
             SceneManager.UnloadSceneAsync(GameUI);
             //TODO save every gameplay data
             //TODO make it load a new level
@@ -108,26 +98,6 @@ namespace Game.GameManager.DungeonManager
             //Analytics for the level
             if (!createMaps && !survivalMode)
                 victoryScreen.SetActive(true);
-        }
-        
-        public void ChangeMusic(AudioClip music)
-        {
-            if (audioSource.isPlaying)
-                audioSource.Stop();
-            if (music == fanfarreMusic)
-            {
-                audioSource.volume = 0.3f;
-            }
-            else
-                audioSource.volume = 0.7f;
-            audioSource.clip = music;
-            audioSource.loop = true;
-            audioSource.Play();
-        }
-        
-        public void StopMusic()
-        {
-            audioSource.Stop();
         }
         
         public void OnLevelLoadedEvents()
@@ -147,7 +117,7 @@ namespace Game.GameManager.DungeonManager
         
         private void EndDungeon(object sender, EventArgs eventArgs)
         {
-            FinishMapEventHandler?.Invoke(this, new FinishMapEventArgs(map));
+            FinishMapEventHandler?.Invoke(this, new FinishMapEventArgs(_map));
         }
     }
 }

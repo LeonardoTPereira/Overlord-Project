@@ -6,7 +6,8 @@ using UnityEngine;
 namespace Game.LevelSelection
 {
     [Serializable]
-    public class LevelData
+    [CreateAssetMenu(fileName = "LevelData", menuName = "Overlord-Project/LevelData", order = 0)]
+    public class LevelData : ScriptableObject
     {
         [field:SerializeField] public QuestLine Quests { get; set; }
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }

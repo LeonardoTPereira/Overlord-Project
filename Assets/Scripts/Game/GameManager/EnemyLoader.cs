@@ -16,20 +16,18 @@ using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {
+    [Serializable]
     public class EnemyLoader : MonoBehaviour
     {
         private static List<EnemySO> enemyListForCurrentDungeon;
-
-    
-        public static WeaponTypeRuntimeSetSO WeaponTypes => _weaponTypes;
-
+        
         public static EnemySO[] arena;
-        public static GameObject enemyPrefab;
-        public static GameObject barehandEnemyPrefab;
-        public static GameObject shooterEnemyPrefab;
-        public static GameObject bomberEnemyPrefab;
-        public static GameObject healerEnemyPrefab;
-        [MustBeAssigned] private static WeaponTypeRuntimeSetSO _weaponTypes;
+        public GameObject enemyPrefab;
+        public GameObject barehandEnemyPrefab;
+        public GameObject shooterEnemyPrefab;
+        public GameObject bomberEnemyPrefab;
+        public GameObject healerEnemyPrefab;
+        [MustBeAssigned] [field: SerializeField] private WeaponTypeRuntimeSetSO _weaponTypes;
 
         
         public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
@@ -111,7 +109,7 @@ namespace Game.GameManager
             return currentEnemies[Random.Range(0, currentEnemies.Count)];
         }
 
-        public static GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)
+        public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)
         {
             EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
             GameObject enemy;
@@ -140,7 +138,7 @@ namespace Game.GameManager
             return enemy;
         }
     
-        public static GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
+        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
         {
             GameObject enemy;
             //TODO change to use weaponType in comparison

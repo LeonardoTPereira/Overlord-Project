@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 

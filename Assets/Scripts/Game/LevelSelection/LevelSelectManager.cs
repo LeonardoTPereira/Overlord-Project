@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Game.Audio;
 using Game.Events;
-using Game.GameManager.Player;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Game.LevelSelection
 {
-    public class LevelSelectManager : MonoBehaviour
+    public class LevelSelectManager : MonoBehaviour, ISoundEmitter
     {
         [field: SerializeField] public SelectedLevels Selected { get; set; }
         [field: SerializeField] public List<LevelSelectItem> LevelItems { get; set; }
+
+        [field: SerializeField] private LevelData _levelToLoad;
         public static event LevelLoadEvent LoadLevelEventHandler;
         private void OnEnable()
         {
@@ -28,6 +27,7 @@ namespace Game.LevelSelection
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "LevelSelector") return;
+            ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.LevelSelectTheme));
             LoadLevelsToItems();
         }
 
@@ -43,12 +43,14 @@ namespace Game.LevelSelection
         
         public void ConfirmStageSelection(InputAction.CallbackContext context)
         {
+            if (!context.performed) return;
             foreach (var level in LevelItems)
             {
                 if (!level.IsSelected) continue;
-                LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(level.LevelData.Dungeon, level.LevelData.Quests, false));
+                _levelToLoad.Dungeon = level.LevelData.Dungeon;
+                _levelToLoad.Quests = level.LevelData.Quests;
                 SceneManager.LoadScene("LevelWithEnemies");
-                break;
+                return;
             }
         }
     }

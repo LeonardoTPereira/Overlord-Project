@@ -6,15 +6,13 @@ namespace Game.GameManager.DungeonManager
 {
     public class RoomLoader : MonoBehaviour
     {
-        public static float roomSpacingX = 30f; //Spacing between rooms: X
-        public static float roomSpacingY = 20f; //Spacing between rooms: Y
-        public static Transform roomsParent;  //Transform to hold rooms for leaner hierarchy view
+        private static readonly float RoomSpacingX = 30f; //Spacing between rooms: X
+        private static readonly float RoomSpacingY = 20f; //Spacing between rooms: Y
         
         public static RoomBhv InstantiateRoom(DungeonRoom dungeonRoom, RoomBhv roomPrefab)
         {
-            var newRoom = Instantiate(roomPrefab, roomsParent);
+            var newRoom = Instantiate(roomPrefab);
             newRoom.roomData = dungeonRoom;
-            Coordinates targetCoordinates;
             newRoom.westDoor = null;
             newRoom.eastDoor = null;
             newRoom.northDoor = null;
@@ -22,7 +20,7 @@ namespace Game.GameManager.DungeonManager
 
             //Sets room transform position
             newRoom.gameObject.transform.position = 
-                new Vector2(roomSpacingX * dungeonRoom.Coordinates.X, -roomSpacingY * dungeonRoom.Coordinates.Y);
+                new Vector2(RoomSpacingX * dungeonRoom.Coordinates.X, -RoomSpacingY * dungeonRoom.Coordinates.Y);
             return newRoom;
         }
         

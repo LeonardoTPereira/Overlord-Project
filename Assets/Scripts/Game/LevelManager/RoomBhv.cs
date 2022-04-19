@@ -54,6 +54,8 @@ namespace Game.LevelManager
 
         protected Vector3 availablePosition;
 
+        private EnemyLoader _enemyLoader;
+
         public static event EnterRoomEvent EnterRoomEventHandler;
 
         /// If true, the room is an Arena and do not have neighbors.
@@ -71,6 +73,7 @@ namespace Game.LevelManager
         // Use this for initialization
         void Start()
         {
+            _enemyLoader = GetComponent<EnemyLoader>();
             // If the Arena Mode is on, then set up the Arena
             if (roomData.IsStartRoom() && isArena)
             {
@@ -342,7 +345,7 @@ namespace Game.LevelManager
                     {
                         actualSpawn = Random.Range(0, spawnPoints.Count);
                     } while (selectedSpawnPoints.Contains(actualSpawn));
-                    var enemy = EnemyLoader.InstantiateEnemyFromScriptableObject(
+                    var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key);
                     enemy.GetComponent<EnemyController>().SetRoom(this);

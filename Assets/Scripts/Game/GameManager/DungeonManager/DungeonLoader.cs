@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Events;
 using Game.LevelGenerator.LevelSOs;
@@ -10,13 +9,13 @@ using Util;
 
 namespace Game.GameManager.DungeonManager
 {
-    public static class DungeonLoader
+    public class DungeonLoader : MonoBehaviour
     {
         private static Map _dungeonMap;
-        public static List<RoomBhv> roomPrefabs;
-        public static Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
+        public List<RoomBhv> roomPrefabs;
+        public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public static event StartMapEvent StartMapEventHandler;
-        public static void LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLine currentQuestLine, Dimensions dimensions)
+        public Map LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLine currentQuestLine)
         {
             LoadDungeon(dungeonFileSo);
             
@@ -24,21 +23,23 @@ namespace Game.GameManager.DungeonManager
             ItemDispenser.DistributeItemsInDungeon(_dungeonMap, currentQuestLine);
             NpcDispenser.DistributeNpcsInDungeon(_dungeonMap, currentQuestLine);
 
-            OnStartMap(dungeonFileSo.name, _dungeonMap);
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 
             var selectedRoom = roomPrefabs[RandomSingleton.GetInstance().Random.Next(roomPrefabs.Count)];
-            InstantiateRooms(selectedRoom, dimensions);
+            InstantiateRooms(selectedRoom, _dungeonMap.Dimensions);
             ConnectRoooms();
+            OnStartMap(dungeonFileSo.name, _dungeonMap);
+
+            return _dungeonMap;
         }
         
-        private static void OnStartMap(string mapName, Map map)
+        private void OnStartMap(string mapName, Map map)
         {
             roomBHVMap[map.StartRoomCoordinates].OnRoomEnter();
             StartMapEventHandler?.Invoke(null, new StartMapEventArgs(mapName, map));
         }
         
-        private static void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
+        private void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
         {
             switch (orientation)
             {
@@ -53,7 +54,7 @@ namespace Game.GameManager.DungeonManager
             }
         }
         
-        public static List<int> CheckCorridor(Coordinates targetCoordinates)
+        public List<int> CheckCorridor(Coordinates targetCoordinates)
         {
             if (!_dungeonMap.DungeonPartByCoordinates.ContainsKey(targetCoordinates)) return null;
             //Sets door
@@ -62,12 +63,12 @@ namespace Game.GameManager.DungeonManager
             return lockedCorridor != null ? lockedCorridor.LockIDs : new List<int>();
         }
         
-        private static void LoadDungeon(DungeonFileSo dungeonFileSo)
+        private void LoadDungeon(DungeonFileSo dungeonFileSo)
         {
             _dungeonMap = new Map(dungeonFileSo, null);
         }
 
-        private static void InstantiateRooms(RoomBhv roomBhv, Dimensions dimensions)
+        private void InstantiateRooms(RoomBhv roomBhv, Dimensions dimensions)
         {
             foreach (var currentPart in _dungeonMap.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
@@ -77,7 +78,7 @@ namespace Game.GameManager.DungeonManager
             }
         }
 
-        private static void CheckConnections(DungeonRoom dungeonRoom, RoomBhv newRoom, Dimensions dimensions)
+        private void CheckConnections(DungeonRoom dungeonRoom, RoomBhv newRoom, Dimensions dimensions)
         {
             Coordinates targetCoordinates;
             if (IsLeftEdge(dungeonRoom.Coordinates))
@@ -102,26 +103,26 @@ namespace Game.GameManager.DungeonManager
             }
         }
         
-        private static bool IsLeftEdge(Coordinates coordinates)
+        private bool IsLeftEdge(Coordinates coordinates)
         {
             return coordinates.X > 1;
         }
 
-        private static bool IsRightEdge(Coordinates coordinates, int width)
+        private bool IsRightEdge(Coordinates coordinates, int width)
         {
             return coordinates.X < (width - 1);
         }
 
-        private static bool IsBottomEdge(Coordinates coordinates)
+        private bool IsBottomEdge(Coordinates coordinates)
         {
             return coordinates.Y > 1;
         }
-        private static bool IsTopEdge(Coordinates coordinates, int height)
+        private bool IsTopEdge(Coordinates coordinates, int height)
         {
             return coordinates.Y < (height - 1);
         }
         
-        public static void ConnectRoooms()
+        public void ConnectRoooms()
         {
             foreach (RoomBhv currentRoom in roomBHVMap.Values)
             {
@@ -129,7 +130,7 @@ namespace Game.GameManager.DungeonManager
             }
         }
         
-        public static void CreateConnectionsBetweenRooms(RoomBhv currentRoom)
+        public void CreateConnectionsBetweenRooms(RoomBhv currentRoom)
         {
             Coordinates targetCoordinates;
             if (currentRoom.westDoor != null)
