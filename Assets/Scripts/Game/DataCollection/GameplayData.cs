@@ -8,9 +8,10 @@ using Fog.Dialogue;
 using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
-using Game.GameManager.DungeonManager;
 using Game.GameManager.Player;
 using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator;
 using ScriptableObjects;
 using UnityEngine;
@@ -161,8 +162,8 @@ namespace Game.DataCollection
 
         protected void OnEnable()
         {
-            ProjectileController.enemyHitEventHandler += IncrementCombo;
-            ProjectileController.playerHitEventHandler += ResetCombo;
+            ProjectileController.EnemyHitEventHandler += IncrementCombo;
+            ProjectileController.PlayerHitEventHandler += ResetCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
             EnemyController.playerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
@@ -187,8 +188,8 @@ namespace Game.DataCollection
 
         protected void OnDisable()
         {
-            ProjectileController.enemyHitEventHandler -= IncrementCombo;
-            ProjectileController.playerHitEventHandler -= ResetCombo;
+            ProjectileController.EnemyHitEventHandler -= IncrementCombo;
+            ProjectileController.PlayerHitEventHandler -= ResetCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
             EnemyController.playerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;

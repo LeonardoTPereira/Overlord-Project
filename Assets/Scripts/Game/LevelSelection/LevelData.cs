@@ -12,7 +12,7 @@ namespace Game.LevelSelection
         [field:SerializeField] public QuestLine Quests { get; set; }
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
 
-        public LevelData(QuestLine quests, DungeonFileSo dungeon)
+        public void Init(QuestLine quests, DungeonFileSo dungeon)
         {
             Quests = quests;
             Dungeon = dungeon;

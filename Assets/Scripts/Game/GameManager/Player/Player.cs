@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
-using Game.GameManager.DungeonManager;
 using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using UnityEngine;
 
 namespace Game.GameManager.Player
@@ -51,7 +52,7 @@ namespace Game.GameManager.Player
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
             EnemyController.playerHitEventHandler += HurtPlayer;
-            ProjectileController.playerHitEventHandler += HurtPlayer;
+            ProjectileController.PlayerHitEventHandler += HurtPlayer;
             BombController.PlayerHitEventHandler += HurtPlayer;
             PlayerController.PlayerDeathEventHandler += KillPlayer;
         }
@@ -65,7 +66,7 @@ namespace Game.GameManager.Player
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;
             EnemyController.playerHitEventHandler -= HurtPlayer;
-            ProjectileController.playerHitEventHandler -= HurtPlayer;
+            ProjectileController.PlayerHitEventHandler -= HurtPlayer;
             BombController.PlayerHitEventHandler -= HurtPlayer;
             PlayerController.PlayerDeathEventHandler -= KillPlayer;
         }
@@ -108,7 +109,7 @@ namespace Game.GameManager.Player
         {
             int health = playerController.GetHealth();
             eventArgs.PlayerHealthWhenEntering = health;
-            EnterRoomEventHandler(this, eventArgs);
+            EnterRoomEventHandler?.Invoke(this, eventArgs);
         }
 
         private void HurtPlayer(object sender, EventArgs eventArgs)

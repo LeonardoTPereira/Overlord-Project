@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Game.Events;
-using Game.GameManager.DungeonManager;
 using Game.LevelGenerator.LevelSOs;
+using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;

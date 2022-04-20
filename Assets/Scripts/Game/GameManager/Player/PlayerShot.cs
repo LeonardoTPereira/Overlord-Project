@@ -98,7 +98,7 @@ namespace Game.GameManager.Player
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             var bulletController = bullet.GetComponent<ProjectileController>();
-            bulletController.ProjectileSO = projectileType;
+            bulletController.ProjectileSo = projectileType;
             bulletController.Shoot(bulletForceAndRotation.Force + _rigidbody2D.velocity.normalized);
         }
 
@@ -166,7 +166,7 @@ namespace Game.GameManager.Player
         {
             projectileType = eventArgs.ProjectileSO;
             bulletPrefab = projectileType.projectilePrefab;
-            bulletPrefab.GetComponent<ProjectileController>().ProjectileSO = projectileType;
+            bulletPrefab.GetComponent<ProjectileController>().ProjectileSo = projectileType;
             atkSpeed = projectileType.atkSpeed;
             bulletPrefab.GetComponent<SpriteRenderer>().color = eventArgs.ProjectileSO.color;
         }

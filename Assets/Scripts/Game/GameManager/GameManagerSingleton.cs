@@ -1,7 +1,7 @@
 ﻿using System;
 using Game.Audio;
 using Game.Events;
-using Game.GameManager.DungeonManager;
+using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
 using Game.NarrativeGenerator;
 using UnityEngine;

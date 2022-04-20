@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Events;
-using Game.GameManager.DungeonManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using TMPro;
 using UnityEngine;
 

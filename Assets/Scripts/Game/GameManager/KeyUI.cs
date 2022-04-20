@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
-using Game.GameManager.DungeonManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;

@@ -17,7 +17,9 @@ namespace Game.LevelSelection
             var dungeons = questLine.DungeonFileSos;
             foreach (var dungeon in dungeons)
             {
-                Levels.Add(new LevelData(questLine, dungeon));
+                var levelData = CreateInstance<LevelData>();
+                levelData.Init(questLine, dungeon);
+                Levels.Add(levelData);
             }
         }
     }

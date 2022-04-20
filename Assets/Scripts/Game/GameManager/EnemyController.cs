@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Game.EnemyGenerator;
 using Game.GameManager.Player;
 using Game.LevelManager;
+using Game.LevelManager.DungeonManager;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -434,7 +435,7 @@ namespace Game.GameManager
             {
                 //bullet.GetComponent<ProjectileController>().damage = damage;
                 bullet.GetComponent<ProjectileController>().SetEnemyThatShot(indexOnEnemyList);
-                bullet.GetComponent<ProjectileController>().ProjectileSO = projectileType;
+                bullet.GetComponent<ProjectileController>().ProjectileSo = projectileType;
             }
             bullet.SendMessage("Shoot", target);
         }

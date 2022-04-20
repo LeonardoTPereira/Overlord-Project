@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.GameManager.DungeonManager;
+using Game.LevelManager.DungeonLoader;
 using TMPro;
 using UnityEngine;
 
@@ -54,18 +54,18 @@ namespace Game.GameManager
 
         protected void OnEnable()
         {
-            ProjectileController.enemyHitEventHandler += IncrementCombo;
+            ProjectileController.EnemyHitEventHandler += IncrementCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
-            ProjectileController.playerHitEventHandler += ResetCombo;
+            ProjectileController.PlayerHitEventHandler += ResetCombo;
             EnemyController.playerHitEventHandler += ResetCombo;
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetCombo;
         }
 
         protected void OnDisable()
         {
-            ProjectileController.enemyHitEventHandler -= IncrementCombo;
+            ProjectileController.EnemyHitEventHandler -= IncrementCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
-            ProjectileController.playerHitEventHandler -= ResetCombo;
+            ProjectileController.PlayerHitEventHandler -= ResetCombo;
             EnemyController.playerHitEventHandler -= ResetCombo;
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetCombo;
         }

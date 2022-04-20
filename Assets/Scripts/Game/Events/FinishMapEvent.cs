@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
 
 namespace Game.Events
 {

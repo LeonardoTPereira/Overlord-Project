@@ -38,7 +38,6 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
 
         private void AddNpcs(TalkQuestSO quest)
         {
-            Debug.Log("Quest: " + quest.name + " NPC: "+ quest.Npc);
             if (NpcsBySo.TryGetValue(quest.Npc, out var npcQuestList))
             {
                 npcQuestList.Quests.Add(quest);

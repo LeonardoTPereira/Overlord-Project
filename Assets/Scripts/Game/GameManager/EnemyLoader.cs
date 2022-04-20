@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.EnemyManager;
 using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
@@ -60,26 +61,21 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         }
 
         /// Return the standard deviation of number of enemies by room.
-        private static float StdDevEnemyByRoom(in Dungeon dungeon, in int enemies) {
-            // The start and goal rooms are not count because they are mandatory
-            // empty rooms
-            float rooms = dungeon.Rooms.Count - 2;
-            if (rooms <= 0)
+        private static float StdDevEnemyByRoom(in Dungeon dungeon, in int enemies)
+        {
+            var roomsWithEnemies = dungeon.Rooms.Count(room => room.Enemies > 0);
+            if (roomsWithEnemies == 0) return 1;
+            var mean = enemies/(float)roomsWithEnemies;
+            var std = 0f;
+            for (var i = 1; i < dungeon.Rooms.Count; i++)
             {
-                return 1;
-            }
-            float mean = enemies / rooms;
-            // Calculate standard deviation
-            float std = 0f;
-            for (int i = 1; i < dungeon.Rooms.Count; i++)
-            {
-                Room room = dungeon.Rooms[i];
+                var room = dungeon.Rooms[i];
                 if (!room.Equals(dungeon.GetGoal()))
                 {
                     std += (float) Math.Pow(room.Enemies - mean, 2);
                 }
             }
-            var result = (float) Math.Sqrt(std / rooms)/mean;
+            var result = (float) Math.Sqrt(std / roomsWithEnemies)/mean;
             return result;
         }
 
