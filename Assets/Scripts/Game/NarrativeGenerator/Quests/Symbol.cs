@@ -1,9 +1,8 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests;
 
-namespace Game.NarrativeGenerator
+namespace Game.NarrativeGenerator.Quests
 {
     public interface Symbol 
     {

@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 
 namespace Game.NarrativeGenerator
 {
-    //Seleciona a linha de missões de acordo com os pesos do perfil do jogador
     public class Selector
     {
         Dictionary<string, Func<int,int>> startSymbolWeights = new Dictionary<string, Func<int,int>>();
@@ -38,13 +37,6 @@ namespace Game.NarrativeGenerator
 
         private PlayerProfile playerProfile;
         private QuestWeightsManager questWeightsManager;
-        
-        /*
-        [7][5][1][3]
-        [3][7][1][5]
-        [1][5][7][3]
-        [1][5][3][7]
-        */
 
         public PlayerProfile SelectProfile(List<int> answers)
         {
@@ -86,107 +78,85 @@ namespace Game.NarrativeGenerator
         private List<QuestSO> DrawMissions(List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             var questsSos = new List<QuestSO>();
-            Dictionary<string, Func<int,int>> symbolWeights = startSymbolWeights;
             MarkovChain questChain = new MarkovChain();
             while ( questChain.GetLastSymbol().canDrawNext )
             {
-                questChain.GetLastSymbol().SetDictionary( symbolWeights );
-                questChain.GetLastSymbol().SetNextSymbol( questChain );
+                SetSymbolWeights( ref questChain );
+                DefineNextQuest( ref questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
 
-                if ( 
-                    questChain.GetLastSymbol() as QuestSO != null &&
-                    questChain.GetLastSymbol().symbolType != Constants.EMPTY_TERMINAL
-                )
+                if ( IsLastQuestValid ( questChain ) )
                 {
                     questsSos.Add( questChain.GetLastSymbol() as QuestSO );
+                    Debug.Log( questChain.GetLastSymbol().symbolType );
                 }
-                SelectNextMission( questChain, symbolWeights );
             }
-            // TODO: ver se alguma parte desse código pode ser readaptada pra nova geração de narrativas pq ta muito bonitinho -lu
-            // var newMissionDraw = 0.0f;
+            return questsSos;
+            //TODO: Selecionar mais de apenas uma linha de quests
             // var chainCost = 0;
             // do
             // {
-            //     foreach (var item in questWeightsbyType.Where(item => item.Value > newMissionDraw))
-            //     {
-            //         switch (item.Key)
-            //         {
-            //             case Constants.TALK_QUEST:
-            //                 var t = new Talk(0, questWeightsbyType);
-            //                 t.Option(questsSos, possibleNpcs);
-            //                 break;
-            //             case Constants.GET_QUEST:
-            //                 var g = new Get(0, questWeightsbyType);
-            //                 g.Option(questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
-            //                 break;
-            //             case Constants.KILL_QUEST:
-            //                 var k = new Kill(0, questWeightsbyType);
-            //                 k.Option(questsSos, possibleNpcs, possibleEnemyTypes);
-            //                 break;
-            //             case Constants.EXPLORE_QUEST:
-            //                 var e = new Explore(0, questWeightsbyType);
-            //                 e.Option(questsSos, possibleNpcs);
-            //                 break;
-            //         }
-            //     }
+            //     colocar aqui o drawmissions atual ?
             //     chainCost += (int)Enums.QuestWeights.Hated*2;
-            //     newMissionDraw = RandomSingleton.GetInstance().Random.Next((int)Enums.QuestWeights.Loved)+chainCost;
             // } while (chainCost < (int)Enums.QuestWeights.Loved);
-            return questsSos;
         }
 
-        private void SelectNextMission ( MarkovChain questChain, Dictionary<string, Func<int,int>> symbolWeights )
+        private bool IsLastQuestValid ( MarkovChain questChain )
+        {
+            return questChain.GetLastSymbol() as QuestSO != null && questChain.GetLastSymbol().symbolType != Constants.EMPTY_TERMINAL;
+        }
+
+        private void DefineNextQuest ( ref MarkovChain questChain, List<QuestSO> questsSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
         {
             switch ( questChain.GetLastSymbol().symbolType )
             {
-                case Constants.KILL_QUEST:
-                // case Constants.KILL_TERMINAL:
-                    symbolWeights = killSymbolWeights;
-                break;
                 case Constants.TALK_QUEST:
-                // case Constants.TALK_TERMINAL:
-                    symbolWeights = talkSymbolWeights;
-                break;
+                    var t = new Talk(0, questWeightsbyType);
+                    t.Option( questChain, questsSos, possibleNpcs);
+                    break;
                 case Constants.GET_QUEST:
-                // case Constants.GET_TERMINAL:
-                // case Constants.DROP_TERMINAL:
-                // case Constants.ITEM_TERMINAL:
-                    symbolWeights = getSymbolWeights;
-                break;
+                    var g = new Get(0, questWeightsbyType);
+                    g.Option( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                    break;
+                case Constants.KILL_QUEST:
+                    var k = new Kill(0, questWeightsbyType);
+                    k.Option( questChain, questsSos, possibleNpcs, possibleEnemyTypes);
+                    break;
                 case Constants.EXPLORE_QUEST:
-                // case Constants.SECRET_TERMINAL:
+                    var e = new Explore(0, questWeightsbyType);
+                    e.Option( questChain, questsSos, possibleNpcs);
+                    break;
+            }
+        }
+
+        private void SetSymbolWeights ( ref MarkovChain questChain )
+        {
+            Dictionary<string, Func<int,int>> symbolWeights = startSymbolWeights;
+            switch ( questChain.GetLastSymbol().symbolType )
+            {
+                case Constants.KILL_QUEST:
+                    symbolWeights = killSymbolWeights;
+                    break;
+                case Constants.TALK_QUEST:
+                    symbolWeights = talkSymbolWeights;
+                    break;
+                case Constants.GET_QUEST:
+                    symbolWeights = getSymbolWeights;
+                    break;
+                case Constants.EXPLORE_QUEST:
                     symbolWeights = exploreSymbolWeights;
-                break;
-                // case Constants.EMPTY_TERMINAL:
-                // break;
+                    break;
                 default:
-                    Debug.LogError("Symbol type not found!");
+                    Debug.LogWarning("Symbol type not found!");
                 break;
             }
+            questChain.GetLastSymbol().SetDictionary( symbolWeights );
         }
 
         private void CalculateProfileWeights(List<int> answers)
         {
             int[] weights = CalculateStartSymbolWeights( answers );
 
-           questWeightsManager.CalculateTerminalSymbolsWeights(); // TODO: remove from here and put in each quest -lu
-
-            // TODO: Ver com o Leo se tudo bem remover isso aqui -lu
-            // questWeights.Add(new QuestWeight(Constants.TALK_QUEST, weights[0]));
-            // questWeights.Add(new QuestWeight(Constants.GET_QUEST, weights[1]));
-            // questWeights.Add(new QuestWeight(Constants.KILL_QUEST, weights[2]));
-            // questWeights.Add(new QuestWeight(Constants.EXPLORE_QUEST, weights[3]));
-            // Atribui 1, 3, 5, 7 aos pesos das quests - não parece fazer sentido?
-            // questWeights = questWeights.OrderBy(x => x.weight).ToList();
-            // for (int i = 0; i < questWeights.Count; ++i)
-            // {
-            //     questWeights[i].weight = WEIGHTS[i];
-            //     Debug.Log($"Quest Weight [{i}]: {questWeights[i].weight}");
-            // }
-            // weights[0] = questWeights.Find(x => x.quest == Constants.TALK_QUEST).weight;
-            // weights[1] = questWeights.Find(x => x.quest == Constants.GET_QUEST).weight;
-            // weights[2] = questWeights.Find(x => x.quest == Constants.KILL_QUEST).weight;
-            // weights[3] = questWeights.Find(x => x.quest == Constants.EXPLORE_QUEST).weight;
+           questWeightsManager.CalculateTerminalSymbolsWeights(); // TODO: remove from here and put it in each quest -lu
 
             if ( weights[0] != 0 ) startSymbolWeights.Add( Constants.TALK_QUEST, x => weights[0] );
             if ( weights[1] != 0 ) startSymbolWeights.Add( Constants.GET_QUEST, x => weights[1] );

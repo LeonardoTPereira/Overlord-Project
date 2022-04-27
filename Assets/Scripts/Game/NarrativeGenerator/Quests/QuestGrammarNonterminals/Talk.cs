@@ -18,7 +18,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             CreateAndSaveTalkQuestSo(questSos, possibleNpcSos);
             SetNextSymbol( chain );
-            chain.Option( chain, questSos, possibleNpcSos );
         }
 
         private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)

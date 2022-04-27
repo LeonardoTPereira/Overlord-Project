@@ -16,37 +16,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             maxQuestChance = 2.8f;
         }
     
-        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            DrawQuestType();
-            DefineNextQuest(questSos, possibleNpcSos, possibleItems, enemyTypes);
+            DefineQuestSO( chain, questSos, possibleNpcSos, possibleItems, enemyTypes);
+            SetNextSymbol( chain );
         }
 
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        protected void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            if (r > 2.8)
+            switch ( chain.GetLastSymbol().symbolType )
             {
-                CreateAndSaveGetQuestSo(questSos, possibleItems);
-                var t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos, possibleItems, enemyTypes);
-            }
-            if (r > 2.5 && r <= 2.8)
-            {
-                CreateAndSaveGetQuestSo(questSos, possibleItems);
-            }
-            if (r > 2.2 && r <= 2.5)
-            {
-                CreateAndSaveDropQuestSo(questSos,
-                    possibleItems, enemyTypes);
-                var t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos, possibleItems, enemyTypes);
-            }
-            if (r <= 2.2)
-            {
-                CreateAndSaveDropQuestSo(questSos,
-                    possibleItems, enemyTypes);
+                case Constants.GET_TERMINAL:
+                    CreateAndSaveGetQuestSo(questSos, possibleItems);
+                break;
+                case Constants.DROP_TERMINAL:
+                    CreateAndSaveDropQuestSo(questSos, possibleItems, enemyTypes);
+                break;
             }
         }
 

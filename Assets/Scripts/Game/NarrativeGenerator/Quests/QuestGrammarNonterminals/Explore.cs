@@ -12,25 +12,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             maxQuestChance = 2.6f;
         }
         
-        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos )
         {
-            DrawQuestType();
-            DefineNextQuest(questSos, possibleNpcSos);
-        }
-
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
-        {
-
-            if (r > 2.6)
-            {
-                CreateAndSaveSecretRoomQuestSo(questSos);
-                var t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-            }
-            else
-            {
-                CreateAndSaveSecretRoomQuestSo(questSos);
-            }
+            CreateAndSaveSecretRoomQuestSo( questSos );
+            SetNextSymbol( chain );
         }
 
         private static void CreateAndSaveSecretRoomQuestSo(List<QuestSO> questSos)

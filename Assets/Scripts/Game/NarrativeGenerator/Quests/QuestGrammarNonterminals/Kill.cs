@@ -16,26 +16,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             maxQuestChance = 2.5f;
         }
 
-        public void Option(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
+        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            DrawQuestType();
-            DefineNextQuest(questSos, possibleNpcSos, enemyTypes);
-        }
-    
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
-        {
-
-            if (r <= 2.3)
-            {
-                CreateAndSaveKillQuestSo(questSos, enemyTypes);
-                Talk t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos, enemyTypes);
-            }
-            else
-            {
-                CreateAndSaveKillQuestSo(questSos, enemyTypes);
-            }
+            CreateAndSaveKillQuestSo( questSos, enemyTypes );
+            SetNextSymbol( chain );
         }
 
         private static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)

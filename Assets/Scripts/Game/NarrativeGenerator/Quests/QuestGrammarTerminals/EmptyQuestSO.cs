@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
 using Util;
+using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests
 {
