@@ -6,12 +6,7 @@ using UnityEngine;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Explore : NonTerminalQuest
-    {
-        public Explore(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
-        {
-            maxQuestChance = 2.6f;
-        }
-        
+    {        
         public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos )
         {
             CreateAndSaveSecretRoomQuestSo( questSos );

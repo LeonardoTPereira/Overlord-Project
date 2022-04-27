@@ -10,12 +10,7 @@ using Util;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Get : NonTerminalQuest
-    {
-        public Get(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
-        {
-            maxQuestChance = 2.8f;
-        }
-    
+    {    
         public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             DefineQuestSO( chain, questSos, possibleNpcSos, possibleItems, enemyTypes);

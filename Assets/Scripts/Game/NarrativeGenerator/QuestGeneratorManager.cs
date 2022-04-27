@@ -61,7 +61,14 @@ namespace Game.NarrativeGenerator
         private void Awake()
         {
             Quests = ScriptableObject.CreateInstance<QuestLine>();
+            InitSelector();
+        }
+
+        private void InitSelector ()
+        {
             Selector = new Selector();
+            QuestWeightsManager weightsManager = new QuestWeightsManager();
+            Selector.questWeightsManager = weightsManager;
         }
 
         public void OnEnable()

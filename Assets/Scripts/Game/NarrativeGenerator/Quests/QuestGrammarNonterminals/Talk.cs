@@ -8,11 +8,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Talk : NonTerminalQuest
     {
-
-        public Talk(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
-        {
-            maxQuestChance = 2.4f;
-        }
     
         public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
         {

@@ -18,25 +18,11 @@ namespace Game.NarrativeGenerator
         Dictionary<string, Func<int,int>> talkSymbolWeights = new Dictionary<string, Func<int,int>>();
         Dictionary<string, Func<int,int>> getSymbolWeights = new Dictionary<string, Func<int,int>>();
         Dictionary<string, Func<int,int>> exploreSymbolWeights = new Dictionary<string, Func<int,int>>();
-        //leo
-        public class QuestWeight
-        {
-            public string quest;
-            public int weight;
-
-            public QuestWeight(string quest, int weight)
-            {
-                this.quest = quest;
-                this.weight = weight;
-            }
-        }
-
-        // public List<QuestWeight> questWeights = new List<QuestWeight>();
         Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
         private static readonly int[] WEIGHTS = {1, 3, 5, 7};
 
         private PlayerProfile playerProfile;
-        private QuestWeightsManager questWeightsManager;
+        public QuestWeightsManager questWeightsManager;
 
         public PlayerProfile SelectProfile(List<int> answers)
         {
@@ -110,19 +96,19 @@ namespace Game.NarrativeGenerator
             switch ( questChain.GetLastSymbol().symbolType )
             {
                 case Constants.TALK_QUEST:
-                    var t = new Talk(0, questWeightsbyType);
+                    var t = new Talk();
                     t.Option( questChain, questsSos, possibleNpcs);
                     break;
                 case Constants.GET_QUEST:
-                    var g = new Get(0, questWeightsbyType);
+                    var g = new Get();
                     g.Option( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
                     break;
                 case Constants.KILL_QUEST:
-                    var k = new Kill(0, questWeightsbyType);
+                    var k = new Kill();
                     k.Option( questChain, questsSos, possibleNpcs, possibleEnemyTypes);
                     break;
                 case Constants.EXPLORE_QUEST:
-                    var e = new Explore(0, questWeightsbyType);
+                    var e = new Explore();
                     e.Option( questChain, questsSos, possibleNpcs);
                     break;
             }

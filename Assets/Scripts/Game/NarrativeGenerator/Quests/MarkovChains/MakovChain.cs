@@ -18,10 +18,10 @@ namespace Game.NarrativeGenerator.Quests
         /// </summary>
         public MarkovChain ()
         {
-            // symbolList.Add( new NonTerminalQuest() );
+            symbolList.Add( new Talk() );
             symbolNumber = 0;
             symbolList[0].canDrawNext = true;
-            // symbolList[0].symbolType = Constants.SECRET_TERMINAL; // ?
+            symbolList[0].symbolType = Constants.TALK_QUEST;
         }
 
         /// <summary>
@@ -32,18 +32,18 @@ namespace Game.NarrativeGenerator.Quests
             symbolNumber++;
             switch ( _symbol )
             {
-                // case Constants.KILL_QUEST:
-                //     symbolList.Add( new Kill() );
-                // break;
-                // case Constants.TALK_QUEST:
-                //     symbolList.Add( new Talk() );
-                // break;
-                // case Constants.GET_QUEST:
-                //     symbolList.Add( new Get() );
-                // break;
-                // case Constants.EXPLORE_QUEST:
-                //     symbolList.Add( new Explore() );
-                // break;
+                case Constants.KILL_QUEST:
+                    symbolList.Add( new Kill() );
+                break;
+                case Constants.TALK_QUEST:
+                    symbolList.Add( new Talk() );
+                break;
+                case Constants.GET_QUEST:
+                    symbolList.Add( new Get() );
+                break;
+                case Constants.EXPLORE_QUEST:
+                    symbolList.Add( new Explore() );
+                break;
                 case Constants.KILL_TERMINAL:
                     symbolList.Add( ScriptableObject.CreateInstance<KillQuestSO>() );
                 break;

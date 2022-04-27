@@ -11,11 +11,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Kill : NonTerminalQuest
     {
-        public Kill(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
-        {
-            maxQuestChance = 2.5f;
-        }
-
         public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             CreateAndSaveKillQuestSo( questSos, enemyTypes );
