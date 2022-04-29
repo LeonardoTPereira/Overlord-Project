@@ -4,7 +4,8 @@ using UnityEngine;
 using EnumRaces;
 using EnumJobs;
 using FitnessScript;
-
+using Game.NPCsa;
+using MapElite;
 
 public class CSVManager
 {
