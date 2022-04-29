@@ -7,90 +7,93 @@ using FitnessScript;
 using Game.NPCsa;
 using MapElite;
 
-public class CSVManager
+namespace CsvManagement
 {
-    private string csvFileName = "/iterations.csv";
-
-    public void SaveMapFitness(NPC_SO[,] map, int questID, string destinyPath)
+    public class CSVManager
     {
-        string fileContent = "";
+        private string csvFileName = "/iterations.csv";
 
-        if (System.IO.File.Exists(destinyPath + csvFileName))
+        public void SaveMapFitness(NPC_SO[,] map, int questID, string destinyPath)
         {
-            fileContent = System.IO.File.ReadAllText(destinyPath + csvFileName);
-        }
-        else
-        {
-            fileContent = CreateHeader();
-        }
+            string fileContent = "";
 
-        PrepareFileContent(ref fileContent, map, questID);
-
-        System.IO.File.WriteAllText(destinyPath + csvFileName, fileContent);
-    }
-
-    public void SaveMapFitness(MapElites mapElite, string destinyPath)
-    {
-        string fileContent = "";
-
-        if (System.IO.File.Exists(destinyPath + csvFileName))
-        {
-            fileContent = System.IO.File.ReadAllText(destinyPath + csvFileName);
-        }
-        else
-        {
-            fileContent = CreateHeader();
-        }
-
-        PrepareFileContent(ref fileContent, mapElite.map, mapElite.questID);
-
-        System.IO.File.WriteAllText(destinyPath + csvFileName, fileContent);
-    }
-
-    private string CreateHeader()
-    {
-        string header = "";
-
-        for (int i = 0; i < Races.NumberOfRaces(); i++)
-        {
-            for (int j = 0; j < Jobs.NumberOfJobs(); j++)
+            if (System.IO.File.Exists(destinyPath + csvFileName))
             {
-                header += ((Races.raceID)i).ToString() + "-" + ((Jobs.jobID)j).ToString();
+                fileContent = System.IO.File.ReadAllText(destinyPath + csvFileName);
+            }
+            else
+            {
+                fileContent = CreateHeader();
+            }
 
-                // trocar quando guardar o fitness dentro de cada npc
-                if (!(i == (Races.NumberOfRaces() - 1) && j == (Jobs.NumberOfJobs() - 1)))
+            PrepareFileContent(ref fileContent, map, questID);
+
+            System.IO.File.WriteAllText(destinyPath + csvFileName, fileContent);
+        }
+
+        public void SaveMapFitness(MapElites mapElite, string destinyPath)
+        {
+            string fileContent = "";
+
+            if (System.IO.File.Exists(destinyPath + csvFileName))
+            {
+                fileContent = System.IO.File.ReadAllText(destinyPath + csvFileName);
+            }
+            else
+            {
+                fileContent = CreateHeader();
+            }
+
+            PrepareFileContent(ref fileContent, mapElite.map, mapElite.questID);
+
+            System.IO.File.WriteAllText(destinyPath + csvFileName, fileContent);
+        }
+
+        private string CreateHeader()
+        {
+            string header = "";
+
+            for (int i = 0; i < Races.NumberOfRaces(); i++)
+            {
+                for (int j = 0; j < Jobs.NumberOfJobs(); j++)
                 {
-                    header += ",";
+                    header += ((Races.raceID)i).ToString() + "-" + ((Jobs.jobID)j).ToString();
+
+                    // trocar quando guardar o fitness dentro de cada npc
+                    if (!(i == (Races.NumberOfRaces() - 1) && j == (Jobs.NumberOfJobs() - 1)))
+                    {
+                        header += ",";
+                    }
                 }
             }
+
+            return header;
         }
 
-        return header;
-    }
-
-    // insere uma nova linha com todos os npcs do mapa na string do conteudo
-    private void PrepareFileContent(ref string fileContent, NPC_SO[,] map, int questID)
-    {
-        var sb = new System.Text.StringBuilder(fileContent);
-
-        sb.Append('\n');
-
-        for (int i = 0; i < Races.NumberOfRaces(); i++)
+        // insere uma nova linha com todos os npcs do mapa na string do conteudo
+        private void PrepareFileContent(ref string fileContent, NPC_SO[,] map, int questID)
         {
-            for (int j = 0; j < Jobs.NumberOfJobs(); j++)
-            {
-                // trocar quando guardar o fitness dentro de cada npc
-                sb.Append(Fitness.Calculate(map[i, j], questID).ToString().Replace(",", "."));
+            var sb = new System.Text.StringBuilder(fileContent);
 
-                if (!(i == (Races.NumberOfRaces() - 1) && j == (Jobs.NumberOfJobs() - 1)))
+            sb.Append('\n');
+
+            for (int i = 0; i < Races.NumberOfRaces(); i++)
+            {
+                for (int j = 0; j < Jobs.NumberOfJobs(); j++)
                 {
-                    sb.Append(',');
+                    // trocar quando guardar o fitness dentro de cada npc
+                    sb.Append(Fitness.Calculate(map[i, j], questID).ToString().Replace(",", "."));
+
+                    if (!(i == (Races.NumberOfRaces() - 1) && j == (Jobs.NumberOfJobs() - 1)))
+                    {
+                        sb.Append(',');
+                    }
                 }
             }
+
+            fileContent = sb.ToString();
+
+            return;
         }
-
-        fileContent = sb.ToString();
-
-        return;
     }
 }

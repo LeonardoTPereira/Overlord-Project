@@ -8,6 +8,7 @@ using FitnessScript;
 using MapElite;
 using EvolutivoScript;
 using Game.NPCsa;
+using CsvManagement;
 
 namespace GeradorNPC
 {
