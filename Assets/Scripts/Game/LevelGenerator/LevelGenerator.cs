@@ -32,17 +32,14 @@ namespace Game.LevelGenerator
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent NewEaGenerationEventHandler;
 
+        private FitnessPlot fitnessPlot;
 
         /// Level Generator constructor.
-        public LevelGenerator(Parameters _prs) {
-            Debug.Log("NEnemies: " + _prs.FitnessParameters.DesiredEnemies);
-            Debug.Log("NRooms: " + _prs.FitnessParameters.DesiredRooms);
-            Debug.Log("NKeys: " + _prs.FitnessParameters.DesiredKeys);
-            Debug.Log("NLocks: " + _prs.FitnessParameters.DesiredLocks);
-            Debug.Log("Linearity: " + _prs.FitnessParameters.DesiredLinearity);
+        public LevelGenerator(Parameters _prs, FitnessPlot fitnessPlot = null) {
             prs = _prs;
             data = new Data();
             data.parameters = prs;
+            this.fitnessPlot = fitnessPlot;
         }
 
         /// Generate and return a set of levels.
@@ -70,7 +67,7 @@ namespace Game.LevelGenerator
         {
             Population pop = new Population(
                 SearchSpace.ExplorationRanges.Length,
-                SearchSpace.LeniencyRanges.Length
+                SearchSpace.LeniencyRanges.Length, fitnessPlot
             );
             var maxTries = INTERMEDIATE_POPULATION;
             var currentTry = 0;
@@ -160,7 +157,6 @@ namespace Game.LevelGenerator
 
         private bool HasReachedStopCriteria(DateTime end, DateTime start, int biomesWithElites, float elitesWithAcceptableFitness)
         {
-            Debug.Log("Dungeon Elites: "+biomesWithElites+", "+"Acceptable Fitness: "+ elitesWithAcceptableFitness);
             if (biomesWithElites < prs.MinimumElite) return false;
             if (elitesWithAcceptableFitness >= prs.MinimumElite) return true;
             var elapsedTime = (end - start).TotalSeconds;

@@ -3,6 +3,7 @@ using System.Linq;
 using Game.Events;
 using Game.LevelGenerator;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Game.MenuManager;
 using Game.NarrativeGenerator;
 using MyBox;
 using TMPro;
@@ -14,14 +15,14 @@ namespace Game.GameManager
     [RequireComponent(typeof(LevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
-        public static event CreateEADungeonEvent createEADungeonEventHandler;
+        public static event CreateEADungeonEvent CreateEaDungeonEventHandler;
         private string playerProfile;
 
-        protected Dictionary<string, TMP_InputField> inputFields;
+        private Dictionary<string, TMP_InputField> inputFields;
         [SerializeField]
         protected GameObject progressCanvas, inputCanvas;
-        [SerializeField, Scene]
-        protected string levelToLoad;
+        [SerializeField] 
+        private SceneReference levelToLoad;
 
         [Separator("Parameters to Create Dungeons")]
         [SerializeField]
@@ -65,17 +66,15 @@ namespace Game.GameManager
 
         public void CreateLevelFromInput()
         {
-            int nRooms, nKeys, nLocks, nEnemies;
-            float linearity;
             try
             {
-                nRooms = int.Parse(inputFields["RoomsInputField"].text);
-                nKeys = int.Parse(inputFields["KeysInputField"].text);
-                nLocks = int.Parse(inputFields["LocksInputField"].text);
-                nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
-                linearity = float.Parse(inputFields["LinearityInputField"].text);
+                var nRooms = int.Parse(inputFields["RoomsInputField"].text);
+                var nKeys = int.Parse(inputFields["KeysInputField"].text);
+                var nLocks = int.Parse(inputFields["LocksInputField"].text);
+                var nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
+                var linearity = float.Parse(inputFields["LinearityInputField"].text);
                 parameters.FitnessParameters = new FitnessParameters(nRooms, nKeys, nLocks, nEnemies, linearity);
-                createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parameters));
+                CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parameters));
             }
             catch (KeyNotFoundException)
             {
@@ -87,7 +86,7 @@ namespace Game.GameManager
 
         public void GoToNext()
         {
-            SceneManager.LoadScene(levelToLoad);
+            SceneManager.LoadScene(levelToLoad.SceneName);
         }
 
         public void GoToPrevious()

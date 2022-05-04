@@ -165,7 +165,7 @@ namespace Game.DataCollection
             ProjectileController.EnemyHitEventHandler += IncrementCombo;
             ProjectileController.PlayerHitEventHandler += ResetCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
-            EnemyController.playerHitEventHandler += ResetCombo;
+            EnemyController.PlayerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetMaxCombo;
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetTreasure;
@@ -191,7 +191,7 @@ namespace Game.DataCollection
             ProjectileController.EnemyHitEventHandler -= IncrementCombo;
             ProjectileController.PlayerHitEventHandler -= ResetCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
-            EnemyController.playerHitEventHandler -= ResetCombo;
+            EnemyController.PlayerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetTreasure;

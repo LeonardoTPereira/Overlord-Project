@@ -66,15 +66,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var roomsWithEnemies = dungeon.Rooms.Count(room => room.Enemies > 0);
             if (roomsWithEnemies == 0) return 1;
             var mean = enemies/(float)roomsWithEnemies;
-            var std = 0f;
-            for (var i = 1; i < dungeon.Rooms.Count; i++)
-            {
-                var room = dungeon.Rooms[i];
-                if (!room.Equals(dungeon.GetGoal()))
-                {
-                    std += (float) Math.Pow(room.Enemies - mean, 2);
-                }
-            }
+            var std = dungeon.Rooms.Where(room => room.Enemies > 0).Sum(room => (float) Math.Pow(room.Enemies - mean, 2));
             var result = (float) Math.Sqrt(std / roomsWithEnemies)/mean;
             return result;
         }

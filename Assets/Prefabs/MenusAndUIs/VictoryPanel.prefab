@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467251272701262195}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -295,9 +295,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Por favor, clique em \"Question\xE1rio\" para responder algumas perguntas
-    sobre o n\xEDvel que voc\xEA acabou de jogar.\n \nCaso queira jogar mais, vamos
-    oferecer outro n\xEDvel para voc\xEA ao fim do question\xE1rio.\n\nCaso queira
-    parar, apenas envie o question\xE1rio e feche essa janela."
+    sobre o n\xEDvel que voc\xEA acabou de jogar.\n \nAo final, voc\xEA voltar\xE1
+    para a sele\xE7\xE3o de n\xEDveis e poder\xE1 continuar jogando :)\n\nCaso queira
+    parar, pedimos apenas que envie o question\xE1rio antes de fechar essa janela,
+    se poss\xEDvel. Sua resposta nos ajuda muito!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -324,7 +325,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.65
+  m_fontSize: 23.1
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -401,10 +402,10 @@ RectTransform:
   m_Father: {fileID: 467251273006097258}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.37915334, y: 0.04777109}
-  m_AnchorMax: {x: 0.6232199, y: 0.1517711}
-  m_AnchoredPosition: {x: 0.69999695, y: -0.25}
-  m_SizeDelta: {x: 0, y: -1.5}
+  m_AnchorMin: {x: 0.313125, y: 0.052}
+  m_AnchorMax: {x: 0.6856875, y: 0.1517711}
+  m_AnchoredPosition: {x: 0.17102051, y: -0.25}
+  m_SizeDelta: {x: 0.21579742, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &467251272860351216
 CanvasRenderer:

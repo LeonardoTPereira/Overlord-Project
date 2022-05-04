@@ -126,10 +126,8 @@ namespace Game.NarrativeGenerator
 
         private IEnumerator CreateDungeonsForQuestLine()
         {
-            Debug.Log("Creating Dungeons");
             _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
             yield return new WaitUntil(() => _levelGeneratorManager.hasFinished);
-            Debug.Log("Created Dungeons");
             //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 

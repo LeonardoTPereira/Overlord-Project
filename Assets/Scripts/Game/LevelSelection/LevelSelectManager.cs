@@ -12,7 +12,6 @@ namespace Game.LevelSelection
         [field: SerializeField] public SelectedLevels Selected { get; set; }
         [field: SerializeField] public List<LevelSelectItem> LevelItems { get; set; }
 
-        [field: SerializeField] private LevelData _levelToLoad;
         public static event LevelLoadEvent LoadLevelEventHandler;
         private void OnEnable()
         {
@@ -28,27 +27,15 @@ namespace Game.LevelSelection
         {
             if (scene.name != "LevelSelector") return;
             ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.LevelSelectTheme));
-            LoadLevelsToItems();
         }
 
-        private void LoadLevelsToItems()
-        {
-            Debug.Log("Loading levels to items");
-            var totalLevels = LevelItems.Count;
-            for (var i = 0; i < totalLevels; i++)
-            {
-                LevelItems[i].LevelData = Selected.Levels[i];
-            }
-        }
-        
         public void ConfirmStageSelection(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            foreach (var level in LevelItems)
+            for (var i = 0; i < LevelItems.Count; ++i)
             {
-                if (!level.IsSelected) continue;
-                _levelToLoad.Dungeon = level.LevelData.Dungeon;
-                _levelToLoad.Quests = level.LevelData.Quests;
+                if (!LevelItems[i].IsSelected) continue;
+                Selected.SelectLevel(i);
                 SceneManager.LoadScene("LevelWithEnemies");
                 return;
             }

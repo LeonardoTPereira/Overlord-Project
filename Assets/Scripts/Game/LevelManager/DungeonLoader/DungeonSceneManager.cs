@@ -7,6 +7,7 @@ using Game.GameManager.Player;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
+using Game.MenuManager;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
@@ -29,7 +30,7 @@ namespace Game.LevelManager.DungeonLoader
         public QuestLine currentQuestLine;
         public int maxTreasure;
         private DungeonFileSo currentDungeonSo;
-        [field: SerializeField] private LevelData currentLevel;
+        [field: SerializeReference] private SelectedLevels _selectedLevels;
         private Map _map;
         private void OnEnable()
         {
@@ -48,6 +49,7 @@ namespace Game.LevelManager.DungeonLoader
             _map = dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLine);
             EnemyLoader.LoadEnemies(currentQuestLine.EnemySos);
             PlayBgm(AudioManager.BgmTracks.DungeonTheme);
+            gameOverScreen.GetComponent<GameOverPanelBhv>().currentLevel = _selectedLevels.GetCurrentLevel();
         }
 
         private void OnDisable()
@@ -66,8 +68,8 @@ namespace Game.LevelManager.DungeonLoader
             if (scene.name is not ("Level" or "LevelWithEnemies")) return;
             isInGame = true;
             isCompleted = false;
-            currentDungeonSo = currentLevel.Dungeon;
-            currentQuestLine = currentLevel.Quests;
+            currentDungeonSo = _selectedLevels.GetCurrentLevel().Dungeon;
+            currentQuestLine = _selectedLevels.GetCurrentLevel().Quests;
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
             OnLevelLoadedEvents();
             maxTreasure = currentQuestLine.ItemParametersForQuestLine.TotalItems;
@@ -90,9 +92,8 @@ namespace Game.LevelManager.DungeonLoader
             PlayBgm(AudioManager.BgmTracks.VictoryTheme);            
             SceneManager.UnloadSceneAsync(GameUI);
 
-            //Analytics for the level
-            if (!createMaps && !survivalMode)
-                victoryScreen.SetActive(true);
+            _selectedLevels.GetCurrentLevel().CompleteLevel();
+            victoryScreen.SetActive(true);
         }
         
         public void OnLevelLoadedEvents()

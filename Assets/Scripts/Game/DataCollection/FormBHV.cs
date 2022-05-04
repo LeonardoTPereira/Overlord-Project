@@ -37,12 +37,6 @@ namespace Game.DataCollection
             submitButton.SetAsLastSibling();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void Submit()
         {
             #if UNITY_EDITOR

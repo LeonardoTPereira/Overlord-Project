@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Game.Events;
 using Game.Maestro;
@@ -24,9 +23,10 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public BiomeMap BiomeMap { get; set; }
         public MapElites MapElites { get; set; }
         private readonly FitnessJson _fitnessJson;
+        private readonly FitnessPlot _fitnessPlot;
 
         /// Population constructor.
-        public Population(int explorationSize, int leniencySize)
+        public Population(int explorationSize, int leniencySize, FitnessPlot fitnessPlot = null)
         {
             LeniencyEliteCount = leniencySize;
             ExplorationEliteCount = explorationSize;
@@ -35,6 +35,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             TotalElites = 0;
             BiomeMap = new BiomeMap();
             _fitnessJson = new FitnessJson();
+            _fitnessPlot = fitnessPlot;
         }
 
         /// Add an individual in the MAP-Elites population.
@@ -107,6 +108,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             foreach (var elite in EliteList)
             {
                 _fitnessJson.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                _fitnessPlot.UpdateFitnessPlotData(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
             }
             BiomeMap.UpdateBiomes(MapElites);
         }
@@ -134,6 +136,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public void SaveJson()
         {
             UnityMainThreadDispatcher.Instance().Enqueue(_fitnessJson.SaveJson);
+            UnityMainThreadDispatcher.Instance().Enqueue(_fitnessPlot.AddAnimationCurves);
         }
     }
 }

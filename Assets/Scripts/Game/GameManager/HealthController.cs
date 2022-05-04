@@ -6,12 +6,21 @@ namespace Game.GameManager
     public class HealthController : MonoBehaviour
     {
         [SerializeField] private int health;
-        int maxHealth;
-        bool isInvincible;
-        float invincibilityTime, invincibilityCount;
-        Color originalColor;
+        private int maxHealth;
+        private bool isInvincible;
+        private float invincibilityTime;
+        private float invincibilityCount;
+        private Color originalColor;
+        private SpriteRenderer spriteRenderer;
+        private EnemyController enemyController;
 
         public static event PlayerIsDamagedEvent PlayerIsDamagedEventHandler;
+
+        private void Start()
+        {
+            enemyController = gameObject.GetComponent<EnemyController>();
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
 
         private void Awake()
         {
@@ -21,13 +30,14 @@ namespace Game.GameManager
             invincibilityTime = 0.2f;
         }
 
+        //TODO change invincibility timer to coroutine
         private void Update()
         {
             if (!isInvincible) return;
             if (invincibilityTime < invincibilityCount)
             {
                 isInvincible = false;
-                gameObject.GetComponent<SpriteRenderer>().color = originalColor;
+                spriteRenderer.color = originalColor;
             }
             else
             {
@@ -38,7 +48,7 @@ namespace Game.GameManager
         public void ApplyDamage(int damage, Vector3 impactDirection, int enemyIndex = -1)
         {
             if (isInvincible) return;
-            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            spriteRenderer.color = Color.red;
             health -= damage;
             isInvincible = true;
             invincibilityCount = 0f;
@@ -48,7 +58,7 @@ namespace Game.GameManager
             }
             else if (gameObject.CompareTag("Enemy"))
             {
-                gameObject.GetComponent<EnemyController>().CheckDeath();
+                enemyController.CheckDeath();
             }
         }
         

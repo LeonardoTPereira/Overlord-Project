@@ -57,7 +57,7 @@ namespace Game.GameManager
             ProjectileController.EnemyHitEventHandler += IncrementCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
             ProjectileController.PlayerHitEventHandler += ResetCombo;
-            EnemyController.playerHitEventHandler += ResetCombo;
+            EnemyController.PlayerHitEventHandler += ResetCombo;
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetCombo;
         }
 
@@ -66,7 +66,7 @@ namespace Game.GameManager
             ProjectileController.EnemyHitEventHandler -= IncrementCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
             ProjectileController.PlayerHitEventHandler -= ResetCombo;
-            EnemyController.playerHitEventHandler -= ResetCombo;
+            EnemyController.PlayerHitEventHandler -= ResetCombo;
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetCombo;
         }
 

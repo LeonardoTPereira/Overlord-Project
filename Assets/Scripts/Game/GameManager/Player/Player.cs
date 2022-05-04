@@ -51,7 +51,7 @@ namespace Game.GameManager.Player
             RoomBhv.EnterRoomEventHandler += GetHealth;
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
-            EnemyController.playerHitEventHandler += HurtPlayer;
+            EnemyController.PlayerHitEventHandler += HurtPlayer;
             ProjectileController.PlayerHitEventHandler += HurtPlayer;
             BombController.PlayerHitEventHandler += HurtPlayer;
             PlayerController.PlayerDeathEventHandler += KillPlayer;
@@ -65,7 +65,7 @@ namespace Game.GameManager.Player
             RoomBhv.EnterRoomEventHandler -= GetHealth;
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;
-            EnemyController.playerHitEventHandler -= HurtPlayer;
+            EnemyController.PlayerHitEventHandler -= HurtPlayer;
             ProjectileController.PlayerHitEventHandler -= HurtPlayer;
             BombController.PlayerHitEventHandler -= HurtPlayer;
             PlayerController.PlayerDeathEventHandler -= KillPlayer;

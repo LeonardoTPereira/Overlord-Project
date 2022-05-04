@@ -170,10 +170,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.24479169
     y: 0
-    width: 1
-    height: 1
+    width: 0.29074076
+    height: 0.29074073
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -444,16 +444,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 520823120145489523, guid: 9cef1f48e6584374d82dd0872188c904,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 520823120145489523, guid: 9cef1f48e6584374d82dd0872188c904,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 128
-      objectReference: {fileID: 0}
     - target: {fileID: 3105447847105003177, guid: 9cef1f48e6584374d82dd0872188c904,
         type: 3}
       propertyPath: m_Pivot.x
@@ -563,27 +553,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194816907341027192, guid: 9cef1f48e6584374d82dd0872188c904,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a9ce44b1408641e408ea70d93e368cee,
-        type: 3}
-    - target: {fileID: 9194816907341027192, guid: 9cef1f48e6584374d82dd0872188c904,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194816907341027192, guid: 9cef1f48e6584374d82dd0872188c904,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194816907341027192, guid: 9cef1f48e6584374d82dd0872188c904,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cef1f48e6584374d82dd0872188c904, type: 3}

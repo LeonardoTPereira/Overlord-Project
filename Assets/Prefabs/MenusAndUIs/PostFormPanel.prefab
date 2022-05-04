@@ -67,9 +67,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Muito obrigado por responder!\n\nSuas respostas valem muito para o desenvolvimento
-    dessa pesquisa!\n\nSe quiser jogar mais \xE9 s\xF3 clicar no bot\xE3o abaixo!\nVamos
-    carregar um novo n\xEDvel que achamos ser adequado para voc\xEA.\n\nCaso n\xE3o
-    queira continuar, tudo bem. \xC9 s\xF3 fechar essa janela."
+    dessa pesquisa!\n\nSe quiser jogar mais \xE9 s\xF3 clicar no bot\xE3o abaixo!\n\nCaso
+    n\xE3o queira continuar, tudo bem. \xC9 s\xF3 fechar essa janela."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -96,7 +95,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 29.3
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -359,7 +358,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Pr\xF3ximo N\xEDvel"
+  m_text: "Selecionar Novo N\xEDvel"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -386,7 +385,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.9
+  m_fontSize: 22.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -454,7 +453,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3579693897674956511}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -489,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.26520076, g: 0.125534, b: 0.2924528, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -518,9 +517,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8788c1eba28efab4cb292962e6be0039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextPanel: {fileID: 0}
-  postFormText: {fileID: 3579693896529342459}
-  playMoreButton: {fileID: 3579693898036837698}
+  levelSelector:
+    Scene: {fileID: 102900000, guid: 6ab9f7015ab81b644a9b23f3eb5d80e2, type: 3}
+    SceneName: LevelSelector
+    sceneIndex: 8
+    sceneEnabled: 1
 --- !u!1 &3579693898036837696
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,10 +557,10 @@ RectTransform:
   m_Father: {fileID: 3579693896691441611}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.37800002, y: 0.050409637}
-  m_AnchorMax: {x: 0.62200004, y: 0.14940964}
-  m_AnchoredPosition: {x: 0.17999268, y: 0.25}
-  m_SizeDelta: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0.33100003, y: 0.046242964}
+  m_AnchorMax: {x: 0.6704376, y: 0.14940964}
+  m_AnchoredPosition: {x: -0.54000854, y: 1.5}
+  m_SizeDelta: {x: 1.5471001, y: -1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3579693898036837700
 CanvasRenderer:

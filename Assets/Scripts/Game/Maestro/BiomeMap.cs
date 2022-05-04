@@ -96,14 +96,10 @@ namespace Game.Maestro
             var selectedLevels = new List<Individual>();
             foreach (var biome in Enum.GetValues(typeof(Biomes)).Cast<Biomes>())
             {
-                Debug.Log("Biome: "+biome);
                 var elites = LevelsByBiome[biome];
                 Individual bestElite = null;
                 foreach (var elite in elites)
                 {
-                    Debug.Log("Elite Biome - " + biome + " : Rooms=" + elite.dungeon.Rooms.Count + "Fitness=" +
-                              elite.Fitness.Result);
-
                     if (bestElite == null)
                     {
                         bestElite = elite;

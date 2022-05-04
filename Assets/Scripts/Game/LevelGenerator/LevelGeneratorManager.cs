@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using System.Threading;
 using Game.Events;
 using Game.GameManager;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
-using MyBox;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.LevelGenerator
@@ -23,6 +19,7 @@ namespace Game.LevelGenerator
         // Flags if the dungeon has been gerated for Unity's Game Manager to handle things after
         public bool hasFinished;
         private QuestLine _questLine;
+        private FitnessPlot fitnessPlot;
 
         /**
          * The constructor of the "Main" behind the EA
@@ -32,14 +29,19 @@ namespace Game.LevelGenerator
             hasFinished = false;
         }
 
+        private void Start()
+        {
+            fitnessPlot = GetComponent<FitnessPlot>();
+        }
+
         public void OnEnable()
         {
-            LevelGeneratorController.createEADungeonEventHandler += EvolveDungeonPopulation;
+            LevelGeneratorController.CreateEaDungeonEventHandler += EvolveDungeonPopulation;
         }
 
         public void OnDisable()
         {
-            LevelGeneratorController.createEADungeonEventHandler -= EvolveDungeonPopulation;
+            LevelGeneratorController.CreateEaDungeonEventHandler -= EvolveDungeonPopulation;
         }
 
         // The "Main" behind the Dungeon Generator
@@ -47,11 +49,6 @@ namespace Game.LevelGenerator
         {
             parameters = eventArgs.Parameters;
             _questLine = eventArgs.QuestLineForDungeon;
-            var fitnessParameters = parameters.FitnessParameters;
-            Debug.Log(fitnessParameters.DesiredEnemies + " " + fitnessParameters.DesiredKeys + " " + fitnessParameters.DesiredRooms);
-            Debug.Log("Quest Line to Evolve: " + _questLine);
-            Debug.Log("Quest Line to Evolve: " + _questLine.graph);
-            Debug.Log("Quest Line to Evolve: " + _questLine.EnemySos.Count);
 
             // Start the generation process
             Thread t = new Thread(Evolve);
@@ -64,7 +61,6 @@ namespace Game.LevelGenerator
             // Wait until the dungeons were generated
             while (t.IsAlive)
                 yield return new WaitForSeconds(0.1f);
-            Debug.Log("Finished evolving, save dungeon SOs");
             // Write all the generated dungeons in ScriptableObjects
             var solutions = generator.Solution.GetBestEliteForEachBiome();
             foreach (var individual in solutions)
@@ -77,7 +73,7 @@ namespace Game.LevelGenerator
         public void Evolve()
         {
             hasFinished = false;
-            generator = new LevelGenerator(parameters);
+            generator = new LevelGenerator(parameters, fitnessPlot);
             generator.Evolve();
         }
     }

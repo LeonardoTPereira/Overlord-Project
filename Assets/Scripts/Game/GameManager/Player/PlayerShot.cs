@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Game.Events;
+using Game.MenuManager;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,13 +38,13 @@ namespace Game.GameManager.Player
         protected override void OnEnable()
         {
             base.OnEnable();
-            WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSo;
+            WeaponLoaderBhv.LoadWeaponButtonEventHandler += SetProjectileSo;
         }
         
         protected override void OnDisable()
         {
             base.OnEnable();
-            WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSo;
+            WeaponLoaderBhv.LoadWeaponButtonEventHandler -= SetProjectileSo;
         }
 
         protected override void Start()
