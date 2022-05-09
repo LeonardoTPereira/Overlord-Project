@@ -1,0 +1,66 @@
+﻿using System;
+using Game.EnemyManager;
+using Game.Events;
+using Game.GameManager.Player;
+using Game.LevelManager;
+using UnityEditor;
+using UnityEngine;
+using Util;
+
+namespace Game.DataCollection
+{
+    [Serializable]
+    public class RoomData : ScriptableObject
+    {
+        //Max theoretical dungeon width for hashing the coordinates into an id
+        private static readonly int dungeonWidth = 10000;
+        public int RoomId { get; private set; }
+        public bool HasEnemies { get; set; }
+        public int NEnemies { get; private set; }
+        public EnemyByAmountDictionary EnemiesByAmount { get; set; }
+        public int HealthLost { get; set; }
+        public Coordinates RoomCoordinates { get; set; }
+        public Dimensions RoomDimensions { get; set; }
+        [field: SerializeField] public float TimeToFinish { get; private set; }
+
+        private float _startTime;
+
+        public void Init(Coordinates roomCoordinates, Dimensions roomDimensions, EnemyByAmountDictionary enemiesByAmount, float enterTime)
+        {
+            RoomCoordinates = roomCoordinates;
+            EnemiesByAmount = enemiesByAmount;
+            RoomDimensions = roomDimensions;
+            _startTime = enterTime;
+            RoomId = GetRoomIdFromCoordinates(roomCoordinates);
+            HasEnemies = enemiesByAmount == null;
+            SetNEnemies();
+        }
+
+        public int GetRoomIdFromCoordinates(Coordinates coordinates)
+        {
+            return coordinates.X * dungeonWidth + coordinates.Y;
+        }
+
+        public void ExitRoom()
+        {
+            TimeToFinish = Time.realtimeSinceStartup - _startTime;
+        }
+
+        private void SetNEnemies()
+        {
+            foreach (var enemies in EnemiesByAmount)
+            {
+                NEnemies += enemies.Value;
+            }
+        }
+
+        public void CreateAsset(string assetPath)
+        {
+            var fileName = assetPath + Constants.SEPARATOR_CHARACTER + "RoomData"+"RoomId"+".asset";
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
+            AssetDatabase.CreateAsset(this, uniquePath);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
+        }
+    }
+}

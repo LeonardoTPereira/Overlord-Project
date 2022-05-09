@@ -48,7 +48,6 @@ namespace Game.GameManager.Player
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetValues;
             RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler += GetKey;
-            RoomBhv.EnterRoomEventHandler += GetHealth;
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
             EnemyController.PlayerHitEventHandler += HurtPlayer;
@@ -62,7 +61,6 @@ namespace Game.GameManager.Player
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetValues;
             RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler -= GetKey;
-            RoomBhv.EnterRoomEventHandler -= GetHealth;
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;
             EnemyController.PlayerHitEventHandler -= HurtPlayer;
@@ -79,9 +77,9 @@ namespace Game.GameManager.Player
 
         public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
-            var roomWidth = eventArgs.RoomDimensions.Width;
-            var cameraXPosition = eventArgs.RoomPosition.x + roomWidth / 3.5f;
-            var cameraYPosition = eventArgs.RoomPosition.y;
+            var roomWidth = eventArgs.RoomData.RoomDimensions.Width;
+            var cameraXPosition = eventArgs.PositionInScene.x + roomWidth / 3.5f;
+            var cameraYPosition = eventArgs.PositionInScene.y;
             var cameraZPosition = -5f;
             cam.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
             //minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
@@ -104,12 +102,6 @@ namespace Game.GameManager.Player
             keys.Clear();
             usedKeys.Clear();
             playerController.ResetHealth();
-        }
-        private void GetHealth(object sender, EnterRoomEventArgs eventArgs)
-        {
-            int health = playerController.GetHealth();
-            eventArgs.PlayerHealthWhenEntering = health;
-            EnterRoomEventHandler?.Invoke(this, eventArgs);
         }
 
         private void HurtPlayer(object sender, EventArgs eventArgs)

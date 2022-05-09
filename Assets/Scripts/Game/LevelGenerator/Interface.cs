@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using Util;
@@ -26,7 +27,10 @@ namespace Game.LevelGenerator
 
             
             DungeonFileSo dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
-
+            dungeonFileSO.BiomeName = _individual.BiomeName;
+            dungeonFileSO.TotalEnemies = _questLine.EnemyParametersForQuestLine.NEnemies;
+            dungeonFileSO.TotalTreasures = _questLine.ItemParametersForQuestLine.TotalItemValue;
+            dungeonFileSO.TotalNpcs = _questLine.NpcParametersForQuestLine.TotalNpcs;
             //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.Rooms)
             {
@@ -142,8 +146,8 @@ namespace Game.LevelGenerator
             else if (roomType == Common.RoomType.TREASURE)
             {
                 roomDataInFile.type = Constants.RoomTypeString.TREASURE;
-                roomDataInFile.treasures = 1;
-                roomDataInFile.npcs = 1;
+                roomDataInFile.Treasures = 1;
+                roomDataInFile.Npcs = 1;
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If the room has a positive value, it holds a key.

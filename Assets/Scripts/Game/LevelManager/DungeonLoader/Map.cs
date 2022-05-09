@@ -13,6 +13,7 @@ namespace Game.LevelManager.DungeonLoader
         public int NLocks { get; set; }
         public int NEnemies { get; set; }
         public int NNPCs { get; set; }
+        public int TotalTreasure { get; set; }
 
         public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get; set; }
         public Coordinates StartRoomCoordinates { get; set; }
@@ -59,6 +60,10 @@ namespace Game.LevelManager.DungeonLoader
                     NLocks += room.locks.Count;
                 }
             }
+
+            NEnemies = dungeonFileSo.TotalEnemies;
+            TotalTreasure = dungeonFileSo.TotalTreasures;
+            NNPCs = dungeonFileSo.TotalNpcs;
         }
 
         private void ProcessDungeonPart(DungeonPart currentDungeonPart)

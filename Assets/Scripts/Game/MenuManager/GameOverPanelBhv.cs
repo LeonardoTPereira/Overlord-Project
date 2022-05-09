@@ -13,6 +13,9 @@ namespace Game.MenuManager
         [SerializeField] private SceneReference levelSelector;
         [SerializeField] private SceneReference levelWithEnemies;
 
+        public static event EventHandler ToLevelSelectEventHandler;
+        public static event EventHandler RestartLevelEventHandler;
+
         public LevelData currentLevel { private get; set; }
         
         public void GoToNext()
@@ -23,13 +26,15 @@ namespace Game.MenuManager
         }
 
         public void GoToSelector()
-        {
+        {            
+            ToLevelSelectEventHandler?.Invoke(null, EventArgs.Empty);
             gameObject.SetActive(false);
             SceneManager.LoadScene(levelSelector.SceneName);
         }
 
         public void GoToPrevious()
         {
+            RestartLevelEventHandler?.Invoke(null, EventArgs.Empty);
             gameObject.SetActive(false);
             SceneManager.LoadScene(levelWithEnemies.SceneName);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Audio;
+using Game.EnemyManager;
 using Game.Events;
 using Game.GameManager;
 using Game.LevelManager.DungeonLoader;
@@ -25,7 +26,7 @@ namespace Game.LevelManager.DungeonManager
 
         public bool hasEnemies;
         private bool _hasPlacedInCenter;
-        public Dictionary<EnemySO, int> enemiesDictionary;
+        public EnemyByAmountDictionary enemiesDictionary;
         private int enemiesDead;
         private Vector3 position;
 
@@ -67,7 +68,7 @@ namespace Game.LevelManager.DungeonManager
         {
             hasEnemies = false;
             _hasPlacedInCenter = false;
-            enemiesDictionary = new Dictionary<EnemySO, int>();
+            enemiesDictionary = new EnemyByAmountDictionary();
             enemiesDead = 0;
             isArena = GameManagerSingleton.Instance.arenaMode;
         }
@@ -365,20 +366,18 @@ namespace Game.LevelManager.DungeonManager
                 SpawnEnemies();
             }
             minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-            EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, hasEnemies, enemiesDictionary, -1, gameObject.transform.position, roomData.Dimensions));
+            EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, roomData.Dimensions, enemiesDictionary, gameObject.transform.position));
         }
 
         public void CheckIfAllEnemiesDead()
         {
             enemiesDead++;
-            if(enemiesDead == roomData.TotalEnemies)
-            {
-                hasEnemies = false;
-                doorEast.OpenDoorAfterKilling();
-                doorWest.OpenDoorAfterKilling();
-                doorNorth.OpenDoorAfterKilling();
-                doorSouth.OpenDoorAfterKilling();
-            }
+            if (enemiesDead != roomData.TotalEnemies) return;
+            hasEnemies = false;
+            doorEast.OpenDoorAfterKilling();
+            doorWest.OpenDoorAfterKilling();
+            doorNorth.OpenDoorAfterKilling();
+            doorSouth.OpenDoorAfterKilling();
         }
 
         private void SetKeysToDoors()
@@ -395,7 +394,7 @@ namespace Game.LevelManager.DungeonManager
         }
         private void PlaceKeysInRoom()
         {
-            foreach (int actualKey in roomData.KeyIDs)
+            foreach (var actualKey in roomData.KeyIDs)
             {
                 PlaceKeyInRoom(actualKey);
             }
@@ -404,7 +403,7 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceKeyInRoom(int keyId)
         {
             GetAvailablePosition();
-            KeyBhv key = Instantiate(keyPrefab, availablePosition, transform.rotation);
+            var key = Instantiate(keyPrefab, availablePosition, transform.rotation);
             key.transform.position = availablePosition;
             key.KeyID = keyId;
         }
@@ -435,7 +434,7 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceTriforceInRoom()
         {
             GetAvailablePosition();
-            TriforceBhv tri = Instantiate(triPrefab, transform);
+            var tri = Instantiate(triPrefab, transform);
             tri.transform.position = availablePosition;
         
         }

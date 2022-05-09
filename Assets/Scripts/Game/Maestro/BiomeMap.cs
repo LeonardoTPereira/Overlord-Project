@@ -54,7 +54,7 @@ namespace Game.Maestro
             BiomesWithElites = 0;
             foreach (var biome in Enum.GetValues(typeof(Biomes)).Cast<Biomes>())
             {
-                var elites = UpdateBiome(mapElites, CoordinatesByBiomes[biome]);
+                var elites = UpdateBiome(mapElites, CoordinatesByBiomes[biome], biome.ToString());
                 if (elites.Count > 0)
                 {
                     BiomesWithElites++;
@@ -63,7 +63,7 @@ namespace Game.Maestro
             }
         }
 
-        private List<Individual> UpdateBiome(in MapElites mapElites, in Coordinates[] coordinates)
+        private List<Individual> UpdateBiome(in MapElites mapElites, in Coordinates[] coordinates, in string biomeName)
         {
             var elites = new List<Individual>();
             foreach (var coordinate in coordinates)
@@ -71,6 +71,7 @@ namespace Game.Maestro
                 var elite = mapElites.GetElite(coordinate.X, coordinate.Y);
                 if (elite != null)
                 {
+                    elite.BiomeName = biomeName;
                     elites.Add(elite);
                 }
             }

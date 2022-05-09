@@ -11,6 +11,8 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
     {
         [field: SerializeField]
         public NpcAmountDictionary NpcsBySo { get; set; }
+        [field: SerializeField]
+        public int TotalNpcs { get; set; }
 
         public QuestNpcsParameters()
         {
@@ -47,6 +49,7 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
                 NpcsBySo.Add(quest.Npc, new QuestList());
                 NpcsBySo[quest.Npc].Quests.Add(quest);
             }
+            TotalNpcs++;
         }
 
         private static bool IsTalkQuest(QuestSO quest)

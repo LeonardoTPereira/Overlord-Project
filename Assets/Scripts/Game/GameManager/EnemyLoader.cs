@@ -89,9 +89,9 @@ namespace Game.GameManager
             }
         }
 
-        public static Dictionary<EnemySO, int> GetEnemiesForRoom(RoomBhv roomBhv)
+        public static EnemyByAmountDictionary GetEnemiesForRoom(RoomBhv roomBhv)
         {
-            var enemiesBySo = new Dictionary<EnemySO, int>();
+            var enemiesBySo = new EnemyByAmountDictionary();
             foreach (var enemiesByType in roomBhv.roomData.EnemiesByType.EnemiesByTypeDictionary)
             {
                 var selectedEnemy = GetRandomEnemyOfType(enemiesByType.Key);

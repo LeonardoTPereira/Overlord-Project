@@ -54,6 +54,7 @@ namespace Game.GameManager
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             bombCollider = GetComponent<CircleCollider2D>();
+            bombCollider.enabled = false;
         }
 
         private void PlayerHasDied(object sender, EventArgs eventArgs)
@@ -105,8 +106,6 @@ namespace Game.GameManager
         public void Shoot(Vector2 facingDirection)
         {
             isColliding = false;
-            bombCollider.enabled = isColliding;
-
             rb.AddForce(facingDirection, ForceMode2D.Impulse);
             hasBeenThrown = true;
         }

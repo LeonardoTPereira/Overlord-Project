@@ -1,9 +1,6 @@
-﻿using Game.GameManager;
-using MyBox;
-using TMPro;
+﻿using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Game.MenuManager
 {

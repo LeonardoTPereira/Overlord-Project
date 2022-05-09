@@ -7,17 +7,15 @@ namespace Game.Events
     public delegate void StartMapEvent(object sender, StartMapEventArgs e);
     public class StartMapEventArgs : EventArgs
     {
-        private string mapName;
-        private Map map;
+        public string MapName { get; }
+        public Map Map { get; }
+        public int TotalTreasure { get; private set; }
 
-
-        public StartMapEventArgs(string mapName, Map map)
+        public StartMapEventArgs(string mapName, Map map, int totalTreasure)
         {
             MapName = mapName;
             Map = map;
+            TotalTreasure = totalTreasure;
         }
-
-        public string MapName { get => mapName; set => mapName = value; }
-        public Map Map { get => map; set => map = value; }
     }
 }

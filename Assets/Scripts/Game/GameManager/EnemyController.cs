@@ -439,7 +439,9 @@ namespace Game.GameManager
 
         protected void Shoot()
         {
-            Vector2 target = new Vector2(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y);
+            var playerPosition = playerObj.transform.position;
+            var thisPosition = transform.position;
+            Vector2 target = new Vector2(playerPosition.x - thisPosition.x, playerPosition.y - thisPosition.y);
             target.Normalize();
             target *= projectileSpeed;
 

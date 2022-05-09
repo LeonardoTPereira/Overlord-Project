@@ -28,9 +28,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public float exploration;
         /// The leniency degree.
         public float leniency;
-
         private Fitness fitness;
-        
+        public string BiomeName { get; set; }
+
         public Individual(FitnessParameters fitnessParameters)
         {
             Fitness = new Fitness(fitnessParameters);
