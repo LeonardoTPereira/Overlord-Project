@@ -26,7 +26,7 @@ namespace Game.LevelGenerator
             List<int> keys = new List<int>();
 
             
-            DungeonFileSo dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
+            var dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
             dungeonFileSO.BiomeName = _individual.BiomeName;
             dungeonFileSO.TotalEnemies = _questLine.EnemyParametersForQuestLine.NEnemies;
             dungeonFileSO.TotalTreasures = _questLine.ItemParametersForQuestLine.TotalItemValue;

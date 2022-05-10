@@ -10,7 +10,7 @@ namespace Game.GameManager
         [SerializeField]
         private AudioClip popSnd;
         private AudioSource audioSrc;
-        private Rigidbody2D rb;
+        private Rigidbody2D bombRigidBody;
         private Animator animator;
         private CircleCollider2D bombCollider;
 
@@ -28,6 +28,8 @@ namespace Game.GameManager
         private static readonly int Explode = Animator.StringToHash("Explode");
 
         private Collider2D[] objectsInRange;
+        public Vector2 ShootDirection { get; set; }
+
         private void Awake()
         {
             bombLifetime = 2.0f;
@@ -51,10 +53,11 @@ namespace Game.GameManager
         private void Start()
         {
             audioSrc = GetComponent<AudioSource>();
-            rb = GetComponent<Rigidbody2D>();
+            bombRigidBody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             bombCollider = GetComponent<CircleCollider2D>();
             bombCollider.enabled = false;
+            bombRigidBody.AddForce(ShootDirection, ForceMode2D.Impulse);
         }
 
         private void PlayerHasDied(object sender, EventArgs eventArgs)
@@ -106,7 +109,6 @@ namespace Game.GameManager
         public void Shoot(Vector2 facingDirection)
         {
             isColliding = false;
-            rb.AddForce(facingDirection, ForceMode2D.Impulse);
             hasBeenThrown = true;
         }
 
@@ -118,7 +120,7 @@ namespace Game.GameManager
             var transform1 = transform;
             var currScale = transform1.localScale;
             transform1.localScale = new Vector3(currScale.x * 4, currScale.y * 4, currScale.z * 1);
-            var position = rb.position;
+            var position = bombRigidBody.position;
             var size = Physics2D.OverlapCircleNonAlloc(new Vector2(position.x, position.y), 1.8f, objectsInRange);
             for(var i=0; i < size; ++i)
             {

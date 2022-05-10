@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Game.LevelManager.DungeonLoader;
-using MyBox;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -12,6 +13,7 @@ namespace Game.DataCollection
     [Serializable]
     public class DungeonData : ScriptableObject
     {
+        [field: SerializeField] public int TotalAttempts { get; set; }
         [field: SerializeField] public string LevelName { get; private set; }
         [field: SerializeField] public string WeaponName { get; private set; }
         [field: SerializeField] public int TotalDeaths { get; private set; }
@@ -33,14 +35,14 @@ namespace Game.DataCollection
         [field: SerializeField] public int MaxCombo { get; private set; }
         [field: SerializeField] public List<int> PostFormAnswers { get; set; }
         [field: SerializeField] public int[,] HeatMap { get; set; }
-        [field: SerializeField] public int TotalAttempts { get; set; }
-        [field: SerializeField] public RoomDataByVisit VisitedRooms { get; set; }
+        public RoomDataByVisit VisitedRooms { get; set; }
         [field: SerializeField] public float TimeToFinish { get; private set; }
         private float _startTime;
         private int _currentCombo;
         private RoomData _currentRoom;
         private string _assetPath;
-        public void Init(Map map, string mapName, string assetPath)
+        private string _jsonPath;
+        public void Init(Map map, string mapName, string assetPath, string jsonPath)
         {
             PostFormAnswers = new List<int>();
             VisitedRooms = new RoomDataByVisit();
@@ -55,6 +57,7 @@ namespace Game.DataCollection
             TotalAttempts++;
             _startTime = Time.realtimeSinceStartup;
             _assetPath = assetPath;
+            _jsonPath = jsonPath;
         }
 
         public void OnPlayerDeath()
@@ -73,7 +76,10 @@ namespace Game.DataCollection
         {
             _currentRoom.ExitRoom();
             TimeToFinish = Time.realtimeSinceStartup - _startTime;
+#if UNITY_EDITOR
             CreateAsset();
+            CreateJson();
+#endif
         }
 
         public void ResetCombo()
@@ -221,5 +227,61 @@ namespace Game.DataCollection
             AssetDatabase.SaveAssetIfDirty(this);
         }
 #endif
+        public void CreateJson()
+        {
+            var dungeonFolder = _jsonPath + Constants.SEPARATOR_CHARACTER + LevelName;
+            if (!Directory.Exists(dungeonFolder))
+            {
+                Directory.CreateDirectory(dungeonFolder);
+            }
+            var dungeonFile = dungeonFolder + Constants.SEPARATOR_CHARACTER +
+                              "DungeonData.json";
+            var roomFile = dungeonFolder + Constants.SEPARATOR_CHARACTER;
+            var roomFileEnding = "RoomData.json";
+            var roomFileCounter = 0;
+            if (File.Exists(roomFile+roomFileEnding))
+            {
+                roomFileCounter++;
+                while (File.Exists(roomFile + roomFileCounter + roomFileEnding))
+                {
+                    roomFileCounter++;
+                }
+                roomFile += roomFileCounter + roomFileEnding;
+            }
+            else
+            {
+                roomFile += roomFileEnding;
+            }
+            string lines;
+            using (var fileStream = new FileStream(dungeonFile, FileMode.OpenOrCreate))
+            {
+                using (var sr = new StreamReader(fileStream))
+                {
+                    lines = sr.ReadToEnd();
+                }
+            }
+
+            using (var fileStream = new FileStream(dungeonFile, FileMode.Open))
+            {
+                using (var sw = new StreamWriter(fileStream))
+                {
+                    if (lines != "")
+                    {
+                        lines = lines.Remove(lines.LastIndexOf(Environment.NewLine, StringComparison.Ordinal));
+                        sw.Write(lines);
+                    }
+                    sw.Write(JsonUtility.ToJson(this));
+                }
+            }
+            
+
+            var stringBuilder = new StringBuilder();
+            foreach (var room in VisitedRooms.SelectMany(roomList => roomList.Value))
+            {
+                stringBuilder.Append(JsonUtility.ToJson(room));
+            }
+            var roomJson = stringBuilder.ToString();
+            File.WriteAllText(roomFile, roomJson);
+        }
     }
 }

@@ -450,9 +450,9 @@ namespace Game.GameManager
             if (projectilePrefab.name == "EnemyBomb")
             {
                 var bombController = bullet.GetComponent<BombController>();
+                bombController.ShootDirection = target;
                 bombController.Damage = damage;
                 bombController.SetEnemyThatShot(indexOnEnemyList);
-                bombController.Shoot(target);
             }
             else
             {

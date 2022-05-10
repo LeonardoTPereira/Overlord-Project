@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Game.LevelManager.DungeonLoader;
 using Game.NarrativeGenerator;
 using UnityEditor;
@@ -9,11 +11,12 @@ using Random = UnityEngine.Random;
 
 namespace Game.DataCollection
 {
-    //TODO handle saving SO asset at intervals because of WebGL
+    [Serializable]
     public class PlayerData : ScriptableObject
     {
+        [field: SerializeField] public int PlayerId { get; set; }
         [field: SerializeField] public List<int> PreFormAnswers { get; set; }
-        [field: SerializeField] public DungeonDataByAttempt DungeonByAttempt { get; private set; }
+        public DungeonDataByAttempt DungeonByAttempt { get; private set; }
         [field: SerializeField] public int TotalAttempts { get; private set; }
         [field: SerializeField] public int TotalDeaths { get; private set; }
         [field: SerializeField] public int TotalWins { get; private set; }
@@ -36,18 +39,20 @@ namespace Game.DataCollection
         [field: SerializeField] public PlayerProfile GivenPlayerProfile { get; set; }
         public DungeonData CurrentDungeon { get; private set; }
         public string AssetPath { get; private set; }
+        public string JsonPath { get; private set; }
         private int _currentCombo;
 
         public void Init()
         {
             PreFormAnswers = new List<int>();
             DungeonByAttempt = new DungeonDataByAttempt();
-            var playerId = Convert.ToUInt64(Random.Range(0, int.MaxValue));
-            playerId += Convert.ToUInt64((int)Time.realtimeSinceStartup);
+            PlayerId = Random.Range(0, int.MaxValue);
+            PlayerId += (int)Time.realtimeSinceStartup;
             var target = "Assets";
             target += Constants.SEPARATOR_CHARACTER + "Resources";
             target += Constants.SEPARATOR_CHARACTER + "PlayerData";
-            var newFolder = playerId.ToString();
+#if UNITY_EDITOR
+            var newFolder = PlayerId.ToString();
             if (!AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder))
             {
                 AssetDatabase.CreateFolder(target, newFolder);
@@ -59,12 +64,25 @@ namespace Game.DataCollection
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssetIfDirty(this);
             AssetDatabase.Refresh();
+
+            var jsonDirectory = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData";
+            if (!Directory.Exists(jsonDirectory))
+            {
+                Directory.CreateDirectory(jsonDirectory);
+            }
+            JsonPath = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData" +
+                       Constants.SEPARATOR_CHARACTER + PlayerId;
+            if (!Directory.Exists(jsonDirectory))
+            {
+                Directory.CreateDirectory(jsonDirectory);
+            }
+#endif
         }
 
         public void StartDungeon(string mapName, Map map)
         {
             CurrentDungeon = CreateInstance<DungeonData>();
-            CurrentDungeon.Init(map, mapName, AssetPath);
+            CurrentDungeon.Init(map, mapName, AssetPath, JsonPath);
             var dungeonAttempted = DungeonByAttempt.TryGetValue(mapName, out var currentDungeonList);
             if(dungeonAttempted)
             {
@@ -128,9 +146,13 @@ namespace Game.DataCollection
         public void AddPostTestDataToDungeon(List<int> answers)
         {
             CurrentDungeon.PostFormAnswers = answers;
+#if UNITY_EDITOR
             SaveAndRefreshAssets();
+            RefreshJson();
+#endif
         }
         
+#if UNITY_EDITOR
         public void SaveAndRefreshAssets()
         {
             EditorUtility.SetDirty(CurrentDungeon);
@@ -138,6 +160,34 @@ namespace Game.DataCollection
             AssetDatabase.SaveAssetIfDirty(this);
             AssetDatabase.SaveAssetIfDirty(CurrentDungeon);
             AssetDatabase.Refresh();
+        }
+#endif
+
+        public void RefreshJson()
+        {
+            var playerFile = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData" + Constants.SEPARATOR_CHARACTER +
+                             "PlayerData.json";
+            string lines;
+            using (var fileStream = new FileStream(playerFile, FileMode.OpenOrCreate))
+            {
+                using (var sr = new StreamReader(fileStream))
+                {
+                    lines = sr.ReadToEnd();
+                }
+            }
+
+            using (var fileStream = new FileStream(playerFile, FileMode.Open))
+            {
+                using (var sw = new StreamWriter(fileStream))
+                {
+                    if (lines != "")
+                    {
+                        lines = lines.Remove(lines.LastIndexOf(Environment.NewLine, StringComparison.Ordinal));
+                        sw.Write(lines);
+                    }
+                    sw.Write(JsonUtility.ToJson(this));
+                }
+            }
         }
 
         public void AddCollectedTreasure(int amount)

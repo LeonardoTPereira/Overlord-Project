@@ -146,7 +146,10 @@ namespace Game.DataCollection
 
         private void OnFormNotAnswered(object sender, EventArgs eventArgs)
         {
+#if UNITY_EDITOR
             CurrentPlayer.SaveAndRefreshAssets();
+            CurrentPlayer.RefreshJson();
+#endif
         }
         
         private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)

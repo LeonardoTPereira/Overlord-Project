@@ -14,11 +14,10 @@ namespace Game.DataCollection
     {
         //Max theoretical dungeon width for hashing the coordinates into an id
         private static readonly int dungeonWidth = 10000;
-        public int RoomId { get; private set; }
-        public bool HasEnemies { get; set; }
-        public int NEnemies { get; private set; }
+        [field: SerializeField] public int RoomId { get; private set; }
+        [field: SerializeField] public bool HasEnemies { get; set; }
+        [field: SerializeField] public int NEnemies { get; private set; }
         public EnemyByAmountDictionary EnemiesByAmount { get; set; }
-        public int HealthLost { get; set; }
         public Coordinates RoomCoordinates { get; set; }
         public Dimensions RoomDimensions { get; set; }
         [field: SerializeField] public float TimeToFinish { get; private set; }
