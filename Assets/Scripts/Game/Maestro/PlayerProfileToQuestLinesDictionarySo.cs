@@ -1,6 +1,5 @@
 ﻿using Game.NarrativeGenerator.Quests;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.Maestro
 {

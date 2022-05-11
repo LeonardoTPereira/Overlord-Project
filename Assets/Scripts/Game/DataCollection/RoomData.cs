@@ -1,7 +1,5 @@
 ﻿using System;
 using Game.EnemyManager;
-using Game.Events;
-using Game.GameManager.Player;
 using Game.LevelManager;
 using UnityEditor;
 using UnityEngine;
@@ -53,13 +51,15 @@ namespace Game.DataCollection
             }
         }
 
-        public void CreateAsset(string assetPath)
+#if UNITY_EDITOR
+        public void CreateAsset(string assetPath, int revisitIndex)
         {
-            var fileName = assetPath + Constants.SEPARATOR_CHARACTER + "RoomData"+"RoomId"+".asset";
+            var fileName = assetPath + Constants.SEPARATOR_CHARACTER + "Room"+RoomId+"Data"+revisitIndex+".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssetIfDirty(this);
         }
+#endif
     }
 }

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using TMPro;
 

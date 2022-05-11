@@ -1,6 +1,5 @@
 ﻿using System;
 using Game.Audio;
-using Game.DataCollection;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
@@ -10,7 +9,6 @@ using Game.LevelSelection;
 using Game.MenuManager;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +21,6 @@ namespace Game.LevelManager.DungeonLoader
         private bool isInGame;
         [field: Scene] public string GameUI { get; set; } = "GameUI";
         public static event EventHandler NewLevelLoadedEventHandler;
-        public static event FinishMapEvent FinishMapEventHandler;
         public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
 
         public bool survivalMode;
@@ -39,8 +36,6 @@ namespace Game.LevelManager.DungeonLoader
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
             LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelQuestLine;
             DungeonSceneLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler += EndDungeon;
-            LevelSelectManager.LoadLevelEventHandler += SetCurrentLevelQuestLine;
         }
 
         private void Start()
@@ -56,11 +51,9 @@ namespace Game.LevelManager.DungeonLoader
         {
             LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelQuestLine;
             DungeonSceneLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler -= EndDungeon;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-            LevelSelectManager.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
         }
         
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -104,11 +97,6 @@ namespace Game.LevelManager.DungeonLoader
         public void SetCurrentLevelQuestLine(object sender, LevelLoadEventArgs args)
         {
             currentQuestLine = args.LevelQuestLine;
-        }
-        
-        private void EndDungeon(object sender, EventArgs eventArgs)
-        {
-            FinishMapEventHandler?.Invoke(this, new FinishMapEventArgs(_map));
         }
     }
 }

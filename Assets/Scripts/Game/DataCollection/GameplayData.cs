@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Game.LevelManager.DungeonLoader;
+﻿using Game.LevelManager.DungeonLoader;
 using UnityEngine;
 
 namespace Game.DataCollection

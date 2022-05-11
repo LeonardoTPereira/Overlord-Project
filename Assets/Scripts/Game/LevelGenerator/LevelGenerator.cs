@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Game.Events;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
-using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
@@ -60,7 +59,6 @@ namespace Game.LevelGenerator
             EvolvePopulation(pop);
             // Get the final population (solution)
             solution = pop;
-            solution.Debug();
         }
 
         private Population InitializePopulation()
@@ -107,7 +105,7 @@ namespace Game.LevelGenerator
                 NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
                 pop.UpdateBiomes(g);
             }
-            pop.SaveJson();
+            //pop.SaveJson();
             NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f));
         }
 

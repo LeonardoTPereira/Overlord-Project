@@ -216,9 +216,12 @@ namespace Game.DataCollection
             target += Constants.SEPARATOR_CHARACTER + newFolder;
             AssetDatabase.CreateFolder(target, "Rooms");
             var roomsFolder = target + Constants.SEPARATOR_CHARACTER + "Rooms";
-            foreach (var room in VisitedRooms.SelectMany(roomList => roomList.Value))
+            foreach (var roomList in VisitedRooms.Select(kvp => kvp.Value))
             {
-                room.CreateAsset(roomsFolder);
+                for (var i = 0; i < roomList.Count; ++i)
+                {
+                    roomList[i].CreateAsset(roomsFolder, i);
+                }
             }
             var fileName = target + Constants.SEPARATOR_CHARACTER + "DungeonData.asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);

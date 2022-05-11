@@ -1,5 +1,4 @@
 ﻿using Game.NPCs;
-using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

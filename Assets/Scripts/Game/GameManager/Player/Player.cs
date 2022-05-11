@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
-using Game.LevelManager;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using UnityEngine;
@@ -23,7 +22,6 @@ namespace Game.GameManager.Player
         public Camera minimap;
         private AudioSource[] audioSrcs;
         private PlayerController playerController;
-        public static event EnterRoomEvent EnterRoomEventHandler;
         public static event ExitRoomEvent ExitRoomEventHandler;
 
         public void Awake()

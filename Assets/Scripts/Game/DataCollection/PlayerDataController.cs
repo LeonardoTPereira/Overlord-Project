@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
@@ -8,6 +9,7 @@ using Game.LevelManager.DungeonManager;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Game.DataCollection
 {
@@ -15,6 +17,7 @@ namespace Game.DataCollection
     {
         public PlayerData CurrentPlayer { get; set; }
         private DungeonDataController _dungeonDataController;
+        private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
 
         private void OnEnable()
         {
@@ -33,7 +36,7 @@ namespace Game.DataCollection
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             FormBHV.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
-            DungeonSceneManager.FinishMapEventHandler += OnMapComplete;
+            TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             GameOverPanelBhv.ToLevelSelectEventHandler += OnFormNotAnswered;
             GameOverPanelBhv.RestartLevelEventHandler += OnFormNotAnswered;
@@ -57,7 +60,7 @@ namespace Game.DataCollection
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;            
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
-            DungeonSceneManager.FinishMapEventHandler -= OnMapComplete;
+            TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBHV.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
         }
@@ -119,7 +122,7 @@ namespace Game.DataCollection
             CurrentPlayer.IncrementDeaths();
         }
         
-        private void OnMapComplete(object sender, FinishMapEventArgs eventArgs)
+        private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.IncrementWins();
         }
@@ -155,6 +158,30 @@ namespace Game.DataCollection
         private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
             CurrentPlayer.AddPostTestDataToDungeon(eventArgs.AnswerValue);
+#if UNITY_WEBGL
+            SendJsonToServer();
+            _dungeonDataController.SendJsonToServer();
+#endif
         }
+        
+#if UNITY_WEBGL
+        public void SendJsonToServer()
+        {
+            StartCoroutine(PostData());
+        }
+        private IEnumerator PostData()
+        {
+            var data = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(CurrentPlayer));
+            var form = new WWWForm();
+            form.AddField("name", CurrentPlayer.PlayerId);
+            form.AddBinaryData("data", data, CurrentPlayer.PlayerId + "-Player" + ".json", "application/json");
+            using var www = UnityWebRequest.Post(PostDataURL, form);
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+        }
+#endif
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Game.Events;
-using Game.MenuManager;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,7 +21,7 @@ namespace Game.GameManager.Player
         private int _currentProjectile;
         [SerializeField] private GameObject bulletSpawn;
         [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private ProjectileTypeSO projectileType;
+        [field: SerializeField] public ProjectileTypeSO projectileType { get; set; }
         [SerializeField] private ProjectileTypeRuntimeSetSO projectilesAvailable;
         private Rigidbody2D _rigidbody2D;
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
@@ -35,23 +33,10 @@ namespace Game.GameManager.Player
             _currentProjectile = 0;
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            WeaponLoaderBhv.LoadWeaponButtonEventHandler += SetProjectileSo;
-        }
-        
-        protected override void OnDisable()
-        {
-            base.OnEnable();
-            WeaponLoaderBhv.LoadWeaponButtonEventHandler -= SetProjectileSo;
-        }
-
         protected override void Start()
         {
             base.Start();
-            projectileType = projectilesAvailable.Items[_currentProjectile];
-            SetProjectileSo(this, new LoadWeaponButtonEventArgs(projectileType));
+            SetProjectileSo();
             _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         }
 
@@ -163,20 +148,20 @@ namespace Game.GameManager.Player
             _canShoot = false;
         }
         
-        private void SetProjectileSo(object sender, LoadWeaponButtonEventArgs eventArgs)
+        private void SetProjectileSo()
         {
-            projectileType = eventArgs.ProjectileSO;
             bulletPrefab = projectileType.projectilePrefab;
             bulletPrefab.GetComponent<ProjectileController>().ProjectileSo = projectileType;
             atkSpeed = projectileType.atkSpeed;
-            bulletPrefab.GetComponent<SpriteRenderer>().color = eventArgs.ProjectileSO.color;
+            bulletPrefab.GetComponent<SpriteRenderer>().color = projectileType.color;
         }
         
         private void NextProjectileSo()
         {
-            _currentProjectile = (_currentProjectile + 1) % projectilesAvailable.Items.Count;
-            projectileType = projectilesAvailable.Items[_currentProjectile];
-            SetProjectileSo(this, new LoadWeaponButtonEventArgs(projectileType));
+            var currentIndex = projectilesAvailable.Items.IndexOf(projectileType);
+            var nextIndex = (currentIndex + 1) % projectilesAvailable.Items.Count;
+            projectileType.Copy(projectilesAvailable.Items[nextIndex]);
+            SetProjectileSo();
         }
     }
 }

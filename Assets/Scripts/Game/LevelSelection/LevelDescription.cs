@@ -1,5 +1,4 @@
-﻿using System;
-using Game.LevelGenerator.LevelSOs;
+﻿using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
 using TMPro;
 using UnityEngine;
@@ -48,7 +47,6 @@ namespace Game.LevelSelection
         private void ChangeDescription()
         {
             _isShowingDungeon = !_isShowingDungeon;
-            Debug.Log("Change Description!");
             DisplayedText.text = _isShowingDungeon ? DungeonDescription : QuestDescription;
         }
     }

@@ -3,16 +3,18 @@ using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
-using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.Networking;
 
 namespace Game.DataCollection
 {
     public class DungeonDataController : MonoBehaviour
     {
         public DungeonData CurrentDungeon { get; set; }
-        
+        private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
+
         private void OnEnable()
         {
             HealthController.PlayerIsDamagedEventHandler += OnPlayerDamage;
@@ -25,9 +27,8 @@ namespace Game.DataCollection
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             DialogueController.DialogueOpenEventHandler += OnInteractNPC;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
-            Player.EnterRoomEventHandler += OnRoomEnter;            
             RoomBhv.EnterRoomEventHandler += OnRoomEnter;            
-            DungeonSceneManager.FinishMapEventHandler += OnMapComplete;
+            TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             Player.ExitRoomEventHandler += OnRoomExit;
         }
@@ -44,9 +45,8 @@ namespace Game.DataCollection
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
-            Player.EnterRoomEventHandler -= OnRoomEnter;
             RoomBhv.EnterRoomEventHandler -= OnRoomEnter;
-            DungeonSceneManager.FinishMapEventHandler -= OnMapComplete;
+            TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             Player.ExitRoomEventHandler -= OnRoomExit;
         }
@@ -111,9 +111,32 @@ namespace Game.DataCollection
             CurrentDungeon.OnPlayerDeath();
         }
         
-        private void OnMapComplete(object sender, FinishMapEventArgs eventArgs)
+        
+        
+        private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.OnPlayerVictory();
         }
+#if UNITY_WEBGL
+        public void SendJsonToServer()
+        {
+            StartCoroutine(PostData());
+        }
+        
+        private IEnumerator PostData()
+        {
+            //TODO post Room Data
+            var data = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(CurrentDungeon));
+            var form = new WWWForm();
+            form.AddField("name", CurrentDungeon.LevelName);
+            form.AddBinaryData("level", data, CurrentDungeon.LevelName + "-Dungeon" + ".json", "application/json");
+            using var www = UnityWebRequest.Post(PostDataURL, form);
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+        }
+#endif
     }
 }

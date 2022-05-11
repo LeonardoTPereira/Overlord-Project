@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
-using ScriptableObjects;
 
 namespace Game.Events
 {

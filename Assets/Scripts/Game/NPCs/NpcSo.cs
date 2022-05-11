@@ -1,6 +1,4 @@
-﻿using System.Text;
-using Fog.Dialogue;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Game.NPCs

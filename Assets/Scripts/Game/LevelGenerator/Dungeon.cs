@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
+﻿using System.Collections.Generic;
 using Game.LevelManager;
 using Util;
 

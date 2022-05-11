@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-namespace Game.Quests
+﻿namespace Game.Quests
 {
     public class PlaceholderCountableQuestElement : PlaceholderCollectableQuestElement
     {

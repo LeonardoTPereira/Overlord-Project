@@ -1906,6 +1906,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281,
         type: 2}
+    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
+        type: 3}
+      propertyPath: <projectileType>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: adc39a0d43679ab4584a553a907ec5c1,
+        type: 2}
     - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
       propertyPath: m_UIInputModule

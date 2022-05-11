@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Util;
-
 namespace Game.EnemyGenerator
 {
     /// This class holds the project common functions and constants.

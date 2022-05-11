@@ -171,10 +171,12 @@ MonoBehaviour:
   previousPanel: {fileID: 0}
   button: {fileID: 5677077939159287740}
   levelToLoad:
-    Scene: {fileID: 102900000, guid: fba6505088753494183d3d71679a850f, type: 3}
-    SceneName: Overworld
-    sceneIndex: 2
+    Scene: {fileID: 102900000, guid: 6ab9f7015ab81b644a9b23f3eb5d80e2, type: 3}
+    SceneName: LevelSelector
+    sceneIndex: 8
     sceneEnabled: 1
+  <chosenProjectile>k__BackingField: {fileID: 11400000, guid: adc39a0d43679ab4584a553a907ec5c1,
+    type: 2}
 --- !u!114 &6275584105015532755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf17b5747f9c5a478ff99a73443f73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSO: {fileID: 11400000, guid: 301fc6d37ca02e444af4fc5d61c7aa41, type: 2}
+  projectileSo: {fileID: 11400000, guid: 301fc6d37ca02e444af4fc5d61c7aa41, type: 2}
 --- !u!1 &5677077939159287745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf17b5747f9c5a478ff99a73443f73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSO: {fileID: 11400000, guid: 926e05568c0b19641aa51bc5521fcb1f, type: 2}
+  projectileSo: {fileID: 11400000, guid: 926e05568c0b19641aa51bc5521fcb1f, type: 2}
 --- !u!1 &5677077939420639678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1291,7 +1293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf17b5747f9c5a478ff99a73443f73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSO: {fileID: 11400000, guid: 2365d76e2564e2a46a0215da234263a2, type: 2}
+  projectileSo: {fileID: 11400000, guid: 2365d76e2564e2a46a0215da234263a2, type: 2}
 --- !u!1 &5677077939842796894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,7 +1796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf17b5747f9c5a478ff99a73443f73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSO: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad, type: 2}
+  projectileSo: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad, type: 2}
 --- !u!1 &5677077940463724623
 GameObject:
   m_ObjectHideFlags: 0

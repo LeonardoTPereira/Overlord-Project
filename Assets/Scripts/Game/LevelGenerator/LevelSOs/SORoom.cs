@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Game.LevelManager;
-using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator.LevelSOs

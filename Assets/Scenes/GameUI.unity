@@ -240,10 +240,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasGameUI
       objectReference: {fileID: 0}
-    - target: {fileID: 2533623857493157014, guid: 50a7c6e488fad2c4691febb1d49794b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50a7c6e488fad2c4691febb1d49794b0, type: 3}

@@ -2,8 +2,7 @@
 using Game.Audio;
 using Game.Events;
 using Game.LevelManager.DungeonLoader;
-using Game.LevelSelection;
-using Game.NarrativeGenerator;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
@@ -13,9 +12,9 @@ namespace Game.GameManager
     public class GameManagerSingleton : MonoBehaviour, ISoundEmitter
     {
         public static GameManagerSingleton Instance { get; private set; }
-        
+        [field: SerializeField] public ProjectileTypeSO playerProjectile { get; set; }
+
         public bool IsLastQuestLine { get; set; }
-        public GameObject introScreen;
 
         public static event EventHandler GameStartEventHandler;
         
@@ -23,9 +22,8 @@ namespace Game.GameManager
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Main")
+            if (scene.name == "Main" || scene.name == "ContentGenerator")
             {
-                introScreen.SetActive(true);
                 ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.MainMenuTheme));
             }
         }
@@ -45,7 +43,7 @@ namespace Game.GameManager
         // Use this for initialization
         private void Start()
         {
-            GameStartEventHandler(null, EventArgs.Empty);
+            GameStartEventHandler?.Invoke(null, EventArgs.Empty);
         }
         
         private void OnApplicationQuit()
@@ -57,19 +55,17 @@ namespace Game.GameManager
         {
 
             DungeonSceneLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
-            LevelSelectManager.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
         void OnDisable()
         {
             DungeonSceneLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
-            LevelSelectManager.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
         
         public void MainMenu()
         {
-            GameStartEventHandler(null, EventArgs.Empty);
+            GameStartEventHandler?.Invoke(null, EventArgs.Empty);
             SceneManager.LoadScene("Main");
         }
 

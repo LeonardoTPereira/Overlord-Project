@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Game.LevelManager.DungeonLoader;
 using Game.NarrativeGenerator;
 using UnityEditor;
@@ -140,7 +139,7 @@ namespace Game.DataCollection
         public void IncrementWins()
         {
             TotalWins++;
-            CurrentDungeon.IncrementDeaths();
+            CurrentDungeon.IncrementWins();
         }
 
         public void AddPostTestDataToDungeon(List<int> answers)
@@ -180,15 +179,18 @@ namespace Game.DataCollection
             {
                 using (var sw = new StreamWriter(fileStream))
                 {
-                    if (lines != "")
+                    var lastIndexOfNewLine = lines.LastIndexOf(Environment.NewLine, StringComparison.Ordinal);
+                    if (lastIndexOfNewLine != -1)
                     {
-                        lines = lines.Remove(lines.LastIndexOf(Environment.NewLine, StringComparison.Ordinal));
-                        sw.Write(lines);
+                        lines = lines.Remove(lastIndexOfNewLine);
                     }
+                    sw.Write(lines);
                     sw.Write(JsonUtility.ToJson(this));
                 }
             }
         }
+        
+
 
         public void AddCollectedTreasure(int amount)
         {

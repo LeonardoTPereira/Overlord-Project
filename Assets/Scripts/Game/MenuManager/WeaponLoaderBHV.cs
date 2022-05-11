@@ -10,14 +10,13 @@ namespace Game.MenuManager
 {
     public class WeaponLoaderBhv : MonoBehaviour, IMenuPanel
     {
-        private ProjectileTypeSO projectileSo;
         [SerializeField] private GameObject previousPanel;
         [SerializeField] private Button button;
         [SerializeField] private SceneReference levelToLoad;
+        [field: SerializeField] public ProjectileTypeSO chosenProjectile { get; set; }
 
         private bool isProjectileChosen;
         private bool isQuestGenerated;
-        public static event LoadWeaponButtonEvent LoadWeaponButtonEventHandler;
 
         protected void OnEnable()
         {
@@ -34,7 +33,7 @@ namespace Game.MenuManager
 
         private void PrepareWeapon(object sender, LoadWeaponButtonEventArgs eventArgs)
         {
-            projectileSo = eventArgs.ProjectileSO;
+            chosenProjectile.Copy(eventArgs.ProjectileSO);
             isProjectileChosen = true;
             if (isQuestGenerated)
             {
@@ -53,7 +52,6 @@ namespace Game.MenuManager
 
         public void GoToNext()
         {
-            LoadWeaponButtonEventHandler?.Invoke(this, new LoadWeaponButtonEventArgs(projectileSo));
             SceneManager.LoadScene(levelToLoad.SceneName);
             gameObject.SetActive(false);
         }

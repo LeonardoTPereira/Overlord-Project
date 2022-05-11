@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using Game.NPCs;
 using MyBox;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative

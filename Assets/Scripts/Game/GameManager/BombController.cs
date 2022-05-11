@@ -14,7 +14,7 @@ namespace Game.GameManager
         private Animator animator;
         private CircleCollider2D bombCollider;
 
-        private bool canDestroy, hasBeenThrown, hasTimerBeenSet, isExploding;
+        private bool hasBeenThrown, hasTimerBeenSet, isExploding;
         public int Damage { get; set; }
         public int EnemyThatShot { get; set; }
 
@@ -33,7 +33,6 @@ namespace Game.GameManager
         private void Awake()
         {
             bombLifetime = 2.0f;
-            canDestroy = false;
             hasBeenThrown = false;
             hasTimerBeenSet = false;
             isExploding = false;
@@ -85,16 +84,8 @@ namespace Game.GameManager
                     bombCollider.enabled = isColliding;
                 }
             }
-            if (!audioSrc.isPlaying && canDestroy)
-            {
-                Destroy(gameObject);
-            }
         }
 
-        public void DestroyBomb()
-        {
-            canDestroy = true;
-        }
 
         public void SetEnemyThatShot(int index)
         {
@@ -132,6 +123,7 @@ namespace Game.GameManager
                     objectsInRange[i].gameObject.GetComponent<HealthController>().ApplyDamage(Damage, collisionDirection, EnemyThatShot);
                 }
             }
+            Destroy(gameObject);
         }
     }
 }

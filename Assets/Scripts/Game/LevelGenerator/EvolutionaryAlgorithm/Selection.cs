@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using Game.Events;
-using MyBox;
-using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {

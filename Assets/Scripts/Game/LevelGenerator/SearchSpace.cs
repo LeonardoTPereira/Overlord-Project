@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Game.LevelGenerator
 {
     /// This class defines the discretization of the search space of dungeon

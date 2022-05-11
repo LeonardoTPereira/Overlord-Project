@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Unity.Plastic.Newtonsoft.Json;
+using UnityEngine;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
@@ -17,7 +17,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             public float sparsity;
             public float enemyStandardDeviation;
             public float result;
-
+            
             public FitnessData(int leniencyIndex, int explorationIndex, int generation, 
                 float distance, float usage, float sparsity, float enemyStandardDeviation, float result)
             {
@@ -48,16 +48,13 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public void SaveJson()
         {
-            var serializer = new JsonSerializer();
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Dispose();
             }
-            using (var sw = File.AppendText(filePath))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, data);
-            }
+
+            using var sw = File.AppendText(filePath);
+            sw.Write(JsonUtility.ToJson(data));
         }
     }
 }

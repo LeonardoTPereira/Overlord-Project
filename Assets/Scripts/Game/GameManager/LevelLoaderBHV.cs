@@ -33,7 +33,7 @@ namespace Game.GameManager
 
         public void GoToNext()
         {
-            loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile));
+            loadLevelButtonEventHandler?.Invoke(this, new LevelLoadEventArgs(levelFile));
             nextPanel.SetActive(true);
             gameObject.SetActive(false);
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Game.Events;
 using Game.LevelGenerator.LevelSOs;
@@ -11,7 +10,6 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
-using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {

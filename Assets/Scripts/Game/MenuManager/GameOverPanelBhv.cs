@@ -2,7 +2,6 @@
 using Game.LevelSelection;
 using MyBox;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Game.MenuManager

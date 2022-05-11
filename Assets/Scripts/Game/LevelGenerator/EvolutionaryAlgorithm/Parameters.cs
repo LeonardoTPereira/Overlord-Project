@@ -30,10 +30,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public Parameters(FitnessParameters fitnessParameters)
         {
-            Debug.Log("time: "+time);
-            Debug.Log("population: "+population);
-            Debug.Log("mutation: "+mutation);
-            Debug.Log("competitors: "+competitors);
             FitnessParameters = fitnessParameters;
         }
         

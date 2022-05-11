@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Quests>k__BackingField: {fileID: 0}
   <Dungeon>k__BackingField: {fileID: 0}
+  _completed: 0
+  _surrendered: 0

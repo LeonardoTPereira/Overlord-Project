@@ -1,8 +1,5 @@
 ﻿using System;
-using Game.LevelGenerator;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 
 namespace Game.Events

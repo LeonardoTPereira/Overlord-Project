@@ -43,6 +43,8 @@ namespace Game.NarrativeGenerator
         public Selector Selector { get; set; }
         public QuestLine Quests { get; set; }
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
+        [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
+        [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -60,12 +62,14 @@ namespace Game.NarrativeGenerator
         {
             NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
             FormBHV.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
+            LevelSelectManager.CompletedAllLevelsEventHandler += SelectPlayerProfile;
         }
 
         public void OnDisable()
         {
             NarrativeGenerator.NarrativeCreatorEventHandler -= SelectPlayerProfile;
             FormBHV.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
+            LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
         }
 
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
@@ -79,6 +83,14 @@ namespace Game.NarrativeGenerator
         {
             var answers = e.AnswerValue;
             var playerProfile = Selector.SelectProfile(answers);
+            isRealTimeGeneration = true;
+            CreateOrLoadNarrativeForProfile(playerProfile);
+        }
+        
+        private void SelectPlayerProfile(object sender, EventArgs eventArgs)
+        {
+            
+            var playerProfile = Selector.SelectProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
             isRealTimeGeneration = true;
             CreateOrLoadNarrativeForProfile(playerProfile);
         }
