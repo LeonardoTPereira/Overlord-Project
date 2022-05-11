@@ -10,6 +10,6 @@ namespace Game.NarrativeGenerator.Quests
         public string symbolType {get; set;}
         public bool canDrawNext {get; set;}
         public void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances );
-        public void SetNextSymbol ( MarkovChain chain );
+        public void SetNextSymbol ( MarkovChain chain );//, Dictionary<string, Func<int,int>> _nextSymbolChances );
     }
 }

@@ -14,10 +14,6 @@ namespace Game.NarrativeGenerator
     public class Selector
     {
         Dictionary<string, Func<int,int>> startSymbolWeights = new Dictionary<string, Func<int,int>>();
-        Dictionary<string, Func<int,int>> killSymbolWeights = new Dictionary<string, Func<int,int>>();
-        Dictionary<string, Func<int,int>> talkSymbolWeights = new Dictionary<string, Func<int,int>>();
-        Dictionary<string, Func<int,int>> getSymbolWeights = new Dictionary<string, Func<int,int>>();
-        Dictionary<string, Func<int,int>> exploreSymbolWeights = new Dictionary<string, Func<int,int>>();
         Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
         private static readonly int[] WEIGHTS = {1, 3, 5, 7};
 
@@ -65,77 +61,80 @@ namespace Game.NarrativeGenerator
         {
             var questsSos = new List<QuestSO>();
             MarkovChain questChain = new MarkovChain();
-            while ( questChain.GetLastSymbol().canDrawNext )
+            var chainCost = 0;
+            int i =0;
+            do
             {
-                SetSymbolWeights( ref questChain );
-                DefineNextQuest( ref questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
-
-                if ( IsLastQuestValid ( questChain ) )
+                i = 0;
+                while ( questChain.GetLastSymbol().canDrawNext && i < 10 )
                 {
-                    questsSos.Add( questChain.GetLastSymbol() as QuestSO );
-                    Debug.Log( questChain.GetLastSymbol().symbolType );
+                    // Dictionary<string, Func<int,int>> symbolWeights = GetSymbolWeights( questChain );
+                    questChain.GetLastSymbol().SetNextSymbol( questChain );//, symbolWeights );
+                    SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    i++;
+                    break;
                 }
+                chainCost += (int)Enums.QuestWeights.Hated*2;
+            } while (chainCost < (int)Enums.QuestWeights.Loved );
+            Debug.Log("FINAL I: "+i);
+            Debug.Log("FINAL QUEST SO:");
+            foreach (QuestSO quest in questsSos)
+            {
+                Debug.Log(quest.symbolType);
             }
             return questsSos;
-            //TODO: Selecionar mais de apenas uma linha de quests
-            // var chainCost = 0;
-            // do
-            // {
-            //     colocar aqui o drawmissions atual ?
-            //     chainCost += (int)Enums.QuestWeights.Hated*2;
-            // } while (chainCost < (int)Enums.QuestWeights.Loved);
         }
 
-        private bool IsLastQuestValid ( MarkovChain questChain )
-        {
-            return questChain.GetLastSymbol() as QuestSO != null && questChain.GetLastSymbol().symbolType != Constants.EMPTY_TERMINAL;
-        }
-
-        private void DefineNextQuest ( ref MarkovChain questChain, List<QuestSO> questsSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
+        private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
         {
             switch ( questChain.GetLastSymbol().symbolType )
             {
                 case Constants.TALK_QUEST:
                     var t = new Talk();
-                    t.Option( questChain, questsSos, possibleNpcs);
+                    t.DefineQuestSO( questSos, possibleNpcs );
                     break;
                 case Constants.GET_QUEST:
                     var g = new Get();
-                    g.Option( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                    g.DefineQuestSO( questChain, questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
                     break;
                 case Constants.KILL_QUEST:
                     var k = new Kill();
-                    k.Option( questChain, questsSos, possibleNpcs, possibleEnemyTypes);
+                    k.DefineQuestSO( questSos, possibleEnemyTypes );
                     break;
                 case Constants.EXPLORE_QUEST:
                     var e = new Explore();
-                    e.Option( questChain, questsSos, possibleNpcs);
+                    e.DefineQuestSO( questSos );
                     break;
             }
         }
 
-        private void SetSymbolWeights ( ref MarkovChain questChain )
+        private Dictionary<string, Func<int,int>> GetSymbolWeights ( MarkovChain questChain )
         {
             Dictionary<string, Func<int,int>> symbolWeights = startSymbolWeights;
             switch ( questChain.GetLastSymbol().symbolType )
             {
                 case Constants.KILL_QUEST:
-                    symbolWeights = killSymbolWeights;
+                    symbolWeights = questWeightsManager.killSymbolWeights;
                     break;
                 case Constants.TALK_QUEST:
-                    symbolWeights = talkSymbolWeights;
+                    symbolWeights = questWeightsManager.talkSymbolWeights;
                     break;
                 case Constants.GET_QUEST:
-                    symbolWeights = getSymbolWeights;
+                    symbolWeights = questWeightsManager.getSymbolWeights;
                     break;
                 case Constants.EXPLORE_QUEST:
-                    symbolWeights = exploreSymbolWeights;
+                    symbolWeights = questWeightsManager.exploreSymbolWeights;
                     break;
                 default:
                     Debug.LogWarning("Symbol type not found!");
                 break;
             }
-            questChain.GetLastSymbol().SetDictionary( symbolWeights );
+            Debug.Log("new weight!!");
+            foreach ( KeyValuePair<string,Func<int,int>> weight in symbolWeights )
+            {
+                Debug.Log($"weight of {weight.Key} isn't null!");
+            }
+            return symbolWeights;
         }
 
         private void CalculateProfileWeights(List<int> answers)

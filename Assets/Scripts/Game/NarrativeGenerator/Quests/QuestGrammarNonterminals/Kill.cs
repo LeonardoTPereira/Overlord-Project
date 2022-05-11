@@ -6,17 +6,26 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using System;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Kill : NonTerminalQuest
     {
-        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        {
+            get {
+                Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
+                killSymbolWeights.Add( Constants.KILL_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
+                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
+                return killSymbolWeights;
+            } 
+            set {}
+        }
+        public void DefineQuestSO ( List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
         {
             CreateAndSaveKillQuestSo( questSos, enemyTypes );
-            SetNextSymbol( chain );
         }
-
         private static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();

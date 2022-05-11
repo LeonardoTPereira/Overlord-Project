@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
@@ -10,14 +11,18 @@ using Util;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Get : NonTerminalQuest
-    {    
-        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+    { 
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
-            DefineQuestSO( chain, questSos, possibleNpcSos, possibleItems, enemyTypes);
-            SetNextSymbol( chain );
+            get {
+                Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
+                getSymbolWeights.Add( Constants.GET_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
+                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
+                return getSymbolWeights;
+            } 
+            set {}
         }
-
-        protected void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {

@@ -22,11 +22,6 @@ namespace Game.NarrativeGenerator.Quests
             
         }
 
-        void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances )
-        {
-            nextSymbolChances = _nextSymbolChances;
-        }
-
         void NextSymbol(MarkovChain chain)
         {
             //

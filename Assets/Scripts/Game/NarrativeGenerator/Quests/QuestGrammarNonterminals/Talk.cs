@@ -3,19 +3,29 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
+using System;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Talk : NonTerminalQuest
     {
-    
-        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
-            CreateAndSaveTalkQuestSo(questSos, possibleNpcSos);
-            SetNextSymbol( chain );
+            get {
+                Dictionary<string, Func<int, int>> aux = new Dictionary<string, Func<int, int>>();
+                aux.Add( Constants.TALK_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
+                aux.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
+                return aux;
+            } 
+            set {}
+        }
+        public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSO> possibleNpcs )
+        {
+            CreateAndSaveTalkQuestSo(questSos, possibleNpcs);
         }
 
-        private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
         {
             var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
             var selectedNpc = possibleNpcSos.GetRandom();

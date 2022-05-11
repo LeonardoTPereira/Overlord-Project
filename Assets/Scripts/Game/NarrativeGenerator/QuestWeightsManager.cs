@@ -1,11 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
     public class QuestWeightsManager
     {
+        public Dictionary<string, Func<int,int>> killSymbolWeights = new Dictionary<string, Func<int,int>>();
+        public Dictionary<string, Func<int,int>> talkSymbolWeights = new Dictionary<string, Func<int,int>>();
+        public Dictionary<string, Func<int,int>> getSymbolWeights = new Dictionary<string, Func<int,int>>();
+        public Dictionary<string, Func<int,int>> exploreSymbolWeights = new Dictionary<string, Func<int,int>>();
+
         public int CalculateTotalQuestionsWeight (List<int> answers)
         {
             int totalQuestionsWeight = 0;
@@ -31,20 +38,7 @@ namespace Game.NarrativeGenerator
         }
 
         public void CalculateTerminalSymbolsWeights ()
-        {
-            // killSymbolWeights.Add( Constants.KILL_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
-            // killSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
-
-            // talkSymbolWeights.Add( Constants.TALK_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
-            // talkSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
-
-            // getSymbolWeights.Add( Constants.ITEM_TERMINAL, x => Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, .3f));
-            // getSymbolWeights.Add( Constants.DROP_TERMINAL, x => Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, .3f));
-            // getSymbolWeights.Add( Constants.GET_TERMINAL, x => Mathf.Clamp(  0.3f*(1/(x*0.25f)), 0, .3f));
-            // getSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
-
-            // exploreSymbolWeights.Add( Constants.SECRET_TERMINAL, x => Mathf.Clamp( 1/(x*0.25f), 0, 1) );
-            // exploreSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 1));
+        {           
         }
         
         public int GetTalkQuestWeight ( List<int> answers, int totalQuestionsWeight )

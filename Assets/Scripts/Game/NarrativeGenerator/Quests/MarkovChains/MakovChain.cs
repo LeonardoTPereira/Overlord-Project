@@ -18,7 +18,7 @@ namespace Game.NarrativeGenerator.Quests
         /// </summary>
         public MarkovChain ()
         {
-            symbolList.Add( new Talk() );
+            symbolList.Add( new StartSymbol() );
             symbolNumber = 0;
             symbolList[0].canDrawNext = true;
             symbolList[0].symbolType = Constants.TALK_QUEST;
