@@ -69,7 +69,7 @@ namespace Game.NarrativeGenerator
             {
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
-                    Debug.Log( questChain.GetLastSymbol() );
+                    // Debug.Log( questChain.GetLastSymbol() );
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
                     SaveCurrentQuest( questChain, ref questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                 }
@@ -88,18 +88,25 @@ namespace Game.NarrativeGenerator
             switch ( questChain.GetLastSymbol().symbolType )
             {
                 case Constants.TALK_QUEST:
+                case Constants.TALK_TERMINAL:
                     var t = new Talk();
                     t.DefineQuestSO( ref questSos, possibleNpcs );
                     break;
                 case Constants.GET_QUEST:
+                case Constants.GET_TERMINAL:
+                case Constants.ITEM_TERMINAL:
+                case Constants.DROP_TERMINAL:
                     var g = new Get();
                     g.DefineQuestSO( questChain, ref questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
                     break;
                 case Constants.KILL_QUEST:
+                case Constants.KILL_TERMINAL:
                     var k = new Kill();
                     k.DefineQuestSO( ref questSos, possibleEnemyTypes );
                     break;
                 case Constants.EXPLORE_QUEST:
+                case Constants.EXPLORE_TERMINAL:
+                case Constants.SECRET_TERMINAL:
                     var e = new Explore();
                     e.DefineQuestSO( ref questSos );
                     break;
