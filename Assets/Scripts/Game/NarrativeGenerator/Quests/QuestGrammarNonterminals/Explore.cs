@@ -14,22 +14,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             get
             {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                Debug.Log( (int) Mathf.Clamp( 0.3f*(1/(1*0.25f)), 0, 30) );
-                Debug.Log( (int) Mathf.Clamp( ( 1 -( 1/(1*0.25f))), 0, 100) );
-                getSymbolWeights.Add( Constants.ITEM_TERMINAL, x => (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30));
-                getSymbolWeights.Add( Constants.DROP_TERMINAL, x => (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30));
-                getSymbolWeights.Add( Constants.GET_TERMINAL, x => (int)Mathf.Clamp(  0.3f*(1/(x*0.25f)), 0, 30));
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
+                Debug.Log( Constants.ThreeOptionQuestLineWeight(1) );
+                Debug.Log( Constants.ThreeOptionQuestEmptyWeight(1) );
+                getSymbolWeights.Add( Constants.ITEM_TERMINAL, Constants.ThreeOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.DROP_TERMINAL, Constants.ThreeOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.GET_TERMINAL, Constants.ThreeOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
                 return getSymbolWeights;
             } 
             set {}
         }
-        public void DefineQuestSO ( List<QuestSO> questSos )
+        public void DefineQuestSO ( ref List<QuestSO> questSos )
         {
-            Explore.CreateAndSaveSecretRoomQuestSo( questSos );
+            Explore.CreateAndSaveSecretRoomQuestSo( ref questSos );
         }
 
-        public static void CreateAndSaveSecretRoomQuestSo(List<QuestSO> questSos)
+        public static void CreateAndSaveSecretRoomQuestSo( ref List<QuestSO> questSos)
         {
             var secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
             secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[questSos.Count-1] : null);

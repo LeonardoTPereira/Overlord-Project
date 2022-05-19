@@ -64,62 +64,51 @@ namespace Game.NarrativeGenerator
             MarkovChain questChain = new MarkovChain();
             questChain.GetLastSymbol().SetDictionary( startSymbolWeights );
 
-            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in startSymbolWeights )
-            {
-                Debug.Log(nextSymbolChance.Key+" has chance of "+nextSymbolChance.Value( 0 ));
-            }
-
             var chainCost = 0;
-            int i =0;
             do
             {
-                i = 0;
-                while ( questChain.GetLastSymbol().canDrawNext && i < 10 )
+                while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     Debug.Log( questChain.GetLastSymbol() );
-                    
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
-                    Debug.Log( questChain.GetLastSymbol() );
-                    SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
-                    i++;
-                    break;
+                    SaveCurrentQuest( questChain, ref questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                 }
                 chainCost += (int)Enums.QuestWeights.Hated*2;
             } while (chainCost < (int)Enums.QuestWeights.Loved );
-            Debug.Log("FINAL I: "+i);
             Debug.Log("FINAL QUEST SO:");
             foreach (QuestSO quest in questsSos)
             {
                 Debug.Log(quest.symbolType);
             }
-            return questsSos;
+            return questsSos; //TODO: questSos seem to be null 
         }
 
-        private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
+        private void SaveCurrentQuest ( MarkovChain questChain, ref List<QuestSO> questSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
         {
             switch ( questChain.GetLastSymbol().symbolType )
             {
                 case Constants.TALK_QUEST:
                     var t = new Talk();
-                    t.DefineQuestSO( questSos, possibleNpcs );
+                    t.DefineQuestSO( ref questSos, possibleNpcs );
                     break;
                 case Constants.GET_QUEST:
                     var g = new Get();
-                    g.DefineQuestSO( questChain, questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                    g.DefineQuestSO( questChain, ref questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
                     break;
                 case Constants.KILL_QUEST:
                     var k = new Kill();
-                    k.DefineQuestSO( questSos, possibleEnemyTypes );
+                    k.DefineQuestSO( ref questSos, possibleEnemyTypes );
                     break;
                 case Constants.EXPLORE_QUEST:
                     var e = new Explore();
-                    e.DefineQuestSO( questSos );
+                    e.DefineQuestSO( ref questSos );
                     break;
             }
         }
 
         private void CalculateProfileWeights(List<int> answers)
         {
+            startSymbolWeights.Clear();
             int[] weights = CalculateStartSymbolWeights( answers );
 
             if ( weights[0] != 0 ) startSymbolWeights.Add( Constants.TALK_QUEST, x => weights[0] );
@@ -148,6 +137,8 @@ namespace Game.NarrativeGenerator
 
         private void CalculateStartSymbolWeights ( PlayerProfile playerProfile )
         {
+            startSymbolWeights.Clear();
+
             int talkWeight = (int)(100*playerProfile.CreativityPreference)/16;
             int getWeight = (int)(100*playerProfile.AchievementPreference)/16;
             int killWeight = (int)(100*playerProfile.MasteryPreference)/16;

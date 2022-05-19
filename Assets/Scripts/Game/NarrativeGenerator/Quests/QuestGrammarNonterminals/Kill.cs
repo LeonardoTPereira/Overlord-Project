@@ -16,17 +16,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             get {
                 Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
-                killSymbolWeights.Add( Constants.KILL_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
-                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
+                killSymbolWeights.Add( Constants.KILL_TERMINAL, Constants.OneOptionQuestLineWeight );
+                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
                 return killSymbolWeights;
             } 
             set {}
         }
-        public void DefineQuestSO ( List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
+        public void DefineQuestSO ( ref List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
         {
-            CreateAndSaveKillQuestSo( questSos, enemyTypes );
+            CreateAndSaveKillQuestSo( ref questSos, enemyTypes );
         }
-        private static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static void CreateAndSaveKillQuestSo(ref List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
             var selectedEnemyTypes = new EnemiesByType ();

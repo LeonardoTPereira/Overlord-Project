@@ -33,12 +33,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             int cumulativeProbability = 0;
             foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
             {
-                Debug.Log(nextSymbolChance.Key+" has chance of "+cumulativeProbability);
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
                 if ( cumulativeProbability >= chance )
                 {
                     string nextSymbol = nextSymbolChance.Key;
-                    Debug.Log("CHOSEN SYMBOL: "+nextSymbol);
                     chain.SetSymbol( nextSymbol );
                     break;
                 }

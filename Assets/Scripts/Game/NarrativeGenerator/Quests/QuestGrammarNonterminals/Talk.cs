@@ -13,19 +13,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
             get {
-                Dictionary<string, Func<int, int>> aux = new Dictionary<string, Func<int, int>>();
-                aux.Add( Constants.TALK_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
-                aux.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
-                return aux;
+                Dictionary<string, Func<int, int>> talkQuestWeights = new Dictionary<string, Func<int, int>>();
+                talkQuestWeights.Add( Constants.TALK_TERMINAL, Constants.OneOptionQuestLineWeight );
+                talkQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                return talkQuestWeights;
             } 
             set {}
         }
-        public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSO> possibleNpcs )
+        public void DefineQuestSO ( ref List<QuestSO> questSos, List<NpcSO> possibleNpcs )
         {
-            CreateAndSaveTalkQuestSo(questSos, possibleNpcs);
+            CreateAndSaveTalkQuestSo(ref questSos, possibleNpcs);
         }
 
-        public static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public static void CreateAndSaveTalkQuestSo(ref List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
         {
             var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
             var selectedNpc = possibleNpcSos.GetRandom();

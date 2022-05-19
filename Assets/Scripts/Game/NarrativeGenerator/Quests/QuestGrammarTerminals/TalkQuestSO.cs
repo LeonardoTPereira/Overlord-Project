@@ -1,5 +1,8 @@
 ﻿using ScriptableObjects;
 using Util;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -8,6 +11,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public NpcSO npc { get; set; }
         public override string symbolType { 
             get { return Constants.TALK_TERMINAL;} 
+        }
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        {
+            get {
+                Dictionary<string, Func<int, int>> talkQuestWeights = new Dictionary<string, Func<int, int>>();
+                talkQuestWeights.Add( Constants.TALK_TERMINAL, Constants.OneOptionQuestLineWeight );
+                talkQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                return talkQuestWeights;
+            } 
+            set {}
         }
 
         public override void Init()

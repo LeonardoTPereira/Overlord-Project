@@ -16,26 +16,26 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             get {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.GET_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
+                getSymbolWeights.Add( Constants.GET_TERMINAL,  Constants.OneOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight);
                 return getSymbolWeights;
             } 
             set {}
         }
-        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public void DefineQuestSO ( MarkovChain chain, ref List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {
                 case Constants.GET_TERMINAL:
-                    CreateAndSaveGetQuestSo(questSos, possibleItems);
+                    CreateAndSaveGetQuestSo(ref questSos, possibleItems);
                 break;
                 case Constants.DROP_TERMINAL:
-                    CreateAndSaveDropQuestSo(questSos, possibleItems, enemyTypes);
+                    CreateAndSaveDropQuestSo(ref questSos, possibleItems, enemyTypes);
                 break;
             }
         }
 
-        private static void CreateAndSaveGetQuestSo(List<QuestSO> questSos,
+        private static void CreateAndSaveGetQuestSo(ref List<QuestSO> questSos,
             TreasureRuntimeSetSO possibleItems)
         {
             var getItemQuest = ScriptableObject.CreateInstance<ItemQuestSo>();
@@ -49,7 +49,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 
         }
 
-        private static void CreateAndSaveDropQuestSo(List<QuestSO> questSos,
+        private static void CreateAndSaveDropQuestSo(ref List<QuestSO> questSos,
             TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var dropQuest = ScriptableObject.CreateInstance<DropQuestSo>();
