@@ -17,8 +17,6 @@ namespace Game.LevelManager.DungeonLoader
     public class DungeonSceneManager : MonoBehaviour, ISoundEmitter
     {
         public GameObject gameOverScreen, victoryScreen;
-        private bool isCompleted;
-        private bool isInGame;
         [field: Scene] public string GameUI { get; set; } = "GameUI";
         public static event EventHandler NewLevelLoadedEventHandler;
         public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
@@ -59,8 +57,6 @@ namespace Game.LevelManager.DungeonLoader
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (scene.name is not ("Level" or "LevelWithEnemies")) return;
-            isInGame = true;
-            isCompleted = false;
             currentDungeonSo = _selectedLevels.GetCurrentLevel().Dungeon;
             currentQuestLine = _selectedLevels.GetCurrentLevel().Quests;
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Game.Events;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
@@ -42,21 +44,20 @@ namespace Game.LevelGenerator
         }
 
         /// Generate and return a set of levels.
-        public Population Evolve()
+        public async Task Evolve()
         {
             DateTime start = DateTime.Now;
-            Evolution();
+            await Evolution();
             DateTime end = DateTime.Now;
             data.duration = (end - start).TotalSeconds;
-            return solution;
         }
 
         /// Perform the level evolution process.
-        private void Evolution()
+        private async Task Evolution()
         {
             // Initialize the MAP-Elites population
             var pop = InitializePopulation();
-            EvolvePopulation(pop);
+            await EvolvePopulation(pop);
             // Get the final population (solution)
             solution = pop;
         }
@@ -82,8 +83,9 @@ namespace Game.LevelGenerator
             return pop;
         }
 
-        private void EvolvePopulation(Population pop)
+        private async Task EvolvePopulation(Population pop)
         {
+            Debug.Log("Start Evolution Process");
             // Evolve the population
             int g = 0;
             DateTime start = DateTime.Now;
@@ -104,7 +106,9 @@ namespace Game.LevelGenerator
                 var progress = (float) seconds / prs.Time;
                 NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
                 pop.UpdateBiomes(g);
+                await Task.Yield();
             }
+            Debug.Log("Finish Evolution Process");
             //pop.SaveJson();
             NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f));
         }

@@ -38,9 +38,6 @@ namespace Game.ExperimentControllers
         
         private void SetQuestLineInDungeons()
         {
-            Debug.Log("Setting Quest Line In Dungeons: "+_questLine);
-            Debug.Log(_questLine.DungeonFileSos.Count);
-            Debug.Log(_questLine.EnemySos.Count);
             var dungeonFileSos = new List<DungeonFileSo>(_questLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)

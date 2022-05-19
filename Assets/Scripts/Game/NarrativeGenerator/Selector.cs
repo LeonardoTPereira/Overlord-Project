@@ -94,8 +94,8 @@ namespace Game.NarrativeGenerator
                     }
                 }
                 chainCost += (int)Enums.QuestWeights.Hated*2;
-                newMissionDraw = RandomSingleton.GetInstance().Random.Next((int)Enums.QuestWeights.Loved)+chainCost;
-            } while (chainCost < (int)Enums.QuestWeights.Loved);
+                newMissionDraw = RandomSingleton.GetInstance().Random.Next((int)Enums.QuestWeights.Disliked)+chainCost;
+            } while (chainCost < (int)Enums.QuestWeights.Loved*2);
 
             return questsSos;
         }

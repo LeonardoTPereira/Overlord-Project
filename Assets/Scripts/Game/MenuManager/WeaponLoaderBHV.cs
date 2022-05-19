@@ -33,6 +33,7 @@ namespace Game.MenuManager
 
         private void PrepareWeapon(object sender, LoadWeaponButtonEventArgs eventArgs)
         {
+            Debug.Log("Preparing Weapon");
             chosenProjectile.Copy(eventArgs.ProjectileSO);
             isProjectileChosen = true;
             if (isQuestGenerated)
@@ -43,6 +44,7 @@ namespace Game.MenuManager
         
         private void EnableNextButton(object sender, QuestLineCreatedEventArgs args)
         {
+            Debug.Log("Content Created and Button Enabled");
             isQuestGenerated = true;
             if (isProjectileChosen)
             {

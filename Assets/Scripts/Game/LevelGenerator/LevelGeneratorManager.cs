@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Threading;
+using System.Threading.Tasks;
 using Game.Events;
 using Game.GameManager;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
@@ -16,17 +16,8 @@ namespace Game.LevelGenerator
 
         /// Attributes to communicate to Game Manager
         // Flags if the dungeon has been gerated for Unity's Game Manager to handle things after
-        public bool hasFinished;
         private QuestLine _questLine;
         private FitnessPlot fitnessPlot;
-
-        /**
-         * The constructor of the "Main" behind the EA
-         */
-        public void Awake()
-        {
-            hasFinished = false;
-        }
 
         private void Start()
         {
@@ -44,36 +35,27 @@ namespace Game.LevelGenerator
         }
 
         // The "Main" behind the Dungeon Generator
-        public void EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
+        public async Task EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
         {
             parameters = eventArgs.Parameters;
             _questLine = eventArgs.QuestLineForDungeon;
-
+            Debug.Log("Start Evolving Dungeons");
             // Start the generation process
-            Thread t = new Thread(Evolve);
-            t.Start();
-            StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
+            generator = new LevelGenerator(parameters, fitnessPlot);
+            await generator.Evolve();
+            PrintAndSaveDungeonWhenFinished();
         }
 
-        private IEnumerator PrintAndSaveDungeonWhenFinished(Thread t)
+        private void PrintAndSaveDungeonWhenFinished()
         {
-            // Wait until the dungeons were generated
-            while (t.IsAlive)
-                yield return new WaitForSeconds(0.1f);
+
             // Write all the generated dungeons in ScriptableObjects
+            Debug.Log("Finished Creating Dungeons");
             var solutions = generator.Solution.GetBestEliteForEachBiome();
             foreach (var individual in solutions)
             {
                 Interface.PrintNumericalGridWithConnections(individual, _questLine);
             }
-            hasFinished = true;
-        }
-
-        public void Evolve()
-        {
-            hasFinished = false;
-            generator = new LevelGenerator(parameters, fitnessPlot);
-            generator.Evolve();
         }
     }
 }

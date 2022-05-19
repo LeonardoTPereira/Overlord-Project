@@ -18,7 +18,6 @@ namespace Game.GameManager.Player
         protected float shootSpeed, atkSpeed;
         private bool _canShoot;
         private bool _isHoldingShoot;
-        private int _currentProjectile;
         [SerializeField] private GameObject bulletSpawn;
         [SerializeField] private GameObject bulletPrefab;
         [field: SerializeField] public ProjectileTypeSO projectileType { get; set; }
@@ -27,11 +26,6 @@ namespace Game.GameManager.Player
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsShooting = Animator.StringToHash("IsShooting");
-
-        private void Awake()
-        {
-            _currentProjectile = 0;
-        }
 
         protected override void Start()
         {
