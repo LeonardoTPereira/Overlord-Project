@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
@@ -24,13 +26,13 @@ namespace Game.GameManager
 
         private void OnEnable()
         {
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetKeyGUI;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetKeyGUI;
             KeyBhv.KeyCollectEventHandler += CreateKeyImage;
         }
 
         private void OnDisable()
         {
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetKeyGUI;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetKeyGUI;
             KeyBhv.KeyCollectEventHandler -= CreateKeyImage;
         }
 

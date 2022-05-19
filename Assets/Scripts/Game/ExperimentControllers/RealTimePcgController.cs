@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Events;
 using Game.LevelGenerator.LevelSOs;
+using Game.LevelManager.DungeonLoader;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
@@ -13,9 +14,9 @@ namespace Game.ExperimentControllers
     public class RealTimePcgController : MonoBehaviour
     {
         private QuestLine _questLine;
-        
+
         [SerializeField]
-        private DungeonLoader[] dungeonEntrances;
+        private DungeonSceneLoader[] dungeonEntrances;
         
         private void OnEnable()
         {
@@ -37,11 +38,8 @@ namespace Game.ExperimentControllers
         
         private void SetQuestLineInDungeons()
         {
-            Debug.Log("Setting Quest Line In Dungeons: "+_questLine);
-            Debug.Log(_questLine.DungeonFileSos.Count);
-            Debug.Log(_questLine.EnemySos.Count);
             var dungeonFileSos = new List<DungeonFileSo>(_questLine.DungeonFileSos);
-            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
+            dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)
             {
                 var selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);

@@ -10,42 +10,53 @@ namespace Game.GameManager
         [SerializeField]
         private AudioClip popSnd;
         private AudioSource audioSrc;
-        private Rigidbody2D rb;
+        private Rigidbody2D bombRigidBody;
         private Animator animator;
-        private CircleCollider2D collider;
+        private CircleCollider2D bombCollider;
 
-        private bool canDestroy, hasBeenThrown, hasTimerBeenSet, isExploding;
-        public int damage, enemyThatShot;
+        private bool hasBeenThrown, hasTimerBeenSet, isExploding;
+        public int Damage { get; set; }
+        public int EnemyThatShot { get; set; }
+
         [SerializeField]
-        protected float bombLifetime;
-        protected float bombCountdown;
+        private float bombLifetime;
+        private float bombCountdown;
 
         public static event EventHandler PlayerHitEventHandler;
 
-        protected bool isColliding;
+        private bool isColliding;
+        private static readonly int Explode = Animator.StringToHash("Explode");
 
-        // Use this for initialization
-        void Awake()
+        private Collider2D[] objectsInRange;
+        public Vector2 ShootDirection { get; set; }
+
+        private void Awake()
         {
             bombLifetime = 2.0f;
-            canDestroy = false;
             hasBeenThrown = false;
             hasTimerBeenSet = false;
             isExploding = false;
-            audioSrc = GetComponent<AudioSource>();
-            rb = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
-            collider = GetComponent<CircleCollider2D>();
+            objectsInRange = new Collider2D[20];
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             PlayerController.PlayerDeathEventHandler += PlayerHasDied;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
+        }
+
+        private void Start()
+        {
+            audioSrc = GetComponent<AudioSource>();
+            bombRigidBody = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+            bombCollider = GetComponent<CircleCollider2D>();
+            bombCollider.enabled = false;
+            bombRigidBody.AddForce(ShootDirection, ForceMode2D.Impulse);
         }
 
         private void PlayerHasDied(object sender, EventArgs eventArgs)
@@ -53,8 +64,8 @@ namespace Game.GameManager
             Destroy(gameObject);
         }
 
-        // Update is called once per frame
-        void Update()
+        //TODO change bomb explosion timer to coroutine
+        private void Update()
         {
             if (hasBeenThrown && !hasTimerBeenSet)
             {
@@ -70,23 +81,15 @@ namespace Game.GameManager
                 if (!isColliding && (bombCountdown < (bombLifetime - 0.2f)))
                 {
                     isColliding = true;
-                    collider.enabled = isColliding;
+                    bombCollider.enabled = isColliding;
                 }
             }
-            if (!audioSrc.isPlaying && canDestroy)
-            {
-                Destroy(gameObject);
-            }
         }
 
-        public void DestroyBomb()
-        {
-            canDestroy = true;
-        }
 
-        public void SetEnemyThatShot(int _index)
+        public void SetEnemyThatShot(int index)
         {
-            enemyThatShot = _index;
+            EnemyThatShot = index;
         }
 
         protected virtual void OnPlayerHit()
@@ -97,38 +100,30 @@ namespace Game.GameManager
         public void Shoot(Vector2 facingDirection)
         {
             isColliding = false;
-            collider.enabled = isColliding;
-
-            rb.AddForce(facingDirection, ForceMode2D.Impulse);
             hasBeenThrown = true;
-        }
-
-        private bool CheckIfStopped()
-        {
-            if (rb.velocity.magnitude < 5f)
-            {
-                return true;
-            }
-            return false;
         }
 
         private void ExplodeBomb()
         {
-            animator.SetTrigger("Explode");
+            animator.SetTrigger(Explode);
             audioSrc.PlayOneShot(popSnd, 0.3f);
             isExploding = true;
-            Vector3 currScale = transform.localScale;
-            transform.localScale = new Vector3(currScale.x * 4, currScale.y * 4, currScale.z * 1);
-            Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(new Vector2(rb.position.x, rb.position.y), 1.8f);
-            foreach (Collider2D col in objectsInRange)
+            var transform1 = transform;
+            var currScale = transform1.localScale;
+            transform1.localScale = new Vector3(currScale.x * 4, currScale.y * 4, currScale.z * 1);
+            var position = bombRigidBody.position;
+            var size = Physics2D.OverlapCircleNonAlloc(new Vector2(position.x, position.y), 1.8f, objectsInRange);
+            for(var i=0; i < size; ++i)
             {
-                if (col.gameObject.CompareTag("Player"))
+                if (objectsInRange[i].gameObject.CompareTag("Player"))
                 {
-                    var collisionDirection = Vector3.Normalize(col.gameObject.transform.position - gameObject.transform.position);
+                    var collisionDirection =
+                        Vector3.Normalize(objectsInRange[i].gameObject.transform.position - gameObject.transform.position);
                     OnPlayerHit();
-                    col.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, enemyThatShot);
+                    objectsInRange[i].gameObject.GetComponent<HealthController>().ApplyDamage(Damage, collisionDirection, EnemyThatShot);
                 }
             }
+            Destroy(gameObject);
         }
     }
 }

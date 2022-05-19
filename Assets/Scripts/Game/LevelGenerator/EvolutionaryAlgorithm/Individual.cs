@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
@@ -27,19 +28,19 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public float exploration;
         /// The leniency degree.
         public float leniency;
-
         private Fitness fitness;
-        
+        public string BiomeName { get; set; }
+
         public Individual(FitnessParameters fitnessParameters)
         {
             Fitness = new Fitness(fitnessParameters);
             dungeon = new Dungeon();
             generation = Common.UNKNOWN;
             neededLocks = 0;
-            neededRooms = 0;
-            linearCoefficient = 0;
-            leniency = 0;
-            exploration = 0;
+            neededRooms = 0.0f;
+            linearCoefficient = 0.0f;
+            leniency = 0.0f;
+            exploration = 0.0f;
         }
 
         private Individual()
@@ -90,7 +91,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 linearCoefficient += children;
             }
             int total = dungeon.Rooms.Count;
-            linearCoefficient = linearCoefficient / (total - leafs);
+            linearCoefficient /= (total - leafs);
         }
 
         /// Print the individual attributes and the dungeon map.
@@ -114,8 +115,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 "Coefficient of exploration=" + exploration);
             Console.WriteLine(LevelDebug.INDENT +
                 "Leniency=" + leniency);
-            Console.WriteLine(LevelDebug.INDENT +
-                "Enemy Sparsity=" + fitness.fEnemySparsity);
             Console.WriteLine(LevelDebug.INDENT + "MISSION MAP=");
             LevelDebug.PrintMissionMap(dungeon, LevelDebug.INDENT);
             Console.WriteLine(LevelDebug.INDENT + "ENEMY MAP=");
@@ -136,6 +135,52 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public void Fix()
         {
             dungeon.Fix(Fitness.DesiredParameters.DesiredEnemies);
+        }
+
+        public void CalculateFitness()
+        {
+            CalculateLinearCoefficient();
+            if (dungeon.LockIds.Count > 0)
+            {
+                // Calculate the number of locks needed to finish the level
+                neededLocks = AStar.FindRoute(dungeon);
+                // Validate the calculated number of needed locks
+                if (neededLocks > dungeon.LockIds.Count)
+                {
+                    throw new InvalidDataException("Inconsistency! The number of " +
+                                                   "needed locks is higher than the number of total " +
+                                                   "locks of the level." +
+                                                   "\n  Total locks=" + dungeon.LockIds.Count +
+                                                   "\n  Needed locks=" + neededLocks);
+                }
+                neededRooms = 0.0f;
+                // Calculate the number of rooms needed to finish the level
+                for (int i = 0; i < 3; i++)
+                {
+                    DFS dfs = new DFS(dungeon);
+                    dfs.FindRoute();
+                    neededRooms += dfs.NVisitedRooms;
+                }
+                neededRooms /= 3.0f;
+                // Validate the calculated number of needed rooms
+                if (neededRooms > dungeon.Rooms.Count)
+                {
+                    throw new InvalidDataException("Inconsistency! The number of " +
+                                                   "needed rooms is higher than the number of total " +
+                                                   "rooms of the level." +
+                                                   "\n  Total rooms=" + dungeon.Rooms.Count +
+                                                   "\n  Needed rooms=" + neededRooms);
+                }
+            }
+            Fitness.Calculate(this);
+            exploration = Metric.CoefficientOfExploration(this);
+            leniency = Metric.Leniency(this);
+        }
+
+        public bool IsBetterThan(Individual other)
+        {
+            if(other == null) return true;
+            return Fitness.IsBetter(other.Fitness);
         }
         
         public Fitness Fitness

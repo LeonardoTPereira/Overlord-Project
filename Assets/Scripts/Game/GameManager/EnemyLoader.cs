@@ -1,38 +1,110 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.EnemyManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using Game.Maestro;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
+using Unity.Mathematics;
 using UnityEngine;
+using Util;
 using static Util.Enums;
+using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {
+    [Serializable]
     public class EnemyLoader : MonoBehaviour
     {
-        private List<EnemySO> enemyListForCurrentDungeon;
-
-    
-        public WeaponTypeRuntimeSetSO WeaponTypes => _weaponTypes;
-
-        [SerializeField]
-        public EnemySO[] arena;
+        private static List<EnemySO> enemyListForCurrentDungeon;
+        
+        public static EnemySO[] arena;
         public GameObject enemyPrefab;
         public GameObject barehandEnemyPrefab;
         public GameObject shooterEnemyPrefab;
         public GameObject bomberEnemyPrefab;
         public GameObject healerEnemyPrefab;
-        [SerializeField]
-        [MustBeAssigned] private WeaponTypeRuntimeSetSO _weaponTypes;
+        [MustBeAssigned] [field: SerializeField] private WeaponTypeRuntimeSetSO _weaponTypes;
 
-        public void LoadEnemies(List<EnemySO> enemyList)
+        
+        public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
+        {
+            var enemiesInQuestByType = new EnemiesByType(questLine.EnemyParametersForQuestLine.TotalByType);
+            
+            foreach (var dungeonPart in map.DungeonPartByCoordinates)
+            {
+                if (dungeonPart.Value is DungeonRoom dungeonRoom && !dungeonRoom.IsStartRoom())
+                {
+                    dungeonRoom.EnemiesByType = EnemySelector.Select(dungeonRoom, ref enemiesInQuestByType);
+                }
+            }
+        }
+
+        private static EnemiesByType SelectWeaponTypesForRoom(DungeonRoom dungeonRoom, EnemiesByType enemiesInQuestByType)
+        {
+            var enemiesByType = new EnemiesByType();
+            var enemiesInRoom = dungeonRoom.TotalEnemies;
+            var selectedEnemies = 0;
+            while (selectedEnemies < enemiesInRoom)
+            {
+                var selectedType = enemiesInQuestByType.GetRandom();
+                var maxPossibleNewEnemies = math.min(selectedType.Value, enemiesInRoom - selectedEnemies);
+                var newEnemies = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
+                
+                AddEnemiesInRoom(enemiesByType, selectedType.Key, newEnemies);
+                UpdateRemainingEnemiesInQuest(enemiesInQuestByType, selectedType.Key, newEnemies);
+
+                selectedEnemies += newEnemies;
+            } 
+
+            return enemiesByType;
+        }
+
+        private static void AddEnemiesInRoom(EnemiesByType enemiesByType, WeaponTypeSO selectedType, int newEnemies)
+        {
+            if (enemiesByType.EnemiesByTypeDictionary.TryGetValue(selectedType, out var enemiesForItem))
+            {
+                enemiesByType.EnemiesByTypeDictionary[selectedType] = enemiesForItem + newEnemies;
+            }
+            else
+            {
+                enemiesByType.EnemiesByTypeDictionary.Add(selectedType, newEnemies);
+            }
+        }
+
+        private static void UpdateRemainingEnemiesInQuest(EnemiesByType enemiesInQuestByType, 
+            WeaponTypeSO selectedType, int newEnemies)
+        {
+            if (enemiesInQuestByType.EnemiesByTypeDictionary.Count == 0)
+                throw new ArgumentException("Enemies in Quest cannot be an empty collection.", nameof(enemiesInQuestByType));
+            enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] -= newEnemies;
+            if (enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] <= 0)
+            {
+                enemiesInQuestByType.EnemiesByTypeDictionary.Remove(selectedType);
+            }
+        }
+
+        public static EnemyByAmountDictionary GetEnemiesForRoom(RoomBhv roomBhv)
+        {
+            var enemiesBySo = new EnemyByAmountDictionary();
+            foreach (var enemiesByType in roomBhv.roomData.EnemiesByType.EnemiesByTypeDictionary)
+            {
+                var selectedEnemy = GetRandomEnemyOfType(enemiesByType.Key);
+                enemiesBySo.Add(selectedEnemy, enemiesByType.Value);
+            }
+            return enemiesBySo;
+        }
+        public static void LoadEnemies(List<EnemySO> enemyList)
         {
             enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
             ApplyDelegates();
         }
 
-        public EnemySO GetRandomEnemyOfType(WeaponTypeSO enemyType)
+        public static EnemySO GetRandomEnemyOfType(WeaponTypeSO enemyType)
         {
             List<EnemySO> currentEnemies = GetEnemiesFromType(enemyType);
             return currentEnemies[Random.Range(0, currentEnemies.Count)];
@@ -95,20 +167,20 @@ namespace Game.GameManager
             return enemy;
         }
 
-        private List<EnemySO> GetEnemiesFromType(WeaponTypeSO weaponType)
+        private static List<EnemySO> GetEnemiesFromType(WeaponTypeSO weaponType)
         {
             //TODO create these lists only once per type on dungeon load
             return enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
         }
 
-        private void ApplyDelegates()
+        private static void ApplyDelegates()
         {
             foreach (var enemy in enemyListForCurrentDungeon)
             {
                 enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
             }
         }
-        public MovementType GetMovementType(MovementEnum moveTypeEnum)
+        public static MovementType GetMovementType(MovementEnum moveTypeEnum)
         {
             switch (moveTypeEnum)
             {

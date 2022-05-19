@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Audio;
 using Game.GameManager.Player;
 using ScriptableObjects;
 using UnityEngine;
@@ -6,19 +7,14 @@ using Util;
 
 namespace Game.GameManager
 {
-    public class ProjectileController : MonoBehaviour
+    public class ProjectileController : MonoBehaviour, ISoundEmitter
     {
-
-        [SerializeField]
-        private AudioClip popSnd;
-        private AudioSource audioSrc;
         private Rigidbody2D rb;
+        private bool IsSin { get; set; }
+        private int EnemyThatShot { get; set; }
 
-        private bool canDestroy, isSin;
-        public int enemyThatShot;
-
-        public static event EventHandler enemyHitEventHandler;
-        public static event EventHandler playerHitEventHandler;
+        public static event EventHandler EnemyHitEventHandler;
+        public static event EventHandler PlayerHitEventHandler;
 
         private Vector2 pos, moveDir;
         private float MoveSpeed { get; set; }
@@ -27,32 +23,32 @@ namespace Game.GameManager
         private float frequency, magnitude;
         [SerializeField]
         private int damage;
-        [SerializeField]
-        public ProjectileTypeSO ProjectileSO { get; set; }
+        [field: SerializeField] public ProjectileTypeSO ProjectileSo { get; set; }
+
+        private Rigidbody2D bulletRigidBody;
     
         // Use this for initialization
-        void Awake()
+        private void Awake()
         {
-            canDestroy = false;
-            audioSrc = GetComponent<AudioSource>();
             rb = GetComponent<Rigidbody2D>();
-            isSin = false;
+            IsSin = false;
         }
 
         private void Start()
         {
-            if (ProjectileSO == null)
+            if (ProjectileSo == null)
                 Debug.LogError("NO PROJECTILE SO!!!");
-            MoveSpeed = ProjectileSO.moveSpeed;
-            damage = ProjectileSO.damage;
+            MoveSpeed = ProjectileSo.moveSpeed;
+            damage = ProjectileSo.damage;
+            bulletRigidBody = GetComponent<Rigidbody2D>();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             PlayerController.PlayerDeathEventHandler += PlayerHasDied;
         }
 
-        void OnDisable()
+        public void OnDisable()
         {
             PlayerController.PlayerDeathEventHandler -= PlayerHasDied;
         }
@@ -63,36 +59,29 @@ namespace Game.GameManager
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if (!audioSrc.isPlaying && canDestroy)
-            {
-                Destroy(gameObject);
-            }
-            if (isSin)
-            {
-                pos += moveDir * Time.deltaTime * MoveSpeed;
-                transform.position = pos + Vector2.Perpendicular(moveDir).normalized * Mathf.Sin(Time.time * frequency) * magnitude;
-            }
+            if (!IsSin) return;
+            pos += moveDir * (Time.deltaTime * MoveSpeed);
+            transform.position = pos + Vector2.Perpendicular(moveDir).normalized * (Mathf.Sin(Time.time * frequency) * magnitude);
         }
 
         public void DestroyBullet()
         {
-            //Debug.Log("Destroying Bullet");
-            audioSrc.PlayOneShot(popSnd, 0.15f);
-            canDestroy = true;
+            ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.BulletHit, 1));
             GetComponent<Collider2D>().enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(gameObject);
         }
 
-        protected virtual void OnEnemyHit()
+        private void OnEnemyHit()
         {
-            enemyHitEventHandler?.Invoke(null, EventArgs.Empty);
+            EnemyHitEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
-        protected virtual void OnPlayerHit()
+        private void OnPlayerHit()
         {
-            playerHitEventHandler?.Invoke(null, EventArgs.Empty);
+            PlayerHitEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -103,7 +92,7 @@ namespace Game.GameManager
                 if (collision.gameObject.CompareTag("Player"))
                 {
                     OnPlayerHit();
-                    collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, enemyThatShot);
+                    collision.gameObject.GetComponent<HealthController>().ApplyDamage(damage, collisionDirection, EnemyThatShot);
                     DestroyBullet();
                 }
             }
@@ -127,14 +116,14 @@ namespace Game.GameManager
             }
         }
 
-        public void SetEnemyThatShot(int _index)
+        public void SetEnemyThatShot(int index)
         {
-            enemyThatShot = _index;
+            EnemyThatShot = index;
         }
 
         public void Shoot(Vector2 facingDirection)
         {
-            Enums.PlayerProjectileEnum projEnum = ProjectileSO.projectileBehaviorIndex;
+            Enums.PlayerProjectileEnum projEnum = ProjectileSo.projectileBehaviorIndex;
             switch (projEnum)
             {
                 case Enums.PlayerProjectileEnum.STRAIGHT:
@@ -146,33 +135,35 @@ namespace Game.GameManager
                 case Enums.PlayerProjectileEnum.TRIPLE:
                     TripleShot(facingDirection);
                     break;
-            }
-            //rb.AddForce(facingDirection, ForceMode2D.Impulse);
+                default:
+                    throw new ArgumentOutOfRangeException(projEnum.ToString(), "Projectile index does not exist in the PlayerProjectileEnum");
+            } 
         }
 
-        public void StraightShot(Vector2 facingDirection)
+        private void StraightShot(Vector2 facingDirection)
         {
             rb.AddForce(facingDirection, ForceMode2D.Impulse);
         }
-        public void SinShot(Vector2 facingDirection)
+        private void SinShot(Vector2 facingDirection)
         {
             pos = transform.position;
             moveDir = facingDirection.normalized;
-            isSin = true;
+            IsSin = true;
         }
 
-        public void TripleShot(Vector2 facingDirection)
+        private void TripleShot(Vector2 facingDirection)
         {
-            Vector2 left, right;
-            right = Quaternion.Euler(0, 0, 30) * facingDirection;
-            left = Quaternion.Euler(0, 0, -30) * facingDirection;
-            ProjectileController rightBullet, leftBullet;
-            rightBullet = Instantiate(this, transform.position, transform.rotation);
-            leftBullet = Instantiate(this, transform.position, transform.rotation);
-            rightBullet.ProjectileSO = ProjectileSO;
-            leftBullet.ProjectileSO = ProjectileSO;
-            rightBullet.GetComponent<Rigidbody2D>().AddForce(right, ForceMode2D.Impulse);
-            leftBullet.GetComponent<Rigidbody2D>().AddForce(left, ForceMode2D.Impulse);
+            Vector2 right = Quaternion.Euler(0, 0, 30) * facingDirection;
+            Vector2 left = Quaternion.Euler(0, 0, -30) * facingDirection;
+            var bulletTransform = transform;
+            var position = bulletTransform.position;
+            var rotation = bulletTransform.rotation;
+            var rightBullet = Instantiate(this, position, rotation);
+            var leftBullet = Instantiate(this, position, rotation);
+            rightBullet.ProjectileSo = ProjectileSo;
+            leftBullet.ProjectileSo = ProjectileSo;
+            rightBullet.bulletRigidBody.AddForce(right, ForceMode2D.Impulse);
+            leftBullet.bulletRigidBody.AddForce(left, ForceMode2D.Impulse);
             rb.AddForce(facingDirection, ForceMode2D.Impulse);
         }
     }

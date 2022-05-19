@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
@@ -11,6 +10,8 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
     {
         [field: SerializeField]
         public NpcAmountDictionary NpcsBySo { get; set; }
+        [field: SerializeField]
+        public int TotalNpcs { get; set; }
 
         public QuestNpcsParameters()
         {
@@ -38,7 +39,6 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
 
         private void AddNpcs(TalkQuestSO quest)
         {
-            Debug.Log("Quest: " + quest.name + " NPC: "+ quest.Npc);
             if (NpcsBySo.TryGetValue(quest.Npc, out var npcQuestList))
             {
                 npcQuestList.Quests.Add(quest);
@@ -48,6 +48,7 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
                 NpcsBySo.Add(quest.Npc, new QuestList());
                 NpcsBySo[quest.Npc].Quests.Add(quest);
             }
+            TotalNpcs++;
         }
 
         private static bool IsTalkQuest(QuestSO quest)

@@ -1,13 +1,11 @@
 ﻿using System;
-using Game.LevelGenerator;
+using System.Threading.Tasks;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 
 namespace Game.Events
 {
-    public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
+    public delegate Task CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
     public class CreateEADungeonEventArgs : EventArgs
     {
         private Parameters parameters;

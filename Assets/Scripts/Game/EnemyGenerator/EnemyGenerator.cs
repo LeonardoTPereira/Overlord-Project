@@ -108,7 +108,7 @@ namespace Game.EnemyGenerator
                 }
                 g++;
             }
-            pop.Debug();
+            //pop.Debug();
             // Get the final population (solution)
             _solution = pop;
 
@@ -119,7 +119,6 @@ namespace Game.EnemyGenerator
         
         private bool HasReachedStopCriteria(int generation, int totalElitesPerType, float elitesWithAcceptableFitnessPerType)
         {
-            Debug.Log("Enemy Elites: "+totalElitesPerType+", "+"Acceptable Fitness: "+ elitesWithAcceptableFitnessPerType);
             if (totalElitesPerType < _parameters.MinimumElite) return false;
             if (elitesWithAcceptableFitnessPerType >= _parameters.MinimumElite) return true;
             return generation > _parameters.Generations;

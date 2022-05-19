@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Game.Events;
 using Game.LevelGenerator.LevelSOs;
+using Game.LevelManager.DungeonLoader;
 using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -10,7 +10,6 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
-using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {
@@ -23,7 +22,7 @@ namespace Game.GameManager
         private List<QuestLine> _questLineListForProfile;
 
         [SerializeField]
-        private DungeonLoader[] dungeonEntrances;
+        private DungeonSceneLoader[] dungeonEntrances;
 
         private void Awake()
         {
@@ -62,7 +61,7 @@ namespace Game.GameManager
         {
             QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
-            dungeonEntrances = FindObjectsOfType<DungeonLoader>();
+            dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);

@@ -1,14 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using Game.Events;
-using Game.NarrativeGenerator;
 using ScriptableObjects;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using Util;
 using MyBox;
 
 namespace Game.EnemyGenerator
@@ -82,7 +74,6 @@ namespace Game.EnemyGenerator
 
         public List<EnemySO> EvolveEnemies(DifficultyLevels difficultyLevels)
         {
-            Debug.Log("Start creating enemies...");
             difficulty = difficultyLevels;
             var goal = GetDesiredDifficulty();
             var prs = new Parameters(
@@ -126,7 +117,6 @@ namespace Game.EnemyGenerator
                 );
                 enemyList.Add(enemySo);
             }
-            Debug.Log("The enemies were created!");
             return enemyList;
         }
     }

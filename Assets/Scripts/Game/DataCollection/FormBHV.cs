@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Events;
 using UnityEditor;
 using UnityEngine;
@@ -35,12 +34,6 @@ namespace Game.DataCollection
             panelHeight += extraQuestionsPanelHeight;
             questionsPanel.sizeDelta = new Vector2(0.0f, panelHeight);
             submitButton.SetAsLastSibling();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void Submit()

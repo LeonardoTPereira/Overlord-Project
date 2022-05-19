@@ -90,7 +90,7 @@ TextureImporter:
       213: -6906097346292779029
     second: Enemy1_28
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,6 +110,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -119,11 +121,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -141,11 +143,15 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -156,7 +162,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -167,7 +174,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -178,6 +186,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -800,6 +809,36 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Enemy1_1: 2257999382807605110
+      Enemy1_8: 5426278275813782260
+      Enemy1_12: 4742293584964462405
+      Enemy1_4: -4883992831217675976
+      Enemy1_20: -4903066264830054176
+      Enemy1_15: 2891927007865613051
+      Enemy1_22: -7201052777730670244
+      Enemy1_21: 940016632551144219
+      Enemy1_26: -8454806215099675509
+      Enemy1_14: 3714404729091230022
+      Enemy1_18: -8440852577461400854
+      Enemy1_27: 3476003222986824201
+      Enemy1_24: -1837374542677977988
+      Enemy1_10: -1797091070749371620
+      Enemy1_16: -1154737479853987673
+      Enemy1_23: 3785286861413845433
+      Enemy1_0: 5830694933855508796
+      Enemy1_19: -1833893011882939072
+      Enemy1_25: 7073858608158079761
+      Enemy1_17: 1316618420056203668
+      Enemy1_6: -4972751862925979688
+      Enemy1_11: -5036140463473953226
+      Enemy1_9: 815182556315837463
+      Enemy1_13: -2837056959633487973
+      Enemy1_2: 8579933983931842467
+      Enemy1_7: 1768755365162362248
+      Enemy1_3: 1723005811108047852
+      Enemy1_5: -8404099027125124158
+      Enemy1_28: -6906097346292779029
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

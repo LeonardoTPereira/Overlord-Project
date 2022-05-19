@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Game.LevelManager;
-using UnityEngine;
+using Util;
 
 namespace Game.LevelGenerator.LevelSOs
 {
@@ -14,9 +12,9 @@ namespace Game.LevelGenerator.LevelSOs
         public List<int> keys;
         public List<int> locks;
 
-        public int treasures = -1;
-        public int npcs = -1;
-        public int totalEnemies;
+        private int treasures;
+        private int npcs;
+        private int totalEnemies;
 
         public int TotalEnemies
         {
@@ -30,14 +28,12 @@ namespace Game.LevelGenerator.LevelSOs
             type = null;
             keys = null;
             locks = null;
-            treasures = -1;
-            npcs = -1;
+            treasures = 0;
+            npcs = 0;
             totalEnemies = 0;
         }
 
-        [DefaultValue(-1)]
         public int Treasures { get => treasures; set => treasures = value; }
-        [DefaultValue(-1)]
         public int Npcs { get => npcs; set => npcs = value; }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Game.Events;
 using Game.LevelGenerator;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Game.MenuManager;
 using Game.NarrativeGenerator;
 using MyBox;
 using TMPro;
@@ -14,16 +15,14 @@ namespace Game.GameManager
     [RequireComponent(typeof(LevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
-        public static event CreateEADungeonEvent createEADungeonEventHandler;
+        public static event CreateEADungeonEvent CreateEaDungeonEventHandler;
         private string playerProfile;
 
-        protected Dictionary<string, TMP_InputField> inputFields;
+        private Dictionary<string, TMP_InputField> inputFields;
         [SerializeField]
         protected GameObject progressCanvas, inputCanvas;
-        protected TextMeshProUGUI progressTextUI;
-        [SerializeField, Scene]
-        protected string levelToLoad;
-        protected string progressText;
+        [SerializeField] 
+        private SceneReference levelToLoad;
 
         [Separator("Parameters to Create Dungeons")]
         [SerializeField]
@@ -39,20 +38,16 @@ namespace Game.GameManager
 
             if (progressCanvas == null) return;
             progressCanvas.SetActive(true);
-            Debug.LogWarning(progressCanvas.transform.Find("ProgressPanel/ProgressText"));
-            progressTextUI = progressCanvas.transform.Find("ProgressPanel/ProgressText").GetComponent<TextMeshProUGUI>();
             progressCanvas.SetActive(false);
 
         }
 
         public void OnEnable()
         {
-            LevelGeneratorManager.newEAGenerationEventHandler += UpdateProgressBar;
             QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            LevelGeneratorManager.newEAGenerationEventHandler -= UpdateProgressBar;
             QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
         }
 
@@ -71,17 +66,15 @@ namespace Game.GameManager
 
         public void CreateLevelFromInput()
         {
-            int nRooms, nKeys, nLocks, nEnemies;
-            float linearity;
             try
             {
-                nRooms = int.Parse(inputFields["RoomsInputField"].text);
-                nKeys = int.Parse(inputFields["KeysInputField"].text);
-                nLocks = int.Parse(inputFields["LocksInputField"].text);
-                nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
-                linearity = float.Parse(inputFields["LinearityInputField"].text);
+                var nRooms = int.Parse(inputFields["RoomsInputField"].text);
+                var nKeys = int.Parse(inputFields["KeysInputField"].text);
+                var nLocks = int.Parse(inputFields["LocksInputField"].text);
+                var nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
+                var linearity = float.Parse(inputFields["LinearityInputField"].text);
                 parameters.FitnessParameters = new FitnessParameters(nRooms, nKeys, nLocks, nEnemies, linearity);
-                createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parameters));
+                CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parameters));
             }
             catch (KeyNotFoundException)
             {
@@ -91,15 +84,9 @@ namespace Game.GameManager
             progressCanvas.SetActive(true);
         }
 
-        public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)
-        {
-            progressText = eventArgs.CompletionRate.ToString() + "%";
-            UnityMainThreadDispatcher.Instance().Enqueue(() => progressTextUI.text = progressText);
-        }
-
         public void GoToNext()
         {
-            SceneManager.LoadScene(levelToLoad);
+            SceneManager.LoadScene(levelToLoad.SceneName);
         }
 
         public void GoToPrevious()

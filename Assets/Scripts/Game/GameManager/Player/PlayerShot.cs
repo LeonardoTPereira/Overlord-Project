@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Game.Events;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,38 +18,19 @@ namespace Game.GameManager.Player
         protected float shootSpeed, atkSpeed;
         private bool _canShoot;
         private bool _isHoldingShoot;
-        private int _currentProjectile;
-        [SerializeField]
-        protected GameObject bulletSpawn, bulletPrefab;
-        [SerializeField]
-        private ProjectileTypeSO projectileType;
+        [SerializeField] private GameObject bulletSpawn;
+        [SerializeField] private GameObject bulletPrefab;
+        [field: SerializeField] public ProjectileTypeSO projectileType { get; set; }
+        [SerializeField] private ProjectileTypeRuntimeSetSO projectilesAvailable;
         private Rigidbody2D _rigidbody2D;
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsShooting = Animator.StringToHash("IsShooting");
 
-        private void Awake()
-        {
-            _currentProjectile = 0;
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            WeaponLoaderBHV.LoadWeaponButtonEventHandler += SetProjectileSo;
-        }
-        
-        protected override void OnDisable()
-        {
-            base.OnEnable();
-            WeaponLoaderBHV.LoadWeaponButtonEventHandler -= SetProjectileSo;
-        }
-
         protected override void Start()
         {
-            base.Start();         
-            projectileType = GameManagerSingleton.Instance.projectileSet.Items[_currentProjectile];
-            SetProjectileSo(this, new LoadWeaponButtonEventArgs(GameManagerSingleton.Instance.projectileType));
+            base.Start();
+            SetProjectileSo();
             _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         }
 
@@ -98,7 +78,7 @@ namespace Game.GameManager.Player
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             var bulletController = bullet.GetComponent<ProjectileController>();
-            bulletController.ProjectileSO = projectileType;
+            bulletController.ProjectileSo = projectileType;
             bulletController.Shoot(bulletForceAndRotation.Force + _rigidbody2D.velocity.normalized);
         }
 
@@ -162,20 +142,20 @@ namespace Game.GameManager.Player
             _canShoot = false;
         }
         
-        private void SetProjectileSo(object sender, LoadWeaponButtonEventArgs eventArgs)
+        private void SetProjectileSo()
         {
-            projectileType = eventArgs.ProjectileSO;
             bulletPrefab = projectileType.projectilePrefab;
-            bulletPrefab.GetComponent<ProjectileController>().ProjectileSO = projectileType;
+            bulletPrefab.GetComponent<ProjectileController>().ProjectileSo = projectileType;
             atkSpeed = projectileType.atkSpeed;
-            bulletPrefab.GetComponent<SpriteRenderer>().color = eventArgs.ProjectileSO.color;
+            bulletPrefab.GetComponent<SpriteRenderer>().color = projectileType.color;
         }
         
         private void NextProjectileSo()
         {
-            _currentProjectile = (_currentProjectile + 1) % GameManagerSingleton.Instance.projectileSet.Items.Count;
-            projectileType = GameManagerSingleton.Instance.projectileSet.Items[_currentProjectile];
-            SetProjectileSo(this, new LoadWeaponButtonEventArgs(projectileType));
+            var currentIndex = projectilesAvailable.Items.IndexOf(projectileType);
+            var nextIndex = (currentIndex + 1) % projectilesAvailable.Items.Count;
+            projectileType.Copy(projectilesAvailable.Items[nextIndex]);
+            SetProjectileSo();
         }
     }
 }

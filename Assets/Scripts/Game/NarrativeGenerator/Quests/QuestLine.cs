@@ -87,8 +87,6 @@ namespace Game.NarrativeGenerator.Quests
             CreateAssetsForDungeons(newDirectory);
             CreateAssetsForEnemies(newDirectory);
             const string extension = ".asset";
-            Debug.Log("Quest Size: " + graph.Count);
-
             var fileName = newDirectory+ Constants.SEPARATOR_CHARACTER +"Narrative_" + graph[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);

@@ -25,8 +25,11 @@ namespace Game.LevelGenerator
             List<int> keys = new List<int>();
 
             
-            DungeonFileSo dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
-
+            var dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
+            dungeonFileSO.BiomeName = _individual.BiomeName;
+            dungeonFileSO.TotalEnemies = _questLine.EnemyParametersForQuestLine.NEnemies;
+            dungeonFileSO.TotalTreasures = _questLine.ItemParametersForQuestLine.TotalItemValue;
+            dungeonFileSO.TotalNpcs = _questLine.NpcParametersForQuestLine.TotalNpcs;
             //saves where the dungeon grid begins and ends in each direction
             foreach (Room room in dun.Rooms)
             {
@@ -51,6 +54,8 @@ namespace Game.LevelGenerator
             //The top of the dungeon's file in unity must contain its dimensions
             dungeonFileSO.DungeonSizes = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
             dungeonFileSO.FitnessFromEa = _individual.Fitness;
+            dungeonFileSO.ExplorationCoefficient = _individual.exploration;
+            dungeonFileSO.LeniencyCoefficient = _individual.leniency;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.DungeonDimensions.Width; ++i)
             {
@@ -140,8 +145,8 @@ namespace Game.LevelGenerator
             else if (roomType == Common.RoomType.TREASURE)
             {
                 roomDataInFile.type = Constants.RoomTypeString.TREASURE;
-                roomDataInFile.treasures = 1;
-                roomDataInFile.npcs = 1;
+                roomDataInFile.Treasures = 1;
+                roomDataInFile.Npcs = 1;
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If the room has a positive value, it holds a key.

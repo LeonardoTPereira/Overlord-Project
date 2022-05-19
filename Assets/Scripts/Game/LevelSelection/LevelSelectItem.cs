@@ -1,49 +1,37 @@
-﻿using System;
-using Game.Events;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Game.LevelSelection
 {
     public class LevelSelectItem : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         public string LevelId { get; set; }
-        [field:SerializeField] public QuestLine Quests { get; set; }
-        [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
+
+        [field: SerializeField] public LevelData Level { get; set; }
 
         [SerializeField] private LevelDescription levelDescription;
+        [SerializeField] private Image portrait;
 
-        private bool isSelected;
-        
-        public static event LevelLoadEvent LoadLevelEventHandler;
+        public bool IsSelected { get; private set; }
 
         private void Start()
         {
-            isSelected = false;
+            IsSelected = false;
+            if (!Level.HasCompleted()) return;
+            GetComponent<Selectable>().interactable = false;
+            portrait.color = Color.gray;
         }
 
-        public void ConfirmStageSelection(InputAction.CallbackContext context)
-        {
-            if(!isSelected) return;
-            Debug.Log("Confirmed Level!");
-            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(Dungeon, Quests, false));
-            SceneManager.LoadScene("LevelWithEnemies");
-        }
         public void OnSelect(BaseEventData eventData)
         {
-            Debug.Log("Selected Level!");
-            isSelected = true;
-            levelDescription.CreateDescriptions(Dungeon, Quests);
+            IsSelected = true;
+            levelDescription.CreateDescriptions(Level);
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
-            Debug.Log("Deselected Level!");
-            isSelected = false;
+            IsSelected = false;
         }
     }
 }

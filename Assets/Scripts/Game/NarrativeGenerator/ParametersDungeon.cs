@@ -1,5 +1,4 @@
-﻿using Game.NarrativeGenerator.Quests;
-using UnityEngine;
+﻿using UnityEngine;
 using Util;
 using static Util.Enums;
 

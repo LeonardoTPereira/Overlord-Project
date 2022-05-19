@@ -1,5 +1,4 @@
-﻿using System;
-using Game.LevelGenerator.LevelSOs;
+﻿using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
 using TMPro;
 using UnityEngine;
@@ -16,10 +15,10 @@ namespace Game.LevelSelection
 
         private bool _isShowingDungeon;
 
-        public void CreateDescriptions(DungeonFileSo dungeon, QuestLine quests)
+        public void CreateDescriptions(LevelData levelData)
         {
-            CreateDungeonDescription(dungeon);
-            CreateQuestDescription(quests);
+            CreateDungeonDescription(levelData.Dungeon);
+            CreateQuestDescription(levelData.Quests);
             _isShowingDungeon = false;
             ChangeDescription();
         }
@@ -28,7 +27,9 @@ namespace Game.LevelSelection
         {
             DungeonDescription = "";
             DungeonDescription += "Rooms: " + dungeon.Rooms.Count;
-            DungeonDescription += "\nFitness: " + dungeon.FitnessFromEa;
+            DungeonDescription += "\nFitness: " + dungeon.FitnessFromEa.Result;
+            DungeonDescription += "\nExploration: " + dungeon.ExplorationCoefficient;
+            DungeonDescription += "\nLeniency: " + dungeon.LeniencyCoefficient;
         }
         
         private void CreateQuestDescription(QuestLine quests)
@@ -46,7 +47,6 @@ namespace Game.LevelSelection
         private void ChangeDescription()
         {
             _isShowingDungeon = !_isShowingDungeon;
-            Debug.Log("Change Description!");
             DisplayedText.text = _isShowingDungeon ? DungeonDescription : QuestDescription;
         }
     }

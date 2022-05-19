@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Events;
-using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using UnityEngine;
 
 namespace Game.GameManager.Player
@@ -21,7 +22,6 @@ namespace Game.GameManager.Player
         public Camera minimap;
         private AudioSource[] audioSrcs;
         private PlayerController playerController;
-        public static event EnterRoomEvent EnterRoomEventHandler;
         public static event ExitRoomEvent ExitRoomEventHandler;
 
         public void Awake()
@@ -43,32 +43,26 @@ namespace Game.GameManager.Player
 
         public void OnEnable()
         {
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetValues;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetValues;
             RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler += GetKey;
-            GameManagerSingleton.EnterRoomEventHandler += GetHealth;
-            GameManagerSingleton.EnterRoomEventHandler += AdjustCamera;
-            RoomBhv.EnterRoomEventHandler += GetHealth;
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
-            EnemyController.playerHitEventHandler += HurtPlayer;
-            ProjectileController.playerHitEventHandler += HurtPlayer;
+            EnemyController.PlayerHitEventHandler += HurtPlayer;
+            ProjectileController.PlayerHitEventHandler += HurtPlayer;
             BombController.PlayerHitEventHandler += HurtPlayer;
             PlayerController.PlayerDeathEventHandler += KillPlayer;
         }
 
         public void OnDisable()
         {
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetValues;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetValues;
             RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler -= GetKey;
-            GameManagerSingleton.EnterRoomEventHandler -= GetHealth;
-            GameManagerSingleton.EnterRoomEventHandler -= AdjustCamera;
-            RoomBhv.EnterRoomEventHandler -= GetHealth;
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;
-            EnemyController.playerHitEventHandler -= HurtPlayer;
-            ProjectileController.playerHitEventHandler -= HurtPlayer;
+            EnemyController.PlayerHitEventHandler -= HurtPlayer;
+            ProjectileController.PlayerHitEventHandler -= HurtPlayer;
             BombController.PlayerHitEventHandler -= HurtPlayer;
             PlayerController.PlayerDeathEventHandler -= KillPlayer;
         }
@@ -81,9 +75,9 @@ namespace Game.GameManager.Player
 
         public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
-            var roomWidth = eventArgs.RoomDimensions.Width;
-            var cameraXPosition = eventArgs.RoomPosition.x + roomWidth / 3.5f;
-            var cameraYPosition = eventArgs.RoomPosition.y;
+            var roomWidth = eventArgs.RoomData.RoomDimensions.Width;
+            var cameraXPosition = eventArgs.PositionInScene.x + roomWidth / 3.5f;
+            var cameraYPosition = eventArgs.PositionInScene.y;
             var cameraZPosition = -5f;
             cam.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
             //minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
@@ -106,12 +100,6 @@ namespace Game.GameManager.Player
             keys.Clear();
             usedKeys.Clear();
             playerController.ResetHealth();
-        }
-        private void GetHealth(object sender, EnterRoomEventArgs eventArgs)
-        {
-            int health = playerController.GetHealth();
-            eventArgs.PlayerHealthWhenEntering = health;
-            EnterRoomEventHandler(this, eventArgs);
         }
 
         private void HurtPlayer(object sender, EventArgs eventArgs)

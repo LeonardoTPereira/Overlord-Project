@@ -14,11 +14,13 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         public ItemsAmount ItemsByType { get; set; }
         [field: SerializeField]
         public int TotalItems { get; set; }
+        public int TotalItemValue { get; set; }
 
         public QuestItemsParameters()
         {
             ItemsByType = new ItemsAmount();
             TotalItems = 0;
+            TotalItemValue = 0;
         }
 
         public void CalculateItemsFromQuests(QuestLine quests)
@@ -50,6 +52,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         {
             int newItems = itemData.Value;
             TotalItems += newItems;
+            TotalItemValue += itemData.Key.Value;
             if (ItemsByType.ItemAmountBySo.TryGetValue(itemData.Key, out var enemiesForItem))
             {
                 ItemsByType.ItemAmountBySo[itemData.Key] = enemiesForItem + newItems;

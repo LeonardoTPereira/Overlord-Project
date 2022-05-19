@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using MyBox;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals

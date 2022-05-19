@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -20,6 +20,10 @@ namespace Game.LevelGenerator.LevelSOs
         [field: SerializeField] public Fitness FitnessFromEa { get; set; }
         public float ExplorationCoefficient { get; set; }
         public float LeniencyCoefficient { get; set; }
+        public string BiomeName { get; set; }
+        public int TotalEnemies { get; set; }
+        public int TotalTreasures { get; set; }
+        public int TotalNpcs { get; set; }
 
         private int _currentIndex = 0;
 
@@ -35,7 +39,7 @@ namespace Game.LevelGenerator.LevelSOs
             return null;
         }
 
-        public void Init(Dimensions dimensions, List<SORoom> rooms, Fitness fitness, float exploration, float leniency)
+        public void Init(Dimensions dimensions, List<SORoom> rooms, Fitness fitness, float exploration, float leniency, string biome)
         {
             DungeonSizes = dimensions;
             Rooms = rooms;

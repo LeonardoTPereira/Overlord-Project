@@ -1,12 +1,8 @@
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
-using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
-    /// Alias for the coordinate of MAP-Elites matrix.
-    using Coordinate = System.ValueTuple<int, int>;
-
     /// This class holds the selector operator.
     public static class Selection
     {
@@ -22,17 +18,26 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// population. Instead of selecting directly an individual, we select
         /// its coordinate from the auxiliary list and remove it then it is not
         /// available for the next selection.
-        public static Individual[] Select(int amount, int competitors, Population population) {
-            List<Coordinate> availableCompetitors = population.GetElitesCoordinates();
-            Debug.Assert(availableCompetitors.Count - amount > competitors, NOT_ENOUGH_COMPETITORS);
-            Individual[] individuals = new Individual[amount];
-            for (int i = 0; i < amount; i++)
+        public static Individual[] SelectParents(in int parentsNeeded, in int competitorsAmount, in Population population) 
+        {
+            Debug.Assert(population.TotalElites < competitorsAmount, NOT_ENOUGH_COMPETITORS);
+            var parents = new Individual[parentsNeeded];
+            for (var i = 0; i < parentsNeeded; ++i)
             {
-                (Coordinate coordinate, Individual individual) = Tournament(competitors, population, new List<Coordinate> (availableCompetitors));
-                individuals[i] = individual;
-                availableCompetitors.Remove(coordinate);
+                var competitors = new Individual[competitorsAmount];
+                var selectedCount = 0;
+                do
+                {
+                    Individual selected;
+                    do
+                    {
+                        selected = population.GetRandomIndividualFromList();
+                    } while (Array.IndexOf(competitors, selected) != -1);
+                    competitors[selectedCount++] = selected;
+                } while (selectedCount < competitorsAmount);
+                parents[i] = Tournament(competitors).Clone();
             }
-            return individuals;
+            return parents;
         }
 
         /// Perform tournament selection of a single individual.
@@ -40,25 +45,16 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// This function ensures that the same individual will not be selected
         /// for the same tournament selection process. To do so, we apply the
         /// same process explained in `Select` function.
-        private static (Coordinate, Individual) Tournament(int totalCompetitors, Population population, List<Coordinate> availableCompetitors) {
-            Individual[] competitors = new Individual[totalCompetitors];
-            Coordinate[] coordinates = new Coordinate[totalCompetitors];
-            for (int i = 0; i < totalCompetitors; i++)
-            {
-                Coordinate selectedCoordinate = RandomSingleton.GetInstance().RandomElementFromList(availableCompetitors);
-                competitors[i] = population.map[selectedCoordinate.Item1, selectedCoordinate.Item2];
-                coordinates[i] = selectedCoordinate;
-                availableCompetitors.Remove(selectedCoordinate);
-            }
+        private static Individual Tournament(in Individual[] competitors)
+        {
+            var totalCompetitors = competitors.Length;
             Individual winner = null;
-            Coordinate coordinate = (Common.UNKNOWN, Common.UNKNOWN);
             for (int i = 0; i < totalCompetitors; i++)
             {
-                if (winner != null && competitors[i].Fitness.result <= winner.Fitness.result) continue;
+                if (winner?.IsBetterThan(competitors[i])??false) continue;
                 winner = competitors[i];
-                coordinate = coordinates[i];
             }
-            return (coordinate, winner);
+            return winner;
         }
     }
 }
