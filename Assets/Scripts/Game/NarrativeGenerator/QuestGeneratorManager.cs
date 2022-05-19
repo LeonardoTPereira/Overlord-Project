@@ -94,7 +94,6 @@ namespace Game.NarrativeGenerator
             else
             {
                 ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-
             }
         }
 

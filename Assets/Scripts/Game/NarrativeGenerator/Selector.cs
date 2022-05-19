@@ -52,7 +52,8 @@ namespace Game.NarrativeGenerator
                 CreativityPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()],
                 ImmersionPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()]
             };
-            
+
+            CalculateStartSymbolWeights ( playerProfile );
             string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
@@ -61,6 +62,13 @@ namespace Game.NarrativeGenerator
         {
             var questsSos = new List<QuestSO>();
             MarkovChain questChain = new MarkovChain();
+            questChain.GetLastSymbol().SetDictionary( startSymbolWeights );
+
+            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in startSymbolWeights )
+            {
+                Debug.Log(nextSymbolChance.Key+" has chance of "+nextSymbolChance.Value( 0 ));
+            }
+
             var chainCost = 0;
             int i =0;
             do
@@ -68,8 +76,10 @@ namespace Game.NarrativeGenerator
                 i = 0;
                 while ( questChain.GetLastSymbol().canDrawNext && i < 10 )
                 {
-                    // Dictionary<string, Func<int,int>> symbolWeights = GetSymbolWeights( questChain );
-                    questChain.GetLastSymbol().SetNextSymbol( questChain );//, symbolWeights );
+                    Debug.Log( questChain.GetLastSymbol() );
+                    
+                    questChain.GetLastSymbol().SetNextSymbol( questChain );
+                    Debug.Log( questChain.GetLastSymbol() );
                     SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     i++;
                     break;
@@ -108,40 +118,9 @@ namespace Game.NarrativeGenerator
             }
         }
 
-        private Dictionary<string, Func<int,int>> GetSymbolWeights ( MarkovChain questChain )
-        {
-            Dictionary<string, Func<int,int>> symbolWeights = startSymbolWeights;
-            switch ( questChain.GetLastSymbol().symbolType )
-            {
-                case Constants.KILL_QUEST:
-                    symbolWeights = questWeightsManager.killSymbolWeights;
-                    break;
-                case Constants.TALK_QUEST:
-                    symbolWeights = questWeightsManager.talkSymbolWeights;
-                    break;
-                case Constants.GET_QUEST:
-                    symbolWeights = questWeightsManager.getSymbolWeights;
-                    break;
-                case Constants.EXPLORE_QUEST:
-                    symbolWeights = questWeightsManager.exploreSymbolWeights;
-                    break;
-                default:
-                    Debug.LogWarning("Symbol type not found!");
-                break;
-            }
-            Debug.Log("new weight!!");
-            foreach ( KeyValuePair<string,Func<int,int>> weight in symbolWeights )
-            {
-                Debug.Log($"weight of {weight.Key} isn't null!");
-            }
-            return symbolWeights;
-        }
-
         private void CalculateProfileWeights(List<int> answers)
         {
             int[] weights = CalculateStartSymbolWeights( answers );
-
-           questWeightsManager.CalculateTerminalSymbolsWeights(); // TODO: remove from here and put it in each quest -lu
 
             if ( weights[0] != 0 ) startSymbolWeights.Add( Constants.TALK_QUEST, x => weights[0] );
             if ( weights[1] != 0 ) startSymbolWeights.Add( Constants.GET_QUEST, x => weights[1] );
@@ -154,7 +133,7 @@ namespace Game.NarrativeGenerator
             questWeightsbyType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), weights[3]);
         }
 
-        private int[] CalculateStartSymbolWeights (List<int> answers)
+        private int[] CalculateStartSymbolWeights ( List<int> answers )
         {
             int totalQuestionsWeight = questWeightsManager.CalculateTotalQuestionsWeight ( answers );
 
@@ -165,6 +144,19 @@ namespace Game.NarrativeGenerator
 
             int [] startSymbolWeights = {talkWeight, getWeight, killWeight, exploreWeight};
             return startSymbolWeights;
+        }
+
+        private void CalculateStartSymbolWeights ( PlayerProfile playerProfile )
+        {
+            int talkWeight = (int)(100*playerProfile.CreativityPreference)/16;
+            int getWeight = (int)(100*playerProfile.AchievementPreference)/16;
+            int killWeight = (int)(100*playerProfile.MasteryPreference)/16;
+            int exploreWeight = (int)(100*playerProfile.ImmersionPreference)/16;
+
+            if ( talkWeight != 0 ) startSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
+            if ( getWeight != 0 ) startSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );
+            if ( killWeight != 0 ) startSymbolWeights.Add( Constants.KILL_QUEST, x => killWeight ); 
+            if ( exploreWeight != 0 ) startSymbolWeights.Add( Constants.EXPLORE_QUEST, x => exploreWeight );
         }
     }
 }

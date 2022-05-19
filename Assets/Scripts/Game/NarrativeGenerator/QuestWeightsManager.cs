@@ -16,11 +16,13 @@ namespace Game.NarrativeGenerator
         public int CalculateTotalQuestionsWeight (List<int> answers)
         {
             int totalQuestionsWeight = 0;
-            for (var i = 2; i < 12; i++)
+            int firstQuestionIndex = 2;
+            int lastQuestionIndex = 12;
+            for ( var i = firstQuestionIndex; i < lastQuestionIndex; i++ )
             {
-                if ( i < 11 )
+                if ( i < lastQuestionIndex - 1 )
                 {
-                    if ( i == 2 )
+                    if ( i == firstQuestionIndex )
                     {
                         totalQuestionsWeight += answers[i] -3;
                     }
@@ -35,10 +37,6 @@ namespace Game.NarrativeGenerator
                 }
             }
             return totalQuestionsWeight;
-        }
-
-        public void CalculateTerminalSymbolsWeights ()
-        {           
         }
         
         public int GetTalkQuestWeight ( List<int> answers, int totalQuestionsWeight )

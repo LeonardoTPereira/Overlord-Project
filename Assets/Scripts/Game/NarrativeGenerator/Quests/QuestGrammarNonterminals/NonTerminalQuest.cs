@@ -11,13 +11,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         public virtual string symbolType {get; set;}
         public virtual Dictionary<string, Func<int,int>> nextSymbolChances
         {
-            get {
-                Dictionary<string, Func<int, int>> aux = new Dictionary<string, Func<int, int>>();
-                aux.Add( Constants.KILL_TERMINAL, x => (int)Mathf.Clamp( 1/(x*0.25f), 0, 100) );
-                aux.Add( Constants.EMPTY_TERMINAL, x => (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100));
-                return aux;
-            } 
-            set {}
+            get;
+            set;
         }
 
         public virtual bool canDrawNext
@@ -29,12 +24,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 
         public void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances  )
         {
-            // nextSymbolChances = _nextSymbolChances;
+            nextSymbolChances = _nextSymbolChances;
         }
 
-        public void SetNextSymbol( MarkovChain chain )//, Dictionary<string, Func<int,int>> _nextSymbolChances)
+        public void SetNextSymbol( MarkovChain chain )
         {
-            // SetDictionary( _nextSymbolChances );
             int chance = (int) UnityEngine.Random.Range( 0, 100 );
             int cumulativeProbability = 0;
             foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
@@ -44,6 +38,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
                 if ( cumulativeProbability >= chance )
                 {
                     string nextSymbol = nextSymbolChance.Key;
+                    Debug.Log("CHOSEN SYMBOL: "+nextSymbol);
                     chain.SetSymbol( nextSymbol );
                     break;
                 }
