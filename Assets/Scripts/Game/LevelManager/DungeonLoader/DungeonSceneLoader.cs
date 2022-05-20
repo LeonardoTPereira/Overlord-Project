@@ -22,7 +22,6 @@ namespace Game.LevelManager.DungeonLoader
         [SerializeField] 
         private SceneReference dungeonScene;
     
-        public static event LevelLoadEvent LoadLevelEventHandler;
 
         private void Start()
         {
@@ -40,7 +39,7 @@ namespace Game.LevelManager.DungeonLoader
         /// Load the level from the given filename.
         private void LoadLevel()
         {
-            LoadLevelEventHandler?.Invoke(this, new LevelLoadEventArgs(SelectedDungeon, LevelQuestLine, IsLastQuestLine));
+            //TODO fix this to use the dungeon item SO from Level Selector and apply the data to it
             SceneManager.LoadScene(dungeonScene.SceneName);
         }
 
