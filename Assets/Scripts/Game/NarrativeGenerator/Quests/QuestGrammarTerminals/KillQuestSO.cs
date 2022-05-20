@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
+using System;
+using Util;
+using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -8,6 +11,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public EnemiesByType  EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
+
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        {
+            get {
+                Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
+                killSymbolWeights.Add( Constants.KILL_TERMINAL, Constants.OneOptionQuestLineWeight );
+                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                return killSymbolWeights;
+            } 
+        }
+        public override string symbolType {
+            get { return Constants.KILL_TERMINAL; }
+        }
         
         public override void Init()
         {

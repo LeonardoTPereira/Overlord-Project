@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using Game.NPCs;
 using ScriptableObjects;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class SecretRoomQuestSO : QuestSO
     {
+        public override string symbolType {
+            get { return Constants.SECRET_TERMINAL; }
+        }
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         private Dictionary<ItemSo, int> ItemsToCollectByType { get; set; }
         private NpcSo Npc { get; set; }

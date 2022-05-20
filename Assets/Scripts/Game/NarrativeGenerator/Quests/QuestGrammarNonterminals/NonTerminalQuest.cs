@@ -1,35 +1,46 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Util;
+using Game.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
-    public abstract class NonTerminalQuest
+    public abstract class NonTerminalQuest : Symbol
     {
-        protected float r;
-        protected int lim;
-        protected float maxQuestChance;
-        protected readonly Dictionary<string, int> QuestWeightsByType;
-        private const int QuestLimit = 2;
-
-        protected NonTerminalQuest(int lim, Dictionary<string, int> questWeightsByType)
+        public virtual string symbolType {get; set;}
+        public virtual Dictionary<string, Func<int,int>> nextSymbolChances
         {
-            this.QuestWeightsByType = questWeightsByType;
-            this.lim = lim;
+            get;
+            set;
         }
 
-        protected void DrawQuestType()
+        public virtual bool canDrawNext
         {
-            r = ((QuestWeightsByType[Constants.TALK_QUEST] +
-                  QuestWeightsByType[Constants.GET_QUEST] * 2 +
-                  QuestWeightsByType[Constants.KILL_QUEST] * 3 +
-                  QuestWeightsByType[Constants.EXPLORE_QUEST] * 4) / 16.0f) *
-                Random.Range(0f, 3f);
-            if (lim == QuestLimit)
+            get { return true; } 
+            set {} 
+        }
+        private bool _canDrawNext;
+
+        public void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances  )
+        {
+            nextSymbolChances = _nextSymbolChances;
+        }
+
+        public void SetNextSymbol( MarkovChain chain )
+        {
+            int chance = (int) UnityEngine.Random.Range( 0, 100 );
+            int cumulativeProbability = 0;
+            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
             {
-                r = maxQuestChance;
+                cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
+                if ( cumulativeProbability >= chance )
+                {
+                    string nextSymbol = nextSymbolChance.Key;
+                    chain.SetSymbol( nextSymbol );
+                    break;
+                }
             }
-            lim++;
         }
     }
 }
