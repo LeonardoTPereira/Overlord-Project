@@ -20,7 +20,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
                 return killSymbolWeights;
             } 
-            set {}
+        }
+        public override string symbolType {
+            get { return Constants.KILL_TERMINAL; }
         }
         
         public override void Init()

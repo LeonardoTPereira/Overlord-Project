@@ -20,14 +20,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
                 getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
                 return getSymbolWeights;
             } 
-            set {}
         }
-        public void DefineQuestSO ( ref List<QuestSO> questSos )
+        public override string symbolType {
+            get { return Constants.EXPLORE_QUEST; }
+        }
+        public void DefineQuestSO ( List<QuestSO> questSos )
         {
-            Explore.CreateAndSaveSecretRoomQuestSo( ref questSos );
+            Explore.CreateAndSaveSecretRoomQuestSo( questSos );
         }
 
-        public static void CreateAndSaveSecretRoomQuestSo( ref List<QuestSO> questSos)
+        public static void CreateAndSaveSecretRoomQuestSo( List<QuestSO> questSos)
         {
             var secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
             secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[questSos.Count-1] : null);

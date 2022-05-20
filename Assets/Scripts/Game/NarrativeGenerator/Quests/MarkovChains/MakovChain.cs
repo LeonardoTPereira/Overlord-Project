@@ -29,7 +29,6 @@ namespace Game.NarrativeGenerator.Quests
         /// </summary>
         public void SetSymbol ( string _symbol )
         {
-            Debug.Log("SETTING SYMBOL: "+_symbol);
             symbolNumber++;
             switch ( _symbol )
             {

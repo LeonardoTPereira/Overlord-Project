@@ -62,16 +62,14 @@ namespace Game.NarrativeGenerator
         {
             var questsSos = new List<QuestSO>();
             MarkovChain questChain = new MarkovChain();
-            questChain.GetLastSymbol().SetDictionary( startSymbolWeights );
-
             var chainCost = 0;
             do
             {
+                questChain.GetLastSymbol().SetDictionary( startSymbolWeights );
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
-                    // Debug.Log( questChain.GetLastSymbol() );
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
-                    SaveCurrentQuest( questChain, ref questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                 }
                 chainCost += (int)Enums.QuestWeights.Hated*2;
             } while (chainCost < (int)Enums.QuestWeights.Loved );
@@ -80,35 +78,35 @@ namespace Game.NarrativeGenerator
             {
                 Debug.Log(quest.symbolType);
             }
-            return questsSos; //TODO: questSos seem to be null 
+            return questsSos;
         }
 
-        private void SaveCurrentQuest ( MarkovChain questChain, ref List<QuestSO> questSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
+        private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
         {
             switch ( questChain.GetLastSymbol().symbolType )
             {
                 case Constants.TALK_QUEST:
                 case Constants.TALK_TERMINAL:
                     var t = new Talk();
-                    t.DefineQuestSO( ref questSos, possibleNpcs );
+                    t.DefineQuestSO( questSos, possibleNpcs );
                     break;
                 case Constants.GET_QUEST:
                 case Constants.GET_TERMINAL:
                 case Constants.ITEM_TERMINAL:
                 case Constants.DROP_TERMINAL:
                     var g = new Get();
-                    g.DefineQuestSO( questChain, ref questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                    g.DefineQuestSO( questChain, questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes);
                     break;
                 case Constants.KILL_QUEST:
                 case Constants.KILL_TERMINAL:
                     var k = new Kill();
-                    k.DefineQuestSO( ref questSos, possibleEnemyTypes );
+                    k.DefineQuestSO( questSos, possibleEnemyTypes );
                     break;
                 case Constants.EXPLORE_QUEST:
                 case Constants.EXPLORE_TERMINAL:
                 case Constants.SECRET_TERMINAL:
                     var e = new Explore();
-                    e.DefineQuestSO( ref questSos );
+                    e.DefineQuestSO( questSos );
                     break;
             }
         }

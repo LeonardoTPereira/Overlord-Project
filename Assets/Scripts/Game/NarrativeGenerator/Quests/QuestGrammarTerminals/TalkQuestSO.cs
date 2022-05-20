@@ -20,7 +20,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 talkQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
                 return talkQuestWeights;
             } 
-            set {}
         }
 
         public override void Init()

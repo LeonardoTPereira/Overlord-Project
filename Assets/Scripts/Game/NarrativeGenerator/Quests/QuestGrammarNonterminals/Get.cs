@@ -20,22 +20,25 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
                 getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight);
                 return getSymbolWeights;
             } 
-            set {}
         }
-        public void DefineQuestSO ( MarkovChain chain, ref List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override string symbolType {
+            get { return Constants.GET_QUEST; }
+        }
+
+        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {
                 case Constants.GET_TERMINAL:
-                    CreateAndSaveGetQuestSo(ref questSos, possibleItems);
+                    CreateAndSaveGetQuestSo(questSos, possibleItems);
                 break;
                 case Constants.DROP_TERMINAL:
-                    CreateAndSaveDropQuestSo(ref questSos, possibleItems, enemyTypes);
+                    CreateAndSaveDropQuestSo(questSos, possibleItems, enemyTypes);
                 break;
             }
         }
 
-        private static void CreateAndSaveGetQuestSo(ref List<QuestSO> questSos,
+        private static void CreateAndSaveGetQuestSo(List<QuestSO> questSos,
             TreasureRuntimeSetSO possibleItems)
         {
             var getItemQuest = ScriptableObject.CreateInstance<ItemQuestSo>();
@@ -49,7 +52,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 
         }
 
-        private static void CreateAndSaveDropQuestSo(ref List<QuestSO> questSos,
+        private static void CreateAndSaveDropQuestSo(List<QuestSO> questSos,
             TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var dropQuest = ScriptableObject.CreateInstance<DropQuestSo>();

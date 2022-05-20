@@ -6,6 +6,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class SecretRoomQuestSO : QuestSO
     {
+        public override string symbolType {
+            get { return Constants.SECRET_TERMINAL; }
+        }
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         private Dictionary<ItemSo, int> ItemsToCollectByType { get; set; }
         private NpcSO Npc { get; set; }

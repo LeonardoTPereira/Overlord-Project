@@ -29,7 +29,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
                 return getSymbolWeights;
             } 
-            set {}
+        }
+        public override string symbolType {
+            get { return Constants.DROP_TERMINAL; }
         }
 
         public override void Init()

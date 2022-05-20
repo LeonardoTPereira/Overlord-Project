@@ -20,12 +20,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             } 
             set {}
         }
-        public void DefineQuestSO ( ref List<QuestSO> questSos, List<NpcSO> possibleNpcs )
-        {
-            CreateAndSaveTalkQuestSo(ref questSos, possibleNpcs);
+        public override string symbolType {
+            get { return Constants.TALK_QUEST; }
         }
 
-        public static void CreateAndSaveTalkQuestSo(ref List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSO> possibleNpcs )
+        {
+            CreateAndSaveTalkQuestSo(questSos, possibleNpcs);
+        }
+
+        public static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
         {
             var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
             var selectedNpc = possibleNpcSos.GetRandom();

@@ -20,13 +20,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
                 killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
                 return killSymbolWeights;
             } 
-            set {}
         }
-        public void DefineQuestSO ( ref List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
+        public override string symbolType {
+            get { return Constants.KILL_QUEST; }
+        }
+        public void DefineQuestSO ( List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
         {
-            CreateAndSaveKillQuestSo( ref questSos, enemyTypes );
+            CreateAndSaveKillQuestSo( questSos, enemyTypes );
         }
-        private static void CreateAndSaveKillQuestSo(ref List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
             var selectedEnemyTypes = new EnemiesByType ();
