@@ -3,34 +3,30 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using MyBox;
 using UnityEngine;
+using System;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Talk : NonTerminalQuest
     {
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        {
+            get {
+                Dictionary<string, Func<int, int>> talkQuestWeights = new Dictionary<string, Func<int, int>>();
+                talkQuestWeights.Add( Constants.TALK_TERMINAL, Constants.OneOptionQuestLineWeight );
+                talkQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                return talkQuestWeights;
+            } 
+            set {}
+        }
+        public override string symbolType {
+            get { return Constants.TALK_QUEST; }
+        }
 
-        public Talk(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
+        public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSO> possibleNpcs )
         {
-            maxQuestChance = 2.4f;
-        }
-    
-        public void Option(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
-        {
-            DrawQuestType();
-            DefineNextQuest(questSos, possibleNpcSos);
-        }
-    
-        private void DefineNextQuest(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
-        {
-            if (r > 2.7)
-            {
-                CreateAndSaveTalkQuestSo(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos);
-            }
-            else
-            {
-                CreateAndSaveTalkQuestSo(questSos, possibleNpcSos);
-            }
+            CreateAndSaveTalkQuestSo(questSos, possibleNpcs);
         }
 
         private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)

@@ -79,6 +79,8 @@ namespace Game.NarrativeGenerator.Quests
 
         public void SaveAsset(string directory)
         {
+            if ( graph[0].symbolType == "empty" )
+                return;
 #if UNITY_EDITOR
             var newDirectory = Constants.SEPARATOR_CHARACTER + "QuestLine";
             var guid = AssetDatabase.CreateFolder(directory, newDirectory);

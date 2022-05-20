@@ -4,6 +4,7 @@ using System.Linq;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -14,6 +15,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         //TODO change this. This is confusing and is not accessed as intended.
         public Dictionary<ItemSo, EnemiesByType > ItemData { get; set; }
         public Dictionary<ItemSo, Dictionary<float, int>> ItemDataByEnemyFitness { get; set; }
+
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        {
+            get
+            {
+                Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
+                Debug.Log( Constants.ThreeOptionQuestLineWeight(1) );
+                Debug.Log( Constants.ThreeOptionQuestEmptyWeight(1) );
+                getSymbolWeights.Add( Constants.ITEM_TERMINAL, Constants.ThreeOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.DROP_TERMINAL, Constants.ThreeOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.GET_TERMINAL, Constants.ThreeOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
+                return getSymbolWeights;
+            } 
+        }
+        public override string symbolType {
+            get { return Constants.DROP_TERMINAL; }
+        }
 
         public override void Init()
         {

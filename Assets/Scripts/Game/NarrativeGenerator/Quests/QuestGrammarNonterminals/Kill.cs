@@ -7,38 +7,28 @@ using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using System;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Kill : NonTerminalQuest
     {
-        public Kill(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
-            maxQuestChance = 2.5f;
+            get {
+                Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
+                killSymbolWeights.Add( Constants.KILL_TERMINAL, Constants.OneOptionQuestLineWeight );
+                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                return killSymbolWeights;
+            } 
         }
-
-        public void Option(List<QuestSO> questSos, List<NpcSo> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
+        public override string symbolType {
+            get { return Constants.KILL_QUEST; }
+        }
+        public void DefineQuestSO ( List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
         {
-            DrawQuestType();
-            DefineNextQuest(questSos, possibleNpcSos, enemyTypes);
+            CreateAndSaveKillQuestSo( questSos, enemyTypes );
         }
-    
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSo> possibleNpcSos, WeaponTypeRuntimeSetSO enemyTypes)
-        {
-
-            if (r <= 2.3)
-            {
-                CreateAndSaveKillQuestSo(questSos, enemyTypes);
-                Talk t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos, enemyTypes);
-            }
-            else
-            {
-                CreateAndSaveKillQuestSo(questSos, enemyTypes);
-            }
-        }
-
         private static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();

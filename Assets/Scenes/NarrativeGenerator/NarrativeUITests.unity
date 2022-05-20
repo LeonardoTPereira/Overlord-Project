@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 456454242}
   - component: {fileID: 456454241}
   - component: {fileID: 456454240}
+  - component: {fileID: 456454243}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -272,6 +273,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &456454243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456454239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &564878429
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1475,8 @@ GameObject:
   - component: {fileID: 1753069074}
   - component: {fileID: 1753069073}
   - component: {fileID: 1753069075}
+  - component: {fileID: 1753069077}
+  - component: {fileID: 1753069076}
   m_Layer: 0
   m_Name: QuestGenerator
   m_TagString: Untagged
@@ -1461,10 +1496,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70525adb7a52ee0439c81de57524ccd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerProfileToQuestLinesDictionarySo: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+    type: 2}
+  _questLines: {fileID: 11400000, guid: e4288343c2df42945936b99b358513a7, type: 2}
   createNarrative: 1
   isFinished: 0
-  preTestQuestionnaire: {fileID: 0}
-  ui: {fileID: 1753069075}
+  preTestQuestionnaire: {fileID: 11400000, guid: 2d721d3783418364e884175ca1166c33,
+    type: 2}
+  _placeholderNpcs:
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  _placeholderItems: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8, type: 2}
+  _possibleWeapons: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!4 &1753069074
 Transform:
   m_ObjectHideFlags: 0
@@ -1492,3 +1536,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questList: {fileID: 564878431}
+--- !u!114 &1753069076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753069072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFinished: 0
+  treasureRuntimeSetSO: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+    type: 2}
+  weaponTypeRuntimeSetSO: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+    type: 2}
+--- !u!114 &1753069077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753069072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

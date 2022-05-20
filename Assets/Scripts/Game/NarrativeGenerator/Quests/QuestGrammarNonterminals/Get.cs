@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
@@ -11,43 +12,30 @@ using Util;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
     public class Get : NonTerminalQuest
-    {
-        public Get(int lim, Dictionary<string, int> questWeightsByType) : base(lim, questWeightsByType)
+    { 
+        public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
-            maxQuestChance = 2.8f;
+            get {
+                Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
+                getSymbolWeights.Add( Constants.GET_TERMINAL,  Constants.OneOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight);
+                return getSymbolWeights;
+            } 
         }
-    
-        public void Option(List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
-        {
-            DrawQuestType();
-            DefineNextQuest(questSos, possibleNpcSos, possibleItems, enemyTypes);
+        public override string symbolType {
+            get { return Constants.GET_QUEST; }
         }
 
-        protected void DefineNextQuest(List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            if (r > 2.8)
+            switch ( chain.GetLastSymbol().symbolType )
             {
-                CreateAndSaveGetQuestSo(questSos, possibleItems);
-                var t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos, possibleItems, enemyTypes);
-            }
-            if (r > 2.5 && r <= 2.8)
-            {
-                CreateAndSaveGetQuestSo(questSos, possibleItems);
-            }
-            if (r > 2.2 && r <= 2.5)
-            {
-                CreateAndSaveDropQuestSo(questSos,
-                    possibleItems, enemyTypes);
-                var t = new Talk(lim, QuestWeightsByType);
-                t.Option(questSos, possibleNpcSos);
-                Option(questSos, possibleNpcSos, possibleItems, enemyTypes);
-            }
-            if (r <= 2.2)
-            {
-                CreateAndSaveDropQuestSo(questSos,
-                    possibleItems, enemyTypes);
+                case Constants.GET_TERMINAL:
+                    CreateAndSaveGetQuestSo(questSos, possibleItems);
+                break;
+                case Constants.DROP_TERMINAL:
+                    CreateAndSaveDropQuestSo(questSos, possibleItems, enemyTypes);
+                break;
             }
         }
 

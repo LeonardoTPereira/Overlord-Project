@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using System;
 
 namespace Util
 {
@@ -32,6 +33,52 @@ namespace Util
             public static readonly string START = "S";
             public static readonly string NORMAL = "N";
         }
+
+        #region Terminal quest symbols
+        public const string KILL_TERMINAL = "kill";
+        public const string TALK_TERMINAL = "talk";
+        public const string EXPLORE_TERMINAL = "explore";
+        public const string EMPTY_TERMINAL = "empty";
+        public const string GET_TERMINAL = "get";
+        public const string DROP_TERMINAL = "drop";
+        public const string ITEM_TERMINAL = "item";
+        public const string SECRET_TERMINAL = "secret";
+        #endregion
+
+        #region Quest Weights
+        public static Func<int,int> OneOptionQuestLineWeight = x => 
+        {
+            if ( x < 4 )
+                return 100;
+            return 0;
+            // return (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
+        };
+        public static Func<int,int> OneOptionQuestEmptyWeight = x => 
+        {
+            if ( x > 4 )
+                return 100;
+            return 0;
+            // return (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
+        };
+
+        // public static Func<int,int> TwoOptionQuestLineWeight = x => (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
+        // public static Func<int,int> TwoOptionQuestEmptyWeight = x => (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
+
+        public static Func<int,int> ThreeOptionQuestLineWeight = x => 
+        {
+            if ( x < 4 )
+                return 34;
+            return 0;
+            // return (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
+        };
+        public static Func<int,int> ThreeOptionQuestEmptyWeight = x => 
+        {
+            if ( x > 4 )
+                return 100;
+            return 0;
+            // return (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100);  
+        };
+        #endregion
 
         public const string KILL_QUEST = "Mastery";
         public const string GET_QUEST = "Achievement";

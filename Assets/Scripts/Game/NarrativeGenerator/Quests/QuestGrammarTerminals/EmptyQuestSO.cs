@@ -1,22 +1,25 @@
-/*using UnityEngine;
+using UnityEngine;
+using System;
 using System.Collections.Generic;
+using Game.NarrativeGenerator;
+using Util;
+using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests
 {
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
     class EmptyQuestSO : QuestSO, Symbol
     {
-        public Dictionary<SymbolType,float> nextSymbolChance {get; set;}
-
-        public EmptyQuestSO ()
-        {
-            canDrawNext = false;
-            symbolType = SymbolType.empty;
+        public override string symbolType { 
+            get { return Constants.EMPTY_TERMINAL;} 
+        }
+        public override bool canDrawNext { 
+            get { return false; } 
         }
 
-        void SetDictionary( Dictionary<SymbolType, float> _nextSymbolChances )
+        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
         {
-            nextSymbolChance = _nextSymbolChances;
+            
         }
 
         void NextSymbol(MarkovChain chain)
@@ -25,4 +28,3 @@ namespace Game.NarrativeGenerator.Quests
         }
     }
 }
-*/
