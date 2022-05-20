@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = System.Random;
 
 namespace Util
@@ -11,9 +10,6 @@ namespace Util
         {
             var seed = (int) DateTime.Now.Ticks & 0x0000FFFF;
             Random = new Random(seed);
-            #if UNITY_EDITOR
-                Debug.Log("Random Seed: " + seed);
-            #endif
         }
 
         private static RandomSingleton _instance;

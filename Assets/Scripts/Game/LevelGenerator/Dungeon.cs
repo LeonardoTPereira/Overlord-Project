@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.LevelManager;
 using Util;
 
@@ -418,11 +417,11 @@ namespace Game.LevelGenerator
         /// Recreate the room list by visiting all the rooms in the tree and
         /// adding them to the list while also counting the number of locks and
         /// keys.
-        public void Fix(Parameters _prs) {
+        public void Fix(int totalEnemies) {
             FixRooms();
             FixMissions();
             FixLocksAndKeys();
-            FixEnemies(_prs);
+            FixEnemies(totalEnemies);
         }
 
         /// Fix the list of rooms.
@@ -486,9 +485,8 @@ namespace Game.LevelGenerator
         }
 
         /// Fix the number of enemies and enemy distribution.
-        private void FixEnemies(
-            Parameters _prs
-        ) {
+        private void FixEnemies( int totalEnemies ) 
+        {
             // Remove enemies from the goal room and place them in other rooms
             Room goal = GetGoal();
             if (goal != null && goal.Enemies > 0)
@@ -497,13 +495,13 @@ namespace Game.LevelGenerator
             }
             // Get the total number of enemies
             int tEnemies = GetNumberOfEnemies();
-            if (_prs.enemies > tEnemies)
+            if (totalEnemies > tEnemies)
             {
-                Redistribute(_prs.enemies, _prs.enemies - tEnemies);
+                Redistribute(totalEnemies, totalEnemies - tEnemies);
             }
-            else if (tEnemies > _prs.enemies)
+            else if (tEnemies > totalEnemies)
             {
-                RemoveEnemies(_prs.enemies, tEnemies - _prs.enemies);
+                RemoveEnemies(totalEnemies, tEnemies - totalEnemies);
             }
         }
 

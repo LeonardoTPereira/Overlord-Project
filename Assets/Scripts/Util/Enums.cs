@@ -28,8 +28,7 @@ namespace Util
         public enum TileTypes
         {
             Floor,
-            Block,
-            COUNT
+            Block
         }
         
         public enum RoomPatterns

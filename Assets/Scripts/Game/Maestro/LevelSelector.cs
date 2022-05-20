@@ -1,12 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.LevelManager;
-using ScriptableObjects;
-using Util;
-using UnityEngine;
 
 namespace Game.Maestro
 {
@@ -18,7 +11,7 @@ namespace Game.Maestro
             List<DungeonFileSo> selected = new List<DungeonFileSo>();
             foreach (DungeonFileSo dungeon in levels)
             {
-                if (dungeon.fitness <= 2)
+                if (dungeon.FitnessFromEa.Result <= 2)
                 {
                     selected.Add(dungeon);
                 }

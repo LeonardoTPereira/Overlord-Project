@@ -1,4 +1,5 @@
 ﻿using Game.Events;
+using Game.MenuManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,12 +17,12 @@ namespace Game.GameManager
         protected void OnEnable()
         {
             button.interactable = false;
-            LevelSelectButtonBHV.selectLevelButtonEventHandler += PrepareLevel;
+            LevelSelectButtonBhv.SelectLevelButtonEventHandler += PrepareLevel;
         }
 
         protected void OnDisable()
         {
-            LevelSelectButtonBHV.selectLevelButtonEventHandler -= PrepareLevel;
+            LevelSelectButtonBhv.SelectLevelButtonEventHandler -= PrepareLevel;
         }
 
         protected void PrepareLevel(object sender, LevelSelectEventArgs args)
@@ -32,7 +33,7 @@ namespace Game.GameManager
 
         public void GoToNext()
         {
-            loadLevelButtonEventHandler(this, new LevelLoadEventArgs(levelFile));
+            loadLevelButtonEventHandler?.Invoke(this, new LevelLoadEventArgs(levelFile));
             nextPanel.SetActive(true);
             gameObject.SetActive(false);
         }

@@ -1,13 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.DataCollection;
 using Game.Events;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
+using Game.NPCs;
 using ScriptableObjects;
-using UnityEngine;
 using Util;
-using Random = UnityEngine.Random;
+using Enums = Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
@@ -16,13 +16,15 @@ namespace Game.NarrativeGenerator
         Dictionary<string, Func<int,int>> startSymbolWeights = new Dictionary<string, Func<int,int>>();
         Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
         private static readonly int[] WEIGHTS = {1, 3, 5, 7};
-
-        private PlayerProfile playerProfile;
         public QuestWeightsManager questWeightsManager;
 
+        private Dictionary<string, int> _questWeightsbyType;
+
+        private PlayerProfile playerProfile;
+        
         public PlayerProfile SelectProfile(List<int> answers)
         {
-            CalculateProfileWeights(answers);
+            _questWeightsbyType = ProfileWeightCalculator.CalculateProfileWeights(answers);
 
             CreateProfileWithWeights();
             
@@ -31,12 +33,20 @@ namespace Game.NarrativeGenerator
         
         public PlayerProfile SelectProfile(NarrativeCreatorEventArgs eventArgs)
         {
-            questWeightsbyType = eventArgs.QuestWeightsbyType;
+            _questWeightsbyType = eventArgs.QuestWeightsbyType;
 
             CreateProfileWithWeights();
             
             return playerProfile;
         }
+        
+        public PlayerProfile SelectProfile(PlayerData playerData, DungeonData dungeonData)
+        {
+            _questWeightsbyType = ProfileWeightCalculator.CalculateProfileFromGameplayData(playerData, dungeonData);
+            CreateProfileWithWeights();
+            
+            return playerProfile;
+        }      
         
         public void CreateMissions(QuestGeneratorManager m)
         {
@@ -47,18 +57,18 @@ namespace Game.NarrativeGenerator
         {
             playerProfile = new PlayerProfile
             {
-                AchievementPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()],
-                MasteryPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()],
-                CreativityPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()],
-                ImmersionPreference = questWeightsbyType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()]
+                AchievementPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()],
+                MasteryPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()],
+                CreativityPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()],
+                ImmersionPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()]
             };
 
             CalculateStartSymbolWeights ( playerProfile );
-            string favoriteQuest = questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            string favoriteQuest = _questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
 
-        private List<QuestSO> DrawMissions(List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             var questsSos = new List<QuestSO>();
             MarkovChain questChain = new MarkovChain();

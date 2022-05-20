@@ -56,7 +56,6 @@ namespace Game.NarrativeGenerator
                     explorationQuests++;
                 }
             }
-            Debug.Log("ExplorationQuests: "+explorationQuests + " objective quests: "+objectiveQuests);
             LinearityEnum = GetLinearityFromEnum(explorationQuests);
             NKeys = GetNKeys(objectiveQuests);
         }
@@ -83,7 +82,6 @@ namespace Game.NarrativeGenerator
         private int GetLinearityFromEnum(int linearityMetric)
         {
             var linearityCoefficient = linearityMetric/(float)Size;
-            Debug.Log("Linearity Coefficient: "+ linearityCoefficient);
             if (linearityCoefficient < 0.2f)
             {
                 return (int)DungeonLinearity.VeryLinear;
@@ -106,7 +104,6 @@ namespace Game.NarrativeGenerator
         private int GetNKeys(int objectiveQuests)
         {
             var achievementCoefficient = (objectiveQuests + 1) / (float) Size;
-            Debug.Log("Achievement Coefficient: "+ achievementCoefficient);
             if (achievementCoefficient < 0.2f)
             {
                 return (int)DungeonKeys.AFewKeys;

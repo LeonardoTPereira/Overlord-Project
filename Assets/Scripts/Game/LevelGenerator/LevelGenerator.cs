@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Game.Events;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
@@ -28,121 +31,138 @@ namespace Game.LevelGenerator
 
 
         /// The event to handle the progress bar update.
-        public static event NewEAGenerationEvent eventHandler;
+        public static event NewEAGenerationEvent NewEaGenerationEventHandler;
 
+        private FitnessPlot fitnessPlot;
 
         /// Level Generator constructor.
-        public LevelGenerator(
-            Parameters _prs,
-            NewEAGenerationEvent _eventHandler
-        ) {
+        public LevelGenerator(Parameters _prs, FitnessPlot fitnessPlot = null) {
             prs = _prs;
             data = new Data();
             data.parameters = prs;
-            eventHandler = _eventHandler;
+            this.fitnessPlot = fitnessPlot;
         }
 
         /// Generate and return a set of levels.
-        public Population Evolve()
+        public async Task Evolve()
         {
             DateTime start = DateTime.Now;
-            Evolution();
+            await Evolution();
             DateTime end = DateTime.Now;
             data.duration = (end - start).TotalSeconds;
-            return solution;
         }
 
         /// Perform the level evolution process.
-        private void Evolution()
+        private async Task Evolution()
         {
             // Initialize the MAP-Elites population
+            var pop = InitializePopulation();
+            await EvolvePopulation(pop);
+            // Get the final population (solution)
+            solution = pop;
+        }
+
+        private Population InitializePopulation()
+        {
             Population pop = new Population(
-                SearchSpace.CoefficientOfExplorationRanges().Length,
-                SearchSpace.LeniencyRanges().Length
+                SearchSpace.ExplorationRanges.Length,
+                SearchSpace.LeniencyRanges.Length, fitnessPlot
             );
-
-
             var maxTries = INTERMEDIATE_POPULATION;
             var currentTry = 0;
             // Generate the initial population
-            while (pop.Count() < prs.population && currentTry < maxTries)
+            while (pop.EliteList.Count < prs.Population && currentTry < maxTries)
             {
-                Individual individual = Individual.GetRandom(prs.enemies);
-                individual.dungeon.Fix(prs);
-                individual.CalculateLinearCoefficient();
-                prs.fitness.Calculate(ref individual);
-                float ce = Metric.CoefficientOfExploration(individual);
-                float le = Metric.Leniency(individual);
-                individual.exploration = ce;
-                individual.leniency = le;
+                var individual = Individual.CreateRandom(prs.FitnessParameters);
+                individual.Fix();
+                individual.CalculateFitness();
                 pop.PlaceIndividual(individual);
                 currentTry++;
             }
-            
+
+            return pop;
+        }
+
+        private async Task EvolvePopulation(Population pop)
+        {
+            Debug.Log("Start Evolution Process");
             // Evolve the population
             int g = 0;
             DateTime start = DateTime.Now;
             DateTime end = DateTime.Now;
-            while ((end - start).TotalSeconds < prs.time)
+            while (!HasReachedStopCriteria(end, start, pop.GetAmountOfBiomesWithElites(), pop.GetAmountOfBiomesWithElitesBetterThan(prs.AcceptableFitness)))
             {
-                List<Individual> intermediate = new List<Individual>();
-                while (intermediate.Count < INTERMEDIATE_POPULATION)
-                {
-                    // Apply the crossover operation
-                    Individual[] parents = Selection.Select(
-                        CROSSOVER_PARENTS, prs.competitors, pop);
-                    Individual[] offspring = Crossover.Apply(
-                        parents[0], parents[1]);
-                    // Apply the mutation operation with a random chance or
-                    // always that the crossover was not successful
-                    if (offspring.Length == 0 ||
-                        prs.mutation > RandomSingleton.GetInstance().RandomPercent()
-                    ) {
-                        if (offspring.Length == CROSSOVER_PARENTS)
-                        {
-                            parents[0] = offspring[0];
-                            parents[1] = offspring[1];
-                        }
-                        else
-                        {
-                            offspring = new Individual[2];
-                        }
-                        offspring[0] = Mutation.Apply(parents[0]);
-                        offspring[1] = Mutation.Apply(parents[1]);
-                    }
-                    // Place the offspring in the MAP-Elites population
-                    for (int i = 0; i < offspring.Length; i++)
-                    {
-                        offspring[i].dungeon.Fix(prs);
-                        offspring[i].CalculateLinearCoefficient();
-                        prs.fitness.Calculate(ref offspring[i]);
-                        float c = Metric.CoefficientOfExploration(offspring[i]);
-                        float l = Metric.Leniency(offspring[i]);
-                        offspring[i].exploration = c;
-                        offspring[i].leniency = l;
-                        offspring[i].generation = g;
-                        intermediate.Add(offspring[i]);
-                    }
-                }
-
+                var intermediate = CreateIntermediatePopulation(pop, g);
                 // Place the offspring in the MAP-Elites population
                 foreach (Individual individual in intermediate)
                 {
                     pop.PlaceIndividual(individual);
                 }
-
                 g++;
                 end = DateTime.Now;
 
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
-                int progress = (int) (100 * (seconds / prs.time));
-                eventHandler?.Invoke(this,
-                    new NewEAGenerationEventArgs(progress));
+                var progress = (float) seconds / prs.Time;
+                NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
+                pop.UpdateBiomes(g);
+                await Task.Yield();
+            }
+            Debug.Log("Finish Evolution Process");
+            //pop.SaveJson();
+            NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f));
+        }
+
+        private List<Individual> CreateIntermediatePopulation(in Population pop, int g)
+        {
+            List<Individual> intermediate = new List<Individual>();
+            while (intermediate.Count < INTERMEDIATE_POPULATION)
+            {
+                // Apply the crossover operation
+                var parents = Selection.SelectParents(CROSSOVER_PARENTS, prs.Competitors, pop);
+                var offspring = CreateOffspring(parents);
+
+                // Place the offspring in the MAP-Elites population
+                foreach (var individual in offspring)
+                {
+                    individual.Fix();
+                    individual.CalculateFitness();
+                    individual.generation = g;
+                    intermediate.Add(individual);
+                }
+            }
+            return intermediate;
+        }
+
+        private Individual[] CreateOffspring(Individual[] parents)
+        {
+            var offspring = Crossover.Apply(parents[0], parents[1]);
+            // Apply the mutation operation with a random chance or
+            // always that the crossover was not successful
+            if (offspring.Length != 0 && prs.Mutation <= RandomSingleton.GetInstance().RandomPercent())
+                return offspring;
+            if (offspring.Length == CROSSOVER_PARENTS)
+            {
+                parents[0] = offspring[0];
+                parents[1] = offspring[1];
+            }
+            else
+            {
+                offspring = new Individual[2];
             }
 
-            // Get the final population (solution)
-            solution = pop;
+            offspring[0] = Mutation.Apply(parents[0]);
+            offspring[1] = Mutation.Apply(parents[1]);
+
+            return offspring;
+        }
+
+        private bool HasReachedStopCriteria(DateTime end, DateTime start, int biomesWithElites, float elitesWithAcceptableFitness)
+        {
+            if (biomesWithElites < prs.MinimumElite) return false;
+            if (elitesWithAcceptableFitness >= prs.MinimumElite) return true;
+            var elapsedTime = (end - start).TotalSeconds;
+            return elapsedTime > prs.Time;
         }
     }
 }

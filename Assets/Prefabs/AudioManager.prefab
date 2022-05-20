@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7394281006128763209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7394281006128763214}
+  - component: {fileID: 7394281006128763215}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7394281006128763214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7394281006128763209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7394281006128763215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7394281006128763209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9014a5538e954ddaba5499bfd2b36b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmSoundDictionary:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 0
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 0
+    _keyValues: 01000000000000000200000003000000
+    _keys: 01000000000000000200000003000000
+    _values:
+    - {fileID: 11400000, guid: f7863b254fc879040907b735bb94051e, type: 2}
+    - {fileID: 11400000, guid: 23719edc4b5af7f438245cb58489332f, type: 2}
+    - {fileID: 11400000, guid: f7863b254fc879040907b735bb94051e, type: 2}
+    - {fileID: 11400000, guid: c05362714add3d2448b5d7492c8f0039, type: 2}
+  sfxSoundDictionary:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 0
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 0
+    _keyValues: 010000000000000002000000030000000400000005000000060000000700000008000000
+    _keys: 010000000000000002000000030000000400000005000000060000000700000008000000
+    _values:
+    - {fileID: 11400000, guid: 26c03c531ce09324986e94ba271adfaa, type: 2}
+    - {fileID: 11400000, guid: 8860ba2fd15ab8144a67f78897032414, type: 2}
+    - {fileID: 11400000, guid: 3e63ac64cad40094ab608c3f88ef58c6, type: 2}
+    - {fileID: 11400000, guid: acb714fad693fd14dac2f27bd5a98db9, type: 2}
+    - {fileID: 11400000, guid: 2abdbad429bcaf34dad752fc2c173cdf, type: 2}
+    - {fileID: 11400000, guid: 765e262e866f5174c9455940e565545f, type: 2}
+    - {fileID: 11400000, guid: 0c7d8ee923044c043912f92dc843403e, type: 2}
+    - {fileID: 11400000, guid: b20cc91e8b4a510438d8710da45e00df, type: 2}
+    - {fileID: 11400000, guid: c33bdfc1d764f634a8d32a7943aa0ac6, type: 2}

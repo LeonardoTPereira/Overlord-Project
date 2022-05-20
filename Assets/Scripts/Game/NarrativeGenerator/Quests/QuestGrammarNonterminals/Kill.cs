@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -34,10 +35,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var selectedEnemyTypes = new EnemiesByType ();
             //TODO select more enemies
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 10;
+            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 20;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
             killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedEnemyTypes);
-            killQuest.SaveAsAsset();
+            //killQuest.SaveAsAsset();
             questSos.Add(killQuest);
         }
         

@@ -15,6 +15,7 @@ TagManager:
   - Mission
   - Npc
   - Final
+  - PlayerTrigger
   layers:
   - Default
   - TransparentFX

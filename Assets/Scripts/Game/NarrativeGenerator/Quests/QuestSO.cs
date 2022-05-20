@@ -13,10 +13,7 @@ namespace Game.NarrativeGenerator.Quests
     public class QuestSO : ScriptableObject, Symbol {
         public virtual string symbolType {get; set;}
         public virtual Dictionary<string, Func<int,int>> nextSymbolChances
-        {
-            get;
-            set;
-        }
+
         public virtual bool canDrawNext {
             get { return true; } 
             set {} 
@@ -77,21 +74,20 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
         
-        public void SaveAsAsset()
+
+        public void SaveAsset(string directory)
         {
             #if UNITY_EDITOR
-            var target = "Assets";
-            target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "Experiment";
-            var newFolder = "Quests";
-            if (!AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder))
+            const string newFolder = "Quests";
+            var fileName = directory;
+            if (!AssetDatabase.IsValidFolder(fileName + Constants.SEPARATOR_CHARACTER + newFolder))
             {
-                AssetDatabase.CreateFolder(target, newFolder);
+                AssetDatabase.CreateFolder(fileName, newFolder);
             }
-            target += Constants.SEPARATOR_CHARACTER + newFolder;
-            target += Constants.SEPARATOR_CHARACTER;
-            target += QuestName+".asset";
-            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(target);
+            fileName += Constants.SEPARATOR_CHARACTER + newFolder;
+            fileName += Constants.SEPARATOR_CHARACTER;
+            fileName += QuestName+".asset";
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             #endif
         }

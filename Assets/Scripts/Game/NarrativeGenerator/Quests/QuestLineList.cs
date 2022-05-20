@@ -8,7 +8,7 @@ namespace Game.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLineList", menuName = "Overlord-Project/QuestLineList", order = 0)]
     [Serializable]
-    public class QuestLineList : ScriptableObject
+    public class QuestLineList : ScriptableObject, SaveableGeneratedContent
     {
         [field: SerializeField] public List<QuestLine> QuestLinesList { get; set; }
 
@@ -23,15 +23,13 @@ namespace Game.NarrativeGenerator.Quests
             return QuestLinesList[random.Next(QuestLinesList.Count)];
         }
         
-        public void SaveAsAsset(string profileName)
+        public void SaveAsset(string directory)
         {
 #if UNITY_EDITOR
-            var target = "Assets";
-            target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "Experiment";
-            target += Constants.SEPARATOR_CHARACTER;
-            target += profileName+"QuestLineList.asset";
-            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(target);
+            const string questLineName = "QuestLineList";
+            var fileName = directory + questLineName + ".asset";
+            if (!AssetDatabase.GUIDFromAssetPath(fileName).Empty()) return;
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
 #endif
         }

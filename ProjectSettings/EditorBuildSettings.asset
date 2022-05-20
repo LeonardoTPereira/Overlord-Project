@@ -8,21 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Arena.unity
     guid: 11ee7c01a4b13c644bc61ca2f22926e2
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 99ec3263bfe19b5438fb08251f190f78
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Overworld.unity
     guid: fba6505088753494183d3d71679a850f
   - enabled: 1
     path: Assets/Scenes/LevelWithEnemies.unity
     guid: 01db2214e2b7fd9428a4bfa5e4cf8c66
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Scenes/MainBreno.unity
     guid: 0aee47db5762d974a9836a1c6d5c0c88
@@ -32,37 +26,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/LevelGenerator.unity
     guid: b59d5742fc93f864aaf1a68866046d12
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/GameUI.unity
+    guid: faad106122fb8464e9f21519b497deba
+  - enabled: 1
+    path: Assets/Scenes/LevelSelector.unity
+    guid: 6ab9f7015ab81b644a9b23f3eb5d80e2
+  - enabled: 1
+    path: Assets/Scenes/ContentGenerator.unity
+    guid: 212556bf9107fd24fadd1adee7955969
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 5485ac31a41ef9b46bd1b977b05b8368,
+      type: 2}

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using ScriptableObjects;
+using Game.NPCs;
 using UnityEngine;
 using System;
 using Util;
@@ -25,6 +25,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             get { return Constants.EXPLORE_QUEST; }
         }
         public void DefineQuestSO ( List<QuestSO> questSos )
+
         {
             Explore.CreateAndSaveSecretRoomQuestSo( questSos );
         }
@@ -34,7 +35,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
             secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[questSos.Count-1] : null);
             //TODO initiate data for secretRoomQuest
-            secretRoomQuest.SaveAsAsset();
             questSos.Add(secretRoomQuest);
         }
     }

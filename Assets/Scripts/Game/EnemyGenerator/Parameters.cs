@@ -4,37 +4,43 @@ namespace Game.EnemyGenerator
     public struct Parameters
     {
         /// The maximum number of generations.
-        public int generations { get; }
+        public int Generations { get; }
         /// The initial population size.
-        public int population { get; }
+        public int Population { get; }
         /// The intermediate population size.
-        public int intermediate { get; }
+        public int Intermediate { get; }
         /// The mutation chance.
-        public int mutation { get; }
+        public int Mutation { get; }
         /// The mutation chance of a single gene.
-        public int geneMutation { get; }
+        public int GeneMutation { get; }
         /// The number of competitors of the tournament selection.
-        public int competitors { get; }
+        public int Competitors { get; }
+        public int MinimumElite { get; }
+        public float AcceptableFitness { get; }
         /// The aimed difficulty of the enemies.
-        public float difficulty { get; }
+        public float Difficulty { get; }
 
         /// Parameters constructor.
         public Parameters(
-            int _generations,
-            int _population,
-            int _intermediate,
-            int _mutation,
-            int _geneMutation,
-            int _competitors,
-            float _difficulty
+            int generations,
+            int population,
+            int intermediate,
+            int mutation,
+            int geneMutation,
+            int competitors,
+            int minimumElite,
+            float acceptableFitness,
+            float difficulty
         ) {
-            generations = _generations;
-            population = _population;
-            intermediate = _intermediate;
-            mutation = _mutation;
-            geneMutation = _geneMutation;
-            competitors = _competitors;
-            difficulty = _difficulty;
+            Generations = generations;
+            Population = population;
+            Intermediate = intermediate;
+            Mutation = mutation;
+            GeneMutation = geneMutation;
+            Competitors = competitors;            
+            MinimumElite = minimumElite;
+            AcceptableFitness = acceptableFitness;
+            Difficulty = difficulty;
         }
     }
 }

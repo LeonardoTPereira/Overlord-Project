@@ -1,22 +1,24 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading;
+using System.Threading.Tasks;
 using Game.DataCollection;
 using Game.EnemyGenerator;
 using Game.Events;
-using Game.GameManager;
 using Game.LevelGenerator;
+using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
+using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -24,33 +26,26 @@ namespace Game.NarrativeGenerator
     public class QuestGeneratorManager : MonoBehaviour
     {
         [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
-        
+        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines;
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-        public static event CreateEADungeonEvent CreateEaDungeonEventHandler;
-
-        [SerializeReference, SerializeField]
-        private QuestLineList _questLines;
-
-        public bool createNarrative = false;
-
-        public bool isFinished = true; //verifica se a missão já terminou
-        
+        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
+        [SerializeReference, SerializeField] private QuestLineList questLines;
+        [field:SerializeField] public bool MustCreateNarrative { get; set; } = false;
+        private bool isRealTimeGeneration;
         [SerializeField] private FormQuestionsData preTestQuestionnaire;
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
-
-        
-        public List<NpcSO> PlaceholderNpcs => _placeholderNpcs;
-        public TreasureRuntimeSetSO PlaceholderItems => _placeholderItems;
-
-        [SerializeField, MustBeAssigned] private List<NpcSO> _placeholderNpcs;
-        [SerializeField, MustBeAssigned] private TreasureRuntimeSetSO _placeholderItems;
-        [SerializeField, MustBeAssigned] private WeaponTypeRuntimeSetSO _possibleWeapons;
-
-        public WeaponTypeRuntimeSetSO PossibleWeapons => _possibleWeapons;
+        public List<NpcSo> PlaceholderNpcs => placeholderNpcs;
+        public TreasureRuntimeSetSO PlaceholderItems => placeholderItems;
+        [SerializeField, MustBeAssigned] private List<NpcSo> placeholderNpcs;
+        [SerializeField, MustBeAssigned] private TreasureRuntimeSetSO placeholderItems;
+        [SerializeField, MustBeAssigned] private WeaponTypeRuntimeSetSO possibleWeapons;
+        public WeaponTypeRuntimeSetSO PossibleWeapons => possibleWeapons;
         public Selector Selector { get; set; }
         public QuestLine Quests { get; set; }
+        [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
+        [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
+        [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -75,43 +70,51 @@ namespace Game.NarrativeGenerator
         {
             NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
             FormBHV.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
+            LevelSelectManager.CompletedAllLevelsEventHandler += SelectPlayerProfile;
         }
 
         public void OnDisable()
         {
             NarrativeGenerator.NarrativeCreatorEventHandler -= SelectPlayerProfile;
             FormBHV.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
+            LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
         }
 
-        private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
+        private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
             var playerProfile = Selector.SelectProfile(e);
-            if (createNarrative)
-            {
-                Selector.CreateMissions(this);
-                CreateNarrative(playerProfile);
-            }
-            else
-            {
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            }
+
+            isRealTimeGeneration = false;
+            await CreateOrLoadNarrativeForProfile(playerProfile);
         }
 
-        private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
+        private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
             var answers = e.AnswerValue;
-            
             var playerProfile = Selector.SelectProfile(answers);
-            if (createNarrative)
+            isRealTimeGeneration = true;
+            await CreateOrLoadNarrativeForProfile(playerProfile);
+        }
+        
+        private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
+        {
+            
+            var playerProfile = Selector.SelectProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
+            isRealTimeGeneration = true;
+            await CreateOrLoadNarrativeForProfile(playerProfile);
+        }
+
+        private async Task CreateOrLoadNarrativeForProfile(PlayerProfile playerProfile)
+        {
+            if (MustCreateNarrative)
             {
                 Selector.CreateMissions(this);
-                CreateNarrative(playerProfile);
+                await CreateNarrative(playerProfile);
             }
             else
             {
                 ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             }
-
         }
 
         private void Start()
@@ -121,64 +124,80 @@ namespace Game.NarrativeGenerator
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
-        private void CreateNarrative(PlayerProfile playerProfile)
+        private async Task CreateNarrative(PlayerProfile playerProfile)
         {
+            Debug.Log("Creating Quest Line for Profile");
             SetQuestLineListForProfile(playerProfile);
-            CreateGeneratorParametersForQuestline(playerProfile);
-            CreateContentsForQuestLine();
-            Quests.CreateAsset(playerProfile.PlayerProfileEnum);
-            _questLines.AddQuestLine(Quests);
-            SaveSOs();
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-        }
-
-        private void CreateContentsForQuestLine()
-        {
-            Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
-            StartCoroutine(CreateDungeonsForQuestLine());
-            Quests.NpcSos = PlaceholderNpcs;
-            Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
-        }
-
-        private IEnumerator CreateDungeonsForQuestLine()
-        {
-            _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
-            while (!_levelGeneratorManager.hasFinished)
+            CreateGeneratorParametersForQuestLine(playerProfile);
+            Debug.Log("Creating Contents for Quest Line");
+            await CreateContentsForQuestLine();
+            if (!isRealTimeGeneration)
             {
-                yield return null;
+                SaveSOs(playerProfile.PlayerProfileEnum.ToString());
             }
-            Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
+            Debug.Log("Initializing Quest Content");
+            SelectedLevels.Init(Quests);
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
         }
 
-        private void SaveSOs()
+        private async Task CreateContentsForQuestLine()
+        {
+            Debug.Log("Creating Enemies");
+            Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
+            Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
+            Debug.Log("Creating Dungeons");
+            await CreateDungeonsForQuestLine();
+        }
+
+        private async Task CreateDungeonsForQuestLine()
+        {
+            await _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
+            //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
+        }
+
+        private void SaveSOs(string profileName)
         {
 #if UNITY_EDITOR
-            EditorUtility.SetDirty(_questLines);
-            AssetDatabase.SaveAssetIfDirty(_questLines);
+            // Build the target path
+            var target = "Assets";
+            target += Constants.SEPARATOR_CHARACTER + "Resources";
+            target += Constants.SEPARATOR_CHARACTER + "Experiment";
+            var questLineFile = target + Constants.SEPARATOR_CHARACTER + profileName;
+            questLines.SaveAsset(questLineFile);
+            var newFolder = Constants.SEPARATOR_CHARACTER + profileName;
+            if (!AssetDatabase.IsValidFolder(target + newFolder))
+            {
+                AssetDatabase.CreateFolder(target, newFolder);
+            }
+            target += Constants.SEPARATOR_CHARACTER + newFolder;
+            Quests.SaveAsset(target);
+            questLines.AddQuestLine(Quests);
 
-            EditorUtility.SetDirty(playerProfileToQuestLinesDictionarySo);
-            AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLinesDictionarySo);
+            EditorUtility.SetDirty(questLines);
+            AssetDatabase.SaveAssetIfDirty(questLines);
+
+            EditorUtility.SetDirty(playerProfileToQuestLines);
+            AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLines);
 #endif
         }
 
         private void SetQuestLineListForProfile(PlayerProfile playerProfile)
         {
-            if (playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.TryGetValue(
-                    playerProfile.PlayerProfileEnum.ToString(), out var questLines))
+            if (playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
+                    playerProfile.PlayerProfileEnum.ToString(), out var questLinesForProfile))
             {
-                _questLines = questLines;
+                questLines = questLinesForProfile;
             }
             else
             {
-                _questLines = ScriptableObject.CreateInstance<QuestLineList>();
-                _questLines.QuestLinesList = new List<QuestLine>();
-                _questLines.SaveAsAsset(playerProfile.PlayerProfileEnum.ToString());
-                playerProfileToQuestLinesDictionarySo.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(),
-                    _questLines);
+                questLines = ScriptableObject.CreateInstance<QuestLineList>();
+                questLines.QuestLinesList = new List<QuestLine>();
+                playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), questLines);
             }
         }
 
-        private void CreateGeneratorParametersForQuestline(PlayerProfile playerProfile)
+        private void CreateGeneratorParametersForQuestLine(PlayerProfile playerProfile)
         {
             Quests.DungeonParametersForQuestLine = new QuestDungeonsParameters();
             Quests.EnemyParametersForQuestLine = new QuestEnemiesParameters();
