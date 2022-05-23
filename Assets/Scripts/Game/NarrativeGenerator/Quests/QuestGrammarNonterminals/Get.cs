@@ -26,7 +26,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             get { return Constants.GET_QUEST; }
         }
 
-        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {

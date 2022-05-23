@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace Game.Quests
+﻿namespace Game.Quests
 {
-    public abstract class AbstractQuestElement : MonoBehaviour
+    public interface IQuestElement
     {
         public static event QuestElementEvent QuestElementEventHandler;
         protected void OnQuestTaskResolved(QuestElementEventArgs args)

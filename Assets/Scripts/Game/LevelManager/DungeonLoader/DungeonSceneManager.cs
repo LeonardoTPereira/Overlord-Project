@@ -32,8 +32,6 @@ namespace Game.LevelManager.DungeonLoader
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBhv.GotTriforceEventHandler += LevelComplete;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
-            LevelLoaderBHV.loadLevelButtonEventHandler += SetCurrentLevelQuestLine;
-            DungeonSceneLoader.LoadLevelEventHandler += SetCurrentLevelQuestLine;
         }
 
         private void Start()
@@ -47,8 +45,6 @@ namespace Game.LevelManager.DungeonLoader
 
         private void OnDisable()
         {
-            LevelLoaderBHV.loadLevelButtonEventHandler -= SetCurrentLevelQuestLine;
-            DungeonSceneLoader.LoadLevelEventHandler -= SetCurrentLevelQuestLine;
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;

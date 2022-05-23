@@ -7,12 +7,10 @@ namespace Game.GameManager
 {
     public class LevelLoaderBHV : MonoBehaviour, IMenuPanel
     {
-        string levelFile;
         [SerializeField]
         GameObject previousPanel, nextPanel;
         [SerializeField]
         Button button;
-        public static event LevelLoadEvent loadLevelButtonEventHandler;
 
         protected void OnEnable()
         {
@@ -27,13 +25,11 @@ namespace Game.GameManager
 
         protected void PrepareLevel(object sender, LevelSelectEventArgs args)
         {
-            levelFile = args.LevelSO.fileName;
             button.interactable = true;
         }
 
         public void GoToNext()
         {
-            loadLevelButtonEventHandler?.Invoke(this, new LevelLoadEventArgs(levelFile));
             nextPanel.SetActive(true);
             gameObject.SetActive(false);
         }

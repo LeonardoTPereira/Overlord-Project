@@ -53,13 +53,10 @@ namespace Game.GameManager
         
         void OnEnable()
         {
-
-            DungeonSceneLoader.LoadLevelEventHandler += CheckIfLastAvailableQuestline;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
         void OnDisable()
         {
-            DungeonSceneLoader.LoadLevelEventHandler -= CheckIfLastAvailableQuestline;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
         
@@ -67,11 +64,6 @@ namespace Game.GameManager
         {
             GameStartEventHandler?.Invoke(null, EventArgs.Empty);
             SceneManager.LoadScene("Main");
-        }
-
-        public void CheckIfLastAvailableQuestline(object sender, LevelLoadEventArgs args)
-        {
-            IsLastQuestLine = args.IsLastQuestLine;
         }
     }
 }

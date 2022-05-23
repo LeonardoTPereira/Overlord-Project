@@ -5,6 +5,7 @@ using MyBox;
 using UnityEngine;
 using System;
 using Util;
+using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 {
@@ -24,7 +25,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             get { return Constants.TALK_QUEST; }
         }
 
-        public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSO> possibleNpcs )
+        public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSo> possibleNpcs )
         {
             CreateAndSaveTalkQuestSo(questSos, possibleNpcs);
         }

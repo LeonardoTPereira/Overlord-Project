@@ -62,8 +62,6 @@ namespace Game.NarrativeGenerator
         private void InitSelector ()
         {
             Selector = new Selector();
-            QuestWeightsManager weightsManager = new QuestWeightsManager();
-            Selector.questWeightsManager = weightsManager;
         }
 
         public void OnEnable()
@@ -82,16 +80,14 @@ namespace Game.NarrativeGenerator
 
         private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
-            var playerProfile = Selector.SelectProfile(e);
-
+            var playerProfile = ProfileCalculator.CreateProfile(e);
             isRealTimeGeneration = false;
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
 
         private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
-            var answers = e.AnswerValue;
-            var playerProfile = Selector.SelectProfile(answers);
+            var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue);
             isRealTimeGeneration = true;
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
@@ -99,7 +95,7 @@ namespace Game.NarrativeGenerator
         private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
         {
             
-            var playerProfile = Selector.SelectProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
+            var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
             isRealTimeGeneration = true;
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
@@ -145,6 +141,7 @@ namespace Game.NarrativeGenerator
         {
             Debug.Log("Creating Enemies");
             Quests.EnemySos = _enemyGeneratorManager.EvolveEnemies(Quests.EnemyParametersForQuestLine.Difficulty);
+            Quests.NpcSos = PlaceholderNpcs;
             Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
             Debug.Log("Creating Dungeons");
             await CreateDungeonsForQuestLine();

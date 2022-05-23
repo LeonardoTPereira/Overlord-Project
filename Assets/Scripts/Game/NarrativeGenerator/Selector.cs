@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.DataCollection;
@@ -6,6 +7,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Game.NPCs;
 using ScriptableObjects;
+using UnityEngine;
 using Util;
 using Enums = Util.Enums;
 
@@ -13,59 +15,9 @@ namespace Game.NarrativeGenerator
 {
     public class Selector
     {
-        Dictionary<string, Func<int,int>> startSymbolWeights = new Dictionary<string, Func<int,int>>();
-        Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>();
-        private static readonly int[] WEIGHTS = {1, 3, 5, 7};
-        public QuestWeightsManager questWeightsManager;
-
-        private Dictionary<string, int> _questWeightsbyType;
-
-        private PlayerProfile playerProfile;
-        
-        public PlayerProfile SelectProfile(List<int> answers)
-        {
-            _questWeightsbyType = ProfileWeightCalculator.CalculateProfileWeights(answers);
-
-            CreateProfileWithWeights();
-            
-            return playerProfile;
-        }        
-        
-        public PlayerProfile SelectProfile(NarrativeCreatorEventArgs eventArgs)
-        {
-            _questWeightsbyType = eventArgs.QuestWeightsbyType;
-
-            CreateProfileWithWeights();
-            
-            return playerProfile;
-        }
-        
-        public PlayerProfile SelectProfile(PlayerData playerData, DungeonData dungeonData)
-        {
-            _questWeightsbyType = ProfileWeightCalculator.CalculateProfileFromGameplayData(playerData, dungeonData);
-            CreateProfileWithWeights();
-            
-            return playerProfile;
-        }      
-        
         public void CreateMissions(QuestGeneratorManager m)
         {
             m.Quests.graph = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
-        }
-
-        private void CreateProfileWithWeights()
-        {
-            playerProfile = new PlayerProfile
-            {
-                AchievementPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()],
-                MasteryPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()],
-                CreativityPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()],
-                ImmersionPreference = _questWeightsbyType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()]
-            };
-
-            CalculateStartSymbolWeights ( playerProfile );
-            string favoriteQuest = _questWeightsbyType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-            playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
         }
 
         private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
@@ -75,7 +27,7 @@ namespace Game.NarrativeGenerator
             var chainCost = 0;
             do
             {
-                questChain.GetLastSymbol().SetDictionary( startSymbolWeights );
+                questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
@@ -91,7 +43,7 @@ namespace Game.NarrativeGenerator
             return questsSos;
         }
 
-        private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSO> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
+        private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
         {
             switch ( questChain.GetLastSymbol().symbolType )
             {
@@ -121,48 +73,6 @@ namespace Game.NarrativeGenerator
             }
         }
 
-        private void CalculateProfileWeights(List<int> answers)
-        {
-            startSymbolWeights.Clear();
-            int[] weights = CalculateStartSymbolWeights( answers );
-
-            if ( weights[0] != 0 ) startSymbolWeights.Add( Constants.TALK_QUEST, x => weights[0] );
-            if ( weights[1] != 0 ) startSymbolWeights.Add( Constants.GET_QUEST, x => weights[1] );
-            if ( weights[2] != 0 ) startSymbolWeights.Add( Constants.KILL_QUEST, x => weights[2] ); 
-            if ( weights[3] != 0 ) startSymbolWeights.Add( Constants.EXPLORE_QUEST, x => weights[3] );
-
-            questWeightsbyType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), weights[0]);
-            questWeightsbyType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), weights[1]);
-            questWeightsbyType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), weights[2]);
-            questWeightsbyType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), weights[3]);
-        }
-
-        private int[] CalculateStartSymbolWeights ( List<int> answers )
-        {
-            int totalQuestionsWeight = questWeightsManager.CalculateTotalQuestionsWeight ( answers );
-
-            int talkWeight = questWeightsManager.GetTalkQuestWeight( answers, totalQuestionsWeight );
-            int getWeight = questWeightsManager.GetGetQuestWeight( answers, totalQuestionsWeight );
-            int killWeight = questWeightsManager.GetKillQuestWeight( answers, totalQuestionsWeight );
-            int exploreWeight = questWeightsManager.GetExploreQuestWeight( answers, totalQuestionsWeight );
-
-            int [] startSymbolWeights = {talkWeight, getWeight, killWeight, exploreWeight};
-            return startSymbolWeights;
-        }
-
-        private void CalculateStartSymbolWeights ( PlayerProfile playerProfile )
-        {
-            startSymbolWeights.Clear();
-
-            int talkWeight = (int)(100*playerProfile.CreativityPreference)/16;
-            int getWeight = (int)(100*playerProfile.AchievementPreference)/16;
-            int killWeight = (int)(100*playerProfile.MasteryPreference)/16;
-            int exploreWeight = (int)(100*playerProfile.ImmersionPreference)/16;
-
-            if ( talkWeight != 0 ) startSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
-            if ( getWeight != 0 ) startSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );
-            if ( killWeight != 0 ) startSymbolWeights.Add( Constants.KILL_QUEST, x => killWeight ); 
-            if ( exploreWeight != 0 ) startSymbolWeights.Add( Constants.EXPLORE_QUEST, x => exploreWeight );
-        }
+  
     }
 }
