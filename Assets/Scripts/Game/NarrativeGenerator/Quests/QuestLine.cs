@@ -4,6 +4,7 @@ using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.NpcRelatedNarrative;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
         [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
         [SerializeField] private List<EnemySO> _enemySos;
+        [SerializeField] private List<NpcSo> _npcSos;
         [SerializeField] private List<ItemSo> _itemSos;
         [SerializeField] private QuestDungeonsParameters dungeonParametersForQuestLine;
         [SerializeField] private QuestEnemiesParameters enemyParametersForQuestLine;
@@ -58,6 +60,12 @@ namespace Game.NarrativeGenerator.Quests
             get => _enemySos;
             set => _enemySos = value;
         }
+        
+        public List<NpcSo> NpcSos
+        {
+            get => _npcSos;
+            set => _npcSos = value;
+        }
 
         public List<ItemSo> ItemSos
         {
@@ -70,17 +78,16 @@ namespace Game.NarrativeGenerator.Quests
             graph = new List<QuestSO>();
             _dungeonFileSos = new List<DungeonFileSo>();
             _enemySos = new List<EnemySO>();
+            _npcSos = new List<NpcSo>();
             _itemSos = new List<ItemSo>();
             DungeonParametersForQuestLine = new QuestDungeonsParameters();
             EnemyParametersForQuestLine = new QuestEnemiesParameters();
             _itemParametersForQuestLine = new QuestItemsParameters();
             _npcParametersForQuestLine = new QuestNpcsParameters();
         }
-
+        
         public void SaveAsset(string directory)
         {
-            if ( graph[0].symbolType == "empty" )
-                return;
 #if UNITY_EDITOR
             var newDirectory = Constants.SEPARATOR_CHARACTER + "QuestLine";
             var guid = AssetDatabase.CreateFolder(directory, newDirectory);
@@ -95,7 +102,7 @@ namespace Game.NarrativeGenerator.Quests
             AssetDatabase.Refresh();
 #endif
         }
-
+        
         public void CreateAssetsForQuests(string directory)
         {
             foreach (var quest in graph)

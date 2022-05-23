@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Game.NarrativeGenerator;
+using Game.NPCs;
 using Util;
 using ScriptableObjects;
 
@@ -17,7 +18,7 @@ namespace Game.NarrativeGenerator.Quests
             get { return false; } 
         }
 
-        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSO> possibleNpcSos)
+        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
             
         }

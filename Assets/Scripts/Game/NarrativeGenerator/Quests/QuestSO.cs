@@ -1,23 +1,28 @@
-﻿using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+﻿using System;
+using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests
 {
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
-    public class QuestSO : ScriptableObject, Symbol {
+    public class QuestSO : ScriptableObject, SaveableGeneratedContent, Symbol
+    {
         public virtual string symbolType {get; set;}
         public virtual Dictionary<string, Func<int,int>> nextSymbolChances
-
+        {
+            get;
+            set;
+        }
         public virtual bool canDrawNext {
             get { return true; } 
             set {} 
         }
+
         [SerializeField] private QuestSO nextWhenSuccess;
         [SerializeField] private QuestSO nextWhenFailure;
         [SerializeField] private QuestSO previous;
@@ -52,8 +57,8 @@ namespace Game.NarrativeGenerator.Quests
             nextWhenFailure = null;
             Reward = null;
         }
-
-        public void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances  )
+        
+        public void SetDictionary(Dictionary<string, Func<int,int>> _nextSymbolChances  )
         {
             nextSymbolChances = _nextSymbolChances;
         }
@@ -73,7 +78,6 @@ namespace Game.NarrativeGenerator.Quests
                 }
             }
         }
-        
 
         public void SaveAsset(string directory)
         {
