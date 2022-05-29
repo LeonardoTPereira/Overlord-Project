@@ -22,25 +22,44 @@ namespace Game.NarrativeGenerator
 
         private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
+            bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
             var questsSos = new List<QuestSO>();
-            MarkovChain questChain = new MarkovChain();
-            var chainCost = 0;
             do
             {
+                MarkovChain questChain = new MarkovChain();
                 questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
                     SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
-                chainCost += (int)Enums.QuestWeights.Hated*2;
-            } while (chainCost < (int)Enums.QuestWeights.Loved );
+            } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
             Debug.Log("FINAL QUEST SO:");
             foreach (QuestSO quest in questsSos)
             {
                 Debug.Log(quest.symbolType);
             }
             return questsSos;
+        }
+
+        private void UpdateListContents ( Symbol lastQuest, ref bool containsKill ,ref bool containsTalk ,ref bool containsGet ,ref bool containsExplore )
+        {
+            switch ( lastQuest.symbolType )
+            {
+                case Constants.TALK_QUEST:
+                    containsTalk = true;
+                    break;
+                case Constants.GET_QUEST:
+                    containsGet = true;
+                    break;
+                case Constants.KILL_QUEST:
+                    containsKill = true;
+                    break;
+                case Constants.EXPLORE_QUEST:
+                    containsExplore = true;
+                    break;
+            }
         }
 
         private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
