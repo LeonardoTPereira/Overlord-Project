@@ -35,6 +35,11 @@ namespace Game.NarrativeGenerator
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
             } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
+            Debug.Log("FINAL QUEST SO:");
+            foreach (QuestSO quest in questsSos)
+            {
+                Debug.Log(quest.symbolType);
+            }
             return questsSos;
         }
 
