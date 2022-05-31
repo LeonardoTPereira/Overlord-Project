@@ -20,37 +20,25 @@ namespace Game.NarrativeGenerator
             m.Quests.graph = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
         }
 
-        private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private List<List<QuestSO>> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
-            var questsSos = new List<QuestSO>();
-            foreach (KeyValuePair<string, Func<int, int>> item in ProfileCalculator.StartSymbolWeights)
-            {
-                Debug.Log($" {item.Key} - {item.Value(0)} ");
-            }
+            var questSos = new List<List<QuestSO>>();
             int i = 0;
-            int j = 0;
             do
             {
-                j = 0;
                 MarkovChain questChain = new MarkovChain();
                 questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
-                while ( questChain.GetLastSymbol().canDrawNext && j < 20)
+                var questSO = new List<QuestSO>();
+                while ( questChain.GetLastSymbol().canDrawNext )
                 {
-                    j++;
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
-                    SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    SaveCurrentQuest( questChain, questSO, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
-                i++;
-            } while ( (!containsKill || !containsTalk || !containsGet || !containsExplore) && i < 50 );
-            Debug.Log($"i:{i} j:{j}");
-            Debug.Log("FINAL QUEST SO:");
-            foreach (QuestSO quest in questsSos)
-            {
-                Debug.Log(quest.symbolType);
-            }
-            return questsSos;
+                questSos.Add( questSO );
+            } while ( (!containsKill || !containsTalk || !containsGet || !containsExplore) );
+            return questSos;
         }
 
         private void UpdateListContents ( Symbol lastQuest, ref bool containsKill ,ref bool containsTalk ,ref bool containsGet ,ref bool containsExplore )
