@@ -13,7 +13,7 @@ namespace Game.DataCollection
         public RectTransform questionsPanel;
         public RectTransform submitButton;
         public float extraQuestionsPanelHeight = 100;
-        private List<FormQuestionBHV> questions = new List<FormQuestionBHV>();
+        private List<FormQuestionBhv> questions = new List<FormQuestionBhv>();
         public int formID; //0 for pretest, 1 for posttest
 
         public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
@@ -25,9 +25,9 @@ namespace Game.DataCollection
             foreach (FormQuestionData q in questionsData.questions)
             {
                 GameObject g = Instantiate(questionPrefab);
-                g.GetComponent<FormQuestionBHV>().LoadData(q);
+                g.GetComponent<FormQuestionBhv>().LoadData(q);
                 g.transform.SetParent(questionsPanel);
-                questions.Add(g.GetComponent<FormQuestionBHV>());
+                questions.Add(g.GetComponent<FormQuestionBhv>());
             }
             float panelHeight = questionsData.questions.Count
                                 * questionPrefab.GetComponent<RectTransform>().rect.height;
@@ -42,7 +42,7 @@ namespace Game.DataCollection
             AssetDatabase.SaveAssetIfDirty(questionsData);
             #endif
             List<int> answers = new List<int>();
-            foreach (FormQuestionBHV q in questions)
+            foreach (FormQuestionBhv q in questions)
             {
                 answers.Add(q.questionData.answer);
                 q.ResetToggles();

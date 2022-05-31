@@ -24,17 +24,27 @@ namespace Game.NarrativeGenerator
         {
             bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
             var questsSos = new List<QuestSO>();
+            foreach (KeyValuePair<string, Func<int, int>> item in ProfileCalculator.StartSymbolWeights)
+            {
+                Debug.Log($" {item.Key} - {item.Value(0)} ");
+            }
+            int i = 0;
+            int j = 0;
             do
             {
+                j = 0;
                 MarkovChain questChain = new MarkovChain();
                 questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
-                while ( questChain.GetLastSymbol().canDrawNext )
+                while ( questChain.GetLastSymbol().canDrawNext && j < 20)
                 {
+                    j++;
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
                     SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
-            } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
+                i++;
+            } while ( (!containsKill || !containsTalk || !containsGet || !containsExplore) && i < 50 );
+            Debug.Log($"i:{i} j:{j}");
             Debug.Log("FINAL QUEST SO:");
             foreach (QuestSO quest in questsSos)
             {
