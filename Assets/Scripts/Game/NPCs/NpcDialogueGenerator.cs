@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using Game.NarrativeGenerator.Quests;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
 namespace Game.NPCs
 {
@@ -26,5 +28,24 @@ namespace Game.NPCs
             greeting.Append(" I'm "+speaker.NpcName+", the "+speaker.Job+".");
             return greeting.ToString();
         }
+
+        public static string CreateQuestOpener(QuestSO openedQuest)
+        {
+            var questOpener = new StringBuilder();
+            questOpener.Append("Greetings adventurer! I was expecting you!");
+            if (openedQuest.IsKillQuest())
+            {
+                questOpener.Append("I need you to kill some monsters for me:\n");
+                var killQuest = openedQuest as KillQuestSO;
+                foreach (var enemyByAmount in killQuest.EnemiesToKillByType.EnemiesByTypeDictionary)
+                {
+                    questOpener.Append($"{enemyByAmount.Value.ToString()} {enemyByAmount.Key.name}s, ");
+                }
+                questOpener.Remove(questOpener.Length - 3, 2);
+            }
+            return questOpener.ToString();
+        }
+        
+        //TODO create quest finisher
     }
 }

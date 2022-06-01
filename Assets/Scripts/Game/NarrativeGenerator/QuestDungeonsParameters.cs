@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using Util;
@@ -41,10 +42,10 @@ namespace Game.NarrativeGenerator
 
         public void CalculateDungeonParametersFromQuests(QuestLine quests, float explorationPreference)
         {
-            Size = GetSizeFromEnum(quests.graph.Count, explorationPreference);
+            Size = GetSizeFromEnum(quests.questLines.Count, explorationPreference);
             var explorationQuests = 0;
             var objectiveQuests = 0;
-            foreach (var quest in quests.graph)
+            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
             {
                 if (quest.IsExplorationQuest())
                 {

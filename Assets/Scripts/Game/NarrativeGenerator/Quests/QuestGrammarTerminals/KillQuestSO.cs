@@ -2,6 +2,7 @@
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
+using System.Linq;
 using Util;
 using UnityEngine;
 
@@ -65,6 +66,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 EnemiesToKillByFitness.Add(enemyFitness, amount);
             }
+        }
+
+        public void SubtractEnemy(WeaponTypeSO weaponTypeSo)
+        {
+            EnemiesToKillByType.EnemiesByTypeDictionary[weaponTypeSo]--;
+        }
+
+        public bool CheckIfCompleted()
+        {
+            return EnemiesToKillByType.EnemiesByTypeDictionary.All(enemyToKill => enemyToKill.Value == 0);
+        }
+
+        public bool HasEnemyToKill(WeaponTypeSO weaponTypeSo)
+        {
+            if (!EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo, out var killsLeft)) return false;
+            return killsLeft > 0;
         }
     }
 }

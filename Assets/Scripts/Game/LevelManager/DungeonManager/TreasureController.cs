@@ -1,11 +1,12 @@
 ﻿using Game.Audio;
 using Game.Events;
+using Game.Quests;
 using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.LevelManager.DungeonManager
 {
-    public class TreasureController : PlaceableRoomObject, ISoundEmitter
+    public class TreasureController : PlaceableRoomObject, ISoundEmitter, IQuestElement
     {
         [field: SerializeField]
         public ItemSo Treasure { get; set; }
@@ -35,6 +36,7 @@ namespace Game.LevelManager.DungeonManager
 
         private void OnTreasureCollect()
         {
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGetItemEventArgs(Treasure));
             TreasureCollectEventHandler?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
         }
     }

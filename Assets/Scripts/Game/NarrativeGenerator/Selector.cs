@@ -6,6 +6,7 @@ using Game.Events;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Game.NPCs;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -17,30 +18,52 @@ namespace Game.NarrativeGenerator
     {
         public void CreateMissions(QuestGeneratorManager m)
         {
-            m.Quests.graph = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
+            m.Quests.questLines = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
         }
 
-        private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private List<QuestList> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
-            var questsSos = new List<QuestSO>();
-            MarkovChain questChain = new MarkovChain();
-            var chainCost = 0;
+            bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
+            var questLineList = new List<QuestList>();
             do
             {
+                var questLine = new QuestList();
+                MarkovChain questChain = new MarkovChain();
                 questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
-                    SaveCurrentQuest( questChain, questsSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    SaveCurrentQuest( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
-                chainCost += (int)Enums.QuestWeights.Hated*2;
-            } while (chainCost < (int)Enums.QuestWeights.Loved );
+                questLine.NpcInCharge = possibleNpcs.GetRandom();
+                questLineList.Add(questLine);
+            } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
             Debug.Log("FINAL QUEST SO:");
-            foreach (QuestSO quest in questsSos)
+            foreach (var quest in questLineList.SelectMany(questList => questList.Quests))
             {
                 Debug.Log(quest.symbolType);
             }
-            return questsSos;
+            return questLineList;
+        }
+
+        private void UpdateListContents ( Symbol lastQuest, ref bool containsKill ,ref bool containsTalk ,ref bool containsGet ,ref bool containsExplore )
+        {
+            switch ( lastQuest.symbolType )
+            {
+                case Constants.TALK_QUEST:
+                    containsTalk = true;
+                    break;
+                case Constants.GET_QUEST:
+                    containsGet = true;
+                    break;
+                case Constants.KILL_QUEST:
+                    containsKill = true;
+                    break;
+                case Constants.EXPLORE_QUEST:
+                    containsExplore = true;
+                    break;
+            }
         }
 
         private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )

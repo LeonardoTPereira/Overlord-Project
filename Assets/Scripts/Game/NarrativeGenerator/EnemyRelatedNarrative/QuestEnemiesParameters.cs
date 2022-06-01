@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Game.EnemyGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -73,7 +74,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 
         public void CalculateMonsterFromQuests(QuestLine quests)
         {
-            foreach (var quest in quests.graph)
+            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddEnemiesWhenEnemyQuest(quest);
             }

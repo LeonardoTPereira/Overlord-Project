@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Game.NarrativeGenerator
 {
@@ -21,6 +22,17 @@ namespace Game.NarrativeGenerator
         public void SetProfileFromFavoriteQuest(string favoriteQuest)
         {
             PlayerProfileEnum = (PlayerProfileCategory) Enum.Parse(typeof(PlayerProfileCategory), favoriteQuest);
+        }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("Category: " + PlayerProfileEnum);
+            stringBuilder.Append("Kill: " + MasteryPreference);
+            stringBuilder.Append("Talk: " + ImmersionPreference);
+            stringBuilder.Append("Get: " + AchievementPreference);
+            stringBuilder.Append("Explore: " + CreativityPreference);
+            return base.ToString();
         }
     }
 }

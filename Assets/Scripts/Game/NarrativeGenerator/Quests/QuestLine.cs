@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
@@ -16,7 +17,7 @@ namespace Game.NarrativeGenerator.Quests
     [Serializable]
     public class QuestLine : ScriptableObject, SaveableGeneratedContent
     {
-        [SerializeField] public List<QuestSO> graph;
+        [SerializeField] public List<QuestList> questLines;
         [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
         [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
         [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
@@ -75,7 +76,7 @@ namespace Game.NarrativeGenerator.Quests
 
         public void Init()
         {
-            graph = new List<QuestSO>();
+            questLines = new List<QuestList>();
             _dungeonFileSos = new List<DungeonFileSo>();
             _enemySos = new List<EnemySO>();
             _npcSos = new List<NpcSo>();
@@ -96,7 +97,7 @@ namespace Game.NarrativeGenerator.Quests
             CreateAssetsForDungeons(newDirectory);
             CreateAssetsForEnemies(newDirectory);
             const string extension = ".asset";
-            var fileName = newDirectory+ Constants.SEPARATOR_CHARACTER +"Narrative_" + graph[0] + extension;
+            var fileName = newDirectory+ Constants.SEPARATOR_CHARACTER +"Narrative_" + questLines[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             AssetDatabase.Refresh();
@@ -105,7 +106,7 @@ namespace Game.NarrativeGenerator.Quests
         
         public void CreateAssetsForQuests(string directory)
         {
-            foreach (var quest in graph)
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 quest.SaveAsset(directory);
             }

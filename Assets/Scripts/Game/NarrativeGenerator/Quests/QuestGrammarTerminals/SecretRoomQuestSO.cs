@@ -5,7 +5,7 @@ using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    class SecretRoomQuestSO : QuestSO
+    public class SecretRoomQuestSO : QuestSO
     {
         public override string symbolType {
             get { return Constants.SECRET_TERMINAL; }

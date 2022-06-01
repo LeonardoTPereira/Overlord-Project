@@ -29,6 +29,7 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
         [SerializeField] private ItemSo reward;
+        [field: SerializeField] public bool IsCompleted { get; set; }
         private bool _canDrawNext;
 
         public QuestSO NextWhenSuccess { get => nextWhenSuccess; set => nextWhenSuccess = value; }
@@ -56,6 +57,16 @@ namespace Game.NarrativeGenerator.Quests
             nextWhenSuccess = null;
             nextWhenFailure = null;
             Reward = null;
+        }
+        
+        public void Init(QuestSO copiedQuest)
+        {
+            QuestName = copiedQuest.QuestName;
+            EndsStoryLine = copiedQuest.EndsStoryLine;
+            Previous = copiedQuest.Previous;
+            nextWhenSuccess = copiedQuest.NextWhenSuccess;
+            nextWhenFailure = copiedQuest.NextWhenFailure;
+            Reward = copiedQuest.Reward;
         }
         
         public void SetDictionary(Dictionary<string, Func<int,int>> _nextSymbolChances  )

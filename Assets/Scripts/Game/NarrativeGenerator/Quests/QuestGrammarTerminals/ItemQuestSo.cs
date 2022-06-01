@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
 using System;
+using System.Linq;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -43,6 +44,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 ItemsToCollectByType.Add(item, amount);
             }
+        }
+        
+        public void SubtractItem(ItemSo itemSo)
+        {
+            ItemsToCollectByType[itemSo]--;
+        }
+
+        public bool CheckIfCompleted()
+        {
+            return ItemsToCollectByType.All(itemToCollect => itemToCollect.Value == 0);
+        }
+        
+        public bool HasItemToCollect(ItemSo itemSo)
+        {
+            if (!ItemsToCollectByType.TryGetValue(itemSo, out var itemsLeft)) return false;
+            return itemsLeft > 0;
         }
     }
 

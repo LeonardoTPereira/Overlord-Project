@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using Fog.Dialogue;
 using Game.Dialogues;
+using Game.Quests;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
@@ -9,9 +11,31 @@ using Util;
 
 namespace Game.NPCs
 {
-    public class NpcController : MonoBehaviour, IInteractable {
+    public class NpcController : MonoBehaviour, IInteractable, IQuestElement {
         [SerializeField] private DialogueController dialogue;
         [SerializeField] private NpcSo npc;
+        private bool _isDialogueNull;
+        
+        private void Start()
+        {
+            CreateIntroDialogue();
+        }
+
+        private void OnEnable()
+        {
+            QuestController.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+        }
+
+        private void OnDisable()
+        {
+            QuestController.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+        }
+
+        private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != npc) return;
+            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestOpener(eventArgs.Quest));
+        }
 
         public void Reset() {
             var nColliders = GetComponents<Collider2D>().Length;
@@ -24,13 +48,11 @@ namespace Game.NPCs
                 }
             }
         }
-
+        
 #if UNITY_EDITOR
         [ButtonMethod]
         public void CreateDialogueAsset()
         {
-            dialogue = ScriptableObject.CreateInstance<DialogueController>();
-            CreateIntroDialogue();
             var target = "Assets";
             target += Constants.SEPARATOR_CHARACTER + "Resources";
             target += Constants.SEPARATOR_CHARACTER + "Dialogues";
@@ -52,9 +74,9 @@ namespace Game.NPCs
         
         public void CreateIntroDialogue()
         {
-            var dialogueLine = new StringBuilder();
-            dialogueLine.Append(NpcDialogueGenerator.CreateGreeting(Npc));
-            dialogue.AddDialogue(npc, dialogueLine.ToString());
+            dialogue = ScriptableObject.CreateInstance<DialogueController>();
+            _isDialogueNull = dialogue == null;
+            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateGreeting(Npc));
         }
 
         private bool HasAtLeastOneTrigger()
@@ -62,10 +84,11 @@ namespace Game.NPCs
             return GetComponents<Collider2D>().Any(col => col.isTrigger);
         }
 
-        public void OnInteractAttempt() {
-            if (dialogue != null) {
-                DialogueHandler.instance.StartDialogue(dialogue);
-            }
+        public void OnInteractAttempt()
+        {
+            if (_isDialogueNull) return;
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(npc));
+            DialogueHandler.instance.StartDialogue(dialogue);
         }
 
         public void OnTriggerEnter2D(Collider2D col) {

@@ -7,7 +7,7 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    class TalkQuestSO : QuestSO
+    public class TalkQuestSO : QuestSO
     {
         public override string symbolType { 
             get { return Constants.TALK_TERMINAL;} 
