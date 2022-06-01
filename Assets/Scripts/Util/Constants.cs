@@ -61,9 +61,6 @@ namespace Util
             return (int) Mathf.Pow(x,2);
         };
 
-        // public static Func<int,int> TwoOptionQuestLineWeight = x => (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
-        // public static Func<int,int> TwoOptionQuestEmptyWeight = x => (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
-
         public static Func<int,int> ThreeOptionQuestLineWeight = x => 
         {
             if ( x < 4 )
