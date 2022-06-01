@@ -4,6 +4,9 @@ using System.Linq;
 using Game.DataCollection;
 using Game.Events;
 using Util;
+using static Util.Enums;
+
+using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
@@ -77,17 +80,35 @@ namespace Game.NarrativeGenerator
 
         private static void CalculateStartSymbolWeights ( PlayerProfile playerProfile )
         {
-            StartSymbolWeights = new Dictionary<string, Func<int, int>>();
-            
-            int talkWeight = (int)(100*playerProfile.CreativityPreference)/16;
-            int getWeight = (int)(100*playerProfile.AchievementPreference)/16;
-            int killWeight = (int)(100*playerProfile.MasteryPreference)/16;
-            int exploreWeight = (int)(100*playerProfile.ImmersionPreference)/16;
+            float creativityPreference = RemoveZeros( playerProfile.CreativityPreference );
+            float achievementPreference = RemoveZeros( playerProfile.AchievementPreference );
+            float masteryPreference = RemoveZeros( playerProfile.MasteryPreference );
+            float immersionPreference = RemoveZeros( playerProfile.ImmersionPreference );
 
-            if ( talkWeight != 0 ) StartSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
-            if ( getWeight != 0 ) StartSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );
-            if ( killWeight != 0 ) StartSymbolWeights.Add( Constants.KILL_QUEST, x => killWeight ); 
-            if ( exploreWeight != 0 ) StartSymbolWeights.Add( Constants.EXPLORE_QUEST, x => exploreWeight );
+            float normalizeConst = creativityPreference + achievementPreference;
+            normalizeConst += masteryPreference + immersionPreference;
+            
+            int talkWeight = (int)(100*creativityPreference/normalizeConst);
+            int getWeight = (int)(100*achievementPreference/normalizeConst);
+            int killWeight = (int)(100*masteryPreference/normalizeConst);
+            int exploreWeight = (int)(100*immersionPreference/normalizeConst);
+
+            Debug.Log($"{talkWeight} {getWeight} {killWeight} {exploreWeight}");
+
+            StartSymbolWeights = new Dictionary<string, Func<int, int>>();
+            StartSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
+            StartSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );
+            StartSymbolWeights.Add( Constants.KILL_QUEST, x => killWeight ); 
+            StartSymbolWeights.Add( Constants.EXPLORE_QUEST, x => exploreWeight );
+        }
+
+        private static float RemoveZeros ( float playerPreference )
+        {
+            if ( playerPreference > 0 )
+            {
+                return playerPreference;
+            }
+            return (float) QuestWeights.Hated;
         }
         
         private static PlayerProfile CreateProfileWithWeights()

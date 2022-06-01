@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.DataCollection
 {
-    public class FormQuestionBHV : MonoBehaviour
+    public class FormQuestionBhv : MonoBehaviour
     {
         public Toggle[] toggles;
         public Text questionText;
