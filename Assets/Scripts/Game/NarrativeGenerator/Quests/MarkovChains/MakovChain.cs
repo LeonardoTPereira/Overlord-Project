@@ -33,7 +33,6 @@ namespace Game.NarrativeGenerator.Quests
             switch ( _symbol )
             {
                 case Constants.KILL_QUEST:
-                    symbolList.Add( new Kill() );
                 break;
                 case Constants.TALK_QUEST:
                     symbolList.Add( new Talk() );

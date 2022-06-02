@@ -20,23 +20,21 @@ namespace Game.NarrativeGenerator
             m.Quests.graph = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
         }
 
-        private List<List<QuestSO>> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private List<QuestSO> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
-            var questSos = new List<List<QuestSO>>();
+            var questSos = new List<QuestSO>();
             int i = 0;
             do
             {
                 MarkovChain questChain = new MarkovChain();
                 questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
-                var questSO = new List<QuestSO>();
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
-                    SaveCurrentQuest( questChain, questSO, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    SaveCurrentQuest( questChain, questSos, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
-                questSos.Add( questSO );
             } while ( (!containsKill || !containsTalk || !containsGet || !containsExplore) );
             return questSos;
         }
