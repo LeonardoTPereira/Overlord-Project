@@ -9,6 +9,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class CreativityQuestSOs : QuestSO
     {
+        public override string symbolType {
+            get { return Constants.TALK_QUEST; }
+        }
+
         public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
             get {

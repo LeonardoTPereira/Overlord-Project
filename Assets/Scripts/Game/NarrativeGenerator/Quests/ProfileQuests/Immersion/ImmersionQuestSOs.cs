@@ -9,8 +9,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class ImmersionQuestSOs : QuestSO
     {
+        public override string symbolType {
+            get { return Constants.EXPLORE_QUEST; }
+        }
         public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
+            
             get {
                 Dictionary<string, Func<int, int>> immersionQuestWeights = new Dictionary<string, Func<int, int>>();
                 immersionQuestWeights.Add( Constants.STEALTH, Constants.FourOptionQuestLineWeight );

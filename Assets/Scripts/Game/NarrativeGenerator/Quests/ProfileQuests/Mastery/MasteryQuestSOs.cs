@@ -9,6 +9,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     class MasteryQuestSOs : QuestSO
     {
+        public override string symbolType {
+            get { return Constants.KILL_QUEST; }
+        }
         public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
             get {

@@ -93,8 +93,6 @@ namespace Game.NarrativeGenerator
             int killWeight = (int)(100*masteryPreference/normalizeConst);
             int exploreWeight = (int)(100*immersionPreference/normalizeConst);
 
-            Debug.Log($"{talkWeight} {getWeight} {killWeight} {exploreWeight}");
-
             StartSymbolWeights = new Dictionary<string, Func<int, int>>();
             StartSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
             StartSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );

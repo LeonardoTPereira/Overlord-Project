@@ -104,6 +104,7 @@ namespace Game.NarrativeGenerator
         {
             if (MustCreateNarrative)
             {
+                QuestsToJson.Init( playerProfile );
                 Selector.CreateMissions(this);
                 await CreateNarrative(playerProfile);
             }
@@ -124,17 +125,17 @@ namespace Game.NarrativeGenerator
         {
             Debug.Log("Creating Quest Line for Profile");
             SetQuestLineListForProfile(playerProfile);
-            CreateGeneratorParametersForQuestLine(playerProfile);
-            Debug.Log("Creating Contents for Quest Line");
-            await CreateContentsForQuestLine();
-            if (!isRealTimeGeneration)
-            {
-                SaveSOs(playerProfile.PlayerProfileEnum.ToString());
-            }
-            Debug.Log("Initializing Quest Content");
-            SelectedLevels.Init(Quests);
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
+            // CreateGeneratorParametersForQuestLine(playerProfile);
+            // Debug.Log("Creating Contents for Quest Line");
+            // await CreateContentsForQuestLine();
+            // if (!isRealTimeGeneration)
+            // {
+            //     SaveSOs(playerProfile.PlayerProfileEnum.ToString());
+            // }
+            // Debug.Log("Initializing Quest Content");
+            // SelectedLevels.Init(Quests);
+            // ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            // QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(Quests));
         }
 
         private async Task CreateContentsForQuestLine()
