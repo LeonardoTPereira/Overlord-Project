@@ -29,7 +29,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 
         public void SetNextSymbol( MarkovChain chain )
         {
-            int chance = (int) UnityEngine.Random.Range( 0, 100 );
+            int chance = RandomSingleton.GetInstance().Next(0, 100);
             int cumulativeProbability = 0;
             foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
             {

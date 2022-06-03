@@ -10,6 +10,7 @@ namespace Game.NarrativeGenerator.Quests
 {
     
     [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
+    [Serializable]
     public class QuestSO : ScriptableObject, SaveableGeneratedContent, Symbol
     {
         public virtual string symbolType {get; set;}
@@ -23,17 +24,15 @@ namespace Game.NarrativeGenerator.Quests
             set {} 
         }
 
-        [SerializeField] private QuestSO nextWhenSuccess;
-        [SerializeField] private QuestSO nextWhenFailure;
-        [SerializeField] private QuestSO previous;
+        [SerializeReference] private QuestSO next;
+        [SerializeReference] private QuestSO previous;
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
         [SerializeField] private ItemSo reward;
         [field: SerializeField] public bool IsCompleted { get; set; }
         private bool _canDrawNext;
 
-        public QuestSO NextWhenSuccess { get => nextWhenSuccess; set => nextWhenSuccess = value; }
-        public QuestSO NextWhenFailure { get => nextWhenFailure; set => nextWhenFailure = value; }
+        public QuestSO Next { get => next; set => next = value; }
         public QuestSO Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
@@ -41,32 +40,36 @@ namespace Game.NarrativeGenerator.Quests
 
         public virtual void Init()
         {
-            nextWhenSuccess = null;
-            nextWhenFailure = null;
+            next = null;
             previous = null;
             questName = "Null";
             endsStoryLine = false;
             Reward = null;
         }
 
-        public void Init(string name, bool endsStoryLine, QuestSO previous)
+        public void Init(string questTitle, bool endsLine, QuestSO previousQuest)
         {
-            QuestName = name;
-            EndsStoryLine = endsStoryLine;
-            Previous = previous;
-            nextWhenSuccess = null;
-            nextWhenFailure = null;
+            QuestName = questTitle;
+            EndsStoryLine = endsLine;
+            Previous = previousQuest;
+            next = null;
             Reward = null;
         }
         
-        public void Init(QuestSO copiedQuest)
+        public virtual void Init(QuestSO copiedQuest)
         {
             QuestName = copiedQuest.QuestName;
             EndsStoryLine = copiedQuest.EndsStoryLine;
             Previous = copiedQuest.Previous;
-            nextWhenSuccess = copiedQuest.NextWhenSuccess;
-            nextWhenFailure = copiedQuest.NextWhenFailure;
+            next = copiedQuest.Next;
             Reward = copiedQuest.Reward;
+        }
+
+        public virtual QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<QuestSO>();
+            cloneQuest.Init(this);
+            return cloneQuest;
         }
         
         public void SetDictionary(Dictionary<string, Func<int,int>> _nextSymbolChances  )
@@ -76,7 +79,7 @@ namespace Game.NarrativeGenerator.Quests
 
         public void SetNextSymbol(MarkovChain chain)
         {
-            int chance = (int) UnityEngine.Random.Range( 0, 100 );
+            int chance = RandomSingleton.GetInstance().Next(0, 100);
             int cumulativeProbability = 0;
             foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
             {

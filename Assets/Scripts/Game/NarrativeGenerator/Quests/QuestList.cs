@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using ScriptableObjects;
@@ -11,7 +10,7 @@ namespace Game.NarrativeGenerator.Quests
     [Serializable]
     public class QuestList
     {
-        [field: SerializeField] public List<QuestSO> Quests {get; set; }
+        [field: SerializeReference] public List<QuestSO> Quests {get; set; }
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
 
@@ -25,8 +24,12 @@ namespace Game.NarrativeGenerator.Quests
             Quests = new List<QuestSO>();
             foreach (var quest in quests.Quests)
             {
-                var copyQuest = ScriptableObject.CreateInstance<QuestSO>();
-                copyQuest.Init(quest);
+                var copyQuest = quest.Clone();
+                if (Quests.Count > 0)
+                {
+                    Quests[^1].Next = copyQuest;
+                    copyQuest.Previous = Quests[^1];
+                }
                 Quests.Add(copyQuest);
             }
             NpcInCharge = quests.NpcInCharge;
@@ -38,7 +41,8 @@ namespace Game.NarrativeGenerator.Quests
             foreach (var quest in Quests)
             {
                 if (quest is not KillQuestSO killQuestSo) continue;
-                var enemyCount = killQuestSo.EnemiesToKillByType.EnemiesByTypeDictionary[weaponTypeSo];
+                if (!killQuestSo.EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo,
+                        out var enemyCount)) continue;
                 if (enemyCount > 0)
                 {
                     return killQuestSo;
@@ -47,12 +51,12 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
         
-        public GetQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
+        public ItemQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
         {
             foreach (var quest in Quests)
             {
-                if (quest is not GetQuestSo getQuestSo) continue;
-                var itemCount = getQuestSo.ItemsToCollectByType[itemType];
+                if (quest is not ItemQuestSo getQuestSo) continue;
+                if (!getQuestSo.ItemsToCollectByType.TryGetValue(itemType, out var itemCount)) continue;
                 if (itemCount > 0)
                 {
                     return getQuestSo;

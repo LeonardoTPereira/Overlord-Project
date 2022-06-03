@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using ScriptableObjects;
@@ -28,7 +29,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
 
         public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            switch ( chain.GetLastSymbol().symbolType )
+            CreateAndSaveGetQuestSo(questSos, possibleItems);
+            //TODO implemente Drop Quest Game Logic
+            /*switch ( chain.GetLastSymbol().symbolType )
             {
                 case Constants.GET_TERMINAL:
                     CreateAndSaveGetQuestSo(questSos, possibleItems);
@@ -36,19 +39,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
                 case Constants.DROP_TERMINAL:
                     CreateAndSaveDropQuestSo(questSos, possibleItems, enemyTypes);
                 break;
-            }
+            }*/
         }
 
         private static void CreateAndSaveGetQuestSo(List<QuestSO> questSos,
             TreasureRuntimeSetSO possibleItems)
         {
             var getItemQuest = ScriptableObject.CreateInstance<ItemQuestSo>();
-            var selectedItems = new Dictionary<ItemSo, int>();
+            var selectedItems = new ItemAmountDictionary();
             //TODO select more items
             var selectedItem = possibleItems.GetRandomItem();
             selectedItems.Add(selectedItem, 1);
             getItemQuest.Init(ItemsToString(selectedItems), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedItems);
             //getItemQuest.SaveAsAsset();
+            if (questSos.Count > 0)
+            {
+                questSos[^1].Next = getItemQuest;
+            }
+            
             questSos.Add(getItemQuest);
 
         }
@@ -65,15 +73,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             var selectedEnemyTypes = new EnemiesByType ();
             //TODO select more enemies
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(7) + 5;
+            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 10;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
             dropItemData.Add(selectedItem, selectedEnemyTypes);
             dropQuest.Init(DropItemsToString(dropItemData), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, dropItemData);
             //dropQuest.SaveAsAsset();
+            if (questSos.Count > 0)
+            {
+                questSos[^1].Next = dropQuest;
+            }
+            
             questSos.Add(dropQuest);
         }
 
-        private static string ItemsToString(Dictionary<ItemSo, int> selectedItems)
+        private static string ItemsToString(ItemAmountDictionary selectedItems)
         {
             var stringBuilder = new StringBuilder();
             for (var i = 0; i < selectedItems.Count; i++)

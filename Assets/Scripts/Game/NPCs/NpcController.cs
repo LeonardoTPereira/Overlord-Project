@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
 using Game.Quests;
@@ -24,17 +22,32 @@ namespace Game.NPCs
         private void OnEnable()
         {
             QuestController.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+            QuestController.QuestOpenedEventHandler += CreateQuestOpenedDialogue;
         }
 
         private void OnDisable()
         {
             QuestController.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+            QuestController.QuestOpenedEventHandler -= CreateQuestOpenedDialogue;
         }
 
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != npc) return;
-            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestOpener(eventArgs.Quest));
+            var completedQuest = eventArgs.Quest;
+            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestCloser(completedQuest, npc));
+            if (!completedQuest.EndsStoryLine)
+            {
+                dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestOpener(completedQuest.Next, npc));
+
+            }
+        }
+        
+        private void CreateQuestOpenedDialogue(object sender, NewQuestEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != npc) return;
+            var openedQuest = eventArgs.Quest;
+            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestOpener(openedQuest, npc));
         }
 
         public void Reset() {

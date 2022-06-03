@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -40,7 +41,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
         public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, EnemiesByType > dropItemData)
         {
-            var itemsByType = new Dictionary<ItemSo, int>();
+            var itemsByType = new ItemAmountDictionary();
             foreach (var itemToDrop in dropItemData)
             {
                 var totalItems = itemToDrop.Value.EnemiesByTypeDictionary.Sum(itemsPerEnemy => itemsPerEnemy.Value);
@@ -51,7 +52,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }        
         public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, Dictionary<float, int>> dropItemData)
         {
-            Dictionary<ItemSo, int> itemsByType = new Dictionary<ItemSo, int>();
+            var itemsByType = new ItemAmountDictionary();
             foreach (var itemToDrop in dropItemData)
             {
                 int totalItems = 0;
@@ -63,6 +64,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             base.Init(questName, endsStoryLine, previous, itemsByType);
             ItemDataByEnemyFitness = dropItemData;
+        }
+        
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            Debug.Log("Init Not Implemented for DropQuestSO");
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<DropQuestSo>();
+            cloneQuest.Init(this);
+            return cloneQuest;
         }
     }
 }

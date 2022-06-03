@@ -17,3 +17,4 @@ MonoBehaviour:
   projectile: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751, type: 2}
   weaponPrefab: {fileID: 1699235863348634, guid: f5d0fbde0c47de34b9281aad66fb01b0,
     type: 3}
+  <EnemyTypeName>k__BackingField: Swordsman

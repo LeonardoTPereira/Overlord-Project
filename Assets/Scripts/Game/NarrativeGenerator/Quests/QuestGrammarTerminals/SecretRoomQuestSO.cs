@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Game.NPCs;
 using ScriptableObjects;
+using UnityEngine;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -66,6 +67,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public void SetNpc(NpcSo npc)
         {
             Npc = npc;
+        }
+        
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            Debug.Log("Init Not Implemented for SecretRoomQuestSO");
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<SecretRoomQuestSO>();
+            cloneQuest.Init(this);
+            return cloneQuest;
         }
     }
 }

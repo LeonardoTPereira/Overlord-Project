@@ -12,5 +12,6 @@ namespace ScriptableObjects
         public ProjectileTypeSO projectile;
         [SerializeField]
         public GameObject weaponPrefab;
+        [field: SerializeField] public String EnemyTypeName { get; set; }
     }
 }

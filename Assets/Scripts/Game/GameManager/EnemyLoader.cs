@@ -13,7 +13,6 @@ using Unity.Mathematics;
 using UnityEngine;
 using Util;
 using static Util.Enums;
-using Random = UnityEngine.Random;
 
 namespace Game.GameManager
 {
@@ -107,7 +106,7 @@ namespace Game.GameManager
         public static EnemySO GetRandomEnemyOfType(WeaponTypeSO enemyType)
         {
             List<EnemySO> currentEnemies = GetEnemiesFromType(enemyType);
-            return currentEnemies[Random.Range(0, currentEnemies.Count)];
+            return currentEnemies[RandomSingleton.GetInstance().Next(0, currentEnemies.Count)];
         }
 
         public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)

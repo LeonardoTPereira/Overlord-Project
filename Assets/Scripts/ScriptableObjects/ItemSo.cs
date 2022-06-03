@@ -8,6 +8,7 @@ namespace ScriptableObjects
     {
         [SerializeField]
         public Sprite sprite;
+        [field: SerializeField] public String ItemName { get; set; }
         [field: SerializeField] public int Value { get; set; }
     }
 }

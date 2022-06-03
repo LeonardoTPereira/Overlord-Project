@@ -3,14 +3,17 @@ using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
 using System.Linq;
+using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Util;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
+    [Serializable]
     public class KillQuestSO : QuestSO
     {
-        public EnemiesByType  EnemiesToKillByType { get; set; }
+        [field: SerializeField]
+        public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
 
         public override Dictionary<string, Func<int,int>> nextSymbolChances
@@ -42,6 +45,23 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByFitness = enemiesByFitness;
+        }
+        
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            EnemiesToKillByType = new EnemiesByType ();
+            foreach (var enemyByType in (copiedQuest as KillQuestSO).EnemiesToKillByType.EnemiesByTypeDictionary)
+            {
+                EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
+            }
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<KillQuestSO>();
+            cloneQuest.Init(this);
+            return cloneQuest;
         }
         
         public void AddEnemy(WeaponTypeSO enemy, int amount)

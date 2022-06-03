@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.DataCollection;
-using Game.Events;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Game.NPCs;
@@ -10,7 +7,6 @@ using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
-using Enums = Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
@@ -36,6 +32,7 @@ namespace Game.NarrativeGenerator
                     SaveCurrentQuest( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
+                questLine.Quests[^1].EndsStoryLine = true;
                 questLine.NpcInCharge = possibleNpcs.GetRandom();
                 questLineList.Add(questLine);
             } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
@@ -95,7 +92,5 @@ namespace Game.NarrativeGenerator
                     break;
             }
         }
-
-  
     }
 }

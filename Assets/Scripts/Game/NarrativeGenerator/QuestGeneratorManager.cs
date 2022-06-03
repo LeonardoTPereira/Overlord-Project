@@ -67,14 +67,14 @@ namespace Game.NarrativeGenerator
         public void OnEnable()
         {
             NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
-            FormBHV.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
+            FormBhv.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler += SelectPlayerProfile;
         }
 
         public void OnDisable()
         {
             NarrativeGenerator.NarrativeCreatorEventHandler -= SelectPlayerProfile;
-            FormBHV.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
+            FormBhv.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
         }
 

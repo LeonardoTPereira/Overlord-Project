@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Game.LevelSelection;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +13,7 @@ namespace Game.Quests
         [SerializeField] private int countableQuestElements;
         [SerializeField] private int completedTasks;
         [field: SerializeReference] private SelectedLevels selectedLevels;
-        private List<QuestList> _questLists;
+        [SerializeField] private List<QuestList> questLists;
         public static event QuestCompletedEvent QuestCompletedEventHandler;
         public static event  QuestOpenedEvent QuestOpenedEventHandler;
 
@@ -51,10 +49,10 @@ namespace Game.Quests
 
         private void InitializeQuests(List<QuestList> originalQuestLines)
         {
-            _questLists = new List<QuestList>();
+            questLists = new List<QuestList>();
             foreach (var questList in originalQuestLines)
             {
-                _questLists.Add(new QuestList(questList));
+                questLists.Add(new QuestList(questList));
                 QuestOpenedEventHandler?.Invoke(null, new NewQuestEventArgs(questList.GetCurrentQuest(), questList.NpcInCharge));
             }
         }
@@ -78,9 +76,11 @@ namespace Game.Quests
         private void UpdateKillQuest(QuestKillEnemyEventArgs killQuestArgs)
         {
             var enemyKilled = killQuestArgs.EnemyWeaponTypeSo;
-            foreach (var questList in _questLists)
+            //TODO move this processing inside the QuestSO and their children
+            foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
                 if (currentQuest.IsCompleted) continue;
                 if (currentQuest is not KillQuestSO killQuestSo) continue;
                 if (!killQuestSo.HasEnemyToKill(enemyKilled)) continue;
@@ -88,14 +88,14 @@ namespace Game.Quests
                 return;
             }
 
-            foreach (var questList in _questLists)
+            foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetFirstKillQuestWithEnemyAvailable(enemyKilled);
-                if (currentQuest != null) continue;
+                if (currentQuest == null) continue;
                 UpdateValidKillQuest(questList, currentQuest, enemyKilled);
                 return;
             }
-            Debug.Log("No Kill Quests With This Enemy Available");
+            Debug.Log($"$No Kill Quests With This Enemy ({enemyKilled}) Available");
         }
 
         private void UpdateValidKillQuest(QuestList questList, KillQuestSO killQuestSo, WeaponTypeSO enemyKilled)
@@ -108,27 +108,28 @@ namespace Game.Quests
         private void UpdateGetItemQuest(QuestGetItemEventArgs getItemQuestArgs)
         {
             var itemCollected = getItemQuestArgs.ItemType;
-            foreach (var questList in _questLists)
+            foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
                 if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not GetQuestSo getItemQuestSo) continue;
+                if (currentQuest is not ItemQuestSo getItemQuestSo) continue;
                 if (!getItemQuestSo.HasItemToCollect(itemCollected)) continue;
                 UpdateValidGetItemQuest(questList, getItemQuestSo, itemCollected);
                 return;
             }
 
-            foreach (var questList in _questLists)
+            foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetFirstGetItemQuestWithEnemyAvailable(itemCollected);
-                if (currentQuest != null) continue;
+                if (currentQuest == null) continue;
                 UpdateValidGetItemQuest(questList, currentQuest, itemCollected);
                 return;
             }
-            Debug.Log("No Kill Quests With This Enemy Available");
+            Debug.Log($"$No Get Quests With This Item ({itemCollected}) Available.");
         }
         
-        private void UpdateValidGetItemQuest(QuestList questList, GetQuestSo getQuestSo, ItemSo itemCollected)
+        private void UpdateValidGetItemQuest(QuestList questList, ItemQuestSo getQuestSo, ItemSo itemCollected)
         {
             getQuestSo.SubtractItem(itemCollected);
             if (!getQuestSo.CheckIfCompleted()) return;
@@ -139,9 +140,10 @@ namespace Game.Quests
         private void UpdateTalkQuest(QuestTalkEventArgs talkQuestArgs)
         {
             var npcToTalk = talkQuestArgs.Npc;
-            foreach (var questList in _questLists)
+            foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
                 if (currentQuest.IsCompleted) continue;
                 if (currentQuest is not TalkQuestSO talkQuestSo) continue;
                 if (!(talkQuestSo.Npc == npcToTalk)) continue;
@@ -149,14 +151,14 @@ namespace Game.Quests
                 return;
             }
 
-            foreach (var questList in _questLists)
+            foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetFirstTalkQuestWithNpc(npcToTalk);
-                if (currentQuest != null) continue;
+                if (currentQuest == null) continue;
                 CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
                 return;
             }
-            Debug.Log("No Talk Quests With This Npc Available");
+            Debug.Log($"No Talk Quests With This Npc ({npcToTalk}) Available");
         }
 
         private void CompleteQuestAndRemoveFromOngoing(QuestList questList, QuestSO completedQuest)

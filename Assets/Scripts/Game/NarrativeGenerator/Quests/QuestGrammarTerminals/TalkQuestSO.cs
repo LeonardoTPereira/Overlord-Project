@@ -40,5 +40,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             Npc = npc;
         }
+        
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            Npc = (copiedQuest as TalkQuestSO).Npc;
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<TalkQuestSO>();
+            cloneQuest.Init(this);
+            return cloneQuest;
+        }
     }
 }

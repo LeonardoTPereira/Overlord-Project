@@ -10,5 +10,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string symbolType {
             get { return Constants.GET_TERMINAL; }
         }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<DropQuestSo>();
+            cloneQuest.Init(this);
+            return cloneQuest;
+        }
     }
 }

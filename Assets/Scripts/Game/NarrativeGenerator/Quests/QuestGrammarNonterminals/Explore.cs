@@ -27,14 +27,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         public void DefineQuestSO ( List<QuestSO> questSos )
 
         {
-            Explore.CreateAndSaveSecretRoomQuestSo( questSos );
+            CreateAndSaveSecretRoomQuestSo( questSos );
         }
 
         public static void CreateAndSaveSecretRoomQuestSo( List<QuestSO> questSos)
         {
             var secretRoomQuest = ScriptableObject.CreateInstance<SecretRoomQuestSO>();
-            secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[questSos.Count-1] : null);
+            secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
             //TODO initiate data for secretRoomQuest
+            if (questSos.Count > 0)
+            {
+                questSos[^1].Next = secretRoomQuest;
+            }
+
             questSos.Add(secretRoomQuest);
         }
     }

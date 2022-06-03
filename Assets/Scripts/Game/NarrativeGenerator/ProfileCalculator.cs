@@ -7,8 +7,6 @@ using UnityEngine;
 using Util;
 using static Util.Enums;
 
-using UnityEngine;
-
 namespace Game.NarrativeGenerator
 {
     public static class ProfileCalculator

@@ -33,12 +33,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
             var selectedEnemyTypes = new EnemiesByType ();
-            //TODO select more enemies
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 20;
+            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
-            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedEnemyTypes);
+            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[^1] : null, selectedEnemyTypes);
             //killQuest.SaveAsAsset();
+            if (questSos.Count > 0)
+            {
+                questSos[^1].Next = killQuest;
+            }
+            
             questSos.Add(killQuest);
         }
         
