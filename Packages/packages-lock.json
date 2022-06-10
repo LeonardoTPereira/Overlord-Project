@@ -22,6 +22,44 @@
       },
       "hash": "eac98d204dc5a0044849620e0cb2afb1b9d11058"
     },
+    "com.google.external-dependency-manager": {
+      "version": "file:E:/Installers/com.google.external-dependency-manager-1.2.171.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {}
+    },
+    "com.google.firebase.app": {
+      "version": "file:E:/Installers/com.google.firebase.app-9.0.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.external-dependency-manager": "1.2.171"
+      }
+    },
+    "com.google.firebase.auth": {
+      "version": "file:E:/Installers/com.google.firebase.auth-9.0.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.firebase.app": "9.0.0"
+      }
+    },
+    "com.google.firebase.firestore": {
+      "version": "file:E:/Installers/com.google.firebase.firestore-9.0.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.firebase.app": "9.0.0"
+      }
+    },
+    "com.google.firebase.functions": {
+      "version": "file:E:/Installers/com.google.firebase.functions-9.0.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.firebase.app": "9.0.0"
+      }
+    },
     "com.malee.reorderablelist": {
       "version": "https://github.com/cfoulston/Unity-Reorderable-List.git",
       "depth": 0,

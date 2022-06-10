@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6653568253210630846}
   - component: {fileID: 6653568253210630847}
   - component: {fileID: 6653568253210630844}
-  - component: {fileID: 6653568253210630845}
   m_Layer: 0
   m_Name: CountableItem1Bomb
   m_TagString: Untagged
@@ -29,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.48, y: -4.02, z: -0.39379555}
   m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -111,16 +112,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.45105767, y: 0.5142529}
   m_EdgeRadius: 0
---- !u!114 &6653568253210630845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6653568253210630818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b71d28fe217422ca543da3b06d8f2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amount: 1

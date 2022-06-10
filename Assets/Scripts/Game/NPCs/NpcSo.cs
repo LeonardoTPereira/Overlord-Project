@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Game.NPCs
 {
-    [CreateAssetMenu(fileName = "NpcSO", menuName = "NpcModule/Npcs", order = 0)]    
+    [CreateAssetMenu(fileName = "NpcSO", menuName = "NpcModule/Npcs", order = 0)]
+    [Serializable]
     public class NpcSo : ScriptableObject
     {
         

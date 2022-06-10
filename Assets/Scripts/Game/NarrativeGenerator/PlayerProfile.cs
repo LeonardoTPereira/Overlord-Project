@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Text;
+#if !UNITY_WEBGL
+using Firebase.Firestore;
+#endif
 
 namespace Game.NarrativeGenerator
 {
+    #if !UNITY_WEBGL
+        [FirestoreData]
+    #endif
     public class PlayerProfile
     {
         public enum PlayerProfileCategory
@@ -13,10 +19,25 @@ namespace Game.NarrativeGenerator
             Achievement // Completion, Items
         }
 
+        #if !UNITY_WEBGL
+            [FirestoreProperty]
+        #endif 
         public PlayerProfileCategory PlayerProfileEnum { get; set; }
+        #if !UNITY_WEBGL
+        [FirestoreProperty]
+        #endif 
         public float MasteryPreference { get; set; }
+        #if !UNITY_WEBGL
+        [FirestoreProperty]
+        #endif 
         public float ImmersionPreference { get; set; }
+        #if !UNITY_WEBGL
+        [FirestoreProperty]
+        #endif 
         public float CreativityPreference { get; set; }
+        #if !UNITY_WEBGL
+        [FirestoreProperty]
+        #endif 
         public float AchievementPreference { get; set; }
 
         public void SetProfileFromFavoriteQuest(string favoriteQuest)

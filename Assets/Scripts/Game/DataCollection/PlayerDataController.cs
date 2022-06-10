@@ -18,6 +18,7 @@ namespace Game.DataCollection
         public PlayerData CurrentPlayer { get; set; }
         private DungeonDataController _dungeonDataController;
         private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
+        private GameplayData _gameplayData;
 
         private void OnEnable()
         {
@@ -65,6 +66,11 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
         }
 
+        private void Awake()
+        {
+            _gameplayData = new GameplayData();
+        }
+
         private void Start()
         {
             _dungeonDataController = GetComponent<DungeonDataController>();
@@ -78,6 +84,7 @@ namespace Game.DataCollection
         
         private void OnMapStart(object sender, StartMapEventArgs eventArgs)
         {
+            Debug.Log("Map Started");
             CurrentPlayer.StartDungeon(eventArgs.MapName, eventArgs.Map);
             _dungeonDataController.CurrentDungeon = CurrentPlayer.CurrentDungeon;
         }
@@ -158,10 +165,7 @@ namespace Game.DataCollection
         private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
             CurrentPlayer.AddPostTestDataToDungeon(eventArgs.AnswerValue);
-#if UNITY_WEBGL
-            SendJsonToServer();
-            _dungeonDataController.SendJsonToServer();
-#endif
+            _gameplayData.SendProfileToServer(CurrentPlayer);
         }
         
 #if UNITY_WEBGL

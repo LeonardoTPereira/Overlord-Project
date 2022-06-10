@@ -37,10 +37,14 @@ namespace Game.LevelManager.DungeonLoader
         private void Start()
         {
             var dungeonLoader = GetComponent<DungeonLoader>();
+            Debug.Log("Got Dungeon Loader: "+dungeonLoader);
             _map = dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLine);
+            Debug.Log("Loading Enemies");
             EnemyLoader.LoadEnemies(currentQuestLine.EnemySos);
+            Debug.Log("Loaded Enemies");
             PlayBgm(AudioManager.BgmTracks.DungeonTheme);
             gameOverScreen.GetComponent<GameOverPanelBhv>().currentLevel = _selectedLevels.GetCurrentLevel();
+            SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
         }
 
         private void OnDisable()
@@ -53,11 +57,14 @@ namespace Game.LevelManager.DungeonLoader
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (scene.name is not ("Level" or "LevelWithEnemies")) return;
+            Debug.Log("Finished Loading Dungeon Scene in Dungeon Scene Manager");
+            Debug.Log("Selected Levels Amount: " + _selectedLevels.Levels?.Count);
             currentDungeonSo = _selectedLevels.GetCurrentLevel().Dungeon;
             currentQuestLine = _selectedLevels.GetCurrentLevel().Quests;
-            SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
-            OnLevelLoadedEvents();
+            Debug.Log("Dungeons: " + currentDungeonSo.BiomeName);
+            Debug.Log("QuestLine Elements: " + currentQuestLine.questLines.Count);
             maxTreasure = currentQuestLine.ItemParametersForQuestLine.TotalItems;
+            OnLevelLoadedEvents();
         }
 
         private void PlayBgm(AudioManager.BgmTracks bgmTrack)

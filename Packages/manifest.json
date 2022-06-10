@@ -2,6 +2,11 @@
   "dependencies": {
     "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
     "com.fellowshipofthegame.dialoguemodule": "https://github.com/FellowshipOfTheGame/DialogueModule.git",
+    "com.google.external-dependency-manager": "file:E:/Installers/com.google.external-dependency-manager-1.2.171.tgz",
+    "com.google.firebase.app": "file:E:/Installers/com.google.firebase.app-9.0.0.tgz",
+    "com.google.firebase.auth": "file:E:/Installers/com.google.firebase.auth-9.0.0.tgz",
+    "com.google.firebase.firestore": "file:E:/Installers/com.google.firebase.firestore-9.0.0.tgz",
+    "com.google.firebase.functions": "file:E:/Installers/com.google.firebase.functions-9.0.0.tgz",
     "com.malee.reorderablelist": "https://github.com/cfoulston/Unity-Reorderable-List.git",
     "com.unity.2d.pixel-perfect": "5.0.1",
     "com.unity.2d.sprite": "1.0.0",
