@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
@@ -23,9 +24,9 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
         //Here we will need to change the talk quest to hold NPC data as well.
         public void CalculateNpcsFromQuests(QuestLine quests)
         {
-            for (var i = 0; i < quests.graph.Count; i++)
+            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
             {
-                AddNpcWhenTalkQuests(quests.graph[i]);
+                AddNpcWhenTalkQuests(quest);
             }
         }
 

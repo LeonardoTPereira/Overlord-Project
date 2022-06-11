@@ -1,14 +1,15 @@
 ﻿using Game.EnemyGenerator;
+using ScriptableObjects;
 
 namespace Game.Quests
 {
     public class QuestKillEnemyEventArgs : QuestElementEventArgs
     {
-        public WeaponType EnemyWeaponType {get; set; }
+        public WeaponTypeSO EnemyWeaponTypeSo {get; set; }
 
-        public QuestKillEnemyEventArgs(WeaponType enemyWeaponType)
+        public QuestKillEnemyEventArgs(WeaponTypeSO enemyWeaponTypeSo)
         {
-            EnemyWeaponType = enemyWeaponType;
+            EnemyWeaponTypeSo = enemyWeaponTypeSo;
         }
     }
 }

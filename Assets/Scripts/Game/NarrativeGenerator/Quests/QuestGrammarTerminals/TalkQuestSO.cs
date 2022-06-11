@@ -7,7 +7,7 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    class TalkQuestSO : QuestSO
+    public class TalkQuestSO : QuestSO
     {
         public override string symbolType { 
             get { return Constants.TALK_TERMINAL;} 
@@ -39,6 +39,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public void AddNpc(NpcSo npc)
         {
             Npc = npc;
+        }
+        
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            Npc = (copiedQuest as TalkQuestSO).Npc;
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<TalkQuestSO>();
+            cloneQuest.Init(this);
+            return cloneQuest;
         }
     }
 }

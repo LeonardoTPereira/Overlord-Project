@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
@@ -25,7 +26,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
 
         public void CalculateItemsFromQuests(QuestLine quests)
         {
-            foreach (var quest in quests.graph)
+            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddItemWhenItemQuest(quest);
             }
@@ -50,7 +51,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
 
         private void AddItemsFromPairToDictionary(KeyValuePair<ItemSo, int> itemData)
         {
-            int newItems = itemData.Value;
+            var newItems = itemData.Value;
             TotalItems += newItems;
             TotalItemValue += itemData.Key.Value;
             if (ItemsByType.ItemAmountBySo.TryGetValue(itemData.Key, out var enemiesForItem))
@@ -72,6 +73,4 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             }
         }
     }
-
-
 }

@@ -17,3 +17,4 @@ MonoBehaviour:
   projectile: {fileID: 11400000, guid: 8b895de68d8f90c4086582af797c66b4, type: 2}
   weaponPrefab: {fileID: 1699235863348634, guid: ff512e8ade718314aa5bbed0ac37347f,
     type: 3}
+  <EnemyTypeName>k__BackingField: Bomb Mage

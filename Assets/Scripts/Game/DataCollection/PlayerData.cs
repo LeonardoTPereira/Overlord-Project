@@ -6,7 +6,6 @@ using Game.NarrativeGenerator;
 using UnityEditor;
 using UnityEngine;
 using Util;
-using Random = UnityEngine.Random;
 
 namespace Game.DataCollection
 {
@@ -45,7 +44,7 @@ namespace Game.DataCollection
         {
             PreFormAnswers = new List<int>();
             DungeonByAttempt = new DungeonDataByAttempt();
-            PlayerId = Random.Range(0, int.MaxValue);
+            PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue);
             PlayerId += (int)Time.realtimeSinceStartup;
             var target = "Assets";
             target += Constants.SEPARATOR_CHARACTER + "Resources";

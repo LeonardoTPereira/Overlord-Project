@@ -35,8 +35,8 @@ namespace Game.LevelSelection
         private void CreateQuestDescription(QuestLine quests)
         {
             QuestDescription = "";
-            QuestDescription += "Quests: " + quests.graph.Count;
-            QuestDescription += "\nQuest 1 - " + quests.graph[0].QuestName;
+            QuestDescription += "Quests: " + quests.questLines.Count;
+            QuestDescription += "\nQuest 1 - " + quests.questLines[0].Quests[0].QuestName;
         }
         
         public void ChangeDescription(InputAction.CallbackContext context)

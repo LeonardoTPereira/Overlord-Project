@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.DataCollection
 {
-    public class ScrollBarBHV : MonoBehaviour
+    public class ScrollBarBhv : MonoBehaviour
     {
         private void OnEnable()
         {

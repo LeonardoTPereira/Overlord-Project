@@ -3,13 +3,14 @@ using System.ComponentModel;
 using Game.EnemyGenerator;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
+using Game.Quests;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
 
 namespace Game.GameManager
 {
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : MonoBehaviour, IQuestElement
     {
         /// This constant holds the weapon prefab name of healers
         private const string HealerPrefabName = "EnemyHealArea";
@@ -38,6 +39,7 @@ namespace Game.GameManager
         private MovementTypeSO movement;
         private BehaviorType behavior;
         private ProjectileTypeSO projectileType;
+        private WeaponTypeSO weaponTypeSo { get; set; }
 
         private Animator animator;
         private AudioSource[] audioSources;
@@ -259,6 +261,8 @@ namespace Game.GameManager
                 childCollider.enabled = false;
             }
             room.CheckIfAllEnemiesDead();
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(weaponTypeSo));
+
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
@@ -312,6 +316,7 @@ namespace Game.GameManager
             activeTime = enemyData.activeTime;
             attackSpeed = enemyData.attackSpeed;
             projectileSpeed = enemyData.projectileSpeed * 4;
+            weaponTypeSo = enemyData.weapon;
 
 
             if (enemyData.weapon.name == "Shield")

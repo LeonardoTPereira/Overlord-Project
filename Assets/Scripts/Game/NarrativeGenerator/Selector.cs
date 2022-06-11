@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.DataCollection;
-using Game.Events;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Game.NPCs;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
-using Enums = Util.Enums;
 
 namespace Game.NarrativeGenerator
 {
@@ -17,28 +14,34 @@ namespace Game.NarrativeGenerator
     {
         public void CreateMissions(QuestGeneratorManager m)
         {
-            m.Quests.graph = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
+            m.Quests.questLines = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
         }
 
-        private List<List<QuestSO>> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private List<QuestList> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
-            var questSos = new List<List<QuestSO>>();
-            int i = 0;
+            var questLineList = new List<QuestList>();
             do
             {
+                var questLine = new QuestList();
                 MarkovChain questChain = new MarkovChain();
                 questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
-                var questSO = new List<QuestSO>();
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
-                    SaveCurrentQuest( questChain, questSO, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    SaveCurrentQuest( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
                 }
-                questSos.Add( questSO );
-            } while ( (!containsKill || !containsTalk || !containsGet || !containsExplore) );
-            return questSos;
+                questLine.Quests[^1].EndsStoryLine = true;
+                questLine.NpcInCharge = possibleNpcs.GetRandom();
+                questLineList.Add(questLine);
+            } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
+            Debug.Log("FINAL QUEST SO:");
+            foreach (var quest in questLineList.SelectMany(questList => questList.Quests))
+            {
+                Debug.Log(quest.symbolType);
+            }
+            return questLineList;
         }
 
         private void UpdateListContents ( Symbol lastQuest, ref bool containsKill ,ref bool containsTalk ,ref bool containsGet ,ref bool containsExplore )
@@ -89,7 +92,5 @@ namespace Game.NarrativeGenerator
                     break;
             }
         }
-
-  
     }
 }

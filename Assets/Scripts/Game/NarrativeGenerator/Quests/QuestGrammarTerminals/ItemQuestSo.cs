@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
 using System;
+using System.Linq;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using UnityEngine;
 using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
+    [Serializable]
     public class ItemQuestSo : QuestSO
     {
-        public Dictionary<ItemSo, int> ItemsToCollectByType { get; set; }
+        [field: SerializeField] public ItemAmountDictionary ItemsToCollectByType { get; set; }
         public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
             get {
@@ -24,13 +28,30 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void Init()
         {
             base.Init();
-            ItemsToCollectByType = new Dictionary<ItemSo, int>();
+            ItemsToCollectByType = new ItemAmountDictionary();
+        }
+        
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            ItemsToCollectByType = new ItemAmountDictionary();
+            foreach (var itemByAmount in (copiedQuest as ItemQuestSo).ItemsToCollectByType)
+            {
+                ItemsToCollectByType.Add(itemByAmount.Key, itemByAmount.Value);
+            }
         }
 
-        public void Init(string name, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, int> itemsByType)
+        public void Init(string name, bool endsStoryLine, QuestSO previous, ItemAmountDictionary itemsByType)
         {
             base.Init(name, endsStoryLine, previous);
             ItemsToCollectByType = itemsByType;
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<ItemQuestSo>();
+            cloneQuest.Init(this);
+            return cloneQuest;
         }
 
         public void AddItem(ItemSo item, int amount)
@@ -43,6 +64,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 ItemsToCollectByType.Add(item, amount);
             }
+        }
+        
+        public void SubtractItem(ItemSo itemSo)
+        {
+            ItemsToCollectByType[itemSo]--;
+        }
+
+        public bool CheckIfCompleted()
+        {
+            return ItemsToCollectByType.All(itemToCollect => itemToCollect.Value == 0);
+        }
+        
+        public bool HasItemToCollect(ItemSo itemSo)
+        {
+            if (!ItemsToCollectByType.TryGetValue(itemSo, out var itemsLeft)) return false;
+            return itemsLeft > 0;
         }
     }
 

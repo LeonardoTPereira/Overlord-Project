@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.DataCollection
 {
-    public class FormBHV : MonoBehaviour
+    public class FormBhv : MonoBehaviour
     {
 
         public FormQuestionsData questionsData;

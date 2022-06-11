@@ -9,7 +9,6 @@ using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
-using Random = UnityEngine.Random;
 
 namespace Game.LevelManager.DungeonManager
 {
@@ -346,7 +345,7 @@ namespace Game.LevelManager.DungeonManager
                     }
                     do
                     {
-                        actualSpawn = Random.Range(0, spawnPoints.Count);
+                        actualSpawn = RandomSingleton.GetInstance().Next(0, spawnPoints.Count);
                     } while (selectedSpawnPoints.Contains(actualSpawn));
                     var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 

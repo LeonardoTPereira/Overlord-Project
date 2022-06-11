@@ -34,13 +34,13 @@ namespace Game.DataCollection
             DialogueController.DialogueOpenEventHandler += OnInteractNPC;
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
-            FormBHV.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
+            FormBhv.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             GameOverPanelBhv.ToLevelSelectEventHandler += OnFormNotAnswered;
             GameOverPanelBhv.RestartLevelEventHandler += OnFormNotAnswered;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
+            FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
         }
 
         private void OnDisable()
@@ -54,7 +54,7 @@ namespace Game.DataCollection
             EnemyController.PlayerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
-            FormBHV.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
+            FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;            
@@ -62,7 +62,7 @@ namespace Game.DataCollection
             DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
+            FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
         }
 
         private void Start()

@@ -9,7 +9,7 @@ using ScriptableObjects;
 namespace Game.NarrativeGenerator.Quests
 {
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
-    class EmptyQuestSO : QuestSO, Symbol
+    public class EmptyQuestSO : QuestSO, Symbol
     {
         public override string symbolType { 
             get { return Constants.EMPTY_TERMINAL;} 

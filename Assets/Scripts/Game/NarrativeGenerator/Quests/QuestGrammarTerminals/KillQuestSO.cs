@@ -2,14 +2,18 @@
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
+using System.Linq;
+using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Util;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
+    [Serializable]
     public class KillQuestSO : QuestSO
     {
-        public EnemiesByType  EnemiesToKillByType { get; set; }
+        [field: SerializeField]
+        public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
 
         public override Dictionary<string, Func<int,int>> nextSymbolChances
@@ -43,6 +47,23 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             EnemiesToKillByFitness = enemiesByFitness;
         }
         
+        public override void Init(QuestSO copiedQuest)
+        {
+            base.Init(copiedQuest);
+            EnemiesToKillByType = new EnemiesByType ();
+            foreach (var enemyByType in (copiedQuest as KillQuestSO).EnemiesToKillByType.EnemiesByTypeDictionary)
+            {
+                EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
+            }
+        }
+        
+        public override QuestSO Clone()
+        {
+            var cloneQuest = CreateInstance<KillQuestSO>();
+            cloneQuest.Init(this);
+            return cloneQuest;
+        }
+        
         public void AddEnemy(WeaponTypeSO enemy, int amount)
         {
             if (EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(enemy, out var currentAmount))
@@ -65,6 +86,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 EnemiesToKillByFitness.Add(enemyFitness, amount);
             }
+        }
+
+        public void SubtractEnemy(WeaponTypeSO weaponTypeSo)
+        {
+            EnemiesToKillByType.EnemiesByTypeDictionary[weaponTypeSo]--;
+        }
+
+        public bool CheckIfCompleted()
+        {
+            return EnemiesToKillByType.EnemiesByTypeDictionary.All(enemyToKill => enemyToKill.Value == 0);
+        }
+
+        public bool HasEnemyToKill(WeaponTypeSO weaponTypeSo)
+        {
+            if (!EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo, out var killsLeft)) return false;
+            return killsLeft > 0;
         }
     }
 }
