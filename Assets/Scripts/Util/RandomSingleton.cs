@@ -32,7 +32,12 @@ namespace Util
         }
 
         public int RandomPercent() {
-            return Random.Next(101);
+            return Random.Next(100);
+        }
+
+        public bool RandomBool()
+        {
+            return RandomPercent() < 50;
         }
 
         /// Return a random element from the entered array.

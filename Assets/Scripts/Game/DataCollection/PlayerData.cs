@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Game.LevelManager.DungeonLoader;
 using Game.NarrativeGenerator;
+using Microsoft.ML.Data;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -30,11 +31,11 @@ namespace Game.DataCollection
         #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
         #endif 
-        [field: SerializeField] public int TotalAttempts { get; private set; }
+        [field: SerializeField, LoadColumn(0)] public int TotalAttempts { get; private set; }
         #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
         #endif 
-        [field: SerializeField] public int TotalDeaths { get; private set; }
+        [field: SerializeField, LoadColumn(1)] public int TotalDeaths { get; private set; }
         #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
         #endif

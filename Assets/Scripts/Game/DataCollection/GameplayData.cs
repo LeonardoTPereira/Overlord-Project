@@ -1,10 +1,10 @@
-﻿using System;
-using FirebaseWebGLBridge = FirebaseWebGL.Scripts.FirebaseBridge;
-using UnityEngine;
-
+﻿using UnityEngine;
 #if !UNITY_WEBGL || UNITY_EDITOR
 using Firebase.Firestore;
 using Firebase.Extensions;
+#else
+using System;
+using FirebaseWebGLBridge = FirebaseWebGL.Scripts.FirebaseBridge;
 #endif
 
 namespace Game.DataCollection

@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Game.LevelManager.DungeonLoader;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using Util;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
@@ -9,7 +8,6 @@ using Game.LevelManager.DungeonManager;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Game.DataCollection
 {
@@ -17,7 +15,6 @@ namespace Game.DataCollection
     {
         public PlayerData CurrentPlayer { get; set; }
         private DungeonDataController _dungeonDataController;
-        private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
         private GameplayData _gameplayData;
 
         private void OnEnable()
@@ -167,25 +164,5 @@ namespace Game.DataCollection
             CurrentPlayer.AddPostTestDataToDungeon(eventArgs.AnswerValue);
             _gameplayData.SendProfileToServer(CurrentPlayer);
         }
-        
-#if UNITY_WEBGL
-        public void SendJsonToServer()
-        {
-            StartCoroutine(PostData());
-        }
-        private IEnumerator PostData()
-        {
-            var data = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(CurrentPlayer));
-            var form = new WWWForm();
-            form.AddField("name", CurrentPlayer.PlayerId);
-            form.AddBinaryData("data", data, CurrentPlayer.PlayerId + "-Player" + ".json", "application/json");
-            using var www = UnityWebRequest.Post(PostDataURL, form);
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-        }
-#endif
     }
 }
