@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager;
-using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using Util;
 
@@ -15,31 +14,34 @@ namespace Game.LevelGenerator
          * Prints the dungeon in the console, saves into a file, and can even save in a csv that is not used anymore
          * We now save it directly into a Unity's Resource Directory
          */
-        public static void PrintNumericalGridWithConnections(
-            Individual _individual, QuestLine _questLine)
+        public static DungeonFileSo CreateDungeonSoFromIndividual(Individual individual, int totalEnemies = 0, int totalTreasures = 0, int totalNpcs = 0)
         {
-            Dungeon dun = _individual.dungeon;
+            var dun = individual.dungeon;
 
             //List of keys and locked rooms in the level
-            List<int> lockedRooms = new List<int>();
-            List<int> keys = new List<int>();
+            var lockedRooms = new List<int>();
+            var keys = new List<int>();
 
-            
-            var dungeonFileSO = ScriptableObject.CreateInstance<DungeonFileSo>();
-            dungeonFileSO.BiomeName = _individual.BiomeName;
-            dungeonFileSO.TotalEnemies = _questLine.EnemyParametersForQuestLine.NEnemies;
-            dungeonFileSO.TotalTreasures = _questLine.ItemParametersForQuestLine.TotalItemValue;
-            dungeonFileSO.TotalNpcs = _questLine.NpcParametersForQuestLine.TotalNpcs;
+            var dungeonFileSo = ScriptableObject.CreateInstance<DungeonFileSo>();
+            dungeonFileSo.BiomeName = individual.BiomeName;
+            dungeonFileSo.TotalEnemies = totalEnemies;
+            dungeonFileSo.TotalTreasures = totalTreasures;
+            dungeonFileSo.TotalNpcs = totalNpcs;
             //saves where the dungeon grid begins and ends in each direction
-            foreach (Room room in dun.Rooms)
+            foreach (var room in dun.Rooms)
             {
-                if (room.Type1 == RoomType.Key)
+                switch (room.Type1)
                 {
-                    keys.Add(room.Key);
-                }
-                else if (room.Type1 == RoomType.Locked)
-                {
-                    lockedRooms.Add(room.Key);
+                    case RoomType.Key:
+                        keys.Add(room.Key);
+                        break;
+                    case RoomType.Locked:
+                        lockedRooms.Add(room.Key);
+                        break;
+                    case RoomType.Normal:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -52,10 +54,10 @@ namespace Game.LevelGenerator
             //hence 2*size
             int[,] map = new int[2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height];
             //The top of the dungeon's file in unity must contain its dimensions
-            dungeonFileSO.DungeonSizes = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
-            dungeonFileSO.FitnessFromEa = _individual.Fitness;
-            dungeonFileSO.ExplorationCoefficient = _individual.exploration;
-            dungeonFileSO.LeniencyCoefficient = _individual.leniency;
+            dungeonFileSo.DungeonSizes = new Dimensions(2 * dun.DungeonDimensions.Width, 2 * dun.DungeonDimensions.Height);
+            dungeonFileSo.FitnessFromEa = individual.Fitness;
+            dungeonFileSo.ExplorationCoefficient = individual.exploration;
+            dungeonFileSo.LeniencyCoefficient = individual.leniency;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.DungeonDimensions.Width; ++i)
             {
@@ -67,15 +69,13 @@ namespace Game.LevelGenerator
 
             InitializeMapFromDungeon(dun, map, keys, lockedRooms);
 
-            InitializeDungeonSoFromMap(dungeonFileSO, dun, map);
-            //The assetdatabase stuff only works in the Unity's Editor
-            //As is, we can't save a level file in a released build of the game
-            _questLine.DungeonFileSos.Add(dungeonFileSO);
+            InitializeDungeonSoFromMap(dungeonFileSo, dun, map);
+            return dungeonFileSo;
         }
 
-        private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSO, Dungeon dun, int[,] map)
+        private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSo, Dungeon dun, int[,] map)
         {
-            dungeonFileSO.Rooms = new List<SORoom>();
+            dungeonFileSo.Rooms = new List<SORoom>();
             //Now we print it/save to a file/whatever
             for (var i = 0; i < dun.DungeonDimensions.Width * 2; ++i)
             {
@@ -84,8 +84,8 @@ namespace Game.LevelGenerator
                     SORoom roomDataInFile;
                     
                     // Calculate the room position in the grid
-                    int x = i / 2 + dun.DungeonBoundaries.MinBoundaries.X;
-                    int y = j / 2 + dun.DungeonBoundaries.MinBoundaries.Y;
+                    var x = i / 2 + dun.DungeonBoundaries.MinBoundaries.X;
+                    var y = j / 2 + dun.DungeonBoundaries.MinBoundaries.Y;
 
                     //If cell is empty, do nothing (or print empty space in console)
                     if (map[i, j] == Common.RoomType.NOTHING)
@@ -105,7 +105,7 @@ namespace Game.LevelGenerator
 
                     if (roomDataInFile != null)
                     {
-                        dungeonFileSO.Rooms.Add(roomDataInFile);
+                        dungeonFileSo.Rooms.Add(roomDataInFile);
                     }
                 }
             }
@@ -171,15 +171,15 @@ namespace Game.LevelGenerator
         private static void InitializeMapFromDungeon(Dungeon dun, int[,] map, List<int> keys, List<int> lockedRooms)
         {
             //Now we visit each room and save the info on the corresponding cell of the matrix
-            for (int i = dun.DungeonBoundaries.MinBoundaries.X; i < dun.DungeonBoundaries.MaxBoundaries.X + 1; ++i)
+            for (var i = dun.DungeonBoundaries.MinBoundaries.X; i < dun.DungeonBoundaries.MaxBoundaries.X + 1; ++i)
             {
-                for (int j = dun.DungeonBoundaries.MinBoundaries.Y; j < dun.DungeonBoundaries.MaxBoundaries.Y + 1; ++j)
+                for (var j = dun.DungeonBoundaries.MinBoundaries.Y; j < dun.DungeonBoundaries.MaxBoundaries.Y + 1; ++j)
                 {
                     //Converts the coordinate of the original grid (can be negative) to the positive ones used in the matrix
-                    int iPositive = i - dun.DungeonBoundaries.MinBoundaries.X;
-                    int jPositive = j - dun.DungeonBoundaries.MinBoundaries.Y;
+                    var iPositive = i - dun.DungeonBoundaries.MinBoundaries.X;
+                    var jPositive = j - dun.DungeonBoundaries.MinBoundaries.Y;
                     //Gets the actual room
-                    Room actualRoom = dun.DungeonGrid[i, j];
+                    var actualRoom = dun.DungeonGrid[i, j];
                     //If there is something in this position in the grid:
                     SetRoomTypeInMap(map, keys, lockedRooms, actualRoom, iPositive, jPositive);
                 }
@@ -222,10 +222,10 @@ namespace Game.LevelGenerator
 
                 //As (for now) every room must be connected to its parent or children
                 //We need only to check its parent to create the corridors
-                Room parent = actualRoom.Parent;
+                var parent = actualRoom.Parent;
                 if (parent == null) return;
-                int x = parent.X - actualRoom.X + 2 * iPositive;
-                int y = parent.Y - actualRoom.Y + 2 * jPositive;
+                var x = parent.X - actualRoom.X + 2 * iPositive;
+                var y = parent.Y - actualRoom.Y + 2 * jPositive;
                 //If corridor is lockes, save the index of the key that opens it
                 //But as a negative value. A negative corridor is locked!
                 //If not, save it only as a normal corridor

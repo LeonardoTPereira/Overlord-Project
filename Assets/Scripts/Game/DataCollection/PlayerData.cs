@@ -46,23 +46,7 @@ namespace Game.DataCollection
             DungeonByAttempt = new DungeonDataByAttempt();
             PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue);
             PlayerId += (int)Time.realtimeSinceStartup;
-            var target = "Assets";
-            target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "PlayerData";
 #if UNITY_EDITOR
-            var newFolder = PlayerId.ToString();
-            if (!AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder))
-            {
-                AssetDatabase.CreateFolder(target, newFolder);
-            }
-            AssetPath = target + Constants.SEPARATOR_CHARACTER + newFolder;
-            var fileName = AssetPath + Constants.SEPARATOR_CHARACTER + "PlayerData.asset";
-            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
-            AssetDatabase.CreateAsset(this, uniquePath);
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-            AssetDatabase.Refresh();
-
             var jsonDirectory = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData";
             if (!Directory.Exists(jsonDirectory))
             {
@@ -80,7 +64,7 @@ namespace Game.DataCollection
         public void StartDungeon(string mapName, Map map)
         {
             CurrentDungeon = CreateInstance<DungeonData>();
-            CurrentDungeon.Init(map, mapName, AssetPath, JsonPath);
+            CurrentDungeon.Init(map, mapName, JsonPath);
             var dungeonAttempted = DungeonByAttempt.TryGetValue(mapName, out var currentDungeonList);
             if(dungeonAttempted)
             {

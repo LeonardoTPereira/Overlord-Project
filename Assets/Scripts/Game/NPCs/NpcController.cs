@@ -85,7 +85,7 @@ namespace Game.NPCs
         }
 #endif
         
-        public void CreateIntroDialogue()
+        private void CreateIntroDialogue()
         {
             dialogue = ScriptableObject.CreateInstance<DialogueController>();
             _isDialogueNull = dialogue == null;

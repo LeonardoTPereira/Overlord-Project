@@ -8,7 +8,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     public class Parameters
     {
         [Foldout("EA Parameters", true)]
-        [SerializeField, Range(1, 120)] private int time = 60;
+        [SerializeField, Range(1, 240)] private int time = 60;
         [SerializeField, Range(1, 100)] private int population = 25;
         [SerializeField, Range(0, 100)] private int mutation = 10;
         [SerializeField, Range(1, 10)] private int competitors = 2;
