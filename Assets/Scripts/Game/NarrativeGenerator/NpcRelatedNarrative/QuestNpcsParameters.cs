@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative
@@ -55,6 +58,21 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
         private static bool IsTalkQuest(QuestSO quest)
         {
             return quest.GetType() == typeof(TalkQuestSO);
+        }
+        
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var kvp in NpcsBySo)
+            {
+                stringBuilder.Append($"Npc = {kvp.Key.NpcName}, total Quests = {kvp.Value.Quests.Count}\n");
+            }
+            return stringBuilder.ToString();
+        }
+
+        public List<NpcSo> GetNpcs()
+        {
+            return NpcsBySo.Select(kvp => kvp.Key).ToList();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Game.LevelManager.DungeonLoader
         public static event StartMapEvent StartMapEventHandler;
         public Map LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLine currentQuestLine)
         {
+            Debug.Log("Loading new Level");
             LoadDungeon(dungeonFileSo);
             
             EnemyLoader.DistributeEnemiesInDungeon(_dungeonMap, currentQuestLine);

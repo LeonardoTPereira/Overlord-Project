@@ -6,34 +6,106 @@ using Game.NarrativeGenerator;
 using UnityEditor;
 using UnityEngine;
 using Util;
+#if !UNITY_WEBGL || UNITY_EDITOR
+using Firebase.Firestore;
+#endif
 
 namespace Game.DataCollection
 {
+#if !UNITY_WEBGL || UNITY_EDITOR
+[FirestoreData]
+#endif
     [Serializable]
     public class PlayerData : ScriptableObject
     {
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int PlayerId { get; set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif 
         [field: SerializeField] public List<int> PreFormAnswers { get; set; }
         public DungeonDataByAttempt DungeonByAttempt { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif 
         [field: SerializeField] public int TotalAttempts { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif 
         [field: SerializeField] public int TotalDeaths { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalWins { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int NpcsInteracted { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalNpcs { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalEnemies { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int EnemiesKilled { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalTreasure { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TreasuresCollected { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalLostHealth { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int MaxCombo { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int KeysCollected { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalKeys { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int LocksOpened { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalLocks { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int TotalRooms { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int UniqueRoomsEntered { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public int RoomsEntered { get; private set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public PlayerProfile PlayerProfile { get; set; }
+        #if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+        #endif
         [field: SerializeField] public PlayerProfile GivenPlayerProfile { get; set; }
         public DungeonData CurrentDungeon { get; private set; }
         public string AssetPath { get; private set; }
