@@ -1,6 +1,4 @@
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.DataCollection;
@@ -149,7 +147,7 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateDungeonsForQuestLine()
         {
-            await _levelGeneratorManager.EvolveDungeonPopulation(this, new CreateEADungeonEventArgs(Quests));
+            await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEADungeonEventArgs(Quests));
             //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 

@@ -107,8 +107,20 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             foreach (var elite in EliteList)
             {
-                _fitnessJson.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
-                _fitnessPlot.UpdateFitnessPlotData(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                _fitnessJson?.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                /*else
+                {
+                    UnityEngine.Debug.LogWarning("No Json Component Linked. Will Not Save Fitness Data to Json");
+                }*/
+
+                if (_fitnessPlot != null)
+                {
+                    _fitnessPlot.UpdateFitnessPlotData(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                }
+                /*else
+                {
+                    UnityEngine.Debug.LogWarning("No Plot Component Linked. Will Not Plot Fitness Data to Animation");
+                }*/
             }
             BiomeMap.UpdateBiomes(MapElites);
         }
@@ -135,8 +147,23 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public void SaveJson()
         {
-            UnityMainThreadDispatcher.Instance().Enqueue(_fitnessJson.SaveJson);
-            UnityMainThreadDispatcher.Instance().Enqueue(_fitnessPlot.AddAnimationCurves);
+            if (_fitnessJson != null)
+            {
+                UnityMainThreadDispatcher.Instance().Enqueue(_fitnessJson.SaveJson);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("No Json Component Linked. Will Not Save Fitness Data to Json");
+            }
+
+            if (_fitnessPlot != null)
+            {
+                UnityMainThreadDispatcher.Instance().Enqueue(_fitnessPlot.AddAnimationCurves);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("No Plot Component Linked. Will Not Plot Fitness Data to Animation");
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Game.LevelManager.DungeonLoader;
-using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -40,9 +39,8 @@ namespace Game.DataCollection
         private float _startTime;
         private int _currentCombo;
         private RoomData _currentRoom;
-        private string _assetPath;
         private string _jsonPath;
-        public void Init(Map map, string mapName, string assetPath, string jsonPath)
+        public void Init(Map map, string mapName, string jsonPath)
         {
             PostFormAnswers = new List<int>();
             VisitedRooms = new RoomDataByVisit();
@@ -56,7 +54,6 @@ namespace Game.DataCollection
             HeatMap = CreateHeatMap(map);
             TotalAttempts++;
             _startTime = Time.realtimeSinceStartup;
-            _assetPath = assetPath;
             _jsonPath = jsonPath;
         }
 
@@ -77,7 +74,6 @@ namespace Game.DataCollection
             _currentRoom.ExitRoom();
             TimeToFinish = Time.realtimeSinceStartup - _startTime;
 #if UNITY_EDITOR
-            CreateAsset();
             CreateJson();
 #endif
         }
@@ -193,43 +189,6 @@ namespace Game.DataCollection
             return heatMap;
         }
         
-#if UNITY_EDITOR
-        public void CreateAsset()
-        {
-            var target = _assetPath;
-            var newFolder = LevelName;
-            if (!AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder))
-            {
-                AssetDatabase.CreateFolder(target, newFolder);
-            }
-            else
-            {
-                var existingFolderCounter = 1;
-                while (AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder+existingFolderCounter))
-                {
-                    existingFolderCounter++;
-                }
-
-                newFolder += existingFolderCounter;
-                AssetDatabase.CreateFolder(target, newFolder);
-            }
-            target += Constants.SEPARATOR_CHARACTER + newFolder;
-            AssetDatabase.CreateFolder(target, "Rooms");
-            var roomsFolder = target + Constants.SEPARATOR_CHARACTER + "Rooms";
-            foreach (var roomList in VisitedRooms.Select(kvp => kvp.Value))
-            {
-                for (var i = 0; i < roomList.Count; ++i)
-                {
-                    roomList[i].CreateAsset(roomsFolder, i);
-                }
-            }
-            var fileName = target + Constants.SEPARATOR_CHARACTER + "DungeonData.asset";
-            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
-            AssetDatabase.CreateAsset(this, uniquePath);
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-#endif
         public void CreateJson()
         {
             var dungeonFolder = _jsonPath + Constants.SEPARATOR_CHARACTER + LevelName;
