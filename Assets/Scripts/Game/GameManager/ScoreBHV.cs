@@ -14,10 +14,10 @@ namespace Game.GameManager
             var maxCombo = GameplayData.instance.actualCombo > GameplayData.instance.MAXCombo 
                 ? GameplayData.instance.actualCombo 
                 : GameplayData.instance.MAXCombo;
-            health.text = "Vida: " + GameplayData.instance.actualRoomInfo.PlayerFinalHealth + "/10";
-            combo.text = "Maior Combo: " + maxCombo;
-            treasure.text = "Ouro: " + GameplayData.instance.TreasureCollected + "/" + GameManagerSingleton.Instance.maxTreasure;
-            rooms.text = "Salas Exploradas: " + GameplayData.instance.visitedRooms.Distinct().Count() + "/" + GameManagerSingleton.Instance.maxRooms;
+            health.text = "Health: " + GameplayData.instance.actualRoomInfo.PlayerFinalHealth + "/10";
+            combo.text = "Max Combo: " + maxCombo;
+            treasure.text = "Treasure: " + GameplayData.instance.TreasureCollected + "/" + GameManagerSingleton.Instance.maxTreasure;
+            rooms.text = "Explored Rooms: " + GameplayData.instance.visitedRooms.Distinct().Count() + "/" + GameManagerSingleton.Instance.maxRooms;
         }
 
 

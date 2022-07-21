@@ -19,6 +19,6 @@ MonoBehaviour:
   atkSpeed: 1.5
   moveSpeed: 10
   projectileBehaviorIndex: 0
-  projectileName: Comum
-  description: "Atira um proj\xE9til \xE0 sua frente."
+  projectileName: Straight
+  description: Shoots a projectile straight ahead.
   color: {r: 0, g: 1, b: 0.02520442, a: 1}

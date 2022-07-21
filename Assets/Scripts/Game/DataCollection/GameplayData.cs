@@ -29,7 +29,7 @@ namespace Game.DataCollection
     {
         private const string Csv = ".csv";
         private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
-        private static int POST_QUESTIONS = 12;
+        private static int POST_QUESTIONS = 8;
         private static int NUMBER_OF_ENEMIES = 210;
 
 

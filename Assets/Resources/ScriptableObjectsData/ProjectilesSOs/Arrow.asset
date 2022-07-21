@@ -20,5 +20,5 @@ MonoBehaviour:
   moveSpeed: 10
   projectileBehaviorIndex: 0
   projectileName: 
-  description: "Atira um proj\xE9til \xE0 sua frente."
+  description: Shoots a projectile straight ahead
   color: {r: 0, g: 0, b: 0, a: 0}

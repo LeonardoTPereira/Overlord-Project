@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Voltar
+  m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -687,7 +687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07456038, y: 0.24563856}
   m_AnchorMax: {x: 0.9295727, y: 0.947}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &45772602
@@ -1122,10 +1122,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Muito obrigado por responder!\n\nSuas respostas valem muito para o desenvolvimento
-    dessa pesquisa!\n\nSe quiser jogar mais \xE9 s\xF3 clicar no bot\xE3o abaixo!\nVamos
-    carregar um novo n\xEDvel que achamos ser adequado para voc\xEA.\n\nCaso n\xE3o
-    queira continuar, tudo bem. \xC9 s\xF3 fechar essa janela."
+  m_text: 'Thank you for your answer!
+
+
+    Your answers mean a lot for this research!
+
+
+    If
+    you''d like to play more, click the button below!
+
+    We''ll load a new level
+    we think is better fitting for you.
+
+
+    If you don''t want to continue, that''s
+    fine. Just close this window.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1787,8 +1798,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Voc\xEA ir\xE1 encontrar diferentes inimigos, com diferentes habilidades,
-    padr\xF5es de ataque e de movimenta\xE7\xE3o, vida, dano, velocidade, etc."
+  m_text: You will find different enemies, with different abilities, attack and movement
+    patterns, health, damage, etc.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1922,7 +1933,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Gerar N\xEDveis"
+  m_text: Create Levels
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2244,17 +2255,26 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Este jogo tem como objetivo avaliar o projeto de software desenvolvido.
-    Toda e qualquer a\xE7\xE3o que voc\xEA, jogador, realizar \xE9 importante e v\xE1lida.
-    Em nenhum momento o seu desempenho pessoal estar\xE1 sendo avaliado, apenas o
-    jogo e suas mec\xE2nicas.\n\nUm formul\xE1rio ser\xE1 apresentado para voc\xEA
-    antes de iniciar o jogo e ao final de cada n\xEDvel ou quando desejar parar ao
-    morrer no jogo. Responda com sinceridade. E n\xE3o deixe de responder antes de
-    sair do jogo, seja vitorioso ou n\xE3o, caso queira colaborar com a pesquisa.\n\nN\xF3s
-    iremos coletar algumas informa\xE7\xF5es sobre o jogo enquanto voc\xEA joga.
-    Mas nada pessoal. Tudo anonimamente!\n\nClicando em Continuar voc\xEA concorda
-    que dados an\xF4nimos sobre o jogo sejam coletados para fins dessa pesquisa,
-    assim como suas respostas."
+  m_text: 'This game''s goal is to evaluate the software. Any and every action that
+    you, the player, make is valid and important. At no time your personal performance
+    will be evaluated, only the game and its mechanics.
+
+
+    A questionnaire will
+    be presented before the beginning of the game and at the end of each level, or
+    when you decide to stop after being defeated. Give us your honest opinion. And
+    please, if you''d like to collaborate with the research, try not to leave before
+    answering, be it after a win or a loss.
+
+
+    We will collect some data about
+    the game during your play session. But no personnal data. All data collected
+    is anonymous.
+
+
+    By clicking in the "Continue" button you agree that this
+    anonymous data can be collected by the means of this research, as well as your
+    answers.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3053,7 +3073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.010000001}
   m_AnchorMax: {x: 1, y: 0.21725278}
-  m_AnchoredPosition: {x: 0, y: -1.3999939}
+  m_AnchoredPosition: {x: 0, y: -1.3999634}
   m_SizeDelta: {x: 0, y: 0.3999939}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &396312436
@@ -3725,8 +3745,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Informa\xE7\xF5es sobre a arma -\nSelecione alguma arma para exibir
-    detalhes\nClique no bot\xE3o confirmar para ir para come\xE7ar a jogar!"
+  m_text: '- Weapon info -
+
+    Select any weapon for details
+
+    Click in the "Select
+    Weapon" button to begin the game.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4321,15 +4345,29 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Este jogo faz parte de um projeto de pesquisa de doutorado e tem como
-    objetivo colocar o jogador para jogar diferentes n\xEDveis com inimigos de diferentes
-    dificuldades e coletar algumas informa\xE7\xF5es.\n\nPrimeiro, escolha um dos
-    tr\xEAs calabou\xE7os apresentados no mapa. \xC9 s\xF3 andar em dire\xE7\xE3o
-    do que voc\xEA quiser.\n\nVoc\xEA deve navegar pela fase encontrando chaves,
-    que abrem portas trancadas. Voc\xEA deve matar todos os inimigos de uma sala
-    para poder ir para a pr\xF3xima. \n\nUse \"WASD\" para mover-se e as \"setas\"
-    para atirar. \n\nN\xE2o se preocupe em errar o caminho, com o tempo ou com mortes
-    :)\n\nPara ganhar o jogo, deve encontrar o item abaixo:"
+  m_text: 'This game is part of a research project and its objective is to make players
+    play different levels with enemies in different difficulty settings, while collecting
+    some data.
+
+
+    First, select one of the three dungeons presented in the map.
+    You just need to walk in their direction.
+
+
+    You must navigate through the
+    dungeon and collect keys, which will open locked doors. You must eliminate all
+    enemies from a room to open the passage to the next
+
+
+    Use "WASD" to move
+    and "arrows" to shoot.
+
+
+    Don''t worry about finding the right path, the time
+    or dying :)
+
+
+    To win the game, you must find the item below:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4463,10 +4501,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Por favor, clique em \"Question\xE1rio\" para responder algumas perguntas
-    sobre o n\xEDvel que voc\xEA acabou de jogar.\n \nCaso queira jogar mais, vamos
-    oferecer outro n\xEDvel para voc\xEA ao fim do question\xE1rio.\n\nCaso queira
-    parar, apenas envie o question\xE1rio e feche essa janela."
+  m_text: 'Please click "Questionnaire" to answer some questions about the level
+    you just played.
+
+
+    If you want to play more, we will offer you another level
+    after the questionnaire.
+
+
+    If you want to stop, just send the questionnaire
+    and close the window.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4601,7 +4645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Atirador: Atira em sua dire\xE7\xE3o"
+  m_text: 'Shooter: shoots at you'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5776,7 +5820,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Voc\xEA Conseguiu!!!"
+  m_text: You did it!!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6295,7 +6339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Salas Exploradas: 12/12'
+  m_text: 'Rooms Explored: 12/12'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6407,7 +6451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07456038, y: 0.24563856}
   m_AnchorMax: {x: 0.9295727, y: 0.947}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &806505740
@@ -6639,7 +6683,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Escudo: Protege de danos frontais.'
+  m_text: 'Shiled: Protects from frontal damage'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7156,7 +7200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Pr\xF3ximo N\xEDvel"
+  m_text: Next Level
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7291,7 +7335,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tiro: Dano por contato.'
+  m_text: 'Bullet: Damage by contact'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7598,7 +7642,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Jogar o Mesmo N\xEDvel Novamente"
+  m_text: Replay the level
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7768,7 +7812,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Bomba: Dano em \xE1rea ap\xF3s alguns segundos."
+  m_text: 'Bomb: Area damage after some seconds.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7961,6 +8005,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -8048,7 +8093,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Selecionar Arma
+  m_text: Select Weapon
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8149,7 +8194,7 @@ PrefabInstance:
         type: 3}
       propertyPath: questionsData
       value: 
-      objectReference: {fileID: 11400000, guid: 58fe81fb1cc5ae146abaebca85520005,
+      objectReference: {fileID: 11400000, guid: 4230f3048cd0fd1478752b7ace3ada72,
         type: 2}
     - target: {fileID: 114377053600315374, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -8165,6 +8210,20 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.26520076
+      objectReference: {fileID: 0}
+    - target: {fileID: 114439437788355862, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Congratulations! You''ve finished the level!
+
+        Now, we''d like
+        your opinion about it. You just need to answer the questions below and click
+        the "Send" button. A new level will be loaded for you to play :)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114627784200161606, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_Text
+      value: Send
       objectReference: {fileID: 0}
     - target: {fileID: 114865303592098710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -8644,7 +8703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.041145187, y: 0.23200001}
   m_AnchorMax: {x: 0.24100001, y: 0.5215904}
-  m_AnchoredPosition: {x: 0.7001343, y: -28.300003}
+  m_AnchoredPosition: {x: 0.7001953, y: -28.299988}
   m_SizeDelta: {x: 147.29, y: 120.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1135945419
@@ -8705,7 +8764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Espada: Aumenta o alcance do inimigo.'
+  m_text: 'Sword: Enhances enemy''s reach.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8839,9 +8898,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Se quiser escolher seguir para a pr\xF3xima etapa, clique no bot\xE3o
-    abaixo. Responda o question\xE1rio que aparecer\xE1 e te daremos conjunto de
-    fases :)"
+  m_text: If you'd like to advance, click the button below. Answer the questionnaire
+    that will appear and will give you new levels :)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9013,7 +9071,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Vida: 10/10'
+  m_text: 'Life: 10/10'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9348,7 +9406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07456038, y: 0.24563856}
   m_AnchorMax: {x: 0.9295727, y: 0.947}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &1222476585
@@ -9908,7 +9966,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Slime: d\xE1 dano ao encostar no jogador"
+  m_text: 'Slime: damage by contact'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11072,7 +11130,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continuar
+  m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11513,7 +11571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continuar
+  m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11647,7 +11705,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tesouro: 0'
+  m_text: 'Treasure: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11857,7 +11915,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continuar
+  m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13550,7 +13608,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Curandeiro: cura aliados em \xE1rea"
+  m_text: 'Healer: heals allies in area'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13861,6 +13919,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 114627784200161606, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_Text
+      value: Send
       objectReference: {fileID: 0}
     - target: {fileID: 114627784200161606, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -14359,7 +14422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Question\xE1rio"
+  m_text: Questionnaire
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14779,7 +14842,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Pr\xF3ximo"
+  m_text: Next
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14913,8 +14976,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Voc\xEA morreu :(\nClique no bot\xE3o abaixo para tentar novamente, em
-    um n\xEDvel similar"
+  m_text: 'You died :(
+
+    Click the button below to try again in a similar level.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15048,7 +15112,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Reiniciar
+  m_text: Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15227,7 +15291,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Escolher outra
+  m_text: Select Another
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15606,7 +15670,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Bombardeiro: Joga bombas em sua dire\xE7\xE3o"
+  m_text: 'Bomber: Throw bombs at you'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15891,7 +15955,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Voltar
+  m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16003,7 +16067,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.59113896, y: 0}
   m_AnchorMax: {x: 1, y: 0.74}
-  m_AnchoredPosition: {x: 180.39, y: 8.0098}
+  m_AnchoredPosition: {x: 180.39001, y: 8.009827}
   m_SizeDelta: {x: -212.64, y: -16.021}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2073745809
@@ -16138,7 +16202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Sua Pontua\xE7\xE3o:"
+  m_text: 'Your score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -33,9 +33,9 @@ public class WeaponDescriptionBHV : MonoBehaviour
     {
         string str = "";
         str += "\"" + weaponSO.description + "\"\n";
-        str += "Dano: " + weaponSO.damage + "\n";
-        str += "Velocidade do projétil: " + weaponSO.moveSpeed + "\n";
-        str += "Velocidade de ataque: " + weaponSO.atkSpeed + "\n";
+        str += "Damage: " + weaponSO.damage + "\n";
+        str += "Projectile Speed: " + weaponSO.moveSpeed + "\n";
+        str += "Attack Speed: " + weaponSO.atkSpeed + "\n";
         return str;
     }
 }
