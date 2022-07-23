@@ -71,7 +71,7 @@ public static class RandomRoomGenerator
 
     private static float initialDensity = 0.2f;
     private static int rule;
-    private static int numberOfGens = 10;
+    private static int numberOfGens = 5;
     private static float erosion;
     
     private static int boardDensity; //1 for low, 2 for medium, 3 for high

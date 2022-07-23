@@ -13,7 +13,7 @@ public static class SoRoomLoader
         RoomData newRoom = RandomRoomGenerator.CreateNewRoom(roomGeneratorInput); //Sua geração de salas
         for (var x = 0; x < room.Dimensions.Width; x++)
         {
-            for (var y = 1; y < room.Dimensions.Height; y++)
+            for (var y = 0; y < room.Dimensions.Height; y++)
             {
                 Debug.Log("My room dimensions: "+newRoom.Room.Length + " " + newRoom.Room[x].Tiles.Length);
                 Debug.Log("Room dimensions: "+roomGeneratorInput.Size.x+" "+roomGeneratorInput.Size.y);
