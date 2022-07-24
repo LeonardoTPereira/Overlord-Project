@@ -5,6 +5,7 @@ using Game.DataCollection;
 using Game.EnemyGenerator;
 using Game.Events;
 using Game.LevelGenerator;
+using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
@@ -142,12 +143,12 @@ namespace Game.NarrativeGenerator
             Quests.NpcSos = PlaceholderNpcs;
             Quests.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
             Debug.Log("Creating Dungeons");
-            await CreateDungeonsForQuestLine();
+            Quests.DungeonFileSos = await CreateDungeonsForQuestLine();
         }
 
-        private async Task CreateDungeonsForQuestLine()
+        private async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
         {
-            await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEADungeonEventArgs(Quests));
+            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEADungeonEventArgs(Quests));
             //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 

@@ -46,7 +46,6 @@ namespace Game.NPCs
             var nextQuestId = completedQuest.Next.Id;
             var newOpenerLine = NpcDialogueGenerator.CreateQuestOpener(completedQuest.Next, npc);
             dialogue.AddDialogue(npc, newOpenerLine, true, nextQuestId);
-            Debug.Log("Opened new quest: " + nextQuestId);
         }
         
         private void CreateQuestOpenedDialogue(object sender, NewQuestEventArgs eventArgs)
@@ -56,7 +55,6 @@ namespace Game.NPCs
             var openerLine = NpcDialogueGenerator.CreateQuestOpener(openedQuest, npc);
             var questId = openedQuest.Id;
             dialogue.AddDialogue(npc, openerLine, true, questId);
-            Debug.Log("Opened quest: " + questId);
         }
 
         public void Reset() {

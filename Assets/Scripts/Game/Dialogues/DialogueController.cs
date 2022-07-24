@@ -46,7 +46,6 @@ namespace Game.Dialogues
 
         public void StopDialogueFromQuest(int id)
         {
-            Debug.Log("Stopped quest: " + id);
             foreach (var line in QuestDialogues)
             {
                 if (line.DialogueId == id)
