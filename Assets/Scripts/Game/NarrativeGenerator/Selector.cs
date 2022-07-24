@@ -36,11 +36,6 @@ namespace Game.NarrativeGenerator
                 questLine.NpcInCharge = possibleNpcs.GetRandom();
                 questLineList.Add(questLine);
             } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
-            Debug.Log("FINAL QUEST SO:");
-            foreach (var quest in questLineList.SelectMany(questList => questList.Quests))
-            {
-                Debug.Log(quest.symbolType);
-            }
             return questLineList;
         }
 
