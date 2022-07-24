@@ -15,3 +15,4 @@ MonoBehaviour:
   question: "Eu geralmente fa\xE7o apenas o necess\xE1rio para terminar um n\xEDvel
     ou completar uma miss\xE3o"
   description: 1 = Discordo Fortemente    <->    5 = Concordo Fortemente
+  answer: 0

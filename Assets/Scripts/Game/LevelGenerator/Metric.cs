@@ -7,12 +7,11 @@ namespace Game.LevelGenerator
     class Metric
     {
         /// Calculate and return the leniency.
-        public static float Leniency(
-            Individual _individual
-        ) {
+        public static float Leniency( Individual _individual ) 
+        {
             Dungeon dungeon = _individual.dungeon;
             Queue<Room> unvisited = new Queue<Room>();
-            unvisited.Enqueue(dungeon.Rooms[0]);
+            unvisited.Enqueue(dungeon.GetStart());
             // Calculate the number of safe rooms
             int safe = 0;
             while (unvisited.Count > 0)
@@ -28,7 +27,7 @@ namespace Game.LevelGenerator
                 }
             }
             // Calculate and return the dungeon leniency
-            return (float) safe / dungeon.Rooms.Count;
+            return (float)safe / (float)dungeon.Rooms.Count;
         }
 
         /// Calculate and return the coefficient of exploration.
