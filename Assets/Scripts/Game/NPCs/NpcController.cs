@@ -2,10 +2,13 @@
 using Fog.Dialogue;
 using Game.Dialogues;
 using Game.Quests;
+using UnityEngine;
+
+#if UNITY_EDITOR
 using MyBox;
 using UnityEditor;
-using UnityEngine;
 using Util;
+#endif
 
 namespace Game.NPCs
 {
@@ -35,19 +38,23 @@ namespace Game.NPCs
         {
             if (eventArgs.NpcInCharge != npc) return;
             var completedQuest = eventArgs.Quest;
-            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestCloser(completedQuest, npc));
-            if (!completedQuest.EndsStoryLine)
-            {
-                dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestOpener(completedQuest.Next, npc));
-
-            }
+            var questId = completedQuest.Id;
+            dialogue.StopDialogueFromQuest(questId);
+            var closerLine = NpcDialogueGenerator.CreateQuestCloser(completedQuest, npc);
+            dialogue.AddDialogue(npc, closerLine, false, questId);
+            if (completedQuest.EndsStoryLine) return;
+            var nextQuestId = completedQuest.Next.Id;
+            var newOpenerLine = NpcDialogueGenerator.CreateQuestOpener(completedQuest.Next, npc);
+            dialogue.AddDialogue(npc, newOpenerLine, true, nextQuestId);
         }
         
         private void CreateQuestOpenedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != npc) return;
             var openedQuest = eventArgs.Quest;
-            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateQuestOpener(openedQuest, npc));
+            var openerLine = NpcDialogueGenerator.CreateQuestOpener(openedQuest, npc);
+            var questId = openedQuest.Id;
+            dialogue.AddDialogue(npc, openerLine, true, questId);
         }
 
         public void Reset() {
@@ -89,7 +96,8 @@ namespace Game.NPCs
         {
             dialogue = ScriptableObject.CreateInstance<DialogueController>();
             _isDialogueNull = dialogue == null;
-            dialogue.AddDialogue(npc, NpcDialogueGenerator.CreateGreeting(Npc));
+            var greetingDialogue = NpcDialogueGenerator.CreateGreeting(Npc);
+            dialogue.AddDialogue(npc, greetingDialogue, true, 0);
         }
 
         private bool HasAtLeastOneTrigger()

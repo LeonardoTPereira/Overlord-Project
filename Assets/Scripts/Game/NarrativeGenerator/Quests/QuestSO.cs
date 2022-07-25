@@ -37,6 +37,7 @@ namespace Game.NarrativeGenerator.Quests
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
         public ItemSo Reward { get => reward; set => reward = value; }
+        public int Id { get; set; }
 
         public virtual void Init()
         {
@@ -45,6 +46,7 @@ namespace Game.NarrativeGenerator.Quests
             questName = "Null";
             endsStoryLine = false;
             Reward = null;
+            Id = GetInstanceID();
         }
 
         public void Init(string questTitle, bool endsLine, QuestSO previousQuest)
@@ -54,6 +56,7 @@ namespace Game.NarrativeGenerator.Quests
             Previous = previousQuest;
             next = null;
             Reward = null;
+            Id = GetInstanceID();
         }
         
         public virtual void Init(QuestSO copiedQuest)
@@ -63,6 +66,7 @@ namespace Game.NarrativeGenerator.Quests
             Previous = copiedQuest.Previous;
             next = copiedQuest.Next;
             Reward = copiedQuest.Reward;
+            Id = copiedQuest.Id;
         }
 
         public virtual QuestSO Clone()
