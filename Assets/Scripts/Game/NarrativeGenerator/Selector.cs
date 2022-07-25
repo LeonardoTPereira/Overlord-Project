@@ -12,6 +12,8 @@ namespace Game.NarrativeGenerator
 {
     public class Selector
     {
+        Dictionary<string,bool> wasQuestAdded = new Dictionary<string,bool>();
+
         public void CreateMissions(QuestGeneratorManager m)
         {
             m.Quests.questLines = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
@@ -19,7 +21,8 @@ namespace Game.NarrativeGenerator
 
         private List<QuestList> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
-            bool containsKill = false, containsTalk = false, containsGet = false, containsExplore = false;
+            CreateQuestDict();
+            int i = 0;
             var questLineList = new List<QuestList>();
             do
             {
@@ -30,30 +33,34 @@ namespace Game.NarrativeGenerator
                     questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
                     SaveCurrentQuest( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
-                    UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
+                    UpdateListContents( questChain.GetLastSymbol() );
                 }
                 questLine.Quests[^1].EndsStoryLine = true;
                 questLine.NpcInCharge = possibleNpcs.GetRandom();
                 questLineList.Add(questLine);
-            } while ( !containsKill || !containsTalk || !containsGet || !containsExplore );
+                i++;
+            } while ( wasQuestAdded.ContainsValue(false) && i < 30);
+            Debug.Log(i);
             return questLineList;
         }
 
-        private void UpdateListContents ( Symbol lastQuest, ref bool containsKill ,ref bool containsTalk ,ref bool containsGet ,ref bool containsExplore )
+        private void CreateQuestDict ()
+        {
+            wasQuestAdded.Add(Constants.TALK_QUEST, false);
+            wasQuestAdded.Add(Constants.GET_QUEST, false);
+            wasQuestAdded.Add(Constants.KILL_QUEST, false);
+            wasQuestAdded.Add(Constants.EXPLORE_QUEST, false);
+        }
+
+        private void UpdateListContents ( Symbol lastQuest )
         {
             switch ( lastQuest.symbolType )
             {
                 case Constants.TALK_QUEST:
-                    containsTalk = true;
-                    break;
                 case Constants.GET_QUEST:
-                    containsGet = true;
-                    break;
                 case Constants.KILL_QUEST:
-                    containsKill = true;
-                    break;
                 case Constants.EXPLORE_QUEST:
-                    containsExplore = true;
+                    wasQuestAdded[lastQuest.symbolType] = true;
                     break;
             }
         }
