@@ -25,9 +25,9 @@ namespace Game.NarrativeGenerator
             {
                 var questLine = new QuestList();
                 MarkovChain questChain = new MarkovChain();
-                questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
+                    questChain.GetLastSymbol().SetDictionary( ProfileCalculator.StartSymbolWeights );
                     questChain.GetLastSymbol().SetNextSymbol( questChain );
                     SaveCurrentQuest( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                     UpdateListContents( questChain.GetLastSymbol(), ref containsKill ,ref containsTalk ,ref containsGet ,ref containsExplore );
