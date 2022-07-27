@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Game.EnemyGenerator;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
@@ -96,6 +98,7 @@ namespace Game.GameManager
             audioSources = GetComponents<AudioSource>();
             healthController = gameObject.GetComponent<HealthController>();
             enemyRigidBody = gameObject.GetComponent<Rigidbody2D>();
+            playerObj = Player.Player.Instance.gameObject;
             _hasGotComponents = true;
         }
 
@@ -105,7 +108,6 @@ namespace Game.GameManager
             canDestroy = false;
             dataHasBeenLoaded = false;
             _hasGotComponents = false;
-            playerObj = Player.Player.Instance.gameObject;
         }
 
         private void OnEnable()
@@ -145,6 +147,7 @@ namespace Game.GameManager
 
         private void Update()
         {
+            if (!dataHasBeenLoaded) return;
             if (!audioSources[ENEMY_DEATH].isPlaying && canDestroy)
             {
                 Destroy(gameObject);
@@ -456,7 +459,7 @@ namespace Game.GameManager
                 var bombController = bullet.GetComponent<BombController>();
                 bombController.ShootDirection = target;
                 bombController.Damage = damage;
-                bombController.SetEnemyThatShot(indexOnEnemyList);
+                bombController.EnemyThatShot = indexOnEnemyList;
             }
             else
             {
