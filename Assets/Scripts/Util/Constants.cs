@@ -48,29 +48,29 @@ namespace Util
         #region Quest Weights
         public static Func<int,int> OneOptionQuestLineWeight = x => 
         {
-            // if ( x < 4 )
-            //     return 100;
-            // return 0;
-            return (int)(100 - Mathf.Pow(x,2));
+            if ( x < 100 )
+                return 100;
+            return 0;
+            // return (int)(100 - Mathf.Pow(x,2));
         };
         public static Func<int,int> OneOptionQuestEmptyWeight = x => 
         {
-            // if ( x > 4 )
-            //     return 100;
-            // return 0;
-            return (int) Mathf.Pow(x,2);
+            if ( x > 100 )
+                return 100;
+            return 0;
+            // return (int) Mathf.Pow(x,2);
         };
 
         public static Func<int,int> ThreeOptionQuestLineWeight = x => 
         {
-            if ( x < 4 )
+            if ( x < 100 )
                 return 34;
             return 0;
             // return (int)Mathf.Clamp( 0.3f*(1/(x*0.25f)), 0, 30);
         };
         public static Func<int,int> ThreeOptionQuestEmptyWeight = x => 
         {
-            if ( x > 4 )
+            if ( x > 100 )
                 return 100;
             return 0;
             // return (int)Mathf.Clamp( ( 1 -( 1/(x*0.25f))), 0, 100);  

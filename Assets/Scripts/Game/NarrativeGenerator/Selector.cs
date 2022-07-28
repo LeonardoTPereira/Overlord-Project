@@ -7,6 +7,7 @@ using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using System;
 
 namespace Game.NarrativeGenerator
 {
@@ -22,7 +23,6 @@ namespace Game.NarrativeGenerator
         private List<QuestList> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             CreateQuestDict();
-            int i = 0;
             var questLineList = new List<QuestList>();
             do
             {
@@ -38,9 +38,7 @@ namespace Game.NarrativeGenerator
                 questLine.Quests[^1].EndsStoryLine = true;
                 questLine.NpcInCharge = possibleNpcs.GetRandom();
                 questLineList.Add(questLine);
-                i++;
-            } while ( wasQuestAdded.ContainsValue(false) && i < 30);
-            Debug.Log(i);
+            } while ( wasQuestAdded.ContainsValue(false));
             return questLineList;
         }
 
@@ -54,15 +52,7 @@ namespace Game.NarrativeGenerator
 
         private void UpdateListContents ( Symbol lastQuest )
         {
-            switch ( lastQuest.symbolType )
-            {
-                case Constants.TALK_QUEST:
-                case Constants.GET_QUEST:
-                case Constants.KILL_QUEST:
-                case Constants.EXPLORE_QUEST:
-                    wasQuestAdded[lastQuest.symbolType] = true;
-                    break;
-            }
+            wasQuestAdded[lastQuest.symbolType] = true;
         }
 
         private void SaveCurrentQuest ( MarkovChain questChain, List<QuestSO> questSos, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes )
