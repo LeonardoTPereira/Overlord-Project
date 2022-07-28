@@ -7,20 +7,12 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class TalkQuestSO : QuestSO
+    public class ListenQuestSO : ImmersionQuestSO
     {
         public override string symbolType { 
-            get { return Constants.TALK_TERMINAL;} 
+            get { return Constants.LISTEN_QUEST;} 
         }
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
-        {
-            get {
-                Dictionary<string, Func<int, int>> talkQuestWeights = new Dictionary<string, Func<int, int>>();
-                talkQuestWeights.Add( Constants.TALK_TERMINAL, Constants.OneOptionQuestLineWeight );
-                talkQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
-                return talkQuestWeights;
-            } 
-        }
+        
         //No NPCSo directly. It must be only the job/race, defined using some method based on the next quest
         public NpcSo Npc { get; set; }
 
@@ -44,12 +36,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void Init(QuestSO copiedQuest)
         {
             base.Init(copiedQuest);
-            Npc = (copiedQuest as TalkQuestSO).Npc;
+            Npc = (copiedQuest as ListenQuestSO).Npc;
         }
         
         public override QuestSO Clone()
         {
-            var cloneQuest = CreateInstance<TalkQuestSO>();
+            var cloneQuest = CreateInstance<ListenQuestSO>();
             cloneQuest.Init(this);
             return cloneQuest;
         }

@@ -65,14 +65,14 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
 
-        public TalkQuestSO GetFirstTalkQuestWithNpc(NpcSo npc)
+        public ListenQuestSO GetFirstTalkQuestWithNpc(NpcSo npc)
         {
             foreach (var quest in Quests)
             {
-                if (quest is not TalkQuestSO talkQuestSo) continue;
-                if (talkQuestSo.Npc == npc)
+                if (quest is not ListenQuestSO ListenQuestSO) continue;
+                if (ListenQuestSO.Npc == npc)
                 {
-                    return talkQuestSo;
+                    return ListenQuestSO;
                 }
             }
             return null;        

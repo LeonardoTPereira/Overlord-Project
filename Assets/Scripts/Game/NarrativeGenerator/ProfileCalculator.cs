@@ -93,10 +93,10 @@ namespace Game.NarrativeGenerator
             int exploreWeight = (int) RemoveZeros( (100*immersionPreference/normalizeConst) );
 
             StartSymbolWeights = new Dictionary<string, Func<int, int>>();
-            StartSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
-            StartSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );
-            StartSymbolWeights.Add( Constants.KILL_QUEST, x => killWeight ); 
-            StartSymbolWeights.Add( Constants.EXPLORE_QUEST, x => exploreWeight );
+            StartSymbolWeights.Add( Constants.IMMERSION_QUEST, x => talkWeight );
+            StartSymbolWeights.Add( Constants.ACHIEVEMENT_QUEST, x => getWeight );
+            StartSymbolWeights.Add( Constants.MASTERY_QUEST, x => killWeight ); 
+            StartSymbolWeights.Add( Constants.CREATIVITY_QUEST, x => exploreWeight );
         }
 
         private static float RemoveZeros ( float playerPreference )

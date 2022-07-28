@@ -10,23 +10,13 @@ using UnityEngine;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     [Serializable]
-    public class KillQuestSO : QuestSO
+    public class KillQuestSO : MasteryQuestSO
     {
         [field: SerializeField]
         public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
-
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
-        {
-            get {
-                Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
-                killSymbolWeights.Add( Constants.KILL_TERMINAL, Constants.OneOptionQuestLineWeight );
-                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
-                return killSymbolWeights;
-            } 
-        }
         public override string symbolType {
-            get { return Constants.KILL_TERMINAL; }
+            get { return Constants.KILL_QUEST; }
         }
         
         public override void Init()

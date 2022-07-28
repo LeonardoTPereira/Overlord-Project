@@ -21,7 +21,7 @@ namespace Game.NarrativeGenerator.Quests
             symbolList.Add( new StartSymbol() );
             symbolNumber = 0;
             symbolList[0].canDrawNext = true;
-            symbolList[0].symbolType = Constants.TALK_QUEST;
+            symbolList[0].symbolType = Constants.IMMERSION_QUEST;
         }
 
         /// <summary>
@@ -32,37 +32,34 @@ namespace Game.NarrativeGenerator.Quests
             symbolNumber++;
             switch ( _symbol )
             {
-                case Constants.KILL_QUEST:
+                case Constants.MASTERY_QUEST:
                     symbolList.Add( new Kill() );
                 break;
-                case Constants.TALK_QUEST:
+                case Constants.IMMERSION_QUEST:
                     symbolList.Add( new Talk() );
                 break;
-                case Constants.GET_QUEST:
+                case Constants.ACHIEVEMENT_QUEST:
                     symbolList.Add( new Get() );
                 break;
-                case Constants.EXPLORE_QUEST:
+                case Constants.CREATIVITY_QUEST:
                     symbolList.Add( new Explore() );
                 break;
-                case Constants.KILL_TERMINAL:
+                case Constants.KILL_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<KillQuestSO>() );
                 break;
-                case Constants.TALK_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<TalkQuestSO>() );
+                case Constants.LISTEN_QUEST:
+                    symbolList.Add( ScriptableObject.CreateInstance<ListenQuestSO>() );
                 break;
-                case Constants.EMPTY_TERMINAL:
+                case Constants.EMPTY_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSO>() );
                 break;
-                case Constants.GET_TERMINAL:
+                case Constants.GATHER_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<GetQuestSo>() );
                 break;
-                case Constants.DROP_TERMINAL:
-                    symbolList.Add( ScriptableObject.CreateInstance<DropQuestSo>() );
-                break;
-                case Constants.ITEM_TERMINAL:
+                case Constants.ITEM_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ItemQuestSo>() );
                 break;
-                case Constants.SECRET_TERMINAL:
+                case Constants.SECRET_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<SecretRoomQuestSO>() );
                 break;
                 default:

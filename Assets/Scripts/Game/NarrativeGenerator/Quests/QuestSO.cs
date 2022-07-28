@@ -145,7 +145,7 @@ namespace Game.NarrativeGenerator.Quests
         
         public bool IsTalkQuest()
         {
-            return typeof(TalkQuestSO).IsAssignableFrom(GetType());
+            return typeof(ListenQuestSO).IsAssignableFrom(GetType());
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Game.NarrativeGenerator
             // foreach ( QuestLine narrative in narratives.QuestLines )
             // {
             //     string nextQuest = narrative.graph[0].symbolType.ToString();
-            //     if ( narrative.graph[0].symbolType != Constants.EMPTY_TERMINAL )
+            //     if ( narrative.graph[0].symbolType != Constants.EMPTY_QUEST )
             //         questDescription += $" - {nextQuest}\n";
             // }
             // questList.text = questDescription;

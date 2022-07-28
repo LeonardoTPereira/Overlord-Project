@@ -37,11 +37,11 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
         {
             if (IsTalkQuest(quest))
             {
-                AddNpcs((TalkQuestSO) quest);
+                AddNpcs((ListenQuestSO) quest);
             }
         }
 
-        private void AddNpcs(TalkQuestSO quest)
+        private void AddNpcs(ListenQuestSO quest)
         {
             if (NpcsBySo.TryGetValue(quest.Npc, out var npcQuestList))
             {
@@ -57,7 +57,7 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
 
         private static bool IsTalkQuest(QuestSO quest)
         {
-            return quest.GetType() == typeof(TalkQuestSO);
+            return quest.GetType() == typeof(ListenQuestSO);
         }
         
         public override string ToString()

@@ -16,13 +16,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             get {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.GET_TERMINAL,  Constants.OneOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight);
+                getSymbolWeights.Add( Constants.GATHER_QUEST,  Constants.OneOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight);
                 return getSymbolWeights;
             } 
         }
         public override string symbolType {
-            get { return Constants.ITEM_TERMINAL; }
+            get { return Constants.ITEM_QUEST; }
         }
 
         public override void Init()

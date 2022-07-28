@@ -18,13 +18,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             get {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.GET_TERMINAL,  Constants.OneOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight);
+                getSymbolWeights.Add( Constants.GATHER_QUEST,  Constants.OneOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight);
                 return getSymbolWeights;
             } 
         }
         public override string symbolType {
-            get { return Constants.GET_QUEST; }
+            get { return Constants.ACHIEVEMENT_QUEST; }
         }
 
         public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
@@ -33,10 +33,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             //TODO implemente Drop Quest Game Logic
             /*switch ( chain.GetLastSymbol().symbolType )
             {
-                case Constants.GET_TERMINAL:
+                case Constants.GATHER_QUEST:
                     CreateAndSaveGetQuestSo(questSos, possibleItems);
                 break;
-                case Constants.DROP_TERMINAL:
+                case Constants.DROP_QUEST:
                     CreateAndSaveDropQuestSo(questSos, possibleItems, enemyTypes);
                 break;
             }*/

@@ -9,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class SecretRoomQuestSO : QuestSO
     {
         public override string symbolType {
-            get { return Constants.SECRET_TERMINAL; }
+            get { return Constants.SECRET_QUEST; }
         }
         public Dictionary<EnemySO, int> EnemiesToKillByType { get; set; }
         private Dictionary<ItemSo, int> ItemsToCollectByType { get; set; }

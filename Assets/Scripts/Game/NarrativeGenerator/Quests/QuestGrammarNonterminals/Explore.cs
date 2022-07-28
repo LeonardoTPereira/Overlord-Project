@@ -14,18 +14,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
             get
             {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.ITEM_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.DROP_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.GET_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
+                getSymbolWeights.Add( Constants.ITEM_QUEST, Constants.TwoOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.GATHER_QUEST, Constants.TwoOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.TwoOptionQuestEmptyWeight );
                 return getSymbolWeights;
             } 
         }
+        
         public override string symbolType {
-            get { return Constants.EXPLORE_QUEST; }
+            get { return Constants.CREATIVITY_QUEST; }
         }
-        public void DefineQuestSO ( List<QuestSO> questSos )
 
+        public void DefineQuestSO ( List<QuestSO> questSos )
         {
             CreateAndSaveSecretRoomQuestSo( questSos );
         }

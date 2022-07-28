@@ -17,13 +17,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             get {
                 Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
-                killSymbolWeights.Add( Constants.KILL_TERMINAL, Constants.OneOptionQuestLineWeight );
-                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                killSymbolWeights.Add( Constants.KILL_QUEST, Constants.OneOptionQuestLineWeight );
+                killSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
                 return killSymbolWeights;
             } 
         }
         public override string symbolType {
-            get { return Constants.KILL_QUEST; }
+            get { return Constants.MASTERY_QUEST; }
         }
         public void DefineQuestSO ( List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes )
         {

@@ -12,7 +12,7 @@ namespace Game.NarrativeGenerator.Quests
     public class EmptyQuestSO : QuestSO, Symbol
     {
         public override string symbolType { 
-            get { return Constants.EMPTY_TERMINAL;} 
+            get { return Constants.EMPTY_QUEST;} 
         }
         public override bool canDrawNext { 
             get { return false; } 

@@ -22,15 +22,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get
             {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.ITEM_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.DROP_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.GET_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
+                getSymbolWeights.Add( Constants.ITEM_QUEST, Constants.TwoOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.GATHER_QUEST, Constants.TwoOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.TwoOptionQuestEmptyWeight );
                 return getSymbolWeights;
             } 
         }
         public override string symbolType {
-            get { return Constants.DROP_TERMINAL; }
+            get { return Constants.EMPTY_QUEST; }//Constants.DROP_QUEST; }
         }
 
         public override void Init()

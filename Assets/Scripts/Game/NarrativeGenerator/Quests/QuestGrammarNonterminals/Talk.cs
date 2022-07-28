@@ -15,24 +15,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
         {
             get {
                 Dictionary<string, Func<int, int>> talkQuestWeights = new Dictionary<string, Func<int, int>>();
-                talkQuestWeights.Add( Constants.TALK_TERMINAL, Constants.OneOptionQuestLineWeight );
-                talkQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
+                talkQuestWeights.Add( Constants.LISTEN_QUEST, Constants.OneOptionQuestLineWeight );
+                talkQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
                 return talkQuestWeights;
             } 
             set {}
         }
         public override string symbolType {
-            get { return Constants.TALK_QUEST; }
+            get { return Constants.IMMERSION_QUEST; }
         }
 
         public void DefineQuestSO ( List<QuestSO> questSos, List<NpcSo> possibleNpcs )
         {
-            CreateAndSaveTalkQuestSo(questSos, possibleNpcs);
+            CreateAndSaveListenQuestSO(questSos, possibleNpcs);
         }
 
-        private static void CreateAndSaveTalkQuestSo(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
+        private static void CreateAndSaveListenQuestSO(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
         {
-            var talkQuest = ScriptableObject.CreateInstance<TalkQuestSO>();
+            var talkQuest = ScriptableObject.CreateInstance<ListenQuestSO>();
             var selectedNpc = possibleNpcSos.GetRandom();
             talkQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             //talkQuest.SaveAsAsset();
