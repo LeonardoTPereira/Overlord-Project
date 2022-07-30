@@ -17,9 +17,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get { return Constants.IMMERSION_QUEST; }
         }
 
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
+                if ( nextSymbolChances != null )
+                    return nextSymbolChances;
+                    
                 Dictionary<string, Func<int, int>> immersionQuestWeights = new Dictionary<string, Func<int, int>>();
                 immersionQuestWeights.Add( Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight );
                 immersionQuestWeights.Add( Constants.READ_QUEST, Constants.FourOptionQuestLineWeight );

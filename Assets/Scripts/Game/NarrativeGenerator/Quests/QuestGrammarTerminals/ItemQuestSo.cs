@@ -12,9 +12,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class ItemQuestSo : QuestSO
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToCollectByType { get; set; }
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
+                if ( nextSymbolChances != null )
+                    return nextSymbolChances;
+                    
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
                 getSymbolWeights.Add( Constants.GATHER_QUEST,  Constants.OneOptionQuestLineWeight );
                 getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight);

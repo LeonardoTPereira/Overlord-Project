@@ -3,7 +3,7 @@ using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Game.NarrativeGenerator.Quests.QuestGrammarNonTerminals
 {
     public class StartSymbol : QuestSO
     {

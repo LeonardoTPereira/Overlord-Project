@@ -19,9 +19,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get { return Constants.ACHIEVEMENT_QUEST; }
         }
 
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
+                if ( nextSymbolChances != null )
+                    return nextSymbolChances;
+                    
                 Dictionary<string, Func<int, int>> achievmentQuestWeights = new Dictionary<string, Func<int, int>>();
                 achievmentQuestWeights.Add( Constants.GATHER_QUEST, Constants.TwoOptionQuestLineWeight );
                 achievmentQuestWeights.Add( Constants.EXCHANGE_QUEST, Constants.TwoOptionQuestLineWeight );

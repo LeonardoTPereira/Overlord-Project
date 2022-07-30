@@ -17,7 +17,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public Dictionary<ItemSo, EnemiesByType > ItemData { get; set; }
         public Dictionary<ItemSo, Dictionary<float, int>> ItemDataByEnemyFitness { get; set; }
 
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get
             {

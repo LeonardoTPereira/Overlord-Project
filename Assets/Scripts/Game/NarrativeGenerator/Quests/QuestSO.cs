@@ -18,11 +18,12 @@ namespace Game.NarrativeGenerator.Quests
     public class QuestSO : ScriptableObject, SaveableGeneratedContent, Symbol
     {
         public virtual string symbolType {get; set;}
-        public virtual Dictionary<string, Func<int,int>> nextSymbolChances
+        public virtual Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get;
-            set;
+            get { return nextSymbolChances; }
+            set {}
         }
+        protected Dictionary<string, Func<int,int>> nextSymbolChances;
         public virtual bool canDrawNext {
             get { return true; } 
             set {} 
@@ -87,18 +88,20 @@ namespace Game.NarrativeGenerator.Quests
         public void SetDictionary(Dictionary<string, Func<int,int>> _nextSymbolChances  )
         {
             nextSymbolChances = _nextSymbolChances;
+            Debug.Log(nextSymbolChances);
+            Debug.Log(NextSymbolChances);
         }
 
         public void SetNextSymbol(MarkovChain chain)
         {
             int chance = RandomSingleton.GetInstance().Next(0, 100);
             int cumulativeProbability = 0;
-            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
+            foreach ( KeyValuePair<string, Func<int,int>> _nextSymbolChance in NextSymbolChances )
             {
-                cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
+                cumulativeProbability += _nextSymbolChance.Value( chain.symbolNumber );
                 if ( cumulativeProbability >= chance )
                 {
-                    string nextSymbol = nextSymbolChance.Key;
+                    string nextSymbol = _nextSymbolChance.Key;
                     chain.SetSymbol( nextSymbol );
                     break;
                 }

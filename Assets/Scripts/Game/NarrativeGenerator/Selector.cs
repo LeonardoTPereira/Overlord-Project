@@ -36,8 +36,10 @@ namespace Game.NarrativeGenerator
                     Symbol lastSelectedQuest = questChain.GetLastSymbol();
                     lastSelectedQuest.SetDictionary( ProfileCalculator.StartSymbolWeights );
                     lastSelectedQuest.SetNextSymbol( questChain );
-                    lastSelectedQuest.DefineQuestSO( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
-                    UpdateListContents( lastSelectedQuest );
+                    Debug.Log( questChain.GetLastSymbol() );
+                    questChain.GetLastSymbol().SetNextSymbol( questChain );
+                    questChain.GetLastSymbol().DefineQuestSO( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    UpdateListContents( questChain.GetLastSymbol() );
                 }
                 i++;
                 questLine.Quests[^1].EndsStoryLine = true;
@@ -47,6 +49,7 @@ namespace Game.NarrativeGenerator
                 {
                     Debug.Log(item.symbolType);
                 }
+                Debug.Log("END QUEST");
             } while ( wasQuestAdded.ContainsValue(false) && i < 10);
             Debug.Log(i);
             return questLineList;

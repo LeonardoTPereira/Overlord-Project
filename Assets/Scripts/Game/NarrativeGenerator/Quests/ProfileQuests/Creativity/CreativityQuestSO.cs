@@ -15,14 +15,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string symbolType {
             get { return Constants.CREATIVITY_QUEST; }
         }
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
+
+                if ( nextSymbolChances != null )
+                    return nextSymbolChances;
+
                 Dictionary<string, Func<int, int>> creativityQuestWeights = new Dictionary<string, Func<int, int>>();
                 creativityQuestWeights.Add( Constants.EXPLORE_QUEST, Constants.TwoOptionQuestLineWeight );
                 creativityQuestWeights.Add( Constants.GOTO_QUEST, Constants.TwoOptionQuestLineWeight );
                 creativityQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
                 return creativityQuestWeights;
+                
             } 
         }
 

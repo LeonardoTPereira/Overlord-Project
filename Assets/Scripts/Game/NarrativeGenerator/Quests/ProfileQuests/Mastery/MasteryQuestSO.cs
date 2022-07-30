@@ -18,9 +18,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get { return Constants.MASTERY_QUEST; }
         }
 
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
+                if ( nextSymbolChances != null )
+                    return nextSymbolChances;
+                    
                 Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
                 masteryQuestWeights.Add( Constants.KILL_QUEST, Constants.TwoOptionQuestLineWeight );
                 masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
