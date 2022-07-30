@@ -88,8 +88,6 @@ namespace Game.NarrativeGenerator.Quests
         public void SetDictionary(Dictionary<string, Func<int,int>> _nextSymbolChances  )
         {
             nextSymbolChances = _nextSymbolChances;
-            Debug.Log(nextSymbolChances);
-            Debug.Log(NextSymbolChances);
         }
 
         public void SetNextSymbol(MarkovChain chain)
