@@ -7,10 +7,10 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class ExploreQuestSO : CreativityQuestSO
+    public class ReadQuestSo : ImmersionQuestSo
     {
         public override string symbolType {
-            get { return Constants.EXPLORE_QUEST; }
+            get { return Constants.READ_QUEST; }
         }
     }
 }

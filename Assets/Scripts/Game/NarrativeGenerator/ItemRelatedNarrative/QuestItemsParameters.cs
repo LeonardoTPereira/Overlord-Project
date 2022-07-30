@@ -32,7 +32,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             }
         }
 
-        private void AddItemWhenItemQuest(QuestSO quest)
+        private void AddItemWhenItemQuest(QuestSo quest)
         {
             if (quest.IsItemQuest())
             {

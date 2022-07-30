@@ -6,7 +6,7 @@ using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class SecretRoomQuestSO : QuestSO
+    public class SecretRoomQuestSo : QuestSo
     {
         public override string symbolType {
             get { return Constants.SECRET_QUEST; }
@@ -23,19 +23,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             Npc = null;
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<EnemySO, int> enemiesByType)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<EnemySO, int> enemiesByType)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByType = enemiesByType;
         }
         
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, int> itemsByType)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<ItemSo, int> itemsByType)
         {
             base.Init(questName, endsStoryLine, previous);
             ItemsToCollectByType = itemsByType;
         }
         
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, NpcSo npc)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, NpcSo npc)
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
@@ -69,15 +69,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             Npc = npc;
         }
         
-        public override void Init(QuestSO copiedQuest)
+        public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Debug.Log("Init Not Implemented for SecretRoomQuestSO");
+            Debug.Log("Init Not Implemented for SecretRoomQuestSo");
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<SecretRoomQuestSO>();
+            var cloneQuest = CreateInstance<SecretRoomQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }

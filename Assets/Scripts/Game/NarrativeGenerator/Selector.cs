@@ -38,14 +38,14 @@ namespace Game.NarrativeGenerator
                     UpdateListContents( newSymbol );
                     newSymbol.SetNextSymbol( questChain );
 
-                    questChain.GetLastSymbol().DefineQuestSO( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    questChain.GetLastSymbol().DefineQuestSo( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                 }
                 questLine.Quests[^1].EndsStoryLine = true;
                 questLine.NpcInCharge = possibleNpcs.GetRandom();
                 questLineList.Add(questLine);
             //TODO: Verify with Leo if it would be interesting 
             //to have a minumum number of questlines
-            } while ( wasQuestAdded.ContainsValue(false) ;
+            } while ( wasQuestAdded.ContainsValue(false) );
             return questLineList;
         }
 

@@ -33,15 +33,15 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
             }
         }
 
-        private void AddNpcWhenTalkQuests(QuestSO quest)
+        private void AddNpcWhenTalkQuests(QuestSo quest)
         {
             if (IsTalkQuest(quest))
             {
-                AddNpcs((ListenQuestSO) quest);
+                AddNpcs((ListenQuestSo) quest);
             }
         }
 
-        private void AddNpcs(ListenQuestSO quest)
+        private void AddNpcs(ListenQuestSo quest)
         {
             if (NpcsBySo.TryGetValue(quest.Npc, out var npcQuestList))
             {
@@ -55,9 +55,9 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
             TotalNpcs++;
         }
 
-        private static bool IsTalkQuest(QuestSO quest)
+        private static bool IsTalkQuest(QuestSo quest)
         {
-            return quest.GetType() == typeof(ListenQuestSO);
+            return quest.GetType() == typeof(ListenQuestSo);
         }
         
         public override string ToString()

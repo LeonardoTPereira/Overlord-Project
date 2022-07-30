@@ -12,7 +12,7 @@ using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class MasteryQuestSO : QuestSO
+    public class MasteryQuestSo : QuestSo
     {
         public override string symbolType {
             get { return Constants.MASTERY_QUEST; }
@@ -32,15 +32,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override void DefineQuestSo ( MarkovChain chain, List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {
                 case Constants.KILL_QUEST:
-                    CreateAndSaveKillQuestSo(questSos, enemyTypes);
+                    CreateAndSaveKillQuestSo(QuestSos, enemyTypes);
                 break;
                 case Constants.DAMAGE_QUEST:
-                    CreateAndSaveDamageQuestSo(questSos, enemyTypes);
+                    CreateAndSaveDamageQuestSo(QuestSos, enemyTypes);
                 break;
                 default:
                     Debug.LogError("help something went wrong!");
@@ -48,38 +48,38 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public static void CreateAndSaveKillQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        public static void CreateAndSaveKillQuestSo(List<QuestSo> QuestSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            var killQuest = ScriptableObject.CreateInstance<KillQuestSO>();
+            var killQuest = ScriptableObject.CreateInstance<KillQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
-            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[^1] : null, selectedEnemyTypes);
+            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes);
             //killQuest.SaveAsAsset();
-            if (questSos.Count > 0)
+            if (QuestSos.Count > 0)
             {
-                questSos[^1].Next = killQuest;
+                QuestSos[^1].Next = killQuest;
             }
             
-            questSos.Add(killQuest);
+            QuestSos.Add(killQuest);
         }
 
-        public static void CreateAndSaveDamageQuestSo(List<QuestSO> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        public static void CreateAndSaveDamageQuestSo(List<QuestSo> QuestSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            var killQuest = ScriptableObject.CreateInstance<DamageQuestSO>();
+            var killQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
-            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 ? questSos[^1] : null, selectedEnemyTypes);
+            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes);
             //killQuest.SaveAsAsset();
-            if (questSos.Count > 0)
+            if (QuestSos.Count > 0)
             {
-                questSos[^1].Next = killQuest;
+                QuestSos[^1].Next = killQuest;
             }
             
-            questSos.Add(killQuest);
+            QuestSos.Add(killQuest);
         }
 
         private static string EnemyTypesToString(EnemiesByType  selectedEnemyTypes)

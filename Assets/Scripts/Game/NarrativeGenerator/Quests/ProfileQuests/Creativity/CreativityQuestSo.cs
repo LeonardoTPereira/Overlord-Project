@@ -10,7 +10,7 @@ using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class CreativityQuestSO : QuestSO
+    public class CreativityQuestSo : QuestSo
     {
         public override string symbolType {
             get { return Constants.CREATIVITY_QUEST; }
@@ -27,11 +27,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 creativityQuestWeights.Add( Constants.GOTO_QUEST, Constants.TwoOptionQuestLineWeight );
                 creativityQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
                 return creativityQuestWeights;
-                
+
             } 
         }
 
-        public override void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override void DefineQuestSo ( MarkovChain chain, List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {
@@ -47,30 +47,30 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public static void CreateAndSaveExploreQuestSo( List<QuestSO> questSos)
+        public static void CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
         {
-            var secretRoomQuest = ScriptableObject.CreateInstance<ExploreQuestSO>();
-            secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
-            //TODO initiate data for secretRoomQuest
+            var exploreQuest = ScriptableObject.CreateInstance<ExploreQuestSo>();
+            exploreQuest.Init("Explore ", false, questSos.Count > 0 ? questSos[^1] : null);
+            //TODO initiate data for exploreQuest
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = secretRoomQuest;
+                questSos[^1].Next = exploreQuest;
             }
 
-            questSos.Add(secretRoomQuest);
+            questSos.Add(exploreQuest);
         }
 
-        public static void CreateAndSaveGotoQuestSo( List<QuestSO> questSos)
+        public static void CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
-            var secretRoomQuest = ScriptableObject.CreateInstance<GotoQuestSO>();
-            secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
-            //TODO initiate data for secretRoomQuest
+            var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
+            gotoQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
+            //TODO initiate data for gotoQuest
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = secretRoomQuest;
+                questSos[^1].Next = gotoQuest;
             }
 
-            questSos.Add(secretRoomQuest);
+            questSos.Add(gotoQuest);
         }
     }
 }

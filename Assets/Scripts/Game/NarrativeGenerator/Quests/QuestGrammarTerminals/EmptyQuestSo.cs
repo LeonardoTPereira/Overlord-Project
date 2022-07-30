@@ -9,7 +9,7 @@ using ScriptableObjects;
 namespace Game.NarrativeGenerator.Quests
 {
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
-    public class EmptyQuestSO : QuestSO, Symbol
+    public class EmptyQuestSo : QuestSo, Symbol
     {
         public override string symbolType { 
             get { return Constants.EMPTY_QUEST;} 
@@ -18,7 +18,7 @@ namespace Game.NarrativeGenerator.Quests
             get { return false; } 
         }
 
-        public void Option( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
+        public void Option( MarkovChain chain, List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
             
         }

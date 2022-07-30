@@ -34,52 +34,52 @@ namespace Game.NarrativeGenerator.Quests
             {
                 case Constants.MASTERY_QUEST:
                     // symbolList.Add( new Kill() );
-                    symbolList.Add( ScriptableObject.CreateInstance<MasteryQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<MasteryQuestSo>() );
                 break;
                 case Constants.IMMERSION_QUEST:
                     // symbolList.Add( new Talk() );
-                    symbolList.Add( ScriptableObject.CreateInstance<ImmersionQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<ImmersionQuestSo>() );
                 break;
                 case Constants.ACHIEVEMENT_QUEST:
                     // symbolList.Add( new Get() );
-                    symbolList.Add( ScriptableObject.CreateInstance<AchievementQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<AchievementQuestSo>() );
                 break;
                 case Constants.CREATIVITY_QUEST:
                     // symbolList.Add( new Explore() );
-                    symbolList.Add( ScriptableObject.CreateInstance<CreativityQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<CreativityQuestSo>() );
                 break;
                 case Constants.KILL_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<KillQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<KillQuestSo>() );
                 break;
                 case Constants.DAMAGE_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<DamageQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<DamageQuestSo>() );
                 break;
                 case Constants.LISTEN_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<ListenQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<ListenQuestSo>() );
                 break;
                 case Constants.READ_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<ReadQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<ReadQuestSo>() );
                 break;
                 case Constants.GIVE_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<GiveQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<GiveQuestSo>() );
                 break;
                 case Constants.REPORT_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<ReportQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<ReportQuestSo>() );
                 break;
                 case Constants.GATHER_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<GetQuestSo>() );
                 break;
                 case Constants.EXCHANGE_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<ExchangeQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<ExchangeQuestSo>() );
                 break;
                 case Constants.GOTO_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<GotoQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<GotoQuestSo>() );
                 break;
                 case Constants.EXPLORE_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<ExploreQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<ExploreQuestSo>() );
                 break;
                 case Constants.EMPTY_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSO>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSo>() );
                 break;
                 default:
                     Debug.LogError("Symbol type not found!");

@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get { return Constants.GATHER_QUEST; }
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
             var cloneQuest = CreateInstance<DropQuestSo>();
             cloneQuest.Init(this);

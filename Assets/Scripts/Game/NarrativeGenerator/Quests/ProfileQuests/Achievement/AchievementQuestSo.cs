@@ -13,7 +13,7 @@ using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class AchievementQuestSO : QuestSO
+    public class AchievementQuestSo : QuestSo
     {
         public override string symbolType {
             get { return Constants.ACHIEVEMENT_QUEST; }
@@ -33,7 +33,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override void DefineQuestSo ( MarkovChain chain, List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {
@@ -49,9 +49,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public static void CreateAndSaveGatherQuestSo( List<QuestSO> questSos, TreasureRuntimeSetSO possibleItems )
+        public static void CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems )
         {
-            var getItemQuest = ScriptableObject.CreateInstance<GatherQuestSO>();
+            var getItemQuest = ScriptableObject.CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
             //TODO select more items
             var selectedItem = possibleItems.GetRandomItem();
@@ -66,9 +66,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             questSos.Add(getItemQuest);
         }
 
-        public static void CreateAndSaveExchangeQuestSo( List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
+        public static void CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
-            var secretRoomQuest = ScriptableObject.CreateInstance<ExchangeQuestSO>();
+            var secretRoomQuest = ScriptableObject.CreateInstance<ExchangeQuestSo>();
             secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
             //TODO initiate data for secretRoomQuest
             if (questSos.Count > 0)

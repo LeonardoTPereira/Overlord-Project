@@ -7,7 +7,7 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class ListenQuestSO : ImmersionQuestSO
+    public class ListenQuestSo : ImmersionQuestSo
     {
         public override string symbolType { 
             get { return Constants.LISTEN_QUEST;} 
@@ -22,7 +22,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             Npc = null;
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, NpcSo npc)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, NpcSo npc)
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
@@ -33,15 +33,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             Npc = npc;
         }
         
-        public override void Init(QuestSO copiedQuest)
+        public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Npc = (copiedQuest as ListenQuestSO).Npc;
+            Npc = (copiedQuest as ListenQuestSo).Npc;
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<ListenQuestSO>();
+            var cloneQuest = CreateInstance<ListenQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }

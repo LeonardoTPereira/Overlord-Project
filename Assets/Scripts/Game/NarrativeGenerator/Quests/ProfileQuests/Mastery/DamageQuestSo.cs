@@ -10,18 +10,18 @@ using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class DamageQuestSO : MasteryQuestSO
+    public class DamageQuestSo : MasteryQuestSo
     {
         public override string symbolType {
             get { return Constants.DAMAGE_QUEST; }
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, EnemiesByType  enemiesByType)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, EnemiesByType  enemiesByType)
         {
             // base.Init(questName, endsStoryLine, previous);
             // EnemiesToKillByType = enemiesByType;
         }
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<float, int> enemiesByFitness)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<float, int> enemiesByFitness)
         {
             // base.Init(questName, endsStoryLine, previous);
             // EnemiesToKillByFitness = enemiesByFitness;

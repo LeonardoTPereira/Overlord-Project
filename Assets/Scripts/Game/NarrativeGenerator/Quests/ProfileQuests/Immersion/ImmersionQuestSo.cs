@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class ImmersionQuestSO : QuestSO
+    public class ImmersionQuestSo : QuestSo
     {
         public override string symbolType {
             get { return Constants.IMMERSION_QUEST; }
@@ -33,7 +33,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override void DefineQuestSo ( MarkovChain chain, List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( chain.GetLastSymbol().symbolType )
             {
@@ -55,9 +55,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        private static void CreateAndSaveListenQuestSo (List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
+        private static void CreateAndSaveListenQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<ListenQuestSO>();
+            var immersionQuest = ScriptableObject.CreateInstance<ListenQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             //talkQuest.SaveAsAsset();
@@ -69,9 +69,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             questSos.Add(immersionQuest);
         }
 
-        private static void CreateAndSaveReadQuestSo (List<QuestSO> questSos, TreasureRuntimeSetSO possibleItems)
+        private static void CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<ReadQuestSO>();
+            var immersionQuest = ScriptableObject.CreateInstance<ReadQuestSo>();
             // var selectedNpc = possibleNpcSos.GetRandom();
             // immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             //talkQuest.SaveAsAsset();
@@ -83,9 +83,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             questSos.Add(immersionQuest);
         }
 
-        private static void CreateAndSaveGiveQuestSo (List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleTreasures)
+        private static void CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleTreasures)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<GiveQuestSO>();
+            var immersionQuest = ScriptableObject.CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             //talkQuest.SaveAsAsset();
@@ -97,9 +97,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             questSos.Add(immersionQuest);
         }
 
-        private static void CreateAndSaveReportQuestSo(List<QuestSO> questSos, List<NpcSo> possibleNpcSos)
+        private static void CreateAndSaveReportQuestSo(List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<ReportQuestSO>();
+            var immersionQuest = ScriptableObject.CreateInstance<ReportQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             //talkQuest.SaveAsAsset();

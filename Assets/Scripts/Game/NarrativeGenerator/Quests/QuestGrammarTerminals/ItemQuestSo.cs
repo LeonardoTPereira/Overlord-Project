@@ -9,7 +9,7 @@ using Util;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     [Serializable]
-    public class ItemQuestSo : QuestSO
+    public class ItemQuestSo : QuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToCollectByType { get; set; }
         public override Dictionary<string, Func<int,int>> NextSymbolChances
@@ -34,7 +34,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemsToCollectByType = new ItemAmountDictionary();
         }
         
-        public override void Init(QuestSO copiedQuest)
+        public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
             ItemsToCollectByType = new ItemAmountDictionary();
@@ -44,13 +44,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public void Init(string name, bool endsStoryLine, QuestSO previous, ItemAmountDictionary itemsByType)
+        public void Init(string name, bool endsStoryLine, QuestSo previous, ItemAmountDictionary itemsByType)
         {
             base.Init(name, endsStoryLine, previous);
             ItemsToCollectByType = itemsByType;
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
             var cloneQuest = CreateInstance<ItemQuestSo>();
             cloneQuest.Init(this);
