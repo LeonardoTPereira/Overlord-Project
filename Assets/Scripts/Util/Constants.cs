@@ -35,17 +35,30 @@ namespace Util
         }
 
         #region Terminal quest symbols
-        public const string KILL_TERMINAL = "kill";
-        public const string TALK_TERMINAL = "talk";
-        public const string EXPLORE_TERMINAL = "explore";
-        public const string EMPTY_TERMINAL = "empty";
-        public const string GET_TERMINAL = "get";
-        public const string DROP_TERMINAL = "drop";
-        public const string ITEM_TERMINAL = "item";
-        public const string SECRET_TERMINAL = "secret";
+        //Mastery
+        public const string KILL_QUEST = "kill";
+        public const string DAMAGE_QUEST = "damage";
+        //Immersion
+        public const string LISTEN_QUEST = "listen";
+        public const string READ_QUEST = "read";
+        public const string REPORT_QUEST = "report";
+        public const string GIVE_QUEST = "give";
+        //Creativity
+        public const string EXPLORE_QUEST = "explore";
+        public const string GOTO_QUEST = "goto";
+        //Achievement
+        public const string GATHER_QUEST = "gather";
+        public const string EXCHANGE_QUEST = "exchange";
+        //Not implemented
+        public const string ITEM_QUEST = "item";
+        public const string SECRET_QUEST = "secret";
+        //Empty
+        public const string EMPTY_QUEST = "empty";
+        public const string START ="start";
         #endregion
 
         #region Quest Weights
+        //TODO: Get some actual decent functions
         public static Func<int,int> OneOptionQuestLineWeight = x => 
         {
             if ( x < 100 )
@@ -59,6 +72,29 @@ namespace Util
                 return 100;
             return 0;
             // return (int) Mathf.Pow(x,2);
+        };
+
+        public static Func<int,int> TwoOptionQuestLineWeight = x => 
+        {
+            if ( x < 100 )
+                return 50;
+            return 0;
+            // return (int)(100 - Mathf.Pow(x,2));
+        };
+        public static Func<int,int> TwoOptionQuestEmptyWeight = x => 
+        {
+            if ( x > 100 )
+                return 100;
+            return 0;
+            // return (int) Mathf.Pow(x,2);
+        };
+
+        public static Func<int,int> FourOptionQuestLineWeight = x => 
+        {
+            if ( x < 100 )
+                return (100/4);
+            return 0;
+            // return (int)(100 - Mathf.Pow(x,2));
         };
 
         public static Func<int,int> ThreeOptionQuestLineWeight = x => 
@@ -77,9 +113,9 @@ namespace Util
         };
         #endregion
 
-        public const string KILL_QUEST = "Mastery";
-        public const string GET_QUEST = "Achievement";
-        public const string EXPLORE_QUEST = "Creativity";
-        public const string TALK_QUEST = "Immersion";
+        public const string MASTERY_QUEST = "Mastery";
+        public const string ACHIEVEMENT_QUEST = "Achievement";
+        public const string CREATIVITY_QUEST = "Creativity";
+        public const string IMMERSION_QUEST = "Immersion";
     }
 }

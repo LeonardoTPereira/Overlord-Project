@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarNonterminals
+namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class StartSymbol : NonTerminalQuest
+    public class StartSymbol : QuestSO
     {
     }
 }

@@ -7,7 +7,7 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class ExchangeQuestSO : AchievmentQuestSO
+    public class ExchangeQuestSO : AchievementQuestSO
     {
         public override string symbolType {
             get { return Constants.EXCHANGE_QUEST; }

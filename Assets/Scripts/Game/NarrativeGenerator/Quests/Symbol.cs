@@ -2,6 +2,11 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NPCs;
+using ScriptableObjects;
+
 namespace Game.NarrativeGenerator.Quests
 {
     public interface Symbol 
@@ -11,5 +16,6 @@ namespace Game.NarrativeGenerator.Quests
         public bool canDrawNext {get; set;}
         public void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances );
         public void SetNextSymbol ( MarkovChain chain );
+        public void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes );
     }
 }

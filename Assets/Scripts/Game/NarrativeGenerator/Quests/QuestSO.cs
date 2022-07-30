@@ -6,6 +6,10 @@ using UnityEditor;
 using UnityEngine;
 using Util;
 
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NPCs;
+
 namespace Game.NarrativeGenerator.Quests
 {
     
@@ -38,6 +42,10 @@ namespace Game.NarrativeGenerator.Quests
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
         public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
+
+        public virtual void DefineQuestSO ( MarkovChain chain, List<QuestSO> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        {
+        }
 
         public virtual void Init()
         {

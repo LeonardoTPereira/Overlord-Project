@@ -146,8 +146,8 @@ namespace Game.Quests
                 var currentQuest = questList.GetCurrentQuest();
                 if (currentQuest == null) continue;
                 if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not TalkQuestSO talkQuestSo) continue;
-                if (!(talkQuestSo.Npc == npcToTalk)) continue;
+                if (currentQuest is not ListenQuestSO ListenQuestSO) continue;
+                if (!(ListenQuestSO.Npc == npcToTalk)) continue;
                 CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
                 return;
             }

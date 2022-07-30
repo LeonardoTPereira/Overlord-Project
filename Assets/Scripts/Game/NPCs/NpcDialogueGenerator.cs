@@ -45,7 +45,7 @@ namespace Game.NPCs
             }
             else if(openedQuest.IsTalkQuest())
             {
-                var talkQuest = openedQuest as TalkQuestSO;
+                var talkQuest = openedQuest as ListenQuestSO;
                 questOpener.Append(talkQuest.Npc == speaker
                     ? "I needed to speak with you!\n"
                     : $"I need you to speak with {talkQuest.Npc.NpcName}!\n");
