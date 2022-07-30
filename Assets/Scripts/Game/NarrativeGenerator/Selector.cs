@@ -24,34 +24,28 @@ namespace Game.NarrativeGenerator
         {
             CreateQuestDict();
             var questLineList = new List<QuestList>();
-            int i = 0;
             do
             {
-                int j =0;
                 var questLine = new QuestList();
                 MarkovChain questChain = new MarkovChain();
-                while ( questChain.GetLastSymbol().canDrawNext && j < 10)
+                while ( questChain.GetLastSymbol().canDrawNext )
                 {
-                    j ++;
                     Symbol lastSelectedQuest = questChain.GetLastSymbol();
                     lastSelectedQuest.SetDictionary( ProfileCalculator.StartSymbolWeights );
                     lastSelectedQuest.SetNextSymbol( questChain );
-                    Debug.Log( questChain.GetLastSymbol() );
-                    questChain.GetLastSymbol().SetNextSymbol( questChain );
+
+                    Symbol newSymbol = questChain.GetLastSymbol();
+                    UpdateListContents( newSymbol );
+                    newSymbol.SetNextSymbol( questChain );
+
                     questChain.GetLastSymbol().DefineQuestSO( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
-                    UpdateListContents( questChain.GetLastSymbol() );
                 }
-                i++;
                 questLine.Quests[^1].EndsStoryLine = true;
                 questLine.NpcInCharge = possibleNpcs.GetRandom();
                 questLineList.Add(questLine);
-                foreach (QuestSO item in questLine.Quests)
-                {
-                    Debug.Log(item.symbolType);
-                }
-                Debug.Log("END QUEST");
-            } while ( wasQuestAdded.ContainsValue(false) && i < 10);
-            Debug.Log(i);
+            //TODO: Verify with Leo if it would be interesting 
+            //to have a minumum number of questlines
+            } while ( wasQuestAdded.ContainsValue(false) ;
             return questLineList;
         }
 
