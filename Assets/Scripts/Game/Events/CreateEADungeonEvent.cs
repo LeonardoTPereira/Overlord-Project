@@ -9,22 +9,23 @@ namespace Game.Events
     public class CreateEADungeonEventArgs : EventArgs
     {
         private Parameters parameters;
-        public QuestLine QuestLineForDungeon { get; set; }
-        private string playerProfile;
 
         public CreateEADungeonEventArgs(Parameters parameters)
         {
             Parameters = parameters;
-            QuestLineForDungeon = null;
         }
         public CreateEADungeonEventArgs(QuestLine questLine)
         {
-            QuestLineForDungeon = questLine;
             var questDungeonParameters = questLine.DungeonParametersForQuestLine;
-            var questEnemiesParameters = questLine.EnemyParametersForQuestLine;
-            var fitnessParameters = new FitnessParameters(questDungeonParameters.Size,
-                questDungeonParameters.NKeys,
-                questDungeonParameters.NKeys, questEnemiesParameters.NEnemies, questDungeonParameters.GetLinearity());
+            var questEnemies = questLine.EnemyParametersForQuestLine.NEnemies;
+            var questItems = questLine.ItemParametersForQuestLine.TotalItems;
+            var questNpcs = questLine.NpcParametersForQuestLine.TotalNpcs;
+            var rooms = questDungeonParameters.Size;
+            var keys = questDungeonParameters.NKeys;
+            var locks = keys;
+            var linearity = questDungeonParameters.GetLinearity();
+            var fitnessParameters = new FitnessParameters(rooms, keys, locks, questEnemies, linearity, questItems
+                , questNpcs);
             Parameters = new Parameters(fitnessParameters);
         }
     

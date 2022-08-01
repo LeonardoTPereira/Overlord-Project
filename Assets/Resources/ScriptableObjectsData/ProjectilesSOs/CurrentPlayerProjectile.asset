@@ -15,9 +15,9 @@ MonoBehaviour:
   multiplier: 1
   projectilePrefab: {fileID: 1699235863348634, guid: 7c6443c3f53cfcb42b8bf65f9e8b56f5,
     type: 3}
-  damage: 9
-  atkSpeed: 9
-  moveSpeed: 50
+  damage: 10
+  atkSpeed: 10
+  moveSpeed: 100
   projectileBehaviorIndex: 0
   projectileName: Metralhadora
   description: Atira rapidamente um tiro mais fraco

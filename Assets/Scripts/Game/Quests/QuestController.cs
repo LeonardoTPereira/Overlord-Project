@@ -43,12 +43,13 @@ namespace Game.Quests
         
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name is not ("Level" or "LevelWithEnemies")) return;
-            InitializeQuests(selectedLevels.GetCurrentLevel().Quests.questLines);
+            if (scene.name is not "LevelWithEnemies") return;
+            StartCoroutine(InitializeQuests(selectedLevels.GetCurrentLevel().Quests.questLines));
         }
 
-        private void InitializeQuests(List<QuestList> originalQuestLines)
+        private IEnumerator<WaitForEndOfFrame> InitializeQuests(List<QuestList> originalQuestLines)
         {
+            yield return new WaitForEndOfFrame();
             questLists = new List<QuestList>();
             foreach (var questList in originalQuestLines)
             {
