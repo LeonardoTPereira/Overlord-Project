@@ -169,7 +169,7 @@ namespace Game.LevelManager.DungeonManager
                     if (tileID == (int) Enums.TileTypes.Block)
                     {
                         tileObj = Instantiate(blockPrefab);
-                        if (ix == 0)
+                        /*if (ix == 0)
                         {
                             if (iy == 0)
                             {
@@ -205,7 +205,7 @@ namespace Game.LevelManager.DungeonManager
                         else if (iy == (roomData.Dimensions.Height - 1))
                         {
                             tileObj.GetComponent<SpriteRenderer>().sprite = southWall;
-                        }
+                        }*/
                     }
                     else
                     {
