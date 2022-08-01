@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a12e0a101e426e8f98f63883111aa5, type: 3}
+  m_Name: PlayerData
+  m_EditorClassIdentifier: 
+  <PlayerId>k__BackingField: 1297468107
+  <PreFormAnswers>k__BackingField: 
+  <TotalAttempts>k__BackingField: 0
+  <TotalDeaths>k__BackingField: 0
+  <TotalWins>k__BackingField: 0
+  <NpcsInteracted>k__BackingField: 0
+  <TotalNpcs>k__BackingField: 0
+  <TotalEnemies>k__BackingField: 0
+  <EnemiesKilled>k__BackingField: 0
+  <TotalTreasure>k__BackingField: 0
+  <TreasuresCollected>k__BackingField: 0
+  <TotalLostHealth>k__BackingField: 0
+  <MaxCombo>k__BackingField: 0
+  <KeysCollected>k__BackingField: 0
+  <TotalKeys>k__BackingField: 0
+  <LocksOpened>k__BackingField: 0
+  <TotalLocks>k__BackingField: 0
+  <TotalRooms>k__BackingField: 0
+  <UniqueRoomsEntered>k__BackingField: 0
+  <RoomsEntered>k__BackingField: 0

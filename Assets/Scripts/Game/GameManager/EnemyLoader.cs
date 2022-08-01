@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.EnemyManager;
 using Game.LevelManager.DungeonLoader;
-using Game.LevelManager.DungeonManager;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
@@ -21,13 +20,11 @@ namespace Game.GameManager
     {
         private static List<EnemySO> enemyListForCurrentDungeon;
         
-        public static EnemySO[] arena;
         public GameObject enemyPrefab;
         public GameObject barehandEnemyPrefab;
         public GameObject shooterEnemyPrefab;
         public GameObject bomberEnemyPrefab;
         public GameObject healerEnemyPrefab;
-        [MustBeAssigned] [field: SerializeField] private WeaponTypeRuntimeSetSO _weaponTypes;
 
         
         public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
@@ -87,16 +84,17 @@ namespace Game.GameManager
             }
         }
 
-        public static EnemyByAmountDictionary GetEnemiesForRoom(RoomBhv roomBhv)
+        public static EnemyByAmountDictionary GetEnemiesForRoom(WeaponTypeAmountDictionary enemiesByType)
         {
             var enemiesBySo = new EnemyByAmountDictionary();
-            foreach (var enemiesByType in roomBhv.roomData.EnemiesByType.EnemiesByTypeDictionary)
+            foreach (var enemyType in enemiesByType)
             {
-                var selectedEnemy = GetRandomEnemyOfType(enemiesByType.Key);
-                enemiesBySo.Add(selectedEnemy, enemiesByType.Value);
+                var selectedEnemy = GetRandomEnemyOfType(enemyType.Key);
+                enemiesBySo.Add(selectedEnemy, enemyType.Value);
             }
             return enemiesBySo;
         }
+        
         public static void LoadEnemies(List<EnemySO> enemyList)
         {
             enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);

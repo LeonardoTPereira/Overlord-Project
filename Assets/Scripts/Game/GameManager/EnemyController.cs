@@ -260,8 +260,9 @@ namespace Game.GameManager
             {
                 childCollider.enabled = false;
             }
+            room.CheckIfAllEnemiesDead();
             ((IQuestElement)this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(weaponTypeSo));
-            room.RemoveFromDictionary(weaponTypeSo);
+
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
 

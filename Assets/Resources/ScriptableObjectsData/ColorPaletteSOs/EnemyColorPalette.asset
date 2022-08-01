@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ca1c28a34e4727a36e8b730bf31cb4, type: 3}
+  m_Name: EnemyColorPalette
+  m_EditorClassIdentifier: 
+  <MainColorA>k__BackingField: {r: 0.101960786, g: 0.85882354, b: 0.15686275, a: 1}
+  <MainColorB>k__BackingField: {r: 0.81960785, g: 0.105882354, b: 0.105882354, a: 1}
+  <MainColorC>k__BackingField: {r: 0.16862746, g: 0.57254905, b: 0.8666667, a: 1}
+  <MainColorD>k__BackingField: {r: 0.553, g: 0.5184815, b: 0.30967999, a: 1}
+  <DetailColorA>k__BackingField: {r: 0.11372549, g: 0.654902, b: 0.8784314, a: 1}
+  <DetailColorB>k__BackingField: {r: 0.34509805, g: 0.91764706, b: 0.13725491, a: 1}
+  <DetailColorC>k__BackingField: {r: 1, g: 0.23921569, b: 0.13725491, a: 1}
+  <DetailColorD>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <OutfitColorA>k__BackingField: {r: 0.89411765, g: 0.90588236, b: 0.105882354, a: 1}
+  <OutfitColorB>k__BackingField: {r: 0.09803922, g: 0.7882353, b: 0.90588236, a: 1}
+  <OutfitColorC>k__BackingField: {r: 0.81960785, g: 0.18039216, b: 0.105882354, a: 1}
+  <OutfitColorD>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
