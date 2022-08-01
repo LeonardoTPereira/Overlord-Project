@@ -54,7 +54,7 @@ namespace Game.GameManager
 
         private void PlayerHasDied(object sender, EventArgs eventArgs)
         {
-            DestroyBomb();
+            ExplodeBomb();
         }
 
         public void DestroyBomb()

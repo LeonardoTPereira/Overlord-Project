@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.EnemyManager;
 using Game.LevelManager.DungeonLoader;
-using Game.LevelManager.DungeonManager;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
@@ -26,7 +25,6 @@ namespace Game.GameManager
         public GameObject shooterEnemyPrefab;
         public GameObject bomberEnemyPrefab;
         public GameObject healerEnemyPrefab;
-        [MustBeAssigned] [field: SerializeField] private WeaponTypeRuntimeSetSO _weaponTypes;
 
         
         public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
