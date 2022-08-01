@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Audio;
 using Game.EnemyManager;
@@ -27,8 +26,7 @@ namespace Game.LevelManager.DungeonManager
         public bool hasEnemies;
         private bool _hasPlacedInCenter;
         public EnemyByAmountDictionary enemiesDictionary;
-        private int enemiesDead;
-        private Vector3 position;
+        private Vector3 _position;
 
         public DoorBhv doorNorth;
         public DoorBhv doorSouth;
@@ -55,7 +53,7 @@ namespace Game.LevelManager.DungeonManager
 
         public List<Vector3> spawnPoints;
 
-        protected Vector3 availablePosition;
+        private Vector3 _availablePosition;
 
         private EnemyLoader _enemyLoader;
 
@@ -68,7 +66,6 @@ namespace Game.LevelManager.DungeonManager
             hasEnemies = false;
             _hasPlacedInCenter = false;
             enemiesDictionary = new EnemyByAmountDictionary();
-            enemiesDead = 0;
             _instantiatedEnemies = new List<GameObject>();
         }
 
@@ -78,7 +75,7 @@ namespace Game.LevelManager.DungeonManager
             _enemyLoader = GetComponent<EnemyLoader>();
 
             SetLayout();
-            position = transform.position;
+            _position = transform.position;
             if (RoomHasKey())
             {
                 PlaceKeysInRoom();
@@ -96,7 +93,7 @@ namespace Game.LevelManager.DungeonManager
                 transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
                 minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
                 GetAvailablePosition();
-                StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(availablePosition));
+                StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition));
             }
             else if (roomData.IsFinalRoom())
             {
@@ -112,7 +109,7 @@ namespace Game.LevelManager.DungeonManager
         private void DebugRoomData()
         {
             Debug.Log($"The current room: X {roomData.Coordinates.X}, Y {roomData.Coordinates.Y} has the keys with ");
-            foreach (int keyID in roomData.KeyIDs)
+            foreach (var keyID in roomData.KeyIDs)
             {
                 Debug.Log($"Key ID: {keyID}");
             }
@@ -125,7 +122,6 @@ namespace Game.LevelManager.DungeonManager
             var centerX = roomData.Dimensions.Width / 2.0f - 0.5f;
             var centerY = roomData.Dimensions.Height / 2.0f - 0.5f;
             const float delta = 0.0f; //para que os colisores das portas e das paredes não se sobreponham completamente
-            //Posiciona as portas - são somados/subtraídos 1 para que as portas e colisores estejam periféricos à sala
             SetDoorsTransform(centerX, centerY, delta);
 
             SetCollidersOnRoom(centerX, centerY);
@@ -147,8 +143,6 @@ namespace Game.LevelManager.DungeonManager
 
         private void InstantiateTiles(float centerX, float centerY)
         {
-            GameObject auxObj;
-            //Posiciona os tiles
             for (var ix = 0; ix < roomData.Dimensions.Width; ix++)
             {
                 for (var iy = 0; iy < roomData.Dimensions.Height; iy++)
@@ -361,8 +355,8 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceKeyInRoom(int keyId)
         {
             GetAvailablePosition();
-            var key = Instantiate(keyPrefab, availablePosition, transform.rotation);
-            key.transform.position = availablePosition;
+            var key = Instantiate(keyPrefab, _availablePosition, transform.rotation);
+            key.transform.position = _availablePosition;
             key.KeyID = keyId;
         }
 
@@ -385,7 +379,7 @@ namespace Game.LevelManager.DungeonManager
                 GetAvailablePosition();
                 var treasure = Instantiate(treasurePrefab, transform);
                 treasure.Treasure = item;
-                treasure.transform.position = availablePosition;
+                treasure.transform.position = _availablePosition;
             }
         }
 
@@ -393,7 +387,7 @@ namespace Game.LevelManager.DungeonManager
         {
             GetAvailablePosition();
             var tri = Instantiate(triPrefab, transform);
-            tri.transform.position = availablePosition;
+            tri.transform.position = _availablePosition;
         
         }
 
@@ -401,12 +395,12 @@ namespace Game.LevelManager.DungeonManager
         {
             if (!_hasPlacedInCenter)
             {
-                availablePosition = roomData.GetCenterMostFreeTilePosition() + position;
+                _availablePosition = roomData.GetCenterMostFreeTilePosition() + _position;
                 _hasPlacedInCenter = true;
             }
             else
             {
-                availablePosition = roomData.GetNextAvailablePosition(availablePosition - position) + position;
+                _availablePosition = roomData.GetNextAvailablePosition(_availablePosition - _position) + _position;
             }
         }
 
@@ -432,7 +426,7 @@ namespace Game.LevelManager.DungeonManager
             }
             var npcController = Instantiate(prefab, transform);
             GetAvailablePosition();
-            npcController.transform.position = availablePosition;
+            npcController.transform.position = _availablePosition;
         }
 
         public void RemoveFromDictionary(WeaponTypeSO killedEnemyWeapon)
