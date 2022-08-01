@@ -5,15 +5,12 @@ using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.Networking;
 
 namespace Game.DataCollection
 {
     public class DungeonDataController : MonoBehaviour
     {
         public DungeonData CurrentDungeon { get; set; }
-        private const string PostDataURL = "http://damicore.icmc.usp.br/pag/data/upload.php?";
 
         private void OnEnable()
         {
@@ -110,33 +107,10 @@ namespace Game.DataCollection
         {
             CurrentDungeon.OnPlayerDeath();
         }
-        
-        
-        
+
         private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.OnPlayerVictory();
         }
-#if UNITY_WEBGL
-        public void SendJsonToServer()
-        {
-            StartCoroutine(PostData());
-        }
-        
-        private IEnumerator PostData()
-        {
-            //TODO post Room Data
-            var data = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(CurrentDungeon));
-            var form = new WWWForm();
-            form.AddField("name", CurrentDungeon.LevelName);
-            form.AddBinaryData("level", data, CurrentDungeon.LevelName + "-Dungeon" + ".json", "application/json");
-            using var www = UnityWebRequest.Post(PostDataURL, form);
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-        }
-#endif
     }
 }

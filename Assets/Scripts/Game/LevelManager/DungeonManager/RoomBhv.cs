@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Audio;
 using Game.EnemyManager;
 using Game.Events;
@@ -58,6 +59,8 @@ namespace Game.LevelManager.DungeonManager
 
         private EnemyLoader _enemyLoader;
 
+        private List<GameObject> _instantiatedEnemies;
+
         public static event EnterRoomEvent EnterRoomEventHandler;
 
         /// If true, the room is an Arena and do not have neighbors.
@@ -70,6 +73,7 @@ namespace Game.LevelManager.DungeonManager
             enemiesDictionary = new EnemyByAmountDictionary();
             enemiesDead = 0;
             isArena = GameManagerSingleton.Instance.arenaMode;
+            _instantiatedEnemies = new List<GameObject>();
         }
 
         // Use this for initialization
@@ -219,9 +223,9 @@ namespace Game.LevelManager.DungeonManager
 
         private void SetEnemySpawners(float centerX, float centerY)
         {
-            var position = transform.position;
-            var xOffset = position.x;
-            var yOffset = position.y;
+            var roomPosition = transform.position;
+            var xOffset = roomPosition.x;
+            var yOffset = roomPosition.y;
 
             var lowerHalfVer = (roomData.Dimensions.Height / Constants.nSpawnPointsHor);
             var upperHalfVer = (3 * roomData.Dimensions.Height / Constants.nSpawnPointsHor);
@@ -334,6 +338,7 @@ namespace Game.LevelManager.DungeonManager
         private void SpawnEnemies()
         {
             var selectedSpawnPoints = new List<int>();
+            _instantiatedEnemies.Clear();
             foreach (var enemiesFromType in enemiesDictionary)
             {
                 for (var i = 0; i < enemiesFromType.Value; i++)
@@ -351,11 +356,11 @@ namespace Game.LevelManager.DungeonManager
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key);
                     enemy.GetComponent<EnemyController>().SetRoom(this);
+                    _instantiatedEnemies.Add(enemy);
                     selectedSpawnPoints.Add(actualSpawn);
                 }
             }
         }
-
 
         public void OnRoomEnter()
         {
@@ -366,17 +371,6 @@ namespace Game.LevelManager.DungeonManager
             }
             minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
             EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, roomData.Dimensions, enemiesDictionary, gameObject.transform.position));
-        }
-
-        public void CheckIfAllEnemiesDead()
-        {
-            enemiesDead++;
-            if (enemiesDead != roomData.TotalEnemies) return;
-            hasEnemies = false;
-            doorEast.OpenDoorAfterKilling();
-            doorWest.OpenDoorAfterKilling();
-            doorNorth.OpenDoorAfterKilling();
-            doorSouth.OpenDoorAfterKilling();
         }
 
         private void SetKeysToDoors()
@@ -474,6 +468,19 @@ namespace Game.LevelManager.DungeonManager
             var npcController = Instantiate(prefab, transform);
             GetAvailablePosition();
             npcController.transform.position = availablePosition;
+        }
+
+        public void RemoveFromDictionary(WeaponTypeSO killedEnemyWeapon)
+        {
+            enemiesDictionary.RemoveEnemy(killedEnemyWeapon);
+        }
+
+        public void KillEnemies()
+        {
+            foreach (var enemy in _instantiatedEnemies.Where(enemy => enemy != null))
+            {
+                Destroy(enemy.gameObject);
+            }
         }
 
     }
