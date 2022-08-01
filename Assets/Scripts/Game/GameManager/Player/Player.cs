@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Audio;
 using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
@@ -7,39 +8,33 @@ using UnityEngine;
 
 namespace Game.GameManager.Player
 {
-    public class Player : PlaceableRoomObject
+    public class Player : PlaceableRoomObject, ISoundEmitter
     {
-        private static readonly int GET_KEY = 0;
-        private static readonly int HIT_PLAYER = 1;
-        private static readonly int PLAYER_DEATH = 2;
-
-        private static Player instance = null;
-        public List<int> keys = new List<int>();
-        public List<int> usedKeys = new List<int>();
-        public int x { private set; get; }
-        public int y { private set; get; }
+        private static Player _instance;
+        public List<int> keys = new ();
+        public List<int> usedKeys = new ();
+        public int X { private set; get; }
+        public int Y { private set; get; }
         public Camera cam;
         public Camera minimap;
-        private AudioSource[] audioSrcs;
-        private PlayerController playerController;
+        private PlayerController _playerController;
         public static event ExitRoomEvent ExitRoomEventHandler;
 
         public void Awake()
         {
-            if (instance != null && instance != this)
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
             }
             else
             {
-                instance = this;
+                _instance = this;
                 cam = Camera.main;
-                audioSrcs = GetComponents<AudioSource>();
-                playerController = GetComponent<PlayerController>();
+                _playerController = GetComponent<PlayerController>();
             }
         }
 
-        public static Player Instance { get { return instance; } }
+        public static Player Instance { get { return _instance; } }
 
         public void OnEnable()
         {
@@ -69,7 +64,7 @@ namespace Game.GameManager.Player
 
         private void GetKey(object sender, KeyCollectEventArgs eventArgs)
         {
-            audioSrcs[GET_KEY].PlayOneShot(audioSrcs[GET_KEY].clip, 0.6f);
+            ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.ItemPickup));
             keys.Add(eventArgs.KeyIndex);
         }
 
@@ -85,13 +80,13 @@ namespace Game.GameManager.Player
 
         private void PlacePlayerInStartRoom(object sender, StartRoomEventArgs e)
         {
-            instance.transform.position = e.position;
+            _instance.transform.position = e.position;
         }
 
         private void ExitRoom(object sender, ExitRoomEventArgs eventArgs)
         {
             Instance.transform.position = eventArgs.EntrancePosition;
-            eventArgs.PlayerHealthWhenExiting = playerController.GetHealth();
+            eventArgs.PlayerHealthWhenExiting = _playerController.GetHealth();
             ExitRoomEventHandler?.Invoke(this, eventArgs);
         }
 
@@ -99,20 +94,20 @@ namespace Game.GameManager.Player
         {
             keys.Clear();
             usedKeys.Clear();
-            playerController.ResetHealth();
+            _playerController.ResetHealth();
         }
 
         private void HurtPlayer(object sender, EventArgs eventArgs)
         {
-            if (playerController.GetHealth() > 0 && !playerController.IsInvincible())
+            if (_playerController.GetHealth() > 0 && !_playerController.IsInvincible())
             {
-                audioSrcs[HIT_PLAYER].PlayOneShot(audioSrcs[HIT_PLAYER].clip, 1.0f);
+                ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.PlayerHit));
             }
         }
 
         private void KillPlayer(object sender, EventArgs eventArgs)
         {
-            audioSrcs[PLAYER_DEATH].PlayOneShot(audioSrcs[PLAYER_DEATH].clip, 1.0f);
+            ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.PlayerDeath));
         }
     }
 }
