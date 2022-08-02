@@ -79,9 +79,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public void SubtractDamage(WeaponTypeSO weaponTypeSo)
+        public void SubtractDamage(WeaponTypeSO weaponTypeSo, int damage )
         {
-            EnemiesToDamageByType.EnemiesByTypeDictionary[weaponTypeSo]--;
+            EnemiesToDamageByType.EnemiesByTypeDictionary[weaponTypeSo] -= damage;
         }
 
         public bool CheckIfCompleted()
@@ -89,7 +89,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return EnemiesToDamageByType.EnemiesByTypeDictionary.All(enemyDamage => enemyDamage.Value <= 0);;
         }
 
-        public bool HasDamageLeft (WeaponTypeSO weaponTypeSo)
+        public bool HasEnemyToDamage (WeaponTypeSO weaponTypeSo)
         {
             if (!EnemiesToDamageByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo, out var damageLeft)) return false;
             return damageLeft > 0;

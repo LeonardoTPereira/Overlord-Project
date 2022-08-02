@@ -78,6 +78,21 @@ namespace Game.NarrativeGenerator.Quests
             return null;        
         }
 
+        public DamageQuestSo GetFirstDamageQuestWithEnemyAvailable(WeaponTypeSO weaponTypeSo)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not DamageQuestSo damageQuestSo) continue;
+                if (!damageQuestSo.EnemiesToDamageByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo,
+                        out var enemyCount)) continue;
+                if (enemyCount > 0)
+                {
+                    return damageQuestSo;
+                }
+            }
+            return null;
+        }
+
         public QuestSo GetCurrentQuest()
         {
             return CurrentQuestIndex >= Quests.Count ? null : Quests[CurrentQuestIndex];

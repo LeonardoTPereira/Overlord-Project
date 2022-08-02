@@ -105,6 +105,38 @@ namespace Game.Quests
             if (!killQuestSo.CheckIfCompleted()) return;
             CompleteQuestAndRemoveFromOngoing(questList, killQuestSo);
         }
+
+        private void UpdateDamageQuest ( QuestDamageEnemyEventArgs damageQuestArgs )
+        {
+            var enemyDamaged = damageQuestArgs.EnemyWeaponTypeSo;
+            //TODO move this processing inside the QuestSo and their children
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not DamageQuestSo damageQuestSo) continue;
+                if (!damageQuestSo.HasEnemyToDamage(enemyDamaged)) continue;
+                UpdateValidDamageQuest(questList, damageQuestSo, enemyDamaged);
+                return;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetFirstDamageQuestWithEnemyAvailable(enemyDamaged);
+                if (currentQuest == null) continue;
+                UpdateValidDamageQuest(questList, currentQuest, enemyDamaged);
+                return;
+            }
+            Debug.Log($"$No damage Quests With This Enemy ({enemyDamaged}) Available");
+        }
+
+        private void UpdateValidDamageQuest(QuestList questList, DamageQuestSo damageQuestSo, WeaponTypeSO enemyDamaged, int damage)
+        {
+            damageQuestSo.SubtractDamage(enemyDamaged, damage);
+            if (!damageQuestSo.CheckIfCompleted()) return;
+            CompleteQuestAndRemoveFromOngoing(questList, damageQuestSo);
+        }
         
         private void UpdateGetItemQuest(QuestGetItemEventArgs getItemQuestArgs)
         {
