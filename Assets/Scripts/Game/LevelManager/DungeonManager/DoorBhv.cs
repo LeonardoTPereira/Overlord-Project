@@ -21,9 +21,11 @@ namespace Game.LevelManager.DungeonManager
         [SerializeField]
         private DoorBhv destination;
 
-        private RoomBhv parentRoom;        
-        private Color color;
-        private SpriteRenderer sr;
+        private RoomBhv _currentRoom;        
+        private Color _color;
+        private SpriteRenderer _doorSprite;
+        private static readonly int GradientColor1 = Shader.PropertyToID("gradientColor1");
+        private static readonly int GradientColor2 = Shader.PropertyToID("gradientColor2");
 
         public static event ExitRoomEvent ExitRoomEventHandler;
         public static event KeyUsedEvent KeyUsedEventHandler;
@@ -31,53 +33,51 @@ namespace Game.LevelManager.DungeonManager
         private void Awake()
         {
             isOpen = false;
-            parentRoom = transform.parent.GetComponent<RoomBhv>();
+            _currentRoom = transform.parent.GetComponent<RoomBhv>();
         }
 
-        // Use this for initialization
         private void Start()
         {
-            sr = GetComponent<SpriteRenderer>();
-            int firstKeyID = -1;
-            if (keyID != null)
-            {
-                if (keyID.Count > 0)
-                    firstKeyID = keyID[0];
-            }
-            else
+            _doorSprite = GetComponent<SpriteRenderer>();
+            if (keyID == null)
             {
                 Destroy(gameObject);
                 return;
             }
+            var firstKeyID = GetFirstKeyId();
             if (firstKeyID > 0)
             {
-                //Render the locked door sprite with the color relative to its ID
-                var sr = GetComponent<SpriteRenderer>();
-                sr.sprite = lockedSprite;
-                sr.material = gradientMaterial;
-                sr.material.SetColor("gradientColor1", Constants.colorId[firstKeyID - 1]);
-                if (keyID.Count > 1)
-                    sr.material.SetColor("gradientColor2", Constants.colorId[keyID[1] - 1]);
-                else
-                    sr.material.SetColor("gradientColor2", Constants.colorId[firstKeyID - 1]);
-                color = Constants.colorId[firstKeyID - 1];
+                SetLockedSprite(firstKeyID);
             }
-            if (parentRoom.hasEnemies)
+            if (!_currentRoom.hasEnemies || !isClosedByEnemies) return;
             {
-                isClosedByEnemies = true;
-                if (keyID.Count == 0 || isOpen)
-                {
-                    SpriteRenderer sr = GetComponent<SpriteRenderer>();
-                    sr.sprite = closedSprite;
-                }
+                if (keyID.Count != 0 && !isOpen) return;
+                _doorSprite.sprite = closedSprite;
             }
+        }
+
+        private int GetFirstKeyId()
+        {
+            if (keyID.Count > 0)
+                return keyID[0];
+            return -1;
+        }
+
+        private void SetLockedSprite(int firstKeyID)
+        {
+            _doorSprite.sprite = lockedSprite;
+            _doorSprite.material = gradientMaterial;
+            _doorSprite.material.SetColor(GradientColor1, Constants.colorId[firstKeyID - 1]);
+            _doorSprite.material.SetColor(GradientColor2,
+                keyID.Count > 1 ? Constants.colorId[keyID[1] - 1] : Constants.colorId[firstKeyID - 1]);
+            _color = Constants.colorId[firstKeyID - 1];
         }
 
         private void OnDrawGizmos()
         {
             if (keyID.Count > 0)
             {
-                Gizmos.color = color;
+                Gizmos.color = _color;
                 Gizmos.DrawSphere(transform.position, 4);
             }
             else
@@ -88,23 +88,22 @@ namespace Game.LevelManager.DungeonManager
 
         private void DrawGizmoCorridors()
         {
-            int offsetX = 0;
-            int offsetY = 0;
-            if (gameObject.name.Equals("Door North"))
+            var offsetX = 0;
+            var offsetY = 0;
+            switch (gameObject.name)
             {
-                offsetY = 4;
-            }
-            else if (gameObject.name.Equals("Door South"))
-            {
-                offsetY = -4;
-            }
-            else if (gameObject.name.Equals("Door East"))
-            {
-                offsetX = 4;
-            }
-            else if (gameObject.name.Equals("Door West"))
-            {
-                offsetX = -4;
+                case "Door North":
+                    offsetY = 4;
+                    break;
+                case "Door South":
+                    offsetY = -4;
+                    break;
+                case "Door East":
+                    offsetX = 4;
+                    break;
+                case "Door West":
+                    offsetX = -4;
+                    break;
             }
             Gizmos.color = Color.black;
             Gizmos.DrawCube(transform.position + new Vector3(offsetX, offsetY, 0),
@@ -114,33 +113,42 @@ namespace Game.LevelManager.DungeonManager
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("PlayerTrigger")) return;
+            
             var commonKeys = keyID.Intersect(Player.Instance.keys).ToList();
             if (keyID.Count == 0 || isOpen)
             {
                 if (isClosedByEnemies) return;
                 MovePlayerToNextRoom();
             }
+            
             else if (commonKeys.Count == keyID.Count)
             {
                 if (isClosedByEnemies) return;
-                ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.LockOpen, 1));
-                foreach (var key in commonKeys.Where(key => !Player.Instance.usedKeys.Contains(key)))
-                {
-                    Player.Instance.usedKeys.Add(key);
-                }
-                OpenDoor();
-                if (!destination.parentRoom.hasEnemies)
-                    destination.OpenDoor();
-                isOpen = true;
-                destination.isOpen = true;
-                OnKeyUsed(commonKeys.First());
+                UseKeys(commonKeys);
                 MovePlayerToNextRoom();
             }
         }
 
+        private void UseKeys(List<int> commonKeys)
+        {
+            ((ISoundEmitter) this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.LockOpen, 1));
+            foreach (var key in commonKeys.Where(key => !Player.Instance.usedKeys.Contains(key)))
+            {
+                Player.Instance.usedKeys.Add(key);
+            }
+
+            OpenDoor();
+            if (!destination._currentRoom.hasEnemies)
+                destination.OpenDoor();
+            isOpen = true;
+            destination.isOpen = true;
+            OnKeyUsed(commonKeys.First());
+        }
+
         private void MovePlayerToNextRoom()
         {
-            ExitRoomEventHandler?.Invoke(this, new ExitRoomEventArgs(destination.parentRoom.roomData.Coordinates, -1, destination.teleportTransform.position));
+            _currentRoom.KillEnemies();
+            ExitRoomEventHandler?.Invoke(this, new ExitRoomEventArgs(destination._currentRoom.roomData.Coordinates, -1, destination.teleportTransform.position));
             destination.transform.parent.GetComponent<RoomBhv>().OnRoomEnter();
         }
 
@@ -154,16 +162,16 @@ namespace Game.LevelManager.DungeonManager
             KeyUsedEventHandler?.Invoke(this, new KeyUsedEventArgs(id));
         }
 
-        public void OpenDoor()
+        private void OpenDoor()
         {
-            sr.sprite = openedSprite;
+            _doorSprite.sprite = openedSprite;
         }
 
         public void OpenDoorAfterKilling()
         {
             if ((keyID?.Count ?? -1) == 0 || isOpen)
             {
-                sr.sprite = openedSprite;
+                _doorSprite.sprite = openedSprite;
             }
             isClosedByEnemies = false;
         }

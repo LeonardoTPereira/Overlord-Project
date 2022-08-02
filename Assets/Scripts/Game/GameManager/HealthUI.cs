@@ -9,14 +9,13 @@ namespace Game.GameManager
 {
     public class HealthUI : MonoBehaviour
     {
-        private List<Image> heartList = null;
-        // Start is called before the first frame update
+        private List<Image> _heartList;
 
         [SerializeField]
-        protected Sprite fullheartSprite, emptyheartSprite;
-        protected float multiplier = 1.7f;
-        protected int scale = 3;
-        protected int delta = 35;
+        protected Sprite fullHeartSprite, emptyHeartSprite;
+        protected float Multiplier = 1.7f;
+        protected int Scale = 3;
+        protected int Delta = 35;
 
         private void OnEnable()
         {
@@ -37,11 +36,11 @@ namespace Game.GameManager
 
         private void ResetHealth(object sender, EventArgs eventArgs)
         {
-            if(heartList != null)
+            if(_heartList != null)
             {
                 for (int i = 0; i < Player.Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
                 {
-                    heartList[i].sprite = fullheartSprite;
+                    _heartList[i].sprite = fullHeartSprite;
                 }
             }
         }
@@ -54,9 +53,9 @@ namespace Game.GameManager
             int colMax = 10;
 
 
-            heartList = new List<Image>();
+            _heartList = new List<Image>();
 
-            float rowColSize = fullheartSprite.rect.size.x * multiplier;
+            float rowColSize = fullHeartSprite.rect.size.x * Multiplier;
             int actualHealth = Player.Player.Instance.GetComponent<HealthController>().GetHealth();
 
             for (int i = 0; i < Player.Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); i++)
@@ -69,23 +68,19 @@ namespace Game.GameManager
                 // Set as child of this transform
                 heartGameObject.transform.SetParent(transform, false);
                 heartGameObject.transform.localPosition = Vector3.zero;
-                heartGameObject.transform.localScale = new Vector3(scale, scale, 1);
+                heartGameObject.transform.localScale = new Vector3(Scale, Scale, 1);
 
                 // Locate and Size heart
                 heartGameObject.GetComponent<RectTransform>().anchoredPosition = heartAnchoredPosition;
-                heartGameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(delta, delta);
+                heartGameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(Delta, Delta);
 
-                // Set heart sprite
-                Image heartImageUI = heartGameObject.GetComponent<Image>();
-                if (i <= actualHealth)
-                    heartImageUI.sprite = fullheartSprite;
-                else
-                    heartImageUI.sprite = emptyheartSprite;
+                var heartImageUI = heartGameObject.GetComponent<Image>();
+                heartImageUI.sprite = i <= actualHealth ? fullHeartSprite : emptyHeartSprite;
 
-                heartList.Add(heartImageUI);
+                _heartList.Add(heartImageUI);
 
                 col++;
-                if ((col >= colMax) || ((heartGameObject.transform.position.x + delta + rowColSize) > Screen.width))
+                if ((col >= colMax) || ((heartGameObject.transform.position.x + Delta + rowColSize) > Screen.width))
                 {
                     row++;
                     col = 0;
@@ -100,9 +95,9 @@ namespace Game.GameManager
             if (eventArgs.PlayerHealth < 0)
                 eventArgs.PlayerHealth = 0;
             for (int i = 0; i < eventArgs.PlayerHealth; ++i)
-                heartList[i].sprite = fullheartSprite;
-            for (int i = eventArgs.PlayerHealth; i < heartList.Count; ++i)
-                heartList[i].sprite = emptyheartSprite;
+                _heartList[i].sprite = fullHeartSprite;
+            for (int i = eventArgs.PlayerHealth; i < _heartList.Count; ++i)
+                _heartList[i].sprite = emptyHeartSprite;
         }
     }
 }

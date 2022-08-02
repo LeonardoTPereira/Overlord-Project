@@ -8,10 +8,11 @@ namespace Game.GameManager
 {
     public class ComboUI : MonoBehaviour
     {
-        protected int actualCombo;
-        protected TextMeshProUGUI comboText;
-        protected ComboStruct actualComboStruct;
-        static readonly Dictionary<int, ComboStruct> COMBOMAP = new Dictionary<int, ComboStruct>
+        private int _actualCombo;
+        private TextMeshProUGUI _comboText;
+        private ComboStruct _actualComboStruct;
+
+        private static readonly Dictionary<int, ComboStruct> ComboMap = new Dictionary<int, ComboStruct>
         {
             {0, new ComboStruct("NO", Color.gray, Color.black)},
             {3, new ComboStruct("OK", Color.white, Color.gray)},
@@ -32,22 +33,21 @@ namespace Game.GameManager
         {
             public ComboStruct(string name, Color top, Color bottom)
             {
-                this.name = name;
-                topColor = top;
-                bottomColor = bottom;
+                Name = name;
+                TopColor = top;
+                BottomColor = bottom;
             }
-            public readonly string name;
-            public readonly Color topColor, bottomColor;
+            public readonly string Name;
+            public readonly Color TopColor, BottomColor;
         };
 
-        // Start is called before the first frame update
-        void Awake()
+        private void Awake()
         {
-            comboText = GetComponent<TextMeshProUGUI>();
-            actualCombo = 0;
+            _comboText = GetComponent<TextMeshProUGUI>();
+            _actualCombo = 0;
         }
 
-        void Start()
+        private void Start()
         {
             UpdateComboGUI();
         }
@@ -72,13 +72,13 @@ namespace Game.GameManager
 
         public void IncrementCombo(object sender, EventArgs eventArgs)
         {
-            actualCombo++;
+            _actualCombo++;
             UpdateComboGUI();
         }
 
         public void ResetCombo(object sender, EventArgs eventArgs)
         {
-            actualCombo = 0;
+            _actualCombo = 0;
             UpdateComboGUI();
         }
 
@@ -87,10 +87,10 @@ namespace Game.GameManager
             // When a program often has to try keys that turn out not to
             // be in the dictionary, TryGetValue can be a more efficient
             // way to retrieve values.
-            if (COMBOMAP.TryGetValue(actualCombo, out actualComboStruct))
+            if (ComboMap.TryGetValue(_actualCombo, out _actualComboStruct))
             {
-                comboText.text = actualComboStruct.name;
-                comboText.colorGradient = new VertexGradient(actualComboStruct.topColor, actualComboStruct.topColor, actualComboStruct.bottomColor, actualComboStruct.bottomColor);
+                _comboText.text = _actualComboStruct.Name;
+                _comboText.colorGradient = new VertexGradient(_actualComboStruct.TopColor, _actualComboStruct.TopColor, _actualComboStruct.BottomColor, _actualComboStruct.BottomColor);
             }
         }
     }

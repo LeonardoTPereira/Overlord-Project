@@ -213,11 +213,6 @@ namespace Game.GameManager
             {
                 childCollider.enabled = false;
             }
-
-            if (_room != null)
-            {
-                _room.CheckIfAllEnemiesDead();
-            }
             ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyWeapon));
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
