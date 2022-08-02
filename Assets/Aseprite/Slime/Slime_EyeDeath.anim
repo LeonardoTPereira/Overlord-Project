@@ -44,6 +44,32 @@ AnimationClip:
     path: Eyes
     classID: 212
     script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 8685151294977785660, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    - time: 0.1
+      value: {fileID: -7013005102008246597, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    - time: 0.2
+      value: {fileID: -353113558094625468, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    - time: 0.3
+      value: {fileID: -63704536754614072, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    - time: 0.4
+      value: {fileID: 6006904957175232583, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    - time: 0.5
+      value: {fileID: 5932317042304627709, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    - time: 0.56
+      value: {fileID: 5932317042304627709, guid: df04f754c00a73a4495c4c61a35d57f5,
+        type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
   m_SampleRate: 25
   m_WrapMode: 1
   m_Bounds:
@@ -58,7 +84,21 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: 8685151294977785660, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
+    - {fileID: -7013005102008246597, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
+    - {fileID: -353113558094625468, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
+    - {fileID: -63704536754614072, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
+    - {fileID: 6006904957175232583, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
+    - {fileID: 5932317042304627709, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
+    - {fileID: 5932317042304627709, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
     - {fileID: 8685151294977785660, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
     - {fileID: -7013005102008246597, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
     - {fileID: -353113558094625468, guid: df04f754c00a73a4495c4c61a35d57f5, type: 3}
