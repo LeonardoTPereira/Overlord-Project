@@ -68,15 +68,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public static void CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
-            var secretRoomQuest = ScriptableObject.CreateInstance<ExchangeQuestSo>();
-            secretRoomQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
-            //TODO initiate data for secretRoomQuest
+            var exchangeQuest = ScriptableObject.CreateInstance<ExchangeQuestSo>();
+            var exchangedItems = new ItemAmountDictionary();
+            var selectedItem = possibleItems.GetRandomItem();
+            exchangedItems.Add(selectedItem, 1);
+            var receivedItem = possibleItems.GetRandomItem();
+            var selectedNpc = possibleNpcSos.GetRandom();
+
+            exchangeQuest.Init($"Exchange {selectedItem} with {selectedNpc} for a reward!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);
+            
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = secretRoomQuest;
+                questSos[^1].Next = exchangeQuest;
             }
 
-            questSos.Add(secretRoomQuest);
+            questSos.Add(exchangeQuest);
         }
 
         private static string ItemsToString(ItemAmountDictionary selectedItems)
@@ -85,7 +91,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             for (var i = 0; i < selectedItems.Count; i++)
             {
                 var itemAmountPair = selectedItems.ElementAt(i);
-                stringBuilder.Append($"$Get {itemAmountPair.Value} {itemAmountPair.Key}");
+                stringBuilder.Append($"$Gather {itemAmountPair.Value} {itemAmountPair.Key}");
                 if (itemAmountPair.Value > 1)
                 {
                     stringBuilder.Append("s");

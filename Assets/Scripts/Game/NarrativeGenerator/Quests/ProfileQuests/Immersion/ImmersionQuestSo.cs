@@ -57,58 +57,59 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static void CreateAndSaveListenQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<ListenQuestSo>();
+            var listenQuest = ScriptableObject.CreateInstance<ListenQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
-            immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-            //talkQuest.SaveAsAsset();
+            listenQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
+            
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = immersionQuest;
+                questSos[^1].Next = listenQuest;
             }
             
-            questSos.Add(immersionQuest);
+            questSos.Add(listenQuest);
         }
 
         private static void CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<ReadQuestSo>();
-            // var selectedNpc = possibleNpcSos.GetRandom();
-            // immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-            //talkQuest.SaveAsAsset();
+            var readQuest = ScriptableObject.CreateInstance<ReadQuestSo>();
+            var selectedItem = possibleItems.GetRandomItem();
+            readQuest.Init("Read "+selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
+            
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = immersionQuest;
+                questSos[^1].Next = readQuest;
             }
             
-            questSos.Add(immersionQuest);
+            questSos.Add(readQuest);
         }
 
-        private static void CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleTreasures)
+        private static void CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<GiveQuestSo>();
+            var giveQuest = ScriptableObject.CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
-            immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-            //talkQuest.SaveAsAsset();
+            var selectedItem = possibleItems.GetRandomItem();
+            giveQuest.Init($"Give {selectedItem} to {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
+            
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = immersionQuest;
+                questSos[^1].Next = giveQuest;
             }
             
-            questSos.Add(immersionQuest);
+            questSos.Add(giveQuest);
         }
 
         private static void CreateAndSaveReportQuestSo(List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
-            var immersionQuest = ScriptableObject.CreateInstance<ReportQuestSo>();
+            var reportQuest = ScriptableObject.CreateInstance<ReportQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
-            immersionQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-            //talkQuest.SaveAsAsset();
+            reportQuest.Init("Report back to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
+
             if (questSos.Count > 0)
             {
-                questSos[^1].Next = immersionQuest;
+                questSos[^1].Next = reportQuest;
             }
             
-            questSos.Add(immersionQuest);
+            questSos.Add(reportQuest);
         }
     }
 }

@@ -55,8 +55,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
             selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
-            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes);
-            //killQuest.SaveAsAsset();
+            killQuest.Init(KillEnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes);
+            
             if (QuestSos.Count > 0)
             {
                 QuestSos[^1].Next = killQuest;
@@ -67,28 +67,47 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public static void CreateAndSaveDamageQuestSo(List<QuestSo> QuestSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            var killQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
+            var damageQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
-            selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
-            killQuest.Init(EnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes);
-            //killQuest.SaveAsAsset();
+            var totalDamage = RandomSingleton.GetInstance().Random.Next(100) + 20;
+            selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, totalDamage);
+            damageQuest.Init(DamageEnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes );
+            
             if (QuestSos.Count > 0)
             {
-                QuestSos[^1].Next = killQuest;
+                QuestSos[^1].Next = damageQuest;
             }
             
-            QuestSos.Add(killQuest);
+            QuestSos.Add(damageQuest);
         }
 
-        private static string EnemyTypesToString(EnemiesByType  selectedEnemyTypes)
+        private static string KillEnemyTypesToString(EnemiesByType  selectedEnemyTypes)
         {
             var stringBuilder = new StringBuilder();
             for (var i = 0; i < selectedEnemyTypes.EnemiesByTypeDictionary.Count; i++)
             {
                 var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
                 stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
+                if (typeAmountPair.Value > 1)
+                {
+                    stringBuilder.Append("s");
+                }
+                if (i < (selectedEnemyTypes.EnemiesByTypeDictionary.Count - 1))
+                {
+                    stringBuilder.Append(" and ");
+                }
+            }
+            return stringBuilder.ToString();
+        }
+
+        private static string DamageEnemyTypesToString(EnemiesByType selectedEnemyTypes)
+        {
+            var stringBuilder = new StringBuilder();
+            for (var i = 0; i < selectedEnemyTypes.EnemiesByTypeDictionary.Count; i++)
+            {
+                var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
+                stringBuilder.Append($"Deal {typeAmountPair.Value} damage to {typeAmountPair.Key}");
                 if (typeAmountPair.Value > 1)
                 {
                     stringBuilder.Append("s");

@@ -17,15 +17,5 @@ namespace Game.NarrativeGenerator.Quests
         public override bool canDrawNext { 
             get { return false; } 
         }
-
-        public void Option( MarkovChain chain, List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
-        {
-            
-        }
-
-        void NextSymbol(MarkovChain chain)
-        {
-            //
-        }
     }
 }

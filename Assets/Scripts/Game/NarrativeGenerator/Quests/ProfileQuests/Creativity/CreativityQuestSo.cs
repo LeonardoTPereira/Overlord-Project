@@ -50,8 +50,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public static void CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
         {
             var exploreQuest = ScriptableObject.CreateInstance<ExploreQuestSo>();
-            exploreQuest.Init("Explore ", false, questSos.Count > 0 ? questSos[^1] : null);
-            //TODO initiate data for exploreQuest
+            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(10) + 3;
+            exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
+            
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = exploreQuest;
@@ -63,8 +64,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public static void CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
             var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
-            gotoQuest.Init("Explore Room", false, questSos.Count > 0 ? questSos[^1] : null);
-            //TODO initiate data for gotoQuest
+            //TODO verify if there's a way to mark the room in the minimap/get a rooms name here
+            gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = gotoQuest;
