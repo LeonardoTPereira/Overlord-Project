@@ -60,28 +60,18 @@ namespace Game.LevelManager.DungeonManager
 
         public static event EnterRoomEvent EnterRoomEventHandler;
 
-        /// If true, the room is an Arena and do not have neighbors.
-        private bool isArena = false;
-
         private void Awake()
         {
             hasEnemies = false;
             _hasPlacedInCenter = false;
             enemiesDictionary = new EnemyByAmountDictionary();
             enemiesDead = 0;
-            isArena = GameManagerSingleton.Instance.arenaMode;
         }
 
         // Use this for initialization
         void Start()
         {
             _enemyLoader = GetComponent<EnemyLoader>();
-            // If the Arena Mode is on, then set up the Arena
-            if (roomData.IsStartRoom() && isArena)
-            {
-                roomData.TotalEnemies = EnemyLoader.arena.Length;
-                hasEnemies = true;
-            }
 
             SetLayout();
             position = transform.position;
@@ -112,12 +102,7 @@ namespace Game.LevelManager.DungeonManager
             SelectEnemies();
 
             minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
-
-            // If the Arena Mode is on, then spawn enemies in the Arena
-            if (roomData.IsStartRoom() && isArena)
-            {
-                SpawnEnemies();
-            }
+            
         }
 
         private void DebugRoomData()
@@ -169,7 +154,7 @@ namespace Game.LevelManager.DungeonManager
                     if (tileID == (int) Enums.TileTypes.Block)
                     {
                         tileObj = Instantiate(blockPrefab);
-                        if (ix == 0)
+                        /*if (ix == 0)
                         {
                             if (iy == 0)
                             {
@@ -205,7 +190,7 @@ namespace Game.LevelManager.DungeonManager
                         else if (iy == (roomData.Dimensions.Height - 1))
                         {
                             tileObj.GetComponent<SpriteRenderer>().sprite = southWall;
-                        }
+                        }*/
                     }
                     else
                     {
@@ -248,23 +233,15 @@ namespace Game.LevelManager.DungeonManager
                     var spy = rh - iy - centerY + yOffset;
                     var point = new Vector3(spx, spy, 0);
 
-                    // If the room is an Arena, then ignore the room center
-                    if (isArena && Math.Abs(spx - 0.5f) < 0.001f && spy == 0.0f)
-                    {
-                        continue;
-                    }
-
                     // Add the calculated point to spawn point list
                     if (ix <= Constants.distFromBorder || ix >= topHor)
                     {
                         if (iy >= lowerHalfVer && iy <= upperHalfVer) continue;
-                        if (isArena) continue;
                         spawnPoints.Add(point);
                     }
                     else if (iy <= Constants.distFromBorder || iy >= topVer)
                     {
                         if (ix >= lowerHalfHor && ix <= upperHalfHor) continue;
-                        if (isArena) continue;
                         spawnPoints.Add(point);
                     }
                     else
@@ -313,22 +290,10 @@ namespace Game.LevelManager.DungeonManager
 
         private void SelectEnemies()
         {
-            if (roomData.EnemiesByType == null && !isArena) return;
+            if (roomData.EnemiesByType == null) return;
             if (roomData.EnemiesByType.EnemiesByTypeDictionary.Count == 0) return;
             hasEnemies = true;
-            if (isArena)
-            {
-                // Load all the enemies from the folder
-                EnemySO[] arena = EnemyLoader.arena;
-                foreach (var enemy in arena)
-                {
-                    enemiesDictionary.Add(enemy, 1);
-                }
-            }
-            else
-            {
-                enemiesDictionary = EnemyLoader.GetEnemiesForRoom(this);
-            }
+            enemiesDictionary = EnemyLoader.GetEnemiesForRoom(roomData.EnemiesByType.EnemiesByTypeDictionary);
         }
 
         private void SpawnEnemies()

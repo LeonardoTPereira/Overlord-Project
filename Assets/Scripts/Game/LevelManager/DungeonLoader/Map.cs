@@ -146,9 +146,27 @@ namespace Game.LevelManager.DungeonLoader
             {
                 if (currentPart is DungeonRoom room)
                 {
-                    room.CreateRoom(roomDimensions);
+                    var roomInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
+                    var doorList = CreateDoorList(room.Coordinates);
+                    roomInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
+                    room.CreateRoom(roomDimensions, roomInput);
                 }
             }
+        }
+        
+        private List<int> CreateDoorList(Coordinates currentRoomCoordinates)
+        {
+            var doorList = new List<int>();
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X, currentRoomCoordinates.Y+1)));
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X, currentRoomCoordinates.Y-1)));
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X+1, currentRoomCoordinates.Y)));
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X-1, currentRoomCoordinates.Y)));
+            return doorList;
+        }
+
+        private int IsCorridor(Coordinates coordinates)
+        {
+            return DungeonPartByCoordinates.ContainsKey(coordinates) ? 1 : 0;
         }
     }
 }

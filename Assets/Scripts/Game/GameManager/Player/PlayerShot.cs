@@ -27,6 +27,11 @@ namespace Game.GameManager.Player
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsShooting = Animator.StringToHash("IsShooting");
 
+        private void Awake()
+        {
+            _canShoot = true;
+        }
+
         protected override void Start()
         {
             base.Start();

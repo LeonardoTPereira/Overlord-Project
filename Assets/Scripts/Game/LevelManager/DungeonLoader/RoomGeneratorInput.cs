@@ -22,5 +22,14 @@ namespace Game.LevelManager.DungeonLoader
         {
             return doorValue == 0;
         }
+        
+        public void Init(Dimensions dimensions, int doorNorth, int doorSouth, int doorEast, int doorWest)
+        {
+            Size = new Vector2(dimensions.Width, dimensions.Height);
+            DoorNorth = doorNorth;
+            DoorSouth = doorSouth;
+            DoorEast = doorEast;
+            DoorWest = doorWest;
+        }
     }
 }

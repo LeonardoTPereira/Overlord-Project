@@ -82,12 +82,19 @@ namespace Game.LevelManager.DungeonLoader
             return new Vector3(newFreePosition.x, Dimensions.Height - 1 - newFreePosition.y, 0) - roomSelfCenter;
         }
 
-        public void CreateRoom(Dimensions roomDimensions)
+        public void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
         {
             Dimensions = roomDimensions;
             InitializeTiles(); // aloca memória para os tiles
             int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
-            DefaultRoomCreator.CreateRoomOfType(this, roomType);
+            if (roomGeneratorInput == null)
+            {
+                DefaultRoomCreator.CreateRoomOfType(this, roomType);
+            }
+            else
+            {
+                SoRoomLoader.CreateRoom(this, roomGeneratorInput);
+            }
         }
 
         public int TotalEnemies 

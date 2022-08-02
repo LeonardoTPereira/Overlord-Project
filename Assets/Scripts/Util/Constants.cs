@@ -9,7 +9,11 @@ namespace Util
         public static readonly char SEPARATOR_CHARACTER = Path.DirectorySeparatorChar;
         //Array com cada cor de cada ID, para diferenciar chaves e fechaduras
         public static Color[] colorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
-
+        public static float YellowHueShift = -0.33f;
+        public static float BlueHueShift = 0.5f;
+        public static float GreenHueShift = 0.0f;
+        public static float RedHueShift = -0.7f;
+        
         public static float LogNormalization(float value, float minValue, float maxValue, float minNormalized, float maxNormalized)
         {
             return (Mathf.Log(value - minValue) / Mathf.Log(maxValue - minValue)) * (maxNormalized - minNormalized);

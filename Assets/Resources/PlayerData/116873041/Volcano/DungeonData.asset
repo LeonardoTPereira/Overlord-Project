@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4baa12dfeb1458b9c922accb5cc0af5, type: 3}
+  m_Name: DungeonData
+  m_EditorClassIdentifier: 
+  <TotalAttempts>k__BackingField: 1
+  <LevelName>k__BackingField: Volcano
+  <WeaponName>k__BackingField: 
+  <TotalDeaths>k__BackingField: 1
+  <TotalWins>k__BackingField: 0
+  <KeysCollected>k__BackingField: 0
+  <TotalKeys>k__BackingField: 3
+  <LocksOpened>k__BackingField: 0
+  <TotalLocks>k__BackingField: 3
+  <TotalRooms>k__BackingField: 27
+  <UniqueRoomsEntered>k__BackingField: 3
+  <RoomsEntered>k__BackingField: 3
+  <TotalLostHealth>k__BackingField: 12
+  <TotalEnemies>k__BackingField: 175
+  <EnemiesKilled>k__BackingField: 9
+  <TotalNpcs>k__BackingField: 4
+  <NpcsInteracted>k__BackingField: 0
+  <TotalTreasure>k__BackingField: 130
+  <TreasuresCollected>k__BackingField: 0
+  <MaxCombo>k__BackingField: 20
+  <PostFormAnswers>k__BackingField: 
+  <TimeToFinish>k__BackingField: 88.3092
