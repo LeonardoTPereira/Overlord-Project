@@ -109,6 +109,7 @@ namespace Game.Quests
         private void UpdateDamageQuest ( QuestDamageEnemyEventArgs damageQuestArgs )
         {
             var enemyDamaged = damageQuestArgs.EnemyWeaponTypeSo;
+            var damage = damageQuestArgs.Damage;
             //TODO move this processing inside the QuestSo and their children
             foreach (var questList in questLists)
             {
@@ -117,7 +118,7 @@ namespace Game.Quests
                 if (currentQuest.IsCompleted) continue;
                 if (currentQuest is not DamageQuestSo damageQuestSo) continue;
                 if (!damageQuestSo.HasEnemyToDamage(enemyDamaged)) continue;
-                UpdateValidDamageQuest(questList, damageQuestSo, enemyDamaged);
+                UpdateValidDamageQuest(questList, damageQuestSo, enemyDamaged, damage);
                 return;
             }
 
@@ -125,7 +126,7 @@ namespace Game.Quests
             {
                 var currentQuest = questList.GetFirstDamageQuestWithEnemyAvailable(enemyDamaged);
                 if (currentQuest == null) continue;
-                UpdateValidDamageQuest(questList, currentQuest, enemyDamaged);
+                UpdateValidDamageQuest(questList, currentQuest, enemyDamaged, damage);
                 return;
             }
             Debug.Log($"$No damage Quests With This Enemy ({enemyDamaged}) Available");

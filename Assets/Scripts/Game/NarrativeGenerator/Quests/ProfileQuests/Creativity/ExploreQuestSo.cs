@@ -14,6 +14,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public int NumOfRoomsToExplore { get; set; }
+        protected List<Coordinates> exploredRooms = new List<Coordinates>();
 
         public override void Init()
         {
@@ -27,9 +28,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             NumOfRoomsToExplore = numOfRoomsToExplore;
         }
         
-        public void AddRoom(int numOfRoomsToExplore)
+        public void AddRoomsToExplore(int numOfRoomsToExplore)
         {
-            NumOfRoomsToExplore = numOfRoomsToExplore;
+            NumOfRoomsToExplore += numOfRoomsToExplore;
         }
         
         public override void Init(QuestSo copiedQuest)
@@ -45,14 +46,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public void ExploreRoom ()
+        public void ExploreRoom ( Coordinates roomCoordinates )
         {
-            NumOfRoomsToExplore--;
+            if ( !exploredRooms.Contains(roomCoordinates) )
+                exploredRooms.Add( roomCoordinates );
         }
 
         public bool CheckIfCompleted ()
         {
-            return NumOfRoomsToExplore > 0;
+            return NumOfRoomsToExplore <= exploredRooms.Count;
         }
     }
 }
