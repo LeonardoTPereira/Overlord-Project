@@ -6,38 +6,47 @@ using UnityEditor;
 using UnityEngine;
 using Util;
 
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NPCs;
+
 namespace Game.NarrativeGenerator.Quests
 {
     
-    [CreateAssetMenu(fileName = "QuestSO", menuName = "Overlord-Project/QuestSO", order = 0)]
+    [CreateAssetMenu(fileName = "QuestSo", menuName = "Overlord-Project/QuestSo", order = 0)]
     [Serializable]
-    public class QuestSO : ScriptableObject, SaveableGeneratedContent, Symbol
+    public class QuestSo : ScriptableObject, SaveableGeneratedContent, Symbol
     {
         public virtual string symbolType {get; set;}
-        public virtual Dictionary<string, Func<int,int>> nextSymbolChances
+        public virtual Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get;
-            set;
+            get { return nextSymbolChances; }
+            set {}
         }
+        protected Dictionary<string, Func<int,int>> nextSymbolChances;
         public virtual bool canDrawNext {
             get { return true; } 
             set {} 
         }
 
-        [SerializeReference] private QuestSO next;
-        [SerializeReference] private QuestSO previous;
+        [SerializeReference] private QuestSo next;
+        [SerializeReference] private QuestSo previous;
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
         [SerializeField] private ItemSo reward;
         [field: SerializeField] public bool IsCompleted { get; set; }
         private bool _canDrawNext;
 
-        public QuestSO Next { get => next; set => next = value; }
-        public QuestSO Previous { get => previous; set => previous = value; }
+        public QuestSo Next { get => next; set => next = value; }
+        public QuestSo Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
         public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
+
+        public virtual void DefineQuestSo ( MarkovChain chain, List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        {
+        }
 
         public virtual void Init()
         {
@@ -49,7 +58,7 @@ namespace Game.NarrativeGenerator.Quests
             Id = GetInstanceID();
         }
 
-        public void Init(string questTitle, bool endsLine, QuestSO previousQuest)
+        public void Init(string questTitle, bool endsLine, QuestSo previousQuest)
         {
             QuestName = questTitle;
             EndsStoryLine = endsLine;
@@ -59,7 +68,7 @@ namespace Game.NarrativeGenerator.Quests
             Id = GetInstanceID();
         }
         
-        public virtual void Init(QuestSO copiedQuest)
+        public virtual void Init(QuestSo copiedQuest)
         {
             QuestName = copiedQuest.QuestName;
             EndsStoryLine = copiedQuest.EndsStoryLine;
@@ -69,9 +78,9 @@ namespace Game.NarrativeGenerator.Quests
             Id = copiedQuest.Id;
         }
 
-        public virtual QuestSO Clone()
+        public virtual QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<QuestSO>();
+            var cloneQuest = CreateInstance<QuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }
@@ -85,12 +94,12 @@ namespace Game.NarrativeGenerator.Quests
         {
             int chance = RandomSingleton.GetInstance().Next(0, 100);
             int cumulativeProbability = 0;
-            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in nextSymbolChances )
+            foreach ( KeyValuePair<string, Func<int,int>> _nextSymbolChance in NextSymbolChances )
             {
-                cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
+                cumulativeProbability += _nextSymbolChance.Value( chain.symbolNumber );
                 if ( cumulativeProbability >= chance )
                 {
-                    string nextSymbol = nextSymbolChance.Key;
+                    string nextSymbol = _nextSymbolChance.Key;
                     chain.SetSymbol( nextSymbol );
                     break;
                 }
@@ -126,7 +135,7 @@ namespace Game.NarrativeGenerator.Quests
 
         public bool IsKillQuest()
         {
-            return typeof(KillQuestSO).IsAssignableFrom(GetType());
+            return typeof(KillQuestSo).IsAssignableFrom(GetType());
         }        
         
         public bool IsGetQuest()
@@ -135,7 +144,7 @@ namespace Game.NarrativeGenerator.Quests
         }        
         public bool IsSecretRoomQuest()
         {
-            return typeof(SecretRoomQuestSO).IsAssignableFrom(GetType());
+            return typeof(SecretRoomQuestSo).IsAssignableFrom(GetType());
         }
         
         public bool IsExplorationQuest()
@@ -145,7 +154,7 @@ namespace Game.NarrativeGenerator.Quests
         
         public bool IsTalkQuest()
         {
-            return typeof(TalkQuestSO).IsAssignableFrom(GetType());
+            return typeof(ListenQuestSo).IsAssignableFrom(GetType());
         }
     }
 }

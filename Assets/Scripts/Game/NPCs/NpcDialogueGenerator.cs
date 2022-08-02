@@ -29,14 +29,14 @@ namespace Game.NPCs
             return greeting.ToString();
         }
 
-        public static string CreateQuestOpener(QuestSO openedQuest, NpcSo speaker)
+        public static string CreateQuestOpener(QuestSo openedQuest, NpcSo speaker)
         {
             var questOpener = new StringBuilder();
             questOpener.Append("Greetings adventurer! I was expecting you!");
             if (openedQuest.IsKillQuest())
             {
                 questOpener.Append("I need you to kill some monsters for me:\n");
-                var killQuest = openedQuest as KillQuestSO;
+                var killQuest = openedQuest as KillQuestSo;
                 foreach (var enemyByAmount in killQuest.EnemiesToKillByType.EnemiesByTypeDictionary)
                 {
                     questOpener.Append($"{enemyByAmount.Value.ToString()} {enemyByAmount.Key.EnemyTypeName}s, ");
@@ -45,7 +45,7 @@ namespace Game.NPCs
             }
             else if(openedQuest.IsTalkQuest())
             {
-                var talkQuest = openedQuest as TalkQuestSO;
+                var talkQuest = openedQuest as ListenQuestSo;
                 questOpener.Append(talkQuest.Npc == speaker
                     ? "I needed to speak with you!\n"
                     : $"I need you to speak with {talkQuest.Npc.NpcName}!\n");
@@ -63,7 +63,7 @@ namespace Game.NPCs
             return questOpener.ToString();
         }
         
-        public static string CreateQuestCloser(QuestSO closedQuest, NpcSo speaker)
+        public static string CreateQuestCloser(QuestSo closedQuest, NpcSo speaker)
         {
             var questOpener = new StringBuilder();
             questOpener.Append("Oh my!");

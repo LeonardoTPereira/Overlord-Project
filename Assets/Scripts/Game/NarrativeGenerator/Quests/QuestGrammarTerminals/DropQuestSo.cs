@@ -17,20 +17,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public Dictionary<ItemSo, EnemiesByType > ItemData { get; set; }
         public Dictionary<ItemSo, Dictionary<float, int>> ItemDataByEnemyFitness { get; set; }
 
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get
             {
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.ITEM_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.DROP_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.GET_TERMINAL, Constants.ThreeOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.ThreeOptionQuestEmptyWeight );
+                getSymbolWeights.Add( Constants.ITEM_QUEST, Constants.TwoOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.GATHER_QUEST, Constants.TwoOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.TwoOptionQuestEmptyWeight );
                 return getSymbolWeights;
             } 
         }
         public override string symbolType {
-            get { return Constants.DROP_TERMINAL; }
+            get { return Constants.EMPTY_QUEST; }//Constants.DROP_QUEST; }
         }
 
         public override void Init()
@@ -39,7 +38,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemData = new Dictionary<ItemSo, EnemiesByType >();
             ItemDataByEnemyFitness = new Dictionary<ItemSo, Dictionary<float, int>>();
         }
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, EnemiesByType > dropItemData)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<ItemSo, EnemiesByType > dropItemData)
         {
             var itemsByType = new ItemAmountDictionary();
             foreach (var itemToDrop in dropItemData)
@@ -50,7 +49,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             base.Init(questName, endsStoryLine, previous, itemsByType);
             ItemData = dropItemData;
         }        
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<ItemSo, Dictionary<float, int>> dropItemData)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<ItemSo, Dictionary<float, int>> dropItemData)
         {
             var itemsByType = new ItemAmountDictionary();
             foreach (var itemToDrop in dropItemData)
@@ -66,13 +65,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemDataByEnemyFitness = dropItemData;
         }
         
-        public override void Init(QuestSO copiedQuest)
+        public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Debug.Log("Init Not Implemented for DropQuestSO");
+            Debug.Log("Init Not Implemented for DropQuestSo");
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
             var cloneQuest = CreateInstance<DropQuestSo>();
             cloneQuest.Init(this);

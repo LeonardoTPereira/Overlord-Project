@@ -87,23 +87,21 @@ namespace Game.NarrativeGenerator
             float normalizeConst = creativityPreference + achievementPreference;
             normalizeConst += masteryPreference + immersionPreference;
             
-            int talkWeight = (int)(100*creativityPreference/normalizeConst);
-            int getWeight = (int)(100*achievementPreference/normalizeConst);
-            int killWeight = (int)(100*masteryPreference/normalizeConst);
-            int exploreWeight = (int)(100*immersionPreference/normalizeConst);
-
-            Debug.Log($"{talkWeight} {getWeight} {killWeight} {exploreWeight}");
+            int talkWeight = (int) RemoveZeros( (100*creativityPreference/normalizeConst) );
+            int getWeight = (int) RemoveZeros( (100*achievementPreference/normalizeConst) );
+            int killWeight = (int) RemoveZeros( (100*masteryPreference/normalizeConst) );
+            int exploreWeight = (int) RemoveZeros( (100*immersionPreference/normalizeConst) );
 
             StartSymbolWeights = new Dictionary<string, Func<int, int>>();
-            StartSymbolWeights.Add( Constants.TALK_QUEST, x => talkWeight );
-            StartSymbolWeights.Add( Constants.GET_QUEST, x => getWeight );
-            StartSymbolWeights.Add( Constants.KILL_QUEST, x => killWeight ); 
-            StartSymbolWeights.Add( Constants.EXPLORE_QUEST, x => exploreWeight );
+            StartSymbolWeights.Add( Constants.IMMERSION_QUEST, x => talkWeight );
+            StartSymbolWeights.Add( Constants.ACHIEVEMENT_QUEST, x => getWeight );
+            StartSymbolWeights.Add( Constants.MASTERY_QUEST, x => killWeight ); 
+            StartSymbolWeights.Add( Constants.CREATIVITY_QUEST, x => exploreWeight );
         }
 
         private static float RemoveZeros ( float playerPreference )
         {
-            if ( playerPreference > 0 )
+            if ( playerPreference > 1 )
             {
                 return playerPreference;
             }

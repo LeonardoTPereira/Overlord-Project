@@ -8,10 +8,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class GetQuestSo : ItemQuestSo
     {
         public override string symbolType {
-            get { return Constants.GET_TERMINAL; }
+            get { return Constants.GATHER_QUEST; }
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
             var cloneQuest = CreateInstance<DropQuestSo>();
             cloneQuest.Init(this);

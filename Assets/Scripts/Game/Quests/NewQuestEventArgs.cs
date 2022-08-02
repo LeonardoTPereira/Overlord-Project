@@ -7,10 +7,10 @@ namespace Game.Quests
     public delegate void QuestOpenedEvent(object sender, NewQuestEventArgs e);
     public class NewQuestEventArgs
     {
-        public QuestSO Quest {get; set; }
+        public QuestSo Quest {get; set; }
         public NpcSo NpcInCharge { get; set; }
 
-        public NewQuestEventArgs(QuestSO quest, NpcSo npc)
+        public NewQuestEventArgs(QuestSo quest, NpcSo npc)
         {
             Quest = quest;
             NpcInCharge = npc;

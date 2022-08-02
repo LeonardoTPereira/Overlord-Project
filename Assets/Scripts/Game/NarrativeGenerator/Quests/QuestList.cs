@@ -10,18 +10,18 @@ namespace Game.NarrativeGenerator.Quests
     [Serializable]
     public class QuestList
     {
-        [field: SerializeReference] public List<QuestSO> Quests {get; set; }
+        [field: SerializeReference] public List<QuestSo> Quests {get; set; }
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
 
         public QuestList()
         {
-            Quests = new List<QuestSO>();
+            Quests = new List<QuestSo>();
         }
         
         public QuestList(QuestList quests)
         {
-            Quests = new List<QuestSO>();
+            Quests = new List<QuestSo>();
             foreach (var quest in quests.Quests)
             {
                 var copyQuest = quest.Clone();
@@ -36,11 +36,11 @@ namespace Game.NarrativeGenerator.Quests
         }
    
 
-        public KillQuestSO GetFirstKillQuestWithEnemyAvailable(WeaponTypeSO weaponTypeSo)
+        public KillQuestSo GetFirstKillQuestWithEnemyAvailable(WeaponTypeSO weaponTypeSo)
         {
             foreach (var quest in Quests)
             {
-                if (quest is not KillQuestSO killQuestSo) continue;
+                if (quest is not KillQuestSo killQuestSo) continue;
                 if (!killQuestSo.EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo,
                         out var enemyCount)) continue;
                 if (enemyCount > 0)
@@ -65,20 +65,20 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
 
-        public TalkQuestSO GetFirstTalkQuestWithNpc(NpcSo npc)
+        public ListenQuestSo GetFirstTalkQuestWithNpc(NpcSo npc)
         {
             foreach (var quest in Quests)
             {
-                if (quest is not TalkQuestSO talkQuestSo) continue;
-                if (talkQuestSo.Npc == npc)
+                if (quest is not ListenQuestSo ListenQuestSo) continue;
+                if (ListenQuestSo.Npc == npc)
                 {
-                    return talkQuestSo;
+                    return ListenQuestSo;
                 }
             }
             return null;        
         }
 
-        public QuestSO GetCurrentQuest()
+        public QuestSo GetCurrentQuest()
         {
             return CurrentQuestIndex >= Quests.Count ? null : Quests[CurrentQuestIndex];
         }

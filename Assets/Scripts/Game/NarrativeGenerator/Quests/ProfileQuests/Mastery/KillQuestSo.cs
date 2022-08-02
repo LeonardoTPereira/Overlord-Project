@@ -3,30 +3,19 @@ using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
 using System.Linq;
-using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Util;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     [Serializable]
-    public class KillQuestSO : QuestSO
+    public class KillQuestSo : MasteryQuestSo
     {
         [field: SerializeField]
         public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
-
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
-        {
-            get {
-                Dictionary<string, Func<int, int>> killSymbolWeights = new Dictionary<string, Func<int, int>>();
-                killSymbolWeights.Add( Constants.KILL_TERMINAL, Constants.OneOptionQuestLineWeight );
-                killSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
-                return killSymbolWeights;
-            } 
-        }
         public override string symbolType {
-            get { return Constants.KILL_TERMINAL; }
+            get { return Constants.KILL_QUEST; }
         }
         
         public override void Init()
@@ -36,30 +25,30 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             EnemiesToKillByFitness = new Dictionary<float, int>();
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, EnemiesByType  enemiesByType)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, EnemiesByType  enemiesByType)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByType = enemiesByType;
         }
-        public void Init(string questName, bool endsStoryLine, QuestSO previous, Dictionary<float, int> enemiesByFitness)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<float, int> enemiesByFitness)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByFitness = enemiesByFitness;
         }
         
-        public override void Init(QuestSO copiedQuest)
+        public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
             EnemiesToKillByType = new EnemiesByType ();
-            foreach (var enemyByType in (copiedQuest as KillQuestSO).EnemiesToKillByType.EnemiesByTypeDictionary)
+            foreach (var enemyByType in (copiedQuest as KillQuestSo).EnemiesToKillByType.EnemiesByTypeDictionary)
             {
                 EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
             }
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<KillQuestSO>();
+            var cloneQuest = CreateInstance<KillQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }

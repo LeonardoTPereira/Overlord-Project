@@ -9,20 +9,23 @@ using Util;
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     [Serializable]
-    public class ItemQuestSo : QuestSO
+    public class ItemQuestSo : QuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToCollectByType { get; set; }
-        public override Dictionary<string, Func<int,int>> nextSymbolChances
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
+                if ( nextSymbolChances != null )
+                    return nextSymbolChances;
+                    
                 Dictionary<string, Func<int, int>> getSymbolWeights = new Dictionary<string, Func<int, int>>();
-                getSymbolWeights.Add( Constants.GET_TERMINAL,  Constants.OneOptionQuestLineWeight );
-                getSymbolWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight);
+                getSymbolWeights.Add( Constants.GATHER_QUEST,  Constants.OneOptionQuestLineWeight );
+                getSymbolWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight);
                 return getSymbolWeights;
             } 
         }
         public override string symbolType {
-            get { return Constants.ITEM_TERMINAL; }
+            get { return Constants.ITEM_QUEST; }
         }
 
         public override void Init()
@@ -31,7 +34,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemsToCollectByType = new ItemAmountDictionary();
         }
         
-        public override void Init(QuestSO copiedQuest)
+        public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
             ItemsToCollectByType = new ItemAmountDictionary();
@@ -41,13 +44,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public void Init(string name, bool endsStoryLine, QuestSO previous, ItemAmountDictionary itemsByType)
+        public void Init(string name, bool endsStoryLine, QuestSo previous, ItemAmountDictionary itemsByType)
         {
             base.Init(name, endsStoryLine, previous);
             ItemsToCollectByType = itemsByType;
         }
         
-        public override QuestSO Clone()
+        public override QuestSo Clone()
         {
             var cloneQuest = CreateInstance<ItemQuestSo>();
             cloneQuest.Init(this);

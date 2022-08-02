@@ -77,13 +77,13 @@ namespace Game.Quests
         private void UpdateKillQuest(QuestKillEnemyEventArgs killQuestArgs)
         {
             var enemyKilled = killQuestArgs.EnemyWeaponTypeSo;
-            //TODO move this processing inside the QuestSO and their children
+            //TODO move this processing inside the QuestSo and their children
             foreach (var questList in questLists)
             {
                 var currentQuest = questList.GetCurrentQuest();
                 if (currentQuest == null) continue;
                 if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not KillQuestSO killQuestSo) continue;
+                if (currentQuest is not KillQuestSo killQuestSo) continue;
                 if (!killQuestSo.HasEnemyToKill(enemyKilled)) continue;
                 UpdateValidKillQuest(questList, killQuestSo, enemyKilled);
                 return;
@@ -99,7 +99,7 @@ namespace Game.Quests
             Debug.Log($"$No Kill Quests With This Enemy ({enemyKilled}) Available");
         }
 
-        private void UpdateValidKillQuest(QuestList questList, KillQuestSO killQuestSo, WeaponTypeSO enemyKilled)
+        private void UpdateValidKillQuest(QuestList questList, KillQuestSo killQuestSo, WeaponTypeSO enemyKilled)
         {
             killQuestSo.SubtractEnemy(enemyKilled);
             if (!killQuestSo.CheckIfCompleted()) return;
@@ -146,8 +146,8 @@ namespace Game.Quests
                 var currentQuest = questList.GetCurrentQuest();
                 if (currentQuest == null) continue;
                 if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not TalkQuestSO talkQuestSo) continue;
-                if (!(talkQuestSo.Npc == npcToTalk)) continue;
+                if (currentQuest is not ListenQuestSo ListenQuestSo) continue;
+                if (!(ListenQuestSo.Npc == npcToTalk)) continue;
                 CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
                 return;
             }
@@ -162,7 +162,7 @@ namespace Game.Quests
             Debug.Log($"No Talk Quests With This Npc ({npcToTalk}) Available");
         }
 
-        private void CompleteQuestAndRemoveFromOngoing(QuestList questList, QuestSO completedQuest)
+        private void CompleteQuestAndRemoveFromOngoing(QuestList questList, QuestSo completedQuest)
         {
             completedQuest.IsCompleted = true;
             CheckCompletionAndComplete(questList);

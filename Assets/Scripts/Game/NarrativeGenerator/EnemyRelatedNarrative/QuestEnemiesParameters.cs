@@ -80,11 +80,11 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             }
         }
         
-        private void AddEnemiesWhenEnemyQuest(QuestSO quest)
+        private void AddEnemiesWhenEnemyQuest(QuestSo quest)
         {
             if (quest.IsKillQuest())
             {
-                AddEnemies((KillQuestSO) quest);
+                AddEnemies((KillQuestSo) quest);
             }
             else if (quest.IsDropQuest())
             {
@@ -92,7 +92,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             }
         }
 
-        private void AddEnemies(KillQuestSO quest)
+        private void AddEnemies(KillQuestSo quest)
         {
             foreach (var enemyAmountPair in quest.EnemiesToKillByType.EnemiesByTypeDictionary)
             {
