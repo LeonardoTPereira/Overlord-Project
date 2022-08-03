@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
 
@@ -16,7 +18,18 @@ namespace Game.NPCs
         [SerializeField] private DialogueController dialogue;
         [SerializeField] private NpcSo npc;
         private bool _isDialogueNull;
-        
+        private Queue<int> _assignedQuestsQueue;
+        public int QuestId
+        {
+            get => _assignedQuestsQueue.Dequeue();
+            set => _assignedQuestsQueue.Enqueue(value);
+        }
+
+        private void Awake()
+        {
+            _assignedQuestsQueue = new Queue<int>();
+        }
+
         private void Start()
         {
             CreateIntroDialogue();
@@ -26,12 +39,37 @@ namespace Game.NPCs
         {
             QuestController.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
             QuestController.QuestOpenedEventHandler += CreateQuestOpenedDialogue;
+            QuestController.QuestOpenedEventHandler += CheckIfNpcIsTarget;
         }
 
         private void OnDisable()
         {
             QuestController.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
             QuestController.QuestOpenedEventHandler -= CreateQuestOpenedDialogue;
+            QuestController.QuestOpenedEventHandler -= CheckIfNpcIsTarget;
+        }
+
+        private void CheckIfNpcIsTarget(object sender, NewQuestEventArgs eventArgs)
+        {
+            NpcSo questNpc = null;
+            if (eventArgs.Quest is not ImmersionQuestSo immersionQuestSo) return;
+            switch (immersionQuestSo)
+            {
+                case ListenQuestSo listenQuestSo:
+                    questNpc = listenQuestSo.Npc;
+                    break;
+                case GiveQuestSo giveQuestSo:
+                    questNpc = giveQuestSo.Npc;
+                    break;
+                case ReportQuestSo reportQuestSo:
+                    questNpc = reportQuestSo.Npc;
+                    break;
+            }
+
+            if (questNpc != null && questNpc.NpcName == Npc.NpcName)
+            {
+                QuestId = immersionQuestSo.Id;
+            }
         }
 
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
@@ -108,7 +146,7 @@ namespace Game.NPCs
         public void OnInteractAttempt()
         {
             if (_isDialogueNull) return;
-            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(npc));
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(npc, QuestId));
             DialogueHandler.instance.StartDialogue(dialogue);
         }
 
@@ -131,5 +169,6 @@ namespace Game.NPCs
             get => npc;
             set => npc = value;
         }
+
     }
 }

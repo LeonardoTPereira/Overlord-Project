@@ -51,13 +51,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public static void CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems )
         {
-            var getItemQuest = ScriptableObject.CreateInstance<GatherQuestSo>();
+            var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
             //TODO select more items
             var selectedItem = possibleItems.GetRandomItem();
             selectedItems.Add(selectedItem, 1);
             getItemQuest.Init(ItemsToString(selectedItems), false, questSos.Count > 0 ? questSos[questSos.Count-1] : null, selectedItems);
-            //getItemQuest.SaveAsAsset();
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = getItemQuest;
@@ -68,7 +67,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public static void CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
-            var exchangeQuest = ScriptableObject.CreateInstance<ExchangeQuestSo>();
+            var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
             var selectedItem = possibleItems.GetRandomItem();
             exchangedItems.Add(selectedItem, 1);

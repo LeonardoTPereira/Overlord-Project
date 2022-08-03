@@ -6,7 +6,7 @@ namespace Game.Quests
     {
         public ItemSo ItemType {get; set; }
 
-        public QuestGetItemEventArgs(ItemSo itemType)
+        public QuestGetItemEventArgs(ItemSo itemType, int questId) : base(questId)
         {
             ItemType = itemType;
         }
