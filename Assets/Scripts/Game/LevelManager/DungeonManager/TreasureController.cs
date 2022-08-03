@@ -10,6 +10,7 @@ namespace Game.LevelManager.DungeonManager
     {
         [field: SerializeField]
         public ItemSo Treasure { get; set; }
+        public int QuestId { get; set; }
 
         public static event TreasureCollectEvent TreasureCollectEventHandler;
 
@@ -36,7 +37,7 @@ namespace Game.LevelManager.DungeonManager
 
         private void OnTreasureCollect()
         {
-            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGetItemEventArgs(Treasure));
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGetItemEventArgs(Treasure, QuestId));
             TreasureCollectEventHandler?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
         }
     }

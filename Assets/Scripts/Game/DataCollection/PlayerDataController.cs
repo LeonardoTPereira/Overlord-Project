@@ -7,13 +7,15 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.Quests;
 using UnityEngine;
 
 namespace Game.DataCollection
 {
     public class PlayerDataController : MonoBehaviour
     {
-        public PlayerData CurrentPlayer { get; set; }
+        public PlayerData CurrentPlayer { get; private set; }
         private DungeonDataController _dungeonDataController;
         private GameplayData _gameplayData;
 
@@ -39,6 +41,7 @@ namespace Game.DataCollection
             GameOverPanelBhv.ToLevelSelectEventHandler += OnFormNotAnswered;
             GameOverPanelBhv.RestartLevelEventHandler += OnFormNotAnswered;
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
+            QuestController.QuestCompletedEventHandler += OnQuestEvent;
         }
 
         private void OnDisable()
@@ -55,12 +58,13 @@ namespace Game.DataCollection
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
-            ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;            
+            ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
+            QuestController.QuestCompletedEventHandler -= OnQuestEvent;
         }
 
         private void Awake()
@@ -78,14 +82,14 @@ namespace Game.DataCollection
             CurrentPlayer = ScriptableObject.CreateInstance<PlayerData>();
             CurrentPlayer.Init();
         }
-        
+
         private void OnMapStart(object sender, StartMapEventArgs eventArgs)
         {
             Debug.Log("Map Started");
             CurrentPlayer.StartDungeon(eventArgs.MapName, eventArgs.Map);
             _dungeonDataController.CurrentDungeon = CurrentPlayer.CurrentDungeon;
         }
-        
+
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
@@ -96,22 +100,22 @@ namespace Game.DataCollection
         {
             CurrentPlayer.GivenPlayerProfile = eventArgs.PlayerProfile;
         }
-        
+
         private void ResetCombo(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.ResetCombo();
         }
-        
+
         private void IncrementCombo(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.IncrementCombo();
         }
-        
+
         private void OnPreTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
             CurrentPlayer.PreFormAnswers = eventArgs.AnswerValue;
         }
-        
+
         private void OnKillEnemy(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.IncrementKills();
@@ -121,26 +125,27 @@ namespace Game.DataCollection
         {
             CurrentPlayer.IncrementInteractionsWithNpcs();
         }
+
         private void OnDeath(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.IncrementDeaths();
         }
-        
+
         private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.IncrementWins();
         }
-        
+
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
         {
             CurrentPlayer.AddLostHealth(eventArgs.DamageDone);
         }
-        
+
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
             CurrentPlayer.AddCollectedTreasure(eventArgs.Amount);
         }
-        
+
         private void OnGetKey(object sender, KeyCollectEventArgs eventArgs)
         {
             CurrentPlayer.IncrementCollectedKeys();
@@ -158,11 +163,108 @@ namespace Game.DataCollection
             CurrentPlayer.RefreshJson();
 #endif
         }
-        
+
         private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
             CurrentPlayer.AddPostTestDataToDungeon(eventArgs.AnswerValue);
             _gameplayData.SendProfileToServer(CurrentPlayer);
+        }
+
+        private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
+        {
+            switch (eventArgs.Quest)
+            {
+                case AchievementQuestSo achievementQuest:
+                    CurrentPlayer.CompletedAchievementQuests++;
+                    GetAchievementTerminalAndUpdate(achievementQuest);
+                    break;
+                case CreativityQuestSo creativityQuest:
+                    CurrentPlayer.CompletedCreativityQuests++;
+                    GetCreativityTerminalAndUpdate(creativityQuest);
+                    break;
+                case ImmersionQuestSo immersionQuest:
+                    CurrentPlayer.CompletedImmersionQuests++;
+                    GetImmersionTerminalAndUpdate(immersionQuest);
+                    break;
+                case MasteryQuestSo masteryQuest:
+                    CurrentPlayer.CompletedMasteryQuests++;
+                    GetMasteryTerminalAndUpdate(masteryQuest);
+                    break;
+                default:
+                    Debug.LogError("This Quest non-terminal is non-existent!");
+                    break;
+            }
+        }
+
+
+        private void GetAchievementTerminalAndUpdate(AchievementQuestSo achievementQuest)
+        {
+            switch (achievementQuest)
+            {
+                case ExchangeQuestSo:
+                    CurrentPlayer.CompletedExchangeQuests++;
+                    break;
+                case GatherQuestSo:
+                    CurrentPlayer.CompletedGatherQuests++;
+                    break;
+                default:
+                    Debug.LogError("This achievement quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetCreativityTerminalAndUpdate(CreativityQuestSo creativityQuest)
+        {
+            switch (creativityQuest)
+            {
+                case ExploreQuestSo:
+                    CurrentPlayer.CompletedExploreQuests++;
+                    break;
+                case GotoQuestSo:
+                    CurrentPlayer.CompletedGoToQuests++;
+                    break;
+                default:
+                    Debug.LogError("This creativity quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetImmersionTerminalAndUpdate(ImmersionQuestSo immersionQuest)
+        {
+            switch (immersionQuest)
+            {
+                case GiveQuestSo:
+                    CurrentPlayer.CompletedGiveQuests++;
+                    break;
+                case ListenQuestSo:
+                    CurrentPlayer.CompletedListenQuests++;
+                    break;
+                case ReadQuestSo:
+                    CurrentPlayer.CompletedReadQuests++;
+                    break;
+                case ReportQuestSo:
+                    CurrentPlayer.CompletedReportQuests++;
+                    break;
+                default:
+                    Debug.LogError("This immersion quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetMasteryTerminalAndUpdate(MasteryQuestSo masteryQuest)
+        {
+            switch (masteryQuest)
+            {
+                case DamageQuestSo:
+                    CurrentPlayer.CompletedDamageQuests++;
+                    break;
+                case KillQuestSo:
+                    CurrentPlayer.CompletedDamageQuests++;
+                    break;
+                default:
+                    Debug.LogError("This mastery quest type does not exist!");
+                    break;
+            }        
         }
     }
 }
