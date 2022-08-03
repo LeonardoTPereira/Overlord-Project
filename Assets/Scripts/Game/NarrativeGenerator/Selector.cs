@@ -31,7 +31,7 @@ namespace Game.NarrativeGenerator
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     Symbol lastSelectedQuest = questChain.GetLastSymbol();
-                    lastSelectedQuest.SetDictionary( ProfileCalculator.StartSymbolWeights );
+                    lastSelectedQuest.NextSymbolChances = ProfileCalculator.StartSymbolWeights;
                     lastSelectedQuest.SetNextSymbol( questChain );
 
                     Symbol newSymbol = questChain.GetLastSymbol();

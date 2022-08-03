@@ -4,6 +4,8 @@ using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.Quests;
 using UnityEngine;
 
 namespace Game.DataCollection
@@ -28,6 +30,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             Player.ExitRoomEventHandler += OnRoomExit;
+            QuestController.QuestCompletedEventHandler += OnQuestEvent;
         }
 
         private void OnDisable()
@@ -46,6 +49,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             Player.ExitRoomEventHandler -= OnRoomExit;
+            QuestController.QuestCompletedEventHandler -= OnQuestEvent;
         }
         
 
@@ -111,6 +115,103 @@ namespace Game.DataCollection
         private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.OnPlayerVictory();
+        }
+        
+                private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
+        {
+            switch (eventArgs.Quest)
+            {
+                case AchievementQuestSo achievementQuest:
+                    CurrentDungeon.CompletedAchievementQuests++;
+                    GetAchievementTerminalAndUpdate(achievementQuest);
+                    break;
+                case CreativityQuestSo creativityQuest:
+                    CurrentDungeon.CompletedCreativityQuests++;
+                    GetCreativityTerminalAndUpdate(creativityQuest);
+                    break;
+                case ImmersionQuestSo immersionQuest:
+                    CurrentDungeon.CompletedImmersionQuests++;
+                    GetImmersionTerminalAndUpdate(immersionQuest);
+                    break;
+                case MasteryQuestSo masteryQuest:
+                    CurrentDungeon.CompletedMasteryQuests++;
+                    GetMasteryTerminalAndUpdate(masteryQuest);
+                    break;
+                default:
+                    Debug.LogError("This Quest non-terminal is non-existent!");
+                    break;
+            }
+        }
+
+
+        private void GetAchievementTerminalAndUpdate(AchievementQuestSo achievementQuest)
+        {
+            switch (achievementQuest)
+            {
+                case ExchangeQuestSo:
+                    CurrentDungeon.CompletedExchangeQuests++;
+                    break;
+                case GatherQuestSo:
+                    CurrentDungeon.CompletedGatherQuests++;
+                    break;
+                default:
+                    Debug.LogError("This achievement quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetCreativityTerminalAndUpdate(CreativityQuestSo creativityQuest)
+        {
+            switch (creativityQuest)
+            {
+                case ExploreQuestSo:
+                    CurrentDungeon.CompletedExploreQuests++;
+                    break;
+                case GotoQuestSo:
+                    CurrentDungeon.CompletedGoToQuests++;
+                    break;
+                default:
+                    Debug.LogError("This creativity quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetImmersionTerminalAndUpdate(ImmersionQuestSo immersionQuest)
+        {
+            switch (immersionQuest)
+            {
+                case GiveQuestSo:
+                    CurrentDungeon.CompletedGiveQuests++;
+                    break;
+                case ListenQuestSo:
+                    CurrentDungeon.CompletedListenQuests++;
+                    break;
+                case ReadQuestSo:
+                    CurrentDungeon.CompletedReadQuests++;
+                    break;
+                case ReportQuestSo:
+                    CurrentDungeon.CompletedReportQuests++;
+                    break;
+                default:
+                    Debug.LogError("This immersion quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetMasteryTerminalAndUpdate(MasteryQuestSo masteryQuest)
+        {
+            switch (masteryQuest)
+            {
+                case DamageQuestSo:
+                    CurrentDungeon.CompletedDamageQuests++;
+                    break;
+                case KillQuestSo:
+                    CurrentDungeon.CompletedDamageQuests++;
+                    break;
+                default:
+                    Debug.LogError("This mastery quest type does not exist!");
+                    break;
+            }        
         }
     }
 }

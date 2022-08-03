@@ -32,6 +32,7 @@ namespace Game.GameManager
         private bool _hasProjectile;
         private Color _originalColor;
         [field: SerializeField] protected ColorPaletteSo enemyColorPalette;
+        public int QuestId { get; set; }
 
         private Vector2 _directionMask;
 
@@ -213,7 +214,7 @@ namespace Game.GameManager
             {
                 childCollider.enabled = false;
             }
-            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyWeapon));
+            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyWeapon, QuestId));
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
@@ -263,5 +264,6 @@ namespace Game.GameManager
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");
             }
         }
+
     }
 }
