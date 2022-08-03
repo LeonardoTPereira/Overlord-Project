@@ -13,100 +13,220 @@ using Firebase.Firestore;
 namespace Game.DataCollection
 {
 #if !UNITY_WEBGL || UNITY_EDITOR
-[FirestoreData]
+    [FirestoreData]
 #endif
     [Serializable]
     public class PlayerData : ScriptableObject
     {
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int PlayerId { get; set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif 
+#endif 
         [field: SerializeField] public List<int> PreFormAnswers { get; set; }
         public DungeonDataByAttempt DungeonByAttempt { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif 
+#endif 
         [field: SerializeField] public int TotalAttempts { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif 
+#endif 
         [field: SerializeField] public int TotalDeaths { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalWins { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int NpcsInteracted { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalNpcs { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalEnemies { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int EnemiesKilled { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalTreasure { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TreasuresCollected { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalLostHealth { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int MaxCombo { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int KeysCollected { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalKeys { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int LocksOpened { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalLocks { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int TotalRooms { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int UniqueRoomsEntered { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public int RoomsEntered { get; private set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public PlayerProfile PlayerProfile { get; set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
-        #endif
+#endif
         [field: SerializeField] public PlayerProfile GivenPlayerProfile { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalAchievementQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedAchievementQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalCreativityQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedCreativityQuests { get; set; } 
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalImmersionQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedImmersionQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalMasteryQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedMasteryQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalExchangeQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedExchangeQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalGatherQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedGatherQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalExploreQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedExploreQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalGoToQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedGoToQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalGiveQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedGiveQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalListenQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedListenQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalReadQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedReadQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalReportQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedReportQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalDamageQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedDamageQuests { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalKillQuests { get; set; }        
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int CompletedKillQuests { get; set; }
         public DungeonData CurrentDungeon { get; private set; }
         public string AssetPath { get; private set; }
         public string JsonPath { get; private set; }
