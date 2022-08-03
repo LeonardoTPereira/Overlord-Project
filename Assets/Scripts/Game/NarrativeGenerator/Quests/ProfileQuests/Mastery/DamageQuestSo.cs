@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
 using System.Linq;
+using Game.Quests;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 
@@ -54,6 +55,28 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             cloneQuest.Init(this);
             return cloneQuest;
         }
+
+        public static DamageQuestSo GetValidDamageQuest ( QuestDamageEnemyEventArgs damageQuestArgs, List<QuestList> questLists )
+        {
+            var enemyDamaged = damageQuestArgs.EnemyWeaponTypeSo;
+            var damage = damageQuestArgs.Damage;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not DamageQuestSo damageQuestSo) continue;
+                if (!damageQuestSo.HasEnemyToDamage(enemyDamaged)) return damageQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var damageQuestSo = questList.GetFirstDamageQuestWithEnemyAvailable(enemyDamaged);
+                if (damageQuestSo == null) return damageQuestSo;
+            }
+
+            return null;
+        }
         
         public void AddEnemy(WeaponTypeSO enemy, int amount)
         {
@@ -86,7 +109,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public bool CheckIfCompleted()
         {
-            return EnemiesToDamageByType.EnemiesByTypeDictionary.All(enemyDamage => enemyDamage.Value <= 0);;
+            return EnemiesToDamageByType.EnemiesByTypeDictionary.All(enemyDamage => enemyDamage.Value <= 0);
         }
 
         public bool HasEnemyToDamage (WeaponTypeSO weaponTypeSo)

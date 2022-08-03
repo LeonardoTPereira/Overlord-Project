@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
+using Util;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -51,15 +52,15 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
         
-        public ItemQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
+        public GatherQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
         {
             foreach (var quest in Quests)
             {
-                if (quest is not ItemQuestSo getQuestSo) continue;
-                if (!getQuestSo.ItemsToCollectByType.TryGetValue(itemType, out var itemCount)) continue;
+                if (quest is not GatherQuestSo gatherQuestSo) continue;
+                if (!gatherQuestSo.ItemsToGatherByType.TryGetValue(itemType, out var itemCount)) continue;
                 if (itemCount > 0)
                 {
-                    return getQuestSo;
+                    return gatherQuestSo;
                 }
             }
             return null;
@@ -89,6 +90,38 @@ namespace Game.NarrativeGenerator.Quests
                 {
                     return damageQuestSo;
                 }
+            }
+            return null;
+        }
+
+        public ExploreQuestSo GetFirstExploreQuestWithRoomAvailable(Coordinates roomCoordinates)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ExploreQuestSo exploreQuestSo) continue;
+                if (!exploreQuestSo.CheckIfCompleted()) return exploreQuestSo;
+            }
+            return null;
+        }
+
+        public GiveQuestSo GetFirstGiveQuestAvailable(ItemSo itemType)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not GiveQuestSo giveQuestSo) continue;
+                if (!giveQuestSo.HasItemToCollect(itemType)) continue;
+                    return giveQuestSo;
+            }
+            return null;
+        }
+
+        public ExchangeQuestSo GetFirstExchangeQuestAvailable(ItemSo itemType)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ExchangeQuestSo exchangeQuestSo) continue;
+                if (!exchangeQuestSo.HasItemToExchange(itemType)) continue;
+                    return exchangeQuestSo;
             }
             return null;
         }

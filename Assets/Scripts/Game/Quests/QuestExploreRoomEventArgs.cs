@@ -7,7 +7,7 @@ namespace Game.Quests
     {
         public Coordinates RoomCoordinates { get; set; }
 
-        public QuestExploreRoomEventArgs(Coordinates roomCoordinates)
+        public  QuestExploreRoomEventArgs(Coordinates roomCoordinates, int questId) : base(questId)
         {
             RoomCoordinates = roomCoordinates;
         }

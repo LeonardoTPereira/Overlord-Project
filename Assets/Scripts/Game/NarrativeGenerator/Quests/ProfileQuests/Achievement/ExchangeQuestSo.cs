@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 using Game.NPCs;
+using Game.Quests;
 using System.Linq;
 
 
@@ -56,6 +57,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
+        public static ExchangeQuestSo GetValidExchangeQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
+        {
+            var itemCollected = getItemQuestArgs.ItemType;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not ExchangeQuestSo exchangeQuestSo) continue;
+                if (exchangeQuestSo.HasItemToExchange(itemCollected)) return exchangeQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var exchangeQuestSo = questList.GetFirstExchangeQuestAvailable(itemCollected);
+                if (exchangeQuestSo == null) return exchangeQuestSo;
+            }
+
+            return null;
+        }
+
         public void AddItem(ItemSo item, int amount)
         {
             if (ItemsToExchangeByType.TryGetValue(item, out var currentAmount))
@@ -71,6 +93,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public void SubtractItem(ItemSo itemSo)
         {
             ItemsToExchangeByType[itemSo]--;
+        }
+
+        public bool HasItemToExchange(ItemSo itemSo)
+        {
+            if (!ItemsToExchangeByType.TryGetValue(itemSo, out var itemsLeft)) return false;
+            return itemsLeft > 0;
         }
 
         public bool CheckIfCanComplete()

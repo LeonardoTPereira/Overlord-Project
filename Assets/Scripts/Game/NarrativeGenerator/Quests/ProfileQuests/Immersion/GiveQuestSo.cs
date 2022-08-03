@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
+using Game.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -15,6 +16,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public NpcSo Npc { get; set; }
         public ItemSo Item {get; set; }
+        private bool _hasItemToCollect = false;
 
         public override void Init()
         {
@@ -48,6 +50,38 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<GiveQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public bool HasItemToCollect(ItemSo itemSo)
+        {
+            return !_hasItemToCollect && Item.ItemName == itemSo.ItemName;
+        }
+
+        public void CollectItem ( ItemSo itemSo )
+        {
+            Item = itemSo;
+            _hasItemToCollect = true;
+        }
+
+        public static GiveQuestSo GetValidGiveQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
+        {
+            var itemCollected = getItemQuestArgs.ItemType;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not GiveQuestSo giveQuestSo) continue;
+                if (giveQuestSo.HasItemToCollect(itemCollected)) return giveQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var giveQuestSo = questList.GetFirstGiveQuestAvailable(itemCollected);
+                if (giveQuestSo == null) return giveQuestSo;
+            }
+
+            return null;
         }
     }
 }

@@ -1,6 +1,7 @@
 using ScriptableObjects;
 using Util;
 using System;
+using Game.Quests;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
@@ -44,6 +45,29 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<ExploreQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public static ExploreQuestSo GetValidExploreQuest ( QuestExploreRoomEventArgs exploreQuestArgs, List<QuestList> questLists )
+        {
+            var exploreRoom = exploreQuestArgs.RoomCoordinates;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not ExploreQuestSo exploreQuestSo) continue;
+                if (!exploreQuestSo.CheckIfCompleted()) ;
+                    return exploreQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetFirstExploreQuestWithRoomAvailable(exploreRoom);
+                if (currentQuest == null) 
+                    return currentQuest;
+            }
+            
+            return null;
         }
 
         public void ExploreRoom ( Coordinates roomCoordinates )
