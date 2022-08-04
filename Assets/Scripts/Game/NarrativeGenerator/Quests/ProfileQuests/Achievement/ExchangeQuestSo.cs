@@ -3,6 +3,7 @@ using Util;
 using System;
 using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using Game.NPCs;
 using Game.Quests;
@@ -72,6 +73,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             foreach (var questList in questLists)
             {
                 var exchangeQuestSo = questList.GetFirstExchangeQuestAvailable(itemCollected);
+                if (exchangeQuestSo == null) return exchangeQuestSo;
+            }
+
+            return null;
+        }
+
+        public static ExchangeQuestSo GetValidExchangeQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        {
+            var npc = talkQuestArgs.Npc;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not ExchangeQuestSo exchangeQuestSo) continue;
+                if (exchangeQuestSo.Npc == npc) return exchangeQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var exchangeQuestSo = questList.GetFirstExchangeQuestWithNpc(npc);
                 if (exchangeQuestSo == null) return exchangeQuestSo;
             }
 

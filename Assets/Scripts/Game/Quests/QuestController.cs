@@ -205,24 +205,38 @@ namespace Game.Quests
         private void UpdateTalkQuest(QuestTalkEventArgs talkQuestArgs)
         {
             var npcToTalk = talkQuestArgs.Npc;
-            foreach (var questList in questLists)
+            var listenQuestSo = ListenQuestSo.GetValidListenQuest( talkQuestArgs, questLists);
+            if ( listenQuestSo != null )
             {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ListenQuestSo ListenQuestSo) continue;
-                if (!(ListenQuestSo.Npc == npcToTalk)) continue;
-                CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
+                var questList = questLists.Find( x => x.Quests.Contains(listenQuestSo) );
+                CompleteQuestAndRemoveFromOngoing(questList, listenQuestSo );
                 return;
             }
 
-            foreach (var questList in questLists)
+            var reportQuestSo = ReportQuestSo.GetValidReportQuest( talkQuestArgs, questLists);
+            if ( reportQuestSo != null )
             {
-                var currentQuest = questList.GetFirstTalkQuestWithNpc(npcToTalk);
-                if (currentQuest == null) continue;
-                CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
+                var questList = questLists.Find( x => x.Quests.Contains(reportQuestSo) );
+                CompleteQuestAndRemoveFromOngoing( questList, reportQuestSo );
                 return;
             }
+
+            var giveQuestSo = GiveQuestSo.GetValidGiveQuest( talkQuestArgs, questLists);
+            if ( giveQuestSo != null && giveQuestSo.CheckIfCanComplete() )
+            {
+                var questList = questLists.Find( x => x.Quests.Contains(giveQuestSo) );
+                CompleteQuestAndRemoveFromOngoing( questList, giveQuestSo );
+                return;
+            }
+
+            var exchangeQuestSo = ExchangeQuestSo.GetValidExchangeQuest( talkQuestArgs, questLists);
+            if ( exchangeQuestSo != null && exchangeQuestSo.CheckIfCanComplete() )
+            {
+                var questList = questLists.Find( x => x.Quests.Contains(exchangeQuestSo) );
+                CompleteQuestAndRemoveFromOngoing( questList, exchangeQuestSo );
+                return;
+            }
+
             Debug.Log($"No Talk Quests With This Npc ({npcToTalk}) Available");
         }
         #endregion

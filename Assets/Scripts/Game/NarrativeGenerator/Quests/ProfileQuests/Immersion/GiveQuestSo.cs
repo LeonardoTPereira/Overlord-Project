@@ -63,6 +63,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             _hasItemToCollect = true;
         }
 
+        public bool CheckIfCanComplete ()
+        {
+            return _hasItemToCollect;
+        }
+
         public static GiveQuestSo GetValidGiveQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
         {
             var itemCollected = getItemQuestArgs.ItemType;
@@ -78,6 +83,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             foreach (var questList in questLists)
             {
                 var giveQuestSo = questList.GetFirstGiveQuestAvailable(itemCollected);
+                if (giveQuestSo == null) return giveQuestSo;
+            }
+
+            return null;
+        }
+
+        public static GiveQuestSo GetValidGiveQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        {
+            var npc = talkQuestArgs.Npc;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not GiveQuestSo giveQuestSo) continue;
+                if (giveQuestSo.Npc == npc) return giveQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var giveQuestSo = questList.GetFirstGiveQuestWithNpc(npc);
                 if (giveQuestSo == null) return giveQuestSo;
             }
 

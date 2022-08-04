@@ -66,7 +66,7 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
 
-        public ListenQuestSo GetFirstTalkQuestWithNpc(NpcSo npc)
+        public ListenQuestSo GetFirstListenQuestWithNpc(NpcSo npc)
         {
             foreach (var quest in Quests)
             {
@@ -115,6 +115,32 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
 
+        public GiveQuestSo GetFirstGiveQuestWithNpc(NpcSo npc)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not GiveQuestSo giveQuestSo) continue;
+                if (giveQuestSo.Npc == npc)
+                {
+                    return giveQuestSo;
+                }
+            }
+            return null;        
+        }
+
+        public ExchangeQuestSo GetFirstExchangeQuestWithNpc(NpcSo npc)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ExchangeQuestSo exchangeQuestSo) continue;
+                if (exchangeQuestSo.Npc == npc)
+                {
+                    return exchangeQuestSo;
+                }
+            }
+            return null;        
+        }
+
         public ExchangeQuestSo GetFirstExchangeQuestAvailable(ItemSo itemType)
         {
             foreach (var quest in Quests)
@@ -124,6 +150,19 @@ namespace Game.NarrativeGenerator.Quests
                     return exchangeQuestSo;
             }
             return null;
+        }
+
+        public ReportQuestSo GetFirstReportQuestWithNpc(NpcSo npc)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ReportQuestSo ReportQuestSo) continue;
+                if (ReportQuestSo.Npc == npc)
+                {
+                    return ReportQuestSo;
+                }
+            }
+            return null;        
         }
 
         public QuestSo GetCurrentQuest()
