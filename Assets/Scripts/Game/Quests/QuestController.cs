@@ -71,6 +71,12 @@ namespace Game.Quests
                 case QuestGetItemEventArgs getItemEventArgs:
                     UpdateGetItemQuest(getItemEventArgs);
                     break;
+                case QuestDamageEnemyEventArgs damageQuestArgs:
+                    UpdateDamageQuest( damageQuestArgs );
+                    break;
+                case QuestExploreRoomEventArgs exploreQuestArgs:
+                    UpdateExploreQuest( exploreQuestArgs );
+                    break;
             }
         }
 
@@ -105,62 +111,135 @@ namespace Game.Quests
             if (!killQuestSo.CheckIfCompleted()) return;
             CompleteQuestAndRemoveFromOngoing(questList, killQuestSo);
         }
-        
+
+        #region Damage
+        private void UpdateDamageQuest ( QuestDamageEnemyEventArgs damageQuestArgs )
+        {
+            var enemyDamaged = damageQuestArgs.EnemyWeaponTypeSo;
+            var damage = damageQuestArgs.Damage;
+            var damageQuestSo = DamageQuestSo.GetValidDamageQuest( damageQuestArgs, questLists );
+            var questList = questLists.Find( x => x.Quests.Contains(damageQuestSo) );
+            if ( damageQuestSo == null )
+            {
+                Debug.Log($"$No damage Quests With This Enemy ({enemyDamaged}) Available");
+            }
+            UpdateValidDamageQuest(questList, damageQuestSo, enemyDamaged, damage);
+        }
+
+        private void UpdateValidDamageQuest(QuestList questList, DamageQuestSo damageQuestSo, WeaponTypeSO enemyDamaged, int damage)
+        {
+            damageQuestSo.SubtractDamage(enemyDamaged, damage);
+            if (!damageQuestSo.CheckIfCompleted()) return;
+            CompleteQuestAndRemoveFromOngoing(questList, damageQuestSo);
+        }
+        #endregion
+
+        #region Explore Quest
+        private void UpdateExploreQuest ( QuestExploreRoomEventArgs exploreQuestArgs )
+        {
+            var roomExplored = exploreQuestArgs.RoomCoordinates;
+            var exploreQuestSo = ExploreQuestSo.GetValidExploreQuest( exploreQuestArgs, questLists );
+            var questList = questLists.Find( x => x.Quests.Contains(exploreQuestSo) );
+            if ( exploreQuestSo == null )
+            {
+                Debug.Log($"$No Explore Quests With This Room ({roomExplored}) Available.");
+            }
+            exploreQuestSo.ExploreRoom( roomExplored );
+            if (!exploreQuestSo.CheckIfCompleted()) return;
+            CompleteQuestAndRemoveFromOngoing(questList, exploreQuestSo);
+        }
+        #endregion
+
+        #region GetItem
         private void UpdateGetItemQuest(QuestGetItemEventArgs getItemQuestArgs)
         {
             var itemCollected = getItemQuestArgs.ItemType;
-            foreach (var questList in questLists)
+            var gatherQuestSo = GatherQuestSo.GetValidGatherQuest( getItemQuestArgs, questLists );
+            if ( gatherQuestSo != null )
             {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ItemQuestSo getItemQuestSo) continue;
-                if (!getItemQuestSo.HasItemToCollect(itemCollected)) continue;
-                UpdateValidGetItemQuest(questList, getItemQuestSo, itemCollected);
+                var questList = questLists.Find( x => x.Quests.Contains(gatherQuestSo) );
+                UpdateValidGatherQuest(questList, gatherQuestSo, itemCollected);
                 return;
             }
 
-            foreach (var questList in questLists)
+            var giveQuestSo = GiveQuestSo.GetValidGiveQuest( getItemQuestArgs, questLists );
+            if ( giveQuestSo != null )
             {
-                var currentQuest = questList.GetFirstGetItemQuestWithEnemyAvailable(itemCollected);
-                if (currentQuest == null) continue;
-                UpdateValidGetItemQuest(questList, currentQuest, itemCollected);
+                var questList = questLists.Find( x => x.Quests.Contains(giveQuestSo) );
+                UpdateValidGiveQuest(questList, giveQuestSo, itemCollected);
                 return;
             }
+
+            var exchangeQuestSo = ExchangeQuestSo.GetValidExchangeQuest( getItemQuestArgs, questLists);
+            if ( exchangeQuestSo != null )
+            {
+                var questList = questLists.Find( x => x.Quests.Contains(exchangeQuestSo) );
+                UpdateValidExchangeQuest(questList, exchangeQuestSo, itemCollected);
+                return;
+            }
+
             Debug.Log($"$No Get Quests With This Item ({itemCollected}) Available.");
         }
+
+        private void UpdateValidExchangeQuest(QuestList questList, ExchangeQuestSo exchangeQuestSo, ItemSo itemCollected)
+        {
+            exchangeQuestSo.SubtractItem( itemCollected );
+            //Quest is only completed when talking to npc
+        }
+
+        private void UpdateValidGiveQuest(QuestList questList, GiveQuestSo giveQuestSo, ItemSo itemCollected)
+        {
+            giveQuestSo.CollectItem( itemCollected );
+            //Quest is only completed when talking to npc
+        }
         
-        private void UpdateValidGetItemQuest(QuestList questList, ItemQuestSo getQuestSo, ItemSo itemCollected)
+        private void UpdateValidGatherQuest(QuestList questList, GatherQuestSo getQuestSo, ItemSo itemCollected)
         {
             getQuestSo.SubtractItem(itemCollected);
             if (!getQuestSo.CheckIfCompleted()) return;
             CompleteQuestAndRemoveFromOngoing(questList, getQuestSo);
         }
-
+        #endregion
         
+        #region Listen
         private void UpdateTalkQuest(QuestTalkEventArgs talkQuestArgs)
         {
             var npcToTalk = talkQuestArgs.Npc;
-            foreach (var questList in questLists)
+            var listenQuestSo = ListenQuestSo.GetValidListenQuest( talkQuestArgs, questLists);
+            if ( listenQuestSo != null )
             {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ListenQuestSo ListenQuestSo) continue;
-                if (!(ListenQuestSo.Npc == npcToTalk)) continue;
-                CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
+                var questList = questLists.Find( x => x.Quests.Contains(listenQuestSo) );
+                CompleteQuestAndRemoveFromOngoing(questList, listenQuestSo );
                 return;
             }
 
-            foreach (var questList in questLists)
+            var reportQuestSo = ReportQuestSo.GetValidReportQuest( talkQuestArgs, questLists);
+            if ( reportQuestSo != null )
             {
-                var currentQuest = questList.GetFirstTalkQuestWithNpc(npcToTalk);
-                if (currentQuest == null) continue;
-                CompleteQuestAndRemoveFromOngoing(questList, currentQuest);
+                var questList = questLists.Find( x => x.Quests.Contains(reportQuestSo) );
+                CompleteQuestAndRemoveFromOngoing( questList, reportQuestSo );
                 return;
             }
+
+            var giveQuestSo = GiveQuestSo.GetValidGiveQuest( talkQuestArgs, questLists);
+            if ( giveQuestSo != null && giveQuestSo.CheckIfCanComplete() )
+            {
+                var questList = questLists.Find( x => x.Quests.Contains(giveQuestSo) );
+                CompleteQuestAndRemoveFromOngoing( questList, giveQuestSo );
+                return;
+            }
+
+            var exchangeQuestSo = ExchangeQuestSo.GetValidExchangeQuest( talkQuestArgs, questLists);
+            if ( exchangeQuestSo != null && exchangeQuestSo.CheckIfCanComplete() )
+            {
+                var questList = questLists.Find( x => x.Quests.Contains(exchangeQuestSo) );
+                CompleteQuestAndRemoveFromOngoing( questList, exchangeQuestSo );
+                return;
+            }
+
             Debug.Log($"No Talk Quests With This Npc ({npcToTalk}) Available");
         }
+        #endregion
 
         private void CompleteQuestAndRemoveFromOngoing(QuestList questList, QuestSo completedQuest)
         {

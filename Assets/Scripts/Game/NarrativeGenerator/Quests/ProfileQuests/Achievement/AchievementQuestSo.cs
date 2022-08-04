@@ -33,9 +33,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSo ( MarkovChain chain, List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            switch ( chain.GetLastSymbol().symbolType )
+            switch ( this.symbolType )
             {
                 case Constants.GATHER_QUEST:
                     CreateAndSaveGatherQuestSo(questSos, possibleItems);

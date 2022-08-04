@@ -3,6 +3,7 @@ using Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Quests;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -42,6 +43,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<ReportQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public static ReportQuestSo GetValidReportQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        {
+            var npc = talkQuestArgs.Npc;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not ReportQuestSo reportQuestSo) continue;
+                if (reportQuestSo.Npc == npc) return reportQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var reportQuestSo = questList.GetFirstReportQuestWithNpc(npc);
+                if (reportQuestSo == null) return reportQuestSo;
+            }
+
+            return null;
         }
     }
 }

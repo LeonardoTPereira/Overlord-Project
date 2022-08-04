@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 using System.Linq;
+using Game.Quests;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -43,6 +44,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<ItemQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public static GatherQuestSo GetValidGatherQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
+        {
+            var itemCollected = getItemQuestArgs.ItemType;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not GatherQuestSo gatherQuestSo) continue;
+                if (gatherQuestSo.HasItemToGather(itemCollected)) return gatherQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var gatherQuestSo = questList.GetFirstGetItemQuestWithEnemyAvailable(itemCollected);
+                if (gatherQuestSo == null) return gatherQuestSo;
+            }
+
+            return null;
         }
 
         public void AddItem(ItemSo item, int amount)

@@ -44,7 +44,7 @@ namespace Game.NarrativeGenerator.Quests
         public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
 
-        public virtual void DefineQuestSo ( MarkovChain chain, List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public virtual void DefineQuestSo ( List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
         }
 

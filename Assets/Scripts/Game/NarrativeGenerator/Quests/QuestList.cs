@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
+using Util;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -51,21 +52,21 @@ namespace Game.NarrativeGenerator.Quests
             return null;
         }
         
-        public ItemQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
+        public GatherQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
         {
             foreach (var quest in Quests)
             {
-                if (quest is not ItemQuestSo getQuestSo) continue;
-                if (!getQuestSo.ItemsToCollectByType.TryGetValue(itemType, out var itemCount)) continue;
+                if (quest is not GatherQuestSo gatherQuestSo) continue;
+                if (!gatherQuestSo.ItemsToGatherByType.TryGetValue(itemType, out var itemCount)) continue;
                 if (itemCount > 0)
                 {
-                    return getQuestSo;
+                    return gatherQuestSo;
                 }
             }
             return null;
         }
 
-        public ListenQuestSo GetFirstTalkQuestWithNpc(NpcSo npc)
+        public ListenQuestSo GetFirstListenQuestWithNpc(NpcSo npc)
         {
             foreach (var quest in Quests)
             {
@@ -73,6 +74,92 @@ namespace Game.NarrativeGenerator.Quests
                 if (ListenQuestSo.Npc == npc)
                 {
                     return ListenQuestSo;
+                }
+            }
+            return null;        
+        }
+
+        public DamageQuestSo GetFirstDamageQuestWithEnemyAvailable(WeaponTypeSO weaponTypeSo)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not DamageQuestSo damageQuestSo) continue;
+                if (!damageQuestSo.EnemiesToDamageByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo,
+                        out var enemyCount)) continue;
+                if (enemyCount > 0)
+                {
+                    return damageQuestSo;
+                }
+            }
+            return null;
+        }
+
+        public ExploreQuestSo GetFirstExploreQuestWithRoomAvailable(Coordinates roomCoordinates)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ExploreQuestSo exploreQuestSo) continue;
+                if (!exploreQuestSo.CheckIfCompleted()) return exploreQuestSo;
+            }
+            return null;
+        }
+
+        public GiveQuestSo GetFirstGiveQuestAvailable(ItemSo itemType)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not GiveQuestSo giveQuestSo) continue;
+                if (!giveQuestSo.HasItemToCollect(itemType)) continue;
+                    return giveQuestSo;
+            }
+            return null;
+        }
+
+        public GiveQuestSo GetFirstGiveQuestWithNpc(NpcSo npc)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not GiveQuestSo giveQuestSo) continue;
+                if (giveQuestSo.Npc == npc)
+                {
+                    return giveQuestSo;
+                }
+            }
+            return null;        
+        }
+
+        public ExchangeQuestSo GetFirstExchangeQuestWithNpc(NpcSo npc)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ExchangeQuestSo exchangeQuestSo) continue;
+                if (exchangeQuestSo.Npc == npc)
+                {
+                    return exchangeQuestSo;
+                }
+            }
+            return null;        
+        }
+
+        public ExchangeQuestSo GetFirstExchangeQuestAvailable(ItemSo itemType)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ExchangeQuestSo exchangeQuestSo) continue;
+                if (!exchangeQuestSo.HasItemToExchange(itemType)) continue;
+                    return exchangeQuestSo;
+            }
+            return null;
+        }
+
+        public ReportQuestSo GetFirstReportQuestWithNpc(NpcSo npc)
+        {
+            foreach (var quest in Quests)
+            {
+                if (quest is not ReportQuestSo ReportQuestSo) continue;
+                if (ReportQuestSo.Npc == npc)
+                {
+                    return ReportQuestSo;
                 }
             }
             return null;        

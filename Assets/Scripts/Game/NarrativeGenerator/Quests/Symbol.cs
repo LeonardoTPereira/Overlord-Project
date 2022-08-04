@@ -16,6 +16,6 @@ namespace Game.NarrativeGenerator.Quests
         public bool canDrawNext {get; set;}
         public void SetDictionary( Dictionary<string, Func<int,int>> _nextSymbolChances );
         public void SetNextSymbol ( MarkovChain chain );
-        public void DefineQuestSo ( MarkovChain chain, List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes );
+        public void DefineQuestSo ( List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes );
     }
 }

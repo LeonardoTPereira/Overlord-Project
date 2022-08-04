@@ -9,10 +9,11 @@ using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Game.Quests;
 
 namespace Game.LevelManager.DungeonManager
 {
-    public class RoomBhv : MonoBehaviour, ISoundEmitter
+    public class RoomBhv : MonoBehaviour, ISoundEmitter, IQuestElement
     {
 
         public static event StartRoomEvent StartRoomEventHandler;
@@ -60,6 +61,8 @@ namespace Game.LevelManager.DungeonManager
         private List<GameObject> _instantiatedEnemies;
 
         public static event EnterRoomEvent EnterRoomEventHandler;
+
+        public int QuestId { get; set; }
 
         private void Awake()
         {
@@ -330,6 +333,7 @@ namespace Game.LevelManager.DungeonManager
             }
             minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
             EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, roomData.Dimensions, enemiesDictionary, gameObject.transform.position));
+            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestExploreRoomEventArgs( roomData.Coordinates, QuestId ));
         }
 
         private void SetKeysToDoors()

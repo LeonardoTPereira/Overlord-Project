@@ -31,14 +31,14 @@ namespace Game.NarrativeGenerator
                 while ( questChain.GetLastSymbol().canDrawNext )
                 {
                     Symbol lastSelectedQuest = questChain.GetLastSymbol();
-                    lastSelectedQuest.NextSymbolChances = ProfileCalculator.StartSymbolWeights;
+                    lastSelectedQuest.SetDictionary( ProfileCalculator.StartSymbolWeights );
                     lastSelectedQuest.SetNextSymbol( questChain );
 
-                    Symbol newSymbol = questChain.GetLastSymbol();
-                    UpdateListContents( newSymbol );
-                    newSymbol.SetNextSymbol( questChain );
+                    Symbol nonTerminalSymbol = questChain.GetLastSymbol();
+                    UpdateListContents( nonTerminalSymbol );
+                    nonTerminalSymbol.SetNextSymbol( questChain );
 
-                    questChain.GetLastSymbol().DefineQuestSo( questChain, questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
+                    questChain.GetLastSymbol().DefineQuestSo( questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
                 }
                 questLine.Quests[^1].EndsStoryLine = true;
                 questLine.NpcInCharge = possibleNpcs.GetRandom();

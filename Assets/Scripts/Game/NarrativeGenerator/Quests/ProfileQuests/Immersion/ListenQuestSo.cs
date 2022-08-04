@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
+using Game.Quests;
+using Game.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -44,6 +46,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<ListenQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public static ListenQuestSo GetValidListenQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        {
+            var npc = talkQuestArgs.Npc;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not ListenQuestSo listenQuestSo) continue;
+                if (listenQuestSo.Npc == npc) return listenQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var listenQuestSo = questList.GetFirstListenQuestWithNpc(npc);
+                if (listenQuestSo == null) return listenQuestSo;
+            }
+
+            return null;
         }
     }
 }

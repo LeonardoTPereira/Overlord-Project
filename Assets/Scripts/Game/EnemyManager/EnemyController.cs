@@ -25,7 +25,7 @@ namespace Game.GameManager
 
         [field: SerializeField] protected MovementTypeSO Movement { get; set; }
         private BehaviorType behavior;
-        protected WeaponTypeSO EnemyWeapon { get; set; }
+        public WeaponTypeSO EnemyWeapon { get; protected set; }
         protected static readonly int DieTrigger = Animator.StringToHash("Die");
         private Animator _animator;
         

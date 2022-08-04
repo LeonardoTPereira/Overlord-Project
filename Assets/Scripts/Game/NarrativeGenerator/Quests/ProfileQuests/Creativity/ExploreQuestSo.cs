@@ -1,6 +1,7 @@
 using ScriptableObjects;
 using Util;
 using System;
+using Game.Quests;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
@@ -14,6 +15,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public int NumOfRoomsToExplore { get; set; }
+        protected List<Coordinates> exploredRooms = new List<Coordinates>();
 
         public override void Init()
         {
@@ -27,9 +29,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             NumOfRoomsToExplore = numOfRoomsToExplore;
         }
         
-        public void AddRoom(int numOfRoomsToExplore)
+        public void AddRoomsToExplore(int numOfRoomsToExplore)
         {
-            NumOfRoomsToExplore = numOfRoomsToExplore;
+            NumOfRoomsToExplore += numOfRoomsToExplore;
         }
         
         public override void Init(QuestSo copiedQuest)
@@ -45,14 +47,38 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public void ExploreRoom ()
+        public static ExploreQuestSo GetValidExploreQuest ( QuestExploreRoomEventArgs exploreQuestArgs, List<QuestList> questLists )
         {
-            NumOfRoomsToExplore--;
+            var exploreRoom = exploreQuestArgs.RoomCoordinates;
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetCurrentQuest();
+                if (currentQuest == null) continue;
+                if (currentQuest.IsCompleted) continue;
+                if (currentQuest is not ExploreQuestSo exploreQuestSo) continue;
+                if (!exploreQuestSo.CheckIfCompleted()) ;
+                    return exploreQuestSo;
+            }
+
+            foreach (var questList in questLists)
+            {
+                var currentQuest = questList.GetFirstExploreQuestWithRoomAvailable(exploreRoom);
+                if (currentQuest == null) 
+                    return currentQuest;
+            }
+            
+            return null;
+        }
+
+        public void ExploreRoom ( Coordinates roomCoordinates )
+        {
+            if ( !exploredRooms.Contains(roomCoordinates) )
+                exploredRooms.Add( roomCoordinates );
         }
 
         public bool CheckIfCompleted ()
         {
-            return NumOfRoomsToExplore > 0;
+            return NumOfRoomsToExplore <= exploredRooms.Count;
         }
     }
 }
