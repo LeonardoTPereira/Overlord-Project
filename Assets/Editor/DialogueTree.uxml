@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/DialogueTree.uss?fileID=7433441132597879392&amp;guid=bacc04401ce442e45b80724cb61766f9&amp;type=3#DialogueTree" />
+    <SplitView fixed-pane-initial-dimension="150">
+        <ui:VisualElement name="left-panel">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" focusable="false" enable-rich-text="true" style="background-color: rgba(38, 34, 34, 255);" />
+            <InspectorView style="flex-grow: 1; width: 149px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-panel">
+            <ui:Label text="TreeView" display-tooltip-when-elided="true" style="background-color: rgba(38, 34, 34, 255);" />
+            <DialogueTreeView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </SplitView>
+</ui:UXML>
