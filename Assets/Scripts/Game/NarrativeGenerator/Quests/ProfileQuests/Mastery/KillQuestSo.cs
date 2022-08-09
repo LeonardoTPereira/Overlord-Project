@@ -2,7 +2,6 @@
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
-using System.Linq;
 using Util;
 using UnityEngine;
 
@@ -14,10 +13,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField]
         public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
-        public override string symbolType {
-            get { return Constants.KILL_QUEST; }
-        }
-        
+        public override string SymbolType => Constants.KILL_QUEST;
+
         public override void Init()
         {
             base.Init();
@@ -40,9 +37,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(copiedQuest);
             EnemiesToKillByType = new EnemiesByType ();
-            foreach (var enemyByType in (copiedQuest as KillQuestSo).EnemiesToKillByType.EnemiesByTypeDictionary)
+            var killQuest = copiedQuest as KillQuestSo;
+            if (killQuest != null)
             {
-                EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
+                foreach (var enemyByType in killQuest.EnemiesToKillByType.EnemiesByTypeDictionary)
+                {
+                    EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
+                }
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(KillQuestSo)}, got type {copiedQuest.GetType()}");
             }
         }
         
@@ -52,45 +58,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             cloneQuest.Init(this);
             return cloneQuest;
         }
-        
-        public void AddEnemy(WeaponTypeSO enemy, int amount)
+
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            if (EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(enemy, out var currentAmount))
-            {
-                EnemiesToKillByType.EnemiesByTypeDictionary[enemy] = currentAmount + amount;
-            }
-            else
-            {
-                EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemy, amount);
-            }
-        }
-        
-        public void AddEnemy(float enemyFitness, int amount)
-        {
-            if (EnemiesToKillByFitness.TryGetValue(enemyFitness, out var currentAmount))
-            {
-                EnemiesToKillByFitness[enemyFitness] = currentAmount + amount;
-            }
-            else
-            {
-                EnemiesToKillByFitness.Add(enemyFitness, amount);
-            }
+            return !IsCompleted 
+                   &&  EnemiesToKillByType.EnemiesByTypeDictionary.ContainsKey(questElement as WeaponTypeSO 
+                   ?? throw new InvalidOperationException());
         }
 
-        public void SubtractEnemy(WeaponTypeSO weaponTypeSo)
+        public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            EnemiesToKillByType.EnemiesByTypeDictionary[weaponTypeSo]--;
-        }
-
-        public bool CheckIfCompleted()
-        {
-            return EnemiesToKillByType.EnemiesByTypeDictionary.All(enemyToKill => enemyToKill.Value == 0);
-        }
-
-        public bool HasEnemyToKill(WeaponTypeSO weaponTypeSo)
-        {
-            if (!EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo, out var killsLeft)) return false;
-            return killsLeft > 0;
+            EnemiesToKillByType.EnemiesByTypeDictionary.RemoveItemWithId(questElement as WeaponTypeSO, questId);
+            if ( EnemiesToKillByType.EnemiesByTypeDictionary.Count == 0)
+            {
+                IsCompleted = true;
+            }
         }
     }
 }

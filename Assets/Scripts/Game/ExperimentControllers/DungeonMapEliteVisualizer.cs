@@ -130,13 +130,13 @@ namespace Game.ExperimentControllers
         private string GetDungeonPrintAssetPath(DungeonFileSo dungeon)
         {
             
-            var parentDirectory = "Assets"+ Constants.SEPARATOR_CHARACTER + "Resources" + Constants.SEPARATOR_CHARACTER + "DungeonPrints";
+            var parentDirectory = "Assets"+ Constants.SeparatorCharacter + "Resources" + Constants.SeparatorCharacter + "DungeonPrints";
             var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredParameters.DesiredRooms
                                       +"_K_" +dungeon.FitnessFromEa.DesiredParameters.DesiredKeys
                                       +"_L_" +dungeon.FitnessFromEa.DesiredParameters.DesiredLocks
                                       +"_Lin_" +dungeon.FitnessFromEa.DesiredParameters.DesiredLinearity
                                       +"_E_" +dungeon.FitnessFromEa.DesiredParameters.DesiredEnemies;
-            if (!AssetDatabase.IsValidFolder(parentDirectory + Constants.SEPARATOR_CHARACTER + directoryPath))
+            if (!AssetDatabase.IsValidFolder(parentDirectory + Constants.SeparatorCharacter + directoryPath))
             {
                 AssetDatabase.CreateFolder(parentDirectory, directoryPath);
             }
@@ -145,8 +145,8 @@ namespace Game.ExperimentControllers
             Debug.Log("Enemies: " + dungeon.TotalEnemies);
             var leniencyBin = (int)(dungeon.LeniencyCoefficient * 10.00001f) % 6;
             var explorationBin = (int)(dungeon.ExplorationCoefficient * 10.00001f) % 5 + 1;
-            var assetPath = parentDirectory + Constants.SEPARATOR_CHARACTER + directoryPath +
-                            Constants.SEPARATOR_CHARACTER
+            var assetPath = parentDirectory + Constants.SeparatorCharacter + directoryPath +
+                            Constants.SeparatorCharacter
                             + "L." + leniencyBin + "E." + explorationBin;
             return assetPath;
         }

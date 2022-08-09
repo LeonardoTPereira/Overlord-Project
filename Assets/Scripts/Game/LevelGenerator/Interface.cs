@@ -117,24 +117,24 @@ namespace Game.LevelGenerator
             //If room is in (0,0) it is the starting one, we mark it with an "s" and save the "s"
             if (coordinates.X == 0 && coordinates.Y == 0)
             {
-                roomDataInFile.type = Constants.RoomTypeString.START;
+                roomDataInFile.type = Constants.RoomTypeString.Start;
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If it is a corridor, writes "c" in the file
             else if (roomType == Common.RoomType.CORRIDOR)
             {
-                roomDataInFile.type = Constants.RoomTypeString.CORRIDOR;
+                roomDataInFile.type = Constants.RoomTypeString.Corridor;
             }
             //If is the boss room, writes "B". Currently is where the Triforce is located
             else if (roomType == Common.RoomType.BOSS)
             {
-                roomDataInFile.type = Constants.RoomTypeString.BOSS;
+                roomDataInFile.type = Constants.RoomTypeString.Boss;
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If negative, is a locked corridor, save it as the negative number of the key that opens it
             else if (roomType < 0)
             {
-                roomDataInFile.type = Constants.RoomTypeString.LOCK;
+                roomDataInFile.type = Constants.RoomTypeString.Lock;
                 roomDataInFile.locks = new List<int>
                 {
                     roomType
@@ -144,7 +144,7 @@ namespace Game.LevelGenerator
             //TODO: change this as now every room may contain treasures, enemies and/or keys
             else if (roomType == Common.RoomType.TREASURE)
             {
-                roomDataInFile.type = Constants.RoomTypeString.TREASURE;
+                roomDataInFile.type = Constants.RoomTypeString.Treasure;
                 roomDataInFile.Treasures = 1;
                 roomDataInFile.Npcs = 1;
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
@@ -154,7 +154,7 @@ namespace Game.LevelGenerator
             else if (roomType > 0)
             {
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
-                roomDataInFile.type = Constants.RoomTypeString.KEY;
+                roomDataInFile.type = Constants.RoomTypeString.Key;
                 roomDataInFile.keys = new List<int>
                 {
                     roomType
@@ -163,7 +163,7 @@ namespace Game.LevelGenerator
             //If the cell was none of the above, it must be an empty room
             else
             {
-                roomDataInFile.type = Constants.RoomTypeString.NORMAL;
+                roomDataInFile.type = Constants.RoomTypeString.Normal;
                 roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
         }

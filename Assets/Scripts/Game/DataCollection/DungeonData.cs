@@ -387,14 +387,14 @@ namespace Game.DataCollection
         
         public void CreateJson()
         {
-            var dungeonFolder = _jsonPath + Constants.SEPARATOR_CHARACTER + LevelName;
+            var dungeonFolder = _jsonPath + Constants.SeparatorCharacter + LevelName;
             if (!Directory.Exists(dungeonFolder))
             {
                 Directory.CreateDirectory(dungeonFolder);
             }
-            var dungeonFile = dungeonFolder + Constants.SEPARATOR_CHARACTER +
+            var dungeonFile = dungeonFolder + Constants.SeparatorCharacter +
                               "DungeonData.json";
-            var roomFile = dungeonFolder + Constants.SEPARATOR_CHARACTER;
+            var roomFile = dungeonFolder + Constants.SeparatorCharacter;
             var roomFileEnding = "RoomData.json";
             var roomFileCounter = 0;
             if (File.Exists(roomFile+roomFileEnding))

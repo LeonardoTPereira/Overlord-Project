@@ -209,23 +209,23 @@ namespace Game.LevelManager.DungeonManager
             var xOffset = roomPosition.x;
             var yOffset = roomPosition.y;
 
-            var lowerHalfVer = (roomData.Dimensions.Height / Constants.nSpawnPointsHor);
-            var upperHalfVer = (3 * roomData.Dimensions.Height / Constants.nSpawnPointsHor);
-            var lowerHalfHor = (roomData.Dimensions.Width / Constants.nSpawnPointsVer);
-            var upperHalfHor = (3 * roomData.Dimensions.Width / Constants.nSpawnPointsVer);
-            var topHor = (Constants.distFromBorder +
-                          (roomData.Dimensions.Width * (Constants.nSpawnPointsVer - 1) / Constants.nSpawnPointsVer));
-            var topVer = (Constants.distFromBorder +
-                          (roomData.Dimensions.Height * (Constants.nSpawnPointsHor - 1) / Constants.nSpawnPointsHor));
+            var lowerHalfVer = (roomData.Dimensions.Height / Constants.NSpawnPointsHor);
+            var upperHalfVer = (3 * roomData.Dimensions.Height / Constants.NSpawnPointsHor);
+            var lowerHalfHor = (roomData.Dimensions.Width / Constants.NSpawnPointsVer);
+            var upperHalfHor = (3 * roomData.Dimensions.Width / Constants.NSpawnPointsVer);
+            var topHor = (Constants.DistFromBorder +
+                          (roomData.Dimensions.Width * (Constants.NSpawnPointsVer - 1) / Constants.NSpawnPointsVer));
+            var topVer = (Constants.DistFromBorder +
+                          (roomData.Dimensions.Height * (Constants.NSpawnPointsHor - 1) / Constants.NSpawnPointsHor));
 
             //Create spawn points avoiding the points close to doors.
-            for (var ix = Constants.distFromBorder;
-                 ix < (roomData.Dimensions.Width - Constants.distFromBorder);
-                 ix += (roomData.Dimensions.Width / Constants.nSpawnPointsVer))
+            for (var ix = Constants.DistFromBorder;
+                 ix < (roomData.Dimensions.Width - Constants.DistFromBorder);
+                 ix += (roomData.Dimensions.Width / Constants.NSpawnPointsVer))
             {
-                for (var iy = Constants.distFromBorder;
-                     iy < (roomData.Dimensions.Height - Constants.distFromBorder);
-                     iy += (roomData.Dimensions.Height / Constants.nSpawnPointsHor))
+                for (var iy = Constants.DistFromBorder;
+                     iy < (roomData.Dimensions.Height - Constants.DistFromBorder);
+                     iy += (roomData.Dimensions.Height / Constants.NSpawnPointsHor))
                 {
                     if (roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
                     // Calculate the spawn point 2D position (spx, spy)
@@ -235,12 +235,12 @@ namespace Game.LevelManager.DungeonManager
                     var point = new Vector3(spx, spy, 0);
 
                     // Add the calculated point to spawn point list
-                    if (ix <= Constants.distFromBorder || ix >= topHor)
+                    if (ix <= Constants.DistFromBorder || ix >= topHor)
                     {
                         if (iy >= lowerHalfVer && iy <= upperHalfVer) continue;
                         spawnPoints.Add(point);
                     }
-                    else if (iy <= Constants.distFromBorder || iy >= topVer)
+                    else if (iy <= Constants.DistFromBorder || iy >= topVer)
                     {
                         if (ix >= lowerHalfHor && ix <= upperHalfHor) continue;
                         spawnPoints.Add(point);
@@ -294,7 +294,7 @@ namespace Game.LevelManager.DungeonManager
             if (roomData.EnemiesByType == null) return;
             if (roomData.EnemiesByType.EnemiesByTypeDictionary.Count == 0) return;
             hasEnemies = true;
-            enemiesDictionary = EnemyLoader.GetEnemiesForRoom(roomData.EnemiesByType.EnemiesByTypeDictionary);
+            enemiesDictionary = roomData.EnemiesByType.GetEnemiesForRoom();
         }
 
         private void SpawnEnemies()
@@ -303,7 +303,7 @@ namespace Game.LevelManager.DungeonManager
             _instantiatedEnemies.Clear();
             foreach (var enemiesFromType in enemiesDictionary)
             {
-                for (var i = 0; i < enemiesFromType.Value; i++)
+                foreach (var questId in enemiesFromType.Value)
                 {
                     int actualSpawn;
                     if (selectedSpawnPoints.Count >= spawnPoints.Count)
@@ -316,8 +316,7 @@ namespace Game.LevelManager.DungeonManager
                     } while (selectedSpawnPoints.Contains(actualSpawn));
                     var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
-                        transform.rotation, enemiesFromType.Key);
-                    enemy.GetComponent<EnemyController>().SetRoom(this);
+                        transform.rotation, enemiesFromType.Key, questId);
                     _instantiatedEnemies.Add(enemy);
                     selectedSpawnPoints.Add(actualSpawn);
                 }
@@ -376,14 +375,15 @@ namespace Game.LevelManager.DungeonManager
                 PlaceTreasureInRoom(itemAmountPair.Key, itemAmountPair.Value);
             }
         }
-        private void PlaceTreasureInRoom(ItemSo item, int amount)
+        private void PlaceTreasureInRoom(ItemSo item, LinkedList<int> questIds)
         {
-            for (var i = 0; i < amount; i++)
+            foreach (var questId in questIds)
             {
                 GetAvailablePosition();
                 var treasure = Instantiate(treasurePrefab, transform);
                 treasure.Treasure = item;
                 treasure.transform.position = _availablePosition;
+                treasure.QuestId = questId;
             }
         }
 
@@ -431,11 +431,6 @@ namespace Game.LevelManager.DungeonManager
             var npcController = Instantiate(prefab, transform);
             GetAvailablePosition();
             npcController.transform.position = _availablePosition;
-        }
-
-        public void RemoveFromDictionary(WeaponTypeSO killedEnemyWeapon)
-        {
-            enemiesDictionary.RemoveEnemy(killedEnemyWeapon);
         }
 
         public void KillEnemies()

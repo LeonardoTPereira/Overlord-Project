@@ -11,12 +11,18 @@ namespace Game.EnemyManager
         [field: SerializeField] protected GameObject ShieldSpawn { get; set; }
         [field: SerializeField] protected GameObject SwordSpawn { get; set; }
         
-        public override void LoadEnemyData(EnemySO enemyData)
+        public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
-            if (enemyData.weapon.name == "Shield")
-                WeaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, ShieldSpawn.transform);
-            else if (enemyData.weapon.name == "Sword")
-                WeaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, SwordSpawn.transform);
+            base.LoadEnemyData(enemyData, questId);
+            switch (enemyData.weapon.name)
+            {
+                case "Shield":
+                    WeaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, ShieldSpawn.transform);
+                    break;
+                case "Sword":
+                    WeaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, SwordSpawn.transform);
+                    break;
+            }
         }
     }
 }

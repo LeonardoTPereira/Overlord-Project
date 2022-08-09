@@ -157,16 +157,16 @@ namespace Game.NarrativeGenerator
 #if UNITY_EDITOR
             // Build the target path
             var target = "Assets";
-            target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "Experiment";
-            var questLineFile = target + Constants.SEPARATOR_CHARACTER + profileName;
+            target += Constants.SeparatorCharacter + "Resources";
+            target += Constants.SeparatorCharacter + "Experiment";
+            var questLineFile = target + Constants.SeparatorCharacter + profileName;
             questLines.SaveAsset(questLineFile);
-            var newFolder = Constants.SEPARATOR_CHARACTER + profileName;
+            var newFolder = Constants.SeparatorCharacter + profileName;
             if (!AssetDatabase.IsValidFolder(target + newFolder))
             {
                 AssetDatabase.CreateFolder(target, newFolder);
             }
-            target += Constants.SEPARATOR_CHARACTER + newFolder;
+            target += Constants.SeparatorCharacter + newFolder;
             Quests.SaveAsset(target);
             questLines.AddQuestLine(Quests);
 

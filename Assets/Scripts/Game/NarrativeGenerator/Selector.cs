@@ -1,13 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using Game.NarrativeGenerator.Quests;
-// using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
 using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
-using UnityEngine;
 using Util;
-using System;
 
 namespace Game.NarrativeGenerator
 {
@@ -28,13 +24,13 @@ namespace Game.NarrativeGenerator
             {
                 var questLine = new QuestList();
                 MarkovChain questChain = new MarkovChain();
-                while ( questChain.GetLastSymbol().canDrawNext )
+                while ( questChain.GetLastSymbol().CanDrawNext )
                 {
-                    Symbol lastSelectedQuest = questChain.GetLastSymbol();
+                    ISymbol lastSelectedQuest = questChain.GetLastSymbol();
                     lastSelectedQuest.SetDictionary( ProfileCalculator.StartSymbolWeights );
                     lastSelectedQuest.SetNextSymbol( questChain );
 
-                    Symbol nonTerminalSymbol = questChain.GetLastSymbol();
+                    ISymbol nonTerminalSymbol = questChain.GetLastSymbol();
                     UpdateListContents( nonTerminalSymbol );
                     nonTerminalSymbol.SetNextSymbol( questChain );
 
@@ -51,15 +47,15 @@ namespace Game.NarrativeGenerator
 
         private void CreateQuestDict ()
         {
-            wasQuestAdded.Add(Constants.IMMERSION_QUEST, false);
-            wasQuestAdded.Add(Constants.ACHIEVEMENT_QUEST, false);
-            wasQuestAdded.Add(Constants.MASTERY_QUEST, false);
-            wasQuestAdded.Add(Constants.CREATIVITY_QUEST, false);
+            wasQuestAdded.Add(Constants.ImmersionQuest, false);
+            wasQuestAdded.Add(Constants.AchievementQuest, false);
+            wasQuestAdded.Add(Constants.MasteryQuest, false);
+            wasQuestAdded.Add(Constants.CreativityQuest, false);
         }
 
-        private void UpdateListContents ( Symbol lastQuest )
+        private void UpdateListContents ( ISymbol lastQuest )
         {
-            wasQuestAdded[lastQuest.symbolType] = true;
+            wasQuestAdded[lastQuest.SymbolType] = true;
         }
     }
 }

@@ -6,36 +6,32 @@ namespace Util
 {
     public static class Constants
     {
-        public static readonly char SEPARATOR_CHARACTER = Path.DirectorySeparatorChar;
-        //Array com cada cor de cada ID, para diferenciar chaves e fechaduras
-        public static Color[] colorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
-        public static float YellowHueShift = -0.33f;
-        public static float BlueHueShift = 0.5f;
-        public static float GreenHueShift = 0.0f;
-        public static float RedHueShift = -0.7f;
-        
+        public static readonly char SeparatorCharacter = Path.DirectorySeparatorChar;
+
+        public static readonly Color[] ColorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
+
         public static float LogNormalization(float value, float minValue, float maxValue, float minNormalized, float maxNormalized)
         {
             return (Mathf.Log(value - minValue) / Mathf.Log(maxValue - minValue)) * (maxNormalized - minNormalized);
         }
 
-        public const int nSpawnPointsVer = 4;
-        public const int nSpawnPointsHor = 4;
-        public const int distFromBorder = 1;
+        public const int NSpawnPointsVer = 4;
+        public const int NSpawnPointsHor = 4;
+        public const int DistFromBorder = 1;
 
-        public const int defaultRoomSizeX = 22;
-        public const int defaultRoomSizeY = 19;
+        public const int DefaultRoomSizeX = 22;
+        public const int DefaultRoomSizeY = 19;
 
         /// Define the room codes for printing purposes.
         public static class RoomTypeString
         {
-            public static readonly string CORRIDOR = "C";
-            public static readonly string LOCK = "L";
-            public static readonly string KEY = "K";
-            public static readonly string BOSS = "B";
-            public static readonly string TREASURE = "T";
-            public static readonly string START = "S";
-            public static readonly string NORMAL = "N";
+            public const string Corridor = "C";
+            public const string Lock = "L";
+            public const string Key = "K";
+            public const string Boss = "B";
+            public const string Treasure = "T";
+            public const string Start = "S";
+            public const string Normal = "N";
         }
 
         #region Terminal quest symbols
@@ -117,9 +113,9 @@ namespace Util
         };
         #endregion
 
-        public const string MASTERY_QUEST = "Mastery";
-        public const string ACHIEVEMENT_QUEST = "Achievement";
-        public const string CREATIVITY_QUEST = "Creativity";
-        public const string IMMERSION_QUEST = "Immersion";
+        public const string MasteryQuest = "Mastery";
+        public const string AchievementQuest = "Achievement";
+        public const string CreativityQuest = "Creativity";
+        public const string ImmersionQuest = "Immersion";
     }
 }

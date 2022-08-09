@@ -9,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests
 {
     public class MarkovChain
     {
-        public List<Symbol> symbolList = new List<Symbol>();
+        public List<ISymbol> symbolList = new List<ISymbol>();
         public int symbolNumber = 0;
 
         #region MarkovChain Implementation
@@ -20,8 +20,8 @@ namespace Game.NarrativeGenerator.Quests
         {
             symbolList.Add( ScriptableObject.CreateInstance<StartSymbol>() );
             symbolNumber = 0;
-            symbolList[0].canDrawNext = true;
-            symbolList[0].symbolType = Constants.START;
+            symbolList[0].CanDrawNext = true;
+            symbolList[0].SymbolType = Constants.START;
         }
 
         /// <summary>
@@ -32,19 +32,19 @@ namespace Game.NarrativeGenerator.Quests
             symbolNumber++;
             switch ( _symbol )
             {
-                case Constants.MASTERY_QUEST:
+                case Constants.MasteryQuest:
                     // symbolList.Add( new Kill() );
                     symbolList.Add( ScriptableObject.CreateInstance<MasteryQuestSo>() );
                 break;
-                case Constants.IMMERSION_QUEST:
+                case Constants.ImmersionQuest:
                     // symbolList.Add( new Talk() );
                     symbolList.Add( ScriptableObject.CreateInstance<ImmersionQuestSo>() );
                 break;
-                case Constants.ACHIEVEMENT_QUEST:
+                case Constants.AchievementQuest:
                     // symbolList.Add( new Get() );
                     symbolList.Add( ScriptableObject.CreateInstance<AchievementQuestSo>() );
                 break;
-                case Constants.CREATIVITY_QUEST:
+                case Constants.CreativityQuest:
                     // symbolList.Add( new Explore() );
                     symbolList.Add( ScriptableObject.CreateInstance<CreativityQuestSo>() );
                 break;
@@ -67,7 +67,7 @@ namespace Game.NarrativeGenerator.Quests
                     symbolList.Add( ScriptableObject.CreateInstance<ReportQuestSo>() );
                 break;
                 case Constants.GATHER_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<GetQuestSo>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<GatherQuestSo>() );
                 break;
                 case Constants.EXCHANGE_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ExchangeQuestSo>() );
@@ -88,7 +88,7 @@ namespace Game.NarrativeGenerator.Quests
         }
         #endregion
 
-        public Symbol GetLastSymbol ()
+        public ISymbol GetLastSymbol ()
         {
             return this.symbolList[symbolNumber];
         }

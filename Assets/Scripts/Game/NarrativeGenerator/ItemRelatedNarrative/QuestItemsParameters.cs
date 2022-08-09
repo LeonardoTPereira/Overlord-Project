@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
@@ -44,23 +41,10 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         {
             foreach (var dropItemData in quest.ItemsToCollectByType)
             {
-                AddItemsFromPairToDictionary(dropItemData);
-            }
-
-        }
-
-        private void AddItemsFromPairToDictionary(KeyValuePair<ItemSo, int> itemData)
-        {
-            var newItems = itemData.Value;
-            TotalItems += newItems;
-            TotalItemValue += itemData.Key.Value;
-            if (ItemsByType.ItemAmountBySo.TryGetValue(itemData.Key, out var enemiesForItem))
-            {
-                ItemsByType.ItemAmountBySo[itemData.Key] = enemiesForItem + newItems;
-            }
-            else
-            {
-                ItemsByType.ItemAmountBySo.Add(itemData.Key, newItems);
+                foreach (var questId in dropItemData.Value)
+                {
+                    dropItemData.AddItemWithId(dropItemData.Key, questId);
+                }            
             }
         }
 

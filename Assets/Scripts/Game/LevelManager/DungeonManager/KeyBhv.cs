@@ -17,7 +17,7 @@ namespace Game.LevelManager.DungeonManager
         {
             //Render the key sprite with the color relative to its ID
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            sr.color = Constants.colorId[KeyID - 1];
+            sr.color = Constants.ColorId[KeyID - 1];
             color = sr.color;
         }
 

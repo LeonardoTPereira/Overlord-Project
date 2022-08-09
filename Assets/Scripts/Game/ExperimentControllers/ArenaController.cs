@@ -29,7 +29,7 @@ namespace Game.ExperimentControllers
             var selectedSpawnPoints = new List<int>();
             foreach (var enemyByAmount in enemyByType)
             {
-                for (var i = 0; i < enemyByAmount.Value; i++)
+                foreach (var questId in enemyByAmount.Value)
                 {
                     int actualSpawn;
                     if (selectedSpawnPoints.Count >= spawnPoints.Count)
@@ -42,7 +42,7 @@ namespace Game.ExperimentControllers
                     } while (selectedSpawnPoints.Contains(actualSpawn));
                     var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
-                        transform.rotation, enemyByAmount.Key);
+                        transform.rotation, enemyByAmount.Key, -1);
                     selectedSpawnPoints.Add(actualSpawn);
                 }
             }

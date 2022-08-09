@@ -29,9 +29,9 @@ namespace Game.EnemyManager
             }
         }
         
-        public override void LoadEnemyData(EnemySO enemyData)
+        public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
-            base.LoadEnemyData(enemyData);
+            base.LoadEnemyData(enemyData, questId);
             switch (EnemyWeapon.name)
             {
                 case "Sword":

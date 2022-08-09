@@ -140,5 +140,5 @@ MonoBehaviour:
   frequency: 10
   magnitude: 1.5
   damage: 0
-  <ProjectileSo>k__BackingField: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
+  <ProjectileSo>k__BackingField: {fileID: 11400000, guid: adc39a0d43679ab4584a553a907ec5c1,
     type: 2}

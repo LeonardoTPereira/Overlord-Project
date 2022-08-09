@@ -9,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GotoQuestSo : CreativityQuestSo
     {
-        public override string symbolType {
+        public override string SymbolType {
             get { return Constants.GOTO_QUEST; }
         }
         public int SelectedRoomId { get; set; }

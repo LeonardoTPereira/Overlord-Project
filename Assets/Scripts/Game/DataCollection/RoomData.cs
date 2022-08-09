@@ -47,14 +47,14 @@ namespace Game.DataCollection
         {
             foreach (var enemies in EnemiesByAmount)
             {
-                NEnemies += enemies.Value;
+                NEnemies += enemies.Value.Count;
             }
         }
 
 #if UNITY_EDITOR
         public void CreateAsset(string assetPath, int revisitIndex)
         {
-            var fileName = assetPath + Constants.SEPARATOR_CHARACTER + "Room"+RoomId+"Data"+revisitIndex+".asset";
+            var fileName = assetPath + Constants.SeparatorCharacter + "Room"+RoomId+"Data"+revisitIndex+".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             EditorUtility.SetDirty(this);

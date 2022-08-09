@@ -6,7 +6,6 @@ using Game.LevelManager.DungeonLoader;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
-using MyBox;
 using ScriptableObjects;
 using Unity.Mathematics;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace Game.GameManager
     [Serializable]
     public class EnemyLoader : MonoBehaviour
     {
-        private static List<EnemySO> enemyListForCurrentDungeon;
+        private static List<EnemySO> _enemyListForCurrentDungeon;
         
         public GameObject enemyPrefab;
         public GameObject barehandEnemyPrefab;
@@ -48,56 +47,19 @@ namespace Game.GameManager
             while (selectedEnemies < enemiesInRoom)
             {
                 var selectedType = enemiesInQuestByType.GetRandom();
-                var maxPossibleNewEnemies = math.min(selectedType.Value, enemiesInRoom - selectedEnemies);
-                var newEnemies = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
-                
-                AddEnemiesInRoom(enemiesByType, selectedType.Key, newEnemies);
-                UpdateRemainingEnemiesInQuest(enemiesInQuestByType, selectedType.Key, newEnemies);
-
-                selectedEnemies += newEnemies;
+                var maxPossibleNewEnemies = math.min(selectedType.Value.Count, enemiesInRoom - selectedEnemies);
+                var newEnemiesCount = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
+                enemiesByType.AddNEnemiesFromType(selectedType, newEnemiesCount);
+                enemiesInQuestByType.RemoveCurrentTypeIfEmpty(selectedType.Key);
+                selectedEnemies += newEnemiesCount;
             } 
 
             return enemiesByType;
         }
 
-        private static void AddEnemiesInRoom(EnemiesByType enemiesByType, WeaponTypeSO selectedType, int newEnemies)
-        {
-            if (enemiesByType.EnemiesByTypeDictionary.TryGetValue(selectedType, out var enemiesForItem))
-            {
-                enemiesByType.EnemiesByTypeDictionary[selectedType] = enemiesForItem + newEnemies;
-            }
-            else
-            {
-                enemiesByType.EnemiesByTypeDictionary.Add(selectedType, newEnemies);
-            }
-        }
-
-        private static void UpdateRemainingEnemiesInQuest(EnemiesByType enemiesInQuestByType, 
-            WeaponTypeSO selectedType, int newEnemies)
-        {
-            if (enemiesInQuestByType.EnemiesByTypeDictionary.Count == 0)
-                throw new ArgumentException("Enemies in Quest cannot be an empty collection.", nameof(enemiesInQuestByType));
-            enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] -= newEnemies;
-            if (enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] <= 0)
-            {
-                enemiesInQuestByType.EnemiesByTypeDictionary.Remove(selectedType);
-            }
-        }
-
-        public static EnemyByAmountDictionary GetEnemiesForRoom(WeaponTypeAmountDictionary enemiesByType)
-        {
-            var enemiesBySo = new EnemyByAmountDictionary();
-            foreach (var enemyType in enemiesByType)
-            {
-                var selectedEnemy = GetRandomEnemyOfType(enemyType.Key);
-                enemiesBySo.Add(selectedEnemy, enemyType.Value);
-            }
-            return enemiesBySo;
-        }
-        
         public static void LoadEnemies(List<EnemySO> enemyList)
         {
-            enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
+            _enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
             ApplyDelegates();
         }
 
@@ -107,7 +69,7 @@ namespace Game.GameManager
             return currentEnemies[RandomSingleton.GetInstance().Next(0, currentEnemies.Count)];
         }
 
-        public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)
+        public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType, int questId)
         {
             EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
             GameObject enemy;
@@ -132,11 +94,11 @@ namespace Game.GameManager
             {
                 enemy = Instantiate(enemyPrefab, position, rotation);
             }
-            enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy);
+            enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy, questId);
             return enemy;
         }
     
-        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
+        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
             //TODO change to use weaponType in comparison
@@ -160,19 +122,19 @@ namespace Game.GameManager
             {
                 enemy = Instantiate(enemyPrefab, position, rotation);
             }
-            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo);
+            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
             return enemy;
         }
 
         private static List<EnemySO> GetEnemiesFromType(WeaponTypeSO weaponType)
         {
             //TODO create these lists only once per type on dungeon load
-            return enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
+            return _enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
         }
 
         private static void ApplyDelegates()
         {
-            foreach (var enemy in enemyListForCurrentDungeon)
+            foreach (var enemy in _enemyListForCurrentDungeon)
             {
                 enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
             }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
-using Util;
-using ScriptableObjects;
+using Game.Quests;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests
@@ -14,6 +12,7 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeReference] public List<QuestSo> Quests {get; set; }
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
+        public static event QuestCompletedEvent QuestCompletedEventHandler;
 
         public QuestList()
         {
@@ -36,133 +35,33 @@ namespace Game.NarrativeGenerator.Quests
             NpcInCharge = quests.NpcInCharge;
         }
    
-
-        public KillQuestSo GetFirstKillQuestWithEnemyAvailable(WeaponTypeSO weaponTypeSo)
+        public bool RemoveAvailableQuestWithId<T, U>(U questElement, int questId) where T : QuestSo
         {
             foreach (var quest in Quests)
             {
-                if (quest is not KillQuestSo killQuestSo) continue;
-                if (!killQuestSo.EnemiesToKillByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo,
-                        out var enemyCount)) continue;
-                if (enemyCount > 0)
+                if (quest is not T questSo) continue;
+                if (!questSo.HasAvailableElementWithId(questElement, questId)) continue;
+                questSo.RemoveElementWithId(questElement, questId);
+                if (questSo.IsCompleted && questSo == GetCurrentQuest())
                 {
-                    return killQuestSo;
+                    CloseCurrentQuest();
                 }
+
+                return true;
             }
-            return null;
-        }
-        
-        public GatherQuestSo GetFirstGetItemQuestWithEnemyAvailable(ItemSo itemType)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not GatherQuestSo gatherQuestSo) continue;
-                if (!gatherQuestSo.ItemsToGatherByType.TryGetValue(itemType, out var itemCount)) continue;
-                if (itemCount > 0)
-                {
-                    return gatherQuestSo;
-                }
-            }
-            return null;
+            return false;
         }
 
-        public ListenQuestSo GetFirstListenQuestWithNpc(NpcSo npc)
+        private void CloseCurrentQuest()
         {
-            foreach (var quest in Quests)
+            QuestSo currentQuest;
+            do
             {
-                if (quest is not ListenQuestSo ListenQuestSo) continue;
-                if (ListenQuestSo.Npc == npc)
-                {
-                    return ListenQuestSo;
-                }
-            }
-            return null;        
-        }
-
-        public DamageQuestSo GetFirstDamageQuestWithEnemyAvailable(WeaponTypeSO weaponTypeSo)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not DamageQuestSo damageQuestSo) continue;
-                if (!damageQuestSo.EnemiesToDamageByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo,
-                        out var enemyCount)) continue;
-                if (enemyCount > 0)
-                {
-                    return damageQuestSo;
-                }
-            }
-            return null;
-        }
-
-        public ExploreQuestSo GetFirstExploreQuestWithRoomAvailable(Coordinates roomCoordinates)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not ExploreQuestSo exploreQuestSo) continue;
-                if (!exploreQuestSo.CheckIfCompleted()) return exploreQuestSo;
-            }
-            return null;
-        }
-
-        public GiveQuestSo GetFirstGiveQuestAvailable(ItemSo itemType)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not GiveQuestSo giveQuestSo) continue;
-                if (!giveQuestSo.HasItemToCollect(itemType)) continue;
-                    return giveQuestSo;
-            }
-            return null;
-        }
-
-        public GiveQuestSo GetFirstGiveQuestWithNpc(NpcSo npc)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not GiveQuestSo giveQuestSo) continue;
-                if (giveQuestSo.Npc == npc)
-                {
-                    return giveQuestSo;
-                }
-            }
-            return null;        
-        }
-
-        public ExchangeQuestSo GetFirstExchangeQuestWithNpc(NpcSo npc)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not ExchangeQuestSo exchangeQuestSo) continue;
-                if (exchangeQuestSo.Npc == npc)
-                {
-                    return exchangeQuestSo;
-                }
-            }
-            return null;        
-        }
-
-        public ExchangeQuestSo GetFirstExchangeQuestAvailable(ItemSo itemType)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not ExchangeQuestSo exchangeQuestSo) continue;
-                if (!exchangeQuestSo.HasItemToExchange(itemType)) continue;
-                    return exchangeQuestSo;
-            }
-            return null;
-        }
-
-        public ReportQuestSo GetFirstReportQuestWithNpc(NpcSo npc)
-        {
-            foreach (var quest in Quests)
-            {
-                if (quest is not ReportQuestSo ReportQuestSo) continue;
-                if (ReportQuestSo.Npc == npc)
-                {
-                    return ReportQuestSo;
-                }
-            }
-            return null;        
+                currentQuest = GetCurrentQuest();
+                QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
+                currentQuest.IsClosed = true;
+                CurrentQuestIndex++;
+            } while (currentQuest.IsCompleted);
         }
 
         public QuestSo GetCurrentQuest()

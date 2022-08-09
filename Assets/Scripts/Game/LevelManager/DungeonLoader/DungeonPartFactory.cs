@@ -15,12 +15,12 @@ namespace Game.LevelManager.DungeonLoader
 
         public static DungeonPart CreateDungeonCorridorFromEACorridor(Coordinates coordinates, string partCode, List<int> lockIDs)
         {
-            return partCode == Constants.RoomTypeString.CORRIDOR ? new DungeonCorridor(coordinates, partCode) : new DungeonLockedCorridor(coordinates, lockIDs);
+            return partCode == Constants.RoomTypeString.Corridor ? new DungeonCorridor(coordinates, partCode) : new DungeonLockedCorridor(coordinates, lockIDs);
         }
 
         public static DungeonPart CreateDungeonPartFromDungeonFileSO(SORoom dungeonRoom)
         {
-            if (dungeonRoom.type?.Equals(Constants.RoomTypeString.CORRIDOR) ?? false)
+            if (dungeonRoom.type?.Equals(Constants.RoomTypeString.Corridor) ?? false)
                 return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
             if ((dungeonRoom.locks?.Count ?? 0) == 0)
                 return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom.keys ?? new List<int>(),

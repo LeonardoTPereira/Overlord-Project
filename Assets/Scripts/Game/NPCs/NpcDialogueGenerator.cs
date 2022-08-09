@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using UnityEngine;
 
 namespace Game.NPCs
 {

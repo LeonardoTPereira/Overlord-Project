@@ -3,14 +3,12 @@ using Util;
 using System;
 using Game.Quests;
 using System.Collections.Generic;
-using UnityEngine;
-using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExploreQuestSo : CreativityQuestSo
     {
-        public override string symbolType {
+        public override string SymbolType {
             get { return Constants.EXPLORE_QUEST; }
         }
 
@@ -45,6 +43,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<ExploreQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
+        {
+            return !IsCompleted 
+                   && .ContainsKey(questElement as ItemSo ?? throw new InvalidOperationException());
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            ItemsToExchangeByType.RemoveItemWithId(questElement as ItemSo, questId);
         }
 
         public static ExploreQuestSo GetValidExploreQuest ( QuestExploreRoomEventArgs exploreQuestArgs, List<QuestList> questLists )

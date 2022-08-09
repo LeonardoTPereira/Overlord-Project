@@ -69,7 +69,7 @@ namespace Game.GameManager
                 // Set heart sprite
                 var keyImageUI = keyGameObject.GetComponent<Image>();
                 keyImageUI.sprite = keySprite;
-                keyImageUI.color = Constants.colorId[playerKeys[i] - 1];
+                keyImageUI.color = Constants.ColorId[playerKeys[i] - 1];
 
 
                 keyList.Add(keyImageUI);

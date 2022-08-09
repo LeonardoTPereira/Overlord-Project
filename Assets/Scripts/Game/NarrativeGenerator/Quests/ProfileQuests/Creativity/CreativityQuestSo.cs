@@ -4,17 +4,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
-using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class CreativityQuestSo : QuestSo
+    public abstract class CreativityQuestSo : QuestSo
     {
-        public override string symbolType {
-            get { return Constants.CREATIVITY_QUEST; }
-        }
+        public override string SymbolType => Constants.CreativityQuest;
+
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
@@ -22,10 +18,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 if ( nextSymbolChances != null )
                     return nextSymbolChances;
 
-                Dictionary<string, Func<int, int>> creativityQuestWeights = new Dictionary<string, Func<int, int>>();
-                creativityQuestWeights.Add( Constants.EXPLORE_QUEST, Constants.TwoOptionQuestLineWeight );
-                creativityQuestWeights.Add( Constants.GOTO_QUEST, Constants.TwoOptionQuestLineWeight );
-                creativityQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
+                var creativityQuestWeights = new Dictionary<string, Func<int, int>>
+                {
+                    {Constants.EXPLORE_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.GOTO_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
+                };
                 return creativityQuestWeights;
 
             } 
@@ -33,7 +31,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            switch ( this.symbolType )
+            switch ( SymbolType )
             {
                 case Constants.EXPLORE_QUEST:
                     CreateAndSaveExploreQuestSo(questSos);
@@ -47,9 +45,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public static void CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
+
+
+        private static void CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
         {
-            var exploreQuest = ScriptableObject.CreateInstance<ExploreQuestSo>();
+            var exploreQuest = CreateInstance<ExploreQuestSo>();
             var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(10) + 3;
             exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
             
@@ -61,7 +61,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             questSos.Add(exploreQuest);
         }
 
-        public static void CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
+        private static void CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
             var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
             //TODO verify if there's a way to mark the room in the minimap/get a rooms name here

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonTerminals
 {
-    public class StartSymbol : QuestSo
+    public abstract class StartSymbol : QuestSo
     {
     }
 }

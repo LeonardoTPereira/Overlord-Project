@@ -90,14 +90,14 @@ namespace Game.NarrativeGenerator.Quests
         public void SaveAsset(string directory)
         {
 #if UNITY_EDITOR
-            var newDirectory = Constants.SEPARATOR_CHARACTER + "QuestLine";
+            var newDirectory = Constants.SeparatorCharacter + "QuestLine";
             var guid = AssetDatabase.CreateFolder(directory, newDirectory);
             newDirectory = AssetDatabase.GUIDToAssetPath(guid);
             CreateAssetsForQuests(newDirectory);
             CreateAssetsForDungeons(newDirectory);
             CreateAssetsForEnemies(newDirectory);
             const string extension = ".asset";
-            var fileName = newDirectory+ Constants.SEPARATOR_CHARACTER +"Narrative_" + questLines[0] + extension;
+            var fileName = newDirectory+ Constants.SeparatorCharacter +"Narrative_" + questLines[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             AssetDatabase.Refresh();
