@@ -1,20 +1,20 @@
-using System;
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using UnityEditor.Callbacks;
 
 
-public class TextTreeEditor : EditorWindow
+public class DialogueTreeEditor : EditorWindow
 {
     DialogueTreeView treeView;
     InspectorView inspectorView;
 
-    [MenuItem("TextTreeEditor/Editor ...")]
+    [MenuItem("Window/UI Toolkit/DialogueTreeEditor")]
     public static void OpenWindow()
     {
-        TextTreeEditor wnd = GetWindow<TextTreeEditor>();
-        wnd.titleContent = new GUIContent("TextTreeEditor");
+        DialogueTreeEditor wnd = GetWindow<DialogueTreeEditor>();
+        wnd.titleContent = new GUIContent("DialogueTreeEditor");
     }
 
     [OnOpenAsset]
@@ -34,12 +34,12 @@ public class TextTreeEditor : EditorWindow
         VisualElement root = rootVisualElement;
 
         // Import UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/BaseUxml.uxml");
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/DialogueTreeEditor.uxml");
         visualTree.CloneTree(root);
 
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/TextTreeEditor.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
 
         treeView = root.Q<DialogueTreeView>();
@@ -47,37 +47,6 @@ public class TextTreeEditor : EditorWindow
         treeView.OnNodeSelected = OnNodeSelectionChanged;
         OnSelectionChange();
     }
-
-    private void OnEnable()
-    {
-        EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-        EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-    }
-
-    private void OnDisable()
-    {
-        EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-    }
-
-    private void OnPlayModeStateChanged(PlayModeStateChange obj)
-    {
-        switch (obj)
-        {
-            case PlayModeStateChange.EnteredEditMode:
-                OnSelectionChange();
-                break;
-            case PlayModeStateChange.ExitingEditMode:
-                break;
-            case PlayModeStateChange.EnteredPlayMode:
-                OnSelectionChange();
-                break;
-            case PlayModeStateChange.ExitingPlayMode:
-                break;
-            default:
-                break;
-        }
-    }
-
 
     private void OnSelectionChange()
     {
@@ -110,6 +79,25 @@ public class TextTreeEditor : EditorWindow
             }
         }
 
+    }
+
+    private void OnPlayModeStateChanged(PlayModeStateChange obj)
+    {
+        switch (obj)
+        {
+            case PlayModeStateChange.EnteredEditMode:
+                OnSelectionChange();
+                break;
+            case PlayModeStateChange.ExitingEditMode:
+                break;
+            case PlayModeStateChange.EnteredPlayMode:
+                OnSelectionChange();
+                break;
+            case PlayModeStateChange.ExitingPlayMode:
+                break;
+            default:
+                break;
+        }
     }
 
     void OnNodeSelectionChanged(NodeView node)

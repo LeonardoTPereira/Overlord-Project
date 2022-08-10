@@ -1,17 +1,17 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using System;
-using System.Linq;
 
 public class DialogueTreeView : GraphView
 {
     public Action<NodeView> OnNodeSelected;
-
-    public new class UxmlFactory : UxmlFactory<DialogueTreeView, GraphView.UxmlTraits> { }
     DialogueTree tree;
+    public new class UxmlFactory : UxmlFactory<DialogueTreeView, GraphView.UxmlTraits> { }
     public DialogueTreeView()
     {
         Insert(0, new GridBackground());
@@ -21,8 +21,9 @@ public class DialogueTreeView : GraphView
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
 
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/TextTreeEditor.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueTreeEditor.uss");
         styleSheets.Add(styleSheet);
+
     }
 
     NodeView FindNodeView(Node node)
@@ -48,7 +49,7 @@ public class DialogueTreeView : GraphView
         //creates node view
         tree.nodes.ForEach(n => CreateNodeView(n));
 
-        //creat the edges
+        //creates the edges
         tree.nodes.ForEach(n =>
         {
             var children = tree.GetChildren(n);
@@ -145,4 +146,3 @@ public class DialogueTreeView : GraphView
         AddElement(nodeView);
     }
 }
-

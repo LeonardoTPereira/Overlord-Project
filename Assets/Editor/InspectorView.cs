@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +8,7 @@ public class InspectorView : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> { }
 
-    /******** will use this when we have the tree nodes ********/
-
-    //Editor _editor;
-
+    //Editor editor; // "Editor é um namespace, mas está sendo usado como um tipo" why is this happening?????
     //public InspectorView()
     //{
 
@@ -21,10 +17,10 @@ public class InspectorView : VisualElement
     //internal void UpdateNodeSelection(NodeView nodeView)
     //{
     //    Clear();
-    //    UnityEngine.Object.DestroyImmediate(_editor);
-    //    _editor = Editor.CreateEditor(nodeView.node);
+    //    UnityEngine.Object.DestroyImmediate(editor);
+    //    editor = Editor.CreateEditor(nodeView.node);
 
-    //    IMGUIContainer container = new IMGUIContainer(() => { _editor.OnInspectorGUI(); });
+    //    IMGUIContainer container = new IMGUIContainer(() => { editor.OnInspectorGUI(); });
     //    Add(container);
     //}
 }

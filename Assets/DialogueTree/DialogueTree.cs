@@ -119,7 +119,7 @@ public class DialogueTree : ScriptableObject
         }
     }
 
-    //clone thetree so if there is more than one game object with the same tree, each one works independently
+    //clone the tree so if there is more than one game object with the same tree, each one works independently
     public DialogueTree Clone()
     {
         DialogueTree tree = Instantiate(this);
