@@ -2,6 +2,7 @@
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
+using System.Text;
 using Util;
 using UnityEngine;
 
@@ -74,5 +75,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 IsCompleted = true;
             }
         }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
+            {
+                stringBuilder.Append($"{enemyByAmount.Value.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            return stringBuilder.ToString();
+        }
+        
     }
 }

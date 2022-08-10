@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
@@ -86,24 +85,22 @@ namespace Game.NarrativeGenerator.Quests
             return cloneQuest;
         }
         
-        public void SetDictionary(Dictionary<string, Func<int,int>> nextSymbolChances  )
+        public void SetDictionary(Dictionary<string, Func<int,int>> symbolChances)
         {
-            this.nextSymbolChances = nextSymbolChances;
+            nextSymbolChances = symbolChances;
         }
 
         public void SetNextSymbol(MarkovChain chain)
         {
-            int chance = RandomSingleton.GetInstance().Next(0, 100);
-            int cumulativeProbability = 0;
-            foreach ( KeyValuePair<string, Func<int,int>> nextSymbolChance in NextSymbolChances )
+            var chance = RandomSingleton.GetInstance().Next(0, 100);
+            var cumulativeProbability = 0;
+            foreach ( var nextSymbolChance in NextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
-                if ( cumulativeProbability >= chance )
-                {
-                    string nextSymbol = nextSymbolChance.Key;
-                    chain.SetSymbol( nextSymbol );
-                    break;
-                }
+                if (cumulativeProbability < chance) continue;
+                var nextSymbol = nextSymbolChance.Key;
+                chain.SetSymbol( nextSymbol );
+                break;
             }
         }
 
@@ -122,17 +119,6 @@ namespace Game.NarrativeGenerator.Quests
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             #endif
-        }
-
-        public bool IsKillQuest()
-        {
-            return typeof(KillQuestSo).IsAssignableFrom(GetType());
-        }
-
-        
-        public bool IsTalkQuest()
-        {
-            return typeof(ListenQuestSo).IsAssignableFrom(GetType());
         }
 
         public abstract bool HasAvailableElementWithId<T>(T questElement, int questId);

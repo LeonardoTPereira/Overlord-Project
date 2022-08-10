@@ -1,6 +1,7 @@
 using ScriptableObjects;
 using Util;
 using System;
+using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField] public ItemAmountDictionary ItemsToGatherByType { get; set; }
         public override string SymbolType {
             get { return Constants.GATHER_QUEST; }
+        }
+
+        public override ItemAmountDictionary GetItemDictionary()
+        {
+            return ItemsToGatherByType;
         }
 
         public override void Init()
@@ -61,6 +67,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 IsCompleted = true;
             }
+        }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var itemByAmount in ItemsToGatherByType)
+            {
+                stringBuilder.Append($"{itemByAmount.Value.Count} {itemByAmount.Key.ItemName}s, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            return stringBuilder.ToString();
         }
     }
 }

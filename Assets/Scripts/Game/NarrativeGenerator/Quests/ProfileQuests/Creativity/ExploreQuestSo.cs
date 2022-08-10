@@ -1,41 +1,43 @@
-using ScriptableObjects;
 using Util;
 using System;
-using Game.Quests;
 using System.Collections.Generic;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExploreQuestSo : CreativityQuestSo
     {
-        public override string SymbolType {
-            get { return Constants.EXPLORE_QUEST; }
-        }
+        public override string SymbolType => Constants.EXPLORE_QUEST;
 
         public int NumOfRoomsToExplore { get; set; }
-        protected List<Coordinates> exploredRooms = new List<Coordinates>();
+        private List<Coordinates> _exploredRooms;
 
         public override void Init()
         {
             base.Init();
+            _exploredRooms = new List<Coordinates>();
             NumOfRoomsToExplore = 0;
         }
 
         public void Init(string questName, bool endsStoryLine, QuestSo previous, int numOfRoomsToExplore)
         {
             base.Init(questName, endsStoryLine, previous);
+            _exploredRooms = new List<Coordinates>();
             NumOfRoomsToExplore = numOfRoomsToExplore;
         }
-        
-        public void AddRoomsToExplore(int numOfRoomsToExplore)
-        {
-            NumOfRoomsToExplore += numOfRoomsToExplore;
-        }
-        
+
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            NumOfRoomsToExplore = (copiedQuest as ExploreQuestSo).NumOfRoomsToExplore;
+            var exploreQuestSo = copiedQuest as ExploreQuestSo;
+            if (exploreQuestSo != null)
+            {
+                NumOfRoomsToExplore = exploreQuestSo.NumOfRoomsToExplore;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(ExploreQuestSo)}, got type {copiedQuest.GetType()}");
+            }
         }
         
         public override QuestSo Clone()
@@ -47,47 +49,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted 
-                   && .ContainsKey(questElement as ItemSo ?? throw new InvalidOperationException());
+            return !IsCompleted
+                   && !_exploredRooms.Contains(questElement as Coordinates ?? throw new InvalidOperationException());
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            ItemsToExchangeByType.RemoveItemWithId(questElement as ItemSo, questId);
-        }
-
-        public static ExploreQuestSo GetValidExploreQuest ( QuestExploreRoomEventArgs exploreQuestArgs, List<QuestList> questLists )
-        {
-            var exploreRoom = exploreQuestArgs.RoomCoordinates;
-            foreach (var questList in questLists)
+            _exploredRooms.Add(questElement as Coordinates ?? throw new InvalidOperationException());
+            if (_exploredRooms.Count == NumOfRoomsToExplore)
             {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ExploreQuestSo exploreQuestSo) continue;
-                if (!exploreQuestSo.CheckIfCompleted()) ;
-                    return exploreQuestSo;
+                IsCompleted = true;
             }
-
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetFirstExploreQuestWithRoomAvailable(exploreRoom);
-                if (currentQuest == null) 
-                    return currentQuest;
-            }
-            
-            return null;
         }
 
-        public void ExploreRoom ( Coordinates roomCoordinates )
+        public override string ToString()
         {
-            if ( !exploredRooms.Contains(roomCoordinates) )
-                exploredRooms.Add( roomCoordinates );
-        }
-
-        public bool CheckIfCompleted ()
-        {
-            return NumOfRoomsToExplore <= exploredRooms.Count;
+            return $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
         }
     }
 }

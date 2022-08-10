@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
 using Util;
 using static Util.Enums;
@@ -10,16 +11,14 @@ namespace Game.NarrativeGenerator
     [Serializable]
     public class QuestDungeonsParameters
     {
-        [SerializeField]
-        private int _size = 0;
-        public int Size
-        {
-            get => _size;
-            set => _size = value;
-        }
+        [field: SerializeField] public int Size { get; set; }
+        private int _creativityQuests;
+        private int _achievementQuests;
+        private int _immersionQuests;
+        private int _masteryQuests;
 
         [field: SerializeField]
-        public int NKeys { get; set; } = 0;
+        public int NKeys { get; set; }
         [field: SerializeField]
         public int LinearityEnum { get; set; }
 
@@ -37,28 +36,60 @@ namespace Game.NarrativeGenerator
 
         public float GetLinearity()
         {
-            return DungeonLinearityConverter.ToFloat((DungeonLinearity)LinearityEnum);
+            return ((DungeonLinearity)LinearityEnum).ToFloat();
         }
 
         public void CalculateDungeonParametersFromQuests(QuestLine quests, float explorationPreference)
         {
-            Size = GetSizeFromEnum(quests.questLines.Count, explorationPreference);
-            var explorationQuests = 0;
-            var objectiveQuests = 0;
             foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
             {
-                if (quest.IsExplorationQuest())
-                {
-                    explorationQuests++;
-                    objectiveQuests++;
-                }
-                else if (quest.IsTalkQuest())
-                {
-                    explorationQuests++;
-                }
+                AddQuestTypeToCounter(quest);
             }
-            LinearityEnum = GetLinearityFromEnum(explorationQuests);
-            NKeys = GetNKeys(objectiveQuests);
+
+            var totalQuests = CalculateTotal();
+            var linearityCoefficient = CalculateLinearity(totalQuests);
+            var sizeCoefficient = CalculateSize(totalQuests);
+            Size = GetSizeFromEnum(sizeCoefficient, explorationPreference);
+            LinearityEnum = GetLinearityFromEnum(linearityCoefficient);
+            NKeys = GetNKeys(_creativityQuests);
+        }
+
+        private int CalculateTotal()
+        {
+            return _creativityQuests + _masteryQuests + _immersionQuests + _achievementQuests;
+        }
+
+        private int CalculateSize(int totalQuests)
+        {
+            return _creativityQuests/totalQuests;
+        }
+
+        private int CalculateLinearity(int totalQuests)
+        {
+            return _creativityQuests/totalQuests;
+        }
+
+        private void AddQuestTypeToCounter(QuestSo questSo)
+        {
+            switch (questSo)
+            {
+                case AchievementQuestSo:
+                    _achievementQuests++;
+                    break;
+                case CreativityQuestSo:
+                    _creativityQuests++;
+                    break;
+                case ImmersionQuestSo:
+                    _immersionQuests++;
+                    break;
+                case MasteryQuestSo:
+                    _masteryQuests++;
+                    break;
+                default:
+                    Debug.LogError($"No quest type for this quest {questSo.GetType()} " +
+                                   "was found to create dialogue");
+                    break;
+            }
         }
 
         private int GetSizeFromEnum(int totalQuests, float explorationPreference)
@@ -82,7 +113,7 @@ namespace Game.NarrativeGenerator
 
         private int GetLinearityFromEnum(int linearityMetric)
         {
-            var linearityCoefficient = linearityMetric/(float)Size;
+            var linearityCoefficient = linearityMetric;
             if (linearityCoefficient < 0.2f)
             {
                 return (int)DungeonLinearity.VeryLinear;
@@ -104,7 +135,7 @@ namespace Game.NarrativeGenerator
 
         private int GetNKeys(int objectiveQuests)
         {
-            var achievementCoefficient = (objectiveQuests + 1) / (float) Size;
+            var achievementCoefficient = objectiveQuests;
             if (achievementCoefficient < 0.2f)
             {
                 return (int)DungeonKeys.AFewKeys;

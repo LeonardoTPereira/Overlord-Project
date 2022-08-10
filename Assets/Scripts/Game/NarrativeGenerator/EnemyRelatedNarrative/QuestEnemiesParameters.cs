@@ -80,9 +80,9 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         
         private void AddEnemiesWhenEnemyQuest(QuestSo quest)
         {
-            if (quest.IsKillQuest())
+            if (quest is KillQuestSo killQuestSo)
             {
-                AddEnemies((KillQuestSo) quest);
+                AddEnemies(killQuestSo);
             }
         }
 

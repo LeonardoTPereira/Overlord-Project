@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
@@ -25,25 +26,27 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         {
             foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
             {
-                AddItemWhenItemQuest(quest);
+                AddItemWhenAchievementQuest(quest);
             }
         }
 
-        private void AddItemWhenItemQuest(QuestSo quest)
+        private void AddItemWhenAchievementQuest(QuestSo quest)
         {
-            if (quest.IsItemQuest())
+            var achievementQuestSo = quest as AchievementQuestSo;
+            if (achievementQuestSo != null)
             {
-                AddItems((ItemQuestSo) quest);
+                AddItems(achievementQuestSo);
             }
         }
 
-        private void AddItems(ItemQuestSo quest)
+        private void AddItems(AchievementQuestSo quest)
         {
-            foreach (var dropItemData in quest.ItemsToCollectByType)
+            var itemDictionary = quest.GetItemDictionary();
+            foreach (var dropItemData in itemDictionary)
             {
                 foreach (var questId in dropItemData.Value)
                 {
-                    dropItemData.AddItemWithId(dropItemData.Key, questId);
+                    ItemsByType.ItemAmountBySo.AddItemWithId(dropItemData.Key, questId);
                 }            
             }
         }

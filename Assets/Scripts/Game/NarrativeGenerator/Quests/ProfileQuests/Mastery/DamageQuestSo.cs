@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using ScriptableObjects;
 using Util;
 using UnityEngine;
@@ -59,5 +60,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 IsCompleted = true;
             }
         }
+        public override string ToString()
+        {
+            return $"{DamageData.Enemy.EnemyTypeName} and give {DamageData.Damage} damage to it.\n";
+        }
+        
     }
 }

@@ -1,6 +1,7 @@
 using ScriptableObjects;
 using Util;
 using System;
+using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 using Game.NPCs;
@@ -12,6 +13,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
 
         public override string SymbolType => Constants.EXCHANGE_QUEST;
+        public override ItemAmountDictionary GetItemDictionary()
+        {
+            return ItemsToExchangeByType;
+        }
 
         [field: SerializeField] public ItemAmountDictionary ItemsToExchangeByType { get; set; }
         public ItemSo ReceivedItem { get; set; }
@@ -74,6 +79,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 IsCompleted = true;
             }
+        }
+        
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var itemByAmount in ItemsToExchangeByType)
+            {
+                stringBuilder.Append($"{itemByAmount.Value.Count} {itemByAmount.Key.ItemName}s, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            stringBuilder.Append($" with {Npc.NpcName}.\n");
+            return stringBuilder.ToString();
         }
     }
 }

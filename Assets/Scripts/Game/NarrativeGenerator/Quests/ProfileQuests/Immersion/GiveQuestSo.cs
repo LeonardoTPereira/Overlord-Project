@@ -72,5 +72,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             return _hasItemToCollect;
         }
+
+        public override string ToString()
+        {
+            return $"the item {GiveQuestData.ItemToGive.ItemName} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+        }
     }
 }

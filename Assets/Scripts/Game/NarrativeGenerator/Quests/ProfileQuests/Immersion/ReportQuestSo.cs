@@ -54,5 +54,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             IsCompleted = true;
         }
+        
+        public override string ToString()
+        {
+            return $"{Npc.NpcName}.\n";
+        }
     }
 }

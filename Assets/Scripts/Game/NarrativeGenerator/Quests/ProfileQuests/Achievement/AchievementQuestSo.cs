@@ -106,5 +106,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             return stringBuilder.ToString();
         }
+
+        public abstract ItemAmountDictionary GetItemDictionary();
     }
 }

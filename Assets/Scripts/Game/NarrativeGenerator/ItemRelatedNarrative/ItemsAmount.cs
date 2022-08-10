@@ -42,14 +42,14 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             return ItemAmountBySo.Sum(itemAmountPair => itemAmountPair.Value.Count * itemAmountPair.Key.Value);
         }
         
-        public void AddNItemsFromType(KeyValuePair<ItemSo, LinkedList<int>> selectedType, int newEnemies)
+        public void AddNItemsFromType(KeyValuePair<ItemSo, LinkedList<int>> selectedType, int newItems)
         {
             var itemType = selectedType.Key;
             if (!itemAmountBySo.ContainsKey(itemType))
             {
                 itemAmountBySo.Add(itemType, new LinkedList<int>());
             }
-            for (var i = 0; i < newEnemies; i++)
+            for (var i = 0; i < newItems; i++)
             {
                 itemAmountBySo[itemType].AddLast(selectedType.Value.First.Value);
                 selectedType.Value.RemoveFirst();
