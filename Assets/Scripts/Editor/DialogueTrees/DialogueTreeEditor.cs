@@ -15,7 +15,7 @@ namespace Editor.DialogueTrees
         public static void OpenWindow()
         {
             var wnd = GetWindow<DialogueTreeEditor>();
-            wnd.titleContent = new GUIContent("DialogueTreeEditor");
+            wnd.titleContent = new GUIContent("Dialogue Tree Editor");
         }
 
         [OnOpenAsset]
@@ -32,12 +32,12 @@ namespace Editor.DialogueTrees
             VisualElement root = rootVisualElement;
 
             // Import UXML
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/DialogueTreeEditor.uxml");
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/Editor/DialogueTrees/DialogueTreeEditor.uxml");
             visualTree.CloneTree(root);
 
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueTreeEditor.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/Editor/DialogueTrees/DialogueTreeEditor.uss");
             root.styleSheets.Add(styleSheet);
 
             _treeView = root.Q<DialogueTreeView>();
@@ -95,9 +95,9 @@ namespace Editor.DialogueTrees
             }
         }
 
-        void OnNodeSelectionChanged(NodeView node)
+        void OnNodeSelectionChanged(NodeView nodeView)
         {
-            //inspectorView.UpdateNodeSelection(node);
+            _inspectorView.UpdateNodeSelection(nodeView);
         }
     }
 }

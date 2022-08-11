@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using DialogueTrees;
 
-namespace DialogueTrees
-{
+//namespace DialogueTrees
+//{
     [CreateAssetMenu]
     public class DialogueTree : ScriptableObject
     {
@@ -132,4 +133,4 @@ namespace DialogueTrees
             return tree;
         }
     }
-}
+//}

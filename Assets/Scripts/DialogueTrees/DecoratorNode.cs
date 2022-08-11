@@ -1,7 +1,7 @@
 using UnityEngine;
 
-namespace DialogueTrees
-{
+//namespace DialogueTrees
+//{
     public abstract class DecoratorNode : Node
     {
         [HideInInspector] public Node child;
@@ -13,4 +13,4 @@ namespace DialogueTrees
             return node;
         }
     }
-}
+//}

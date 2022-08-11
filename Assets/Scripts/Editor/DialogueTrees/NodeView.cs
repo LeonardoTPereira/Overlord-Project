@@ -3,10 +3,10 @@ using DialogueTrees;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Node = DialogueTrees.Node;
+//using Node = DialogueTrees.Node;
 
-namespace Editor.DialogueTrees
-{
+//namespace Editor.DialogueTrees
+//{
     public class NodeView : UnityEditor.Experimental.GraphView.Node
     {
         public Action<NodeView> OnNodeSelected;
@@ -117,4 +117,4 @@ namespace Editor.DialogueTrees
             }
         }
     }
-}
+//}

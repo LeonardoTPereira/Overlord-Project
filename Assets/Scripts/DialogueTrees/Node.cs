@@ -1,7 +1,7 @@
 using UnityEngine;
 
-namespace DialogueTrees
-{
+//namespace DialogueTrees
+//{
     public abstract class Node : ScriptableObject
     {
         public enum State
@@ -41,4 +41,4 @@ namespace DialogueTrees
         protected abstract void OnStop();
         protected abstract State OnUpdate();
     }
-}
+//}

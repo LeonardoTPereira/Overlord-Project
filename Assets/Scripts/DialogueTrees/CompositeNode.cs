@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DialogueTrees
-{
+//namespace DialogueTrees
+//{
     public abstract class CompositeNode : Node
     {
         [HideInInspector] public List<Node> children = new List<Node>();
@@ -14,4 +14,4 @@ namespace DialogueTrees
             return node;
         }
     }
-}
+//}

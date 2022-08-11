@@ -1,5 +1,5 @@
-namespace DialogueTrees
-{
+//namespace DialogueTrees
+//{
     public class RepeatNode : DecoratorNode
     {
         protected override void OnStart()
@@ -19,4 +19,4 @@ namespace DialogueTrees
             return State.Running;
         }
     }
-}
+//}
