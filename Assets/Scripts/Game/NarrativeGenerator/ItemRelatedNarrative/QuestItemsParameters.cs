@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
@@ -22,9 +23,9 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             TotalItemValue = 0;
         }
 
-        public void CalculateItemsFromQuests(QuestLine quests)
+        public void CalculateItemsFromQuests(IEnumerable<QuestLine> questLines)
         {
-            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddItemWhenAchievementQuest(quest);
             }
@@ -47,6 +48,8 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
                 foreach (var questId in dropItemData.Value)
                 {
                     ItemsByType.ItemAmountBySo.AddItemWithId(dropItemData.Key, questId);
+                    TotalItems++;
+                    TotalItemValue += dropItemData.Key.Value;
                 }            
             }
         }

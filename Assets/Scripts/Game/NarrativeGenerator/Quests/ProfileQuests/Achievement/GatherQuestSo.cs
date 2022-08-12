@@ -10,9 +10,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class GatherQuestSo : AchievementQuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToGatherByType { get; set; }
-        public override string SymbolType {
-            get { return Constants.GATHER_QUEST; }
-        }
+        public override string SymbolType => Constants.GATHER_QUEST;
 
         public override ItemAmountDictionary GetItemDictionary()
         {

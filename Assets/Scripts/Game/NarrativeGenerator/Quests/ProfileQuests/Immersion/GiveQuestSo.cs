@@ -30,8 +30,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var giveQuest = copiedQuest as GiveQuestSo;
             if (giveQuest != null)
             {
-                GiveQuestData.NpcToReceive = giveQuest.GiveQuestData.NpcToReceive;
-                GiveQuestData.ItemToGive = giveQuest.GiveQuestData.ItemToGive;
+                var npcToReceive = giveQuest.GiveQuestData.NpcToReceive;
+                var itemToGive = giveQuest.GiveQuestData.ItemToGive;
+                GiveQuestData = new GiveQuestData(npcToReceive, itemToGive);
             }
             else
             {

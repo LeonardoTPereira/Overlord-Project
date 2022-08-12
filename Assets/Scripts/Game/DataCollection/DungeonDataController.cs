@@ -31,7 +31,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             Player.ExitRoomEventHandler += OnRoomExit;
-            QuestList.QuestCompletedEventHandler += OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler += OnQuestEvent;
         }
 
         private void OnDisable()
@@ -50,7 +50,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             Player.ExitRoomEventHandler -= OnRoomExit;
-            QuestList.QuestCompletedEventHandler -= OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
         }
         
 

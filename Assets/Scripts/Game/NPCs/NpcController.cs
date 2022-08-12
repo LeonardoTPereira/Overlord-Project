@@ -38,14 +38,14 @@ namespace Game.NPCs
 
         private void OnEnable()
         {
-            QuestList.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+            QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
             QuestController.QuestOpenedEventHandler += CreateQuestOpenedDialogue;
             QuestController.QuestOpenedEventHandler += CheckIfNpcIsTarget;
         }
 
         private void OnDisable()
         {
-            QuestList.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+            QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
             QuestController.QuestOpenedEventHandler -= CreateQuestOpenedDialogue;
             QuestController.QuestOpenedEventHandler -= CheckIfNpcIsTarget;
         }

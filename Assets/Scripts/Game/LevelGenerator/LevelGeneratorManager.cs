@@ -24,7 +24,7 @@ namespace Game.LevelGenerator
         }
 
         // The "Main" behind the Dungeon Generator
-        public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEADungeonEventArgs eventArgs)
+        public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
         {
             _parameters = eventArgs.Parameters;
             Debug.Log("Start Evolving Dungeons");

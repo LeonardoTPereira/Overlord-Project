@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NPCs;
-using ScriptableObjects;
+using Game.Quests;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -17,74 +13,29 @@ namespace Game.NarrativeGenerator.Quests
     [Serializable]
     public class QuestLine : ScriptableObject, SaveableGeneratedContent
     {
-        [SerializeField] public List<QuestList> questLines;
-        [SerializeField] private List<DungeonFileSo> _dungeonFileSos;
-        [SerializeField] private QuestNpcsParameters _npcParametersForQuestLine;
-        [SerializeField] private QuestItemsParameters _itemParametersForQuestLine;
-        [SerializeField] private List<EnemySO> _enemySos;
-        [SerializeField] private List<NpcSo> _npcSos;
-        [SerializeField] private List<ItemSo> _itemSos;
-        [SerializeField] private QuestDungeonsParameters dungeonParametersForQuestLine;
-        [SerializeField] private QuestEnemiesParameters enemyParametersForQuestLine;
+        [field: SerializeReference] public List<QuestSo> Quests {get; set; }
+        [field: SerializeField] public NpcSo NpcInCharge { get; set; }
+        [field: SerializeField] public int CurrentQuestIndex { get; set; }
+        public static event QuestCompletedEvent QuestCompletedEventHandler;
         
-        public QuestDungeonsParameters DungeonParametersForQuestLine
-        {
-            get => dungeonParametersForQuestLine;
-            set => dungeonParametersForQuestLine = value;
-        }
-        public QuestEnemiesParameters EnemyParametersForQuestLine
-        {
-            get => enemyParametersForQuestLine;
-            set => enemyParametersForQuestLine = value;
-        }
-
-        public QuestNpcsParameters NpcParametersForQuestLine
-        {
-            get => _npcParametersForQuestLine;
-            set => _npcParametersForQuestLine = value;
-        }
-
-        public QuestItemsParameters ItemParametersForQuestLine
-        {
-            get => _itemParametersForQuestLine;
-            set => _itemParametersForQuestLine = value;
-        }
-
-        public List<DungeonFileSo> DungeonFileSos
-        {
-            get => _dungeonFileSos;
-            set => _dungeonFileSos = value;
-        }
-
-        public List<EnemySO> EnemySos
-        {
-            get => _enemySos;
-            set => _enemySos = value;
-        }
-        
-        public List<NpcSo> NpcSos
-        {
-            get => _npcSos;
-            set => _npcSos = value;
-        }
-
-        public List<ItemSo> ItemSos
-        {
-            get => _itemSos;
-            set => _itemSos = value;
-        }
-
         public void Init()
         {
-            questLines = new List<QuestList>();
-            _dungeonFileSos = new List<DungeonFileSo>();
-            _enemySos = new List<EnemySO>();
-            _npcSos = new List<NpcSo>();
-            _itemSos = new List<ItemSo>();
-            DungeonParametersForQuestLine = new QuestDungeonsParameters();
-            EnemyParametersForQuestLine = new QuestEnemiesParameters();
-            _itemParametersForQuestLine = new QuestItemsParameters();
-            _npcParametersForQuestLine = new QuestNpcsParameters();
+            Quests = new List<QuestSo>();
+        }
+
+        public void Init(QuestLine questLine)
+        {
+            Quests = new List<QuestSo>();
+            foreach (var copyQuest in questLine.Quests.Select(quest => quest.Clone()))
+            {
+                if (Quests.Count > 0)
+                {
+                    Quests[^1].Next = copyQuest;
+                    copyQuest.Previous = Quests[^1];
+                }
+                Quests.Add(copyQuest);
+            }
+            NpcInCharge = questLine.NpcInCharge;
         }
         
         public void SaveAsset(string directory)
@@ -94,10 +45,8 @@ namespace Game.NarrativeGenerator.Quests
             var guid = AssetDatabase.CreateFolder(directory, newDirectory);
             newDirectory = AssetDatabase.GUIDToAssetPath(guid);
             CreateAssetsForQuests(newDirectory);
-            CreateAssetsForDungeons(newDirectory);
-            CreateAssetsForEnemies(newDirectory);
             const string extension = ".asset";
-            var fileName = newDirectory+ Constants.SeparatorCharacter +"Narrative_" + questLines[0] + extension;
+            var fileName = newDirectory+ Constants.SeparatorCharacter +"Narrative_" + Quests[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             AssetDatabase.Refresh();
@@ -106,26 +55,44 @@ namespace Game.NarrativeGenerator.Quests
         
         public void CreateAssetsForQuests(string directory)
         {
-            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
+            foreach (var quest in Quests)
             {
                 quest.SaveAsset(directory);
             }
         }
-        public void CreateAssetsForDungeons(string directory)
+
+        public bool RemoveAvailableQuestWithId<T, U>(U questElement, int questId) where T : QuestSo
         {
-            foreach (var dungeon in _dungeonFileSos)
+            foreach (var quest in Quests)
             {
-                dungeon.SaveAsset(directory);
+                if (quest is not T questSo) continue;
+                if (!questSo.HasAvailableElementWithId(questElement, questId)) continue;
+                questSo.RemoveElementWithId(questElement, questId);
+                if (questSo.IsCompleted && questSo == GetCurrentQuest())
+                {
+                    CloseCurrentQuest();
+                }
+
+                return true;
             }
+            return false;
         }
-        
-        public void CreateAssetsForEnemies(string directory)
+
+        private void CloseCurrentQuest()
         {
-            foreach (var enemy in _enemySos)
+            QuestSo currentQuest;
+            do
             {
-                enemy.SaveAsset(directory);
-            }
+                currentQuest = GetCurrentQuest();
+                QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
+                currentQuest.IsClosed = true;
+                CurrentQuestIndex++;
+            } while (currentQuest.IsCompleted);
         }
-        
+
+        public QuestSo GetCurrentQuest()
+        {
+            return CurrentQuestIndex >= Quests.Count ? null : Quests[CurrentQuestIndex];
+        }
     }
 }

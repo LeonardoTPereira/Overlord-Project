@@ -42,7 +42,7 @@ namespace Game.DataCollection
             GameOverPanelBhv.ToLevelSelectEventHandler += OnFormNotAnswered;
             GameOverPanelBhv.RestartLevelEventHandler += OnFormNotAnswered;
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
-            QuestList.QuestCompletedEventHandler += OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler += OnQuestEvent;
         }
 
         private void OnDisable()
@@ -65,7 +65,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
-            QuestList.QuestCompletedEventHandler -= OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
         }
 
         private void Awake()

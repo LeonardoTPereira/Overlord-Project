@@ -1,23 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Game.LevelManager;
-using Game.LevelManager.DungeonLoader;
-using UnityEngine;
-using Util;
-
-public static class SoRoomLoader
+namespace Game.LevelManager.DungeonLoader
 {
-    public static void CreateRoom(DungeonRoom room, RoomGeneratorInput roomGeneratorInput)
+    public static class SoRoomLoader
     {
-        RoomData newRoom = RandomRoomGenerator.CreateNewRoom(roomGeneratorInput); //Sua geração de salas
-        for (var x = 0; x < room.Dimensions.Width; x++)
+        public static void CreateRoom(DungeonRoom room, RoomGeneratorInput roomGeneratorInput)
         {
-            for (var y = 0; y < room.Dimensions.Height; y++)
+            var newRoom = RandomRoomGenerator.CreateNewRoom(roomGeneratorInput); //Sua geração de salas
+            for (var x = 0; x < room.Dimensions.Width; x++)
             {
-                Debug.Log("My room dimensions: "+newRoom.Room.Length + " " + newRoom.Room[x].Tiles.Length);
-                Debug.Log("Room dimensions: "+roomGeneratorInput.Size.x+" "+roomGeneratorInput.Size.y);
-                room.Tiles[x, y] = (int)newRoom.Room[x][y].TileType;
+                for (var y = 0; y < room.Dimensions.Height; y++)
+                {
+                    room.Tiles[x, y] = (int) newRoom.Room[x][y].TileType;
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
@@ -39,9 +40,9 @@ namespace Game.NarrativeGenerator
             return ((DungeonLinearity)LinearityEnum).ToFloat();
         }
 
-        public void CalculateDungeonParametersFromQuests(QuestLine quests, float explorationPreference)
+        public void CalculateDungeonParametersFromQuests(IEnumerable<QuestLine> questLines, float explorationPreference)
         {
-            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddQuestTypeToCounter(quest);
             }

@@ -5,7 +5,16 @@ using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarNonTerminals
 {
-    public abstract class StartSymbol : QuestSo
+    public class StartSymbol : QuestSo
     {
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

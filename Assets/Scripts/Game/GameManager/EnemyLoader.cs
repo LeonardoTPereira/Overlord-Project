@@ -18,17 +18,17 @@ namespace Game.GameManager
     public class EnemyLoader : MonoBehaviour
     {
         private static List<EnemySO> _enemyListForCurrentDungeon;
-        
-        public GameObject enemyPrefab;
-        public GameObject barehandEnemyPrefab;
-        public GameObject shooterEnemyPrefab;
-        public GameObject bomberEnemyPrefab;
-        public GameObject healerEnemyPrefab;
+
+        [field: SerializeField] public GameObject EnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject BareHandEnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject ShooterEnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject BomberEnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject HealerEnemyPrefab { get; set; }
 
         
-        public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
+        public static void DistributeEnemiesInDungeon(Map map, QuestLineList questLines)
         {
-            var enemiesInQuestByType = new EnemiesByType(questLine.EnemyParametersForQuestLine.TotalByType);
+            var enemiesInQuestByType = new EnemiesByType(questLines.EnemyParametersForQuestLines.TotalByType);
             
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
@@ -76,23 +76,23 @@ namespace Game.GameManager
             //TODO change to use weaponType in comparison
             if (currentEnemy.weapon.name == "None")
             {
-                enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+                enemy = Instantiate(BareHandEnemyPrefab, position, rotation);
             }
             else if (currentEnemy.weapon.name == "Bow")
             {
-                enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+                enemy = Instantiate(ShooterEnemyPrefab, position, rotation);
             }
             else if (currentEnemy.weapon.name == "BombThrower")
             {
-                enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+                enemy = Instantiate(BomberEnemyPrefab, position, rotation);
             }
             else if (currentEnemy.weapon.name == "Cure")
             {
-                enemy = Instantiate(healerEnemyPrefab, position, rotation);
+                enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
             else
             {
-                enemy = Instantiate(enemyPrefab, position, rotation);
+                enemy = Instantiate(EnemyPrefab, position, rotation);
             }
             enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy, questId);
             return enemy;
@@ -104,23 +104,23 @@ namespace Game.GameManager
             //TODO change to use weaponType in comparison
             if (enemySo.weapon.name == "None")
             {
-                enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+                enemy = Instantiate(BareHandEnemyPrefab, position, rotation);
             }
             else if (enemySo.weapon.name == "Bow")
             {
-                enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+                enemy = Instantiate(ShooterEnemyPrefab, position, rotation);
             }
             else if (enemySo.weapon.name == "BombThrower")
             {
-                enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+                enemy = Instantiate(BomberEnemyPrefab, position, rotation);
             }
             else if (enemySo.weapon.name == "Cure")
             {
-                enemy = Instantiate(healerEnemyPrefab, position, rotation);
+                enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
             else
             {
-                enemy = Instantiate(enemyPrefab, position, rotation);
+                enemy = Instantiate(EnemyPrefab, position, rotation);
             }
             enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
             return enemy;
@@ -134,9 +134,16 @@ namespace Game.GameManager
 
         private static void ApplyDelegates()
         {
-            foreach (var enemy in _enemyListForCurrentDungeon)
+            if (_enemyListForCurrentDungeon != null)
             {
-                enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
+                foreach (var movement in _enemyListForCurrentDungeon.Select(x => x.movement))
+                {
+                    movement.movementType = GetMovementType(movement.enemyMovementIndex);
+                }
+            }
+            else
+            {
+                Debug.LogError("Enemy list for Dungeon is Null");
             }
         }
         public static MovementType GetMovementType(MovementEnum moveTypeEnum)

@@ -14,7 +14,6 @@ namespace Game.Maestro
             var selected = new EnemiesByType();
             // Select enemies
             var amount = room.TotalEnemies;
-            var healer = false;
             var hasMeleeOrRanged = false;
             var hasHealer = false;
             while (amount > 0)
@@ -26,7 +25,7 @@ namespace Game.Maestro
                         if (selected.TryAddHealer(ref enemies))
                         {
                             hasHealer = true;
-                            amount++;
+                            amount--;
                             continue;
                         }
                     }
@@ -35,13 +34,13 @@ namespace Game.Maestro
                 if (selected.TryAddAttacker(ref enemies))
                 {
                     hasMeleeOrRanged = true;
-                    amount++;
+                    amount--;
                     continue;
                 }
 
                 if (selected.TryAddHealer(ref enemies))
                 {
-                    amount++;
+                    amount--;
                     hasHealer = true;
                 }
                 else

@@ -9,10 +9,10 @@ namespace Game.LevelManager.DungeonLoader
     {
         private static int _remainingItems;
 
-        public static void DistributeItemsInDungeon(Map map, QuestLine questLine)
+        public static void DistributeItemsInDungeon(Map map, ItemsAmount items, int total)
         {
-            var itemsInQuestByType = new ItemsAmount(questLine.ItemParametersForQuestLine.ItemsByType);
-            _remainingItems = questLine.ItemParametersForQuestLine.TotalItems;
+            var itemsInQuestByType = new ItemsAmount(items);
+            _remainingItems = total;
             var totalTreasureRooms = map.NTreasureRooms;
             var itemsPerRoom = 0;
             if (totalTreasureRooms > 0)

@@ -10,7 +10,7 @@ using Game.NarrativeGenerator.EnemyRelatedNarrative;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public abstract class MasteryQuestSo : QuestSo
+    public class MasteryQuestSo : QuestSo
     {
         public override string SymbolType => Constants.MasteryQuest;
 
@@ -42,6 +42,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     Debug.LogError("help something went wrong!");
                 break;
             }
+        }
+
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
         }
 
         public static void CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)

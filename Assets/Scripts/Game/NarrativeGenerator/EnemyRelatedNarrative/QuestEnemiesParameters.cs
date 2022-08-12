@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Game.EnemyGenerator;
@@ -70,9 +71,9 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             return true;
         }
 
-        public void CalculateMonsterFromQuests(QuestLine quests)
+        public void CalculateMonsterFromQuests(IEnumerable<QuestLine> questLines)
         {
-            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddEnemiesWhenEnemyQuest(quest);
             }
@@ -93,6 +94,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
                 foreach (var questId in enemyAmountPair.Value)
                 {
                     TotalByType.EnemiesByTypeDictionary.AddItemWithId(enemyAmountPair.Key, questId);
+                    NEnemies++;
                 }
             }
         }

@@ -7,7 +7,7 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public abstract class CreativityQuestSo : QuestSo
+    public class CreativityQuestSo : QuestSo
     {
         public override string SymbolType => Constants.CreativityQuest;
 
@@ -45,6 +45,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
 
 
         private static void CreateAndSaveExploreQuestSo( List<QuestSo> questSos)

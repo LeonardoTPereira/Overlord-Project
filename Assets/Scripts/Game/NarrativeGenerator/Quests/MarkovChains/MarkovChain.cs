@@ -27,25 +27,21 @@ namespace Game.NarrativeGenerator.Quests
         /// <summary>
         /// Sets the next symbol of the chain
         /// </summary>
-        public void SetSymbol ( string _symbol )
+        public void SetSymbol ( string symbol )
         {
             symbolNumber++;
-            switch ( _symbol )
+            switch ( symbol )
             {
                 case Constants.MasteryQuest:
-                    // symbolList.Add( new Kill() );
                     symbolList.Add( ScriptableObject.CreateInstance<MasteryQuestSo>() );
                 break;
                 case Constants.ImmersionQuest:
-                    // symbolList.Add( new Talk() );
                     symbolList.Add( ScriptableObject.CreateInstance<ImmersionQuestSo>() );
                 break;
                 case Constants.AchievementQuest:
-                    // symbolList.Add( new Get() );
                     symbolList.Add( ScriptableObject.CreateInstance<AchievementQuestSo>() );
                 break;
                 case Constants.CreativityQuest:
-                    // symbolList.Add( new Explore() );
                     symbolList.Add( ScriptableObject.CreateInstance<CreativityQuestSo>() );
                 break;
                 case Constants.KILL_QUEST:

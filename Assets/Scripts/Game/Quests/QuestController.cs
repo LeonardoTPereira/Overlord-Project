@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
@@ -16,8 +18,8 @@ namespace Game.Quests
         [SerializeField] private int countableQuestElements;
         [SerializeField] private int completedTasks;
         [field: SerializeReference] private SelectedLevels selectedLevels;
-        [SerializeField] private List<QuestList> questLists;
-        public static event  QuestOpenedEvent QuestOpenedEventHandler;
+        [SerializeField] private QuestLineList questLines;
+        public static event QuestOpenedEvent QuestOpenedEventHandler;
 
         public int CountableQuestElements
         {
@@ -34,29 +36,31 @@ namespace Game.Quests
         private void OnEnable()
         {
             IQuestElement.QuestElementEventHandler += UpdateQuest;
-            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+            DungeonSceneManager.NewLevelLoadedEventHandler += OnDungeonLoaded;
         }
 
         private void OnDisable()
         {
             IQuestElement.QuestElementEventHandler -= UpdateQuest;
-            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= OnDungeonLoaded;
         }
         
-        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        private void OnDungeonLoaded(object sender, EventArgs eventArgs)
         {
-            if (scene.name is not "LevelWithEnemies") return;
-            StartCoroutine(InitializeQuests(selectedLevels.GetCurrentLevel().Quests.questLines));
+            StartCoroutine(InitializeQuests(selectedLevels.GetCurrentLevel().QuestLines));
         }
 
-        private IEnumerator<WaitForEndOfFrame> InitializeQuests(List<QuestList> originalQuestLines)
+        private IEnumerator<WaitForEndOfFrame> InitializeQuests(QuestLineList originalQuestLines)
         {
             yield return new WaitForEndOfFrame();
-            questLists = new List<QuestList>();
-            foreach (var questList in originalQuestLines)
+            questLines = ScriptableObject.CreateInstance<QuestLineList>();
+            questLines.Init();
+            foreach (var questLine in originalQuestLines.QuestLines)
             {
-                questLists.Add(new QuestList(questList));
-                QuestOpenedEventHandler?.Invoke(null, new NewQuestEventArgs(questList.GetCurrentQuest(), questList.NpcInCharge));
+                var copyQuestLine = ScriptableObject.CreateInstance<QuestLine>();
+                copyQuestLine.Init(questLine);
+                questLines.AddQuestLine(copyQuestLine);
+                QuestOpenedEventHandler?.Invoke(null, new NewQuestEventArgs(copyQuestLine.GetCurrentQuest(), copyQuestLine.NpcInCharge));
             }
         }
 
@@ -86,7 +90,7 @@ namespace Game.Quests
         {
             var enemyKilled = killQuestArgs.EnemyWeaponTypeSo;
             var questId = killQuestArgs.QuestId;
-            if (questLists.Any(questList => 
+            if (questLines.QuestLines.Any(questList => 
                     questList.RemoveAvailableQuestWithId<KillQuestSo, WeaponTypeSO>(enemyKilled, questId)))
             {
                 return;
@@ -101,7 +105,7 @@ namespace Game.Quests
             var damage = damageQuestArgs.Damage;
             var damageData = new DamageQuestData(damage, enemyDamaged);
             var questId = damageQuestArgs.QuestId;
-            if (questLists.Any(questList => 
+            if (questLines.QuestLines.Any(questList => 
                     questList.RemoveAvailableQuestWithId<DamageQuestSo, DamageQuestData>(damageData, questId)))
             {
                 return;
@@ -117,7 +121,7 @@ namespace Game.Quests
         {
             var roomExplored = exploreQuestArgs.RoomCoordinates;
             var questId = exploreQuestArgs.QuestId;
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<ExploreQuestSo, Coordinates>(roomExplored, questId)))
             {
                 return;
@@ -134,17 +138,17 @@ namespace Game.Quests
         {
             var itemCollected = getItemQuestArgs.ItemType;
             var questId = getItemQuestArgs.QuestId;
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<GatherQuestSo, ItemSo>(itemCollected, questId)))
             {
                 return;
             }
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<GiveQuestSo, ItemSo>(itemCollected, questId)))
             {
                 return;
             }
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<ExchangeQuestSo, ItemSo>(itemCollected, questId)))
             {
                 return;
@@ -161,22 +165,22 @@ namespace Game.Quests
             //TODO check what is the logic for this and the Give/Exchange quests that appear both here and on item.
             var npcToTalk = talkQuestArgs.Npc;
             var questId = talkQuestArgs.QuestId;
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<ListenQuestSo, NpcSo>(npcToTalk, questId)))
             {
                 return;
             }
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<ReportQuestSo, NpcSo>(npcToTalk, questId)))
             {
                 return;
             }
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<GiveQuestSo, NpcSo>(npcToTalk, questId)))
             {
                 return;
             }
-            if (questLists.Any(questList =>
+            if (questLines.QuestLines.Any(questList =>
                     questList.RemoveAvailableQuestWithId<ExchangeQuestSo, NpcSo>(npcToTalk, questId)))
             {
                 return;

@@ -9,15 +9,15 @@ namespace Game.Events
     {
         private string _levelFile;
         private DungeonFileSo _dungeonFileSo;
-        private QuestLine _levelQuestLine;
+        public QuestLineList LevelQuestLines { get; set; }
         private bool _isLastQuestLine;
 
 
-        public LevelLoadEventArgs(DungeonFileSo dungeonFileSo, QuestLine levelQuestLine, bool isLastQuestLine)
+        public LevelLoadEventArgs(DungeonFileSo dungeonFileSo, QuestLineList levelQuestLines, bool isLastQuestLine)
         {
             _levelFile = null;
             DungeonFileSo = dungeonFileSo;
-            LevelQuestLine = levelQuestLine;
+            LevelQuestLines = levelQuestLines;
             IsLastQuestLine = isLastQuestLine;
         }
 
@@ -25,7 +25,7 @@ namespace Game.Events
         {
             LevelFile = levelFile;
             DungeonFileSo = null;
-            LevelQuestLine = null;
+            LevelQuestLines = null;
             _isLastQuestLine = false;
         }
 
@@ -35,11 +35,6 @@ namespace Game.Events
         {
             get => _isLastQuestLine;
             set => _isLastQuestLine = value;
-        }
-        public QuestLine LevelQuestLine
-        {
-            get => _levelQuestLine;
-            set => _levelQuestLine = value;
         }
     }
 }

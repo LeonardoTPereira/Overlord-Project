@@ -149,7 +149,7 @@ namespace Game.LevelManager.DungeonLoader
                     var roomInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
                     var doorList = CreateDoorList(room.Coordinates);
                     roomInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
-                    room.CreateRoom(roomDimensions, roomInput);
+                    room.CreateRoom(roomDimensions);
                 }
             }
         }

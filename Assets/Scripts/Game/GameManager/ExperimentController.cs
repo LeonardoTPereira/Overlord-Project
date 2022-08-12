@@ -19,14 +19,14 @@ namespace Game.GameManager
 
         [SerializeField, MustBeAssigned]
         private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
-        private List<QuestLine> _questLineListForProfile;
+        private List<QuestLineList> _questLinesListForProfile;
 
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
 
         private void Awake()
         {
-            _questLineListForProfile = null;
+            _questLinesListForProfile = null;
         }
 
         private void OnEnable()
@@ -59,32 +59,31 @@ namespace Game.GameManager
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
-            QuestLine selectedQuestLine = GetAndRemoveRandomQuestLine();
+            QuestLineList selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)
             {
                 int selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
                 dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
-                dungeonEntrance.LevelQuestLine = selectedQuestLine;
-                dungeonEntrance.IsLastQuestLine = _questLineListForProfile.Count == 0;
+                dungeonEntrance.LevelQuestLines = selectedQuestLine;
+                dungeonEntrance.IsLastQuestLine = _questLinesListForProfile.Count == 0;
                 dungeonFileSos.RemoveAt(selectedIndex);
             }
         }
 
-        private QuestLine GetAndRemoveRandomQuestLine()
+        private QuestLineList GetAndRemoveRandomQuestLine()
         {
-            QuestLine questLine;
-            int selectedIndex = RandomSingleton.GetInstance().Random.Next(_questLineListForProfile.Count);
-            questLine = _questLineListForProfile[selectedIndex];
-            _questLineListForProfile.RemoveAt(selectedIndex);
-            return questLine;
+            var selectedIndex = RandomSingleton.GetInstance().Random.Next(_questLinesListForProfile.Count);
+            var questLines = _questLinesListForProfile[selectedIndex];
+            _questLinesListForProfile.RemoveAt(selectedIndex);
+            return questLines;
         }
 
         private void SetQuestLinesForProfile(PlayerProfile playerProfile)
         {
-            _questLineListForProfile = new List<QuestLine>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
-                playerProfile.PlayerProfileEnum.ToString()].QuestLinesList);
+            _questLinesListForProfile = new List<QuestLineList>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
+                playerProfile.PlayerProfileEnum.ToString()]);
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
