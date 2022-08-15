@@ -3,7 +3,6 @@ using System.Collections;
 using System.ComponentModel;
 using Game.Audio;
 using Game.GameManager.Player;
-using Game.LevelManager.DungeonManager;
 using Game.Quests;
 using ScriptableObjects;
 using UnityEngine;
@@ -49,7 +48,6 @@ namespace Game.GameManager
             }
         }
         private float _lastX, _lastY;
-        private RoomBhv _room;
         private HealthController _healthController;
         private Rigidbody2D _enemyRigidBody;
         private Collider2D[] _childrenCollider;
@@ -223,7 +221,7 @@ namespace Game.GameManager
             Destroy(gameObject);
         }
 
-        public virtual void LoadEnemyData(EnemySO enemyData)
+        public virtual void LoadEnemyData(EnemySO enemyData, int questId)
         {
             if (!_hasGotComponents)
             {
@@ -238,11 +236,7 @@ namespace Game.GameManager
             EnemyWeapon = enemyData.weapon;
             Movement = enemyData.movement;
             behavior = enemyData.behavior.enemyBehavior;
-        }
-
-        public void SetRoom(RoomBhv room)
-        {
-            _room = room;
+            QuestId = questId;
         }
         
         protected Color GetColorBasedOnMovement()

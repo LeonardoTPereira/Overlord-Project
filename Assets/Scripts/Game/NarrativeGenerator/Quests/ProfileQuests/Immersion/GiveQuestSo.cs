@@ -1,48 +1,44 @@
 using ScriptableObjects;
 using Util;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using Game.NPCs;
-using Game.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GiveQuestSo : ImmersionQuestSo
     {
-        public override string symbolType {
-            get { return Constants.GIVE_QUEST; }
-        }
+        public override string SymbolType => Constants.GIVE_QUEST;
 
-        public NpcSo Npc { get; set; }
-        public ItemSo Item {get; set; }
-        private bool _hasItemToCollect = false;
+        public GiveQuestData GiveQuestData { get; set; }
+        private bool _hasItemToCollect;
 
         public override void Init()
         {
             base.Init();
-            Npc = null;
-            Item = null;
+            GiveQuestData = new GiveQuestData();
         }
 
         public void Init(string questName, bool endsStoryLine, QuestSo previous, NpcSo npc, ItemSo item)
         {
             base.Init(questName, endsStoryLine, previous);
-            Npc = npc;
-            Item = item;
+            GiveQuestData = new GiveQuestData(npc, item);
         }
-        
-        public void AddNpc( NpcSo npc, ItemSo item )
-        {
-            Npc = npc;
-            Item = item;
-        }
-        
+
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Npc = (copiedQuest as GiveQuestSo).Npc;
-            Item = (copiedQuest as GiveQuestSo).Item;
+            var giveQuest = copiedQuest as GiveQuestSo;
+            if (giveQuest != null)
+            {
+                var npcToReceive = giveQuest.GiveQuestData.NpcToReceive;
+                var itemToGive = giveQuest.GiveQuestData.ItemToGive;
+                GiveQuestData = new GiveQuestData(npcToReceive, itemToGive);
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(GiveQuestSo)}, got type {copiedQuest.GetType()}");
+            }
         }
         
         public override QuestSo Clone()
@@ -52,14 +48,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public bool HasItemToCollect(ItemSo itemSo)
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !_hasItemToCollect && Item.ItemName == itemSo.ItemName;
+            return !IsCompleted && Id == questId;
         }
 
-        public void CollectItem ( ItemSo itemSo )
+        public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            Item = itemSo;
+            IsCompleted = true;
+        }
+
+        //TODO Check the usage of these methods
+        public bool HasItemToCollect(ItemSo itemSo)
+        {
+            return !_hasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName;
+        }
+
+        public void CollectItem ()
+        {
             _hasItemToCollect = true;
         }
 
@@ -68,46 +74,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return _hasItemToCollect;
         }
 
-        public static GiveQuestSo GetValidGiveQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
+        public override string ToString()
         {
-            var itemCollected = getItemQuestArgs.ItemType;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not GiveQuestSo giveQuestSo) continue;
-                if (giveQuestSo.HasItemToCollect(itemCollected)) return giveQuestSo;
-            }
-
-            foreach (var questList in questLists)
-            {
-                var giveQuestSo = questList.GetFirstGiveQuestAvailable(itemCollected);
-                if (giveQuestSo == null) return giveQuestSo;
-            }
-
-            return null;
-        }
-
-        public static GiveQuestSo GetValidGiveQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
-        {
-            var npc = talkQuestArgs.Npc;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not GiveQuestSo giveQuestSo) continue;
-                if (giveQuestSo.Npc == npc) return giveQuestSo;
-            }
-
-            foreach (var questList in questLists)
-            {
-                var giveQuestSo = questList.GetFirstGiveQuestWithNpc(npc);
-                if (giveQuestSo == null) return giveQuestSo;
-            }
-
-            return null;
+            return $"the item {GiveQuestData.ItemToGive.ItemName} to {GiveQuestData.NpcToReceive.NpcName}.\n";
         }
     }
 }

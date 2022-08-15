@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
@@ -24,43 +23,34 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             TotalItemValue = 0;
         }
 
-        public void CalculateItemsFromQuests(QuestLine quests)
+        public void CalculateItemsFromQuests(IEnumerable<QuestLine> questLines)
         {
-            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
-                AddItemWhenItemQuest(quest);
+                AddItemWhenAchievementQuest(quest);
             }
         }
 
-        private void AddItemWhenItemQuest(QuestSo quest)
+        private void AddItemWhenAchievementQuest(QuestSo quest)
         {
-            if (quest.IsItemQuest())
+            var achievementQuestSo = quest as AchievementQuestSo;
+            if (achievementQuestSo != null)
             {
-                AddItems((GatherQuestSo) quest);
+                AddItems(achievementQuestSo);
             }
         }
 
-        private void AddItems(GatherQuestSo quest)
+        private void AddItems(AchievementQuestSo quest)
         {
-            foreach (var dropItemData in quest.ItemsToGatherByType)
+            var itemDictionary = quest.GetItemDictionary();
+            foreach (var dropItemData in itemDictionary)
             {
-                AddItemsFromPairToDictionary(dropItemData);
-            }
-
-        }
-
-        private void AddItemsFromPairToDictionary(KeyValuePair<ItemSo, int> itemData)
-        {
-            var newItems = itemData.Value;
-            TotalItems += newItems;
-            TotalItemValue += itemData.Key.Value;
-            if (ItemsByType.ItemAmountBySo.TryGetValue(itemData.Key, out var enemiesForItem))
-            {
-                ItemsByType.ItemAmountBySo[itemData.Key] = enemiesForItem + newItems;
-            }
-            else
-            {
-                ItemsByType.ItemAmountBySo.Add(itemData.Key, newItems);
+                foreach (var questId in dropItemData.Value)
+                {
+                    ItemsByType.ItemAmountBySo.AddItemWithId(dropItemData.Key, questId);
+                    TotalItems++;
+                    TotalItemValue += dropItemData.Key.Value;
+                }            
             }
         }
 

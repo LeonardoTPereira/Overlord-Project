@@ -27,17 +27,17 @@ namespace Game.LevelManager.DungeonLoader
 
         public bool IsStartRoom()
         {
-            return Type?.Equals(Constants.RoomTypeString.START) ?? false;
+            return Type?.Equals(Constants.RoomTypeString.Start) ?? false;
         }
 
         public bool IsFinalRoom()
         {
-            return Type?.Equals(Constants.RoomTypeString.BOSS) ?? false;
+            return Type?.Equals(Constants.RoomTypeString.Boss) ?? false;
         }
         
         public bool IsTreasureRoom()
         {
-            return Type?.Equals(Constants.RoomTypeString.TREASURE) ?? false;
+            return Type?.Equals(Constants.RoomTypeString.Treasure) ?? false;
         }
 
     }

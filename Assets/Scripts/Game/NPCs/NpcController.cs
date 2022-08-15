@@ -2,6 +2,7 @@
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
+using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
@@ -37,14 +38,14 @@ namespace Game.NPCs
 
         private void OnEnable()
         {
-            QuestController.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+            QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
             QuestController.QuestOpenedEventHandler += CreateQuestOpenedDialogue;
             QuestController.QuestOpenedEventHandler += CheckIfNpcIsTarget;
         }
 
         private void OnDisable()
         {
-            QuestController.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+            QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
             QuestController.QuestOpenedEventHandler -= CreateQuestOpenedDialogue;
             QuestController.QuestOpenedEventHandler -= CheckIfNpcIsTarget;
         }
@@ -59,7 +60,7 @@ namespace Game.NPCs
                     questNpc = listenQuestSo.Npc;
                     break;
                 case GiveQuestSo giveQuestSo:
-                    questNpc = giveQuestSo.Npc;
+                    questNpc = giveQuestSo.GiveQuestData.NpcToReceive;
                     break;
                 case ReportQuestSo reportQuestSo:
                     questNpc = reportQuestSo.Npc;
@@ -112,15 +113,15 @@ namespace Game.NPCs
         public void CreateDialogueAsset()
         {
             var target = "Assets";
-            target += Constants.SEPARATOR_CHARACTER + "Resources";
-            target += Constants.SEPARATOR_CHARACTER + "Dialogues";
+            target += Constants.SeparatorCharacter + "Resources";
+            target += Constants.SeparatorCharacter + "Dialogues";
             var newFolder = npc.NpcName;
-            if (!AssetDatabase.IsValidFolder(target + Constants.SEPARATOR_CHARACTER + newFolder))
+            if (!AssetDatabase.IsValidFolder(target + Constants.SeparatorCharacter + newFolder))
             {
                 AssetDatabase.CreateFolder(target, newFolder);
             }
-            target += Constants.SEPARATOR_CHARACTER + newFolder;
-            var fileName = target + Constants.SEPARATOR_CHARACTER + "Dialogue.asset";
+            target += Constants.SeparatorCharacter + newFolder;
+            var fileName = target + Constants.SeparatorCharacter + "Dialogue.asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             Debug.Log(uniquePath);
             AssetDatabase.CreateAsset(dialogue, uniquePath);

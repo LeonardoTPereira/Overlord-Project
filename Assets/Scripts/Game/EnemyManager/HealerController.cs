@@ -61,9 +61,9 @@ namespace Game.EnemyManager
             return false;
         }
 
-        public override void LoadEnemyData(EnemySO enemyData)
+        public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
-            base.LoadEnemyData(enemyData);
+            base.LoadEnemyData(enemyData, questId);
             CooldownTime = BaseCooldown * (1f / AttackSpeed);
         }
     }

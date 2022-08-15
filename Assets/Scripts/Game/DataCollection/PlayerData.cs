@@ -239,13 +239,13 @@ namespace Game.DataCollection
             PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue);
             PlayerId += (int)Time.realtimeSinceStartup;
 #if UNITY_EDITOR
-            var jsonDirectory = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData";
+            var jsonDirectory = Application.persistentDataPath + Constants.SeparatorCharacter + "PlayerData";
             if (!Directory.Exists(jsonDirectory))
             {
                 Directory.CreateDirectory(jsonDirectory);
             }
-            JsonPath = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData" +
-                       Constants.SEPARATOR_CHARACTER + PlayerId;
+            JsonPath = Application.persistentDataPath + Constants.SeparatorCharacter + "PlayerData" +
+                       Constants.SeparatorCharacter + PlayerId;
             if (!Directory.Exists(jsonDirectory))
             {
                 Directory.CreateDirectory(jsonDirectory);
@@ -339,7 +339,7 @@ namespace Game.DataCollection
 
         public void RefreshJson()
         {
-            var playerFile = Application.persistentDataPath + Constants.SEPARATOR_CHARACTER + "PlayerData" + Constants.SEPARATOR_CHARACTER +
+            var playerFile = Application.persistentDataPath + Constants.SeparatorCharacter + "PlayerData" + Constants.SeparatorCharacter +
                              "PlayerData.json";
             string lines;
             using (var fileStream = new FileStream(playerFile, FileMode.OpenOrCreate))

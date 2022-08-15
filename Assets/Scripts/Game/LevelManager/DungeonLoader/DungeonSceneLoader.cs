@@ -1,5 +1,4 @@
-﻿using Game.Events;
-using Game.LevelGenerator.LevelSOs;
+﻿using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace Game.LevelManager.DungeonLoader
         [field: SerializeField]
         public DungeonFileSo SelectedDungeon { get; set; }
         [field: SerializeField]
-        public QuestLine LevelQuestLine { get; set; }
+        public QuestLineList LevelQuestLines { get; set; }
         [field: SerializeField]
         public bool IsLastQuestLine { get; set; }
 

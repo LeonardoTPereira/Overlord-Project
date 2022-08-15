@@ -1,20 +1,13 @@
-using ScriptableObjects;
 using Util;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using Game.NPCs;
-using Game.Quests;
-using Game.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ListenQuestSo : ImmersionQuestSo
     {
-        public override string symbolType { 
-            get { return Constants.LISTEN_QUEST;} 
-        }
-        
+        public override string SymbolType => Constants.LISTEN_QUEST;
+
         //No NPCSo directly. It must be only the job/race, defined using some method based on the next quest
         public NpcSo Npc { get; set; }
 
@@ -29,16 +22,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
         }
-        
-        public void AddNpc(NpcSo npc)
-        {
-            Npc = npc;
-        }
-        
+
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Npc = (copiedQuest as ListenQuestSo).Npc;
+            var listenQuest = copiedQuest as ListenQuestSo;
+            if (listenQuest != null)
+            {
+                Npc = listenQuest.Npc;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(ListenQuestSo)}, got type {copiedQuest.GetType()}");
+            }
         }
         
         public override QuestSo Clone()
@@ -48,25 +45,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public static ListenQuestSo GetValidListenQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var npc = talkQuestArgs.Npc;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ListenQuestSo listenQuestSo) continue;
-                if (listenQuestSo.Npc == npc) return listenQuestSo;
-            }
+            return !IsCompleted && Id == questId;
+        }
 
-            foreach (var questList in questLists)
-            {
-                var listenQuestSo = questList.GetFirstListenQuestWithNpc(npc);
-                if (listenQuestSo == null) return listenQuestSo;
-            }
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            IsCompleted = true;
+        }
 
-            return null;
+        public override string ToString()
+        {
+                return $"{Npc.NpcName}.\n";
         }
     }
 }

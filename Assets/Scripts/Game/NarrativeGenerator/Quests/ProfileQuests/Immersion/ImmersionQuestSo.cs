@@ -5,17 +5,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
-using System.Collections.Generic;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ImmersionQuestSo : QuestSo
     {
-        public override string symbolType {
-            get { return Constants.IMMERSION_QUEST; }
-        }
+        public override string SymbolType => Constants.ImmersionQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -23,19 +18,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 if ( nextSymbolChances != null )
                     return nextSymbolChances;
                     
-                Dictionary<string, Func<int, int>> immersionQuestWeights = new Dictionary<string, Func<int, int>>();
-                immersionQuestWeights.Add( Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight );
-                immersionQuestWeights.Add( Constants.READ_QUEST, Constants.FourOptionQuestLineWeight );
-                immersionQuestWeights.Add( Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight );
-                immersionQuestWeights.Add( Constants.REPORT_QUEST, Constants.FourOptionQuestLineWeight );
-                immersionQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
+                var immersionQuestWeights = new Dictionary<string, Func<int, int>>
+                {
+                    {Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight},
+                    {Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
+                    {Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
+                    {Constants.REPORT_QUEST, Constants.FourOptionQuestLineWeight},
+                    {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
+                };
                 return immersionQuestWeights;
             } 
         }
 
         public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            switch ( this.symbolType )
+            switch ( this.SymbolType )
             {
                 case Constants.LISTEN_QUEST:
                     CreateAndSaveListenQuestSo(questSos, possibleNpcSos);
@@ -55,9 +52,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
         private static void CreateAndSaveListenQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
-            var listenQuest = ScriptableObject.CreateInstance<ListenQuestSo>();
+            var listenQuest = CreateInstance<ListenQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             listenQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             
@@ -71,7 +78,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static void CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
-            var readQuest = ScriptableObject.CreateInstance<ReadQuestSo>();
+            var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
             readQuest.Init("Read "+selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
             
@@ -85,7 +92,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static void CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
-            var giveQuest = ScriptableObject.CreateInstance<GiveQuestSo>();
+            var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             var selectedItem = possibleItems.GetRandomItem();
             giveQuest.Init($"Give {selectedItem} to {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
@@ -100,7 +107,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static void CreateAndSaveReportQuestSo(List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
-            var reportQuest = ScriptableObject.CreateInstance<ReportQuestSo>();
+            var reportQuest = CreateInstance<ReportQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             reportQuest.Init("Report back to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
 

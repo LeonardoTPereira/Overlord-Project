@@ -7,6 +7,7 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace Game.DataCollection
             GameOverPanelBhv.ToLevelSelectEventHandler += OnFormNotAnswered;
             GameOverPanelBhv.RestartLevelEventHandler += OnFormNotAnswered;
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
-            QuestController.QuestCompletedEventHandler += OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler += OnQuestEvent;
         }
 
         private void OnDisable()
@@ -64,7 +65,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
-            QuestController.QuestCompletedEventHandler -= OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
         }
 
         private void Awake()

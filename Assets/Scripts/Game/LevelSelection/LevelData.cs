@@ -9,14 +9,14 @@ namespace Game.LevelSelection
     [CreateAssetMenu(fileName = "LevelData", menuName = "Overlord-Project/LevelData", order = 0)]
     public class LevelData : ScriptableObject
     {
-        [field:SerializeField] public QuestLine Quests { get; set; }
+        [field:SerializeField] public QuestLineList QuestLines { get; set; }
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
         [SerializeField] private bool _completed;
         [SerializeField] private bool _surrendered;
 
-        public void Init(QuestLine quests, DungeonFileSo dungeon)
+        public void Init(QuestLineList questLines, DungeonFileSo dungeon)
         {
-            Quests = quests;
+            QuestLines = questLines;
             Dungeon = dungeon;
             _completed = false;
             _surrendered = false;

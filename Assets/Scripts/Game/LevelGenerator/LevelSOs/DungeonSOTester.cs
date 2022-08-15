@@ -40,9 +40,9 @@ namespace Game.LevelGenerator.LevelSOs
             foreach (var room in dungeon.Rooms)
             {
                 var position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
-                if (room.type == Constants.RoomTypeString.CORRIDOR || room.type == Constants.RoomTypeString.LOCK)
+                if (room.type == Constants.RoomTypeString.Corridor || room.type == Constants.RoomTypeString.Lock)
                 {
-                    if (room.type == Constants.RoomTypeString.CORRIDOR)
+                    if (room.type == Constants.RoomTypeString.Corridor)
                     {
                         CurrentColor = Color.HSVToRGB(293/360f, 0, 0.77f);
                     }
@@ -79,7 +79,7 @@ namespace Game.LevelGenerator.LevelSOs
                     var newRoom = Instantiate(RoomPrefab, position, RoomPrefab.transform.rotation);
                     newRoom.GetComponent<SpriteRenderer>().color = CurrentColor;
                     _objectsInScene.Add(newRoom);
-                    if (room.type == Constants.RoomTypeString.START)
+                    if (room.type == Constants.RoomTypeString.Start)
                     {
                         CurrentColor = Color.HSVToRGB(300/360f, 0.8f, 0.90f);
                         position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
@@ -87,7 +87,7 @@ namespace Game.LevelGenerator.LevelSOs
                         startEnd.GetComponent<SpriteRenderer>().color = CurrentColor;
                         _objectsInScene.Add(startEnd);
                     }
-                    else if (room.type == Constants.RoomTypeString.BOSS)
+                    else if (room.type == Constants.RoomTypeString.Boss)
                     {
                         CurrentColor = Color.HSVToRGB(300/360f, 0.5f, 0.70f);
                         position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
@@ -95,7 +95,7 @@ namespace Game.LevelGenerator.LevelSOs
                         startEnd.GetComponent<SpriteRenderer>().color = CurrentColor;
                         _objectsInScene.Add(startEnd);
                     }
-                    if (room.type != Constants.RoomTypeString.KEY) continue;
+                    if (room.type != Constants.RoomTypeString.Key) continue;
                     CurrentColor = Math.Abs(room.keys[0]) switch
                     {
                         1 => Color.HSVToRGB(81/360f, 0.65f, 0.90f),
@@ -120,14 +120,14 @@ namespace Game.LevelGenerator.LevelSOs
             {
                 var size = new Vector3(3, 3, 0);
                 // Draw a yellow sphere at the transform's position
-                if (room.type == Constants.RoomTypeString.CORRIDOR)
+                if (room.type == Constants.RoomTypeString.Corridor)
                 {
                     CurrentColor = Color.gray;
                 }
                 else
                 {
                     size = new Vector3(5, 5, 0);
-                    CurrentColor = room.type == Constants.RoomTypeString.START ? Color.white : Color.magenta;
+                    CurrentColor = room.type == Constants.RoomTypeString.Start ? Color.white : Color.magenta;
                 }
                 var position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 0);
                 Gizmos.DrawCube(position, size);

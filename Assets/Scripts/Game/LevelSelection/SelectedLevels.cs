@@ -12,12 +12,12 @@ namespace Game.LevelSelection
         [field: SerializeField] public List<LevelData> Levels { get; set; }
         [SerializeField] private int selectedIndex;
 
-        public void Init(QuestLine questLine)
+        public void Init(QuestLineList questLines)
         {
-            var dungeons = questLine.DungeonFileSos;
+            var dungeons = questLines.DungeonFileSos;
             for (var i = 0; i < dungeons.Count; ++i)
             {
-                Levels[i].Init(questLine, dungeons[i]);
+                Levels[i].Init(questLines, dungeons[i]);
             }
         }
 

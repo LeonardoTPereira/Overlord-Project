@@ -1221,7 +1221,6 @@ MonoBehaviour:
         isExpanded: 0
         _keyValues: []
         _keys: []
-        _values: 
     npcs: []
     enemiesByType:
       enemiesByType:
@@ -1249,7 +1248,6 @@ MonoBehaviour:
         isExpanded: 0
         _keyValues: []
         _keys: []
-        _values: 
     totalEnemies: 0
     <HasItemPreference>k__BackingField: 0
     <HasNpcPreference>k__BackingField: 0
@@ -1258,6 +1256,31 @@ MonoBehaviour:
   eastDoor: 
   westDoor: 
   hasEnemies: 0
+  enemiesDictionary:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 0
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 0
+    _keyValues: []
+    _keys: []
   doorNorth: {fileID: 114081829205008226}
   doorSouth: {fileID: 114023979573330110}
   doorEast: {fileID: 114123737783067614}
@@ -1310,17 +1333,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d338a50bdd1bf6e4f921463ea3ef690b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8771052608593400771, guid: c49b58d279314d64caaa3c088e8e3e52,
+  <EnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: 5091f6122b4832c4ebdab9b964bc98bb,
     type: 3}
-  barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
+  <BareHandEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
     type: 3}
-  shooterEnemyPrefab: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
+  <ShooterEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
     type: 3}
-  bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
+  <BomberEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
     type: 3}
-  healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
+  <HealerEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
-  _weaponTypes: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!1 &1963288452537166
 GameObject:
   m_ObjectHideFlags: 0

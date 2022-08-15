@@ -5,21 +5,21 @@ using Game.NarrativeGenerator.Quests;
 
 namespace Game.Events
 {
-    public delegate Task CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
-    public class CreateEADungeonEventArgs : EventArgs
+    public delegate Task CreateEaDungeonEvent(object sender, CreateEaDungeonEventArgs e);
+    public class CreateEaDungeonEventArgs : EventArgs
     {
-        private Parameters parameters;
+        public Parameters Parameters { get ; set ; }
 
-        public CreateEADungeonEventArgs(Parameters parameters)
+        public CreateEaDungeonEventArgs(Parameters parameters)
         {
             Parameters = parameters;
         }
-        public CreateEADungeonEventArgs(QuestLine questLine)
+        public CreateEaDungeonEventArgs(QuestLineList questLines)
         {
-            var questDungeonParameters = questLine.DungeonParametersForQuestLine;
-            var questEnemies = questLine.EnemyParametersForQuestLine.NEnemies;
-            var questItems = questLine.ItemParametersForQuestLine.TotalItems;
-            var questNpcs = questLine.NpcParametersForQuestLine.TotalNpcs;
+            var questDungeonParameters = questLines.DungeonParametersForQuestLines;
+            var questEnemies = questLines.EnemyParametersForQuestLines.NEnemies;
+            var questItems = questLines.ItemParametersForQuestLines.TotalItems;
+            var questNpcs = questLines.NpcSos.Count;
             var rooms = questDungeonParameters.Size;
             var keys = questDungeonParameters.NKeys;
             var locks = keys;
@@ -28,7 +28,5 @@ namespace Game.Events
                 , questNpcs);
             Parameters = new Parameters(fitnessParameters);
         }
-    
-        public Parameters Parameters { get => parameters; set => parameters = value; }
     }
 }

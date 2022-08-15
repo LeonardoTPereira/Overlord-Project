@@ -1,43 +1,43 @@
-using ScriptableObjects;
 using Util;
 using System;
-using Game.Quests;
 using System.Collections.Generic;
-using UnityEngine;
-using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExploreQuestSo : CreativityQuestSo
     {
-        public override string symbolType {
-            get { return Constants.EXPLORE_QUEST; }
-        }
+        public override string SymbolType => Constants.EXPLORE_QUEST;
 
         public int NumOfRoomsToExplore { get; set; }
-        protected List<Coordinates> exploredRooms = new List<Coordinates>();
+        private List<Coordinates> _exploredRooms;
 
         public override void Init()
         {
             base.Init();
+            _exploredRooms = new List<Coordinates>();
             NumOfRoomsToExplore = 0;
         }
 
         public void Init(string questName, bool endsStoryLine, QuestSo previous, int numOfRoomsToExplore)
         {
             base.Init(questName, endsStoryLine, previous);
+            _exploredRooms = new List<Coordinates>();
             NumOfRoomsToExplore = numOfRoomsToExplore;
         }
-        
-        public void AddRoomsToExplore(int numOfRoomsToExplore)
-        {
-            NumOfRoomsToExplore += numOfRoomsToExplore;
-        }
-        
+
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            NumOfRoomsToExplore = (copiedQuest as ExploreQuestSo).NumOfRoomsToExplore;
+            var exploreQuestSo = copiedQuest as ExploreQuestSo;
+            if (exploreQuestSo != null)
+            {
+                NumOfRoomsToExplore = exploreQuestSo.NumOfRoomsToExplore;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(ExploreQuestSo)}, got type {copiedQuest.GetType()}");
+            }
         }
         
         public override QuestSo Clone()
@@ -47,38 +47,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public static ExploreQuestSo GetValidExploreQuest ( QuestExploreRoomEventArgs exploreQuestArgs, List<QuestList> questLists )
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var exploreRoom = exploreQuestArgs.RoomCoordinates;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ExploreQuestSo exploreQuestSo) continue;
-                if (!exploreQuestSo.CheckIfCompleted()) ;
-                    return exploreQuestSo;
-            }
-
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetFirstExploreQuestWithRoomAvailable(exploreRoom);
-                if (currentQuest == null) 
-                    return currentQuest;
-            }
-            
-            return null;
+            return !IsCompleted
+                   && !_exploredRooms.Contains(questElement as Coordinates ?? throw new InvalidOperationException());
         }
 
-        public void ExploreRoom ( Coordinates roomCoordinates )
+        public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            if ( !exploredRooms.Contains(roomCoordinates) )
-                exploredRooms.Add( roomCoordinates );
+            _exploredRooms.Add(questElement as Coordinates ?? throw new InvalidOperationException());
+            if (_exploredRooms.Count == NumOfRoomsToExplore)
+            {
+                IsCompleted = true;
+            }
         }
 
-        public bool CheckIfCompleted ()
+        public override string ToString()
         {
-            return NumOfRoomsToExplore <= exploredRooms.Count;
+            return $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
         }
     }
 }

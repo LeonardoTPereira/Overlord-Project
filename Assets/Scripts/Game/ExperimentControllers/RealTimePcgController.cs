@@ -13,7 +13,7 @@ namespace Game.ExperimentControllers
 {
     public class RealTimePcgController : MonoBehaviour
     {
-        private QuestLine _questLine;
+        private QuestLineList _questLines;
 
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
@@ -38,13 +38,13 @@ namespace Game.ExperimentControllers
         
         private void SetQuestLineInDungeons()
         {
-            var dungeonFileSos = new List<DungeonFileSo>(_questLine.DungeonFileSos);
+            var dungeonFileSos = new List<DungeonFileSo>(_questLines.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
             foreach (var dungeonEntrance in dungeonEntrances)
             {
                 var selectedIndex = RandomSingleton.GetInstance().Random.Next(dungeonFileSos.Count);
                 dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
-                dungeonEntrance.LevelQuestLine = _questLine;
+                dungeonEntrance.LevelQuestLines = _questLines;
                 dungeonEntrance.IsLastQuestLine = false;
                 dungeonFileSos.RemoveAt(selectedIndex);
             }
@@ -55,15 +55,15 @@ namespace Game.ExperimentControllers
             StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
         }
         
-        private bool CanLoadNarrativesToDungeonEntrances(Scene scene)
+        private static bool CanLoadNarrativesToDungeonEntrances(Scene scene)
         {
             return scene.name == "Overworld";
         }
         
         private void LoadQuestData(object sender, QuestLineCreatedEventArgs questLineArgs)
         {
-            _questLine = questLineArgs.Quests;
-            Debug.Log("Quest Line Loaded: "+_questLine);
+            _questLines = questLineArgs.QuestLines;
+            Debug.Log("Quest Line Loaded: "+_questLines);
         }
     }
 }

@@ -6,7 +6,7 @@ using ScriptableObjects.SerializableDictionaryLite;
 namespace Game.NarrativeGenerator.NpcRelatedNarrative
 {
     [Serializable]
-    public class NpcAmountDictionary : SerializableDictionaryBase<NpcSo, QuestList>
+    public class NpcAmountDictionary : SerializableDictionaryBase<NpcSo, QuestLine>
     {
     }
 }

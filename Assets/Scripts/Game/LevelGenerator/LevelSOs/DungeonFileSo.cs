@@ -53,12 +53,12 @@ namespace Game.LevelGenerator.LevelSOs
 #if UNITY_EDITOR
             const string newFolder = "Dungeons";
             var fileName = directory;
-            if (!AssetDatabase.IsValidFolder(fileName + Constants.SEPARATOR_CHARACTER + newFolder))
+            if (!AssetDatabase.IsValidFolder(fileName + Constants.SeparatorCharacter + newFolder))
             {
                 AssetDatabase.CreateFolder(fileName, newFolder);
             }
-            fileName += Constants.SEPARATOR_CHARACTER + newFolder;
-            fileName += Constants.SEPARATOR_CHARACTER;
+            fileName += Constants.SeparatorCharacter + newFolder;
+            fileName += Constants.SeparatorCharacter;
             fileName += GetFilename()+".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);

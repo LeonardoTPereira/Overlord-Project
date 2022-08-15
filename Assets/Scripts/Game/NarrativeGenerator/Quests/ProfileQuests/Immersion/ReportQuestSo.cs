@@ -1,19 +1,14 @@
-using ScriptableObjects;
 using Util;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Game.Quests;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReportQuestSo : ImmersionQuestSo
     {
-        public override string symbolType {
-            get { return Constants.REPORT_QUEST; }
-        }
+        public override string SymbolType => Constants.REPORT_QUEST;
         public NpcSo Npc { get; set; }
+        public int QuestId { get; set; }
 
         public override void Init()
         {
@@ -25,19 +20,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
+            QuestId = GetInstanceID();
         }
-        
-        public void AddNpc(NpcSo npc)
-        {
-            Npc = npc;
-        }
-        
+
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Npc = (copiedQuest as ReportQuestSo).Npc;
+            var reportQuest = copiedQuest as ReportQuestSo;
+            if (reportQuest != null)
+            {
+                Npc = reportQuest.Npc;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(ReportQuestSo)}, got type {copiedQuest.GetType()}");
+            }
         }
-        
+
         public override QuestSo Clone()
         {
             var cloneQuest = CreateInstance<ReportQuestSo>();
@@ -45,25 +45,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public static ReportQuestSo GetValidReportQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var npc = talkQuestArgs.Npc;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ReportQuestSo reportQuestSo) continue;
-                if (reportQuestSo.Npc == npc) return reportQuestSo;
-            }
+            return !IsCompleted && QuestId == questId;
+        }
 
-            foreach (var questList in questLists)
-            {
-                var reportQuestSo = questList.GetFirstReportQuestWithNpc(npc);
-                if (reportQuestSo == null) return reportQuestSo;
-            }
-
-            return null;
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            IsCompleted = true;
+        }
+        
+        public override string ToString()
+        {
+            return $"{Npc.NpcName}.\n";
         }
     }
 }

@@ -22,11 +22,12 @@ namespace Game.LevelManager.DungeonLoader
         public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
 
         public bool survivalMode;
-        public QuestLine currentQuestLine;
+        public QuestLineList currentQuestLines;
         public int maxTreasure;
         private DungeonFileSo currentDungeonSo;
         [field: SerializeReference] private SelectedLevels _selectedLevels;
         private Map _map;
+        private DungeonLoader _dungeonLoader;
         private void OnEnable()
         {
             PlayerController.PlayerDeathEventHandler += GameOver;
@@ -36,15 +37,16 @@ namespace Game.LevelManager.DungeonLoader
 
         private void Start()
         {
-            var dungeonLoader = GetComponent<DungeonLoader>();
-            Debug.Log("Got Dungeon Loader: "+dungeonLoader);
-            _map = dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLine);
+            _dungeonLoader = GetComponent<DungeonLoader>();
+            Debug.Log("Got Dungeon Loader: "+_dungeonLoader);
+            EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
+            _map = _dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLines);
             Debug.Log("Loading Enemies");
-            EnemyLoader.LoadEnemies(currentQuestLine.EnemySos);
             Debug.Log("Loaded Enemies");
             PlayBgm(AudioManager.BgmTracks.DungeonTheme);
             gameOverScreen.GetComponent<GameOverPanelBhv>().currentLevel = _selectedLevels.GetCurrentLevel();
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
+            StartCoroutine(_dungeonLoader.OnStartMap(currentDungeonSo.BiomeName));
         }
 
         private void OnDisable()
@@ -60,10 +62,10 @@ namespace Game.LevelManager.DungeonLoader
             Debug.Log("Finished Loading Dungeon Scene in Dungeon Scene Manager");
             Debug.Log("Selected Levels Amount: " + _selectedLevels.Levels?.Count);
             currentDungeonSo = _selectedLevels.GetCurrentLevel().Dungeon;
-            currentQuestLine = _selectedLevels.GetCurrentLevel().Quests;
+            currentQuestLines = _selectedLevels.GetCurrentLevel().QuestLines;
             Debug.Log("Dungeons: " + currentDungeonSo.BiomeName);
-            Debug.Log("QuestLine Elements: " + currentQuestLine.questLines.Count);
-            maxTreasure = currentQuestLine.ItemParametersForQuestLine.TotalItems;
+            Debug.Log("QuestLine Elements: " + currentQuestLines.QuestLines.Count);
+            maxTreasure = currentQuestLines.ItemParametersForQuestLines.TotalItems;
             OnLevelLoadedEvents();
         }
 
@@ -95,7 +97,7 @@ namespace Game.LevelManager.DungeonLoader
 
         public void SetCurrentLevelQuestLine(object sender, LevelLoadEventArgs args)
         {
-            currentQuestLine = args.LevelQuestLine;
+            currentQuestLines = args.LevelQuestLines;
         }
     }
 }
