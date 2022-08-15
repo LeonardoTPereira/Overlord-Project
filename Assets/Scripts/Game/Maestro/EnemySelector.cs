@@ -18,17 +18,11 @@ namespace Game.Maestro
             var hasHealer = false;
             while (amount > 0)
             {
-                if (hasMeleeOrRanged)
+                if (IfCanCreateHealer(ref enemies, hasMeleeOrRanged, hasHealer, selected))
                 {
-                    if (!hasHealer)
-                    {
-                        if (selected.TryAddHealer(ref enemies))
-                        {
-                            hasHealer = true;
-                            amount--;
-                            continue;
-                        }
-                    }
+                    hasHealer = true;
+                    amount--;
+                    continue;
                 }
 
                 if (selected.TryAddAttacker(ref enemies))
@@ -51,7 +45,12 @@ namespace Game.Maestro
 
             return selected;
         }
-        
+
+        private static bool IfCanCreateHealer(ref EnemiesByType enemies, bool hasMeleeOrRanged, bool hasHealer, EnemiesByType selected)
+        {
+            return hasMeleeOrRanged && !hasHealer && selected.TryAddHealer(ref enemies);
+        }
+
         public static bool IsBadEnemy(EnemySO enemy)
         {
             Enums.MovementEnum movement = enemy.movement.enemyMovementIndex;

@@ -86,7 +86,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToExchangeByType)
             {
-                stringBuilder.Append($"{itemByAmount.Value.Count} {itemByAmount.Key.ItemName}s, ");
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             stringBuilder.Append($" with {Npc.NpcName}.\n");

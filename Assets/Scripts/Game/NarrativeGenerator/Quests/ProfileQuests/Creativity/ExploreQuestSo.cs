@@ -32,6 +32,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (exploreQuestSo != null)
             {
                 NumOfRoomsToExplore = exploreQuestSo.NumOfRoomsToExplore;
+                _exploredRooms = new List<Coordinates>();
+                foreach (var roomCoordinate in _exploredRooms)
+                {
+                    _exploredRooms.Add(roomCoordinate);
+                }
             }
             else
             {

@@ -47,7 +47,7 @@ namespace Game.GameManager
             while (selectedEnemies < enemiesInRoom)
             {
                 var selectedType = enemiesInQuestByType.GetRandom();
-                var maxPossibleNewEnemies = math.min(selectedType.Value.Count, enemiesInRoom - selectedEnemies);
+                var maxPossibleNewEnemies = math.min(selectedType.Value.QuestIds.Count, enemiesInRoom - selectedEnemies);
                 var newEnemiesCount = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
                 enemiesByType.AddNEnemiesFromType(selectedType, newEnemiesCount);
                 enemiesInQuestByType.RemoveCurrentTypeIfEmpty(selectedType.Key);

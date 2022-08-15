@@ -81,7 +81,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                stringBuilder.Append($"{enemyByAmount.Value.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
+                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             return stringBuilder.ToString();

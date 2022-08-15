@@ -99,7 +99,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
                 stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
-                if (typeAmountPair.Value.Count > 1)
+                if (typeAmountPair.Value.QuestIds.Count > 1)
                 {
                     stringBuilder.Append("s");
                 }

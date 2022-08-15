@@ -104,7 +104,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var itemAmountPair = selectedItems.ElementAt(i);
                 stringBuilder.Append($"$Gather {itemAmountPair.Value} {itemAmountPair.Key}");
-                if (itemAmountPair.Value.Count > 1)
+                if (itemAmountPair.Value.QuestIds.Count > 1)
                 {
                     stringBuilder.Append("s");
                 }

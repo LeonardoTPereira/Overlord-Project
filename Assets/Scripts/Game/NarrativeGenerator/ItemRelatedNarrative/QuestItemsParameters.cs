@@ -45,7 +45,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             var itemDictionary = quest.GetItemDictionary();
             foreach (var dropItemData in itemDictionary)
             {
-                foreach (var questId in dropItemData.Value)
+                foreach (var questId in dropItemData.Value.QuestIds)
                 {
                     ItemsByType.ItemAmountBySo.AddItemWithId(dropItemData.Key, questId);
                     TotalItems++;
