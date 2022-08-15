@@ -53,8 +53,8 @@ namespace Game.NPCs
             else if(openedQuest.IsItemQuest())
             {
                 questOpener.Append("I need you to get some items for me:\n");
-                var itemQuest = openedQuest as ItemQuestSo;
-                foreach (var itemByAmount in itemQuest.ItemsToCollectByType)
+                var itemQuest = openedQuest as GatherQuestSo;
+                foreach (var itemByAmount in itemQuest.ItemsToGatherByType)
                 {
                     questOpener.Append($"{itemByAmount.Value.ToString()} {itemByAmount.Key.ItemName}s, ");
                 }

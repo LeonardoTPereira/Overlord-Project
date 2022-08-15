@@ -125,12 +125,13 @@ namespace Game.NarrativeGenerator.Quests
 
         public bool IsItemQuest()
         {
-            return typeof(ItemQuestSo).IsAssignableFrom(GetType());
+            return typeof(GatherQuestSo).IsAssignableFrom(GetType());
         }
         
         public bool IsDropQuest()
         {
-            return typeof(DropQuestSo).IsAssignableFrom(GetType());
+            // return typeof(DropQuestSo).IsAssignableFrom(GetType());
+            return false;
         }
 
         public bool IsKillQuest()
@@ -140,7 +141,7 @@ namespace Game.NarrativeGenerator.Quests
         
         public bool IsGetQuest()
         {
-            return typeof(GetQuestSo).IsAssignableFrom(GetType());
+            return typeof(GatherQuestSo).IsAssignableFrom(GetType());
         }        
         public bool IsSecretRoomQuest()
         {

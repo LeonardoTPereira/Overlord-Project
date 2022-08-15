@@ -88,7 +88,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             }
             else if (quest.IsDropQuest())
             {
-                AddEnemies((DropQuestSo) quest);
+                // AddEnemies((DropQuestSo) quest);
             }
         }
 
@@ -104,13 +104,13 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
          * TODO the enemies on drop quests could be the same from the killEnemies quest. We can try to check overlaps
          * and avoid creating more from these quests if possible
          */
-        private void AddEnemies(DropQuestSo quest)
-        {
-            foreach (var dropItemData in quest.ItemData)
-            {
-                AddEnemiesFromPairToDictionary(dropItemData);
-            }
-        }
+        // private void AddEnemies(DropQuestSo quest)
+        // {
+        //     foreach (var dropItemData in quest.ItemData)
+        //     {
+        //         AddEnemiesFromPairToDictionary(dropItemData);
+        //     }
+        // }
 
         private void AddEnemiesFromPairToDictionary(KeyValuePair<ItemSo, EnemiesByType> dropItemData)
         {

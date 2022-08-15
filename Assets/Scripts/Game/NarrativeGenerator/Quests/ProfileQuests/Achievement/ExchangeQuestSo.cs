@@ -53,7 +53,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         
         public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<ItemQuestSo>();
+            var cloneQuest = CreateInstance<ExchangeQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }

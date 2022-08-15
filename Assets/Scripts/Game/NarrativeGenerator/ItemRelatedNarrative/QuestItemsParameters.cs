@@ -36,13 +36,13 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         {
             if (quest.IsItemQuest())
             {
-                AddItems((ItemQuestSo) quest);
+                AddItems((GatherQuestSo) quest);
             }
         }
 
-        private void AddItems(ItemQuestSo quest)
+        private void AddItems(GatherQuestSo quest)
         {
-            foreach (var dropItemData in quest.ItemsToCollectByType)
+            foreach (var dropItemData in quest.ItemsToGatherByType)
             {
                 AddItemsFromPairToDictionary(dropItemData);
             }

@@ -67,7 +67,7 @@ namespace Game.NarrativeGenerator.Quests
                     symbolList.Add( ScriptableObject.CreateInstance<ReportQuestSo>() );
                 break;
                 case Constants.GATHER_QUEST:
-                    symbolList.Add( ScriptableObject.CreateInstance<GetQuestSo>() );
+                    symbolList.Add( ScriptableObject.CreateInstance<GatherQuestSo>() );
                 break;
                 case Constants.EXCHANGE_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ExchangeQuestSo>() );
