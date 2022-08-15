@@ -49,7 +49,7 @@ public class DialogueTreeView : GraphView
         }
 
         //creates node view
-        tree.Nodes.ForEach(CreateNodeView);
+        tree.Nodes.ForEach(n => CreateNodeView(n));
 
         //creates the edges
         tree.Nodes.ForEach(n =>
@@ -106,7 +106,7 @@ public class DialogueTreeView : GraphView
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
-        //base.BuildContextualMenu(evt);
+        
         {
             var types = TypeCache.GetTypesDerivedFrom<ActionNode>(); //allows to get each type bellow action node
             foreach (var type in types)

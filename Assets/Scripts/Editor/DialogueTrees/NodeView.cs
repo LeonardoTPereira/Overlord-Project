@@ -15,7 +15,7 @@ using UnityEngine.UIElements;
         public Port Input;
         public Port Output;
 
-        public NodeView(Node node) : base("Assets/Editor/NodeView.uxml")
+        public NodeView(Node node) : base("Assets/Scripts/Editor/DialogueTrees/NodeView.uxml")
         {
             this.node = node;
             title = node.name;
@@ -64,6 +64,7 @@ using UnityEngine.UIElements;
             }
             else if (node is RootNode)
             {
+                //can be used if needed 
             }
 
             if (Input != null)

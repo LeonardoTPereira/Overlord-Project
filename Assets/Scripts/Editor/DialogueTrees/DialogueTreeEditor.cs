@@ -50,6 +50,11 @@ namespace Editor.DialogueTrees
         {
             var tree = Selection.activeObject as DialogueTree;
 
+            //if (tree)
+            //{
+            //    _treeView.PopulateView(tree);
+            //}
+
             if (!tree && Selection.activeGameObject)
             {
                 var runner = Selection.activeGameObject.GetComponent<TreeRunner>();

@@ -33,3 +33,21 @@ MonoBehaviour:
   <TreeState>k__BackingField: 0
   <Nodes>k__BackingField:
   - {fileID: -8306071293600809312}
+  - {fileID: 4029743527641337367}
+--- !u!114 &4029743527641337367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded0880c61528d44092f9e21258359cd, type: 3}
+  m_Name: WaitNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 7f4fdce33a7b6ff4bbed4386de48fc3d
+  position: {x: 0, y: 0}
+  duration: 1
