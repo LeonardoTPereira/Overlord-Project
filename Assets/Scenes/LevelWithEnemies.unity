@@ -694,6 +694,7 @@ MonoBehaviour:
   - {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102, type: 3}
   - {fileID: 114939094486873598, guid: 962c76af55ff3be468234bd041d69557, type: 3}
   - {fileID: 114939094486873598, guid: 57c99de9578f3bb4188e20cc716b0c5b, type: 3}
+  <GenerateRooms>k__BackingField: 1
 --- !u!4 &514499399
 Transform:
   m_ObjectHideFlags: 0
@@ -723,9 +724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 1255286056}
   victoryScreen: {fileID: 1255286055}
-  createMaps: 0
-  survivalMode: 0
-  currentQuestLine: {fileID: 0}
+  currentQuestLines: {fileID: 0}
   maxTreasure: 0
   _selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
 --- !u!1 &826402168

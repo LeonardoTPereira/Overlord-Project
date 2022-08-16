@@ -24,7 +24,7 @@ namespace Game.LevelManager.DungeonLoader
         /**
          * Constructor of the Map object that uses an input file for the dungeon
          */
-        public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, int mode = 0)
+        public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, bool generateRooms = false)
         {
             NTreasureRooms = 0;
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
@@ -36,7 +36,7 @@ namespace Game.LevelManager.DungeonLoader
             else
             {
                 // Sala vazia padrão
-                BuildDefaultRooms();
+                BuildDefaultRooms(generateRooms);
             }
         }
 
@@ -139,17 +139,21 @@ namespace Game.LevelManager.DungeonLoader
         }
 
         //Cria salas vazias no tamanho padrão
-        private void BuildDefaultRooms()
+        private void BuildDefaultRooms(bool generateRooms)
         {
             Dimensions roomDimensions = new Dimensions(Constants.DefaultRoomSizeX, Constants.DefaultRoomSizeY);
             foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
             {
                 if (currentPart is DungeonRoom room)
                 {
-                    var roomInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
-                    var doorList = CreateDoorList(room.Coordinates);
-                    roomInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
-                    room.CreateRoom(roomDimensions);
+                    RoomGeneratorInput roomGeneratorInput = null;
+                    if (generateRooms)
+                    {
+                        var doorList = CreateDoorList(room.Coordinates);
+                        roomGeneratorInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
+                        roomGeneratorInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
+                    }
+                    room.CreateRoom(roomDimensions, roomGeneratorInput);
                 }
             }
         }

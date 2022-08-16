@@ -19,14 +19,11 @@ namespace Game.LevelManager.DungeonLoader
         public GameObject gameOverScreen, victoryScreen;
         [field: Scene] public string GameUI { get; set; } = "GameUI";
         public static event EventHandler NewLevelLoadedEventHandler;
-        public bool createMaps = false; //If true, runs the AE to create maps. If false, loads the ones on the designated folders
 
-        public bool survivalMode;
         public QuestLineList currentQuestLines;
         public int maxTreasure;
         private DungeonFileSo currentDungeonSo;
         [field: SerializeReference] private SelectedLevels _selectedLevels;
-        private Map _map;
         private DungeonLoader _dungeonLoader;
         private void OnEnable()
         {
@@ -40,7 +37,7 @@ namespace Game.LevelManager.DungeonLoader
             _dungeonLoader = GetComponent<DungeonLoader>();
             Debug.Log("Got Dungeon Loader: "+_dungeonLoader);
             EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
-            _map = _dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLines);
+            _dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLines);
             Debug.Log("Loading Enemies");
             Debug.Log("Loaded Enemies");
             PlayBgm(AudioManager.BgmTracks.DungeonTheme);
