@@ -7,68 +7,50 @@ using Util;
 namespace Game.NarrativeGenerator
 {
     public static class QuestWeightsCalculator
-    {
-        public static int CalculateTotalQuestionsWeight (List<int> answers)
-        {
-            int totalQuestionsWeight = 0;
-            int firstQuestionIndex = 2;
-            int lastQuestionIndex = 12;
-            for ( var i = firstQuestionIndex; i < lastQuestionIndex; i++ )
-            {
-                if ( i < lastQuestionIndex - 1 )
-                {
-                    if ( i == firstQuestionIndex )
-                    {
-                        totalQuestionsWeight += answers[i] -3;
-                    }
-                    else
-                    {
-                        totalQuestionsWeight += answers[i];
-                    }
-                }
-                else
-                {
-                    totalQuestionsWeight -= 3*(answers[i] -3);
-                }
-            }
-            return totalQuestionsWeight;
-        }
-        
-        public static int GetTalkQuestWeight ( List<int> answers, int totalQuestionsWeight )
+    {        
+        private const float minWeightPercentage = 0.2f;
+        private const float percentageDivider = 10;
+        private const float killPercentageDivider = 15;
+
+        public static float GetTalkQuestWeight ( List<int> answers )
         {
             // Talk questions = 10, 11
-            int [] talkWeightQuestions = {answers[9], answers[10], -1*(answers[11]-3)};
-            int talkWeight = CalculateWeightSum( talkWeightQuestions, totalQuestionsWeight );
-            return talkWeight;
+            float [] talkWeightQuestions = {answers[9], answers[10]};
+            float talkWeight = CalculateWeightSum( talkWeightQuestions )/percentageDivider;
+            if ( talkWeight > 0) return talkWeight;
+            return minWeightPercentage;
         }
 
-        public static int GetGetQuestWeight ( List<int> answers, int totalQuestionsWeight )
+        public static float GetGetQuestWeight ( List<int> answers )
         {
             // Get questions = 7, 8
-            int [] getWeightQuestions = {answers[7], answers[8], -1*(answers[11]-3)};
-            int getWeight = CalculateWeightSum( getWeightQuestions, totalQuestionsWeight );
-            return getWeight;
+            float [] getWeightQuestions = {answers[7], answers[8]};
+            float getWeight = CalculateWeightSum( getWeightQuestions )/percentageDivider;
+            if ( getWeight > 0) return getWeight;
+            return minWeightPercentage;
         }
 
-        public static int GetExploreQuestWeight ( List<int> answers, int totalQuestionsWeight )
+        public static float GetExploreQuestWeight ( List<int> answers )
         {
             // Explore questions = 5, 6
-            int [] exploreWeightQuestions = {answers[5], answers[6], -1*(answers[11]-3)};
-            int exploreWeight = CalculateWeightSum( exploreWeightQuestions, totalQuestionsWeight );
-            return exploreWeight;
+            float [] exploreWeightQuestions = {answers[5], answers[6]};
+            float exploreWeight = CalculateWeightSum( exploreWeightQuestions )/percentageDivider;
+            if ( exploreWeight > 0) return exploreWeight;
+            return minWeightPercentage;
         }
 
-        public static int GetKillQuestWeight ( List<int> answers, int totalQuestionsWeight )
+        public static float GetKillQuestWeight ( List<int> answers )
         {
             // Kill questions = 2, 3 e 4
-            int [] killWeightQuestions = {answers[2]-3, answers[3], answers[4]};
-            int killWeight = CalculateWeightSum( killWeightQuestions, totalQuestionsWeight );
-            return killWeight;
+            float [] killWeightQuestions = {answers[2], answers[3], answers[4]};
+            float killWeight = CalculateWeightSum( killWeightQuestions )/killPercentageDivider;
+            if ( killWeight > 0) return killWeight;
+            return minWeightPercentage;
         }
 
-        private static int CalculateWeightSum ( int [] answers, int totalQuestionsWeight )
+        private static float CalculateWeightSum ( float [] answers )
         {
-            int weightSum = (int)(answers.Sum()/(float)totalQuestionsWeight*100);
+            float weightSum = (float)(answers.Sum());
             return weightSum;
         }
         

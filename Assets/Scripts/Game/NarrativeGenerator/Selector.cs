@@ -85,10 +85,7 @@ namespace Game.NarrativeGenerator
 
         private void CreateQuestDict ()
         {
-            wasQuestAdded.Add(Constants.MasteryQuest, false);
-            wasQuestAdded.Add(Constants.AchievementQuest, false);
-            wasQuestAdded.Add(Constants.ImmersionQuest, false);
-            wasQuestAdded.Add(Constants.CreativityQuest, false);
+            wasQuestAdded.Add(nameof(KillQuestSo), false);
         }
 
         private void UpdateListContents (QuestLine questLine)

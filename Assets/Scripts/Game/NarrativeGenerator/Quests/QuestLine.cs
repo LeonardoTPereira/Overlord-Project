@@ -102,7 +102,7 @@ namespace Game.NarrativeGenerator.Quests
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.SetDictionary(ProfileCalculator.StartSymbolWeights);
+                lastSelectedQuest.NextSymbolChances = ProfileCalculator.StartSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
