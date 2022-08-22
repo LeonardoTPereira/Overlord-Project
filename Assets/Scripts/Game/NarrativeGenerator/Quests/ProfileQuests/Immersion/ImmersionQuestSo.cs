@@ -30,26 +30,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            switch ( this.SymbolType )
+            switch ( SymbolType )
             {
                 case Constants.LISTEN_QUEST:
-                    CreateAndSaveListenQuestSo(questSos, possibleNpcSos);
-                break;
+                    return CreateAndSaveListenQuestSo(questSos, possibleNpcSos);
                 case Constants.READ_QUEST:
-                    CreateAndSaveReadQuestSo(questSos, possibleItems);
-                break;
+                    return CreateAndSaveReadQuestSo(questSos, possibleItems);
                 case Constants.GIVE_QUEST:
-                    CreateAndSaveGiveQuestSo(questSos, possibleNpcSos, possibleItems);
-                break;
+                    return CreateAndSaveGiveQuestSo(questSos, possibleNpcSos, possibleItems);
                 case Constants.REPORT_QUEST:
-                    CreateAndSaveReportQuestSo(questSos, possibleNpcSos);
-                break;
+                    return CreateAndSaveReportQuestSo(questSos, possibleNpcSos);
                 default:
                     Debug.LogError("help something went wrong!");
                 break;
             }
+
+            return null;
         }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
@@ -62,7 +60,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static void CreateAndSaveListenQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
+        private static ListenQuestSo CreateAndSaveListenQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
             var listenQuest = CreateInstance<ListenQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
@@ -74,9 +72,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             
             questSos.Add(listenQuest);
+            return listenQuest;
         }
 
-        private static void CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
+        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
@@ -88,9 +87,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             
             questSos.Add(readQuest);
+            return readQuest;
         }
 
-        private static void CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
+        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
@@ -103,9 +103,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             
             questSos.Add(giveQuest);
+            return giveQuest;
         }
 
-        private static void CreateAndSaveReportQuestSo(List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
+        private static ReportQuestSo CreateAndSaveReportQuestSo(List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
         {
             var reportQuest = CreateInstance<ReportQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
@@ -117,6 +118,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             
             questSos.Add(reportQuest);
+            return reportQuest;
         }
     }
 }

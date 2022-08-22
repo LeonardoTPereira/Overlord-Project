@@ -44,8 +44,9 @@ namespace Game.NarrativeGenerator.Quests
         public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
 
-        public virtual void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public virtual QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
+            return null;
         }
 
         public virtual void Init()
@@ -93,7 +94,7 @@ namespace Game.NarrativeGenerator.Quests
         public void SetNextSymbol(MarkovChain chain)
         {
             var chance = RandomSingleton.GetInstance().Next(0, 100);
-            var cumulativeProbability = 40;
+            var cumulativeProbability = 0;
             foreach ( var nextSymbolChance in NextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
