@@ -31,20 +31,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( SymbolType )
             {
                 case Constants.GATHER_QUEST:
-                    CreateAndSaveGatherQuestSo(questSos, possibleItems);
-                break;
+                    return CreateAndSaveGatherQuestSo(questSos, possibleItems);
                 case Constants.EXCHANGE_QUEST:
-                    CreateAndSaveExchangeQuestSo(questSos, possibleNpcSos, possibleItems);
-                break;
+                    return CreateAndSaveExchangeQuestSo(questSos, possibleNpcSos, possibleItems);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;
             }
+
+            return null;
         }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
@@ -57,7 +57,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static void CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
+        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
             var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
@@ -74,11 +74,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 questSos[^1].Next = getItemQuest;
             }
-            
             questSos.Add(getItemQuest);
+            return getItemQuest;
         }
 
-        private static void CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
+        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
@@ -95,6 +95,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
 
             questSos.Add(exchangeQuest);
+            return exchangeQuest;
+
         }
 
         private static string ItemsToString(ItemAmountDictionary selectedItems)

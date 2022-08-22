@@ -25,20 +25,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( SymbolType )
             {
                 case Constants.EXPLORE_QUEST:
-                    CreateAndSaveExploreQuestSo(questSos);
-                break;
+                    return CreateAndSaveExploreQuestSo(questSos);
                 case Constants.GOTO_QUEST:
-                    CreateAndSaveGotoQuestSo(questSos);
-                break;
+                    return CreateAndSaveGotoQuestSo(questSos);
                 default:
                     Debug.LogError("help something went wrong! - Creativity doesn't contain symbol: "+SymbolType);
                 break;
             }
+
+            return null;
         }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
@@ -52,7 +52,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
 
-        private static void CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
+        private static ExploreQuestSo CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
             var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(10) + 3;
@@ -64,9 +64,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
 
             questSos.Add(exploreQuest);
+
+            return exploreQuest;
         }
 
-        private static void CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
+        private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
             var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
             //TODO verify if there's a way to mark the room in the minimap/get a rooms name here
@@ -77,6 +79,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
 
             questSos.Add(gotoQuest);
+            return gotoQuest;
         }
     }
 }

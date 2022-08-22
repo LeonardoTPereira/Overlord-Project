@@ -26,20 +26,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( SymbolType )
             {
                 case Constants.KILL_QUEST:
-                    CreateAndSaveKillQuestSo(questSos, enemyTypes);
-                break;
+                    return CreateAndSaveKillQuestSo(questSos, enemyTypes);
                 case Constants.DAMAGE_QUEST:
-                    CreateAndSaveDamageQuestSo(questSos, enemyTypes);
-                break;
+                    return CreateAndSaveDamageQuestSo(questSos, enemyTypes);
                 default:
                     Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);
                 break;
             }
+
+            return null;
         }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
@@ -52,7 +52,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        public static void CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var killQuest = CreateInstance<KillQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
@@ -72,9 +72,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             
             questSos.Add(killQuest);
+            return killQuest;
         }
 
-        public static void CreateAndSaveDamageQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static DamageQuestSo CreateAndSaveDamageQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var damageQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
             var selectedEnemyType = enemyTypes.GetRandomItem();
@@ -88,6 +89,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             
             questSos.Add(damageQuest);
+            return damageQuest;
         }
 
         private static string KillEnemyTypesToString(EnemiesByType  selectedEnemyTypes)

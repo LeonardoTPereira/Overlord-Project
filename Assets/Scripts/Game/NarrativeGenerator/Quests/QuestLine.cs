@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.NPCs;
 using Game.Quests;
+using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -93,6 +94,21 @@ namespace Game.NarrativeGenerator.Quests
         public QuestSo GetCurrentQuest()
         {
             return CurrentQuestIndex >= Quests.Count ? null : Quests[CurrentQuestIndex];
+        }
+
+        public void PopulateQuestLine(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        {
+            var questChain = new MarkovChain();
+            while (questChain.GetLastSymbol().CanDrawNext)
+            {
+                var lastSelectedQuest = questChain.GetLastSymbol();
+                lastSelectedQuest.SetDictionary(ProfileCalculator.StartSymbolWeights);
+                lastSelectedQuest.SetNextSymbol(questChain);
+
+                var nonTerminalSymbol = questChain.GetLastSymbol();
+                nonTerminalSymbol.SetNextSymbol(questChain);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+            }
         }
     }
 }
