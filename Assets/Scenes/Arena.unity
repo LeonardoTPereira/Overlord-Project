@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 47708437}
   - component: {fileID: 47708435}
   - component: {fileID: 47708434}
+  - component: {fileID: 47708438}
   m_Layer: 0
   m_Name: EnemyLoader
   m_TagString: Untagged
@@ -153,61 +154,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9dbf673ceac4cdeba86ae62fc97dd0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <spawnPoints>k__BackingField:
-  - {x: 2, y: 2, z: 0}
-  - {x: -2, y: 2, z: 0}
-  - {x: -2, y: -2, z: 0}
-  - {x: 2, y: -2, z: 0}
-  - {x: 4, y: 4, z: 0}
-  - {x: -4, y: 4, z: 0}
-  - {x: -4, y: -4, z: 0}
-  - {x: 4, y: -4, z: 0}
-  - {x: 2, y: -4, z: 0}
-  - {x: 2, y: 4, z: 0}
-  - {x: 4, y: 2, z: 0}
-  - {x: 4, y: -2, z: 0}
-  - {x: -2, y: 4, z: 0}
-  - {x: -2, y: -4, z: 0}
-  - {x: -4, y: 2, z: 0}
-  - {x: -4, y: -2, z: 0}
-  <enemyByType>k__BackingField:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 1
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 11400000, guid: 3d6785e46e940b843aa5fbe4ca729d60, type: 2}
-    isExpanded: 1
-    _keyValues:
-    - {fileID: 11400000, guid: 46549efa2dd22d54a93448a73a65586c, type: 2}
-    - {fileID: 11400000, guid: 134968226433a194b9d559e33f9e5b6e, type: 2}
-    - {fileID: 11400000, guid: 0ad9b3f445b5f3d4d80f7f34ea7c8fbc, type: 2}
-    - {fileID: 11400000, guid: 4646c98572096d24da8f25d10001e083, type: 2}
-    - {fileID: 11400000, guid: 2a216a9425d8bef40882b405ac796d88, type: 2}
-    - {fileID: 11400000, guid: f305ea5217f1dc24aa4ee410aec87a72, type: 2}
-    _keys:
-    - {fileID: 11400000, guid: 46549efa2dd22d54a93448a73a65586c, type: 2}
-    - {fileID: 11400000, guid: 134968226433a194b9d559e33f9e5b6e, type: 2}
-    - {fileID: 11400000, guid: 0ad9b3f445b5f3d4d80f7f34ea7c8fbc, type: 2}
-    - {fileID: 11400000, guid: 4646c98572096d24da8f25d10001e083, type: 2}
-    - {fileID: 11400000, guid: 2a216a9425d8bef40882b405ac796d88, type: 2}
-    - {fileID: 11400000, guid: f305ea5217f1dc24aa4ee410aec87a72, type: 2}
-    _values: 020000000200000002000000020000000200000002000000
+  <Difficulty>k__BackingField: 4
+  <TotalEnemies>k__BackingField: 10
+  <RoomPrefab>k__BackingField: {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102,
+    type: 3}
+  <RoomSize>k__BackingField:
+    width: 28
+    height: 24
 --- !u!114 &47708435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,15 +173,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d338a50bdd1bf6e4f921463ea3ef690b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8771052608593400771, guid: 5091f6122b4832c4ebdab9b964bc98bb,
+  <EnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: 5091f6122b4832c4ebdab9b964bc98bb,
     type: 3}
-  barehandEnemyPrefab: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
+  <BareHandEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: 8b991ab05bb06d8458303a12ea6bd7ee,
     type: 3}
-  shooterEnemyPrefab: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
+  <ShooterEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: c871cd871f9977146afbbfd2905d4713,
     type: 3}
-  bomberEnemyPrefab: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
+  <BomberEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: 51f39091c66593546a4fdc94df32be25,
     type: 3}
-  healerEnemyPrefab: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
+  <HealerEnemyPrefab>k__BackingField: {fileID: 8771052608593400771, guid: c6b2cabeada51f8438359e02f5ca220f,
     type: 3}
 --- !u!4 &47708437
 Transform:
@@ -245,6 +198,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &47708438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47708433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
+    type: 2}
+  <IsEnable>k__BackingField: 0
+  maxGenerations: 500
+  initialPopulationSize: 35
+  intermediatePopulationSize: 100
+  mutationRate: 20
+  geneMutationRate: 30
+  numberOfCompetitors: 2
+  numberOfDesiredElitesPerEnemy: 3
+  minimumAcceptableFitnessPerEnemy: 0.5
 --- !u!1 &132918278
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +276,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 16.875
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -406,7 +382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &790384357
 BoxCollider2D:
   m_ObjectHideFlags: 0

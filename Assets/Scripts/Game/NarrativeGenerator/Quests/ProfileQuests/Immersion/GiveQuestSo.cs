@@ -1,5 +1,6 @@
 using ScriptableObjects;
 using Util;
+using System.Collections.Generic;
 using System;
 using Game.NPCs;
 
@@ -8,6 +9,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class GiveQuestSo : ImmersionQuestSo
     {
         public override string SymbolType => Constants.GIVE_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
 
         public GiveQuestData GiveQuestData { get; set; }
         private bool _hasItemToCollect;

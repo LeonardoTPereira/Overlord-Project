@@ -47,7 +47,7 @@ namespace Game.DataCollection
         {
             foreach (var enemies in EnemiesByAmount)
             {
-                NEnemies += enemies.Value.Count;
+                NEnemies += enemies.Value.QuestIds.Count;
             }
         }
 

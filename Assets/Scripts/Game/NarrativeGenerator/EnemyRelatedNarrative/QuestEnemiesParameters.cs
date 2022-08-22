@@ -91,7 +91,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         {
             foreach (var enemyAmountPair in quest.EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                foreach (var questId in enemyAmountPair.Value)
+                foreach (var questId in enemyAmountPair.Value.QuestIds)
                 {
                     TotalByType.EnemiesByTypeDictionary.AddItemWithId(enemyAmountPair.Key, questId);
                     NEnemies++;

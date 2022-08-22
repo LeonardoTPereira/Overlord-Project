@@ -18,8 +18,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
             get {
-                if ( nextSymbolChances != null )
-                    return nextSymbolChances;
+                if ( _nextSymbolChances != null )
+                    return _nextSymbolChances;
                     
                 var achievementQuestWeights = new Dictionary<string, Func<int, int>>
                 {
@@ -42,7 +42,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     CreateAndSaveExchangeQuestSo(questSos, possibleNpcSos, possibleItems);
                 break;
                 default:
-                    Debug.LogError("help something went wrong!");
+                    Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;
             }
         }
@@ -104,7 +104,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var itemAmountPair = selectedItems.ElementAt(i);
                 stringBuilder.Append($"$Gather {itemAmountPair.Value} {itemAmountPair.Key}");
-                if (itemAmountPair.Value.Count > 1)
+                if (itemAmountPair.Value.QuestIds.Count > 1)
                 {
                     stringBuilder.Append("s");
                 }

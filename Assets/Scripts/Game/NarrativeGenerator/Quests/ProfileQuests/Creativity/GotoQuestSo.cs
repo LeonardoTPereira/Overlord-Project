@@ -1,4 +1,5 @@
 using Util;
+using System.Collections.Generic;
 using System;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -7,6 +8,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.GOTO_QUEST;
         public Coordinates SelectedRoomCoordinates { get; set; }
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
 
         public override void Init()
         {

@@ -3,6 +3,7 @@ using Util;
 using System;
 using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
+using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
 
@@ -13,6 +14,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
 
         public override string SymbolType => Constants.EXCHANGE_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
+        
         public override ItemAmountDictionary GetItemDictionary()
         {
             return ItemsToExchangeByType;
@@ -86,7 +94,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToExchangeByType)
             {
-                stringBuilder.Append($"{itemByAmount.Value.Count} {itemByAmount.Key.ItemName}s, ");
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             stringBuilder.Append($" with {Npc.NpcName}.\n");

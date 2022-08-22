@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Collections.Generic;
 using ScriptableObjects;
 using Util;
 using UnityEngine;
@@ -10,6 +11,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         [field: SerializeField] private DamageQuestData DamageData { get; set; }
         public override string SymbolType => Constants.DAMAGE_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
 
         public override void Init()
         {

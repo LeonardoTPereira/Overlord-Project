@@ -5,6 +5,7 @@ using Game.EnemyManager;
 using Game.Events;
 using Game.GameManager;
 using Game.LevelManager.DungeonLoader;
+using Game.NarrativeGenerator.Quests;
 using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace Game.LevelManager.DungeonManager
         }
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             _enemyLoader = GetComponent<EnemyLoader>();
 
@@ -297,13 +298,13 @@ namespace Game.LevelManager.DungeonManager
             enemiesDictionary = roomData.EnemiesByType.GetEnemiesForRoom();
         }
 
-        private void SpawnEnemies()
+        public void SpawnEnemies()
         {
             var selectedSpawnPoints = new List<int>();
             _instantiatedEnemies.Clear();
             foreach (var enemiesFromType in enemiesDictionary)
             {
-                foreach (var questId in enemiesFromType.Value)
+                foreach (var questId in enemiesFromType.Value.QuestIds)
                 {
                     int actualSpawn;
                     if (selectedSpawnPoints.Count >= spawnPoints.Count)
@@ -375,9 +376,9 @@ namespace Game.LevelManager.DungeonManager
                 PlaceTreasureInRoom(itemAmountPair.Key, itemAmountPair.Value);
             }
         }
-        private void PlaceTreasureInRoom(ItemSo item, LinkedList<int> questIds)
+        private void PlaceTreasureInRoom(ItemSo item, QuestIdList questIds)
         {
-            foreach (var questId in questIds)
+            foreach (var questId in questIds.QuestIds)
             {
                 GetAvailablePosition();
                 var treasure = Instantiate(treasurePrefab, transform);

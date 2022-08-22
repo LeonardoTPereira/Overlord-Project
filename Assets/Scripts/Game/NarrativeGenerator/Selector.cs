@@ -24,10 +24,18 @@ namespace Game.NarrativeGenerator
             questLineList.Init();            
             CreateQuestLineForEachNpc(possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
 
-            while ( wasQuestAdded.ContainsValue(false) )
+            int i = 0;
+            Debug.Log("add necessary quests");
+            while ( wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 NpcSo selectedNpc = possibleNpcs[Random.Range(0, possibleNpcs.Count)];
                 CreateQuestLineForNpc(selectedNpc, possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
+                i++;
+            }
+            Debug.Log("i:"+i);
+            foreach (KeyValuePair<string,bool> quest in wasQuestAdded)
+            {
+                Debug.Log(quest.Key+" "+quest.Value);
             }
             return questLineList;
         }
@@ -46,7 +54,6 @@ namespace Game.NarrativeGenerator
         {
             var questLine = CreateQuestLine(possibleNpcs, possibleTreasures, possibleEnemyTypes);
             questLine.Quests[^1].EndsStoryLine = true;
-            Debug.Log(questLine.Quests.Count);
             questLine.NpcInCharge = npcInCharge;
             questLineList.QuestLines.Add(questLine);
         }
@@ -60,14 +67,17 @@ namespace Game.NarrativeGenerator
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.SetDictionary(ProfileCalculator.StartSymbolWeights);
+                lastSelectedQuest.NextSymbolChances = ProfileCalculator.StartSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 UpdateListContents(nonTerminalSymbol);
                 nonTerminalSymbol.SetNextSymbol(questChain);
+                Debug.Log(nonTerminalSymbol.SymbolType);
 
-                questChain.GetLastSymbol().DefineQuestSo(questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                var terminalSymbol = questChain.GetLastSymbol();
+                Debug.Log(terminalSymbol.SymbolType);
+                terminalSymbol.DefineQuestSo(questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes);
             }
 
             return questLine;
@@ -76,6 +86,9 @@ namespace Game.NarrativeGenerator
         private void CreateQuestDict ()
         {
             wasQuestAdded.Add(Constants.MasteryQuest, false);
+            wasQuestAdded.Add(Constants.AchievementQuest, false);
+            wasQuestAdded.Add(Constants.ImmersionQuest, false);
+            wasQuestAdded.Add(Constants.CreativityQuest, false);
         }
 
         private void UpdateListContents ( ISymbol lastQuest )

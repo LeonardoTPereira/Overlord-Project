@@ -16,6 +16,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
         public override string SymbolType => Constants.KILL_QUEST;
 
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
+
         public override void Init()
         {
             base.Init();
@@ -81,7 +87,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                stringBuilder.Append($"{enemyByAmount.Value.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
+                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             return stringBuilder.ToString();

@@ -14,20 +14,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get {
-                if ( nextSymbolChances != null )
-                    return nextSymbolChances;
-                    
+            get
+            {
                 var immersionQuestWeights = new Dictionary<string, Func<int, int>>
-                {
-                    {Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight},
-                    {Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
-                    {Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
-                    {Constants.REPORT_QUEST, Constants.FourOptionQuestLineWeight},
-                    {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
-                };
+                    {
+                        {Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.REPORT_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
+                    };
                 return immersionQuestWeights;
-            } 
+            }
         }
 
         public override void DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
@@ -47,7 +45,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     CreateAndSaveReportQuestSo(questSos, possibleNpcSos);
                 break;
                 default:
-                    Debug.LogError("help something went wrong!");
+                    Debug.LogError("help something went wrong! - Immersion doesn't contain symbol: "+SymbolType);
                 break;
             }
         }

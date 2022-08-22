@@ -1,5 +1,8 @@
-﻿namespace Game.EnemyGenerator
+﻿using System;
+
+namespace Game.EnemyGenerator
 {
+	[Serializable]
 	public enum DifficultyLevels
 	{
 		VeryEasy,

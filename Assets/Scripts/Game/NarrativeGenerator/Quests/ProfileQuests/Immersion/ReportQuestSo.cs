@@ -1,5 +1,6 @@
 using Util;
 using System;
+using System.Collections.Generic;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -7,6 +8,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class ReportQuestSo : ImmersionQuestSo
     {
         public override string SymbolType => Constants.REPORT_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
+        
         public NpcSo Npc { get; set; }
         public int QuestId { get; set; }
 

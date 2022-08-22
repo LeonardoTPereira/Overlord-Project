@@ -2,6 +2,7 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Text;
+using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 
@@ -72,7 +73,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToGatherByType)
             {
-                stringBuilder.Append($"{itemByAmount.Value.Count} {itemByAmount.Key.ItemName}s, ");
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             return stringBuilder.ToString();
