@@ -15,8 +15,62 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 32aa0930358d2694f8e314c34e8d91d9
-  position: {x: 0, y: 0}
-  child: {fileID: 0}
+  position: {x: 12.999996, y: -13.121696}
+  child: {fileID: -581224933860813630}
+--- !u!114 &-3136864715992309540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b7c5127cf857a4489420b6eddea30c, type: 3}
+  m_Name: SequencerNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 96da600ee0fd38246bf92c23a17b01d7
+  position: {x: 12, y: 200}
+  children:
+  - {fileID: -2203265954913022222}
+  - {fileID: 4029743527641337367}
+  - {fileID: 3478755382003591288}
+--- !u!114 &-2203265954913022222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d8549a78d192e4a851dd215fd0e2a7, type: 3}
+  m_Name: StringNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 22a50999f93b1e3459a0f108416d49c7
+  position: {x: -154.2086, y: 322.10297}
+  message: Muito obrigado!
+--- !u!114 &-581224933860813630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4223e8d6fb0d53e4f9ca5847632b1133, type: 3}
+  m_Name: RepeatNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 53844b556a243434ebb76f6479840197
+  position: {x: 12.000009, y: 92.32252}
+  child: {fileID: -3136864715992309540}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,6 +88,27 @@ MonoBehaviour:
   <Nodes>k__BackingField:
   - {fileID: -8306071293600809312}
   - {fileID: 4029743527641337367}
+  - {fileID: -581224933860813630}
+  - {fileID: -3136864715992309540}
+  - {fileID: -2203265954913022222}
+  - {fileID: 3478755382003591288}
+--- !u!114 &3478755382003591288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d8549a78d192e4a851dd215fd0e2a7, type: 3}
+  m_Name: StringNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 1a87655555b499d4ea8c3dc98c52d269
+  position: {x: 179.75296, y: 324.00003}
+  message: 
 --- !u!114 &4029743527641337367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,5 +124,5 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 7f4fdce33a7b6ff4bbed4386de48fc3d
-  position: {x: 0, y: 0}
+  position: {x: 10.519989, y: 323}
   duration: 1

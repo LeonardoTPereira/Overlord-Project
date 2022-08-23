@@ -55,7 +55,7 @@ using DialogueTrees;
             var composite = parent as CompositeNode;
             if (composite != null)
             {
-                composite.children.Add(child);
+                composite._children.Add(child);
             }
 
             var root = parent as RootNode;
@@ -76,7 +76,7 @@ using DialogueTrees;
             var composite = parent as CompositeNode;
             if (composite != null)
             {
-                composite.children.Remove(child);
+                composite._children.Remove(child);
             }
 
             var root = parent as RootNode;
@@ -99,7 +99,7 @@ using DialogueTrees;
             var composite = parent as CompositeNode;
             if (composite)
             {
-                return composite.children;
+                return composite._children;
             }
 
             var root = parent as RootNode;

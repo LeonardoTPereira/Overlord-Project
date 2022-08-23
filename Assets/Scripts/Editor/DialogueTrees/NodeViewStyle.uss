@@ -1,10 +1,15 @@
 #input {
     justify-content: flex-start;
     align-items: center;
+    flex-grow: 1;
+    min-width: auto;
 }
 
 #output {
     align-items: center;
+    flex-shrink: 0;
+    max-height: none;
+    padding-top: 0;
 }
 
 #selection-border {
@@ -55,15 +60,18 @@
 
 .node {
     min-width: 150px;
-    max-height: 70px;
-    margin-left: 1px;
-    margin-right: 1px;
-    margin-top: 1px;
-    margin-bottom: 1px;
+    max-height: none;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    min-height: auto;
+    flex-grow: 1;
 }
 
 #node-border {
-    background-color: rgba(72, 72, 72, 255);
+    background-color: rgb(72, 72, 72);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -76,6 +84,10 @@
 
 #title {
     font-size: 16px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 #description {
@@ -84,22 +96,28 @@
 
 #divider {
     min-height: 1px;
-    background-color: rgba(87, 87, 87, 255);
+    background-color: rgb(87, 87, 87);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .action #input {
-    background-color: rgba(37, 143, 143, 255);
+    background-color: rgb(37, 143, 143);
 }
 
 .decorator #input {
-    background-color: rgba(219, 217, 57, 255);
+    background-color: rgb(219, 217, 57);
+    flex-shrink: 0;
 }
 
 .composite #input {
-    background-color: rgba(13, 140, 219, 255);
+    background-color: rgb(13, 140, 219);
+    flex-shrink: 0;
 }
 
 .root #input {
-    background-color: rgba(197, 81, 81, 255);
+    background-color: rgb(197, 81, 81);
     min-height: 10px;
 }
