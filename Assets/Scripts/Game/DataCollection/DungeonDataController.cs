@@ -4,6 +4,7 @@ using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
+using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             Player.ExitRoomEventHandler += OnRoomExit;
-            QuestController.QuestCompletedEventHandler += OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler += OnQuestEvent;
         }
 
         private void OnDisable()
@@ -49,7 +50,7 @@ namespace Game.DataCollection
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             Player.ExitRoomEventHandler -= OnRoomExit;
-            QuestController.QuestCompletedEventHandler -= OnQuestEvent;
+            QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
         }
         
 

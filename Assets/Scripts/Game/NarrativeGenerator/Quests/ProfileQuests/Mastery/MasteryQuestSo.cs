@@ -7,23 +7,17 @@ using Game.NPCs;
 using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
-using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class MasteryQuestSo : QuestSo
     {
-        public override string symbolType {
-            get { return Constants.MASTERY_QUEST; }
-        }
+        public override string SymbolType => Constants.MasteryQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get {
-                if ( nextSymbolChances != null )
-                    return nextSymbolChances;
-                    
+            get
+            {                    
                 Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
                 masteryQuestWeights.Add( Constants.KILL_QUEST, Constants.TwoOptionQuestLineWeight );
                 masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
@@ -32,54 +26,70 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override void DefineQuestSo ( List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
-            switch ( this.symbolType )
+            switch ( SymbolType )
             {
                 case Constants.KILL_QUEST:
-                    CreateAndSaveKillQuestSo(QuestSos, enemyTypes);
-                break;
+                    return CreateAndSaveKillQuestSo(questSos, enemyTypes);
                 case Constants.DAMAGE_QUEST:
-                    CreateAndSaveDamageQuestSo(QuestSos, enemyTypes);
-                break;
+                    return CreateAndSaveDamageQuestSo(questSos, enemyTypes);
                 default:
-                    Debug.LogError("help something went wrong!");
+                    Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);
                 break;
             }
+
+            return null;
         }
 
-        public static void CreateAndSaveKillQuestSo(List<QuestSo> QuestSos, WeaponTypeRuntimeSetSO enemyTypes)
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var killQuest = ScriptableObject.CreateInstance<KillQuestSo>();
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        {
+            var killQuest = CreateInstance<KillQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
+            var questId = killQuest.GetInstanceID();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
-            selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, nEnemiesToKill);
-            killQuest.Init(KillEnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes);
-            
-            if (QuestSos.Count > 0)
+            for (var i = 0; i < nEnemiesToKill; i++)
             {
-                QuestSos[^1].Next = killQuest;
+                selectedEnemyTypes.EnemiesByTypeDictionary.AddItemWithId(selectedEnemyType, questId);
+            }
+            killQuest.Init(KillEnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 
+                ? questSos[^1] : null, selectedEnemyTypes);
+            
+            if (questSos.Count > 0)
+            {
+                questSos[^1].Next = killQuest;
             }
             
-            QuestSos.Add(killQuest);
+            questSos.Add(killQuest);
+            return killQuest;
         }
 
-        public static void CreateAndSaveDamageQuestSo(List<QuestSo> QuestSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static DamageQuestSo CreateAndSaveDamageQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
         {
             var damageQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
-            var selectedEnemyTypes = new EnemiesByType ();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var totalDamage = RandomSingleton.GetInstance().Random.Next(100) + 20;
-            selectedEnemyTypes.EnemiesByTypeDictionary.Add(selectedEnemyType, totalDamage);
-            damageQuest.Init(DamageEnemyTypesToString(selectedEnemyTypes), false, QuestSos.Count > 0 ? QuestSos[^1] : null, selectedEnemyTypes );
+            damageQuest.Init(selectedEnemyType.EnemyTypeName, false, 
+                questSos.Count > 0 ? questSos[^1] : null, selectedEnemyType, totalDamage);
             
-            if (QuestSos.Count > 0)
+            if (questSos.Count > 0)
             {
-                QuestSos[^1].Next = damageQuest;
+                questSos[^1].Next = damageQuest;
             }
             
-            QuestSos.Add(damageQuest);
+            questSos.Add(damageQuest);
+            return damageQuest;
         }
 
         private static string KillEnemyTypesToString(EnemiesByType  selectedEnemyTypes)
@@ -89,7 +99,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
                 stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
-                if (typeAmountPair.Value > 1)
+                if (typeAmountPair.Value.QuestIds.Count > 1)
                 {
                     stringBuilder.Append("s");
                 }
@@ -101,22 +111,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return stringBuilder.ToString();
         }
 
-        private static string DamageEnemyTypesToString(EnemiesByType selectedEnemyTypes)
+        private static string DamageEnemyTypesToString(DamageQuestData damageData)
         {
             var stringBuilder = new StringBuilder();
-            for (var i = 0; i < selectedEnemyTypes.EnemiesByTypeDictionary.Count; i++)
-            {
-                var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
-                stringBuilder.Append($"Deal {typeAmountPair.Value} damage to {typeAmountPair.Key}");
-                if (typeAmountPair.Value > 1)
-                {
-                    stringBuilder.Append("s");
-                }
-                if (i < (selectedEnemyTypes.EnemiesByTypeDictionary.Count - 1))
-                {
-                    stringBuilder.Append(" and ");
-                }
-            }
+            stringBuilder.Append($"Deal {damageData.Damage} damage to {damageData.Enemy.EnemyTypeName}");
             return stringBuilder.ToString();
         }
     }

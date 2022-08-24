@@ -33,53 +33,86 @@ namespace Game.NPCs
         {
             var questOpener = new StringBuilder();
             questOpener.Append("Greetings adventurer! I was expecting you!");
-            if (openedQuest.IsKillQuest())
-            {
-                questOpener.Append("I need you to kill some monsters for me:\n");
-                var killQuest = openedQuest as KillQuestSo;
-                foreach (var enemyByAmount in killQuest.EnemiesToKillByType.EnemiesByTypeDictionary)
-                {
-                    questOpener.Append($"{enemyByAmount.Value.ToString()} {enemyByAmount.Key.EnemyTypeName}s, ");
-                }
-                questOpener.Remove(questOpener.Length - 3, 2);
-            }
-            else if(openedQuest.IsTalkQuest())
-            {
-                var talkQuest = openedQuest as ListenQuestSo;
-                questOpener.Append(talkQuest.Npc == speaker
-                    ? "I needed to speak with you!\n"
-                    : $"I need you to speak with {talkQuest.Npc.NpcName}!\n");
-            }
-            else if(openedQuest.IsItemQuest())
-            {
-                questOpener.Append("I need you to get some items for me:\n");
-                var itemQuest = openedQuest as ItemQuestSo;
-                foreach (var itemByAmount in itemQuest.ItemsToCollectByType)
-                {
-                    questOpener.Append($"{itemByAmount.Value.ToString()} {itemByAmount.Key.ItemName}s, ");
-                }
-                questOpener.Remove(questOpener.Length - 3, 2);
-            }
+            questOpener.Append(CreateOpener(openedQuest, speaker));
+            questOpener.Append(openedQuest.ToString());
             return questOpener.ToString();
         }
-        
+
+        private static string CreateOpener(QuestSo openedQuest, NpcSo speaker)
+        {
+            switch (openedQuest)
+            {
+                case ExchangeQuestSo:
+                    return "I need you to trade:\n";
+                case GatherQuestSo:
+                    return "I need you to collect:\n";
+                case KillQuestSo:
+                    return "I need you to kill some monsters for me:\n";
+                case DamageQuestSo:
+                    return "I need you to hit this structure:\n";
+                case GiveQuestSo:
+                    return "I need you to give:\n";
+                case ListenQuestSo:
+                    return "I need you to listen carefully to the message from:\n";
+                case ReadQuestSo:
+                    return "I need you to read the message in:\n";
+                case ReportQuestSo:
+                    return "I need you to report this to:\n";
+                case ExploreQuestSo:
+                    return "I need you to explore this dungeon:\n";
+                case GotoQuestSo:
+                    return "I need you to go to a special place for me:\n";
+                default:
+                    Debug.LogError($"No quest type for this quest {openedQuest.GetType()} " +
+                                   "was found to create dialogue");
+                    return null;
+            }
+        }
+
         public static string CreateQuestCloser(QuestSo closedQuest, NpcSo speaker)
         {
-            var questOpener = new StringBuilder();
-            questOpener.Append("Oh my!");
-            if (closedQuest.IsKillQuest())
+            var questCloser = new StringBuilder();
+            questCloser.Append("Oh my! ");
+            switch (closedQuest)
             {
-                questOpener.Append("You got rid of all of them! Thank you very much!\n");
+                case ExchangeQuestSo:
+                    questCloser.Append("You traded them all!\n");
+                    break;
+                case GatherQuestSo:
+                    questCloser.Append("You got them all!\n");
+                    break;
+                case KillQuestSo:
+                    questCloser.Append("You got rid of all of them!\n");
+                    break;
+                case DamageQuestSo:
+                    questCloser.Append("You did pretty good damage to it!\n");
+                    break;
+                case GiveQuestSo:
+                    questCloser.Append("You gave them everything they needed!\n");
+                    break;
+                case ListenQuestSo:
+                    questCloser.Append("Thanks for listening to their message!\n");
+                    break;
+                case ReadQuestSo:
+                    questCloser.Append("You read the message!\n");
+                    break;
+                case ReportQuestSo:
+                    questCloser.Append("You reported the info!\n");
+                    break;
+                case ExploreQuestSo:
+                    questCloser.Append("You explored enough of the dungeon!\n");
+                    break;
+                case GotoQuestSo:
+                    questCloser.Append("You went to the needed room!\n");
+                    break;
+                default:
+                    Debug.LogError($"No quest type for this quest {closedQuest.GetType()} " +
+                                   "was found to create dialogue");
+                    return null;
             }
-            else if(closedQuest.IsTalkQuest())
-            {
-                questOpener.Append("Thanks for reaching out to them!\n");
-            }
-            else if(closedQuest.IsItemQuest())
-            {
-                questOpener.Append("You got them all! Thank you very much!\n");
-            }
-            return questOpener.ToString();
+
+            questCloser.Append("Thank you very much!");
+            return questCloser.ToString();
         }
     }
 }

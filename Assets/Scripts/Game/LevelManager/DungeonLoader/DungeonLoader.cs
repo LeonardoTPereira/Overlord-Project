@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Events;
 using Game.GameManager;
@@ -17,30 +18,32 @@ namespace Game.LevelManager.DungeonLoader
         public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public int TotalTreasures { get; private set; }
         public static event StartMapEvent StartMapEventHandler;
-        public Map LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLine currentQuestLine)
+        public Map LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLineList currentQuestLineList)
         {
             Debug.Log("Loading new Level");
             LoadDungeon(dungeonFileSo);
             
-            EnemyLoader.DistributeEnemiesInDungeon(_dungeonMap, currentQuestLine);
-            ItemDispenser.DistributeItemsInDungeon(_dungeonMap, currentQuestLine);
-            TotalTreasures = currentQuestLine.ItemParametersForQuestLine.TotalItems;
-            NpcDispenser.DistributeNpcsInDungeon(_dungeonMap, currentQuestLine);
+            EnemyLoader.DistributeEnemiesInDungeon(_dungeonMap, currentQuestLineList);
+            var itemsToDistribute = currentQuestLineList.ItemParametersForQuestLines.ItemsByType;
+            var totalItems = currentQuestLineList.ItemParametersForQuestLines.TotalItems;
+            ItemDispenser.DistributeItemsInDungeon(_dungeonMap, itemsToDistribute, totalItems);
+            TotalTreasures = currentQuestLineList.ItemParametersForQuestLines.TotalItems;
+            NpcDispenser.DistributeNpcsInDungeon(_dungeonMap, currentQuestLineList.NpcSos);
 
             roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
 
             var selectedRoom = roomPrefabs[RandomSingleton.GetInstance().Random.Next(roomPrefabs.Count)];
             InstantiateRooms(selectedRoom, _dungeonMap.Dimensions);
             ConnectRoooms();
-            OnStartMap(dungeonFileSo.BiomeName, _dungeonMap);
 
             return _dungeonMap;
         }
         
-        private void OnStartMap(string mapName, Map map)
+        public IEnumerator OnStartMap(string mapName)
         {
-            StartMapEventHandler?.Invoke(null, new StartMapEventArgs(mapName, map, TotalTreasures));
-            roomBHVMap[map.StartRoomCoordinates].OnRoomEnter();
+            yield return null;
+            StartMapEventHandler?.Invoke(null, new StartMapEventArgs(mapName, _dungeonMap, TotalTreasures));
+            roomBHVMap[_dungeonMap.StartRoomCoordinates].OnRoomEnter();
         }
         
         private void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)

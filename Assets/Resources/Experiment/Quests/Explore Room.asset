@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a79ddc05acebe42b8612091e5606cb, type: 3}
+  m_Name: Explore Room
+  m_EditorClassIdentifier: 
+  nextWhenSuccess: {fileID: 0}
+  nextWhenFailure: {fileID: 0}
+  previous: {fileID: 0}
+  questName: Explore Room
+  endsStoryLine: 0
+  reward: {fileID: 0}

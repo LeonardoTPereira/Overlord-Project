@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.NarrativeGenerator.Quests;
-// using Game.NarrativeGenerator.Quests.QuestGrammarNonterminals;
+using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
-using MyBox;
 using ScriptableObjects;
 using UnityEngine;
-using Util;
-using System;
 
 namespace Game.NarrativeGenerator
 {
@@ -15,51 +12,88 @@ namespace Game.NarrativeGenerator
     {
         Dictionary<string,bool> wasQuestAdded = new Dictionary<string,bool>();
 
-        public void CreateMissions(QuestGeneratorManager m)
+        public QuestLineList CreateMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, 
+            WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
-            m.Quests.questLines = DrawMissions(m.PlaceholderNpcs, m.PlaceholderItems, m.PossibleWeapons);
+            return DrawMissions(possibleNpcs, possibleTreasures, possibleEnemyTypes);
         }
 
-        private List<QuestList> DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
+        private QuestLineList DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             CreateQuestDict();
-            var questLineList = new List<QuestList>();
-            do
+            var questLineList = ScriptableObject.CreateInstance<QuestLineList>();
+            questLineList.Init();            
+            CreateQuestLineForEachNpc(possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
+
+            int i = 0;
+            Debug.Log("add necessary quests");
+            while ( wasQuestAdded.ContainsValue(false) && i < 100 )
             {
-                var questLine = new QuestList();
-                MarkovChain questChain = new MarkovChain();
-                while ( questChain.GetLastSymbol().canDrawNext )
-                {
-                    Symbol lastSelectedQuest = questChain.GetLastSymbol();
-                    lastSelectedQuest.SetDictionary( ProfileCalculator.StartSymbolWeights );
-                    lastSelectedQuest.SetNextSymbol( questChain );
-
-                    Symbol nonTerminalSymbol = questChain.GetLastSymbol();
-                    UpdateListContents( nonTerminalSymbol );
-                    nonTerminalSymbol.SetNextSymbol( questChain );
-
-                    questChain.GetLastSymbol().DefineQuestSo( questLine.Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes );
-                }
-                questLine.Quests[^1].EndsStoryLine = true;
-                questLine.NpcInCharge = possibleNpcs.GetRandom();
-                questLineList.Add(questLine);
-            //TODO: Verify with Leo if it would be interesting 
-            //to have a minumum number of questlines
-            } while ( wasQuestAdded.ContainsValue(false) );
+                i++;
+                var selectedNpc = possibleNpcs[Random.Range(0, possibleNpcs.Count)];
+                ContinueQuestLineForNpc(selectedNpc, possibleNpcs, possibleTreasures, possibleEnemyTypes,
+                    questLineList);
+            }
             return questLineList;
+        }
+
+        private void CreateQuestLineForEachNpc(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures,
+            WeaponTypeRuntimeSetSO possibleEnemyTypes, QuestLineList questLineList)
+        {
+            foreach (var npcInCharge in possibleNpcs)
+            {
+               CreateQuestLineForNpc(npcInCharge, possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
+            }
+        }
+
+        private void CreateQuestLineForNpc ( NpcSo npcInCharge, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures,
+            WeaponTypeRuntimeSetSO possibleEnemyTypes, QuestLineList questLineList)
+        {
+            var questLine = CreateQuestLine();
+            questLine.PopulateQuestLine(possibleNpcs, possibleTreasures, possibleEnemyTypes);
+            UpdateListContents(questLine);
+            questLine.Quests[^1].EndsStoryLine = true;
+            questLine.NpcInCharge = npcInCharge;
+            questLineList.QuestLines.Add(questLine);
+        }
+        
+        private void ContinueQuestLineForNpc ( NpcSo npcInCharge, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures,
+            WeaponTypeRuntimeSetSO possibleEnemyTypes, QuestLineList questLineList)
+        {
+            var questLine = questLineList.QuestLines.Single(questLine => questLine.NpcInCharge.NpcName == npcInCharge.NpcName);
+            if (questLine != null)
+            {
+                questLine.Quests[^1].EndsStoryLine = false;
+                questLine.PopulateQuestLine(possibleNpcs, possibleTreasures, possibleEnemyTypes);
+                UpdateListContents(questLine);
+                questLine.Quests[^1].EndsStoryLine = true;
+                Debug.Log(questLine.Quests.Count);
+            }
+            else
+            {
+                Debug.LogError($"No QuestLine Found With {npcInCharge.NpcName} In Charge");
+                CreateQuestLineForNpc(npcInCharge, possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
+            }
+        }
+
+        private QuestLine CreateQuestLine()
+        {
+            var questLine = ScriptableObject.CreateInstance<QuestLine>();
+            questLine.Init();
+            return questLine;
         }
 
         private void CreateQuestDict ()
         {
-            wasQuestAdded.Add(Constants.IMMERSION_QUEST, false);
-            wasQuestAdded.Add(Constants.ACHIEVEMENT_QUEST, false);
-            wasQuestAdded.Add(Constants.MASTERY_QUEST, false);
-            wasQuestAdded.Add(Constants.CREATIVITY_QUEST, false);
+            wasQuestAdded.Add(nameof(KillQuestSo), false);
         }
 
-        private void UpdateListContents ( Symbol lastQuest )
+        private void UpdateListContents (QuestLine questLine)
         {
-            wasQuestAdded[lastQuest.symbolType] = true;
+            foreach (var quest in questLine.Quests.Where(quest => quest != null))
+            {
+                wasQuestAdded[quest.GetType().Name] = true;
+            }
         }
     }
 }

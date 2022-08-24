@@ -1,40 +1,45 @@
-using ScriptableObjects;
 using Util;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Game.NPCs;
+using System;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GotoQuestSo : CreativityQuestSo
     {
-        public override string symbolType {
-            get { return Constants.GOTO_QUEST; }
+        public override string SymbolType => Constants.GOTO_QUEST;
+        public Coordinates SelectedRoomCoordinates { get; set; }
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
         }
-        public int SelectedRoomId { get; set; }
 
         public override void Init()
         {
             base.Init();
-            SelectedRoomId = -1;
+            SelectedRoomCoordinates = null;
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSo previous, int selectedRoomId)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, Coordinates selectedRoomCoordinates)
         {
             base.Init(questName, endsStoryLine, previous);
-            SelectedRoomId = selectedRoomId;
+            SelectedRoomCoordinates = selectedRoomCoordinates;
         }
-        
-        public void ChangeRoom(int selectedRoomId)
-        {
-            SelectedRoomId = selectedRoomId;
-        }
-        
+
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            SelectedRoomId = (copiedQuest as GotoQuestSo).SelectedRoomId;
+            var goToQuestSo = copiedQuest as GotoQuestSo;
+            if (goToQuestSo != null)
+            {
+                SelectedRoomCoordinates = goToQuestSo.SelectedRoomCoordinates;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(GotoQuestSo)}, got type {copiedQuest.GetType()}");
+            }
         }
         
         public override QuestSo Clone()
@@ -42,6 +47,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<GotoQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
+        {
+            return !IsCompleted 
+                   && (questElement as Coordinates 
+                       ?? throw new InvalidOperationException()).Equals(SelectedRoomCoordinates);
+        }
+
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            IsCompleted = true;
+        }
+
+        //TODO highlight the room in the Map UI
+        public override string ToString()
+        {
+            return "Go to the room highlighted in the map";
         }
     }
 }

@@ -6,7 +6,6 @@ using Game.LevelManager.DungeonLoader;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
-using MyBox;
 using ScriptableObjects;
 using Unity.Mathematics;
 using UnityEngine;
@@ -18,18 +17,18 @@ namespace Game.GameManager
     [Serializable]
     public class EnemyLoader : MonoBehaviour
     {
-        private static List<EnemySO> enemyListForCurrentDungeon;
-        
-        public GameObject enemyPrefab;
-        public GameObject barehandEnemyPrefab;
-        public GameObject shooterEnemyPrefab;
-        public GameObject bomberEnemyPrefab;
-        public GameObject healerEnemyPrefab;
+        private static List<EnemySO> _enemyListForCurrentDungeon;
+
+        [field: SerializeField] public GameObject EnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject BareHandEnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject ShooterEnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject BomberEnemyPrefab { get; set; }
+        [field: SerializeField] public GameObject HealerEnemyPrefab { get; set; }
 
         
-        public static void DistributeEnemiesInDungeon(Map map, QuestLine questLine)
+        public static void DistributeEnemiesInDungeon(Map map, QuestLineList questLines)
         {
-            var enemiesInQuestByType = new EnemiesByType(questLine.EnemyParametersForQuestLine.TotalByType);
+            var enemiesInQuestByType = new EnemiesByType(questLines.EnemyParametersForQuestLines.TotalByType);
             
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
@@ -48,56 +47,19 @@ namespace Game.GameManager
             while (selectedEnemies < enemiesInRoom)
             {
                 var selectedType = enemiesInQuestByType.GetRandom();
-                var maxPossibleNewEnemies = math.min(selectedType.Value, enemiesInRoom - selectedEnemies);
-                var newEnemies = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
-                
-                AddEnemiesInRoom(enemiesByType, selectedType.Key, newEnemies);
-                UpdateRemainingEnemiesInQuest(enemiesInQuestByType, selectedType.Key, newEnemies);
-
-                selectedEnemies += newEnemies;
+                var maxPossibleNewEnemies = math.min(selectedType.Value.QuestIds.Count, enemiesInRoom - selectedEnemies);
+                var newEnemiesCount = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
+                enemiesByType.AddNEnemiesFromType(selectedType, newEnemiesCount);
+                enemiesInQuestByType.RemoveCurrentTypeIfEmpty(selectedType.Key);
+                selectedEnemies += newEnemiesCount;
             } 
 
             return enemiesByType;
         }
 
-        private static void AddEnemiesInRoom(EnemiesByType enemiesByType, WeaponTypeSO selectedType, int newEnemies)
-        {
-            if (enemiesByType.EnemiesByTypeDictionary.TryGetValue(selectedType, out var enemiesForItem))
-            {
-                enemiesByType.EnemiesByTypeDictionary[selectedType] = enemiesForItem + newEnemies;
-            }
-            else
-            {
-                enemiesByType.EnemiesByTypeDictionary.Add(selectedType, newEnemies);
-            }
-        }
-
-        private static void UpdateRemainingEnemiesInQuest(EnemiesByType enemiesInQuestByType, 
-            WeaponTypeSO selectedType, int newEnemies)
-        {
-            if (enemiesInQuestByType.EnemiesByTypeDictionary.Count == 0)
-                throw new ArgumentException("Enemies in Quest cannot be an empty collection.", nameof(enemiesInQuestByType));
-            enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] -= newEnemies;
-            if (enemiesInQuestByType.EnemiesByTypeDictionary[selectedType] <= 0)
-            {
-                enemiesInQuestByType.EnemiesByTypeDictionary.Remove(selectedType);
-            }
-        }
-
-        public static EnemyByAmountDictionary GetEnemiesForRoom(WeaponTypeAmountDictionary enemiesByType)
-        {
-            var enemiesBySo = new EnemyByAmountDictionary();
-            foreach (var enemyType in enemiesByType)
-            {
-                var selectedEnemy = GetRandomEnemyOfType(enemyType.Key);
-                enemiesBySo.Add(selectedEnemy, enemyType.Value);
-            }
-            return enemiesBySo;
-        }
-        
         public static void LoadEnemies(List<EnemySO> enemyList)
         {
-            enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
+            _enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
             ApplyDelegates();
         }
 
@@ -107,74 +69,81 @@ namespace Game.GameManager
             return currentEnemies[RandomSingleton.GetInstance().Next(0, currentEnemies.Count)];
         }
 
-        public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType)
+        public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSO enemyType, int questId)
         {
             EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
             GameObject enemy;
             //TODO change to use weaponType in comparison
             if (currentEnemy.weapon.name == "None")
             {
-                enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+                enemy = Instantiate(BareHandEnemyPrefab, position, rotation);
             }
             else if (currentEnemy.weapon.name == "Bow")
             {
-                enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+                enemy = Instantiate(ShooterEnemyPrefab, position, rotation);
             }
             else if (currentEnemy.weapon.name == "BombThrower")
             {
-                enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+                enemy = Instantiate(BomberEnemyPrefab, position, rotation);
             }
             else if (currentEnemy.weapon.name == "Cure")
             {
-                enemy = Instantiate(healerEnemyPrefab, position, rotation);
+                enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
             else
             {
-                enemy = Instantiate(enemyPrefab, position, rotation);
+                enemy = Instantiate(EnemyPrefab, position, rotation);
             }
-            enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy);
+            enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy, questId);
             return enemy;
         }
     
-        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo)
+        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
             //TODO change to use weaponType in comparison
             if (enemySo.weapon.name == "None")
             {
-                enemy = Instantiate(barehandEnemyPrefab, position, rotation);
+                enemy = Instantiate(BareHandEnemyPrefab, position, rotation);
             }
             else if (enemySo.weapon.name == "Bow")
             {
-                enemy = Instantiate(shooterEnemyPrefab, position, rotation);
+                enemy = Instantiate(ShooterEnemyPrefab, position, rotation);
             }
             else if (enemySo.weapon.name == "BombThrower")
             {
-                enemy = Instantiate(bomberEnemyPrefab, position, rotation);
+                enemy = Instantiate(BomberEnemyPrefab, position, rotation);
             }
             else if (enemySo.weapon.name == "Cure")
             {
-                enemy = Instantiate(healerEnemyPrefab, position, rotation);
+                enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
             else
             {
-                enemy = Instantiate(enemyPrefab, position, rotation);
+                enemy = Instantiate(EnemyPrefab, position, rotation);
             }
-            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo);
+            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
             return enemy;
         }
 
         private static List<EnemySO> GetEnemiesFromType(WeaponTypeSO weaponType)
         {
             //TODO create these lists only once per type on dungeon load
-            return enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
+            return _enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
         }
 
         private static void ApplyDelegates()
         {
-            foreach (var enemy in enemyListForCurrentDungeon)
+            if (_enemyListForCurrentDungeon != null)
             {
-                enemy.movement.movementType = GetMovementType(enemy.movement.enemyMovementIndex);
+                foreach (var movement in _enemyListForCurrentDungeon.Select(x => x.movement))
+                {
+                    movement.movementType = GetMovementType(movement.enemyMovementIndex);
+                }
+            }
+            else
+            {
+                Debug.LogError("Enemy list for Dungeon is Null");
             }
         }
         public static MovementType GetMovementType(MovementEnum moveTypeEnum)

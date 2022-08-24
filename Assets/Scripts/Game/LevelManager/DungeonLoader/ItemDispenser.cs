@@ -1,7 +1,5 @@
-﻿using System;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+﻿using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
-using ScriptableObjects;
 using Unity.Mathematics;
 using Util;
 
@@ -11,10 +9,10 @@ namespace Game.LevelManager.DungeonLoader
     {
         private static int _remainingItems;
 
-        public static void DistributeItemsInDungeon(Map map, QuestLine questLine)
+        public static void DistributeItemsInDungeon(Map map, ItemsAmount items, int total)
         {
-            var itemsInQuestByType = new ItemsAmount(questLine.ItemParametersForQuestLine.ItemsByType);
-            _remainingItems = questLine.ItemParametersForQuestLine.TotalItems;
+            var itemsInQuestByType = new ItemsAmount(items);
+            _remainingItems = total;
             var totalTreasureRooms = map.NTreasureRooms;
             var itemsPerRoom = 0;
             if (totalTreasureRooms > 0)
@@ -50,38 +48,13 @@ namespace Game.LevelManager.DungeonLoader
             while (selectedItems < itemsInRoom)
             {
                 var selectedType = itemsInQuestByType.GetRandom();
-                var maxPossibleNewEnemies = math.min(selectedType.Value, itemsInRoom - selectedItems);
-                var newItems = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewEnemies);
-                
-                AddItemsInRoom(itemsByType, selectedType.Key, newItems);
-                UpdateRemainingItemsInQuest(itemsInQuestByType, selectedType.Key, newItems);
+                var maxPossibleNewItems = math.min(selectedType.Value.QuestIds.Count, itemsInRoom - selectedItems);
+                var newItems = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewItems);
+                itemsByType.AddNItemsFromType(selectedType, newItems);
+                itemsInQuestByType.RemoveCurrentTypeIfEmpty(selectedType.Key);
                 selectedItems += newItems;
             }
             return itemsByType;
-        }
-
-        private static void AddItemsInRoom(ItemsAmount itemsAmount, ItemSo selectedType, int newEnemies)
-        {
-            if (itemsAmount.ItemAmountBySo.TryGetValue(selectedType, out var enemiesForItem))
-            {
-                itemsAmount.ItemAmountBySo[selectedType] = enemiesForItem + newEnemies;
-            }
-            else
-            {
-                itemsAmount.ItemAmountBySo.Add(selectedType, newEnemies);
-            }
-        }
-
-        private static void UpdateRemainingItemsInQuest(ItemsAmount enemiesInQuestByType, 
-            ItemSo selectedType, int newEnemies)
-        {
-            if (enemiesInQuestByType.ItemAmountBySo.Count == 0)
-                throw new ArgumentException("Enemies in Quest cannot be an empty collection.", nameof(enemiesInQuestByType));
-            enemiesInQuestByType.ItemAmountBySo[selectedType] -= newEnemies;
-            if (enemiesInQuestByType.ItemAmountBySo[selectedType] <= 0)
-            {
-                enemiesInQuestByType.ItemAmountBySo.Remove(selectedType);
-            }
         }
     }
 }

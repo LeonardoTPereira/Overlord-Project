@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using ScriptableObjects;
-using UnityEditor;
 using UnityEngine;
 using Util;
-
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NPCs;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Game.NarrativeGenerator.Quests
 {
     
     [CreateAssetMenu(fileName = "QuestSo", menuName = "Overlord-Project/QuestSo", order = 0)]
     [Serializable]
-    public class QuestSo : ScriptableObject, SaveableGeneratedContent, Symbol
+    public abstract class QuestSo : ScriptableObject, SaveableGeneratedContent, ISymbol
     {
-        public virtual string symbolType {get; set;}
+        public virtual string SymbolType {get; set;}
         public virtual Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get { return nextSymbolChances; }
-            set {}
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
         }
-        protected Dictionary<string, Func<int,int>> nextSymbolChances;
-        public virtual bool canDrawNext {
-            get { return true; } 
-            set {} 
+        protected Dictionary<string, Func<int,int>> _nextSymbolChances;
+        public virtual bool CanDrawNext {
+            get => true;
         }
 
         [SerializeReference] private QuestSo next;
@@ -35,6 +33,7 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private bool endsStoryLine;
         [SerializeField] private ItemSo reward;
         [field: SerializeField] public bool IsCompleted { get; set; }
+        [field: SerializeField] public bool IsClosed { get; set; }
         private bool _canDrawNext;
 
         public QuestSo Next { get => next; set => next = value; }
@@ -44,8 +43,9 @@ namespace Game.NarrativeGenerator.Quests
         public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
 
-        public virtual void DefineQuestSo ( List<QuestSo> QuestSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public virtual QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
+            return null;
         }
 
         public virtual void Init()
@@ -84,25 +84,18 @@ namespace Game.NarrativeGenerator.Quests
             cloneQuest.Init(this);
             return cloneQuest;
         }
-        
-        public void SetDictionary(Dictionary<string, Func<int,int>> _nextSymbolChances  )
-        {
-            nextSymbolChances = _nextSymbolChances;
-        }
 
         public void SetNextSymbol(MarkovChain chain)
         {
-            int chance = RandomSingleton.GetInstance().Next(0, 100);
-            int cumulativeProbability = 0;
-            foreach ( KeyValuePair<string, Func<int,int>> _nextSymbolChance in NextSymbolChances )
+            var chance = RandomSingleton.GetInstance().Next(0, 100);
+            var cumulativeProbability = 0;
+            foreach ( var nextSymbolChance in NextSymbolChances )
             {
-                cumulativeProbability += _nextSymbolChance.Value( chain.symbolNumber );
-                if ( cumulativeProbability >= chance )
-                {
-                    string nextSymbol = _nextSymbolChance.Key;
-                    chain.SetSymbol( nextSymbol );
-                    break;
-                }
+                cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
+                if (cumulativeProbability < chance) continue;
+                var nextSymbol = nextSymbolChance.Key;
+                chain.SetSymbol( nextSymbol );
+                break;
             }
         }
 
@@ -111,50 +104,53 @@ namespace Game.NarrativeGenerator.Quests
             #if UNITY_EDITOR
             const string newFolder = "Quests";
             var fileName = directory;
-            if (!AssetDatabase.IsValidFolder(fileName + Constants.SEPARATOR_CHARACTER + newFolder))
+            if (!AssetDatabase.IsValidFolder(fileName + Constants.SeparatorCharacter + newFolder))
             {
                 AssetDatabase.CreateFolder(fileName, newFolder);
             }
-            fileName += Constants.SEPARATOR_CHARACTER + newFolder;
-            fileName += Constants.SEPARATOR_CHARACTER;
+            fileName += Constants.SeparatorCharacter + newFolder;
+            fileName += Constants.SeparatorCharacter;
             fileName += QuestName+".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             #endif
         }
 
-        public bool IsItemQuest()
-        {
-            return typeof(ItemQuestSo).IsAssignableFrom(GetType());
-        }
+        // public bool IsItemQuest()
+        // {
+        //     return typeof(GatherQuestSo).IsAssignableFrom(GetType());
+        // }
         
-        public bool IsDropQuest()
-        {
-            return typeof(DropQuestSo).IsAssignableFrom(GetType());
-        }
+        // public bool IsDropQuest()
+        // {
+        //     // return typeof(DropQuestSo).IsAssignableFrom(GetType());
+        //     return false;
+        // }
 
-        public bool IsKillQuest()
-        {
-            return typeof(KillQuestSo).IsAssignableFrom(GetType());
-        }        
+        // public bool IsKillQuest()
+        // {
+        //     return typeof(KillQuestSo).IsAssignableFrom(GetType());
+        // }        
         
-        public bool IsGetQuest()
-        {
-            return typeof(GetQuestSo).IsAssignableFrom(GetType());
-        }        
-        public bool IsSecretRoomQuest()
-        {
-            return typeof(SecretRoomQuestSo).IsAssignableFrom(GetType());
-        }
+        // public bool IsGetQuest()
+        // {
+        //     return typeof(GatherQuestSo).IsAssignableFrom(GetType());
+        // }        
+        // public bool IsSecretRoomQuest()
+        // {
+        //     return typeof(SecretRoomQuestSo).IsAssignableFrom(GetType());
+        // }
         
-        public bool IsExplorationQuest()
-        {
-            return IsSecretRoomQuest() || IsGetQuest();
-        }
+        // public bool IsExplorationQuest()
+        // {
+        //     return IsSecretRoomQuest() || IsGetQuest();
+        // }
         
-        public bool IsTalkQuest()
-        {
-            return typeof(ListenQuestSo).IsAssignableFrom(GetType());
-        }
+        // public bool IsTalkQuest()
+        // {
+        //     return typeof(ListenQuestSo).IsAssignableFrom(GetType());
+        // }
+        public abstract bool HasAvailableElementWithId<T>(T questElement, int questId);
+        public abstract void RemoveElementWithId<T>(T questElement, int questId);
     }
 }

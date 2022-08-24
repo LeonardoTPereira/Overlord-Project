@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bbaca5b12ffcde45a781a7fbf54679a, type: 3}
+  m_Name: $Get 1 LotsOfCoinsItem (ScriptableObjects.ItemSo)
+  m_EditorClassIdentifier: 
+  nextWhenSuccess: {fileID: 0}
+  nextWhenFailure: {fileID: 0}
+  previous: {fileID: 11400000, guid: a55fa1117c97ef9428aaaa0a3a7478fa, type: 2}
+  questName: $Get 1 LotsOfCoinsItem (ScriptableObjects.ItemSo)
+  endsStoryLine: 0
+  reward: {fileID: 0}

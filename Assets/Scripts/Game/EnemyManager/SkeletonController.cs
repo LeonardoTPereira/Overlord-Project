@@ -29,10 +29,10 @@ namespace Game.EnemyManager
             }
         }
         
-        public override void LoadEnemyData(EnemySO enemyData)
+        public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
-            base.LoadEnemyData(enemyData);
-            switch (EnemyWeapon.name)
+            base.LoadEnemyData(enemyData, questId);
+            switch (EnemyData.weapon.name)
             {
                 case "Sword":
                     Sword.SetActive(true);

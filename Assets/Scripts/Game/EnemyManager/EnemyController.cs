@@ -13,25 +13,18 @@ namespace Game.GameManager
 {
     public class EnemyController : MonoBehaviour, IQuestElement, ISoundEmitter
     {
-        [SerializeField]
-        private float restTime, activeTime, movementSpeed;
-        [field: SerializeField] protected float AttackSpeed { get; set; }
-        [field: SerializeField] protected int Damage { get; set; }
         [field: SerializeField] protected int IndexOnEnemyList { get; set; }
         [field: SerializeField] protected GameObject PlayerObj { get; set; }
 
         [SerializeField] private ParticleSystem bloodParticle;
         [field: SerializeField] protected ParticleSystem CureParticle { get; set; }
 
-        [field: SerializeField] protected MovementTypeSO Movement { get; set; }
         private BehaviorType behavior;
-        public WeaponTypeSO EnemyWeapon { get; protected set; }
         protected static readonly int DieTrigger = Animator.StringToHash("Die");
         private Animator _animator;
-        
-        private bool _hasProjectile;
         private Color _originalColor;
         [field: SerializeField] protected ColorPaletteSo enemyColorPalette;
+        public EnemySO EnemyData { get; set; }
         public int QuestId { get; set; }
 
         private Vector2 _directionMask;
@@ -49,7 +42,6 @@ namespace Game.GameManager
             }
         }
         private float _lastX, _lastY;
-        private RoomBhv _room;
         private HealthController _healthController;
         private Rigidbody2D _enemyRigidBody;
         private Collider2D[] _childrenCollider;
@@ -60,6 +52,9 @@ namespace Game.GameManager
         public static event EventHandler KillEnemyEventHandler;
 
         private bool _hasGotComponents;
+
+        public EventHandler<EnemySO> EnemyKilledHandler;
+        
 
         protected virtual void Start()
         {
@@ -132,7 +127,7 @@ namespace Game.GameManager
         {
             while (true)
             {
-                yield return new WaitForSeconds(restTime);
+                yield return new WaitForSeconds(EnemyData.restTime);
                 yield return StartCoroutine(Walk());
                 Wait();
             }
@@ -145,12 +140,12 @@ namespace Game.GameManager
             if (_isRandomMovement)
             {
                 _enemyRigidBody.velocity = GetMovementVector(ref directionMask, true);
-                yield return new WaitForSeconds(activeTime);
+                yield return new WaitForSeconds(EnemyData.activeTime);
             }
             else
             {
                 _enemyRigidBody.velocity = GetMovementVector(ref directionMask, true);
-                while (timeWalked < activeTime)
+                while (timeWalked < EnemyData.activeTime)
                 {
                     _enemyRigidBody.velocity = GetMovementVector(ref directionMask, false);
                     timeWalked += Time.deltaTime;
@@ -161,14 +156,14 @@ namespace Game.GameManager
 
         private bool IsRandomMovement()
         {
-            return Movement.name.Contains("Random");
+            return EnemyData.movement.name.Contains("Random");
         }
 
         private Vector2 GetMovementVector(ref Vector2 directionMask, bool updateMask)
         {
             int xOffset, yOffset;
             var playerPosition = (Vector2)PlayerObj.transform.position;
-            var targetMoveDir = Movement.movementType(playerPosition, gameObject.transform.position, ref directionMask, updateMask);
+            var targetMoveDir = EnemyData.movement.movementType(playerPosition, gameObject.transform.position, ref directionMask, updateMask);
             targetMoveDir.Normalize();
             if (targetMoveDir.x > 0)
                 xOffset = 1;
@@ -183,7 +178,7 @@ namespace Game.GameManager
             else
                 yOffset = 0;
             targetMoveDir = new Vector2((targetMoveDir.x + xOffset), (targetMoveDir.y + yOffset));
-            return new Vector2(targetMoveDir.x * movementSpeed, targetMoveDir.y * movementSpeed);
+            return new Vector2(targetMoveDir.x * EnemyData.movementSpeed, targetMoveDir.y * EnemyData.movementSpeed);
         }
 
         private void Wait()
@@ -196,7 +191,7 @@ namespace Game.GameManager
             var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
             if (!collision.gameObject.CompareTag("Player")) return;
             OnPlayerHit();
-            collision.gameObject.GetComponent<HealthController>().ApplyDamage(Damage, collisionDirection, IndexOnEnemyList);
+            collision.gameObject.GetComponent<HealthController>().ApplyDamage(EnemyData.damage, collisionDirection, IndexOnEnemyList);
         }
 
         public void CheckDeath()
@@ -214,7 +209,9 @@ namespace Game.GameManager
             {
                 childCollider.enabled = false;
             }
-            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyWeapon, QuestId));
+
+            EnemyKilledHandler?.Invoke(this, EnemyData);
+            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
@@ -223,31 +220,20 @@ namespace Game.GameManager
             Destroy(gameObject);
         }
 
-        public virtual void LoadEnemyData(EnemySO enemyData)
+        public virtual void LoadEnemyData(EnemySO enemyData, int questId)
         {
             if (!_hasGotComponents)
             {
                 GetAllComponents();
             }
+            EnemyData = enemyData;
             _healthController.SetHealth(enemyData.health);
-            Damage = enemyData.damage;
-            movementSpeed = enemyData.movementSpeed;
-            restTime = enemyData.restTime;
-            activeTime = enemyData.activeTime;
-            AttackSpeed = enemyData.attackSpeed;
-            EnemyWeapon = enemyData.weapon;
-            Movement = enemyData.movement;
-            behavior = enemyData.behavior.enemyBehavior;
-        }
-
-        public void SetRoom(RoomBhv room)
-        {
-            _room = room;
+            QuestId = questId;
         }
         
         protected Color GetColorBasedOnMovement()
         {
-            switch (Movement.enemyMovementIndex)
+            switch (EnemyData.movement.enemyMovementIndex)
             {
                 case Enums.MovementEnum.Random:
                 case Enums.MovementEnum.Random1D:

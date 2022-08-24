@@ -25,9 +25,9 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
         
         //TODO this must receive the next quest as well.
         //Here we will need to change the talk quest to hold NPC data as well.
-        public void CalculateNpcsFromQuests(QuestLine quests)
+        public void CalculateNpcsFromQuests(IEnumerable<QuestLine> questLines)
         {
-            foreach (var quest in quests.questLines.SelectMany(questLine => questLine.Quests))
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddNpcWhenTalkQuests(quest);
             }
@@ -49,7 +49,7 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
             }
             else
             {
-                NpcsBySo.Add(quest.Npc, new QuestList());
+                NpcsBySo.Add(quest.Npc, ScriptableObject.CreateInstance<QuestLine>());
                 NpcsBySo[quest.Npc].Quests.Add(quest);
             }
             TotalNpcs++;

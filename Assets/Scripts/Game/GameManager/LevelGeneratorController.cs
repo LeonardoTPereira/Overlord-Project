@@ -15,7 +15,7 @@ namespace Game.GameManager
     [RequireComponent(typeof(LevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
-        public static event CreateEADungeonEvent CreateEaDungeonEventHandler;
+        public static event CreateEaDungeonEvent CreateEaDungeonEventHandler;
         private string playerProfile;
 
         private Dictionary<string, TMP_InputField> inputFields;
@@ -76,7 +76,7 @@ namespace Game.GameManager
                 var nNpcs = int.Parse(inputFields["NpcsInputField"].text);
                 var linearity = float.Parse(inputFields["LinearityInputField"].text);
                 parameters.FitnessParameters = new FitnessParameters(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs);
-                CreateEaDungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(parameters));
+                CreateEaDungeonEventHandler?.Invoke(this, new CreateEaDungeonEventArgs(parameters));
             }
             catch (KeyNotFoundException)
             {

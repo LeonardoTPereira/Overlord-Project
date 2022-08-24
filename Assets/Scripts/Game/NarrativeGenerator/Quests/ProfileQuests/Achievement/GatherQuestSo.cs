@@ -1,20 +1,21 @@
 using ScriptableObjects;
 using Util;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
-using System.Linq;
-using Game.Quests;
-using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GatherQuestSo : AchievementQuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToGatherByType { get; set; }
-        public override string symbolType {
-            get { return Constants.GATHER_QUEST; }
+        public override string SymbolType => Constants.GATHER_QUEST;
+
+        public override ItemAmountDictionary GetItemDictionary()
+        {
+            return ItemsToGatherByType;
         }
 
         public override void Init()
@@ -26,73 +27,56 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            ItemsToGatherByType = new ItemAmountDictionary();
-            foreach (var itemByAmount in (copiedQuest as GatherQuestSo).ItemsToGatherByType)
+            var getQuest = copiedQuest as GatherQuestSo;
+            if (getQuest != null)
             {
-                ItemsToGatherByType.Add(itemByAmount.Key, itemByAmount.Value);
+                ItemsToGatherByType = getQuest.ItemsToGatherByType.Clone();
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(ExchangeQuestSo)}, got type {copiedQuest.GetType()}");
             }
         }
 
-        public void Init(string name, bool endsStoryLine, QuestSo previous, ItemAmountDictionary itemsByType)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, ItemAmountDictionary itemsByType)
         {
-            base.Init(name, endsStoryLine, previous);
+            base.Init(questName, endsStoryLine, previous);
             ItemsToGatherByType = itemsByType;
         }
         
         public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<ItemQuestSo>();
+            var cloneQuest = CreateInstance<GatherQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }
 
-        public static GatherQuestSo GetValidGatherQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
+
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var itemCollected = getItemQuestArgs.ItemType;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not GatherQuestSo gatherQuestSo) continue;
-                if (gatherQuestSo.HasItemToGather(itemCollected)) return gatherQuestSo;
-            }
-
-            foreach (var questList in questLists)
-            {
-                var gatherQuestSo = questList.GetFirstGetItemQuestWithEnemyAvailable(itemCollected);
-                if (gatherQuestSo == null) return gatherQuestSo;
-            }
-
-            return null;
-        }
-
-        public void AddItem(ItemSo item, int amount)
-        {
-            if (ItemsToGatherByType.TryGetValue(item, out var currentAmount))
-            {
-                ItemsToGatherByType[item] = currentAmount + amount;
-            }
-            else
-            {
-                ItemsToGatherByType.Add(item, amount);
-            }
+            return !IsCompleted 
+                   && ItemsToGatherByType.ContainsKey(questElement as ItemSo ?? throw new InvalidOperationException());
         }
         
-        public void SubtractItem(ItemSo itemSo)
+        public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            ItemsToGatherByType[itemSo]--;
+            ItemsToGatherByType.RemoveItemWithId(questElement as ItemSo, questId);
+            if (ItemsToGatherByType.Count == 0)
+            {
+                IsCompleted = true;
+            }
         }
 
-        public bool CheckIfCompleted()
+        public override string ToString()
         {
-            return ItemsToGatherByType.All(itemToGather => itemToGather.Value == 0);
-        }
-        
-        public bool HasItemToGather(ItemSo itemSo)
-        {
-            if (!ItemsToGatherByType.TryGetValue(itemSo, out var itemsLeft)) return false;
-            return itemsLeft > 0;
+            var stringBuilder = new StringBuilder();
+            foreach (var itemByAmount in ItemsToGatherByType)
+            {
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            return stringBuilder.ToString();
         }
     }
 }

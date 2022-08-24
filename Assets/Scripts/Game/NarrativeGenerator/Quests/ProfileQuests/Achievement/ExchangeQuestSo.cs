@@ -1,13 +1,11 @@
 using ScriptableObjects;
 using Util;
 using System;
-using System.Collections.Generic;
+using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NarrativeGenerator.Quests;
+using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
-using Game.Quests;
-using System.Linq;
 
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -15,8 +13,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class ExchangeQuestSo : AchievementQuestSo
     {
 
-        public override string symbolType {
-            get { return Constants.EXCHANGE_QUEST; }
+        public override string SymbolType => Constants.EXCHANGE_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
+        
+        public override ItemAmountDictionary GetItemDictionary()
+        {
+            return ItemsToExchangeByType;
         }
 
         [field: SerializeField] public ItemAmountDictionary ItemsToExchangeByType { get; set; }
@@ -34,18 +41,27 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            Npc = (copiedQuest as ExchangeQuestSo).Npc;
-            ReceivedItem = (copiedQuest as ExchangeQuestSo).ReceivedItem;
-            ItemsToExchangeByType = new ItemAmountDictionary();
-            foreach (var itemByAmount in (copiedQuest as ExchangeQuestSo).ItemsToExchangeByType)
+            var exchangeQuest = copiedQuest as ExchangeQuestSo;
+            if (exchangeQuest != null)
             {
-                ItemsToExchangeByType.Add(itemByAmount.Key, itemByAmount.Value);
+                Npc = exchangeQuest.Npc;
+                ReceivedItem = exchangeQuest.ReceivedItem;
+                ItemsToExchangeByType = new ItemAmountDictionary();
+                foreach (var itemByAmount in exchangeQuest.ItemsToExchangeByType)
+                {
+                    ItemsToExchangeByType.Add(itemByAmount.Key, itemByAmount.Value);
+                }
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(ExchangeQuestSo)}, got type {copiedQuest.GetType()}");
             }
         }
 
-        public void Init( string name, bool endsStoryLine, QuestSo previous, NpcSo npc, ItemAmountDictionary exchangedItems, ItemSo receivedItem )
+        public void Init( string questName, bool endsStoryLine, QuestSo previous, NpcSo npc, ItemAmountDictionary exchangedItems, ItemSo receivedItem )
         {
-            base.Init(name, endsStoryLine, previous);
+            base.Init(questName, endsStoryLine, previous);
             Npc = npc;
             ItemsToExchangeByType = exchangedItems;
             ReceivedItem = receivedItem;
@@ -53,79 +69,36 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         
         public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<ItemQuestSo>();
+            var cloneQuest = CreateInstance<ExchangeQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
         }
 
-        public static ExchangeQuestSo GetValidExchangeQuest ( QuestGetItemEventArgs getItemQuestArgs, List<QuestList> questLists )
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var itemCollected = getItemQuestArgs.ItemType;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ExchangeQuestSo exchangeQuestSo) continue;
-                if (exchangeQuestSo.HasItemToExchange(itemCollected)) return exchangeQuestSo;
-            }
-
-            foreach (var questList in questLists)
-            {
-                var exchangeQuestSo = questList.GetFirstExchangeQuestAvailable(itemCollected);
-                if (exchangeQuestSo == null) return exchangeQuestSo;
-            }
-
-            return null;
+            return !IsCompleted 
+                   && ItemsToExchangeByType.ContainsKey(questElement as ItemSo ?? throw new InvalidOperationException());
         }
 
-        public static ExchangeQuestSo GetValidExchangeQuest ( QuestTalkEventArgs talkQuestArgs, List<QuestList> questLists )
+        public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            var npc = talkQuestArgs.Npc;
-            foreach (var questList in questLists)
+            ItemsToExchangeByType.RemoveItemWithId(questElement as ItemSo, questId);
+            if (ItemsToExchangeByType.Count == 0)
             {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not ExchangeQuestSo exchangeQuestSo) continue;
-                if (exchangeQuestSo.Npc == npc) return exchangeQuestSo;
-            }
-
-            foreach (var questList in questLists)
-            {
-                var exchangeQuestSo = questList.GetFirstExchangeQuestWithNpc(npc);
-                if (exchangeQuestSo == null) return exchangeQuestSo;
-            }
-
-            return null;
-        }
-
-        public void AddItem(ItemSo item, int amount)
-        {
-            if (ItemsToExchangeByType.TryGetValue(item, out var currentAmount))
-            {
-                ItemsToExchangeByType[item] = currentAmount + amount;
-            }
-            else
-            {
-                ItemsToExchangeByType.Add(item, amount);
+                IsCompleted = true;
             }
         }
         
-        public void SubtractItem(ItemSo itemSo)
+        public override string ToString()
         {
-            ItemsToExchangeByType[itemSo]--;
-        }
-
-        public bool HasItemToExchange(ItemSo itemSo)
-        {
-            if (!ItemsToExchangeByType.TryGetValue(itemSo, out var itemsLeft)) return false;
-            return itemsLeft > 0;
-        }
-
-        public bool CheckIfCanComplete()
-        {
-            return ItemsToExchangeByType.All(itemToExchange => itemToExchange.Value == 0);
+            var stringBuilder = new StringBuilder();
+            foreach (var itemByAmount in ItemsToExchangeByType)
+            {
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            stringBuilder.Append($" with {Npc.NpcName}.\n");
+            return stringBuilder.ToString();
         }
     }
 }

@@ -67,10 +67,10 @@ namespace Game.LevelManager.DungeonManager
         {
             _doorSprite.sprite = lockedSprite;
             _doorSprite.material = gradientMaterial;
-            _doorSprite.material.SetColor(GradientColor1, Constants.colorId[firstKeyID - 1]);
+            _doorSprite.material.SetColor(GradientColor1, Constants.ColorId[firstKeyID - 1]);
             _doorSprite.material.SetColor(GradientColor2,
-                keyID.Count > 1 ? Constants.colorId[keyID[1] - 1] : Constants.colorId[firstKeyID - 1]);
-            _color = Constants.colorId[firstKeyID - 1];
+                keyID.Count > 1 ? Constants.ColorId[keyID[1] - 1] : Constants.ColorId[firstKeyID - 1]);
+            _color = Constants.ColorId[firstKeyID - 1];
         }
 
         private void OnDrawGizmos()

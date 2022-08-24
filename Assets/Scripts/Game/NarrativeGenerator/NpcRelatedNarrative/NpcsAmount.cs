@@ -32,7 +32,7 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
             }
         }
 
-        public KeyValuePair<NpcSo, QuestList> GetRandom()
+        public KeyValuePair<NpcSo, QuestLine> GetRandom()
         {
             return NpcAmountBySo.GetRandom();
         }

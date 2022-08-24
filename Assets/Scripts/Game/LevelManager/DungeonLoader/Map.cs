@@ -141,7 +141,7 @@ namespace Game.LevelManager.DungeonLoader
         //Cria salas vazias no tamanho padrão
         private void BuildDefaultRooms()
         {
-            Dimensions roomDimensions = new Dimensions(Constants.defaultRoomSizeX, Constants.defaultRoomSizeY);
+            Dimensions roomDimensions = new Dimensions(Constants.DefaultRoomSizeX, Constants.DefaultRoomSizeY);
             foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
             {
                 if (currentPart is DungeonRoom room)
@@ -149,7 +149,7 @@ namespace Game.LevelManager.DungeonLoader
                     var roomInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
                     var doorList = CreateDoorList(room.Coordinates);
                     roomInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
-                    room.CreateRoom(roomDimensions, roomInput);
+                    room.CreateRoom(roomDimensions);
                 }
             }
         }

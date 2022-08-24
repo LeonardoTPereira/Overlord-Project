@@ -59,7 +59,7 @@ namespace Game.GameManager
             }
             else if (gameObject.CompareTag("Enemy"))
             {
-                ((IQuestElement) this._enemyController).OnQuestTaskResolved( this, new QuestDamageEnemyEventArgs(_enemyController.EnemyWeapon, damage, _enemyController.QuestId));
+                ((IQuestElement) this._enemyController).OnQuestTaskResolved( this, new QuestDamageEnemyEventArgs(_enemyController.EnemyData.weapon, damage, _enemyController.QuestId));
                 _enemyController.CheckDeath();
             }
         }

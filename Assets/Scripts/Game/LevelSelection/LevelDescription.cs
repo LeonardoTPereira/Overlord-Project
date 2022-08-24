@@ -18,7 +18,6 @@ namespace Game.LevelSelection
         public void CreateDescriptions(LevelData levelData)
         {
             CreateDungeonDescription(levelData.Dungeon);
-            CreateQuestDescription(levelData.Quests);
             _isShowingDungeon = false;
             ChangeDescription();
         }
@@ -31,14 +30,7 @@ namespace Game.LevelSelection
             DungeonDescription += "\nExploration: " + dungeon.ExplorationCoefficient;
             DungeonDescription += "\nLeniency: " + dungeon.LeniencyCoefficient;
         }
-        
-        private void CreateQuestDescription(QuestLine quests)
-        {
-            QuestDescription = "";
-            QuestDescription += "Quests: " + quests.questLines.Count;
-            QuestDescription += "\nQuest 1 - " + quests.questLines[0].Quests[0].QuestName;
-        }
-        
+
         public void ChangeDescription(InputAction.CallbackContext context)
         {
             ChangeDescription();

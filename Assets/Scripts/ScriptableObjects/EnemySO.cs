@@ -42,12 +42,12 @@ namespace ScriptableObjects
 #if UNITY_EDITOR
             const string newFolder = "Enemies";
             var fileName = directory;
-            if (!AssetDatabase.IsValidFolder(fileName + Constants.SEPARATOR_CHARACTER + newFolder))
+            if (!AssetDatabase.IsValidFolder(fileName + Constants.SeparatorCharacter + newFolder))
             {
                 AssetDatabase.CreateFolder(fileName, newFolder);
             }
-            fileName += Constants.SEPARATOR_CHARACTER + newFolder;
-            fileName += Constants.SEPARATOR_CHARACTER;
+            fileName += Constants.SeparatorCharacter + newFolder;
+            fileName += Constants.SeparatorCharacter;
             fileName += weapon+".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);

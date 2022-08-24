@@ -1,51 +1,47 @@
+using System;
+using System.Text;
+using System.Collections.Generic;
 using ScriptableObjects;
 using Util;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Game.NPCs;
-using System.Linq;
-using Game.Quests;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class DamageQuestSo : MasteryQuestSo
     {
-        [field: SerializeField]
-        public EnemiesByType EnemiesToDamageByType { get; set; }
-        public Dictionary<float, int> EnemiesToDamageByFitness { get; set; }
-        public override string symbolType {
-            get { return Constants.DAMAGE_QUEST; }
+        [field: SerializeField] private DamageQuestData DamageData { get; set; }
+        public override string SymbolType => Constants.DAMAGE_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
         }
 
         public override void Init()
         {
             base.Init();
-            EnemiesToDamageByType = new EnemiesByType ();
-            EnemiesToDamageByFitness = new Dictionary<float, int>();
+            DamageData = new DamageQuestData();
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSo previous, EnemiesByType  enemiesByType )
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, WeaponTypeSO enemyToDamage, int damage)
         {
             base.Init(questName, endsStoryLine, previous);
-            EnemiesToDamageByType = enemiesByType;
+            DamageData = new DamageQuestData(damage, enemyToDamage);
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<float, int> enemiesByFitness )
-        {
-            base.Init(questName, endsStoryLine, previous);
-            EnemiesToDamageByFitness = enemiesByFitness;
-        }
-        
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            EnemiesToDamageByType = new EnemiesByType ();
-            foreach (var enemyByType in (copiedQuest as DamageQuestSo).EnemiesToDamageByType.EnemiesByTypeDictionary)
+            var damageQuest = copiedQuest as DamageQuestSo;
+            if (damageQuest != null)
             {
-                EnemiesToDamageByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
+                DamageData = new DamageQuestData(damageQuest.DamageData);
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Expected argument of type {typeof(DamageQuestSo)}, got type {copiedQuest.GetType()}");
             }
         }
         
@@ -56,66 +52,25 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public static DamageQuestSo GetValidDamageQuest ( QuestDamageEnemyEventArgs damageQuestArgs, List<QuestList> questLists )
+        public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            var enemyDamaged = damageQuestArgs.EnemyWeaponTypeSo;
-            var damage = damageQuestArgs.Damage;
-            foreach (var questList in questLists)
-            {
-                var currentQuest = questList.GetCurrentQuest();
-                if (currentQuest == null) continue;
-                if (currentQuest.IsCompleted) continue;
-                if (currentQuest is not DamageQuestSo damageQuestSo) continue;
-                if (!damageQuestSo.HasEnemyToDamage(enemyDamaged)) return damageQuestSo;
-            }
+            return !IsCompleted 
+                   && DamageData.Enemy == (questElement as DamageQuestData)?.Enemy;        
+        }
 
-            foreach (var questList in questLists)
+        public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            if (questElement is not DamageQuestData damageData) return;
+            DamageData.Damage -= damageData.Damage;
+            if (DamageData.Damage <= 0)
             {
-                var damageQuestSo = questList.GetFirstDamageQuestWithEnemyAvailable(enemyDamaged);
-                if (damageQuestSo == null) return damageQuestSo;
+                IsCompleted = true;
             }
-
-            return null;
+        }
+        public override string ToString()
+        {
+            return $"{DamageData.Enemy.EnemyTypeName} and give {DamageData.Damage} damage to it.\n";
         }
         
-        public void AddEnemy(WeaponTypeSO enemy, int amount)
-        {
-            if (EnemiesToDamageByType.EnemiesByTypeDictionary.TryGetValue(enemy, out var currentAmount))
-            {
-                EnemiesToDamageByType.EnemiesByTypeDictionary[enemy] = currentAmount + amount;
-            }
-            else
-            {
-                EnemiesToDamageByType.EnemiesByTypeDictionary.Add(enemy, amount);
-            }
-        }
-        
-        public void AddEnemy(float enemyFitness, int amount)
-        {
-            if (EnemiesToDamageByFitness.TryGetValue(enemyFitness, out var currentAmount))
-            {
-                EnemiesToDamageByFitness[enemyFitness] = currentAmount + amount;
-            }
-            else
-            {
-                EnemiesToDamageByFitness.Add(enemyFitness, amount);
-            }
-        }
-
-        public void SubtractDamage(WeaponTypeSO weaponTypeSo, int damage )
-        {
-            EnemiesToDamageByType.EnemiesByTypeDictionary[weaponTypeSo] -= damage;
-        }
-
-        public bool CheckIfCompleted()
-        {
-            return EnemiesToDamageByType.EnemiesByTypeDictionary.All(enemyDamage => enemyDamage.Value <= 0);
-        }
-
-        public bool HasEnemyToDamage (WeaponTypeSO weaponTypeSo)
-        {
-            if (!EnemiesToDamageByType.EnemiesByTypeDictionary.TryGetValue(weaponTypeSo, out var damageLeft)) return false;
-            return damageLeft > 0;
-        }
     }
 }
