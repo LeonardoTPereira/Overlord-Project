@@ -19,7 +19,7 @@ namespace Game.EnemyManager
         
         private Color GetEyeColorBasedOnMovement()
         {
-            switch (Movement.enemyMovementIndex)
+            switch (EnemyData.movement.enemyMovementIndex)
             {
                 case Enums.MovementEnum.Random:
                 case Enums.MovementEnum.Random1D:
