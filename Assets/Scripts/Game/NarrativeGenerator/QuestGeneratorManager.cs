@@ -31,7 +31,6 @@ namespace Game.NarrativeGenerator
         [SerializeReference, SerializeField] private QuestLineList questLines;
         private List<QuestLineList> _questLineListsForProfile;
         [field:SerializeField] public bool MustCreateNarrative { get; set; } = false;
-        private bool isRealTimeGeneration;
         [SerializeField] private FormQuestionsData preTestQuestionnaire;
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
@@ -45,6 +44,7 @@ namespace Game.NarrativeGenerator
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
+        [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
 
         public FormQuestionsData PreTestQuestionnaire
         {
@@ -79,14 +79,13 @@ namespace Game.NarrativeGenerator
         private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
             var playerProfile = ProfileCalculator.CreateProfile(e);
-            isRealTimeGeneration = false;
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
 
         private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
-            var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue);
-            isRealTimeGeneration = true;
+            var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
+                CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
         
@@ -94,7 +93,6 @@ namespace Game.NarrativeGenerator
         {
             
             var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
-            isRealTimeGeneration = true;
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
 
@@ -124,7 +122,7 @@ namespace Game.NarrativeGenerator
             CreateGeneratorParametersForQuestLine(playerProfile);
             Debug.Log("Creating Contents for Quest Line");
             await CreateContentsForQuestLine();
-            if (!isRealTimeGeneration)
+            if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
                 SaveSOs(playerProfile.PlayerProfileEnum.ToString());
             }
