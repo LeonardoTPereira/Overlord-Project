@@ -1,12 +1,19 @@
 using Util;
 using System;
 using Game.NPCs;
+using System.Collections.Generic;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ListenQuestSo : ImmersionQuestSo
     {
         public override string SymbolType => Constants.LISTEN_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
 
         //No NPCSo directly. It must be only the job/race, defined using some method based on the next quest
         public NpcSo Npc { get; set; }

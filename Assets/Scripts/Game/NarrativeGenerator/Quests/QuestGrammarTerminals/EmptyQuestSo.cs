@@ -14,9 +14,7 @@ namespace Game.NarrativeGenerator.Quests
         public override string SymbolType { 
             get { return Constants.EMPTY_QUEST;} 
         }
-        public override bool CanDrawNext { 
-            get { return false; } 
-        }
+        public override bool CanDrawNext => false;
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {

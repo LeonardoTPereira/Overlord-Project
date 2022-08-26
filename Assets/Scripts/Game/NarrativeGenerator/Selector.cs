@@ -25,8 +25,11 @@ namespace Game.NarrativeGenerator
             questLineList.Init();            
             CreateQuestLineForEachNpc(possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
 
-            while ( wasQuestAdded.ContainsValue(false) )
+            int i = 0;
+            Debug.Log("add necessary quests");
+            while ( wasQuestAdded.ContainsValue(false) && i < 100 )
             {
+                i++;
                 var selectedNpc = possibleNpcs[Random.Range(0, possibleNpcs.Count)];
                 ContinueQuestLineForNpc(selectedNpc, possibleNpcs, possibleTreasures, possibleEnemyTypes,
                     questLineList);
@@ -50,7 +53,6 @@ namespace Game.NarrativeGenerator
             questLine.PopulateQuestLine(possibleNpcs, possibleTreasures, possibleEnemyTypes);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
-            Debug.Log(questLine.Quests.Count);
             questLine.NpcInCharge = npcInCharge;
             questLineList.QuestLines.Add(questLine);
         }

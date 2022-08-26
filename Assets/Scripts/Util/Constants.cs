@@ -15,8 +15,8 @@ namespace Util
             return (Mathf.Log(value - minValue) / Mathf.Log(maxValue - minValue)) * (maxNormalized - minNormalized);
         }
 
-        public const int NSpawnPointsVer = 4;
-        public const int NSpawnPointsHor = 4;
+        public const int NSpawnPointsVer = 6;
+        public const int NSpawnPointsHor = 6;
         public const int DistFromBorder = 1;
 
         public const int DefaultRoomSizeX = 22;

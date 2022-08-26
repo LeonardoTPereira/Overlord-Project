@@ -1,11 +1,19 @@
 using ScriptableObjects;
+using System.Collections.Generic;
 using Util;
 using System;
+
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReadQuestSo : ImmersionQuestSo
     {
         public override string SymbolType => Constants.READ_QUEST;
+
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
 
         public ItemSo ItemToRead {get; set; }
         public int QuestId { get; set; }

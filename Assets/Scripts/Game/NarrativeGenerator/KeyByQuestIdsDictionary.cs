@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests;
 using ScriptableObjects.SerializableDictionaryLite;
 
 namespace Game.NarrativeGenerator
 {
     [Serializable]
-    public class KeyByQuestIdsDictionary<T> : SerializableDictionaryBase<T, LinkedList<int>>
+    public class KeyByQuestIdsDictionary<T> : SerializableDictionaryBase<T, QuestIdList>
     {
         public KeyByQuestIdsDictionary()
         {
@@ -23,21 +24,22 @@ namespace Game.NarrativeGenerator
         public void RemoveItemWithId(T key, int id)
         {
             if (!ContainsKey(key)) return;
-            this[key].Remove(id);
-            if (this[key].Count == 0)
+            this[key].QuestIds.Remove(id);
+            if (this[key].QuestIds.Count == 0)
             {
                 Remove(key);
             }
         }
 
+        
         public void AddItemWithId(T key, int questId)
         {
             if (!ContainsKey(key))
             {
-                Add(key, new LinkedList<int>());
+                Add(key, new QuestIdList());
             }
 
-            this[key].AddFirst(questId);
+            this[key].Add(questId);
         }
         
         public new KeyByQuestIdsDictionary<T> Clone()

@@ -13,11 +13,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get {
-
-                if ( nextSymbolChances != null )
-                    return nextSymbolChances;
-
+            get
+            {
                 var creativityQuestWeights = new Dictionary<string, Func<int, int>>
                 {
                     {Constants.EXPLORE_QUEST, Constants.TwoOptionQuestLineWeight},
@@ -25,7 +22,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
                 };
                 return creativityQuestWeights;
-
             } 
         }
 
@@ -38,7 +34,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 case Constants.GOTO_QUEST:
                     return CreateAndSaveGotoQuestSo(questSos);
                 default:
-                    Debug.LogError("help something went wrong!");
+                    Debug.LogError("help something went wrong! - Creativity doesn't contain symbol: "+SymbolType);
                 break;
             }
 

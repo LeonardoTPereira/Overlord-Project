@@ -7,6 +7,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonTerminals
 {
     public class StartSymbol : QuestSo
     {
+        public override bool CanDrawNext => true;
+
+        public override string SymbolType => "StartSymbol";
+
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
             throw new System.NotImplementedException();

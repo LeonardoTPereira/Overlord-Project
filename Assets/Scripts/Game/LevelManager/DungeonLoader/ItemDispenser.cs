@@ -48,7 +48,7 @@ namespace Game.LevelManager.DungeonLoader
             while (selectedItems < itemsInRoom)
             {
                 var selectedType = itemsInQuestByType.GetRandom();
-                var maxPossibleNewItems = math.min(selectedType.Value.Count, itemsInRoom - selectedItems);
+                var maxPossibleNewItems = math.min(selectedType.Value.QuestIds.Count, itemsInRoom - selectedItems);
                 var newItems = RandomSingleton.GetInstance().Random.Next(1, maxPossibleNewItems);
                 itemsByType.AddNItemsFromType(selectedType, newItems);
                 itemsInQuestByType.RemoveCurrentTypeIfEmpty(selectedType.Key);

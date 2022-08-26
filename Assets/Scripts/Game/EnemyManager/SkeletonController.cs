@@ -32,7 +32,7 @@ namespace Game.EnemyManager
         public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
             base.LoadEnemyData(enemyData, questId);
-            switch (EnemyWeapon.name)
+            switch (EnemyData.weapon.name)
             {
                 case "Sword":
                     Sword.SetActive(true);

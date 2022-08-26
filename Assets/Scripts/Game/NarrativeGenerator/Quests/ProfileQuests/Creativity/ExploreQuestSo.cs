@@ -8,6 +8,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.EXPLORE_QUEST;
 
+        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        {
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
+        }
+
         public int NumOfRoomsToExplore { get; set; }
         private List<Coordinates> _exploredRooms;
 
@@ -32,6 +38,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (exploreQuestSo != null)
             {
                 NumOfRoomsToExplore = exploreQuestSo.NumOfRoomsToExplore;
+                _exploredRooms = new List<Coordinates>();
+                foreach (var roomCoordinate in _exploredRooms)
+                {
+                    _exploredRooms.Add(roomCoordinate);
+                }
             }
             else
             {

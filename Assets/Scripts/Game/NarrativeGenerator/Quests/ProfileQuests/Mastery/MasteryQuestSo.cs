@@ -16,10 +16,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get {
-                if ( nextSymbolChances != null )
-                    return nextSymbolChances;
-                    
+            get
+            {                    
                 Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
                 masteryQuestWeights.Add( Constants.KILL_QUEST, Constants.TwoOptionQuestLineWeight );
                 masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
@@ -37,7 +35,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 case Constants.DAMAGE_QUEST:
                     return CreateAndSaveDamageQuestSo(questSos, enemyTypes);
                 default:
-                    Debug.LogError("help something went wrong!");
+                    Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);
                 break;
             }
 
@@ -101,7 +99,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
                 stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
-                if (typeAmountPair.Value.Count > 1)
+                if (typeAmountPair.Value.QuestIds.Count > 1)
                 {
                     stringBuilder.Append("s");
                 }

@@ -20,8 +20,6 @@ namespace Game.NarrativeGenerator.Quests
         {
             symbolList.Add( ScriptableObject.CreateInstance<StartSymbol>() );
             symbolNumber = 0;
-            symbolList[0].CanDrawNext = true;
-            symbolList[0].SymbolType = Constants.START;
         }
 
         /// <summary>

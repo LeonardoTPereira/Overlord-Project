@@ -19,13 +19,12 @@ namespace Game.NarrativeGenerator.Quests
         public virtual string SymbolType {get; set;}
         public virtual Dictionary<string, Func<int,int>> NextSymbolChances
         {
-            get => nextSymbolChances;
-            set {}
+            get => _nextSymbolChances;
+            set => _nextSymbolChances = value;
         }
-        protected Dictionary<string, Func<int,int>> nextSymbolChances;
+        protected Dictionary<string, Func<int,int>> _nextSymbolChances;
         public virtual bool CanDrawNext {
             get => true;
-            set {} 
         }
 
         [SerializeReference] private QuestSo next;
@@ -84,11 +83,6 @@ namespace Game.NarrativeGenerator.Quests
             var cloneQuest = CreateInstance<QuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
-        }
-        
-        public void SetDictionary(Dictionary<string, Func<int,int>> symbolChances)
-        {
-            nextSymbolChances = symbolChances;
         }
 
         public void SetNextSymbol(MarkovChain chain)
