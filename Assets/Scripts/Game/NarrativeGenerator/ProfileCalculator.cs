@@ -90,10 +90,11 @@ namespace Game.NarrativeGenerator
 
         private static int[] CalculateStartSymbolWeights ( List<int> answers )
         {
-            float immersionPreference = QuestWeightsCalculator.GetTalkQuestWeight( answers );
-            float achievementPreference = QuestWeightsCalculator.GetGetQuestWeight( answers );
-            float masteryPreference = QuestWeightsCalculator.GetKillQuestWeight( answers );
-            float creativityPreference = QuestWeightsCalculator.GetExploreQuestWeight( answers );
+            
+            float immersionPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[2] );
+            float achievementPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[0] );
+            float masteryPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[3] );
+            float creativityPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[1] );
 
             float normalizeConst = immersionPreference + achievementPreference + masteryPreference + creativityPreference;
 

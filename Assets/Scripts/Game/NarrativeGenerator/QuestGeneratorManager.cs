@@ -31,7 +31,6 @@ namespace Game.NarrativeGenerator
         [SerializeReference, SerializeField] private QuestLineList questLines;
         private List<QuestLineList> _questLineListsForProfile;
         [field:SerializeField] public bool MustCreateNarrative { get; set; } = false;
-        [SerializeField] private FormQuestionsData preTestQuestionnaire;
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
         public List<NpcSo> PlaceholderNpcs => placeholderNpcs;
@@ -44,14 +43,8 @@ namespace Game.NarrativeGenerator
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
-        [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
-
-        public FormQuestionsData PreTestQuestionnaire
-        {
-            get => preTestQuestionnaire;
-            set => preTestQuestionnaire = value;
-        }
-
+        [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+        
         private void Awake()
         {
             InitSelector();
