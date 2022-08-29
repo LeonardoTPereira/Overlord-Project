@@ -14,9 +14,8 @@ namespace PlatformGame.Player
 
         protected override void InitializeHealth()
         {
-            InitializePlayerHealthEvent += FindObjectOfType<LifebarWindow>().UI_SetMaxLife; // Gambiarra temporária para Initialize..Event não retornar null
             base.InitializeHealth();
-            InitializePlayerHealthEvent?.Invoke(maxHealth); // Estah retornando null
+            InitializePlayerHealthEvent?.Invoke(maxHealth);
         }
 
         protected override void Kill()

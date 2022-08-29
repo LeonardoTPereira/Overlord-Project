@@ -13,7 +13,7 @@ public class Heart : VisualElement
     public Heart(Sprite icon)
     {
         AddToClassList("heart");                                // Add the '.heart' uss styles
-        UpdateIcon(icon); 
+        UpdateIcon(icon);
     }
 
     public void UpdateIcon(Sprite icon)

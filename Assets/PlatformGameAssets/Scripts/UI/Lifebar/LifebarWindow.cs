@@ -25,17 +25,17 @@ public class LifebarWindow : MonoBehaviour
 
     private List<Heart> _hearts = new List<Heart>();
     private int _currentHeartIndex = 0;             // The last non empty heart on the list of hearts
-    private int _currentHeartLine = FIRST_LINE;              // The line of the last non-empty heart on the list of hearts
+    private int _currentHeartLine = FIRST_LINE;     // The line of the last non-empty heart on the list of hearts
     private int _currentHeartState = EMPTY_HEART;   // The state of the last non-empty heart on the list of hearts
 
-
-    void OnEnable()
+    void Awake()
     {
-        //PlayerHealth.InitializePlayerHealthEvent += UI_SetMaxLife;
+        PlayerHealth.InitializePlayerHealthEvent += UI_SetMaxLife;
         PlayerHealth.PlayerTakeDamageEvent += UI_TakeDamage;
         _root = _UIDocument.rootVisualElement;
         _firstLine = _root.Q<GroupBox>("first-line");
         _secondLine = _root.Q<GroupBox>("second-line");
+        Debug.Log(_firstLine);
     }
 
     private void ClearHeart(int indexFrom, int indexTo)
@@ -64,13 +64,15 @@ public class LifebarWindow : MonoBehaviour
         switch (_currentHeartLine)
         {
             case FIRST_LINE:
+                Debug.Log("FIRST_LINE");
                 _firstLine.Add(heart);
                 break;
             case SECOND_LINE:
+                Debug.Log("SECOND_LINE");
                 _secondLine.Add(heart);
                 break;
         }
-
+        Debug.Log("br");
         // Add one to the 'HEAD' index, representing the last non-empty heart
         _currentHeartIndex++;
         
@@ -87,6 +89,7 @@ public class LifebarWindow : MonoBehaviour
     //      so even if the 'maxLife' is even, a full heart will be added
     public void UI_SetMaxLife(int maxLife)
     {
+        Debug.Log(maxLife);
         for (int i = 0; i < 40/*maxLife*/; i += 2)
         {
             CreateHeart();
