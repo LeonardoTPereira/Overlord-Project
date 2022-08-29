@@ -19,13 +19,15 @@ public class LifebarWindow : MonoBehaviour
     private const int FIRST_LINE = 0;
     private const int SECOND_LINE = 1;
 
-    private VisualElement _hearts;
     private VisualElement _root;
     private VisualElement _firstLine;
     private VisualElement _secondLine;
 
-    private int _currentHeartIndex = 0; // The last non empty heart on the list of hearts
-    private int _currentHeartLine = 0; // The line of the last non-empty heart on the list of hearts
+    private List<Heart> _hearts = new List<Heart>();
+    private int _currentHeartIndex = 0;             // The last non empty heart on the list of hearts
+    private int _currentHeartLine = FIRST_LINE;              // The line of the last non-empty heart on the list of hearts
+    private int _currentHeartState = EMPTY_HEART;   // The state of the last non-empty heart on the list of hearts
+
 
     void OnEnable()
     {
@@ -36,14 +38,30 @@ public class LifebarWindow : MonoBehaviour
         _secondLine = _root.Q<GroupBox>("second-line");
     }
 
+    private void ClearHeart(int indexFrom, int indexTo)
+    {
+        for (int i = indexFrom; i < indexTo; i++)
+        {
+            _hearts[i].UpdateIcon(_emptyHeart);
+        }
+        _currentHeartIndex = indexFrom - 1;
+
+        if (_hearts.Count < 10)
+        {
+            _currentHeartLine = FIRST_LINE;
+        }
+    }
+
     // Creates a 'VisualElement' and add it to the life bar
     private void CreateHeart()
     {
         // Create an Heart with its right icon and uss
         Heart heart = new Heart(_fullHeart);
 
+        _hearts.Add(heart);
+
         // Add the heart accordly to the line in the Lifebar UI
-        switch(_currentHeartLine)
+        switch (_currentHeartLine)
         {
             case FIRST_LINE:
                 _firstLine.Add(heart);
@@ -69,15 +87,28 @@ public class LifebarWindow : MonoBehaviour
     //      so even if the 'maxLife' is even, a full heart will be added
     public void UI_SetMaxLife(int maxLife)
     {
-        for (int i = 0; i < maxLife; i += 2)
+        for (int i = 0; i < 40/*maxLife*/; i += 2)
         {
             CreateHeart();
         }
+        _currentHeartState = FULL_HEART;
     }
 
     // Updates the lifebar UI accordly to the damage taken by the player
     // OBS: 1 Damage equals to half heart, and 2 is a full heart of damage
     private void UI_TakeDamage(int damage)
     {
+        for (int i = 0; i < damage; i++)
+        {
+            switch(_currentHeartState)
+            {
+                case EMPTY_HEART:
+                    break;
+                case HALF_HEART:
+                    break;
+                case FULL_HEART:
+                    break;
+            }
+        }
     }
 }
