@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.LevelManager.DungeonLoader;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using Util;
 #if !UNITY_WEBGL || UNITY_EDITOR
@@ -425,9 +424,9 @@ namespace Game.DataCollection
                 }
             }
             
-            var dungeonData = JsonConvert.DeserializeObject<List<DungeonData>>(lines);
-            dungeonData?.Add(this);
-            var dungeonString = JsonConvert.SerializeObject(dungeonData, Formatting.Indented);
+            var dungeonData = JsonUtility.ToJson(lines);
+            dungeonData+=JsonUtility.ToJson(this);
+            var dungeonString = JsonUtility.ToJson(dungeonData);
             
             using (var fileStream = new FileStream(dungeonFile, FileMode.OpenOrCreate))
             {
@@ -438,7 +437,7 @@ namespace Game.DataCollection
             }
 
             var roomData = VisitedRooms.SelectMany(roomList => roomList.Value).ToList();
-            var roomString = JsonConvert.SerializeObject(roomData, Formatting.Indented);
+            var roomString = JsonUtility.ToJson(roomData);
             using (var fileStream = new FileStream(roomFile, FileMode.OpenOrCreate))
             {
                     using (var sw = new StreamWriter(fileStream)) 
