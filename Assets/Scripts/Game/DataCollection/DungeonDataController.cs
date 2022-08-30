@@ -118,7 +118,7 @@ namespace Game.DataCollection
             CurrentDungeon.OnPlayerVictory();
         }
         
-                private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
+        private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
         {
             switch (eventArgs.Quest)
             {

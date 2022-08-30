@@ -18,7 +18,6 @@ namespace Game.LevelManager.DungeonLoader
         public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public int TotalTreasures { get; private set; }
         public static event StartMapEvent StartMapEventHandler;
-        [field: SerializeField] public bool GenerateRooms { get; set; }
         [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
 
         public void LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLineList currentQuestLineList)

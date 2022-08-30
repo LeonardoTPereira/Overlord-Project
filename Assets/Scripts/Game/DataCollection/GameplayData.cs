@@ -1,10 +1,9 @@
-﻿using System;
-using FirebaseWebGLBridge = FirebaseWebGL.Scripts.FirebaseBridge;
-using UnityEngine;
-
+﻿using UnityEngine;
 #if !UNITY_WEBGL || UNITY_EDITOR
-using Firebase.Firestore;
-using Firebase.Extensions;
+    using Firebase.Firestore;
+    using Firebase.Extensions;
+#else
+    using FirebaseWebGLBridge = FirebaseWebGL.Scripts.FirebaseBridge;
 #endif
 
 namespace Game.DataCollection
@@ -14,16 +13,22 @@ namespace Game.DataCollection
         public void SendProfileToServer(PlayerData playerData)
         {
 #if !UNITY_WEBGL || UNITY_EDITOR
-            FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-            DocumentReference docRef = db.Collection("users").Document(playerData.PlayerId.ToString());
-            docRef.SetAsync(playerData).ContinueWithOnMainThread(task => {
-                Debug.Log("Added data to the alovelace document in the users collection.");
+            var db = FirebaseFirestore.DefaultInstance;
+            var docRef = db.Collection("users").Document(playerData.PlayerId.ToString());
+            docRef.SetAsync(playerData).ContinueWithOnMainThread(_ => {
+                Debug.Log($"Added data to the {playerData.PlayerId.ToString()} document in the users collection.");
+            });
+            var dungeonData = playerData.CurrentDungeon;
+            docRef = db.Collection("dungeons").Document(dungeonData.LevelName);
+            docRef.SetAsync(playerData).ContinueWithOnMainThread(_ => {
+                Debug.Log($"Added data to the {dungeonData.LevelName} document in the dungeons collection.");
             });
 #else
-            Debug.Log("Player data: "+playerData.PlayerId);
-            String jsonData = JsonUtility.ToJson(playerData);
+            var jsonData = JsonUtility.ToJson(playerData);
             FirebaseWebGLBridge.FirebaseFirestore.AddDocument("users", jsonData, playerData.PlayerId.ToString(), "DisplayInfo", "DisplayErrorObject");
-            Debug.Log("Added document");
+
+            jsonData = JsonUtility.ToJson(dungeonData);
+            FirebaseWebGLBridge.FirebaseFirestore.AddDocument("dungeons", jsonData, dungeonData.LevelName, "DisplayInfo", "DisplayErrorObject");
 #endif
         }
     }
