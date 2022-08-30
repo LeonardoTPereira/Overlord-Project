@@ -545,7 +545,7 @@ PrefabInstance:
     - target: {fileID: 5243512210156797411, guid: 3280d46039fe41e44a07a35f9900f96b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 9.51
       objectReference: {fileID: 0}
     - target: {fileID: 5243512210156797411, guid: 3280d46039fe41e44a07a35f9900f96b,
         type: 3}
@@ -641,6 +641,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528631103223513207, guid: 3280d46039fe41e44a07a35f9900f96b,
+        type: 3}
+      propertyPath: maxHealth
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7572500852444680031, guid: 3280d46039fe41e44a07a35f9900f96b,
         type: 3}
