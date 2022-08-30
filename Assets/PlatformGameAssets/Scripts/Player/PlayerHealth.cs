@@ -27,9 +27,12 @@ namespace PlatformGame.Player
         }
 
         public override void TakeDamage(int damage)
-        {
-            base.TakeDamage(damage);
-            PlayerTakeDamageEvent?.Invoke(damage);
+        {            
+            if (base.GetCanTakeDamage())
+            {
+                PlayerTakeDamageEvent?.Invoke(damage);
+                base.TakeDamage(damage);
+            }
         }
     }
 }

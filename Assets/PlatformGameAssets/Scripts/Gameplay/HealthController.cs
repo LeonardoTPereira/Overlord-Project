@@ -30,9 +30,10 @@ namespace Gameplay
         public virtual void TakeDamage(int damage)
         {
             if (!_canTakeDamage) return;
-            Health -= damage;
-            CheckDeathAndKill();
             StartCoroutine(CountInvincibilityCooldown());
+            CheckDeathAndKill();
+            Health -= damage;
+            Debug.Log("LIFE: " + Health);
         }
 
         private void CheckDeathAndKill()
@@ -59,6 +60,11 @@ namespace Gameplay
             if(!hasDeathAnimation)
                 Destroy(gameObject);
                 
+        }
+
+        public bool GetCanTakeDamage()
+        {
+            return _canTakeDamage;
         }
     }
 }
