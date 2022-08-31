@@ -30,6 +30,8 @@ public class LifebarWindow : MonoBehaviour
     private int _currentHeartLine = FIRST_LINE;     // The line of the last non-empty heart on the list of hearts
     private int _currentHeartState = EMPTY_HEART;   // The state of the last non-empty heart on the list of hearts
 
+    int t;
+
     void Awake()
     {
         PlayerHealth.InitializePlayerHealthEvent += UI_SetMaxLife;
@@ -85,6 +87,8 @@ public class LifebarWindow : MonoBehaviour
         {
             _currentHeartState = FULL_HEART;
         }
+        t = maxLife;
+        Debug.Log(t);
     }
 
     // Clear hearts in the Lifebar_UI, between two given indexes
@@ -108,7 +112,7 @@ public class LifebarWindow : MonoBehaviour
         int numberOfHeartsDestroyed = damage / 2; // One heart stores 2 hitpoints, so it convert damagepoits to hearts destroyed
 
         // Updates the Lifebar_UI accordly to the number of hearts damaged
-        ClearHeart(_currentHeartIndex - numberOfHeartsDestroyed, _currentHeartIndex + 1);
+        ClearHeart(_currentHeartIndex - numberOfHeartsDestroyed + 1, _currentHeartIndex + 1);
 
         _currentHeartIndex -= numberOfHeartsDestroyed;
                 
@@ -148,5 +152,8 @@ public class LifebarWindow : MonoBehaviour
         // Updates the 'current heart' line
         if (_currentHeartIndex < HEARTS_TO_SECOND_LINE)
             _currentHeartLine = FIRST_LINE;
+
+        t = t - damage;
+        //Debug.Log(t);
     }
 }
