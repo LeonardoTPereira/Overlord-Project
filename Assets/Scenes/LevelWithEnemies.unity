@@ -694,6 +694,9 @@ MonoBehaviour:
   - {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102, type: 3}
   - {fileID: 114939094486873598, guid: 962c76af55ff3be468234bd041d69557, type: 3}
   - {fileID: 114939094486873598, guid: 57c99de9578f3bb4188e20cc716b0c5b, type: 3}
+  <GenerateRooms>k__BackingField: 1
+  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+    type: 2}
 --- !u!4 &514499399
 Transform:
   m_ObjectHideFlags: 0
@@ -723,11 +726,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 1255286056}
   victoryScreen: {fileID: 1255286055}
-  createMaps: 0
-  survivalMode: 0
-  currentQuestLine: {fileID: 0}
+  currentQuestLines: {fileID: 0}
   maxTreasure: 0
-  _selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
+  selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
 --- !u!1 &826402168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,6 +1072,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3186488427515375608, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: questionsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7a6ba1c194453faf1d7d666b01b990,
+        type: 2}
     - target: {fileID: 3291298612412002614, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: nextPanel

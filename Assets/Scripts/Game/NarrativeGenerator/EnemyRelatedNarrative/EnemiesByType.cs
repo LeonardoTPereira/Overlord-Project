@@ -40,7 +40,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             EnemiesByTypeDictionary = new WeaponTypeAmountDictionary();
             foreach (var weaponTypeAmountPair in original.EnemiesByTypeDictionary)
             {
-                EnemiesByTypeDictionary.Add(weaponTypeAmountPair.Key, weaponTypeAmountPair.Value);
+                EnemiesByTypeDictionary.Add(weaponTypeAmountPair.Key, new QuestIdList(weaponTypeAmountPair.Value));
             }
         }
 

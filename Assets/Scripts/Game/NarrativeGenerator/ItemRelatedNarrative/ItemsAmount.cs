@@ -29,7 +29,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             ItemAmountBySo = new ItemAmountDictionary();
             foreach (var itemTypeAmountPair in original.ItemAmountBySo)
             {
-                ItemAmountBySo.Add(itemTypeAmountPair.Key, itemTypeAmountPair.Value);
+                ItemAmountBySo.Add(itemTypeAmountPair.Key, new QuestIdList(itemTypeAmountPair.Value));
             }
         }
 
