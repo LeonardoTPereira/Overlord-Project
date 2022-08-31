@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
+// This is the heart of the Lifebar_UI
+// The Heart have the 'heart' uss StyleSheet and an icon ( empty, half or full heart sprite)
 public class Heart : VisualElement
 {
-    private const int EMPTY_HEART = 0;
-    private const int HALF_HEART = 1;
-    private const int FULL_HEART = 2;
-
     public Heart(Sprite icon)
     {
         AddToClassList("heart");                                // Add the '.heart' uss styles

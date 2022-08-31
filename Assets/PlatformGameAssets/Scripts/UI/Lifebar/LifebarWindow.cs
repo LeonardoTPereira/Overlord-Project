@@ -30,8 +30,6 @@ public class LifebarWindow : MonoBehaviour
     private int _currentHeartLine = FIRST_LINE;     // The line of the last non-empty heart on the list of hearts
     private int _currentHeartState = EMPTY_HEART;   // The state of the last non-empty heart on the list of hearts
 
-    int t;
-
     void Awake()
     {
         PlayerHealth.InitializePlayerHealthEvent += UI_SetMaxLife;
@@ -67,8 +65,6 @@ public class LifebarWindow : MonoBehaviour
     }
 
     // Sets the max number of hearts to the life bar
-    // OBS: 2 equals to 1 heart and 1 equals to half heart
-    //      so even if the 'maxLife' is even, a full heart will be added
     public void UI_SetMaxLife(int maxLife)
     {
         int correctLife = maxLife;     
@@ -87,12 +83,9 @@ public class LifebarWindow : MonoBehaviour
         {
             _currentHeartState = FULL_HEART;
         }
-        t = maxLife;
-        Debug.Log(t);
     }
 
     // Clear hearts in the Lifebar_UI, between two given indexes
-    // it also updates the currentHeartIndex and currentHeartLine
     private void ClearHeart(int indexFrom, int indexTo)
     {
         if (indexFrom < 0)
@@ -102,7 +95,6 @@ public class LifebarWindow : MonoBehaviour
         {
             _hearts[i].UpdateIcon(_emptyHeart);
         }
-
     }
 
     // Updates the lifebar UI accordly to the damage taken by the player
@@ -114,7 +106,7 @@ public class LifebarWindow : MonoBehaviour
         // Updates the Lifebar_UI accordly to the number of hearts damaged
         ClearHeart(_currentHeartIndex - numberOfHeartsDestroyed + 1, _currentHeartIndex + 1);
 
-        _currentHeartIndex -= numberOfHeartsDestroyed;
+        _currentHeartIndex -= numberOfHeartsDestroyed;  // Updates the current heart index 
                 
         // After the number of full hearts were removed in the Lifebar_UI, it updates the heart at the current index
         // and tests if there is a damage (1 damage = HALF_HEART damaged) that needs to be treated
@@ -152,8 +144,5 @@ public class LifebarWindow : MonoBehaviour
         // Updates the 'current heart' line
         if (_currentHeartIndex < HEARTS_TO_SECOND_LINE)
             _currentHeartLine = FIRST_LINE;
-
-        t = t - damage;
-        //Debug.Log(t);
     }
 }
