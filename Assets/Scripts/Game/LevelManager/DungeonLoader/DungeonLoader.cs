@@ -18,7 +18,9 @@ namespace Game.LevelManager.DungeonLoader
         public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public int TotalTreasures { get; private set; }
         public static event StartMapEvent StartMapEventHandler;
-        public Map LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLineList currentQuestLineList)
+        [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+
+        public void LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLineList currentQuestLineList)
         {
             Debug.Log("Loading new Level");
             LoadDungeon(dungeonFileSo);
@@ -35,8 +37,6 @@ namespace Game.LevelManager.DungeonLoader
             var selectedRoom = roomPrefabs[RandomSingleton.GetInstance().Random.Next(roomPrefabs.Count)];
             InstantiateRooms(selectedRoom, _dungeonMap.Dimensions);
             ConnectRoooms();
-
-            return _dungeonMap;
         }
         
         public IEnumerator OnStartMap(string mapName)
@@ -72,7 +72,7 @@ namespace Game.LevelManager.DungeonLoader
         
         private void LoadDungeon(DungeonFileSo dungeonFileSo)
         {
-            _dungeonMap = new Map(dungeonFileSo, null);
+            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms);
         }
 
         private void InstantiateRooms(RoomBhv roomBhv, Dimensions dimensions)

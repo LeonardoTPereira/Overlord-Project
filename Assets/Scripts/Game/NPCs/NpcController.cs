@@ -22,7 +22,7 @@ namespace Game.NPCs
         private Queue<int> _assignedQuestsQueue;
         public int QuestId
         {
-            get => _assignedQuestsQueue.Dequeue();
+            get =>  _assignedQuestsQueue.Dequeue();
             set => _assignedQuestsQueue.Enqueue(value);
         }
 
@@ -147,7 +147,10 @@ namespace Game.NPCs
         public void OnInteractAttempt()
         {
             if (_isDialogueNull) return;
-            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(npc, QuestId));
+            if (_assignedQuestsQueue.Count > 0)
+            {
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(npc, QuestId));
+            }
             DialogueHandler.instance.StartDialogue(dialogue);
         }
 

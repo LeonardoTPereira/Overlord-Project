@@ -7,53 +7,17 @@ using Util;
 namespace Game.NarrativeGenerator
 {
     public static class QuestWeightsCalculator
-    {        
-        private const float minWeightPercentage = 0.2f;
-        private const float percentageDivider = 10;
-        private const float killPercentageDivider = 15;
-
-        public static float GetTalkQuestWeight ( List<int> answers )
+    {
+        private const float LikertScaleMaximum = 5.0f;
+        public static float GetWeightFromPreTest(int answer)
         {
-            // Talk questions = 10, 11
-            float [] talkWeightQuestions = {answers[9], answers[10]};
-            float talkWeight = CalculateWeightSum( talkWeightQuestions )/percentageDivider;
-            if ( talkWeight > 0) return talkWeight;
-            return minWeightPercentage;
-        }
+            if (answer == 0)
+            {
+                answer++;
+            }
 
-        public static float GetGetQuestWeight ( List<int> answers )
-        {
-            // Get questions = 7, 8
-            float [] getWeightQuestions = {answers[7], answers[8]};
-            float getWeight = CalculateWeightSum( getWeightQuestions )/percentageDivider;
-            if ( getWeight > 0) return getWeight;
-            return minWeightPercentage;
+            return answer / LikertScaleMaximum;
         }
-
-        public static float GetExploreQuestWeight ( List<int> answers )
-        {
-            // Explore questions = 5, 6
-            float [] exploreWeightQuestions = {answers[5], answers[6]};
-            float exploreWeight = CalculateWeightSum( exploreWeightQuestions )/percentageDivider;
-            if ( exploreWeight > 0) return exploreWeight;
-            return minWeightPercentage;
-        }
-
-        public static float GetKillQuestWeight ( List<int> answers )
-        {
-            // Kill questions = 2, 3 e 4
-            float [] killWeightQuestions = {answers[2], answers[3], answers[4]};
-            float killWeight = CalculateWeightSum( killWeightQuestions )/killPercentageDivider;
-            if ( killWeight > 0) return killWeight;
-            return minWeightPercentage;
-        }
-
-        private static float CalculateWeightSum ( float [] answers )
-        {
-            float weightSum = (float)(answers.Sum());
-            return weightSum;
-        }
-        
         public static int GetCreativityWeight(int roomsEntered, int totalRooms, int locksOpened, int totalLocks)
         {
             var roomVisitedRatio = roomsEntered / (float) totalRooms;

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
+  m_Name: Question5 - PreTest
+  m_EditorClassIdentifier: 
+  question: "Quando jogo, eu normalmente completo todas as miss\xF5es, incluindo
+    aquelas que n\xE3o s\xE3o necess\xE1rias para terminar o jogo (por exemplo, miss\xF5es
+    secund\xE1rias)."
+  description: 1 = Discordo Fortemente    <->    5 = Concordo Fortemente
+  answer: 0
