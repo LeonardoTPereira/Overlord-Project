@@ -30,7 +30,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var getQuest = copiedQuest as GatherQuestSo;
             if (getQuest != null)
             {
-                ItemsToGatherByType = getQuest.ItemsToGatherByType.Clone();
+                ItemsToGatherByType = (ItemAmountDictionary) getQuest.ItemsToGatherByType.Clone();
             }
             else
             {
@@ -68,15 +68,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override string ToString()
+        public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToGatherByType)
             {
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
+            if (stringBuilder.Length == 0)
+            {
+                Debug.LogError("No Items to Collect");
+                QuestText = stringBuilder.ToString();
+            }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
-            return stringBuilder.ToString();
+            QuestText = stringBuilder.ToString();
         }
     }
 }

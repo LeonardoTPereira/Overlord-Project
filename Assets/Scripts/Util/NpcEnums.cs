@@ -1,4 +1,4 @@
-﻿namespace Game.NPCs
+﻿namespace Util
 {
     public enum Jobs
     {

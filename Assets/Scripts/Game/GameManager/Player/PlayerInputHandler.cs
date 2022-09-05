@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Game.GameManager.Player
 {
-    public abstract class PlayerInput : MonoBehaviour
+    public abstract class PlayerInputHandler : MonoBehaviour
     {
         protected Animator PlayerAnimator { get; private set; }
 
@@ -41,6 +41,7 @@ namespace Game.GameManager.Player
         }
 
         protected abstract void StartInput(object sender, EventArgs eventArgs);
+
         protected abstract void StopInput(object sender, EventArgs eventArgs);
 
     }

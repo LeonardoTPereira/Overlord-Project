@@ -207,7 +207,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8913796, y: 0.8712271}
+  m_Size: {x: 0.85, y: 0.85}
   m_EdgeRadius: 0
 --- !u!114 &5730454567037571343
 MonoBehaviour:
@@ -327,9 +327,29 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5d17bb64-e884-47e3-ac4b-40a77a9bc64a
     m_ActionName: Player/Action[/Keyboard/x,/DualShock4GamepadHID/buttonEast,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3182be8a-e413-435e-ae8c-0c2bd04bb7ae
+    m_ActionName: Player/Cancel[/Keyboard/z,/DualShock4GamepadHID/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b74b3d16-428f-4aff-af15-af0a13ada3a6
+    m_ActionName: MenuNavigation/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/DualShock4GamepadHID/dpad,/DualShock4GamepadHID/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9eb85cc0-d915-4aad-8319-0dd7f56cf310
+    m_ActionName: MenuNavigation/Confirm[/Keyboard/x,/DualShock4GamepadHID/buttonEast,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4231595a-a4d5-4e30-8e70-8dd409dbd197
+    m_ActionName: MenuNavigation/Cancel[/Keyboard/z,/DualShock4GamepadHID/buttonSouth,/Keyboard/backspace,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ba373954-b52a-4709-8901-aed820fbc078
+    m_ActionName: MenuNavigation/ChangeDescription[/Keyboard/e,/Mouse/rightButton,/Keyboard/q,/DualShock4GamepadHID/leftShoulder,/DualShock4GamepadHID/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &3528728104417823832

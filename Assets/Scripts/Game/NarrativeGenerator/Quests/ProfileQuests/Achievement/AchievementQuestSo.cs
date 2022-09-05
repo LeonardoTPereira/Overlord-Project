@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 using MyBox;
@@ -23,22 +24,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     
                 var achievementQuestWeights = new Dictionary<string, Func<int, int>>
                 {
-                    {Constants.GATHER_QUEST, Constants.TwoOptionQuestLineWeight},
-                    {Constants.EXCHANGE_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.GATHER_QUEST, Constants.OneOptionQuestLineWeight},
+                    //{Constants.EXCHANGE_QUEST, Constants.TwoOptionQuestLineWeight},
                     {Constants.EMPTY_QUEST, Constants.TwoOptionQuestEmptyWeight}
                 };
                 return achievementQuestWeights;
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {
                 case Constants.GATHER_QUEST:
-                    return CreateAndSaveGatherQuestSo(questSos, possibleItems);
+                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.PlaceholderItems);
                 case Constants.EXCHANGE_QUEST:
-                    return CreateAndSaveExchangeQuestSo(questSos, possibleNpcSos, possibleItems);
+                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.PlaceholderItems);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;
@@ -53,6 +54,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CreateQuestString()
         {
             throw new NotImplementedException();
         }

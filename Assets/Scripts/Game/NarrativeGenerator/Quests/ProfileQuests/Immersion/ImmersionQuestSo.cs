@@ -3,6 +3,7 @@ using Util;
 using MyBox;
 using System;
 using System.Collections.Generic;
+using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 
@@ -18,28 +19,28 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var immersionQuestWeights = new Dictionary<string, Func<int, int>>
                     {
-                        {Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight},
-                        {Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
-                        {Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
-                        {Constants.REPORT_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.LISTEN_QUEST, Constants.TwoOptionQuestLineWeight},
+                        //{Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
+                        //{Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.REPORT_QUEST, Constants.TwoOptionQuestLineWeight},
                         {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
                     };
                 return immersionQuestWeights;
             }
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {
                 case Constants.LISTEN_QUEST:
-                    return CreateAndSaveListenQuestSo(questSos, possibleNpcSos);
+                    return CreateAndSaveListenQuestSo(questSos, generatorSettings.PlaceholderNpcs);
                 case Constants.READ_QUEST:
-                    return CreateAndSaveReadQuestSo(questSos, possibleItems);
+                    return CreateAndSaveReadQuestSo(questSos, generatorSettings.PlaceholderItems);
                 case Constants.GIVE_QUEST:
-                    return CreateAndSaveGiveQuestSo(questSos, possibleNpcSos, possibleItems);
+                    return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.PlaceholderItems);
                 case Constants.REPORT_QUEST:
-                    return CreateAndSaveReportQuestSo(questSos, possibleNpcSos);
+                    return CreateAndSaveReportQuestSo(questSos, generatorSettings.PlaceholderNpcs);
                 default:
                     Debug.LogError("help something went wrong! - Immersion doesn't contain symbol: "+SymbolType);
                 break;
@@ -54,6 +55,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CreateQuestString()
         {
             throw new NotImplementedException();
         }

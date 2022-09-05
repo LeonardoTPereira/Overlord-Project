@@ -25,5 +25,10 @@ namespace Game.NarrativeGenerator.Quests
         {
             throw new NotImplementedException();
         }
+
+        public override void CreateQuestString()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
