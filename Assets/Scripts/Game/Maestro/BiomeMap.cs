@@ -11,16 +11,16 @@ namespace Game.Maestro
 
         //exploration x leniency
         private static readonly Dictionary<Biomes, Coordinates[]> CoordinatesByBiomes =
-            new Dictionary<Biomes, Coordinates[]>
+            new()
             {
-                [Biomes.Cave] = new Coordinates[] {new Coordinates(3, 2), new Coordinates(3, 3), new Coordinates(4, 2)},
-                [Biomes.Ocean] = new Coordinates[] {new Coordinates(3, 4), new Coordinates(4, 3), new Coordinates(4, 4)},
-                [Biomes.Meadow] = new Coordinates[] {new Coordinates(0, 0), new Coordinates(0, 1), new Coordinates(1, 0)},
-                [Biomes.Volcano] = new Coordinates[] {new Coordinates(3, 0), new Coordinates(4, 0), new Coordinates(4, 1)},
-                [Biomes.Ice] = new Coordinates[] {new Coordinates(2, 2), new Coordinates(2, 3), new Coordinates(2, 4)},
-                [Biomes.Graveyard] = new Coordinates[] {new Coordinates(0, 3), new Coordinates(0, 4), new Coordinates(1, 4)},
-                [Biomes.Forest] = new Coordinates[] {new Coordinates(0, 2), new Coordinates(1, 2), new Coordinates(1, 3)},
-                [Biomes.Desert] = new Coordinates[] {new Coordinates(1, 1), new Coordinates(2, 0), new Coordinates(2, 1), new Coordinates(3, 1)}
+                [Biomes.Cave] = new[] {new Coordinates(3, 2), new Coordinates(3, 3), new Coordinates(4, 2)},
+                [Biomes.Ocean] = new[] {new Coordinates(3, 4), new Coordinates(4, 3), new Coordinates(4, 4)},
+                [Biomes.Meadow] = new[] {new Coordinates(0, 0), new Coordinates(0, 1), new Coordinates(1, 0)},
+                [Biomes.Volcano] = new[] {new Coordinates(3, 0), new Coordinates(4, 0), new Coordinates(4, 1)},
+                [Biomes.Ice] = new[] {new Coordinates(2, 2), new Coordinates(2, 3), new Coordinates(2, 4)},
+                [Biomes.Graveyard] = new[] {new Coordinates(0, 3), new Coordinates(0, 4), new Coordinates(1, 4)},
+                [Biomes.Forest] = new[] {new Coordinates(0, 2), new Coordinates(1, 2), new Coordinates(1, 3)},
+                [Biomes.Desert] = new[] {new Coordinates(1, 1), new Coordinates(2, 0), new Coordinates(2, 1), new Coordinates(3, 1)}
             };
 
         public enum Biomes
@@ -67,11 +67,9 @@ namespace Game.Maestro
             foreach (var coordinate in coordinates)
             {
                 var elite = mapElites.GetElite(coordinate.X, coordinate.Y);
-                if (elite != null)
-                {
-                    elite.BiomeName = biomeName;
-                    elites.Add(elite);
-                }
+                if (elite == null) continue;
+                elite.BiomeName = biomeName;
+                elites.Add(elite);
             }
             return elites;
         }
@@ -96,24 +94,29 @@ namespace Game.Maestro
             foreach (var biome in Enum.GetValues(typeof(Biomes)).Cast<Biomes>())
             {
                 var elites = LevelsByBiome[biome];
-                Individual bestElite = null;
-                foreach (var elite in elites)
+                selectedLevels.Add(GetBestEliteForBiome(elites));
+            }
+            return selectedLevels;
+        }
+
+        private static Individual GetBestEliteForBiome(List<Individual> elites)
+        {
+            Individual bestElite = null;
+            foreach (var elite in elites)
+            {
+                if (bestElite == null)
                 {
-                    if (bestElite == null)
+                    bestElite = elite;
+                }
+                else
+                {
+                    if (elite.IsBetterThan(bestElite))
                     {
                         bestElite = elite;
                     }
-                    else
-                    {
-                        if (elite.IsBetterThan(bestElite))
-                        {
-                            bestElite = elite;
-                        }
-                    }
                 }
-                selectedLevels.Add(bestElite);
             }
-            return selectedLevels;
+            return bestElite;
         }
     }
 }

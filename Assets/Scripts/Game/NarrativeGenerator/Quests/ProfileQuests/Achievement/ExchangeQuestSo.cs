@@ -46,11 +46,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 Npc = exchangeQuest.Npc;
                 ReceivedItem = exchangeQuest.ReceivedItem;
-                ItemsToExchangeByType = new ItemAmountDictionary();
-                foreach (var itemByAmount in exchangeQuest.ItemsToExchangeByType)
-                {
-                    ItemsToExchangeByType.Add(itemByAmount.Key, itemByAmount.Value);
-                }
+                ItemsToExchangeByType = (ItemAmountDictionary) exchangeQuest.ItemsToExchangeByType.Clone();
             }
             else
             {
@@ -88,8 +84,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 IsCompleted = true;
             }
         }
-        
-        public override string ToString()
+
+        public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToExchangeByType)
@@ -98,7 +94,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             stringBuilder.Append($" with {Npc.NpcName}.\n");
-            return stringBuilder.ToString();
+            QuestText = stringBuilder.ToString();
         }
     }
 }

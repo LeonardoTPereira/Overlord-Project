@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6613e01c240ea8845a65ca9e35388e54, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  multiplier: 2.8
-  hasProjectile: 0
-  projectile: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751, type: 2}
-  weaponPrefab: {fileID: 1699235863348634, guid: e8a7393e255af194fa11fab6a52f658f,
+  <FitnessMultiplier>k__BackingField: 2.8
+  <HasProjectile>k__BackingField: 0
+  <Projectile>k__BackingField: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751,
+    type: 2}
+  <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: e8a7393e255af194fa11fab6a52f658f,
     type: 3}
-  <EnemyTypeName>k__BackingField: Shielders
+  <EnemyTypeName>k__BackingField: Skeleton Shield

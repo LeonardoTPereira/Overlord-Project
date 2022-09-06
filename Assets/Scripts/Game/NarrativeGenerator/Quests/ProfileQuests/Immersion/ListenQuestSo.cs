@@ -62,9 +62,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             IsCompleted = true;
         }
 
-        public override string ToString()
+        public override void CreateQuestString()
         {
-                return $"{Npc.NpcName}.\n";
+            QuestText = $"{Npc.NpcName}.\n";
         }
     }
 }

@@ -694,6 +694,8 @@ MonoBehaviour:
   - {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102, type: 3}
   - {fileID: 114939094486873598, guid: 962c76af55ff3be468234bd041d69557, type: 3}
   - {fileID: 114939094486873598, guid: 57c99de9578f3bb4188e20cc716b0c5b, type: 3}
+  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+    type: 2}
 --- !u!4 &514499399
 Transform:
   m_ObjectHideFlags: 0
@@ -723,11 +725,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 1255286056}
   victoryScreen: {fileID: 1255286055}
-  createMaps: 0
-  survivalMode: 0
-  currentQuestLine: {fileID: 0}
+  currentQuestLines: {fileID: 0}
   maxTreasure: 0
-  _selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
+  selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
 --- !u!1 &826402168
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,10 +784,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.25208336
     y: 0
-    width: 1
-    height: 1
+    width: 0.30555558
+    height: 0.30555555
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1071,6 +1071,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3186488427515375608, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: questionsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7a6ba1c194453faf1d7d666b01b990,
+        type: 2}
     - target: {fileID: 3291298612412002614, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: nextPanel
@@ -1107,18 +1113,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1255286053}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1255286060 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1255286060, guid: 9581c0fe0430a1a4b84bef62380ed023,
-    type: 3}
-  m_PrefabInstance: {fileID: 1255286053}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1847439695
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,65 +1315,27 @@ PrefabInstance:
       objectReference: {fileID: 444031487}
     - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 1699235863348634, guid: 7c6443c3f53cfcb42b8bf65f9e8b56f5,
+        type: 3}
+    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
+        type: 3}
       propertyPath: projectilesAvailable
       value: 
       objectReference: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281,
         type: 2}
     - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
+      propertyPath: <ProjectileType>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
+        type: 2}
+    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
+        type: 3}
       propertyPath: <projectileType>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: adc39a0d43679ab4584a553a907ec5c1,
+      objectReference: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
         type: 2}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_UIInputModule
-      value: 
-      objectReference: {fileID: 1255286060}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
-      value: b74b3d16-428f-4aff-af15-af0a13ada3a6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
-      value: 9eb85cc0-d915-4aad-8319-0dd7f56cf310
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_ActionId
-      value: 4231595a-a4d5-4e30-8e70-8dd409dbd197
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionId
-      value: ba373954-b52a-4709-8901-aed820fbc078
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
-      value: MenuNavigation/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
-      value: MenuNavigation/Confirm[/Keyboard/x,/Keyboard/space]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_ActionName
-      value: MenuNavigation/Cancel[/Keyboard/z,/Keyboard/backspace,/Keyboard/escape]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionName
-      value: MenuNavigation/ChangeDescription[/Keyboard/e,/Mouse/rightButton,/Keyboard/q]
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}

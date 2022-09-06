@@ -5,9 +5,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class DamageQuestData
     {
         public int Damage { get; set; }
-        public WeaponTypeSO Enemy { get; set; }
+        public WeaponTypeSo Enemy { get; set; }
 
-        public DamageQuestData(int damage, WeaponTypeSO enemy)
+        public DamageQuestData(int damage, WeaponTypeSo enemy)
         {
             Enemy = enemy;
             Damage = damage;

@@ -2,6 +2,7 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Collections.Generic;
+using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 
@@ -25,7 +26,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {
@@ -51,11 +52,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
+        public override void CreateQuestString()
+        {
+            throw new NotImplementedException();
+        }
 
-        private static ExploreQuestSo CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
+
+        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
-            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(10) + 3;
+            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(71)+30;
             exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
             
             if (questSos.Count > 0)

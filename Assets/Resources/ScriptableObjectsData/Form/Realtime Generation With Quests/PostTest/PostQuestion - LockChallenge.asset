@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
+  m_Name: PostQuestion - LockChallenge
+  m_EditorClassIdentifier: 
+  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Eu gostei do desafio
+    proporcionado em encontrar as chaves deste n\xEDvel\"?"
+  description: 1 = Discordo Fortemente       <->      5 = Concordo Fortemente
+  answer: 0

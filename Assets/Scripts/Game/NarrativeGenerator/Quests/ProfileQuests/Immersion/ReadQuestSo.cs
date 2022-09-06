@@ -62,10 +62,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             IsCompleted = true;
         }
-        
-        public override string ToString()
+
+        public override void CreateQuestString()
         {
-            return $"{ItemToRead.ItemName}.\n";
+            QuestText = $"{ItemToRead.ItemName}.\n";
         }
     }
 }
