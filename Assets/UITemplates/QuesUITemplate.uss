@@ -1,0 +1,32 @@
+#tabs {
+    width: 100%;
+    flex-basis: 10%;
+    flex-direction: row;
+    background-color: rgb(229, 223, 223);
+    font-size: 30px;
+    -unity-font-style: bold;
+    font-size: 20px;
+    -unity-text-align: middle-center;
+}
+
+.tab {
+    flex-grow: 1;
+}
+
+.currentlySelectedTab {
+    background-color: rgb(255, 255, 255);
+}
+
+#tabContent {
+    flex-basis: 90%;
+    background-color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.unselectedContent {
+    display: none;
+}
+
+.curentlySelectedTab {
+    background-color: rgba(255, 255, 255, 255);
+}
