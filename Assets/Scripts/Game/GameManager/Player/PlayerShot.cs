@@ -26,6 +26,9 @@ namespace Game.GameManager.Player
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsShooting = Animator.StringToHash("IsShooting");
+        
+        private const float _minShootMagnitude = 0.01f;
+        private const float _maxShootDir = 0.125f;
 
         private void Awake()
         {
@@ -55,7 +58,7 @@ namespace Game.GameManager.Player
             var inputY = context.ReadValue<Vector2>().y;
             var shotDirection = new Vector2(inputX, inputY);
             shotDirection.Normalize();
-            if (shotDirection.magnitude > 0.01f)
+            if (shotDirection.magnitude > _minShootMagnitude)
                 StartCoroutine(ShootBullet(shotDirection));
         }
 
@@ -95,17 +98,17 @@ namespace Game.GameManager.Player
         private BulletForceAndRotation GetBulletForceAndRotation(Vector2 shotDirection)
         {
             BulletForceAndRotation bulletForceAndRotation;
-            if (shotDirection.x > 0.125f)
+            if (shotDirection.x > _maxShootDir)
             {
                 bulletForceAndRotation.Rotation = 0;
                 bulletForceAndRotation.Force = new Vector2(shootSpeed, 0f);
             }
-            else if (shotDirection.x < -0.125f)
+            else if (shotDirection.x < -_maxShootDir)
             {
                 bulletForceAndRotation.Rotation = 180;
                 bulletForceAndRotation.Force = new Vector2(-shootSpeed, 0f);
             }
-            else if (shotDirection.y > 0.125f)
+            else if (shotDirection.y > _maxShootDir)
             {
                 bulletForceAndRotation.Rotation = 90;
                 bulletForceAndRotation.Force = new Vector2(0f, shootSpeed);
