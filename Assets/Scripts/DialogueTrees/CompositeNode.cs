@@ -5,7 +5,7 @@ using UnityEngine;
 //{
     public abstract class CompositeNode : Node
     {
-        [HideInInspector] public List<Node> _children = new List<Node>();
+        public List<Node> _children = new List<Node>();
 
         public override Node Clone()
         {
