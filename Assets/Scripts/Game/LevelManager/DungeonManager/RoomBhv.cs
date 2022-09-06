@@ -319,6 +319,7 @@ namespace Game.LevelManager.DungeonManager
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key, questId);
                     _instantiatedEnemies.Add(enemy);
+                    enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
                     selectedSpawnPoints.Add(actualSpawn);
                 }
             }
@@ -440,6 +441,11 @@ namespace Game.LevelManager.DungeonManager
             {
                 Destroy(enemy.gameObject);
             }
+        }
+        
+        public void RemoveFromDictionary(object sender, EnemySO killedEnemyWeapon)
+        {
+            enemiesDictionary. Remove(killedEnemyWeapon);
         }
 
     }
