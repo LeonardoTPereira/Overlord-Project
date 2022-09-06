@@ -61,6 +61,8 @@ namespace Game.LevelManager.DungeonManager
 
         private List<GameObject> _instantiatedEnemies;
 
+        private Coordinates _coordinates;
+
         public static event EnterRoomEvent EnterRoomEventHandler;
 
         public int QuestId { get; set; }
@@ -76,6 +78,7 @@ namespace Game.LevelManager.DungeonManager
         // Use this for initialization
         private void Start()
         {
+            _coordinates = roomData.Coordinates;
             _enemyLoader = GetComponent<EnemyLoader>();
 
             SetLayout();

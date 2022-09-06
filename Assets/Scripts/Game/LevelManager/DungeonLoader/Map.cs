@@ -40,13 +40,13 @@ namespace Game.LevelManager.DungeonLoader
             }
             foreach (var room in dungeonFileSo.Rooms)
             {
-                if ((room.keys?.Count??0) > 0)
+                if ((room.Keys?.Count??0) > 0)
                 {
-                    NKeys += room.keys.Count;
+                    NKeys += room.Keys.Count;
                 }
-                if ((room.locks?.Count??0) > 0)
+                if ((room.Locks?.Count??0) > 0)
                 {
-                    NLocks += room.locks.Count;
+                    NLocks += room.Locks.Count;
                 }
             }
 
@@ -77,7 +77,7 @@ namespace Game.LevelManager.DungeonLoader
         private void AddRoomData(DungeonPart currentDungeonPart)
         {
             NRooms++;
-            if (currentDungeonPart.IsTreasureRoom())
+            if (currentDungeonPart.IsLeafNode() || currentDungeonPart.IsLockedNode())
             {
                 NTreasureRooms++;
             }

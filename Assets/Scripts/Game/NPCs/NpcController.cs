@@ -17,15 +17,12 @@ namespace Game.NPCs
 {
     public class NpcController : MonoBehaviour, IInteractable, IQuestElement {
         [SerializeField] private DialogueController dialogue;
-        [SerializeField] private NpcSo npc;
         private bool _isDialogueNull;
         private Queue<int> _assignedQuestsQueue;
-        public int QuestId
-        {
-            get =>  _assignedQuestsQueue.Dequeue();
-            set => _assignedQuestsQueue.Enqueue(value);
-        }
+        [field: SerializeField] public NpcSo Npc { get; set; }
 
+        public int QuestId { get; set; }
+        
         private void Awake()
         {
             _assignedQuestsQueue = new Queue<int>();
@@ -39,21 +36,27 @@ namespace Game.NPCs
         private void OnEnable()
         {
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
-            QuestController.QuestOpenedEventHandler += CreateQuestOpenedDialogue;
-            QuestController.QuestOpenedEventHandler += CheckIfNpcIsTarget;
+            QuestLine.QuestOpenedEventHandler += OpenQuest;
         }
 
         private void OnDisable()
         {
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
-            QuestController.QuestOpenedEventHandler -= CreateQuestOpenedDialogue;
-            QuestController.QuestOpenedEventHandler -= CheckIfNpcIsTarget;
+            QuestLine.QuestOpenedEventHandler -= OpenQuest;
         }
 
-        private void CheckIfNpcIsTarget(object sender, NewQuestEventArgs eventArgs)
+        private void OpenQuest(object sender, NewQuestEventArgs eventArgs)
+        {
+            var quest = eventArgs.Quest;
+            var npcInCharge = eventArgs.NpcInCharge;
+            CheckIfNpcIsTarget(quest);
+            CreateQuestOpenedDialogue(quest, npcInCharge);
+        }
+
+        private void CheckIfNpcIsTarget(QuestSo quest)
         {
             NpcSo questNpc = null;
-            if (eventArgs.Quest is not ImmersionQuestSo immersionQuestSo) return;
+            if (quest is not ImmersionQuestSo immersionQuestSo) return;
             switch (immersionQuestSo)
             {
                 case ListenQuestSo listenQuestSo:
@@ -69,31 +72,25 @@ namespace Game.NPCs
 
             if (questNpc != null && questNpc.NpcName == Npc.NpcName)
             {
-                QuestId = immersionQuestSo.Id;
+                _assignedQuestsQueue.Enqueue(immersionQuestSo.Id);
             }
         }
 
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
-            if (eventArgs.NpcInCharge != npc) return;
-            var completedQuest = eventArgs.Quest;
-            var questId = completedQuest.Id;
+            if (eventArgs.NpcInCharge != Npc) return;
+            var questId = eventArgs.Quest.Id;
             dialogue.StopDialogueFromQuest(questId);
-            var closerLine = NpcDialogueGenerator.CreateQuestCloser(completedQuest, npc);
-            dialogue.AddDialogue(npc, closerLine, false, questId);
-            if (completedQuest.EndsStoryLine) return;
-            var nextQuestId = completedQuest.Next.Id;
-            var newOpenerLine = NpcDialogueGenerator.CreateQuestOpener(completedQuest.Next, npc);
-            dialogue.AddDialogue(npc, newOpenerLine, true, nextQuestId);
+            var closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
+            dialogue.AddDialogue(Npc, closerLine, false, questId, true);
         }
         
-        private void CreateQuestOpenedDialogue(object sender, NewQuestEventArgs eventArgs)
+        private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
         {
-            if (eventArgs.NpcInCharge != npc) return;
-            var openedQuest = eventArgs.Quest;
-            var openerLine = NpcDialogueGenerator.CreateQuestOpener(openedQuest, npc);
-            var questId = openedQuest.Id;
-            dialogue.AddDialogue(npc, openerLine, true, questId);
+            if (npcInCharge != Npc) return;
+            var openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
+            var questId = quest.Id;
+            dialogue.AddDialogue(Npc, openerLine, true, questId);
         }
 
         public void Reset() {
@@ -115,7 +112,7 @@ namespace Game.NPCs
             var target = "Assets";
             target += Constants.SeparatorCharacter + "Resources";
             target += Constants.SeparatorCharacter + "Dialogues";
-            var newFolder = npc.NpcName;
+            var newFolder = Npc.NpcName;
             if (!AssetDatabase.IsValidFolder(target + Constants.SeparatorCharacter + newFolder))
             {
                 AssetDatabase.CreateFolder(target, newFolder);
@@ -136,7 +133,7 @@ namespace Game.NPCs
             dialogue = ScriptableObject.CreateInstance<DialogueController>();
             _isDialogueNull = dialogue == null;
             var greetingDialogue = NpcDialogueGenerator.CreateGreeting(Npc);
-            dialogue.AddDialogue(npc, greetingDialogue, true, 0);
+            dialogue.AddDialogue(Npc, greetingDialogue, true, 0);
         }
 
         private bool HasAtLeastOneTrigger()
@@ -147,9 +144,16 @@ namespace Game.NPCs
         public void OnInteractAttempt()
         {
             if (_isDialogueNull) return;
-            if (_assignedQuestsQueue.Count > 0)
+            while (_assignedQuestsQueue.Count > 0)
             {
-                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(npc, QuestId));
+                var questId = _assignedQuestsQueue.Dequeue();
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(Npc, questId));
+            }
+
+            var questsInDialogue = dialogue.GetQuestCloserDialogueIds();
+            foreach (var questIds in questsInDialogue)
+            {
+                ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questIds));
             }
             DialogueHandler.instance.StartDialogue(dialogue);
         }
@@ -168,11 +172,6 @@ namespace Game.NPCs
             }
         }
         
-        public NpcSo Npc
-        {
-            get => npc;
-            set => npc = value;
-        }
-
+        
     }
 }

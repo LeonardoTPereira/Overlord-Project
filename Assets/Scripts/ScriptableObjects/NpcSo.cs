@@ -1,6 +1,8 @@
 ﻿using System;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util;
 
 namespace Game.NPCs
 {

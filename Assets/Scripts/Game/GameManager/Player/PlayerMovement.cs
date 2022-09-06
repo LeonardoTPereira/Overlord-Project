@@ -4,13 +4,13 @@ using UnityEngine.InputSystem;
 
 namespace Game.GameManager.Player
 {
-    public class PlayerMovement : PlayerInput
+    public class PlayerMovement : PlayerInputHandler
     {
 
         private bool _canMove;
         private Rigidbody2D _rigidbody2D;
         [SerializeField] private float speed;
-        private Vector2 lastFacingVector;
+        private Vector2 _lastFacingVector;
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
@@ -62,16 +62,16 @@ namespace Game.GameManager.Player
             {
                 if (!PlayerAnimator.GetBool(IsShooting))
                 {
-                    PlayerAnimator.SetFloat(LastDirX, lastFacingVector.x);
-                    PlayerAnimator.SetFloat(LastDirY, lastFacingVector.y);
+                    PlayerAnimator.SetFloat(LastDirX, _lastFacingVector.x);
+                    PlayerAnimator.SetFloat(LastDirY, _lastFacingVector.y);
                 }
                 PlayerAnimator.SetBool(IsMoving, false);
             }
             //Else, update the idle direction
             else
             {
-                lastFacingVector.x = movement.x;
-                lastFacingVector.y = movement.y;
+                _lastFacingVector.x = movement.x;
+                _lastFacingVector.y = movement.y;
                 PlayerAnimator.SetFloat(DirX, movement.x);
                 PlayerAnimator.SetFloat(DirY, movement.y);
                 PlayerAnimator.SetBool(IsMoving, true);

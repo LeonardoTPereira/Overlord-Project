@@ -17,7 +17,7 @@ namespace Util
 
         public const int NSpawnPointsVer = 6;
         public const int NSpawnPointsHor = 6;
-        public const int DistFromBorder = 1;
+        public const int DistFromBorder = 2;
 
         public const int DefaultRoomSizeX = 22;
         public const int DefaultRoomSizeY = 19;
@@ -25,13 +25,13 @@ namespace Util
         /// Define the room codes for printing purposes.
         public static class RoomTypeString
         {
-            public const string Corridor = "C";
-            public const string Lock = "L";
-            public const string Key = "K";
-            public const string Boss = "B";
-            public const string Treasure = "T";
-            public const string Start = "S";
-            public const string Normal = "N";
+            public const string Corridor = "Corridor";
+            public const string Lock = "Lock";
+            public const string Key = "Key";
+            public const string Boss = "Boss";
+            public const string Leaf = "Leaf";
+            public const string Start = "Start";
+            public const string Normal = "Normal";
         }
 
         #region Terminal quest symbols

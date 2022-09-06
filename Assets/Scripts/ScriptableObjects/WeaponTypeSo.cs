@@ -4,15 +4,14 @@ using UnityEngine;
 namespace ScriptableObjects
 {
     [CreateAssetMenu] [Serializable]
-    public class WeaponTypeSO : ScriptableObject
+    public class WeaponTypeSo : ScriptableObject
     {
-        public float multiplier;
-        public bool hasProjectile;
-        [SerializeField]
-        public ProjectileTypeSO projectile;
-        [SerializeField]
-        public GameObject weaponPrefab;
-        [field: SerializeField] public String EnemyTypeName { get; set; }
+        [field: SerializeField] public float FitnessMultiplier { get; set; }
+        [field: SerializeField] public bool HasProjectile { get; set; }
+        [field: SerializeField] public ProjectileTypeSO Projectile { get; set; }
+
+        [field: SerializeField] public GameObject WeaponPrefab { get; set; }
+        [field: SerializeField] public string EnemyTypeName { get; set; }
         
         public bool IsHealer()
         {
@@ -21,7 +20,7 @@ namespace ScriptableObjects
 
         public bool IsRanger()
         {
-            return hasProjectile;
+            return HasProjectile;
         }
 
         public bool IsMelee()

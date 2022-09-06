@@ -17,10 +17,10 @@ namespace Game.EnemyManager
             switch (enemyData.weapon.name)
             {
                 case "Shield":
-                    WeaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, ShieldSpawn.transform);
+                    WeaponPrefab = Instantiate(enemyData.weapon.WeaponPrefab, ShieldSpawn.transform);
                     break;
                 case "Sword":
-                    WeaponPrefab = Instantiate(enemyData.weapon.weaponPrefab, SwordSpawn.transform);
+                    WeaponPrefab = Instantiate(enemyData.weapon.WeaponPrefab, SwordSpawn.transform);
                     break;
             }
         }

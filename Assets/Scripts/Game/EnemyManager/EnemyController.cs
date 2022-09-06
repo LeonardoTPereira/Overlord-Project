@@ -3,7 +3,6 @@ using System.Collections;
 using System.ComponentModel;
 using Game.Audio;
 using Game.GameManager.Player;
-using Game.LevelManager.DungeonManager;
 using Game.Quests;
 using ScriptableObjects;
 using UnityEngine;
@@ -205,6 +204,7 @@ namespace Game.GameManager
             ((ISoundEmitter) this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.EnemyDeath));
             _animator.SetTrigger(DieTrigger);
             _enemyCollider.enabled = false;
+            _enemyRigidBody.velocity = Vector2.zero;
             foreach (var childCollider in _childrenCollider)
             {
                 childCollider.enabled = false;

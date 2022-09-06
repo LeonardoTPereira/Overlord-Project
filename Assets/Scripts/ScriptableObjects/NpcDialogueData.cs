@@ -1,7 +1,7 @@
 ﻿using Fog.Dialogue;
 using UnityEngine;
 
-namespace Game.NPCs
+namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "NewDialogueEntity", menuName = "DialogueModule/DialogueData")]
     public class NpcDialogueData : DialogueEntity

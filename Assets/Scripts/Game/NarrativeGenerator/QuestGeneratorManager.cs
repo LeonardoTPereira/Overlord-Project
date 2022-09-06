@@ -4,15 +4,14 @@ using System.Threading.Tasks;
 using Game.DataCollection;
 using Game.EnemyGenerator;
 using Game.Events;
+using Game.ExperimentControllers;
 using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
-using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEditor;
@@ -33,27 +32,12 @@ namespace Game.NarrativeGenerator
         [field:SerializeField] public bool MustCreateNarrative { get; set; } = false;
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
-        public List<NpcSo> PlaceholderNpcs => placeholderNpcs;
-        public TreasureRuntimeSetSO PlaceholderItems => placeholderItems;
-        [SerializeField, MustBeAssigned] private List<NpcSo> placeholderNpcs;
-        [SerializeField, MustBeAssigned] private TreasureRuntimeSetSO placeholderItems;
-        [SerializeField, MustBeAssigned] private WeaponTypeRuntimeSetSO possibleWeapons;
-        public WeaponTypeRuntimeSetSO PossibleWeapons => possibleWeapons;
-        public Selector Selector { get; set; }
+
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
         
-        private void Awake()
-        {
-            InitSelector();
-        }
-
-        private void InitSelector ()
-        {
-            Selector = new Selector();
-        }
 
         public void OnEnable()
         {
@@ -93,7 +77,7 @@ namespace Game.NarrativeGenerator
         {
             if (MustCreateNarrative)
             {
-                questLines = Selector.CreateMissions(PlaceholderNpcs, PlaceholderItems, PossibleWeapons);
+                questLines = Selector.CreateMissions(CurrentGeneratorSettings);
                 await CreateNarrative(playerProfile);
             }
             else
@@ -129,8 +113,8 @@ namespace Game.NarrativeGenerator
         {
             Debug.Log("Creating Enemies");
             questLines.EnemySos = _enemyGeneratorManager.EvolveEnemies(questLines.EnemyParametersForQuestLines.Difficulty);
-            questLines.NpcSos = PlaceholderNpcs;
-            questLines.ItemSos = new List<ItemSo>(PlaceholderItems.Items);
+            questLines.NpcSos = CurrentGeneratorSettings.PlaceholderNpcs;
+            questLines.ItemSos = new List<ItemSo>(CurrentGeneratorSettings.PlaceholderItems.Items);
             Debug.Log("Creating Dungeons");
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
         }

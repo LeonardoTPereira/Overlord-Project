@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
 using ScriptableObjects;
 using Util;
@@ -24,7 +23,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             DamageData = new DamageQuestData();
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSo previous, WeaponTypeSO enemyToDamage, int damage)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, WeaponTypeSo enemyToDamage, int damage)
         {
             base.Init(questName, endsStoryLine, previous);
             DamageData = new DamageQuestData(damage, enemyToDamage);
@@ -67,10 +66,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 IsCompleted = true;
             }
         }
-        public override string ToString()
+
+        public override void CreateQuestString()
         {
-            return $"{DamageData.Enemy.EnemyTypeName} and give {DamageData.Damage} damage to it.\n";
+            QuestText = $"{DamageData.Enemy.EnemyTypeName} and give {DamageData.Damage} damage to it.\n";
         }
-        
     }
 }
