@@ -4,3 +4,4 @@
 *.prefab linguist-generated
 *.unity linguist-generated
 git lfs track "*.wasm"
+*.wasm filter=lfs diff=lfs merge=lfs -text
