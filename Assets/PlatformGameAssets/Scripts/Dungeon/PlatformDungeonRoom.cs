@@ -12,7 +12,7 @@ namespace PlatformGame.Dungeon
     {
         public PlatformDungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int treasure, int totalEnemies, int npc) : base(coordinates, code, keyIDs, treasure, totalEnemies, npc) {} 
         
-        public new void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
+        public override void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
         {
             Dimensions = roomDimensions;
             InitializeTiles(); // aloca memória para os tiles

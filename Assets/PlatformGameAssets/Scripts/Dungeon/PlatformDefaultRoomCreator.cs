@@ -9,154 +9,95 @@ namespace PlatformGame.Dungeon
 {
     public static class PlatformDefaultRoomCreator
     {
+        private static readonly int WIDTH = 28;
+        private static readonly int HEIGHT = 24;
+
         public static void CreateRoomOfType(DungeonRoom room, int roomType)
         {
             var roomTypeEnum = (Enums.RoomPatterns) roomType;
             switch (roomTypeEnum)
             {
-                case Enums.RoomPatterns.Empty:
-                {
-                    CreateEmptyRoom(room);
-                    break;
-                }
-                case Enums.RoomPatterns.CheckerBoard:
-                {
-                    CreateCheckerBoardRoom(room);
-                    break;
-                }
-                case Enums.RoomPatterns.HorizontalLines:
-                {
-                    CreateHorizontalLinesRoom(room);
-                    break;
-                }
-                case Enums.RoomPatterns.VerticalLines:
-                {
-                    CreateVerticalLinesRoom(room);
-                    break;
-                }
-                case Enums.RoomPatterns.Cross:
-                {
-                    CreateCrossRoom(room);
-                    break;
-                }
                 default:
-                    throw new ArgumentException($"$There is no such room type (Value = {roomType} )in the RoomTypes Enum");
+                    CreateTestRoom(room);
+                    break;
             }
         }
 
-        private static void CreateEmptyRoom(DungeonRoom room)
+        private static void CreateTestRoom(DungeonRoom room) //For now only works for constant room dimensions
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            var roomEditor = new RoomEditor();
+            var tileArray = roomEditor.CreateTileArrayFromModel();
+            for (var i = 0; i < WIDTH; i++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var j = 0; j < HEIGHT; j++)
                 {
-                    room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                    room.Tiles[i, j] = (int) tileArray[j,i];
                 }
             }
         }
-        
-        private static void CreateCheckerBoardRoom(DungeonRoom room)
+    }
+
+    public class RoomEditor
+    {
+        private char[,] roomModel;
+        private int height;
+        private int width;
+
+        public RoomEditor()
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            width = 28;
+            height = 24;
+
+            roomModel = new char[,]
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
-                {
-                    if (x % 3 == 0 && y % 3 == 0)
-                    {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                    }
-                    else
-                    {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
-                    }
-                }
-            }
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', '#', '#', '#', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {'#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+                {' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#'},
+                {' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
         }
         
-        private static void CreateVerticalLinesRoom(DungeonRoom room)
+        public Enums.TileTypes[,] CreateTileArrayFromModel()
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            var tileArray = new Enums.TileTypes[height, width];
+
+            for (var i = 0; i < height; i++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var j = 0; j < width; j++)
                 {
-                    if (x % 3 == 0)
+                    if (roomModel[i, j] == ' ')
                     {
-                        if (1 < y && y < (room.Dimensions.Height / 2 - 1))
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                        }
-                        else if (y < room.Dimensions.Height - 2 && y > (room.Dimensions.Height / 2 + 1))
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                        }
-                        else
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
-                        }
+                        tileArray[i, j] = Enums.TileTypes.Floor;
                     }
                     else
                     {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                        tileArray[i, j] = Enums.TileTypes.Block;
                     }
                 }
             }
-        }
-        
-        private static void CreateHorizontalLinesRoom(DungeonRoom room)
-        {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
-            {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
-                {
-                    if (y % 3 == 0)
-                    {
-                        if (1 < x && x < (room.Dimensions.Width / 2 - 1))
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                        }
-                        else if (x < room.Dimensions.Width - 2 && x > (room.Dimensions.Width / 2))
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                        }
-                        else
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
-                        }
-                    }
-                    else
-                    {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
-                    }
-                }
-            }
-        }
-        
-        private static void CreateCrossRoom(DungeonRoom room)
-        {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
-            {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
-                {
-                    if (x > (room.Dimensions.Width/2 - 2) && x < (room.Dimensions.Width / 2 + 2))
-                    {
-                        if (y > 1 && y < (room.Dimensions.Height - 2))
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                        }
-                    }
-                    else if (y > room.Dimensions.Height / 2 - 2 && y < (room.Dimensions.Height / 2 + 2))
-                    {
-                        if (x > 1 && x < (room.Dimensions.Width - 2))
-                        {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
-                        }
-                    }
-                    else
-                    {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
-                    }
-                }
-            }
+            
+            return tileArray;
         }
     }
 }

@@ -72,12 +72,19 @@ namespace PlatformGame.Enemy
             _enemyRigidBody.velocity = Vector2.zero;
         }
 
-        public void LoadEnemy(EnemySO enemySo)
+        public void LoadEnemyData(EnemySO enemySo, int questId)
         {
+            enemySo.movement.movementType = FollowPlayer; //temp for test
             _enemyMovement.LoadMovement(enemySo);
             _enemyAttack.LoadAttack(enemySo);
             _enemyHealth.LoadHealth(enemySo);
             _hasLoadedEnemy = true;
+        }
+        
+        private Vector2 FollowPlayer(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false) //temp for test
+        {
+            Vector2 direction = playerPos - enemyPos;
+            return direction.normalized;
         }
 
         private void DisableInput()

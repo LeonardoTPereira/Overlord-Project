@@ -82,7 +82,7 @@ namespace Game.LevelManager.DungeonLoader
             return new Vector3(newFreePosition.x, Dimensions.Height - 1 - newFreePosition.y, 0) - roomSelfCenter;
         }
 
-        public void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
+        public virtual void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
         {
             Dimensions = roomDimensions;
             InitializeTiles(); // aloca memória para os tiles

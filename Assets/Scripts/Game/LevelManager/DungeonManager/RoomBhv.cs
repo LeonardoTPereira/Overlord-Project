@@ -298,7 +298,7 @@ namespace Game.LevelManager.DungeonManager
             enemiesDictionary = roomData.EnemiesByType.GetEnemiesForRoom();
         }
 
-        public void SpawnEnemies()
+        public virtual void SpawnEnemies()
         {
             var selectedSpawnPoints = new List<int>();
             _instantiatedEnemies.Clear();
@@ -319,10 +319,15 @@ namespace Game.LevelManager.DungeonManager
                         new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key, questId);
                     _instantiatedEnemies.Add(enemy);
-                    enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
+                    RemoveFromDictionaryWhenEnemyDied(enemy);
                     selectedSpawnPoints.Add(actualSpawn);
                 }
             }
+        }
+
+        protected virtual void RemoveFromDictionaryWhenEnemyDied(GameObject enemy)
+        {
+            enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
         }
 
         public void OnRoomEnter()
