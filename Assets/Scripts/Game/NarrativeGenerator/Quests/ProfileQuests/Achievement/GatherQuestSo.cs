@@ -73,14 +73,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToGatherByType)
             {
-                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
+                var spriteString = itemByAmount.Key.GetSpriteString();
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
             }
             if (stringBuilder.Length == 0)
             {
                 Debug.LogError("No Items to Collect");
                 QuestText = stringBuilder.ToString();
             }
-            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
             QuestText = stringBuilder.ToString();
         }
     }

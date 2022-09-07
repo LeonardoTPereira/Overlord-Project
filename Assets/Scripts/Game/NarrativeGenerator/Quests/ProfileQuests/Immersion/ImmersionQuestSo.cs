@@ -79,7 +79,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return listenQuest;
         }
 
-        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
+        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
@@ -94,7 +94,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return readQuest;
         }
 
-        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
+        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
         {
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();

@@ -14,7 +14,8 @@ namespace Game.ExperimentControllers
         [field: SerializeField] public bool EnableRandomProfileToPlayer { get; set; }
         [field: SerializeField] public int ProbabilityToGetTrueProfile { get; set; }
         [field: SerializeField] public List<NpcSo> PlaceholderNpcs { get; set; }
-        [field: SerializeField] public TreasureRuntimeSetSO PlaceholderItems { get; set; }
+        [field: SerializeField] public TreasureRuntimeSetSo PlaceholderItems { get; set; }
+        [field: SerializeField] public TreasureRuntimeSetSo Gemstones { get; set; }
         [field: SerializeField] public WeaponTypeRuntimeSetSO PossibleWeapons { get; set; }
     }
 }

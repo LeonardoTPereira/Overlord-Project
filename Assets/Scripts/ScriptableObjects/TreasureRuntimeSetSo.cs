@@ -3,7 +3,7 @@
 namespace ScriptableObjects
 {
     [CreateAssetMenu]
-    public class TreasureRuntimeSetSO : RuntimeSetSO<ItemSo>
+    public class TreasureRuntimeSetSo : RuntimeSetSO<ItemSo>
     {
     }
 }

@@ -37,7 +37,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.GATHER_QUEST:
-                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.PlaceholderItems);
+                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones);
                 case Constants.EXCHANGE_QUEST:
                     return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.PlaceholderItems);
                 default:
@@ -63,7 +63,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
+        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
         {
             var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
@@ -84,7 +84,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return getItemQuest;
         }
 
-        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
+        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();

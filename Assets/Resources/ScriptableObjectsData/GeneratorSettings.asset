@@ -23,5 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
   <PlaceholderItems>k__BackingField: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
     type: 2}
+  <Gemstones>k__BackingField: {fileID: 11400000, guid: 585a41803b1604e468b3f7c208ebbe21,
+    type: 2}
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
