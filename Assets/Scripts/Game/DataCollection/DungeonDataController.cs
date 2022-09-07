@@ -72,7 +72,7 @@ namespace Game.DataCollection
 
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            CurrentDungeon.AddCollectedTreasure(eventArgs.Amount);
+            CurrentDungeon.AddCollectedTreasure(eventArgs.QuestId);
 
         }
 

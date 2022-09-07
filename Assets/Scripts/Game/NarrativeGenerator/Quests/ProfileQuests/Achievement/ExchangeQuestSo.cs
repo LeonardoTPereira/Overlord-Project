@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
+using Game.Events;
 using UnityEngine;
 using Game.NPCs;
 
@@ -29,6 +30,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField] public ItemAmountDictionary ItemsToExchangeByType { get; set; }
         public ItemSo ReceivedItem { get; set; }
         public NpcSo Npc { get; set; }
+        public static event ItemTradeEvent ItemTradeEventHandler;
 
         public override void Init()
         {
@@ -95,6 +97,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             stringBuilder.Remove(stringBuilder.Length - 3, 2);
             stringBuilder.Append($" with {Npc.NpcName}.\n");
             QuestText = stringBuilder.ToString();
+        }
+
+        public void TradeItems()
+        {
+            ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(ItemsToExchangeByType, ReceivedItem, Id));
         }
     }
 }

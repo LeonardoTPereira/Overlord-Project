@@ -39,7 +39,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 case Constants.GATHER_QUEST:
                     return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones);
                 case Constants.EXCHANGE_QUEST:
-                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.PlaceholderItems);
+                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;
@@ -84,13 +84,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return getItemQuest;
         }
 
-        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
+        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, 
+            TreasureRuntimeSetSo itemsToGive, TreasureRuntimeSetSo itemsToReceive)
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
-            var selectedItem = possibleItems.GetRandomItem();
+            var selectedItem = itemsToGive.GetRandomItem();
             exchangedItems.AddItemWithId(selectedItem, exchangeQuest.Id);
-            var receivedItem = possibleItems.GetRandomItem();
+            var receivedItem = itemsToReceive.GetRandomItem();
             var selectedNpc = possibleNpcSos.GetRandom();
 
             exchangeQuest.Init($"Exchange {selectedItem} with {selectedNpc} for a reward!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);

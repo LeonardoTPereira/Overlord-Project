@@ -15,17 +15,19 @@ using Util;
 
 namespace Game.NPCs
 {
+
     public class NpcController : MonoBehaviour, IInteractable, IQuestElement {
         [SerializeField] private DialogueController dialogue;
+        
         private bool _isDialogueNull;
-        private Queue<int> _assignedQuestsQueue;
+        private Queue<QuestSo> _assignedQuestsQueue;
         [field: SerializeField] public NpcSo Npc { get; set; }
 
         public int QuestId { get; set; }
         
         private void Awake()
         {
-            _assignedQuestsQueue = new Queue<int>();
+            _assignedQuestsQueue = new Queue<QuestSo>();
         }
 
         private void Start()
@@ -72,7 +74,7 @@ namespace Game.NPCs
 
             if (questNpc != null && questNpc.NpcName == Npc.NpcName)
             {
-                _assignedQuestsQueue.Enqueue(immersionQuestSo.Id);
+                _assignedQuestsQueue.Enqueue(immersionQuestSo);
             }
         }
 
@@ -146,8 +148,16 @@ namespace Game.NPCs
             if (_isDialogueNull) return;
             while (_assignedQuestsQueue.Count > 0)
             {
-                var questId = _assignedQuestsQueue.Dequeue();
-                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(Npc, questId));
+                var quest = _assignedQuestsQueue.Dequeue();
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(Npc, quest.Id));
+                if(quest is ExchangeQuestSo exchangeQuest)
+                {
+                    exchangeQuest.TradeItems();
+                }
+                else if (quest is GiveQuestSo giveQuest)
+                {
+                    giveQuest.GiveItems();
+                }
             }
 
             var questsInDialogue = dialogue.GetQuestCloserDialogueIds();

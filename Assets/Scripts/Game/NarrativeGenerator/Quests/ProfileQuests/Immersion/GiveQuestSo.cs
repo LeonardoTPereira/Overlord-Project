@@ -2,6 +2,7 @@ using ScriptableObjects;
 using Util;
 using System.Collections.Generic;
 using System;
+using Game.Events;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -18,6 +19,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public GiveQuestData GiveQuestData { get; set; }
         private bool _hasItemToCollect;
+        public static event TreasureCollectEvent TreasureLostEventHandler;
 
         public override void Init()
         {
@@ -84,6 +86,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void CreateQuestString()
         {
             QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+        }
+
+        public void GiveItems()
+        {
+            throw new NotImplementedException();
         }
     }
 }

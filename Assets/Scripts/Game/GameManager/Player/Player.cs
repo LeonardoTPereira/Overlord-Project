@@ -18,6 +18,7 @@ namespace Game.GameManager.Player
         public Camera cam;
         public Camera minimap;
         private PlayerController _playerController;
+        private InventoryController _playerInventoryController;
         public static event ExitRoomEvent ExitRoomEventHandler;
 
         public void Awake()
