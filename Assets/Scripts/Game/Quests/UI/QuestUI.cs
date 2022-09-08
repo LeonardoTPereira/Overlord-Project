@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 public class QuestUI : MonoBehaviour
 {
-    private QuestUIController controller;
+    private QuestUIController _controller;
+    private VisualElement _root;
 
     private void OnEnable()
     {
         UIDocument menu = GetComponent<UIDocument>();
-        VisualElement root = menu.rootVisualElement;
+        _root = menu.rootVisualElement;
 
-        controller = new(root);
+        _controller = new(_root);
+        _controller.RegisterTabCallbacks();
+    }
 
-        controller.RegisterTabCallbacks();
+    public void ToggleQuestUI(InputAction.CallbackContext context)
+    {
+        Debug.Log("GOT INPUT");
+        _controller.ToggleQuestUI();
     }
 }

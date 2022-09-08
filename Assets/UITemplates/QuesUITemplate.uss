@@ -2,7 +2,7 @@
     width: 100%;
     flex-basis: 10%;
     flex-direction: row;
-    background-color: rgb(229, 223, 223);
+    background-color: rgb(210, 210, 210);
     font-size: 30px;
     -unity-font-style: bold;
     font-size: 20px;
@@ -11,22 +11,23 @@
 
 .tab {
     flex-grow: 1;
+    background-color: rgb(210, 210, 210);
+    color: black;
 }
 
 .currentlySelectedTab {
+    flex-grow: 1;
     background-color: rgb(255, 255, 255);
+    color: black;
 }
 
 #tabContent {
     flex-basis: 90%;
     background-color: rgb(255, 255, 255);
     font-size: 20px;
+    color: black;
 }
 
 .unselectedContent {
     display: none;
-}
-
-.curentlySelectedTab {
-    background-color: rgba(255, 255, 255, 255);
 }

@@ -3,12 +3,12 @@
     <ui:VisualElement name="bg" style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.13);">
         <ui:VisualElement name="container" style="height: auto; width: auto; background-color: rgb(255, 255, 255); margin-left: 50px; margin-right: 50px; margin-top: 50px; margin-bottom: 50px; align-items: auto; flex-grow: 1; flex-direction: column;">
             <ui:VisualElement name="tabs" style="flex-direction: row;">
-                <ui:Label text="Open Quests" display-tooltip-when-elided="true" name="openQuestsTab" class="curentlySelectedTab tab" style="flex-grow: 1;" />
+                <ui:Label text="Open Quests" display-tooltip-when-elided="true" name="openQuestsTab" class="tab curentlySelectedTab currentlySelectedTab" style="flex-grow: 1;" />
                 <ui:Label text="Completed Quests" display-tooltip-when-elided="true" name="completedQuestsTab" class="tab" style="flex-grow: 1;" />
             </ui:VisualElement>
             <ui:VisualElement name="tabContent" style="flex-grow: 1; width: 100%; height: 100%;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="openQuestsContent" class="tabContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="completedQuestsContent" class="unselectedContent tabContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
+                <ui:Label text="- KILL" display-tooltip-when-elided="true" name="openQuestsContent" class="tabContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
+                <ui:Label text="GATHER" display-tooltip-when-elided="true" name="completedQuestsContent" class="tabContent unselectedContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -85,4 +85,16 @@ public class QuestUIController
     {
         return root.Q(GenerateContentName(tab));
     }
+
+    public void ToggleQuestUI ()//()
+    {
+        if ( root.ClassListContains("unselectedContent") )
+        {
+            root.RemoveFromClassList("unselectedContent");
+        }
+        else
+        {
+            root.AddToClassList("unselectedContent");
+        }
+    }
 }
