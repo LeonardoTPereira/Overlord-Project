@@ -1,6 +1,7 @@
 using UnityEngine.UIElements;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class QuestUIController
 {
@@ -27,6 +28,25 @@ public class QuestUIController
         tabs.ForEach((Label tab) => {
             tab.RegisterCallback<ClickEvent>(TabOnClick);
         });
+    }
+
+    public void PopulateLabels(List<string> questContents)
+    {
+        int i = 0;
+        root.Query<Label>(className: "tabContent").ForEach(
+            label => 
+            {
+                if ( questContents[i] == "" )
+                {
+                    label.text = "No quests here";
+                }
+                else
+                {
+                    label.text = questContents[i];
+                }
+                i++;
+            }
+        );
     }
 
     /* Method for the tab on-click event: 

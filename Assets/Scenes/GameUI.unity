@@ -334,3 +334,94 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50a7c6e488fad2c4691febb1d49794b0, type: 3}
+--- !u!1001 &732880203
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3329838830557820890, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_Name
+      value: QuestListUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820892, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820893, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: controls
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 770109cbba2bb474da09f4d3062a9aab,
+        type: 3}
+    - target: {fileID: 3329838830557820893, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: selectedLevels
+      value: 
+      objectReference: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5,
+        type: 2}
+    - target: {fileID: 3329838830557820893, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: toggleQuestUI.m_Id
+      value: 0f0e3774-df89-48fe-8dab-fde3c00e8a7b
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329838830557820893, guid: f4ad1e4ad8314304ab9dd6057fdac4b3,
+        type: 3}
+      propertyPath: toggleQuestUI.m_Name
+      value: Toggle Quest UI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f4ad1e4ad8314304ab9dd6057fdac4b3, type: 3}
