@@ -63,6 +63,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd649976ab2caf4fa1a991aacd70043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 0}
+  toggleQuestUI:
+    m_Name: Toggle Quest UI
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c5e6e184-a738-4a8f-8577-31a78d9fed24
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &3329838830557820894
 MonoBehaviour:
   m_ObjectHideFlags: 0
