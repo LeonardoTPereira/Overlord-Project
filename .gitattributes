@@ -3,4 +3,3 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
-git lfs track "*.wasm"
