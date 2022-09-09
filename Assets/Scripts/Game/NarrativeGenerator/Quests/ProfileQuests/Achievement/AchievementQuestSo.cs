@@ -24,9 +24,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     
                 var achievementQuestWeights = new Dictionary<string, Func<int, int>>
                 {
-                    {Constants.GATHER_QUEST, Constants.OneOptionQuestLineWeight},
-                    //{Constants.EXCHANGE_QUEST, Constants.TwoOptionQuestLineWeight},
-                    {Constants.EMPTY_QUEST, Constants.TwoOptionQuestEmptyWeight}
+                    {Constants.GatherQuest, Constants.TwoOptionQuestLineWeight},
+                    {Constants.ExchangeQuest, Constants.TwoOptionQuestLineWeight},
+                    {Constants.EmptyQuest, Constants.TwoOptionQuestEmptyWeight}
                 };
                 return achievementQuestWeights;
             } 
@@ -36,9 +36,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             switch ( SymbolType )
             {
-                case Constants.GATHER_QUEST:
+                case Constants.GatherQuest:
                     return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones);
-                case Constants.EXCHANGE_QUEST:
+                case Constants.ExchangeQuest:
                     return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);

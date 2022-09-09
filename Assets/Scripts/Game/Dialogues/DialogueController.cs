@@ -4,6 +4,7 @@ using System.Linq;
 using Fog.Dialogue;
 using Game.NPCs;
 using Malee.List;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.Dialogues
@@ -37,10 +38,10 @@ namespace Game.Dialogues
             RemoveUnrepeatedLines();
         }
 
-        public void AddDialogue(NpcSo speaker, string dialogueLine, bool keepDialogueAfterSpoken, int id, 
+        public void AddDialogue(NpcDialogueData dialogueData, string dialogueLine, bool keepDialogueAfterSpoken, int id, 
             bool isQuestCloser = false)
         {
-            NewQuestDialogues.Add(new QuestDialogueLine(speaker.DialogueData, dialogueLine,keepDialogueAfterSpoken, 
+            NewQuestDialogues.Add(new QuestDialogueLine(dialogueData, dialogueLine,keepDialogueAfterSpoken, 
                 id, isQuestCloser));
         }
 

@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class GatherQuestSo : AchievementQuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToGatherByType { get; set; }
-        public override string SymbolType => Constants.GATHER_QUEST;
+        public override string SymbolType => Constants.GatherQuest;
 
         public override ItemAmountDictionary GetItemDictionary()
         {
@@ -73,7 +73,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToGatherByType)
             {
-                var spriteString = itemByAmount.Key.GetSpriteString();
+                var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
             }
             if (stringBuilder.Length == 0)

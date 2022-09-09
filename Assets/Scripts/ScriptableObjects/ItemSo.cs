@@ -12,10 +12,17 @@ namespace ScriptableObjects
         [field: SerializeField] public String ItemName { get; set; }
         [field: SerializeField] public int Value { get; set; }
 
-        public string GetSpriteString()
+        public string GetGemstoneSpriteString()
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append($"<sprite=\"Gemstones\" name=\"{ItemName}\">");
+            return stringBuilder.ToString();
+        }
+        
+        public string GetToolSpriteString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"<sprite=\"Tools\" name=\"{ItemName}\">");
             return stringBuilder.ToString();
         }
     }

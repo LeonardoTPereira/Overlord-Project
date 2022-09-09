@@ -15,12 +15,19 @@ namespace Game.GameManager.Player
         {
             TreasureController.TreasureCollectEventHandler += AddItem;
             ExchangeQuestSo.ItemTradeEventHandler += TradeItems;
+            GiveQuestSo.TreasureLostEventHandler += GiveItem;
         }
         
         protected void OnDisable()
         {
             TreasureController.TreasureCollectEventHandler -= AddItem;
             ExchangeQuestSo.ItemTradeEventHandler -= TradeItems;
+            GiveQuestSo.TreasureLostEventHandler -= GiveItem;
+        }
+
+        private void Awake()
+        {
+            Inventory = new ItemAmountDictionary();
         }
 
         private void AddItem(object sender, TreasureCollectEventArgs eventArgs)
@@ -42,6 +49,7 @@ namespace Game.GameManager.Player
                     RemoveItem(items.Key, id);
                 }
             }
+            Inventory.AddItemWithId(eventArgs.Item, eventArgs.QuestId);
         }
 
         private void RemoveItem(ItemSo item, int id)

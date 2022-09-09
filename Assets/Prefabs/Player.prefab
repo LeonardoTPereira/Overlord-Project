@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3528728104417823832}
   - component: {fileID: 2894253577423451289}
   - component: {fileID: 2057696069}
+  - component: {fileID: 8616815408138048461}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -349,7 +350,7 @@ MonoBehaviour:
     m_ActionName: MenuNavigation/ChangeDescription[/Keyboard/e,/Mouse/rightButton,/Keyboard/q,/DualShock4GamepadHID/leftShoulder,/DualShock4GamepadHID/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &3528728104417823832
@@ -380,9 +381,12 @@ MonoBehaviour:
   shootSpeed: 10
   atkSpeed: 0
   bulletSpawn: {fileID: 8485515136786634743}
-  bulletPrefab: {fileID: 0}
-  <projectileType>k__BackingField: {fileID: 0}
-  projectilesAvailable: {fileID: 0}
+  bulletPrefab: {fileID: 1699235863348634, guid: 7c6443c3f53cfcb42b8bf65f9e8b56f5,
+    type: 3}
+  <ProjectileType>k__BackingField: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
+    type: 2}
+  projectilesAvailable: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281,
+    type: 2}
 --- !u!114 &2057696069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,6 +404,18 @@ MonoBehaviour:
   canInteract: 0
   interactAction: {fileID: -8568699243675934657, guid: 770109cbba2bb474da09f4d3062a9aab,
     type: 3}
+--- !u!114 &8616815408138048461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772544863890580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9f3b4147fb48f7bebc6a35515c17ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2858675162137386229
 GameObject:
   m_ObjectHideFlags: 0

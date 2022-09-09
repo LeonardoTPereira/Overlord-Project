@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -31,6 +32,13 @@ namespace ScriptableObjects
         public bool IsSword()
         {
             return EnemyTypeName == "Sword";
+        }
+
+        public object GetEnemySpriteString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"<sprite=\"Enemies\" name=\"{EnemyTypeName}\">");
+            return stringBuilder.ToString();
         }
     }
 }

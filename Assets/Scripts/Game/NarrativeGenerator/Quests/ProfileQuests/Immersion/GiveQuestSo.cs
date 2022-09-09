@@ -9,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GiveQuestSo : ImmersionQuestSo
     {
-        public override string SymbolType => Constants.GIVE_QUEST;
+        public override string SymbolType => Constants.GiveQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -85,12 +85,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+            var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
+            QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
         }
 
         public void GiveItems()
         {
-            throw new NotImplementedException();
+            TreasureLostEventHandler?.Invoke(this, new TreasureCollectEventArgs(GiveQuestData.ItemToGive, Id));
         }
     }
 }

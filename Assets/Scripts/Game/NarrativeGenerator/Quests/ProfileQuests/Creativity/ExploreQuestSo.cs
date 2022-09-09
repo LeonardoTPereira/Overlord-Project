@@ -6,7 +6,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExploreQuestSo : CreativityQuestSo
     {
-        public override string SymbolType => Constants.EXPLORE_QUEST;
+        public override string SymbolType => Constants.ExploreQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {

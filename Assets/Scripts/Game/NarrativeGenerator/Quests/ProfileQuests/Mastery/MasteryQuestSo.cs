@@ -20,9 +20,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get
             {                    
                 Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
-                masteryQuestWeights.Add( Constants.KILL_QUEST, Constants.OneOptionQuestLineWeight );
+                masteryQuestWeights.Add( Constants.KillQuest, Constants.OneOptionQuestLineWeight );
                //masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
-                masteryQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
+                masteryQuestWeights.Add( Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight );
                 return masteryQuestWeights;
             } 
         }
@@ -31,9 +31,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             switch ( SymbolType )
             {
-                case Constants.KILL_QUEST:
+                case Constants.KillQuest:
                     return CreateAndSaveKillQuestSo(questSos, generatorSettings.PossibleWeapons);
-                case Constants.DAMAGE_QUEST:
+                case Constants.DamageQuest:
                     return CreateAndSaveDamageQuestSo(questSos, generatorSettings.PossibleWeapons);
                 default:
                     Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);

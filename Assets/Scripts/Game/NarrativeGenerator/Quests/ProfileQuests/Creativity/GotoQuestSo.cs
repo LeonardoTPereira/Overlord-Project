@@ -10,7 +10,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GotoQuestSo : CreativityQuestSo
     {
-        public override string SymbolType => Constants.GOTO_QUEST;
+        public override string SymbolType => Constants.GotoQuest;
         public Coordinates SelectedRoomCoordinates { get; set; }
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances

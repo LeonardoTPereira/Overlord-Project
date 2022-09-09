@@ -18,5 +18,7 @@ namespace Game.ExperimentControllers
         [field: SerializeField] public TreasureRuntimeSetSo Gemstones { get; set; }
         [field: SerializeField] public TreasureRuntimeSetSo Tools { get; set; }
         [field: SerializeField] public WeaponTypeRuntimeSetSO PossibleWeapons { get; set; }
+        
+        [field: SerializeField] public Vector2 RoomSize { get; set; }
     }
 }

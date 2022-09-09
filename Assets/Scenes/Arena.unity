@@ -161,6 +161,40 @@ MonoBehaviour:
   <RoomSize>k__BackingField:
     width: 28
     height: 24
+  <Keys>k__BackingField: 010000000200000003000000
+  <GameUI>k__BackingField: GameUI
+  <Items>k__BackingField:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues:
+    - {fileID: 11400000, guid: ce83feef5e066e543bcc787429014fb6, type: 2}
+    - {fileID: 11400000, guid: 4ea3b6a13c0477c478f3fcfae07504a4, type: 2}
+    _keys:
+    - {fileID: 11400000, guid: ce83feef5e066e543bcc787429014fb6, type: 2}
+    - {fileID: 11400000, guid: 4ea3b6a13c0477c478f3fcfae07504a4, type: 2}
+    _values:
+    - <QuestIds>k__BackingField: 000000000000000000000000
+    - <QuestIds>k__BackingField: 000000000000000000000000
 --- !u!114 &47708435
 MonoBehaviour:
   m_ObjectHideFlags: 0

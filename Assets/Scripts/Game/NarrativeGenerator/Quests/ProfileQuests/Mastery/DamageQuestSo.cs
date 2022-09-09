@@ -9,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class DamageQuestSo : MasteryQuestSo
     {
         [field: SerializeField] private DamageQuestData DamageData { get; set; }
-        public override string SymbolType => Constants.DAMAGE_QUEST;
+        public override string SymbolType => Constants.DamageQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {

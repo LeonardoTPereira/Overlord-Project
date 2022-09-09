@@ -18,9 +18,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var creativityQuestWeights = new Dictionary<string, Func<int, int>>
                 {
-                    {Constants.EXPLORE_QUEST, Constants.TwoOptionQuestLineWeight},
-                    {Constants.GOTO_QUEST, Constants.TwoOptionQuestLineWeight},
-                    {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
+                    {Constants.ExploreQuest, Constants.TwoOptionQuestLineWeight},
+                    {Constants.GotoQuest, Constants.TwoOptionQuestLineWeight},
+                    {Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight}
                 };
                 return creativityQuestWeights;
             } 
@@ -30,9 +30,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             switch ( SymbolType )
             {
-                case Constants.EXPLORE_QUEST:
+                case Constants.ExploreQuest:
                     return CreateAndSaveExploreQuestSo(questSos);
-                case Constants.GOTO_QUEST:
+                case Constants.GotoQuest:
                     return CreateAndSaveGotoQuestSo(questSos);
                 default:
                     Debug.LogError("help something went wrong! - Creativity doesn't contain symbol: "+SymbolType);
