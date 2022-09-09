@@ -17,7 +17,6 @@ public class QuestUI : MonoBehaviour
     private QuestUIController _controller;
     private VisualElement _root;
 
-    [field: SerializeReference] private SelectedLevels selectedLevels;
     private QuestLineList currentQuestLines;
 
     private void Awake()
