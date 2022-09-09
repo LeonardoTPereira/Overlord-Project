@@ -19,6 +19,8 @@ namespace Game.Quests
         [field: SerializeReference] private SelectedLevels selectedLevels;
         [SerializeField] private QuestLineList questLines;
 
+        public QuestLineList QuestLines => questLines;
+
         public int CountableQuestElements
         {
             get => countableQuestElements;

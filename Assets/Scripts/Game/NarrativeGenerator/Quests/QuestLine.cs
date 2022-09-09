@@ -112,6 +112,16 @@ namespace Game.NarrativeGenerator.Quests
             return CurrentQuestIndex >= Quests.Count ? null : Quests[CurrentQuestIndex];
         }
 
+        public List<QuestSo> GetCompletedQuests()
+        {
+            List<QuestSo> completedQuests = new List<QuestSo>();
+            for (int i = 0; i < CurrentQuestIndex; i++)
+            {
+                completedQuests.Add( Quests[i] );
+            }
+            return completedQuests; 
+        }
+
         public void PopulateQuestLine(in GeneratorSettings generatorSettings)
         {
             var questChain = new MarkovChain();
