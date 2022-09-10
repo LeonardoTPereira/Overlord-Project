@@ -17,46 +17,37 @@ using Util;
 namespace Game.NPCs
 {
 
-    public class NpcController : MonoBehaviour, IInteractable, IQuestElement {
-        [SerializeField] private DialogueController dialogue;
-        
-        private bool _isDialogueNull;
-        private Queue<QuestSo> _assignedQuestsQueue;
+    public class NpcController : QuestDialogueInteraction
+    {    
         [field: SerializeField] public NpcSo Npc { get; set; }
 
-        public int QuestId { get; set; }
-        
-        private void Awake()
+        protected override void OnEnable()
         {
-            _assignedQuestsQueue = new Queue<QuestSo>();
-        }
-
-        private void Start()
-        {
-            CreateIntroDialogue();
-        }
-
-        private void OnEnable()
-        {
+            base.OnEnable();
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
-            QuestLine.QuestOpenedEventHandler += OpenQuest;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
-            QuestLine.QuestOpenedEventHandler -= OpenQuest;
+            base.OnDisable();
         }
 
-        private void OpenQuest(object sender, NewQuestEventArgs eventArgs)
+        protected override void OpenQuest(object sender, NewQuestEventArgs eventArgs)
         {
+            base.OpenQuest(sender, eventArgs);
             var quest = eventArgs.Quest;
             var npcInCharge = eventArgs.NpcInCharge;
-            CheckIfNpcIsTarget(quest);
             CreateQuestOpenedDialogue(quest, npcInCharge);
         }
 
-        private void CheckIfNpcIsTarget(QuestSo quest)
+        protected override bool IsTarget(QuestSo quest)
+        {
+            var questNpc = GetQuestNpc(quest);
+            return questNpc.NpcName == Npc.NpcName;
+        }
+
+        private NpcSo GetQuestNpc (QuestSo quest)
         {
             var questNpc = quest switch
             {
@@ -64,8 +55,7 @@ namespace Game.NPCs
                 AchievementQuestSo achievementQuestSo => CheckIfNpcIsTargetOfAchievementQuest(achievementQuestSo),
                 _ => null
             };
-            if (questNpc == null) return;
-            AddQuestToQueueIfNpcIsTarget(questNpc, quest);
+            return questNpc;
         }
 
         private static NpcSo CheckIfNpcIsTargetOfAchievementQuest(AchievementQuestSo achievementQuestSo)
@@ -91,14 +81,6 @@ namespace Game.NPCs
             return questNpc;
         }
 
-        private void AddQuestToQueueIfNpcIsTarget(NpcSo questNpc, QuestSo questSo)
-        {
-            if (questNpc.NpcName == Npc.NpcName)
-            {
-                _assignedQuestsQueue.Enqueue(questSo);
-            }
-        }
-
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != Npc) return;
@@ -114,18 +96,6 @@ namespace Game.NPCs
             var openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
             var questId = quest.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, true, questId);
-        }
-
-        public void Reset() {
-            var nColliders = GetComponents<Collider2D>().Length;
-            if (nColliders == 1) {
-                GetComponent<Collider2D>().isTrigger = true;
-            } else if (nColliders > 0) {
-                var hasTrigger = HasAtLeastOneTrigger();
-                if (!hasTrigger) {
-                    GetComponent<Collider2D>().isTrigger = true;
-                }
-            }
         }
         
 #if UNITY_EDITOR
@@ -151,20 +121,14 @@ namespace Game.NPCs
         }
 #endif
         
-        private void CreateIntroDialogue()
+        protected override void CreateIntroDialogue()
         {
-            dialogue = ScriptableObject.CreateInstance<DialogueController>();
-            _isDialogueNull = dialogue == null;
-            var greetingDialogue = NpcDialogueGenerator.CreateGreeting(Npc);
-            dialogue.AddDialogue(Npc.DialogueData, greetingDialogue, true, 0);
+            dialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
+            dialogueData = Npc.DialogueData;
+            base.CreateIntroDialogue();
         }
 
-        private bool HasAtLeastOneTrigger()
-        {
-            return GetComponents<Collider2D>().Any(col => col.isTrigger);
-        }
-
-        public void OnInteractAttempt()
+        public override void OnInteractAttempt()
         {
             if (_isDialogueNull) return;
             var incompleteQuestQueue = new Queue<QuestSo>();
@@ -197,21 +161,5 @@ namespace Game.NPCs
             }
             DialogueHandler.instance.StartDialogue(dialogue);
         }
-
-        public void OnTriggerEnter2D(Collider2D col) {
-            var agent = col.GetComponent<Agent>();
-            if (agent) {
-                agent.collidingInteractables.Add(this);
-            }
-        }
-
-        public void OnTriggerExit2D(Collider2D col) {
-            var agent = col.GetComponent<Agent>();
-            if (agent) {
-                agent.collidingInteractables.Remove(this);
-            }
-        }
-        
-        
     }
 }

@@ -21,8 +21,15 @@ namespace ScriptableObjects
         
         public string GetToolSpriteString()
         {
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();    
             stringBuilder.Append($"<sprite=\"Tools\" name=\"{ItemName}\">");
+            return stringBuilder.ToString();
+        }
+
+        public string GetScrollSpriteString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"<sprite=\"Scrolls\" name=\"{ItemName}\">");
             return stringBuilder.ToString();
         }
     }
