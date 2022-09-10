@@ -3,3 +3,5 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
+*.wasm filter=lfs diff=lfs merge=lfs -text
+.wasm filter=lfs diff=lfs merge=lfs -text

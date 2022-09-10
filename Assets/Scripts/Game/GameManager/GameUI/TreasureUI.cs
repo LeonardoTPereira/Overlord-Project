@@ -34,7 +34,7 @@ namespace Game.GameManager
 
         public void IncrementTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            treasureAmount += eventArgs.Amount;
+            treasureAmount += eventArgs.QuestId;
             treasureText.text = "x " + treasureAmount;
         }
 

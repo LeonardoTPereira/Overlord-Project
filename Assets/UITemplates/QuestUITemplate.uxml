@@ -7,7 +7,7 @@
                 <ui:Label text="Completed Quests" display-tooltip-when-elided="true" name="completedQuestsTab" class="tab" style="flex-grow: 1;" />
             </ui:VisualElement>
             <ui:VisualElement name="tabContent" style="flex-grow: 1; width: 100%; height: 100%;">
-                <ui:Label text="- KILL" display-tooltip-when-elided="true" name="openQuestsContent" class="tabContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
+                <ui:Label text="- KILL" display-tooltip-when-elided="true" name="openQuestsContent" class="tabContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; -unity-font: url(&apos;project://database/Assets/External/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
                 <ui:Label text="GATHER" display-tooltip-when-elided="true" name="completedQuestsContent" class="tabContent unselectedContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
             </ui:VisualElement>
         </ui:VisualElement>

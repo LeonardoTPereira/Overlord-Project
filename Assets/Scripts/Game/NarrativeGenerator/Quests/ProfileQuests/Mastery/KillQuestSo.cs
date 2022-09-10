@@ -14,7 +14,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField]
         public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
-        public override string SymbolType => Constants.KILL_QUEST;
+        public override string SymbolType => Constants.KillQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -84,7 +84,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
+                var spriteString = enemyByAmount.Key.GetEnemySpriteString();
+                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.EnemyTypeName}s {spriteString}, ");
             }
 
             if (stringBuilder.Length == 0)
@@ -92,7 +93,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 Debug.LogError("No Enemies to Kill");
                 QuestText = stringBuilder.ToString();
             }
-            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
             QuestText = stringBuilder.ToString();
         }
     }

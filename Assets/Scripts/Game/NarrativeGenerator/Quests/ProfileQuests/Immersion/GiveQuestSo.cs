@@ -2,13 +2,14 @@ using ScriptableObjects;
 using Util;
 using System.Collections.Generic;
 using System;
+using Game.Events;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GiveQuestSo : ImmersionQuestSo
     {
-        public override string SymbolType => Constants.GIVE_QUEST;
+        public override string SymbolType => Constants.GiveQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -18,6 +19,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public GiveQuestData GiveQuestData { get; set; }
         private bool _hasItemToCollect;
+        public static event TreasureCollectEvent TreasureLostEventHandler;
 
         public override void Init()
         {
@@ -83,7 +85,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+            var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
+            QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+        }
+
+        public void GiveItems()
+        {
+            TreasureLostEventHandler?.Invoke(this, new TreasureCollectEventArgs(GiveQuestData.ItemToGive, Id));
         }
     }
 }

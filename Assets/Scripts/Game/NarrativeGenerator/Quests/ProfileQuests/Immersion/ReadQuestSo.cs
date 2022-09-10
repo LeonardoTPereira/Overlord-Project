@@ -7,7 +7,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReadQuestSo : ImmersionQuestSo
     {
-        public override string SymbolType => Constants.READ_QUEST;
+        public override string SymbolType => Constants.ReadQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {

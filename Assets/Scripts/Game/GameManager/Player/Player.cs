@@ -4,13 +4,13 @@ using Game.Audio;
 using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
+using MyBox;
 using UnityEngine;
 
 namespace Game.GameManager.Player
 {
     public class Player : PlaceableRoomObject, ISoundEmitter
     {
-        private static Player _instance;
         public List<int> keys = new ();
         public List<int> usedKeys = new ();
         public int X { private set; get; }
@@ -22,19 +22,19 @@ namespace Game.GameManager.Player
 
         public void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
             }
             else
             {
-                _instance = this;
+                Instance = this;
                 cam = Camera.main;
                 _playerController = GetComponent<PlayerController>();
             }
         }
 
-        public static Player Instance { get { return _instance; } }
+        public static Player Instance { get; private set; }
 
         public void OnEnable()
         {
@@ -71,16 +71,15 @@ namespace Game.GameManager.Player
         public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
             var roomWidth = eventArgs.RoomData.RoomDimensions.Width;
-            var cameraXPosition = eventArgs.PositionInScene.x + roomWidth / 3.5f;
+            var cameraXPosition = eventArgs.PositionInScene.x;
             var cameraYPosition = eventArgs.PositionInScene.y;
-            var cameraZPosition = -5f;
+            const float cameraZPosition = -5f;
             cam.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
-            //minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
         }
 
         private void PlacePlayerInStartRoom(object sender, StartRoomEventArgs e)
         {
-            _instance.transform.position = e.position;
+            Instance.transform.position = e.position;
         }
 
         private void ExitRoom(object sender, ExitRoomEventArgs eventArgs)

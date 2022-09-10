@@ -73,7 +73,7 @@ namespace Game.LevelManager.DungeonLoader
         
         private void LoadDungeon(DungeonFileSo dungeonFileSo)
         {
-            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms);
+            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms, CurrentGeneratorSettings.RoomSize);
         }
 
         private void InstantiateRooms(RoomBhv roomBhv, Dimensions dimensions)

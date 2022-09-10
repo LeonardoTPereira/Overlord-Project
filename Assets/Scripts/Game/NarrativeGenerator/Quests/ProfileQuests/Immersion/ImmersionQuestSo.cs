@@ -19,11 +19,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var immersionQuestWeights = new Dictionary<string, Func<int, int>>
                     {
-                        {Constants.LISTEN_QUEST, Constants.TwoOptionQuestLineWeight},
+                        {Constants.ListenQuest, Constants.ThreeOptionQuestLineWeight},
                         //{Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
-                        //{Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
-                        {Constants.REPORT_QUEST, Constants.TwoOptionQuestLineWeight},
-                        {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
+                        {Constants.GiveQuest, Constants.ThreeOptionQuestLineWeight},
+                        {Constants.ReportQuest, Constants.ThreeOptionQuestLineWeight},
+                        {Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight}
                     };
                 return immersionQuestWeights;
             }
@@ -33,13 +33,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             switch ( SymbolType )
             {
-                case Constants.LISTEN_QUEST:
+                case Constants.ListenQuest:
                     return CreateAndSaveListenQuestSo(questSos, generatorSettings.PlaceholderNpcs);
-                case Constants.READ_QUEST:
+                case Constants.ReadQuest:
                     return CreateAndSaveReadQuestSo(questSos, generatorSettings.PlaceholderItems);
-                case Constants.GIVE_QUEST:
-                    return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.PlaceholderItems);
-                case Constants.REPORT_QUEST:
+                case Constants.GiveQuest:
+                    return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
+                case Constants.ReportQuest:
                     return CreateAndSaveReportQuestSo(questSos, generatorSettings.PlaceholderNpcs);
                 default:
                     Debug.LogError("help something went wrong! - Immersion doesn't contain symbol: "+SymbolType);
@@ -79,7 +79,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return listenQuest;
         }
 
-        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
+        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
@@ -94,7 +94,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return readQuest;
         }
 
-        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
+        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
         {
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();

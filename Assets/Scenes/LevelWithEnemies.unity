@@ -784,10 +784,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.25208336
+    x: 0.21458334
     y: 0
-    width: 0.30555558
-    height: 0.30555555
+    width: 0.2851852
+    height: 0.2851852
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1313,29 +1313,5 @@ PrefabInstance:
       propertyPath: minimap
       value: 
       objectReference: {fileID: 444031487}
-    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: bulletPrefab
-      value: 
-      objectReference: {fileID: 1699235863348634, guid: 7c6443c3f53cfcb42b8bf65f9e8b56f5,
-        type: 3}
-    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: projectilesAvailable
-      value: 
-      objectReference: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281,
-        type: 2}
-    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: <ProjectileType>k__BackingField
-      value: 
-      objectReference: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
-        type: 2}
-    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: <projectileType>k__BackingField
-      value: 
-      objectReference: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
