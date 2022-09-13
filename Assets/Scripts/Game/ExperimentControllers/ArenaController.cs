@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Game.EnemyGenerator;
 using Game.GameManager;
 using Game.LevelManager;
@@ -32,7 +31,7 @@ namespace Game.ExperimentControllers
             var enemyGenerator = GetComponent<EnemyGeneratorManager>();
             var enemies = enemyGenerator.EvolveEnemies(Difficulty);
             EnemyLoader.LoadEnemies(enemies);
-            var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Normal, Keys, 0, TotalEnemies, 0)
+            var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Start, Keys, 0, TotalEnemies, 0)
                 {
                     EnemiesByType = new EnemiesByType
                     {

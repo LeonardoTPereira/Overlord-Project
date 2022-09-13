@@ -79,8 +79,7 @@ namespace Game.NarrativeGenerator.Quests
                 {
                     CompleteCurrentQuest();
                 }
-
-                return true;
+                if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
             }
             return false;
         }

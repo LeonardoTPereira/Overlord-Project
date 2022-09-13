@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeMiniMap",
+                    "type": "Button",
+                    "id": "6a5dd544-5c2a-488b-b22a-2a14de53dc22",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -368,6 +377,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4085ed6d-17b5-431e-b3c0-3b83a34a6adc",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ChangeMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ce992df-3c94-4b4d-837c-8b6bf0a4a54e",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ChangeMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "009134e6-88c6-4b12-95e3-7c760436deda",
+                    "path": "<WebGLGamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "WebGL",
+                    "action": "ChangeMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed2d34ab-a4f5-4602-b14e-fa147ff096a9",
+                    "path": "<DualSenseGamepadHID>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "ChangeMiniMap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

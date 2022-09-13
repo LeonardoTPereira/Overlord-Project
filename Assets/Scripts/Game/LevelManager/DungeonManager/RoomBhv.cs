@@ -26,7 +26,6 @@ namespace Game.LevelManager.DungeonManager
         public List<int> westDoor;
 
         public bool hasEnemies;
-        private bool _hasPlacedInCenter;
         public EnemyByAmountDictionary enemiesDictionary;
         private Vector3 _position;
 
@@ -60,9 +59,7 @@ namespace Game.LevelManager.DungeonManager
         private EnemyLoader _enemyLoader;
 
         private List<GameObject> _instantiatedEnemies;
-
-        private Coordinates _coordinates;
-
+        
         public static event EnterRoomEvent EnterRoomEventHandler;
 
         public int QuestId { get; set; }
@@ -70,7 +67,6 @@ namespace Game.LevelManager.DungeonManager
         private void Awake()
         {
             hasEnemies = false;
-            _hasPlacedInCenter = false;
             enemiesDictionary = new EnemyByAmountDictionary();
             _instantiatedEnemies = new List<GameObject>();
         }
@@ -78,7 +74,6 @@ namespace Game.LevelManager.DungeonManager
         // Use this for initialization
         private void Start()
         {
-            _coordinates = roomData.Coordinates;
             _enemyLoader = GetComponent<EnemyLoader>();
 
             SetLayout();
@@ -154,48 +149,11 @@ namespace Game.LevelManager.DungeonManager
             {
                 for (var iy = 0; iy < roomData.Dimensions.Height; iy++)
                 {
-                    var tileID = roomData.Tiles[ix, iy];
+                    var tileID = roomData.Tiles[ix, iy].TileType;
                     TileBhv tileObj;
-                    if (tileID == (int) Enums.TileTypes.Block)
+                    if (tileID == Enums.TileTypes.Block)
                     {
                         tileObj = Instantiate(blockPrefab);
-                        /*if (ix == 0)
-                        {
-                            if (iy == 0)
-                            {
-                                auxObj = Instantiate(NWColumn, transform, true);
-                                auxObj.transform.localPosition =
-                                    new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                            }
-
-                            if (iy == (roomData.Dimensions.Height - 1))
-                            {
-                                auxObj = Instantiate(SWColumn, transform, true);
-                                auxObj.transform.localPosition =
-                                    new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                            }
-
-                            tileObj.GetComponent<SpriteRenderer>().sprite = westWall;
-                        }
-                        else if (iy == 0)
-                        {
-                            tileObj.GetComponent<SpriteRenderer>().sprite = northWall;
-                        }
-                        else if (ix == (roomData.Dimensions.Width - 1))
-                        {
-                            if (iy == (roomData.Dimensions.Height - 1))
-                            {
-                                auxObj = Instantiate(SEColumn, transform, true);
-                                auxObj.transform.localPosition =
-                                    new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                            }
-
-                            tileObj.GetComponent<SpriteRenderer>().sprite = eastWall;
-                        }
-                        else if (iy == (roomData.Dimensions.Height - 1))
-                        {
-                            tileObj.GetComponent<SpriteRenderer>().sprite = southWall;
-                        }*/
                     }
                     else
                     {
@@ -231,7 +189,7 @@ namespace Game.LevelManager.DungeonManager
                      iy < (roomData.Dimensions.Height - Constants.DistFromBorder);
                      iy += (roomData.Dimensions.Height / Constants.NSpawnPointsHor))
                 {
-                    if (roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                    if (roomData.Tiles[ix, iy].TileType == Enums.TileTypes.Block) continue;
                     // Calculate the spawn point 2D position (spx, spy)
                     var spx = ix - centerX + xOffset;
                     var rh = roomData.Dimensions.Height - 1;
@@ -364,7 +322,6 @@ namespace Game.LevelManager.DungeonManager
         {
             GetAvailablePosition();
             var key = Instantiate(keyPrefab, _availablePosition, transform.rotation);
-            key.transform.position = _availablePosition;
             key.KeyID = keyId;
         }
 
@@ -385,9 +342,8 @@ namespace Game.LevelManager.DungeonManager
             foreach (var questId in questIds.QuestIds)
             {
                 GetAvailablePosition();
-                var treasure = Instantiate(treasurePrefab, transform);
+                var treasure = Instantiate(treasurePrefab, _availablePosition, transform.rotation);
                 treasure.Treasure = item;
-                treasure.transform.position = _availablePosition;
                 treasure.QuestId = questId;
             }
         }
@@ -395,22 +351,12 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceTriforceInRoom()
         {
             GetAvailablePosition();
-            var tri = Instantiate(triPrefab, transform);
-            tri.transform.position = _availablePosition;
-        
+            Instantiate(triPrefab, _availablePosition ,transform.rotation);
         }
 
         private void GetAvailablePosition()
         {
-            if (!_hasPlacedInCenter)
-            {
-                _availablePosition = roomData.GetCenterMostFreeTilePosition() + _position;
-                _hasPlacedInCenter = true;
-            }
-            else
-            {
-                _availablePosition = roomData.GetNextAvailablePosition(_availablePosition - _position) + _position;
-            }
+            _availablePosition = roomData.GetNextAvailablePosition() + _position;
         }
 
         private bool RoomHasNpc(){

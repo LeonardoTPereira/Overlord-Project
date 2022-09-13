@@ -38,12 +38,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             _fitnessPlot = fitnessPlot;
         }
 
-        /// Add an individual in the MAP-Elites population.
-        ///
-        /// First, we identify which Elite the individual is classified in.
-        /// Then, if the corresponding Elite is empty, the individual is placed
-        /// there. Otherwise, we compare the both old and new individuals, and
-        /// the best individual is placed in the corresponding Elite.
+        //TODO Check bug where, apparently, no individual can be created in this loop
+        //Maybe they always go out of elite range, somehow (shouldn't!)
         public void PlaceIndividual(Individual individual) {
             var explorationIndex = SearchSpace.GetCoefficientOfExplorationIndex(individual.exploration);
             var leniencyIndex = SearchSpace.GetLeniencyIndex(individual.leniency);

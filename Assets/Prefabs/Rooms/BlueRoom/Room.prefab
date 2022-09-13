@@ -1223,6 +1223,7 @@ MonoBehaviour:
         isExpanded: 0
         _keyValues: []
         _keys: []
+        _values: []
     npcs: []
     enemiesByType:
       enemiesByType:
@@ -1250,6 +1251,7 @@ MonoBehaviour:
         isExpanded: 0
         _keyValues: []
         _keys: []
+        _values: []
     totalEnemies: 0
     <HasItemPreference>k__BackingField: 0
     <HasNpcPreference>k__BackingField: 0
@@ -1283,6 +1285,7 @@ MonoBehaviour:
     isExpanded: 0
     _keyValues: []
     _keys: []
+    _values: []
   doorNorth: {fileID: 114081829205008226}
   doorSouth: {fileID: 114023979573330110}
   doorEast: {fileID: 114123737783067614}

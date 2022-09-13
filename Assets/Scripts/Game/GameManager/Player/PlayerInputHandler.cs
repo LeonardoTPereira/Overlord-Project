@@ -16,11 +16,13 @@ namespace Game.GameManager.Player
             PlayerController.PlayerDeathEventHandler += StopInput;
             PlayerController.SceneLoaded += StartInput;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
+            MinimapController.FullscreenUIEvent += StopInput;
+            MinimapController.ExitFullscreenUIEvent += StartInput;
         }
         
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if(scene.name == "Overworld" || scene.name == "LevelWithEnemies")
+            if(scene.name is "Overworld" or "LevelWithEnemies")
             {
                 StartInput(null, EventArgs.Empty);
             }
@@ -33,6 +35,8 @@ namespace Game.GameManager.Player
             PlayerController.PlayerDeathEventHandler -= StopInput;
             PlayerController.SceneLoaded -= StartInput;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+            MinimapController.FullscreenUIEvent -= StopInput;
+            MinimapController.ExitFullscreenUIEvent -= StartInput;
         }
 
         protected virtual void Start()
