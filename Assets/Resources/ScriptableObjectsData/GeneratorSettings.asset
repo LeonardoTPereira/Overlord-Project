@@ -17,3 +17,16 @@ MonoBehaviour:
   <GenerateInRealTime>k__BackingField: 1
   <EnableRandomProfileToPlayer>k__BackingField: 1
   <ProbabilityToGetTrueProfile>k__BackingField: 50
+  <PlaceholderNpcs>k__BackingField:
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  <PlaceholderItems>k__BackingField: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+    type: 2}
+  <Gemstones>k__BackingField: {fileID: 11400000, guid: 585a41803b1604e468b3f7c208ebbe21,
+    type: 2}
+  <Tools>k__BackingField: {fileID: 11400000, guid: 04f66858849a0f04dbd7abdaa38d2b06,
+    type: 2}
+  <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+    type: 2}
+  <RoomSize>k__BackingField: {x: 30, y: 18}

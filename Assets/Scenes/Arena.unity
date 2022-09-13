@@ -155,12 +155,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
-  <TotalEnemies>k__BackingField: 10
+  <TotalEnemies>k__BackingField: 1
   <RoomPrefab>k__BackingField: {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102,
     type: 3}
   <RoomSize>k__BackingField:
     width: 28
     height: 24
+  <Keys>k__BackingField: 010000000200000003000000
+  <GameUI>k__BackingField: GameUI
+  <Items>k__BackingField:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues:
+    - {fileID: 11400000, guid: ce83feef5e066e543bcc787429014fb6, type: 2}
+    - {fileID: 11400000, guid: 4ea3b6a13c0477c478f3fcfae07504a4, type: 2}
+    _keys:
+    - {fileID: 11400000, guid: ce83feef5e066e543bcc787429014fb6, type: 2}
+    - {fileID: 11400000, guid: 4ea3b6a13c0477c478f3fcfae07504a4, type: 2}
+    _values:
+    - <QuestIds>k__BackingField: 000000000000000000000000
+    - <QuestIds>k__BackingField: 000000000000000000000000
 --- !u!114 &47708435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +397,74 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!1 &236783141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 236783144}
+  - component: {fileID: 236783143}
+  - component: {fileID: 236783142}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &236783142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236783141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &236783143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236783141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &236783144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236783141}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790384356
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,16 +659,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114422053890188650, guid: 8fea4dd3f18348d42a4a32bb977123cd,
+    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
-      propertyPath: cam
+      propertyPath: bulletPrefab
       value: 
-      objectReference: {fileID: 132918280}
+      objectReference: {fileID: 1699235863348634, guid: 7c6443c3f53cfcb42b8bf65f9e8b56f5,
+        type: 3}
     - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
       propertyPath: projectilesAvailable
       value: 
       objectReference: {fileID: 11400000, guid: 147248520389fe54c8c806007d326281,
+        type: 2}
+    - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
+        type: 3}
+      propertyPath: <ProjectileType>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a7c560ce29994047b70211cb31791ad,
         type: 2}
     - target: {fileID: 2894253577423451289, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
@@ -576,63 +685,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 19
+      propertyPath: m_DefaultActionMap
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
         type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
-      value: 3182be8a-e413-435e-ae8c-0c2bd04bb7ae
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
-      value: b74b3d16-428f-4aff-af15-af0a13ada3a6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_ActionId
-      value: 9eb85cc0-d915-4aad-8319-0dd7f56cf310
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionId
-      value: 4231595a-a4d5-4e30-8e70-8dd409dbd197
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
-      value: ba373954-b52a-4709-8901-aed820fbc078
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
-      value: Player/Cancel[/Keyboard/z,/DualShock4GamepadHID/buttonWest]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
-      value: MenuNavigation/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/DualShock4GamepadHID/dpad,/DualShock4GamepadHID/leftStick]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_ActionName
-      value: MenuNavigation/Confirm[/Keyboard/x,/DualShock4GamepadHID/buttonEast,/Keyboard/space]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionName
-      value: MenuNavigation/Cancel[/Keyboard/z,/DualShock4GamepadHID/buttonSouth,/Keyboard/backspace,/Keyboard/escape]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730454567037571343, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
-      value: MenuNavigation/ChangeDescription[/Keyboard/e,/Mouse/rightButton,/Keyboard/q,/DualShock4GamepadHID/leftShoulder,/DualShock4GamepadHID/rightShoulder]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5989198140068896509, guid: 8fea4dd3f18348d42a4a32bb977123cd,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: m_DefaultControlScheme
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}

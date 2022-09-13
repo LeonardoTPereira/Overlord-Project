@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Events;
+using Game.ExperimentControllers;
 using Game.GameManager;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonManager;
@@ -72,7 +73,7 @@ namespace Game.LevelManager.DungeonLoader
         
         private void LoadDungeon(DungeonFileSo dungeonFileSo)
         {
-            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms);
+            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms, CurrentGeneratorSettings.RoomSize);
         }
 
         private void InstantiateRooms(RoomBhv roomBhv, Dimensions dimensions)

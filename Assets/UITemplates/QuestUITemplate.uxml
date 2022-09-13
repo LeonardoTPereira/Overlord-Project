@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UITemplates/QuesUITemplate.uss?fileID=7433441132597879392&amp;guid=6d3978f42b3a3ea499f814e47d41ccbb&amp;type=3#QuesUITemplate" />
+    <ui:VisualElement name="bg" style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.13);">
+        <ui:VisualElement name="container" style="height: auto; width: auto; background-color: rgb(255, 255, 255); margin-left: 50px; margin-right: 50px; margin-top: 50px; margin-bottom: 50px; align-items: auto; flex-grow: 1; flex-direction: column;">
+            <ui:VisualElement name="tabs" style="flex-direction: row;">
+                <ui:Label text="Open Quests" display-tooltip-when-elided="true" name="openQuestsTab" class="tab curentlySelectedTab currentlySelectedTab" style="flex-grow: 1;" />
+                <ui:Label text="Completed Quests" display-tooltip-when-elided="true" name="completedQuestsTab" class="tab" style="flex-grow: 1;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="tabContent" style="flex-grow: 1; width: 100%; height: 100%;">
+                <ui:Label text="- KILL" display-tooltip-when-elided="true" name="openQuestsContent" class="tabContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; -unity-font: url(&apos;project://database/Assets/External/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+                <ui:Label text="GATHER" display-tooltip-when-elided="true" name="completedQuestsContent" class="tabContent unselectedContent" style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

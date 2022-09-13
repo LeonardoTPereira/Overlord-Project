@@ -7,6 +7,7 @@ using Game.LevelManager;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
@@ -22,16 +23,26 @@ namespace Game.ExperimentControllers
         [field: SerializeField] public int TotalEnemies { get; set; }
         [field: SerializeField] public RoomBhv RoomPrefab { get; set; }
         [field: SerializeField] public Dimensions RoomSize { get; set; }
-        [field: Scene] public string GameUI { get; set; } = "GameUI";
+        [field: SerializeField] public List<int> Keys { get; set; }
+        [field: Scene, SerializeField] public string GameUI { get; set; } = "ArenaUI";
+        [field: SerializeField] public ItemAmountDictionary Items { get; set; }
 
         private void Start()
         {
             var enemyGenerator = GetComponent<EnemyGeneratorManager>();
             var enemies = enemyGenerator.EvolveEnemies(Difficulty);
             EnemyLoader.LoadEnemies(enemies);
-            var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Normal, new List<int>(), 0, TotalEnemies, 0);
-            dungeonRoom.EnemiesByType = new EnemiesByType();
-            dungeonRoom.EnemiesByType.EnemiesByTypeDictionary = CreateDictionaryOfRandomEnemies(enemies);
+            var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Normal, Keys, 0, TotalEnemies, 0)
+                {
+                    EnemiesByType = new EnemiesByType
+                    {
+                        EnemiesByTypeDictionary = CreateDictionaryOfRandomEnemies(enemies)
+                    },
+                    Items = new ItemsAmount
+                    {
+                        ItemAmountBySo = Items
+                    }
+                };
             dungeonRoom.CreateRoom(RoomSize);
             var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab);
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);

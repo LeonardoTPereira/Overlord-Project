@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
 using UnityEngine;
 using Util;
@@ -20,14 +21,14 @@ namespace Game.LevelManager.DungeonLoader
         public Dimensions Dimensions { get; set; }
         public int NTreasureRooms { get; set; }
         private bool _createRooms;
-        
-        public Map(DungeonFileSo dungeonFileSo, bool createRooms)
+
+        public Map(DungeonFileSo dungeonFileSo, bool createRooms, Vector2 roomSize)
         {
             NTreasureRooms = 0;
             _createRooms = createRooms;
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
             ReadMapFile(dungeonFileSo);
-            BuildRooms();
+            BuildRooms(roomSize);
         }
 
         private void ReadMapFile(DungeonFileSo dungeonFileSo)
@@ -40,13 +41,13 @@ namespace Game.LevelManager.DungeonLoader
             }
             foreach (var room in dungeonFileSo.Rooms)
             {
-                if ((room.keys?.Count??0) > 0)
+                if ((room.Keys?.Count??0) > 0)
                 {
-                    NKeys += room.keys.Count;
+                    NKeys += room.Keys.Count;
                 }
-                if ((room.locks?.Count??0) > 0)
+                if ((room.Locks?.Count??0) > 0)
                 {
-                    NLocks += room.locks.Count;
+                    NLocks += room.Locks.Count;
                 }
             }
 
@@ -77,15 +78,15 @@ namespace Game.LevelManager.DungeonLoader
         private void AddRoomData(DungeonPart currentDungeonPart)
         {
             NRooms++;
-            if (currentDungeonPart.IsTreasureRoom())
+            if (currentDungeonPart.IsLeafNode() || currentDungeonPart.IsLockedNode())
             {
                 NTreasureRooms++;
             }
         }
 
-        private void BuildRooms()
+        private void BuildRooms(Vector2 roomSize)
         {
-            var roomDimensions = new Dimensions(Constants.DefaultRoomSizeX, Constants.DefaultRoomSizeY);
+            var roomDimensions = new Dimensions((int)roomSize.x, (int)roomSize.y);
             foreach (var currentPart in DungeonPartByCoordinates.Values)
             {
                 if (currentPart is not DungeonRoom room) continue;

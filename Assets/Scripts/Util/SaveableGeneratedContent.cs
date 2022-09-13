@@ -1,6 +1,6 @@
 ﻿namespace Util
 {
-    public interface SaveableGeneratedContent
+    public interface ISavableGeneratedContent
     {
         public void SaveAsset(string directory);
     }
