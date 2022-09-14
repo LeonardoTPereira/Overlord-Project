@@ -72,9 +72,6 @@ namespace Gameplay
 
             if (Health > maxHealth)
                 Health = maxHealth;
-
-            Debug.Log("HEALOU: " + heal);
-            Debug.Log("HEAL: " + Health);
         }
     }
 }
