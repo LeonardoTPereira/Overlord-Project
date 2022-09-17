@@ -15,4 +15,5 @@ MonoBehaviour:
   sprite: {fileID: 1425375535, guid: 20dfbd22f0d91634f9c688272b7d3325, type: 3}
   <ItemName>k__BackingField: EnourmousBook
   <Value>k__BackingField: 0
-  <DialogueData>k__BackingField: {fileID: 0}
+  <DialogueData>k__BackingField: {fileID: 11400000, guid: b3b4f42f9d0ec1d4d8f888daea859895,
+    type: 2}

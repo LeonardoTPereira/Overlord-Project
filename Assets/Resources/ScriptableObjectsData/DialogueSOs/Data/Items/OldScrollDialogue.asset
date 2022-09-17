@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b17427d55ede4e399de9c3879140566b, type: 3}
-  m_Name: ScrollDialogue
+  m_Name: OldScrollDialogue
   m_EditorClassIdentifier: 
   dialogueColor: {r: 0.6981132, g: 0.57260185, b: 0.45113918, a: 1}
-  dialogueName: An Elder Scroll
-  dialoguePortrait: {fileID: 21300000, guid: 20ba24c75ff180348bbbcad29b2d2294, type: 3}
+  dialogueName: Old Scroll
+  dialoguePortrait: {fileID: 1963708841, guid: 20dfbd22f0d91634f9c688272b7d3325, type: 3}
