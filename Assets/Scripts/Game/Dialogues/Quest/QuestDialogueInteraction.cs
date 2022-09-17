@@ -123,8 +123,6 @@ namespace Game
             if (agent) {
                 agent.collidingInteractables.Remove(this);
             }
-        }
-        
-        
+        }        
     }
 }

@@ -22,6 +22,8 @@ public class QuestUI : MonoBehaviour
     private void Awake()
     {
         QuestController questController = FindObjectOfType<QuestController>();
+        if ( questController == null )
+            Destroy(gameObject);
         currentQuestLines = questController.QuestLines;
 
         _inputActionMap = controls.FindActionMap("UI");
