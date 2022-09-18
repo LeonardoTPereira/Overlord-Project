@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 20ba24c75ff180348bbbcad29b2d2294, type: 3}
+  m_Sprite: {fileID: 1425375535, guid: 20dfbd22f0d91634f9c688272b7d3325, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +102,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.25, y: 1.25}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 2971162632546973913}
   - component: {fileID: 219775582011645191}
   m_Layer: 0
-  m_Name: ReadableItem
+  m_Name: ReadableItem 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,5 +184,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: f633229936a600e4e8986794d6f86f23, type: 2}
-  dialogueData: {fileID: 11400000, guid: 91c4ee203baf70849a4279aa8d33e2b8, type: 2}
-  dialogueLine: It's is I, Dio
+  dialogueLine: The Missing Door Of Alas - A Full Story

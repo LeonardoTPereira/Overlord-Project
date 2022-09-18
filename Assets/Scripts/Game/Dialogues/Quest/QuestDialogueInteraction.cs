@@ -20,8 +20,9 @@ namespace Game
 
     public class QuestDialogueInteraction : MonoBehaviour, IInteractable, IQuestElement
     {
+        [field: SerializeField] public IDialogueObjSo DialogueObj { get; set; }
+
         [SerializeField] protected DialogueController dialogue;
-        [SerializeField] protected NpcDialogueData dialogueData;
         [SerializeField] protected string dialogueLine;
         
         protected bool _isDialogueNull;
@@ -83,7 +84,7 @@ namespace Game
         {
             dialogue = ScriptableObject.CreateInstance<DialogueController>();
             _isDialogueNull = dialogue == null;
-            dialogue.AddDialogue( dialogueData, dialogueLine, true, 0);
+            dialogue.AddDialogue( DialogueObj.DialogueData, dialogueLine, true, 0);
         }
 
         protected bool HasAtLeastOneTrigger()
@@ -100,7 +101,7 @@ namespace Game
                 var questsInDialogue = dialogue.GetQuestCloserDialogueIds();
                 foreach (var questIds in questsInDialogue)
                 {
-                    ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(null, questIds));
+                    ((IQuestElement)this).OnQuestTaskResolved(this, new QuestReadEventArgs(DialogueObj as ItemSo, questIds));
                     ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questIds));
                     _wasTaskResolved = true;
                 }

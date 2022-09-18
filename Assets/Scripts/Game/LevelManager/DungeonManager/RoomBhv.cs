@@ -38,6 +38,7 @@ namespace Game.LevelManager.DungeonManager
         public KeyBhv keyPrefab;
         public TriforceBhv triPrefab;
         public TreasureController treasurePrefab;
+        public GameObject[] readableItemPrefabs;
         public GameObject[] npcPrefabs;
 
         public Collider2D colNorth;
@@ -384,12 +385,29 @@ namespace Game.LevelManager.DungeonManager
         {
             foreach (var questId in questIds.QuestIds)
             {
-                GetAvailablePosition();
-                var treasure = Instantiate(treasurePrefab, transform);
-                treasure.Treasure = item;
-                treasure.transform.position = _availablePosition;
-                treasure.QuestId = questId;
+                if ( item as ReadableItemSo != null )
+                    PlaceReadableItem(item, questId);
+                else
+                    PlaceTreasureItem(item, questId);
             }
+        }
+
+        private void PlaceReadableItem(ItemSo item, int questId)
+        {
+            GetAvailablePosition();
+            var readableItem = Instantiate(readableItemPrefabs[Random.Range(0,readableItemPrefabs.Length)], transform).GetComponent<QuestDialogueInteraction>();
+            readableItem.DialogueObj = item as ReadableItemSo;
+            readableItem.QuestId = questId;
+            readableItem.gameObject.transform.position = _availablePosition;
+        }
+
+        private void PlaceTreasureItem(ItemSo item, int questId)
+        {
+            GetAvailablePosition();
+            var treasure = Instantiate(treasurePrefab, transform);
+            treasure.Treasure = item;
+            treasure.transform.position = _availablePosition;
+            treasure.QuestId = questId;
         }
 
         private void PlaceTriforceInRoom()

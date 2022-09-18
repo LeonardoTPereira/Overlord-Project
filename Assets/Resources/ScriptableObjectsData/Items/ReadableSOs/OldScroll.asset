@@ -15,5 +15,4 @@ MonoBehaviour:
   sprite: {fileID: 1963708841, guid: 20dfbd22f0d91634f9c688272b7d3325, type: 3}
   <ItemName>k__BackingField: Old Scroll
   <Value>k__BackingField: 0
-  <DialogueData>k__BackingField: {fileID: 11400000, guid: 91c4ee203baf70849a4279aa8d33e2b8,
-    type: 2}
+  dialogueData: {fileID: 11400000, guid: 91c4ee203baf70849a4279aa8d33e2b8, type: 2}

@@ -43,8 +43,8 @@ namespace Game.NPCs
 
         protected override bool IsTarget(QuestSo quest)
         {
-            var questNpc = GetQuestNpc(quest);
-            return questNpc.NpcName == Npc.NpcName;
+            NpcSo questNpc = GetQuestNpc(quest);
+            return questNpc != null && questNpc.NpcName == Npc.NpcName;
         }
 
         private NpcSo GetQuestNpc (QuestSo quest)
@@ -124,7 +124,7 @@ namespace Game.NPCs
         protected override void CreateIntroDialogue()
         {
             dialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
-            dialogueData = Npc.DialogueData;
+            DialogueObj = Npc;
             base.CreateIntroDialogue();
         }
 

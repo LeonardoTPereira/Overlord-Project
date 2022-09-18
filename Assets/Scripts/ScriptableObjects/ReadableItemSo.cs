@@ -6,9 +6,15 @@ using Fog.Dialogue;
 namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "ReadableItemSO", menuName = "Items/Readable Item"), Serializable]
-    public class ReadableItemSo : ItemSo
+    public class ReadableItemSo : ItemSo, IDialogueObjSo
     {
-        [field: SerializeField] public NpcDialogueData DialogueData{ get; set; }
+        [SerializeField] private NpcDialogueData dialogueData;
+
+        public NpcDialogueData DialogueData
+        {
+            get => dialogueData;
+            set => dialogueData = value;
+        }
 
         public string GetScrollSpriteString()
         {
