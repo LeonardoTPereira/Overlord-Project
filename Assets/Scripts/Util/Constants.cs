@@ -9,6 +9,8 @@ namespace Util
         public static readonly char SeparatorCharacter = Path.DirectorySeparatorChar;
 
         public static readonly Color[] ColorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
+        public static readonly Color VisitedColor = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
+        public static readonly Color MarkedColor = new Color(0.8433761f, 0.2772784f, 0.2320754f, 1.0f);
 
         public static float LogNormalization(float value, float minValue, float maxValue, float minNormalized, float maxNormalized)
         {

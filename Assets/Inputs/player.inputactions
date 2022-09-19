@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ChangeWeapon",
+                    "name": "QuestUI",
                     "type": "Button",
                     "id": "56f63649-960e-49e0-9831-606763e5840f",
                     "expectedControlType": "Button",
@@ -273,11 +273,44 @@
                 {
                     "name": "",
                     "id": "4edbaaf2-9083-4c22-9a8f-6b0f7c9fcbac",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "ChangeWeapon",
+                    "action": "QuestUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ef13d38-3125-43e0-94e6-911a9236604e",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuestUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7dbe0c09-edd6-411d-a2a4-e75b67a818ea",
+                    "path": "<WebGLGamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuestUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15ae48be-09b8-4825-9cc7-397b0f4a6a07",
+                    "path": "<DualSenseGamepadHID>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuestUI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
