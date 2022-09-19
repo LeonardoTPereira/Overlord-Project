@@ -12,7 +12,7 @@
       "hash": "efa34f54bc82efb74dcad7b6d3387a521afe611d"
     },
     "com.fellowshipofthegame.dialoguemodule": {
-      "version": "https://github.com/FellowshipOfTheGame/DialogueModule.git",
+      "version": "https://github.com/FellowshipOfTheGame/DialogueModule.git#upm",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -20,7 +20,7 @@
         "com.unity.inputsystem": "1.0.2",
         "com.unity.textmeshpro": "3.0.6"
       },
-      "hash": "eac98d204dc5a0044849620e0cb2afb1b9d11058"
+      "hash": "8ef89c79490d99f05c473c24105ecc09705e04ad"
     },
     "com.google.external-dependency-manager": {
       "version": "file:com.google.external-dependency-manager-1.2.171.tgz",
