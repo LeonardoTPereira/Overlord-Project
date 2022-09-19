@@ -69,7 +69,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var selectedItems = new ItemAmountDictionary();
             var questId = getItemQuest.GetInstanceID();
             var selectedItem = possibleItems.GetRandomItem();
-            var nItemsToCollect = RandomSingleton.GetInstance().Random.Next(5) + 5;
+            var nItemsToCollect = RandomSingleton.GetInstance().Random.Next(Constants.MaxItemsToGather) + 1;
             for (var i = 0; i < nItemsToCollect; i++)
             {
                 selectedItems.AddItemWithId(selectedItem, questId);

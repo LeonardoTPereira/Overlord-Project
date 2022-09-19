@@ -46,7 +46,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""ChangeWeapon"",
+                    ""name"": ""QuestUI"",
                     ""type"": ""Button"",
                     ""id"": ""56f63649-960e-49e0-9831-606763e5840f"",
                     ""expectedControlType"": ""Button"",
@@ -67,6 +67,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""3182be8a-e413-435e-ae8c-0c2bd04bb7ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeMiniMap"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a5dd544-5c2a-488b-b22a-2a14de53dc22"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -286,11 +295,44 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4edbaaf2-9083-4c22-9a8f-6b0f7c9fcbac"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""ChangeWeapon"",
+                    ""action"": ""QuestUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ef13d38-3125-43e0-94e6-911a9236604e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuestUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7dbe0c09-edd6-411d-a2a4-e75b67a818ea"",
+                    ""path"": ""<WebGLGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuestUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15ae48be-09b8-4825-9cc7-397b0f4a6a07"",
+                    ""path"": ""<DualSenseGamepadHID>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuestUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -390,6 +432,50 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4085ed6d-17b5-431e-b3c0-3b83a34a6adc"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ChangeMiniMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8ce992df-3c94-4b4d-837c-8b6bf0a4a54e"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ChangeMiniMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""009134e6-88c6-4b12-95e3-7c760436deda"",
+                    ""path"": ""<WebGLGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""WebGL"",
+                    ""action"": ""ChangeMiniMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed2d34ab-a4f5-4602-b14e-fa147ff096a9"",
+                    ""path"": ""<DualSenseGamepadHID>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""ChangeMiniMap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1317,9 +1403,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_ChangeWeapon = m_Player.FindAction("ChangeWeapon", throwIfNotFound: true);
+        m_Player_QuestUI = m_Player.FindAction("QuestUI", throwIfNotFound: true);
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
+        m_Player_ChangeMiniMap = m_Player.FindAction("ChangeMiniMap", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1400,18 +1487,20 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_ChangeWeapon;
+    private readonly InputAction m_Player_QuestUI;
     private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_Cancel;
+    private readonly InputAction m_Player_ChangeMiniMap;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
         public PlayerActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @ChangeWeapon => m_Wrapper.m_Player_ChangeWeapon;
+        public InputAction @QuestUI => m_Wrapper.m_Player_QuestUI;
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
+        public InputAction @ChangeMiniMap => m_Wrapper.m_Player_ChangeMiniMap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1427,15 +1516,18 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @ChangeWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeWeapon;
-                @ChangeWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeWeapon;
-                @ChangeWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeWeapon;
+                @QuestUI.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuestUI;
+                @QuestUI.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuestUI;
+                @QuestUI.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuestUI;
                 @Action.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAction;
                 @Action.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAction;
                 @Action.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAction;
                 @Cancel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
+                @ChangeMiniMap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
+                @ChangeMiniMap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
+                @ChangeMiniMap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1446,15 +1538,18 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
-                @ChangeWeapon.started += instance.OnChangeWeapon;
-                @ChangeWeapon.performed += instance.OnChangeWeapon;
-                @ChangeWeapon.canceled += instance.OnChangeWeapon;
+                @QuestUI.started += instance.OnQuestUI;
+                @QuestUI.performed += instance.OnQuestUI;
+                @QuestUI.canceled += instance.OnQuestUI;
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @ChangeMiniMap.started += instance.OnChangeMiniMap;
+                @ChangeMiniMap.performed += instance.OnChangeMiniMap;
+                @ChangeMiniMap.canceled += instance.OnChangeMiniMap;
             }
         }
     }
@@ -1696,9 +1791,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnChangeWeapon(InputAction.CallbackContext context);
+        void OnQuestUI(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnChangeMiniMap(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

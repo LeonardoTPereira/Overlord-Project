@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Dialogues;
 using Game.Events;
 using Game.ExperimentControllers;
 using Game.GameManager;
@@ -20,6 +21,21 @@ namespace Game.LevelManager.DungeonLoader
         public int TotalTreasures { get; private set; }
         public static event StartMapEvent StartMapEventHandler;
         [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+
+        private void OnEnable()
+        {
+            TaggedDialogueHandler.MarkRoomOnMiniMapEventHandler += FindRoomAndMarkToVisit;
+        }
+
+        private void FindRoomAndMarkToVisit(object sender, MarkRoomOnMinimapEventArgs e)
+        {
+            roomBHVMap[e.RoomCoordinates].MarkToVisit();
+        }
+
+        private void OnDisable()
+        {
+            TaggedDialogueHandler.MarkRoomOnMiniMapEventHandler -= FindRoomAndMarkToVisit;
+        }
 
         public void LoadNewLevel(DungeonFileSo dungeonFileSo, QuestLineList currentQuestLineList)
         {

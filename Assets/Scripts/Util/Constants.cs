@@ -9,6 +9,8 @@ namespace Util
         public static readonly char SeparatorCharacter = Path.DirectorySeparatorChar;
 
         public static readonly Color[] ColorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
+        public static readonly Color VisitedColor = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
+        public static readonly Color MarkedColor = new Color(0.8433761f, 0.2772784f, 0.2320754f, 1.0f);
 
         public static float LogNormalization(float value, float minValue, float maxValue, float minNormalized, float maxNormalized)
         {
@@ -55,7 +57,7 @@ namespace Util
         #endregion
 
         #region Quest Weights
-        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow(x,2));
+        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow( (0.09f*x) ,2));
 
         public static readonly Func<int,int> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
 
@@ -66,6 +68,14 @@ namespace Util
         public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow(x,2);
 
         public static readonly Func<int,int> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
+
+        #endregion
+
+        #region Quest Config
+
+        public const int MaxEnemiesToKill  = 4;
+        public const int MaxItemsToGather  = 5;
+        public const int MaxRoomsToExplore = 30;
 
         #endregion
 

@@ -79,6 +79,9 @@ namespace Game.Quests
                 case QuestExploreRoomEventArgs exploreQuestArgs:
                     UpdateExploreQuest( exploreQuestArgs );
                     break;
+                case QuestReadEventArgs readQuestArgs:
+                    UpdateReadQuest( readQuestArgs );
+                    break;
             }
         }
         
@@ -194,6 +197,20 @@ namespace Game.Quests
                 return;
             }
             Debug.Log($"No Talk Quests With This Npc ({npcToTalk}) Available");
+        }
+        #endregion
+
+        #region Read
+        private void UpdateReadQuest(QuestReadEventArgs readQuestArgs)
+        {
+            var itemToRead = readQuestArgs.ReadableItem;
+            var questId = readQuestArgs.QuestId;
+            if (questLines.QuestLines.Any(questList =>
+                    questList.RemoveAvailableQuestWithId<ReadQuestSo, ItemSo>(itemToRead, questId)))
+            {
+                return;
+            }
+            Debug.Log($"No Read Quests With This item ({itemToRead}) Available");
         }
         #endregion
     }
