@@ -65,10 +65,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             IsCompleted = true;
         }
 
-        //TODO highlight the room in the Map UI
         public override void CreateQuestString()
         {
-            QuestText = $"$Go to the room highlighted in the map {SelectedRoomCoordinates}";
+            QuestText = "$Go to the room highlighted in the map";
         }
 
         public void SelectRoomCoordinates(List<DungeonRoomData> roomList)

@@ -1,6 +1,7 @@
 ﻿using MyBox;
 using UnityEditor;
 using UnityEngine;
+using Util;
 
 namespace Game.LevelManager.DungeonLoader
 {
@@ -21,11 +22,11 @@ namespace Game.LevelManager.DungeonLoader
                 {
                     if (x % 3 == 0 && y % 3 == 0)
                     {
-                        roomData[x, y] = new Tile(TileTypes.Block);
+                        roomData[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                     }
                     else
                     {
-                        roomData[x, y] = new Tile(TileTypes.Floor);
+                        roomData[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                     }
                 }
             }
@@ -51,20 +52,20 @@ namespace Game.LevelManager.DungeonLoader
                     {
                         if (1 < y && y < (cols / 2 - 1))
                         {
-                            roomData[x, y] = new Tile(TileTypes.Block);
+                            roomData[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                         }
                         else if (y < cols - 2 && y > (cols / 2 + 1))
                         {
-                            roomData[x, y] = new Tile(TileTypes.Block);
+                            roomData[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                         }
                         else
                         {
-                            roomData[x, y] = new Tile(TileTypes.Floor);
+                            roomData[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                         }
                     }
                     else
                     {
-                        roomData[x, y] = new Tile(TileTypes.Floor);
+                        roomData[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                     }
                 }
             }
