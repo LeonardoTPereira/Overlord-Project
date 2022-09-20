@@ -17,6 +17,8 @@ namespace Game.EnemyManager
         [field: SerializeField] private GameObject Hands { get; set; }
         [field: SerializeField] private float WaitForStartTimer { get; set; }
 
+        private Coroutine _attackRoutine;
+
         protected override void Awake()
         {
             base.Awake();
@@ -26,13 +28,14 @@ namespace Game.EnemyManager
         {
             base.Start();
             HeadObject.GetComponent<SpriteRenderer>().color = GetColorBasedOnMovement();
-            StartCoroutine(BeginAttackRoutine());
+            _attackRoutine = StartCoroutine(BeginAttackRoutine());
         }
 
         protected override void StartDeath()
         {
             base.StartDeath();
             Hands.SetActive(false);
+            StopCoroutine(_attackRoutine);
         }
 
         private IEnumerator BeginAttackRoutine()

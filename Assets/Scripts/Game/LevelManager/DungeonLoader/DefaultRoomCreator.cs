@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelManager.DungeonLoader
@@ -7,149 +8,180 @@ namespace Game.LevelManager.DungeonLoader
     {
         public static void CreateRoomOfType(DungeonRoom room, int roomType)
         {
+            var dimensions = room.Dimensions;
+            var roomData = ScriptableObject.CreateInstance<RoomData>();
+            roomData.Init(dimensions.Width, dimensions.Height);
             var roomTypeEnum = (Enums.RoomPatterns) roomType;
+            CreateEmptyBorders(roomData, dimensions);
             switch (roomTypeEnum)
             {
                 case Enums.RoomPatterns.Empty:
                 {
-                    CreateEmptyRoom(room);
+                    CreateEmptyRoom(roomData, dimensions);
                     break;
                 }
                 case Enums.RoomPatterns.CheckerBoard:
                 {
-                    CreateCheckerBoardRoom(room);
+                    CreateCheckerBoardRoom(roomData, dimensions);
                     break;
                 }
                 case Enums.RoomPatterns.HorizontalLines:
                 {
-                    CreateHorizontalLinesRoom(room);
+                    CreateHorizontalLinesRoom(roomData, dimensions);
                     break;
                 }
                 case Enums.RoomPatterns.VerticalLines:
                 {
-                    CreateVerticalLinesRoom(room);
+                    CreateVerticalLinesRoom(roomData, dimensions);
                     break;
                 }
                 case Enums.RoomPatterns.Cross:
                 {
-                    CreateCrossRoom(room);
+                    CreateCrossRoom(roomData, dimensions);
                     break;
                 }
                 default:
-                    throw new ArgumentException($"$There is no such room type (Value = {roomType} )in the RoomTypes Enum");
+                    throw new ArgumentException(
+                        $"$There is no such room type (Value = {roomType} )in the RoomTypes Enum");
+            }
+
+            room.Tiles = roomData;
+        }
+
+        private static void CreateEmptyBorders(RoomData roomData, Dimensions dimensions)
+        {
+            for (var x = 0; x < dimensions.Width; x++)
+            {
+
+                roomData[x, 0] = new Tile(Enums.TileTypes.Floor, new Vector2(x, 0));
+                roomData[x, dimensions.Height-1] = new Tile(Enums.TileTypes.Floor, new Vector2(x, dimensions.Height-1));
+            }
+            for (var y = 0; y<dimensions.Height; y++)
+            {
+                roomData[0, y] = new Tile(Enums.TileTypes.Floor, new Vector2(0, y));
+                roomData[dimensions.Width-1, y] = new Tile(Enums.TileTypes.Floor, new Vector2(dimensions.Width-1, y));
             }
         }
 
-        private static void CreateEmptyRoom(DungeonRoom room)
+        private static void CreateEmptyRoom(RoomData room, Dimensions dimensions)
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            for (var x = 1; x < dimensions.Width - 1; x++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var y = 1; y < dimensions.Height - 1; y++)
                 {
-                    room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                    room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                 }
             }
         }
         
-        private static void CreateCheckerBoardRoom(DungeonRoom room)
+        private static void CreateCheckerBoardRoom(RoomData room, Dimensions dimensions)
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            for (var x = 1; x < dimensions.Width - 1; x++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var y = 1; y < dimensions.Height - 1; y++)
                 {
                     if (x % 3 == 0 && y % 3 == 0)
                     {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                        room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+
                     }
                     else
                     {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                        room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                     }
                 }
             }
         }
         
-        private static void CreateVerticalLinesRoom(DungeonRoom room)
+        private static void CreateVerticalLinesRoom(RoomData room, Dimensions dimensions)
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            for (var x = 1; x < dimensions.Width - 1; x++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var y = 1; y < dimensions.Height - 1; y++)
                 {
                     if (x % 3 == 0)
                     {
-                        if (1 < y && y < (room.Dimensions.Height / 2 - 1))
+                        if (1 < y && y < (dimensions.Height / 2 - 1))
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                            room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                         }
-                        else if (y < room.Dimensions.Height - 2 && y > (room.Dimensions.Height / 2 + 1))
+                        else if (y < dimensions.Height - 2 && y > (dimensions.Height / 2 + 1))
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                            room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                         }
                         else
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                            room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                         }
                     }
                     else
                     {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                        room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                     }
                 }
             }
         }
         
-        private static void CreateHorizontalLinesRoom(DungeonRoom room)
+        private static void CreateHorizontalLinesRoom(RoomData room, Dimensions dimensions)
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            for (var x = 1; x < dimensions.Width - 1; x++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var y = 1; y < dimensions.Height - 1; y++)
                 {
                     if (y % 3 == 0)
                     {
-                        if (1 < x && x < (room.Dimensions.Width / 2 - 1))
+                        if (1 < x && x < (dimensions.Width / 2 - 1))
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                            room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                         }
-                        else if (x < room.Dimensions.Width - 2 && x > (room.Dimensions.Width / 2))
+                        else if (x < dimensions.Width - 2 && x > (dimensions.Width / 2))
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                            room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
                         }
                         else
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                            room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                         }
                     }
                     else
                     {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                        room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                     }
                 }
             }
         }
         
-        private static void CreateCrossRoom(DungeonRoom room)
+        private static void CreateCrossRoom(RoomData room, Dimensions dimensions)
         {
-            for (var x = 1; x < room.Dimensions.Width - 1; x++)
+            for (var x = 1; x < dimensions.Width - 1; x++)
             {
-                for (var y = 1; y < room.Dimensions.Height - 1; y++)
+                for (var y = 1; y < dimensions.Height - 1; y++)
                 {
-                    if (x > (room.Dimensions.Width/2 - 2) && x < (room.Dimensions.Width / 2 + 2))
+                    if (x > (dimensions.Width/2 - 2) && x < (dimensions.Width / 2 + 2))
                     {
-                        if (y > 1 && y < (room.Dimensions.Height - 2))
+                        if (y > 1 && y < (dimensions.Height - 2))
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                            room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                        }
+                        else
+                        {
+                            room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                         }
                     }
-                    else if (y > room.Dimensions.Height / 2 - 2 && y < (room.Dimensions.Height / 2 + 2))
+                    else if (y > dimensions.Height / 2 - 2 && y < (dimensions.Height / 2 + 2))
                     {
-                        if (x > 1 && x < (room.Dimensions.Width - 2))
+                        if (x > 1 && x < (dimensions.Width - 2))
                         {
-                            room.Tiles[x, y] = (int) Enums.TileTypes.Block;
+                            room[x, y] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                        }
+                        else
+                        {
+                            room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                         }
                     }
                     else
                     {
-                        room.Tiles[x, y] = (int) Enums.TileTypes.Floor;
+                        room[x, y] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
                     }
                 }
             }

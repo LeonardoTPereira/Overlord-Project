@@ -147,6 +147,7 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
+                Debug.Log("Is Leaf room and Leaf");
             }
             else if (roomType == Common.RoomType.LOCKED)
             {
@@ -155,6 +156,7 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
+                Debug.Log("Is Locked room and Leaf");
             }
             //If the room has a positive value, it holds a key.
             //Save the key index so we know what key it is
@@ -167,6 +169,7 @@ namespace Game.LevelGenerator
                     roomType
                 };
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
+                Debug.Log("Is Key room and Leaf");
             }
             //If the cell was none of the above, it must be an empty room
             else
@@ -174,6 +177,7 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Type = Constants.RoomTypeString.Normal;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
+                Debug.Log("Is Normal room and Leaf");
             }
         }
 

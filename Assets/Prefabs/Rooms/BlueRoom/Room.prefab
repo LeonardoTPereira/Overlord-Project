@@ -1223,6 +1223,7 @@ MonoBehaviour:
         isExpanded: 0
         _keyValues: []
         _keys: []
+        _values: []
     npcs: []
     enemiesByType:
       enemiesByType:
@@ -1250,6 +1251,7 @@ MonoBehaviour:
         isExpanded: 0
         _keyValues: []
         _keys: []
+        _values: []
     totalEnemies: 0
     <HasItemPreference>k__BackingField: 0
     <HasNpcPreference>k__BackingField: 0
@@ -1283,15 +1285,14 @@ MonoBehaviour:
     isExpanded: 0
     _keyValues: []
     _keys: []
+    _values: []
   doorNorth: {fileID: 114081829205008226}
   doorSouth: {fileID: 114023979573330110}
   doorEast: {fileID: 114123737783067614}
   doorWest: {fileID: 114406600773019966}
-  keyPrefab: {fileID: 114071332633170896, guid: ced0218549bee9d46b47102a1253d89a,
-    type: 3}
-  triPrefab: {fileID: 114081354997558450, guid: 5d0b89090a7988a40b83856f0ca97fd9,
-    type: 3}
-  treasurePrefab: {fileID: 3809042944178231462, guid: 8077682c221f2e64fbc7d07b99c1a5a8,
+  keyPrefab: {fileID: 1063005967129416, guid: ced0218549bee9d46b47102a1253d89a, type: 3}
+  triPrefab: {fileID: 1063005967129416, guid: 5d0b89090a7988a40b83856f0ca97fd9, type: 3}
+  treasurePrefab: {fileID: 6062770460158601627, guid: 8077682c221f2e64fbc7d07b99c1a5a8,
     type: 3}
   npcPrefabs:
   - {fileID: 8660505651422530647, guid: c17eb1ae432cb65449e7e4101eacb2a4, type: 3}
