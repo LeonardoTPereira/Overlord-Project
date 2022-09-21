@@ -1,4 +1,5 @@
 ﻿using Game.Events;
+using Game.LevelSelection;
 using Game.NarrativeGenerator;
 using MyBox;
 using ScriptableObjects;
@@ -13,6 +14,8 @@ namespace Game.MenuManager
         [SerializeField] private GameObject previousPanel;
         [SerializeField] private Button button;
         [SerializeField] private SceneReference levelToLoad;
+        [field: SerializeField] public SelectedLevels Selected { get; set; }
+
         [field: SerializeField] public ProjectileTypeSO chosenProjectile { get; set; }
 
         private bool isProjectileChosen;
@@ -54,7 +57,9 @@ namespace Game.MenuManager
 
         public void GoToNext()
         {
-            SceneManager.LoadScene(levelToLoad.SceneName);
+            Selected.SelectLevel(0);
+            SceneManager.LoadScene("LevelWithEnemies");
+            //SceneManager.LoadScene(levelToLoad.SceneName);
             gameObject.SetActive(false);
         }
 

@@ -12,7 +12,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         [SerializeField, Range(1, 100)] private int population = 25;
         [SerializeField, Range(0, 100)] private int mutation = 10;
         [SerializeField, Range(1, 10)] private int competitors = 2;
-        [SerializeField, Range(1, 40)] private int minimumElite = 8;
+        [SerializeField, Range(1, 200)] private int minimumElite = 8;
         [SerializeField, Range(0.0f, 10.0f)] private float acceptableFitness = 0.75f;
         [SerializeField] private FitnessParameters fitnessParameters;
         
