@@ -136,11 +136,11 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> roomList)
+        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> dungeonParts)
         {
             foreach (var questLine in QuestLines)
             {
-                questLine.ConvertDataForCurrentDungeon(roomList);
+                questLine.ConvertDataForCurrentDungeon(dungeonParts);
             }
         }
     }

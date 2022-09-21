@@ -27,8 +27,7 @@ namespace Game.NarrativeGenerator
             questLineList.Init();            
             CreateQuestLineForEachNpc(questLineList);
 
-            int i = 0;
-            Debug.Log("add necessary quests");
+            var i = 0;
             while ( _wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 i++;
@@ -65,7 +64,6 @@ namespace Game.NarrativeGenerator
                 questLine.PopulateQuestLine(_generatorSettings);
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
-                Debug.Log(questLine.Quests.Count);
             }
             else
             {

@@ -136,19 +136,18 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> roomList)
+        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> dungeonParts)
         {
             foreach (var quest in Quests)
             {
                 switch (quest)
                 {
                     case ExploreQuestSo exploreQuest:
-                        var roomCount = roomList.Count(room => room.Type != Constants.RoomTypeString.Corridor);
-                        Debug.LogWarning("Total Rooms: "+roomCount);
+                        var roomCount = dungeonParts.Count(room => room.Type != Constants.RoomTypeString.Corridor);
                         exploreQuest.ChangeRoomsPercentageToValue(roomCount);
                         break;
                     case GotoQuestSo gotoQuest:
-                        gotoQuest.SelectRoomCoordinates(roomList);
+                        gotoQuest.SelectRoomCoordinates(dungeonParts);
                         break;
                 }
                 quest.CreateQuestString();

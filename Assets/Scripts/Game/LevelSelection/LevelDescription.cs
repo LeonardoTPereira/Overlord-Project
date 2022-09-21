@@ -25,7 +25,7 @@ namespace Game.LevelSelection
         private void CreateDungeonDescription(DungeonFileSo dungeon)
         {
             DungeonDescription = "";
-            DungeonDescription += "Rooms: " + dungeon.Rooms.Count;
+            DungeonDescription += "Rooms: " + dungeon.Parts.Count;
             DungeonDescription += "\nFitness: " + dungeon.FitnessFromEa.Result;
             DungeonDescription += "\nExploration: " + dungeon.ExplorationCoefficient;
             DungeonDescription += "\nLeniency: " + dungeon.LeniencyCoefficient;

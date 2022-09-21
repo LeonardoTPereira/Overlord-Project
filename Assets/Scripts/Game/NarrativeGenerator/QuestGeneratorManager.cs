@@ -94,16 +94,13 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateNarrative(PlayerProfile playerProfile)
         {
-            Debug.Log("Creating Quest Line for Profile");
             SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestLine(playerProfile);
-            Debug.Log("Creating Contents for Quest Line");
             await CreateContentsForQuestLine();
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
                 SaveSOs(playerProfile.PlayerProfileEnum.ToString());
             }
-            Debug.Log("Initializing Quest Content");
             SelectedLevels.Init(questLines);
             ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));
@@ -111,11 +108,9 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateContentsForQuestLine()
         {
-            Debug.Log("Creating Enemies");
             questLines.EnemySos = _enemyGeneratorManager.EvolveEnemies(questLines.EnemyParametersForQuestLines.Difficulty);
             questLines.NpcSos = CurrentGeneratorSettings.PlaceholderNpcs;
             questLines.ItemSos = new List<ItemSo>(CurrentGeneratorSettings.PlaceholderItems.Items);
-            Debug.Log("Creating Dungeons");
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
         }
 
@@ -165,6 +160,9 @@ namespace Game.NarrativeGenerator
             //questLines.NpcParametersForQuestLines = new QuestNpcsParameters();
             questLines.ItemParametersForQuestLines = new QuestItemsParameters();
             questLines.CalculateDifficultyFromProfile(playerProfile);
+#if UNITY_EDITOR
+            Debug.Log("Profile: " + playerProfile);
+#endif
             questLines.CalculateMonsterFromQuests();
             questLines.CalculateDungeonParametersFromQuests(playerProfile.CreativityPreference);
             //questLines.CalculateNpcsFromQuests();

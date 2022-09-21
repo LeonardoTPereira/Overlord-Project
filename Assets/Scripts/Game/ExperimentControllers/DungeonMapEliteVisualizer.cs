@@ -76,7 +76,7 @@ namespace Game.ExperimentControllers
         {
             var min = new Coordinates(0, 0);
             var max = new Coordinates(0, 0);
-            foreach (var room in generatedDungeon.Rooms)
+            foreach (var room in generatedDungeon.Parts)
             {
                 var x = room.Coordinates.X;
                 var y = room.Coordinates.Y;
@@ -105,7 +105,7 @@ namespace Game.ExperimentControllers
 
         private static int GetMaxEnemies(IEnumerable<DungeonFileSo> generatedDungeons)
         {
-            return (from dungeon in generatedDungeons from room in dungeon.Rooms select room.TotalEnemies).Prepend(0).Max();
+            return (from dungeon in generatedDungeons from room in dungeon.Parts select room.TotalEnemies).Prepend(0).Max();
         }
 #if UNITY_EDITOR
         public void PrintCurrentDungeon()

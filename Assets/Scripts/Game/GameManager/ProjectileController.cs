@@ -126,13 +126,13 @@ namespace Game.GameManager
             Enums.PlayerProjectileEnum projEnum = ProjectileSo.projectileBehaviorIndex;
             switch (projEnum)
             {
-                case Enums.PlayerProjectileEnum.STRAIGHT:
+                case Enums.PlayerProjectileEnum.Straight:
                     StraightShot(facingDirection);
                     break;
-                case Enums.PlayerProjectileEnum.SIN:
+                case Enums.PlayerProjectileEnum.Sin:
                     SinShot(facingDirection);
                     break;
-                case Enums.PlayerProjectileEnum.TRIPLE:
+                case Enums.PlayerProjectileEnum.Triple:
                     TripleShot(facingDirection);
                     break;
                 default:

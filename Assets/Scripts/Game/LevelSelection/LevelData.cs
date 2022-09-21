@@ -19,7 +19,7 @@ namespace Game.LevelSelection
             QuestLines = CreateInstance<QuestLineList>();
             QuestLines.Init(questLines);
             Dungeon = dungeon;
-            QuestLines.ConvertDataForCurrentDungeon(Dungeon.Rooms);
+            QuestLines.ConvertDataForCurrentDungeon(Dungeon.Parts);
             _completed = false;
             _surrendered = false;
         }

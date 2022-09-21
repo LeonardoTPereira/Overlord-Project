@@ -27,7 +27,6 @@ namespace Game.LevelGenerator
         public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
         {
             _parameters = eventArgs.Parameters;
-            Debug.Log("Start Evolving Dungeons");
             // Start the generation process
             _generator = new LevelGenerator(_parameters, _fitnessPlot);
             await _generator.Evolve();
@@ -38,7 +37,6 @@ namespace Game.LevelGenerator
         {
 
             // Write all the generated dungeons in ScriptableObjects
-            Debug.Log("Finished Creating Dungeons");
             var solutions = _generator.Solution.GetBestEliteForEachBiome();
             List<DungeonFileSo> generatedDungeons = new ();
             var totalEnemies = _parameters.FitnessParameters.DesiredEnemies;

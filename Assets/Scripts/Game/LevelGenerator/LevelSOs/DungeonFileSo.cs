@@ -16,7 +16,7 @@ namespace Game.LevelGenerator.LevelSOs
         
         [field: SerializeField] public Dimensions DungeonSizes { get; set; }
 
-        [field: SerializeField] public List<DungeonRoomData> Rooms { get; set; }
+        [field: SerializeField] public List<DungeonRoomData> Parts { get; set; }
         [field: SerializeField] public Fitness FitnessFromEa { get; set; }
         public float ExplorationCoefficient { get; set; }
         public float LeniencyCoefficient { get; set; }
@@ -34,15 +34,15 @@ namespace Game.LevelGenerator.LevelSOs
 
         public DungeonPart GetNextPart()
         {
-            if (_currentIndex < Rooms.Count)
-                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Rooms[_currentIndex++]);
+            if (_currentIndex < Parts.Count)
+                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Parts[_currentIndex++]);
             return null;
         }
 
         public void Init(Dimensions dimensions, List<DungeonRoomData> rooms, Fitness fitness, float exploration, float leniency, string biome)
         {
             DungeonSizes = dimensions;
-            Rooms = rooms;
+            Parts = rooms;
             FitnessFromEa = fitness;
             ExplorationCoefficient = exploration;
             LeniencyCoefficient = leniency;

@@ -40,35 +40,24 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 
         public void CalculateDifficultyFromProfile(PlayerProfile playerProfile)
         {
-            if (playerProfile.PlayerProfileEnum == PlayerProfile.PlayerProfileCategory.Mastery)
+            switch (playerProfile.MasteryPreference)
             {
-                Difficulty = DifficultyLevels.Hard;
+                case < 0.15f:
+                    Difficulty = DifficultyLevels.VeryEasy;
+                    break;
+                case < 0.35f:
+                    Difficulty = DifficultyLevels.Easy;
+                    break;
+                case < 0.65f:
+                    Difficulty = DifficultyLevels.Medium;
+                    break;
+                case < 0.85f:
+                    Difficulty = DifficultyLevels.Hard;
+                    break;
+                default:
+                    Difficulty = DifficultyLevels.VeryHard;
+                    break;
             }
-            else if (MasteryIsLessPreferred(playerProfile))
-            {
-                Difficulty = DifficultyLevels.Easy;
-            }
-            else
-            {
-                Difficulty = DifficultyLevels.Medium;
-            }
-        }
-
-        private bool MasteryIsLessPreferred(PlayerProfile playerProfile)
-        {
-            if (playerProfile.MasteryPreference > playerProfile.AchievementPreference)
-            {
-                return false;
-            }
-            if (playerProfile.MasteryPreference > playerProfile.CreativityPreference)
-            {
-                return false;
-            }
-            if (playerProfile.MasteryPreference > playerProfile.ImmersionPreference)
-            {
-                return false;
-            }
-            return true;
         }
 
         public void CalculateMonsterFromQuests(IEnumerable<QuestLine> questLines)

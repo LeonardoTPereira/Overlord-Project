@@ -37,7 +37,7 @@ namespace Game.LevelGenerator.LevelSOs
             }
             _objectsInScene.Clear();
             Camera.main.transform.position = center;
-            foreach (var room in dungeon.Rooms)
+            foreach (var room in dungeon.Parts)
             {
                 var position = new Vector3(room.Coordinates.X, room.Coordinates.Y, 0);
                 if (room.Type == Constants.RoomTypeString.Corridor || room.Type == Constants.RoomTypeString.Lock)
@@ -116,7 +116,7 @@ namespace Game.LevelGenerator.LevelSOs
         
         public void DrawDungeonAsGizmos(DungeonFileSo dungeon)
         {
-            foreach (var room in dungeon.Rooms)
+            foreach (var room in dungeon.Parts)
             {
                 var size = new Vector3(3, 3, 0);
                 // Draw a yellow sphere at the transform's position

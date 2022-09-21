@@ -75,7 +75,7 @@ namespace Game.LevelGenerator
 
         private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSo, Dungeon dun, int[,] map)
         {
-            dungeonFileSo.Rooms = new List<DungeonRoomData>();
+            dungeonFileSo.Parts = new List<DungeonRoomData>();
             //Now we print it/save to a file/whatever
             for (var i = 0; i < dun.DungeonDimensions.Width * 2; ++i)
             {
@@ -105,7 +105,7 @@ namespace Game.LevelGenerator
 
                     if (roomDataDataInFile != null)
                     {
-                        dungeonFileSo.Rooms.Add(roomDataDataInFile);
+                        dungeonFileSo.Parts.Add(roomDataDataInFile);
                     }
                 }
             }
@@ -147,7 +147,6 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Leaf room and Leaf");
             }
             else if (roomType == Common.RoomType.LOCKED)
             {
@@ -156,7 +155,6 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Locked room and Leaf");
             }
             //If the room has a positive value, it holds a key.
             //Save the key index so we know what key it is
@@ -169,7 +167,6 @@ namespace Game.LevelGenerator
                     roomType
                 };
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Key room and Leaf");
             }
             //If the cell was none of the above, it must be an empty room
             else
@@ -177,7 +174,6 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Type = Constants.RoomTypeString.Normal;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Normal room and Leaf");
             }
         }
 

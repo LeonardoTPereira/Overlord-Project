@@ -52,24 +52,24 @@ namespace Game.Maestro
             return hasMeleeOrRanged && !hasHealer && selected.TryAddHealer(ref enemies);
         }
 
-        public static bool IsBadEnemy(EnemySO enemy)
+        private static bool IsBadEnemy(EnemySO enemy)
         {
-            Enums.MovementEnum movement = enemy.movement.enemyMovementIndex;
+            var movement = enemy.movement.enemyMovementIndex;
             // All melees that cannot move are bad enemies
-            bool noMovement = movement == Enums.MovementEnum.None;
-            bool a = enemy.weapon.IsMelee() && noMovement;
+            var noMovement = movement == Enums.MovementEnum.None;
+            var a = enemy.weapon.IsMelee() && noMovement;
             // The melees with swords that flee from the player are bad enemies
-            bool fleeMovement = movement == Enums.MovementEnum.Flee;
-            bool flee1dMovement = movement == Enums.MovementEnum.Flee1D;
-            bool b = enemy.weapon.IsSword() && (fleeMovement || flee1dMovement);
+            var fleeMovement = movement == Enums.MovementEnum.Flee;
+            var flee1dMovement = movement == Enums.MovementEnum.Flee1D;
+            var b = enemy.weapon.IsSword() && (fleeMovement || flee1dMovement);
             return a || b;
         }
 
         /// Filter a list of enemies by removing bad enemies.
         public static List<EnemySO> FilterEnemies(List<EnemySO> enemies)
         {
-            List<EnemySO> selected = new List<EnemySO>();
-            foreach (EnemySO enemy in enemies)
+            var selected = new List<EnemySO>();
+            foreach (var enemy in enemies)
             {
                 if (!IsBadEnemy(enemy))
                 {
