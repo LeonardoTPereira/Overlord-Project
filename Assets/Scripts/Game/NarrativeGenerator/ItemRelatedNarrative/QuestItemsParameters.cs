@@ -66,10 +66,19 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         
         private void AddImmersionItems(ImmersionQuestSo quest)
         {
-            if (quest is not GiveQuestSo giveQuestSo) return;
-            ItemsByType.ItemAmountBySo.AddItemWithId(giveQuestSo.GiveQuestData.ItemToGive, giveQuestSo.Id);
-            TotalItems++;
-            TotalItemValue += giveQuestSo.GiveQuestData.ItemToGive.Value;
+            switch (quest)
+            {
+                case GiveQuestSo giveQuestSo:
+                    ItemsByType.ItemAmountBySo.AddItemWithId(giveQuestSo.GiveQuestData.ItemToGive, giveQuestSo.Id);
+                    TotalItems++;
+                    TotalItemValue += giveQuestSo.GiveQuestData.ItemToGive.Value;
+                    break;
+                case ReadQuestSo readQuestSo:
+                    ItemsByType.ItemAmountBySo.AddItemWithId(readQuestSo.ItemToRead, readQuestSo.Id);
+                    TotalItems++;
+                    TotalItemValue += readQuestSo.ItemToRead.Value;
+                    break;
+            }
         }
 
         public void DebugPrint()
