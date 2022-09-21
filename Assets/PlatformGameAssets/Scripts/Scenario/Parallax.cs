@@ -7,16 +7,16 @@ namespace PlatformGame.Scenario
     public class Parallax : MonoBehaviour
     {
         [SerializeField] private float _backgroundSlotSize;
-        private float _length, _startPos;
         [SerializeField] private GameObject _camera;
         [SerializeField] private float _parallaxFactor;
+        private float _startPos;
 
         void Start()
         {
             _startPos = this.transform.position.x;
-            _length = GetComponent<SpriteRenderer>().bounds.size.x;
-            Debug.Log(_length);
-            _length = _backgroundSlotSize;
+            //_backgroundSlotSize = GetComponent<SpriteRenderer>().bounds.size.x;
+            Debug.Log(_backgroundSlotSize);
+            _backgroundSlotSize = _backgroundSlotSize;
         }
 
         void Update()
@@ -27,10 +27,10 @@ namespace PlatformGame.Scenario
             transform.position = new Vector3(_startPos + distance, transform.position.y, transform.position.z);
 
             // Repositioning of the background sprites
-            if (temp > _startPos + _length)
-                _startPos += _length;
-            else if (temp < _startPos - _length)
-                _startPos -= _length;
+            if (temp > _startPos + _backgroundSlotSize)
+                _startPos += _backgroundSlotSize;
+            else if (temp < _startPos - _backgroundSlotSize)
+                _startPos -= _backgroundSlotSize;
         }
     }
 }
