@@ -61,7 +61,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
-            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(Constants.MaxRoomsToExplore) + 1;
+            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(Constants.MaxRoomsToExplore - Constants.MinRoomsToExplore) + Constants.MinRoomsToExplore;
             exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
             
             if (questSos.Count > 0)

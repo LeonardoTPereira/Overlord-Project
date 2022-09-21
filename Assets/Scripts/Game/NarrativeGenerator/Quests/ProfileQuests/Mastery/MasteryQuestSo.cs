@@ -64,7 +64,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var selectedEnemyTypes = new EnemiesByType ();
             var questId = killQuest.GetInstanceID();
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next( Constants.MaxEnemiesToKill ) + 1;
+            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next( Constants.MaxEnemiesToKill - Constants.MinEnemiesToKill) + Constants.MinEnemiesToKill;
             for (var i = 0; i < nEnemiesToKill; i++)
             {
                 selectedEnemyTypes.EnemiesByTypeDictionary.AddItemWithId(selectedEnemyType, questId);

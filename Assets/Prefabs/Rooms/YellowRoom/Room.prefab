@@ -1293,6 +1293,11 @@ MonoBehaviour:
   triPrefab: {fileID: 1063005967129416, guid: 5d0b89090a7988a40b83856f0ca97fd9, type: 3}
   treasurePrefab: {fileID: 6062770460158601627, guid: 8077682c221f2e64fbc7d07b99c1a5a8,
     type: 3}
+  readableItemPrefabs:
+  - {fileID: 9194557456358039778, guid: 4fdf592e3e5bd1245b12c60460c521c5, type: 3}
+  - {fileID: 9194557456358039778, guid: 5869aaeba87722b46b358f7877aff32b, type: 3}
+  - {fileID: 9194557456358039778, guid: 1a67725dfa8fd454aa21ee525b753436, type: 3}
+  - {fileID: 9194557456358039778, guid: 3dd3fd18ea0bf3a43ac996cfeb26eba1, type: 3}
   npcPrefabs:
   - {fileID: 8660505651422530647, guid: c17eb1ae432cb65449e7e4101eacb2a4, type: 3}
   - {fileID: 8660505651422530647, guid: 4bd60b72951525c409a275bfa0e02c9b, type: 3}

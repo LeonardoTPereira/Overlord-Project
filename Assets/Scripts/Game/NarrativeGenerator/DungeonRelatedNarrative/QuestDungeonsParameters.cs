@@ -51,10 +51,11 @@ namespace Game.NarrativeGenerator
             var sizeCoefficient = CalculateSize(totalQuests, explorationPreference);
             Size = ParametersDungeon.GetSizeFromEnum(sizeCoefficient);
             LinearityEnum = ParametersDungeon.GetLinearityFromEnum(linearityCoefficient);
-            NKeys = ParametersDungeon.GetNKeys(_creativityQuests, Size);
+            NKeys = ParametersDungeon.GetNKeys(_creativityQuests/totalQuests, Size);
             #if UNITY_EDITOR
                 Debug.Log("Dungeon Parameters: "+ ToString() 
-                                                + $"\nCoefficients: Linearity={linearityCoefficient}, Size={sizeCoefficient}");
+                                                + $"\nCoefficients: Total Quests={totalQuests}, Linearity={linearityCoefficient}, Size={sizeCoefficient}" +
+                                                $", Exploration: {explorationPreference}");
             #endif
         }
 
@@ -66,7 +67,7 @@ namespace Game.NarrativeGenerator
         private int CalculateSize(int totalQuests, float explorationPreference)
         {
             var questsThatNeedSpace = totalQuests - _immersionQuests;
-            return (int)(questsThatNeedSpace * (1f+explorationPreference/2f));
+            return (int)(questsThatNeedSpace/2f * (1f+explorationPreference/2f));
         }
 
         private float CalculateLinearity(int totalQuests)

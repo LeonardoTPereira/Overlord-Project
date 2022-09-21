@@ -125,7 +125,7 @@ namespace Game.NarrativeGenerator.Quests
 
         public void CalculateDungeonParametersFromQuests(float explorationPreference)
         {
-            DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines, explorationPreference);
+            DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines, explorationPreference/100f);
         }
 
         public void OpenStartingQuests()

@@ -364,10 +364,10 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceReadableItem(ItemSo item, int questId)
         {
             GetAvailablePosition();
-            var readableItem = Instantiate(readableItemPrefabs[Random.Range(0,readableItemPrefabs.Length)], transform).GetComponent<QuestDialogueInteraction>();
-            readableItem.DialogueObj = item as ReadableItemSo;
-            readableItem.QuestId = questId;
-            readableItem.gameObject.transform.position = _availablePosition;
+            var readableItem = PlaceObjectInRoom(readableItemPrefabs[Random.Range(0, readableItemPrefabs.Length)]);
+            var readableItemController = readableItem.GetComponent<QuestDialogueInteraction>();
+            readableItemController.DialogueObj = item as ReadableItemSo;
+            readableItemController.QuestId = questId;
         }
 
         private void PlaceTreasureItem(ItemSo item, int questId)
