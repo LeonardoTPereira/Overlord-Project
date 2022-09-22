@@ -31,4 +31,13 @@ MonoBehaviour:
     type: 2}
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
+  <EnemiesToKill>k__BackingField:
+    Min: 1
+    Max: 5
+  <ItemsToGather>k__BackingField:
+    Min: 1
+    Max: 5
+  <RoomsToExplore>k__BackingField:
+    Min: 50
+    Max: 100
   <RoomSize>k__BackingField: {x: 30, y: 18}

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.NPCs;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -19,6 +20,9 @@ namespace Game.ExperimentControllers
         [field: SerializeField] public TreasureRuntimeSetSo Tools { get; set; }
         [field: SerializeField] public TreasureRuntimeSetSo ReadableItems { get; set; }
         [field: SerializeField] public WeaponTypeRuntimeSetSO PossibleWeapons { get; set; }
+        [field: MinMaxRange(1, 10), SerializeField] public RangedInt EnemiesToKill { get; set; }
+        [field: MinMaxRange(1, 10), SerializeField] public RangedInt ItemsToGather { get; set; }
+        [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
         
         [field: SerializeField] public Vector2 RoomSize { get; set; }
     }

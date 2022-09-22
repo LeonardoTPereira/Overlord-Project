@@ -37,7 +37,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.GatherQuest:
-                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones);
+                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones, generatorSettings.ItemsToGather);
                 case Constants.ExchangeQuest:
                     return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools);
                 default:
@@ -63,13 +63,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
+        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems, RangedInt itemRange)
         {
             var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
             var questId = getItemQuest.GetInstanceID();
             var selectedItem = possibleItems.GetRandomItem();
-            var nItemsToCollect = RandomSingleton.GetInstance().Random.Next(Constants.MaxItemsToGather - Constants.MinItemsToGather) + Constants.MinItemsToGather;
+            var nItemsToCollect = RandomSingleton.GetInstance().Random.Next(itemRange.Max - itemRange.Min) + itemRange.Min;
             for (var i = 0; i < nItemsToCollect; i++)
             {
                 selectedItems.AddItemWithId(selectedItem, questId);

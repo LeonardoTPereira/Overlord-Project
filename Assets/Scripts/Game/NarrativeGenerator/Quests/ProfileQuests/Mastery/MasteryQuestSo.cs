@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using MyBox;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -32,7 +33,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.KillQuest:
-                    return CreateAndSaveKillQuestSo(questSos, generatorSettings.PossibleWeapons);
+                    return CreateAndSaveKillQuestSo(questSos, generatorSettings.PossibleWeapons, generatorSettings.EnemiesToKill);
                 case Constants.DamageQuest:
                     return CreateAndSaveDamageQuestSo(questSos, generatorSettings.PossibleWeapons);
                 default:
@@ -58,13 +59,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes, RangedInt enemiesToKill)
         {
             var killQuest = CreateInstance<KillQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
             var questId = killQuest.GetInstanceID();
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next( Constants.MaxEnemiesToKill - Constants.MinEnemiesToKill) + Constants.MinEnemiesToKill;
+            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next( enemiesToKill.Max - enemiesToKill.Min) + enemiesToKill.Min;
             for (var i = 0; i < nEnemiesToKill; i++)
             {
                 selectedEnemyTypes.EnemiesByTypeDictionary.AddItemWithId(selectedEnemyType, questId);

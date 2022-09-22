@@ -57,7 +57,7 @@ namespace Util
         #endregion
 
         #region Quest Weights
-        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow( (0.2f*x) ,2));
+        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow( (0.25f*x) ,2));
 
         public static readonly Func<int,int> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
 
@@ -68,17 +68,6 @@ namespace Util
         public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow(x,2);
 
         public static readonly Func<int,int> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
-
-        #endregion
-
-        #region Quest Config
-
-        public const int MaxEnemiesToKill  = 5;
-        public const int MinEnemiesToKill  = 1;
-        public const int MaxItemsToGather  = 5;
-        public const int MinItemsToGather  = 1;
-        public const int MaxRoomsToExplore = 100;
-        public const int MinRoomsToExplore = 50;
 
         #endregion
 

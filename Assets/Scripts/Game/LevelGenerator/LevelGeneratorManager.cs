@@ -36,8 +36,7 @@ namespace Game.LevelGenerator
         private List<DungeonFileSo> GetListOfGeneratedDungeons()
         {
             List<Individual> solutions = new List<Individual>();
-            // Write all the generated dungeons in ScriptableObjects
-            Debug.Log("Finished Creating Dungeons");            
+            // Write all the generated dungeons in ScriptableObjects   
             if (_generator is ClassicEvolutionaryAlgorithm)
             {
                 solutions.Add(_generator.Solution.EliteList[0]);

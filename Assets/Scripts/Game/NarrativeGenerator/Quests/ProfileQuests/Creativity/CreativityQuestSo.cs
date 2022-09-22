@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
+using MyBox;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -31,7 +32,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.ExploreQuest:
-                    return CreateAndSaveExploreQuestSo(questSos);
+                    return CreateAndSaveExploreQuestSo(questSos, generatorSettings.RoomsToExplore);
                 case Constants.GotoQuest:
                     return CreateAndSaveGotoQuestSo(questSos);
                 default:
@@ -58,10 +59,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
 
-        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos)
+        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos, RangedInt roomsToExplore)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
-            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(Constants.MaxRoomsToExplore - Constants.MinRoomsToExplore) + Constants.MinRoomsToExplore;
+            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(roomsToExplore.Max - roomsToExplore.Min) + roomsToExplore.Min;
             exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
             
             if (questSos.Count > 0)
