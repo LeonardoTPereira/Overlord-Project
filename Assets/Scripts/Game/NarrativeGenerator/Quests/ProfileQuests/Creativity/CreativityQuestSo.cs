@@ -76,8 +76,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
-            var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
-            //TODO verify if there's a way to mark the room in the minimap/get a rooms name here
+            var gotoQuest = CreateInstance<GotoQuestSo>();
             gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
             if (questSos.Count > 0)
             {

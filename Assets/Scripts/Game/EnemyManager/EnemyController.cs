@@ -53,6 +53,8 @@ namespace Game.GameManager
         private bool _hasGotComponents;
 
         public EventHandler<EnemySO> EnemyKilledHandler;
+
+        private Coroutine _walkRoutine;
         
 
         protected virtual void Start()
@@ -62,7 +64,7 @@ namespace Game.GameManager
                 GetAllComponents();
             }
             _isRandomMovement = IsRandomMovement();
-            StartCoroutine(WalkAndWait());
+            _walkRoutine = StartCoroutine(WalkAndWait());
         }
 
         private void GetAllComponents()
@@ -119,7 +121,7 @@ namespace Game.GameManager
 
         private void PlayerHasDied(object sender, EventArgs eventArgs)
         {
-            StopAllCoroutines();
+            StartDeath();
         }
 
         private IEnumerator WalkAndWait()
@@ -197,11 +199,13 @@ namespace Game.GameManager
         {
             if (_healthController.GetHealth() > 0f) return;
             StartDeath();
+            InvokeEnemyKilledEvents();
         }
 
         protected virtual void StartDeath()
         {
             ((ISoundEmitter) this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.EnemyDeath));
+            StopCoroutine(_walkRoutine);
             _animator.SetTrigger(DieTrigger);
             _enemyCollider.enabled = false;
             _enemyRigidBody.velocity = Vector2.zero;
@@ -209,7 +213,10 @@ namespace Game.GameManager
             {
                 childCollider.enabled = false;
             }
+        }
 
+        private void InvokeEnemyKilledEvents()
+        {
             EnemyKilledHandler?.Invoke(this, EnemyData);
             ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
