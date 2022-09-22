@@ -42,16 +42,16 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         {
             switch (playerProfile.MasteryPreference)
             {
-                case < 0.15f:
+                case < 15:
                     Difficulty = DifficultyLevels.VeryEasy;
                     break;
-                case < 0.35f:
+                case < 35:
                     Difficulty = DifficultyLevels.Easy;
                     break;
-                case < 0.65f:
+                case < 65:
                     Difficulty = DifficultyLevels.Medium;
                     break;
-                case < 0.85f:
+                case < 85:
                     Difficulty = DifficultyLevels.Hard;
                     break;
                 default:
