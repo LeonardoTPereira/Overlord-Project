@@ -28,16 +28,24 @@ namespace Game.LevelGenerator
         {
             _parameters = eventArgs.Parameters;
             // Start the generation process
-            _generator = new LevelGenerator(_parameters, _fitnessPlot);
+            _generator = new ClassicEvolutionaryAlgorithm(_parameters, _fitnessPlot);
             await _generator.Evolve();
             return GetListOfGeneratedDungeons();
         }
 
         private List<DungeonFileSo> GetListOfGeneratedDungeons()
         {
-
+            List<Individual> solutions = new List<Individual>();
             // Write all the generated dungeons in ScriptableObjects
-            var solutions = _generator.Solution.GetBestEliteForEachBiome();
+            Debug.Log("Finished Creating Dungeons");            
+            if (_generator is ClassicEvolutionaryAlgorithm)
+            {
+                solutions.Add(_generator.Solution.EliteList[0]);
+            }
+            else
+            {
+                solutions = _generator.Solution.GetBestEliteForEachBiome();
+            }
             List<DungeonFileSo> generatedDungeons = new ();
             var totalEnemies = _parameters.FitnessParameters.DesiredEnemies;
             var totalItems = _parameters.FitnessParameters.DesiredItems;

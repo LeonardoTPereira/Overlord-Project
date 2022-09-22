@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -217,6 +218,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1583647087}
     m_Modifications:
+    - target: {fileID: 5677077938545413857, guid: eb8bf5bcac51cf14cafb3c50436bff97,
+        type: 3}
+      propertyPath: <Selected>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5,
+        type: 2}
     - target: {fileID: 5677077938545413861, guid: eb8bf5bcac51cf14cafb3c50436bff97,
         type: 3}
       propertyPath: m_Name
