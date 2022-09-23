@@ -70,11 +70,11 @@ namespace Game.LevelGenerator.LevelSOs
 
             // Set the dungeon filename
             string filename = "";
-            filename = "R" + FitnessFromEa.DesiredParameters.DesiredRooms +
-                       "-K" + FitnessFromEa.DesiredParameters.DesiredKeys +
-                       "-L" + FitnessFromEa.DesiredParameters.DesiredLocks +
-                       "-E" + FitnessFromEa.DesiredParameters.DesiredEnemies +
-                       "-L" + FitnessFromEa.DesiredParameters.DesiredLinearity;
+            filename = "R" + FitnessFromEa.DesiredInput.DesiredRooms +
+                       "-K" + FitnessFromEa.DesiredInput.DesiredKeys +
+                       "-L" + FitnessFromEa.DesiredInput.DesiredLocks +
+                       "-E" + FitnessFromEa.DesiredInput.DesiredEnemies +
+                       "-L" + FitnessFromEa.DesiredInput.DesiredLinearity;
             return filename;
         }
     }

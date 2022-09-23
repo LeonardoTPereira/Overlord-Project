@@ -42,13 +42,14 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private static float GetAverageDistance(List<EnemyDistance> distances)
         {
             var average = 0.0f;
+            var total = 1;
             foreach (var distance in distances)
             {
-                average += distance.Distance * distance.EnemyAmount;
+                average += (distance.Distance * distance.EnemyAmount - average)/total;
+                total++;
             }
 
-            var result = average / TotalEnemies;
-            return result;
+            return average;
         }
 
         private static float GetDistanceStdDev(List<EnemyDistance> distances, float distanceAvg)

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GeneratorSettings
   m_EditorClassIdentifier: 
   <CreateRooms>k__BackingField: 1
+  <RoomSize>k__BackingField: {x: 30, y: 18}
   <UseLevelSelect>k__BackingField: 1
   <GenerateInRealTime>k__BackingField: 1
   <EnableRandomProfileToPlayer>k__BackingField: 0
@@ -40,4 +41,10 @@ MonoBehaviour:
   <RoomsToExplore>k__BackingField:
     Min: 50
     Max: 100
-  <RoomSize>k__BackingField: {x: 30, y: 18}
+  <DungeonParameters>k__BackingField:
+    <Time>k__BackingField: 60
+    <Population>k__BackingField: 100
+    <Mutation>k__BackingField: 5
+    <Competitors>k__BackingField: 2
+    <MinimumElite>k__BackingField: 100
+    <AcceptableFitness>k__BackingField: 0.1

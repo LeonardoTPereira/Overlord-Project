@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
+using Game.ExperimentControllers;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
@@ -12,7 +13,7 @@ namespace Game.LevelGenerator
     {
         /// Level generator
         private LevelGenerator _generator;
-        private Parameters _parameters;
+        private FitnessInput _fitnessInput;
 
         /// Attributes to communicate to Game Manager
         // Flags if the dungeon has been generated for Unity's Game Manager to handle things after
@@ -26,9 +27,11 @@ namespace Game.LevelGenerator
         // The "Main" behind the Dungeon Generator
         public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
         {
-            _parameters = eventArgs.Parameters;
+            var parameters = eventArgs.Parameters;
+            Debug.Log("Parameters: "+parameters);
+            _fitnessInput = eventArgs.Fitness;
             // Start the generation process
-            _generator = new ClassicEvolutionaryAlgorithm(_parameters, _fitnessPlot);
+            _generator = new ClassicEvolutionaryAlgorithm(parameters, _fitnessInput,_fitnessPlot);
             await _generator.Evolve();
             return GetListOfGeneratedDungeons();
         }
@@ -46,9 +49,9 @@ namespace Game.LevelGenerator
                 solutions = _generator.Solution.GetBestEliteForEachBiome();
             }
             List<DungeonFileSo> generatedDungeons = new ();
-            var totalEnemies = _parameters.FitnessParameters.DesiredEnemies;
-            var totalItems = _parameters.FitnessParameters.DesiredItems;
-            var totalNpcs = _parameters.FitnessParameters.DesiredNpcs;
+            var totalEnemies = _fitnessInput.DesiredEnemies;
+            var totalItems = _fitnessInput.DesiredItems;
+            var totalNpcs = _fitnessInput.DesiredNpcs;
             foreach (var individual in solutions)
             {
                 var dungeon =

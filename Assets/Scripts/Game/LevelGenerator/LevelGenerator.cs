@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
+using Game.ExperimentControllers;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using UnityEngine;
 using Util;
@@ -17,29 +18,23 @@ namespace Game.LevelGenerator
         private static readonly int INTERMEDIATE_POPULATION = 100;
 
         /// The evolutionary parameters.
-        protected Parameters Parameters;
+        protected GeneratorSettings.Parameters Parameters;
+
+        protected FitnessInput FitnessInput;
         /// The found MAP-Elites population.
         private Population solution;
-        /// The evolutionary process' collected data.
-        protected Data data;
-
         /// Return the found MAP-Elites population.
         public Population Solution { get => solution; }
-
-        /// Return the collected data from the evolutionary process.
-        public Data Data { get => data; }
-
-
+        
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent NewEaGenerationEventHandler;
 
         protected FitnessPlot fitnessPlot;
 
         /// Level Generator constructor.
-        public LevelGenerator(Parameters parameters, FitnessPlot fitnessPlot = null) {
+        public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot fitnessPlot = null) {
             Parameters = parameters;
-            data = new Data();
-            data.parameters = Parameters;
+            FitnessInput = fitnessInput;
             this.fitnessPlot = fitnessPlot;
         }
 
@@ -54,7 +49,6 @@ namespace Game.LevelGenerator
             DateTime start = DateTime.Now;
             await Evolution();
             DateTime end = DateTime.Now;
-            data.duration = (end - start).TotalSeconds;
         }
 
         /// Perform the level evolution process.
@@ -78,7 +72,7 @@ namespace Game.LevelGenerator
             // Generate the initial population
             while (pop.EliteList.Count < Parameters.Population && currentTry < maxTries)
             {
-                var individual = Individual.CreateRandom(Parameters.FitnessParameters);
+                var individual = Individual.CreateRandom(FitnessInput);
                 individual.Fix();
                 individual.CalculateFitness();
                 pop.PlaceIndividual(individual);

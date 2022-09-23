@@ -22,7 +22,8 @@ namespace Game.ExperimentControllers
         private int _currentDungeon;
         private int _maxEnemies;
         [SerializeField] private Camera textureCamera;
-        [field: SerializeField] private Parameters DungeonGeneratorParameters { get; set; }
+        [field: SerializeField] private GeneratorSettings.Parameters DungeonGeneratorParameters { get; set; }
+        [field: SerializeField] private FitnessInput Fitness { get; set; }
 
 
         private void Awake()
@@ -64,7 +65,7 @@ namespace Game.ExperimentControllers
         
         private async Task CreateDungeonsForQuestLine()
         {
-            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(DungeonGeneratorParameters));
+            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(DungeonGeneratorParameters, Fitness));
             Debug.Log("Finished");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
@@ -131,11 +132,11 @@ namespace Game.ExperimentControllers
         {
             
             var parentDirectory = "Assets"+ Constants.SeparatorCharacter + "Resources" + Constants.SeparatorCharacter + "DungeonPrints";
-            var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredParameters.DesiredRooms
-                                      +"_K_" +dungeon.FitnessFromEa.DesiredParameters.DesiredKeys
-                                      +"_L_" +dungeon.FitnessFromEa.DesiredParameters.DesiredLocks
-                                      +"_Lin_" +dungeon.FitnessFromEa.DesiredParameters.DesiredLinearity
-                                      +"_E_" +dungeon.FitnessFromEa.DesiredParameters.DesiredEnemies;
+            var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredInput.DesiredRooms
+                                      +"_K_" +dungeon.FitnessFromEa.DesiredInput.DesiredKeys
+                                      +"_L_" +dungeon.FitnessFromEa.DesiredInput.DesiredLocks
+                                      +"_Lin_" +dungeon.FitnessFromEa.DesiredInput.DesiredLinearity
+                                      +"_E_" +dungeon.FitnessFromEa.DesiredInput.DesiredEnemies;
             if (!AssetDatabase.IsValidFolder(parentDirectory + Constants.SeparatorCharacter + directoryPath))
             {
                 AssetDatabase.CreateFolder(parentDirectory, directoryPath);

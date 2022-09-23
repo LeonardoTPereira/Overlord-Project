@@ -11,11 +11,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public float Usage { get; set; }
         public float EnemySparsity { get; set; }
         public float EnemyStandardDeviation { get; set; }
-        public FitnessParameters DesiredParameters { get; set; }
+        public FitnessInput DesiredInput { get; set; }
 
-        public Fitness( FitnessParameters parameters )
+        public Fitness( FitnessInput input )
         {
-            DesiredParameters = parameters;
+            DesiredInput = input;
             Result = Common.UNKNOWN;
         }
         
@@ -23,9 +23,14 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var dungeon = individual.dungeon;
             Distance = DistanceFromInput(individual, dungeon);
             Usage = GetUsageOfRoomsAndLocks(individual, dungeon);
-            EnemySparsity = 1.0f - EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon, DesiredParameters.DesiredEnemies);
-            EnemyStandardDeviation = StdDevEnemyByRoom(dungeon, DesiredParameters.DesiredEnemies);
+            EnemySparsity = 1.0f - EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon, DesiredInput.DesiredEnemies);
+            EnemyStandardDeviation = StdDevEnemyByRoom(dungeon, DesiredInput.DesiredEnemies);
             Result = Distance + Usage + EnemySparsity + EnemyStandardDeviation;
+        }
+
+        public override string ToString()
+        {
+            return $"Total = {Result}, Distance = {Distance}, Usage = {Usage}, Sparsity = {EnemySparsity}, Std Dev = {EnemyStandardDeviation}";
         }
 
         private float GetUsageOfRoomsAndLocks(Individual individual, Dungeon dungeon, float desiredPercentage = 1.0f)
@@ -50,11 +55,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var keys = dungeon.KeyIds.Count;
             var locks = dungeon.LockIds.Count;
             var linearCoefficient = individual.linearCoefficient;
-            var fRooms = Math.Abs(DesiredParameters.DesiredRooms - rooms) / (float) DesiredParameters.DesiredRooms;
-            var fKeys = Math.Abs(DesiredParameters.DesiredKeys - keys) / (float) DesiredParameters.DesiredKeys;
-            var fLocks = Math.Abs(DesiredParameters.DesiredLocks - locks) / (float) DesiredParameters.DesiredLocks;
-            var fLinearCoefficient = Math.Abs(DesiredParameters.DesiredLinearity - linearCoefficient) /
-                                 DesiredParameters.DesiredLinearity;
+            var fRooms = Math.Abs(DesiredInput.DesiredRooms - rooms) / (float) DesiredInput.DesiredRooms;
+            var fKeys = Math.Abs(DesiredInput.DesiredKeys - keys) / (float) DesiredInput.DesiredKeys;
+            var fLocks = Math.Abs(DesiredInput.DesiredLocks - locks) / (float) DesiredInput.DesiredLocks;
+            var fLinearCoefficient = Math.Abs(DesiredInput.DesiredLinearity - linearCoefficient) /
+                                 DesiredInput.DesiredLinearity;
             var distance = fRooms + fKeys + fLocks + fLinearCoefficient;
             return distance;
         }

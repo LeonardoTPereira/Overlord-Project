@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
@@ -90,7 +91,7 @@ namespace Game.LevelGenerator
         /// Return a clone this room.
         public Room Clone()
         {
-            Room room = new Room(Type1, Key, RoomID);
+            var room = new Room(Type1, Key, RoomID);
             room.Enemies = Enemies;
             room.Depth = Depth;
             room.X = X;
@@ -136,9 +137,9 @@ namespace Game.LevelGenerator
         private (int, int) GetChildPositionInGrid(
             Common.Direction _dir
         ) {
-            int cx = 0;
-            int cy = 0;
-            int rot = (Rotation / DEGREE_90) % 2;
+            var cx = 0;
+            var cy = 0;
+            var rot = (Rotation / DEGREE_90) % 2;
             switch (_dir)
             {
                 case Common.Direction.Right:
@@ -192,7 +193,7 @@ namespace Game.LevelGenerator
             Common.Direction _dir,
             RoomGrid _grid
         ) {
-            (int x, int y) = GetChildPositionInGrid(_dir);
+            (var x, var y) = GetChildPositionInGrid(_dir);
             return _grid[x, y] is null;
         }
 
@@ -208,11 +209,11 @@ namespace Game.LevelGenerator
             ref Room _child,
             Common.Direction _dir
         ) {
-            (int x, int y) = GetChildPositionInGrid(_dir);
+            (var x, var y) = GetChildPositionInGrid(_dir);
             _child.X = x;
             _child.Y = y;
             _child.Rotation = (Rotation + DEGREE_90) % DEGREE_360;
-            Room room = _grid[x, y];
+            var room = _grid[x, y];
             if (room != null) { return; }
             switch (_dir)
             {
@@ -242,14 +243,14 @@ namespace Game.LevelGenerator
         public void FixBranch(List<int> _missions) {
             // If both lock and key are in the branch, assign to them new IDs,
             // and add all the missions in the new missions list
-            Queue<int> newMissions = new Queue<int>();
-            for (int i = 0; i < _missions.Count - 1; i++)
+            var newMissions = new Queue<int>();
+            for (var i = 0; i < _missions.Count - 1; i++)
             {
-                for (int j = i + 1; j < _missions.Count; j++)
+                for (var j = i + 1; j < _missions.Count; j++)
                 {
                     if (_missions[i] == -_missions[j])
                     {
-                        int newId = Room.GetNextId();
+                        var newId = Room.GetNextId();
                         _missions[i] = _missions[i] > 0 ? newId : -newId;
                         _missions[j] = -_missions[i];
                     }
@@ -263,14 +264,14 @@ namespace Game.LevelGenerator
             }
 
             // Gather all the rooms of the branch
-            Queue<Room> branch = new Queue<Room>();
-            Queue<Room> toVisit = new Queue<Room>();
+            var branch = new Queue<Room>();
+            var toVisit = new Queue<Room>();
             toVisit.Enqueue(this);
             while (toVisit.Count > 0)
             {
-                Room current = toVisit.Dequeue();
+                var current = toVisit.Dequeue();
                 branch.Enqueue(current);
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -282,8 +283,8 @@ namespace Game.LevelGenerator
             // Place missions in the branch randomly while there are more rooms than missions; otherwise, this while stops
             while (branch.Count > newMissions.Count)
             {
-                Room current = branch.Dequeue();
-                int prob = RandomSingleton.GetInstance().RandomPercent();
+                var current = branch.Dequeue();
+                var prob = RandomSingleton.GetInstance().RandomPercent();
                 // If there are no missions left, then assign the remaining
                 // rooms as normal rooms; otherwise, check if the current room
                 // will not receive a mission
@@ -296,7 +297,7 @@ namespace Game.LevelGenerator
                 else
                 {
                     // The current room will receive a mission
-                    int missionId = newMissions.Dequeue();
+                    var missionId = newMissions.Dequeue();
                     // Assign the mission ID to the current room
                     FixMission(ref current, missionId);
                 }
@@ -308,8 +309,8 @@ namespace Game.LevelGenerator
             while (branch.Count > 0 && newMissions.Count > 0)
             {
                 // The current room will receive a mission
-                Room current = branch.Dequeue();
-                int missionId = newMissions.Dequeue();
+                var current = branch.Dequeue();
+                var missionId = newMissions.Dequeue();
                 // Assign the mission ID to the current room
                 FixMission(ref current, missionId);
             }
@@ -339,5 +340,108 @@ namespace Game.LevelGenerator
 
         /// The y position of the room in the grid.
         public int Y { get; set; }
+
+        public Queue<int> GetEnemiesPerRoom()
+        {
+            var toVisit = new Queue<Room>();
+            var enemiesInRoom = new Queue<int>();
+            toVisit.Enqueue(this);
+            while (toVisit.Count > 0)
+            {
+                var current = toVisit.Dequeue();
+                if (current.Enemies > 0)
+                {
+                    enemiesInRoom.Enqueue(current.Enemies);
+                }
+                current.EnqueueChildrenRooms(toVisit);
+            }
+            return enemiesInRoom;
+        }
+        
+        public void FixEnemies(Queue<int> enemiesPerRoom)
+        {
+            if (enemiesPerRoom.Count == 0) return;
+            // Gather all the rooms of the branch
+            var branch = new Queue<Room>();
+            var toVisit = new Queue<Room>();
+            toVisit.Enqueue(this);
+            var oldTotalEnemies = 0;
+            var newTotalEnemies = 0;
+            while (toVisit.Count > 0)
+            {
+                var current = toVisit.Dequeue();
+                oldTotalEnemies += current.Enemies;
+                current.Enemies = 0;
+                branch.Enqueue(current);
+                current.EnqueueChildrenRooms(toVisit);
+            }
+
+            var oldEnemies = 0;
+            foreach (var enemies in enemiesPerRoom)
+            {
+                oldEnemies += enemies;
+            }
+            enemiesPerRoom = RedistributeEnemiesIfNotEnoughRooms(enemiesPerRoom, branch.Count);
+            var newEnemies = 0;
+            foreach (var enemies in enemiesPerRoom)
+            {
+                newEnemies += enemies;
+            }
+
+            if (newEnemies != oldEnemies)
+            {
+                Debug.LogError($"$Different enemies in Queue: old={oldEnemies}, new={newEnemies}");
+            }
+            while (branch.Count > enemiesPerRoom.Count)
+            {
+                var current = branch.Dequeue();
+                var prob = RandomSingleton.GetInstance().RandomPercent();
+                if (prob > 50) continue;
+                current.Enemies = enemiesPerRoom.Dequeue();
+                newTotalEnemies += current.Enemies;
+                if (enemiesPerRoom.Count == 0) return;
+            }
+
+            while (branch.Count > 0)
+            {
+                var current = branch.Dequeue();
+                current.Enemies = enemiesPerRoom.Dequeue();
+                newTotalEnemies += current.Enemies;
+            }
+        }
+
+        private static Queue<int> RedistributeEnemiesIfNotEnoughRooms(Queue<int> enemiesPerRoom, int totalRooms)
+        {
+            if (totalRooms >= enemiesPerRoom.Count) return enemiesPerRoom;
+            
+            var excessEnemies = 0;
+
+            while (totalRooms < enemiesPerRoom.Count)
+            {
+                excessEnemies += enemiesPerRoom.Dequeue();
+            }
+
+            var newEnemiesPerRoom = excessEnemies / enemiesPerRoom.Count;
+            var extraEnemies = excessEnemies % enemiesPerRoom.Count;
+            var enemiesToDistribute = new Queue<int>();
+            enemiesToDistribute.Enqueue(enemiesPerRoom.Dequeue() + newEnemiesPerRoom + extraEnemies);
+            while (enemiesPerRoom.Count > 0)
+            {
+                enemiesToDistribute.Enqueue(enemiesPerRoom.Dequeue() + newEnemiesPerRoom);
+            }
+
+            return enemiesToDistribute;
+        }
+
+        public void EnqueueChildrenRooms(Queue<Room> toVisit)
+        {
+            foreach (var room in GetChildren())
+            {
+                if (room != null)
+                {
+                    toVisit.Enqueue(room);
+                }
+            }
+        }
     }
 }

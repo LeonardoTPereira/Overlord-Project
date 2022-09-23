@@ -31,9 +31,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private Fitness fitness;
         public string BiomeName { get; set; }
 
-        public Individual(FitnessParameters fitnessParameters)
+        public Individual(FitnessInput fitnessInput)
         {
-            Fitness = new Fitness(fitnessParameters);
+            Fitness = new Fitness(fitnessInput);
             dungeon = new Dungeon();
             generation = Common.UNKNOWN;
             neededLocks = 0;
@@ -122,19 +122,19 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         }
 
         /// Generate and return a random individual.
-        public static Individual CreateRandom(FitnessParameters parameters)
+        public static Individual CreateRandom(FitnessInput input)
         {
-            var newIndividual = new Individual(parameters);
+            var newIndividual = new Individual(input);
             var newDungeon = new Dungeon();
             newDungeon.GenerateRooms();
-            newDungeon.PlaceEnemies(parameters.DesiredEnemies);
+            newDungeon.PlaceEnemies(input.DesiredEnemies);
             newIndividual.dungeon = newDungeon;
             return newIndividual;
         }
 
         public void Fix()
         {
-            dungeon.Fix(Fitness.DesiredParameters.DesiredEnemies);
+            dungeon.Fix(Fitness.DesiredInput.DesiredEnemies);
         }
 
         public void CalculateFitness()

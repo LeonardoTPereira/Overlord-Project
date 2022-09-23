@@ -714,7 +714,7 @@ PrefabInstance:
     - target: {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: parameters.minimumElite
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566211, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -776,5 +776,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3829912035921256734, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}

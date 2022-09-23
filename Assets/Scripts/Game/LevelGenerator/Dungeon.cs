@@ -421,7 +421,7 @@ namespace Game.LevelGenerator
             FixRooms();
             FixMissions();
             FixLocksAndKeys();
-            FixEnemies(totalEnemies);
+            //FixEnemies(totalEnemies);
         }
 
         /// Fix the list of rooms.

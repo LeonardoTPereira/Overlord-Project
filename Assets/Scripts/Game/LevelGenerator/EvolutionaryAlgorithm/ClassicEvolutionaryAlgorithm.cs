@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
+using Game.ExperimentControllers;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
@@ -18,7 +20,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var dungeons = new ClassicPopulation(0, 0);
             for (var i = 0; i < PopSize; ++i)
             {
-                var individual = Individual.CreateRandom(Parameters.FitnessParameters);
+                var individual = Individual.CreateRandom(FitnessInput);
                 individual.Fix();
                 individual.CalculateFitness();
                 dungeons.EliteList.Add(individual);
@@ -77,6 +79,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 InvokeGenerationEvent(progress);
                 await Task.Yield();
             }
+            Debug.LogWarning("Fitness:" + pop.EliteList[0].Fitness);
             InvokeGenerationEvent(1.0f);
         }
 
@@ -105,8 +108,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             return nGenerationsWithoutImprovement >= MAX_GEN_WITHOUT_IMPROVEMENT;
         }
 
-        public ClassicEvolutionaryAlgorithm(Parameters parameters, FitnessPlot fitnessPlot = null) : base(parameters,
-            fitnessPlot)
+        public ClassicEvolutionaryAlgorithm(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, 
+            FitnessPlot fitnessPlot = null) : base(parameters, fitnessInput, fitnessPlot)
         {
             bestFitnessYet = double.MaxValue;
             nGenerationsWithoutImprovement = 0;

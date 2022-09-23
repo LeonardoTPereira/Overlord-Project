@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
-    public class FitnessParameters
+    public class FitnessInput
     {
         [Foldout("Desired Fitness Values", true)]
         [SerializeField, Range(2, 200)] private int desiredRooms = 20;
@@ -16,7 +16,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         [SerializeField, Range(0, 200)] private int desiredNpcs = 3;
         [SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
         
-        public FitnessParameters(int rooms, int keys, int locks, int enemies, float linearCoefficient, int items, int npcs)
+        public FitnessInput(int rooms, int keys, int locks, int enemies, float linearCoefficient, int items, int npcs)
         {
             DesiredRooms = rooms;
             DesiredKeys = keys;
