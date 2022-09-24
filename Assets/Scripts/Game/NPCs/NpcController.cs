@@ -123,7 +123,7 @@ namespace Game.NPCs
         
         protected override void CreateIntroDialogue()
         {
-            dialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
+            DialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
             DialogueObj = Npc;
             base.CreateIntroDialogue();
         }

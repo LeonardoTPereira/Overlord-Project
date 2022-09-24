@@ -203,6 +203,7 @@ namespace Game.Quests
         #region Read
         private void UpdateReadQuest(QuestReadEventArgs readQuestArgs)
         {
+            Debug.Log("received read quest event args");
             var itemToRead = readQuestArgs.ReadableItem;
             var questId = readQuestArgs.QuestId;
             if (questLines.QuestLines.Any(questList =>

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -373,9 +373,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.055555556
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -674,6 +674,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576439931873964, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_text
+      value: 'Next
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576439931873964, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_text
+      value: 'This game is a part of a doctorate research project which has the objective
+        of making the player explore different levels, with different enemies and
+        collect gameplay data.
+
+
+        You must navigate through the level, finding
+        keys which open locked doors.
+
+
+        Use "WASD" to move, the "keys" to
+        shoot and "X" to interact with NPCs and objects.
+
+
+        Don''t worry about
+        going the wrong way, the time or the amount of deaths :)
+
+
+        To win
+        the game, you must find the item below:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 47.4
       objectReference: {fileID: 0}
     - target: {fileID: 1516576441142089456, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}

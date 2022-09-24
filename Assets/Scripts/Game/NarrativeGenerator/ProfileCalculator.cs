@@ -117,10 +117,10 @@ namespace Game.NarrativeGenerator
             var normalizeConst = creativityPreference + achievementPreference;
             normalizeConst += masteryPreference + immersionPreference;
             
-            var talkWeight = (int) RemoveZeros( (100*creativityPreference/normalizeConst) );
+            var talkWeight = (int) RemoveZeros( (100*immersionPreference/normalizeConst) );
             var getWeight = (int) RemoveZeros( (100*achievementPreference/normalizeConst) );
             var killWeight = (int) RemoveZeros( (100*masteryPreference/normalizeConst) );
-            var exploreWeight = (int) RemoveZeros( (100*immersionPreference/normalizeConst) );
+            var exploreWeight = (int) RemoveZeros( (100*creativityPreference/normalizeConst) );
 
             StartSymbolWeights = new Dictionary<string, Func<int, int>>
             {

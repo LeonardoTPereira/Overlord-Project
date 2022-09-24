@@ -39,8 +39,8 @@ MonoBehaviour:
     Min: 1
     Max: 5
   <RoomsToExplore>k__BackingField:
-    Min: 50
-    Max: 100
+    Min: 40
+    Max: 56
   <DungeonParameters>k__BackingField:
     <Time>k__BackingField: 60
     <Population>k__BackingField: 100

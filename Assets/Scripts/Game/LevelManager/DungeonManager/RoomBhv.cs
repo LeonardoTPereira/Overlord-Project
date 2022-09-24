@@ -39,7 +39,7 @@ namespace Game.LevelManager.DungeonManager
         public GameObject keyPrefab;
         public GameObject triPrefab;
         public GameObject treasurePrefab;
-        public GameObject[] readableItemPrefabs;
+        public GameObject readableItemPrefab;
         public GameObject[] npcPrefabs;
 
         public Collider2D colNorth;
@@ -364,10 +364,9 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceReadableItem(ItemSo item, int questId)
         {
             GetAvailablePosition();
-            var readableItem = PlaceObjectInRoom(readableItemPrefabs[Random.Range(0, readableItemPrefabs.Length)]);
-            var readableItemController = readableItem.GetComponent<QuestDialogueInteraction>();
-            readableItemController.DialogueObj = item as ReadableItemSo;
-            readableItemController.QuestId = questId;
+            var readableItem = PlaceObjectInRoom(readableItemPrefab);
+            var readableItemController = readableItem.GetComponent<ReadableItemController>();
+            readableItemController.SetItemInfo( item as ReadableItemSo, questId );
         }
 
         private void PlaceTreasureItem(ItemSo item, int questId)

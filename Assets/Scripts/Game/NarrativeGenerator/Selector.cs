@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
@@ -31,7 +32,7 @@ namespace Game.NarrativeGenerator
             while ( _wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 i++;
-                var selectedNpc = _generatorSettings.PlaceholderNpcs[Random.Range(0, _generatorSettings.PlaceholderNpcs.Count)];
+                var selectedNpc = _generatorSettings.PlaceholderNpcs[UnityEngine.Random.Range(0, _generatorSettings.PlaceholderNpcs.Count)];
                 ContinueQuestLineForNpc(selectedNpc, questLineList);
             }
             return questLineList;
@@ -48,7 +49,7 @@ namespace Game.NarrativeGenerator
         private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
         {
             var questLine = CreateQuestLine();
-            questLine.PopulateQuestLine(_generatorSettings);
+            questLine.PopulateQuestLine(_generatorSettings, ProfileCalculator.StartSymbolWeights);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
             questLine.NpcInCharge = npcInCharge;
@@ -61,7 +62,9 @@ namespace Game.NarrativeGenerator
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                questLine.PopulateQuestLine(_generatorSettings);
+                // Dictionary<string, Func<int, int>> startSymbolWeights = CalculateNewStartWeight();
+                // questLine.PopulateQuestLine(_generatorSettings, startSymbolWeights);
+                questLine.PopulateQuestLine(_generatorSettings, ProfileCalculator.StartSymbolWeights);
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
             }
@@ -71,6 +74,38 @@ namespace Game.NarrativeGenerator
                 CreateQuestLineForNpc(npcInCharge, questLineList);
             }
         }
+
+        // private static Dictionary<string, Func<int, int>> CalculateNewStartWeight ()
+        // {
+        //     Dictionary<string, Func<int, int>> dict = ProfileCalculator.StartSymbolWeights;
+        //     foreach (KeyValuePair<string,bool> questType in _wasQuestAdded)
+        //     {
+        //         if ( questType.Value )
+        //         {
+        //             dict.Remove(questType.Key);
+        //             Debug.Log("Removing "+questType.Key);
+        //         }
+        //     }
+
+        //     int normalizeConst = 0;
+        //     foreach (KeyValuePair<string, Func<int, int>> item in dict)
+        //     {
+        //         normalizeConst += item.Value(0);
+        //     }
+
+        //     string[] obrigatoryKeys = {nameof(KillQuestSo), nameof(AchievementQuestSo), nameof(ImmersionQuestSo), nameof(CreativityQuestSo)};
+        //     for (int i =0; i< obrigatoryKeys.Length ; i++ )
+        //     {
+        //         if ( dict.ContainsKey(obrigatoryKeys[i]))
+        //         {
+        //             dict[ obrigatoryKeys[i] ] = _ => (100*dict[obrigatoryKeys[i]](0))/normalizeConst;
+        //             Debug.Log( obrigatoryKeys[i] + " "+ dict[ obrigatoryKeys[i] ]);
+        //         }
+
+        //     }
+        //     Debug.Log(dict.ElementAt(0).Key +" "+ dict.ElementAt(0).Value(0));
+        //     return dict;
+        // }
 
         private static QuestLine CreateQuestLine()
         {

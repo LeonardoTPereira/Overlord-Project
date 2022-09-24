@@ -23,7 +23,7 @@ namespace Game
         [field: SerializeField] public IDialogueObjSo DialogueObj { get; set; }
 
         [SerializeField] protected DialogueController dialogue;
-        [SerializeField] protected string dialogueLine;
+        public string DialogueLine;
         
         protected bool _isDialogueNull;
         protected bool _wasTaskResolved = false;
@@ -84,7 +84,7 @@ namespace Game
         {
             dialogue = ScriptableObject.CreateInstance<DialogueController>();
             _isDialogueNull = dialogue == null;
-            dialogue.AddDialogue( DialogueObj.DialogueData, dialogueLine, true, 0);
+            dialogue.AddDialogue( DialogueObj.DialogueData, DialogueLine, true, 0);
         }
 
         protected bool HasAtLeastOneTrigger()
@@ -98,13 +98,9 @@ namespace Game
             
             if ( !_wasTaskResolved )
             {
-                var questsInDialogue = dialogue.GetQuestCloserDialogueIds();
-                foreach (var questIds in questsInDialogue)
-                {
-                    ((IQuestElement)this).OnQuestTaskResolved(this, new QuestReadEventArgs(DialogueObj as ItemSo, questIds));
-                    ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questIds));
-                    _wasTaskResolved = true;
-                }
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestReadEventArgs(DialogueObj as ItemSo, QuestId));
+                ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(QuestId));
+                _wasTaskResolved = true;
             }
 
             DialogueHandler.instance.StartDialogue(dialogue);
@@ -123,6 +119,10 @@ namespace Game
             var agent = col.GetComponent<Agent>();
             if (agent) {
                 agent.collidingInteractables.Remove(this);
+                if ( _wasTaskResolved )
+                {
+                    Destroy(this.gameObject);
+                }
             }
         }        
     }

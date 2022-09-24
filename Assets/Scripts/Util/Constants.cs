@@ -57,7 +57,7 @@ namespace Util
         #endregion
 
         #region Quest Weights
-        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow( (0.25f*x) ,2));
+        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow((0.5f*x),2));
 
         public static readonly Func<int,int> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
 
@@ -65,7 +65,7 @@ namespace Util
         
         public static readonly Func<int,int> FourOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/4;
         
-        public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow(x,2);
+        public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow((0.5f*x),2);
 
         public static readonly Func<int,int> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
 
