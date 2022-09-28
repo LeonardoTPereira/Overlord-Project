@@ -36,8 +36,7 @@ namespace PlatformGame.Scenario
             if (_temp > _xStartPos + _backgroundSlotSize * 2)
                 _xStartPos += _backgroundSlotSize * 3;
             else if (_temp < _xStartPos - _backgroundSlotSize * 2)
-                _xStartPos -= _backgroundSlotSize * 3;
-            
+                _xStartPos -= _backgroundSlotSize * 3;            
         }
     }
 }
