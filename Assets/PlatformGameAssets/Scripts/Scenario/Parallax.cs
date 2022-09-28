@@ -27,7 +27,7 @@ namespace PlatformGame.Scenario
         {
             _temp = _camera.transform.position.x * (1 - _parallaxFactor);
             _xDistance = _camera.transform.position.x * _parallaxFactor;
-            _yDistance = _camera.transform.position.y * _parallaxFactor;
+            _yDistance = _camera.transform.position.y * _parallaxFactor/2;
 
             transform.position = new Vector3(_xStartPos + _xDistance, _yStartPos + _yDistance, transform.position.z);
 
