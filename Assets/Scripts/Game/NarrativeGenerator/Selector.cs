@@ -49,7 +49,7 @@ namespace Game.NarrativeGenerator
         private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
         {
             var questLine = CreateQuestLine();
-            questLine.PopulateQuestLine(_generatorSettings, ProfileCalculator.StartSymbolWeights);
+            questLine.PopulateQuestLine(_generatorSettings);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
             questLine.NpcInCharge = npcInCharge;
@@ -62,9 +62,7 @@ namespace Game.NarrativeGenerator
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                // Dictionary<string, Func<int, int>> startSymbolWeights = CalculateNewStartWeight();
-                // questLine.PopulateQuestLine(_generatorSettings, startSymbolWeights);
-                questLine.PopulateQuestLine(_generatorSettings, ProfileCalculator.StartSymbolWeights);
+                questLine.CompleteMissingQuests(_generatorSettings, _wasQuestAdded );
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
             }
@@ -74,38 +72,6 @@ namespace Game.NarrativeGenerator
                 CreateQuestLineForNpc(npcInCharge, questLineList);
             }
         }
-
-        // private static Dictionary<string, Func<int, int>> CalculateNewStartWeight ()
-        // {
-        //     Dictionary<string, Func<int, int>> dict = ProfileCalculator.StartSymbolWeights;
-        //     foreach (KeyValuePair<string,bool> questType in _wasQuestAdded)
-        //     {
-        //         if ( questType.Value )
-        //         {
-        //             dict.Remove(questType.Key);
-        //             Debug.Log("Removing "+questType.Key);
-        //         }
-        //     }
-
-        //     int normalizeConst = 0;
-        //     foreach (KeyValuePair<string, Func<int, int>> item in dict)
-        //     {
-        //         normalizeConst += item.Value(0);
-        //     }
-
-        //     string[] obrigatoryKeys = {nameof(KillQuestSo), nameof(AchievementQuestSo), nameof(ImmersionQuestSo), nameof(CreativityQuestSo)};
-        //     for (int i =0; i< obrigatoryKeys.Length ; i++ )
-        //     {
-        //         if ( dict.ContainsKey(obrigatoryKeys[i]))
-        //         {
-        //             dict[ obrigatoryKeys[i] ] = _ => (100*dict[obrigatoryKeys[i]](0))/normalizeConst;
-        //             Debug.Log( obrigatoryKeys[i] + " "+ dict[ obrigatoryKeys[i] ]);
-        //         }
-
-        //     }
-        //     Debug.Log(dict.ElementAt(0).Key +" "+ dict.ElementAt(0).Value(0));
-        //     return dict;
-        // }
 
         private static QuestLine CreateQuestLine()
         {

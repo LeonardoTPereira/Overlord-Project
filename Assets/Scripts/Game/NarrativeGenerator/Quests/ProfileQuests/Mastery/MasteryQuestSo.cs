@@ -21,7 +21,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get
             {                    
                 Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
-                masteryQuestWeights.Add( Constants.KillQuest, Constants.OneOptionQuestLineWeight );
+                masteryQuestWeights.Add( nameof(KillQuestSo), Constants.OneOptionQuestLineWeight );
                //masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
                 masteryQuestWeights.Add( Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight );
                 return masteryQuestWeights;

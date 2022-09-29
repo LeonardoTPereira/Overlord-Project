@@ -121,19 +121,36 @@ namespace Game.NarrativeGenerator.Quests
             return completedQuests; 
         }
 
-        public void PopulateQuestLine(in GeneratorSettings generatorSettings, Dictionary<string, Func<int, int>> startSymbolWeights )
+        public void PopulateQuestLine(in GeneratorSettings generatorSettings )
         {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.NextSymbolChances = startSymbolWeights;
+                lastSelectedQuest.NextSymbolChances = ProfileCalculator.StartSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 nonTerminalSymbol.SetNextSymbol(questChain);
                 questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
                 Debug.Log("new quest");
+            }
+        }
+
+        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, Dictionary<string,bool> addedQuests )
+        {
+            List<string> missingQuests = new List<string>();
+            foreach (KeyValuePair<string,bool> quest in addedQuests)
+            {
+                if ( !quest.Value )
+                    missingQuests.Add(quest.Key);
+            }
+            
+            var questChain = new MarkovChain();
+            foreach ( string missingQuest in missingQuests)
+            {
+                questChain.SetSymbol(missingQuest);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
             }
         }
 
