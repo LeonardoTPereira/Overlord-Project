@@ -15,12 +15,13 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 9bb16616dc1b2a845bdc2d9dd5251603
-  position: {x: 12.000038, y: 324}
+  position: {x: -15.999958, y: 327.75296}
   _children:
   - {fileID: -2203265954913022222}
-  - {fileID: 4705306026566605143}
+  - {fileID: -5921512659874141547}
+  - {fileID: 1094638727138080744}
   attribute: SocialFactor
-  attributeFactor: 
+  attributeFactor: 6
 --- !u!114 &-8306071293600809312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,8 +37,8 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 32aa0930358d2694f8e314c34e8d91d9
-  position: {x: 12.999996, y: -13.121696}
-  child: {fileID: -581224933860813630}
+  position: {x: 12.000014, y: 196.01138}
+  child: {fileID: -9095167715189262450}
 --- !u!114 &-5921512659874141547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,26 +54,8 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 3105b1c2f37ee0b4cb06d0a01d2611b1
-  position: {x: 0, y: 0}
-  message: 
---- !u!114 &-3136864715992309540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19b7c5127cf857a4489420b6eddea30c, type: 3}
-  m_Name: SequencerNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 96da600ee0fd38246bf92c23a17b01d7
-  position: {x: 12, y: 200}
-  _children:
-  - {fileID: -9095167715189262450}
+  position: {x: 190, y: 465.251}
+  message: Bom dia! Tudo bem?
 --- !u!114 &-2203265954913022222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,25 +71,8 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 22a50999f93b1e3459a0f108416d49c7
-  position: {x: -181.19353, y: 466.81772}
-  message: Muito obrigado!
---- !u!114 &-581224933860813630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4223e8d6fb0d53e4f9ca5847632b1133, type: 3}
-  m_Name: RepeatNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 53844b556a243434ebb76f6479840197
-  position: {x: 12.000009, y: 92.32252}
-  child: {fileID: -3136864715992309540}
+  position: {x: -156, y: 465.251}
+  message: "T\xE1 olhando o qu\xEA?"
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,12 +89,8 @@ MonoBehaviour:
   <TreeState>k__BackingField: 0
   <Nodes>k__BackingField:
   - {fileID: -8306071293600809312}
-  - {fileID: -581224933860813630}
-  - {fileID: -3136864715992309540}
   - {fileID: -2203265954913022222}
-  - {fileID: 3478755382003591288}
   - {fileID: -9095167715189262450}
-  - {fileID: 4705306026566605143}
   - {fileID: -5921512659874141547}
   - {fileID: 1094638727138080744}
 --- !u!114 &1094638727138080744
@@ -146,42 +108,5 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 24fa330cf39b1c94a98569ba6346ea4a
-  position: {x: 0, y: 0}
-  message: 
---- !u!114 &3478755382003591288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52d8549a78d192e4a851dd215fd0e2a7, type: 3}
-  m_Name: StringNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 1a87655555b499d4ea8c3dc98c52d269
-  position: {x: 325.0001, y: 613.2951}
-  message: 
---- !u!114 &4705306026566605143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d254c8bbb24de24e91fc8bbc0f4ac63, type: 3}
-  m_Name: NPCAtributeCheckNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: f562f70134e51ac41943a1402e17c893
-  position: {x: 279.62546, y: 452.9205}
-  _children:
-  - {fileID: 3478755382003591288}
-  attribute: 
-  attributeFactor: 
+  position: {x: 12.000038, y: 465.251}
+  message: "Ol\xE1!"
