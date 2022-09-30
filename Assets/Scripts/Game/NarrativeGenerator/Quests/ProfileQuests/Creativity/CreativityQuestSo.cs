@@ -13,11 +13,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.CreativityQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get
             {
-                var creativityQuestWeights = new Dictionary<string, Func<int, int>>
+                var creativityQuestWeights = new Dictionary<string, Func<int, float>>
                 {
                     {Constants.ExploreQuest, Constants.TwoOptionQuestLineWeight},
                     {Constants.GotoQuest, Constants.TwoOptionQuestLineWeight},

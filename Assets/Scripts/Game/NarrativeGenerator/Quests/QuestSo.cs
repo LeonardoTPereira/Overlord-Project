@@ -17,12 +17,12 @@ namespace Game.NarrativeGenerator.Quests
     public abstract class QuestSo : ScriptableObject, ISavableGeneratedContent, ISymbol
     {
         public virtual string SymbolType {get; set;}
-        public virtual Dictionary<string, Func<int,int>> NextSymbolChances
+        public virtual Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
         }
-        protected Dictionary<string, Func<int,int>> _nextSymbolChances;
+        protected Dictionary<string, Func<int,float>> _nextSymbolChances;
         public virtual bool CanDrawNext {
             get => true;
         }
@@ -90,7 +90,7 @@ namespace Game.NarrativeGenerator.Quests
         public void SetNextSymbol(MarkovChain chain)
         {
             var chance = RandomSingleton.GetInstance().Next(0, 98);
-            var cumulativeProbability = 0;
+            float cumulativeProbability = 0;
             foreach ( var nextSymbolChance in NextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );

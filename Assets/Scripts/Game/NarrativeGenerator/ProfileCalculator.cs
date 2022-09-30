@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator
     public static class ProfileCalculator
     {
         private static Dictionary<string, int> _questWeightsByType = new ();
-        public static Dictionary<string, Func<int, int>> StartSymbolWeights { get; private set; }
+        public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
 
 
         public static PlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
@@ -49,7 +49,7 @@ namespace Game.NarrativeGenerator
 
         private static void CalculateProfileFromGameplayData(PlayerData playerData, DungeonData dungeonData)
         {
-            StartSymbolWeights = new Dictionary<string, Func<int, int>>();
+            StartSymbolWeights = new Dictionary<string, Func<int, float>>();
 
             _questWeightsByType = new Dictionary<string, int>
             {
@@ -72,57 +72,57 @@ namespace Game.NarrativeGenerator
         private static void CalculateProfileWeights(List<int> answers)
         {
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), weightsFromAnswers[0]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), weightsFromAnswers[1]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), weightsFromAnswers[2]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), weightsFromAnswers[3]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[0]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[1]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[2]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[3]);
         }
         
         private static void CalculateFakeProfile(List<int> answers)
         {
             //TODO make logic circle at every new dungeon
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), weightsFromAnswers[3]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), weightsFromAnswers[2]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), weightsFromAnswers[1]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), weightsFromAnswers[0]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[3]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[2]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[1]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[0]);
         }
 
-        private static int[] CalculateStartSymbolWeights ( List<int> answers )
+        private static float[] CalculateStartSymbolWeights ( List<int> answers )
         {
             
-            var immersionPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[2] );
-            var achievementPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[0] );
-            var masteryPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[3] );
-            var creativityPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[1] );
+            float immersionPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[2] );
+            float achievementPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[0] );
+            float masteryPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[3] );
+            float creativityPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[1] );
 
-            var normalizeConst = immersionPreference + achievementPreference + masteryPreference + creativityPreference;
+            float normalizeConst = immersionPreference + achievementPreference + masteryPreference + creativityPreference;
 
-            var talkWeight = (int) (100*(immersionPreference/normalizeConst));
-            var getWeight = (int) (100*(achievementPreference/normalizeConst));
-            var killWeight = (int) (100*(masteryPreference/normalizeConst));
-            var exploreWeight = (int) (100*(creativityPreference/normalizeConst));
+            float talkWeight = (100*(immersionPreference/normalizeConst));
+            float getWeight = (100*(achievementPreference/normalizeConst));
+            float killWeight = (100*(masteryPreference/normalizeConst));
+            float exploreWeight = (100*(creativityPreference/normalizeConst));
 
-            int [] startSymbolWeights = {talkWeight, getWeight, killWeight, exploreWeight};
+            float [] startSymbolWeights = {talkWeight, getWeight, killWeight, exploreWeight};
             return startSymbolWeights;
         }
 
         private static void CalculateStartSymbolWeights ( PlayerProfile playerProfile )
         {
-            var creativityPreference = RemoveZeros( playerProfile.CreativityPreference );
-            var achievementPreference = RemoveZeros( playerProfile.AchievementPreference );
-            var masteryPreference = RemoveZeros( playerProfile.MasteryPreference );
-            var immersionPreference = RemoveZeros( playerProfile.ImmersionPreference );
+            float creativityPreference = RemoveZeros( playerProfile.CreativityPreference );
+            float achievementPreference = RemoveZeros( playerProfile.AchievementPreference );
+            float masteryPreference = RemoveZeros( playerProfile.MasteryPreference );
+            float immersionPreference = RemoveZeros( playerProfile.ImmersionPreference );
 
-            var normalizeConst = creativityPreference + achievementPreference;
+            float normalizeConst = creativityPreference + achievementPreference;
             normalizeConst += masteryPreference + immersionPreference;
             
-            var talkWeight = (int) RemoveZeros( (100*immersionPreference/normalizeConst) );
-            var getWeight = (int) RemoveZeros( (100*achievementPreference/normalizeConst) );
-            var killWeight = (int) RemoveZeros( (100*masteryPreference/normalizeConst) );
-            var exploreWeight = (int) RemoveZeros( (100*creativityPreference/normalizeConst) );
+            float talkWeight = RemoveZeros( (100*immersionPreference/normalizeConst) );
+            float getWeight = RemoveZeros( (100*achievementPreference/normalizeConst) );
+            float killWeight = RemoveZeros( (100*masteryPreference/normalizeConst) );
+            float exploreWeight = RemoveZeros( (100*creativityPreference/normalizeConst) );
 
-            StartSymbolWeights = new Dictionary<string, Func<int, int>>
+            StartSymbolWeights = new Dictionary<string, Func<int, float>>
             {
                 {Constants.ImmersionQuest, _ => talkWeight},
                 {Constants.AchievementQuest, _ => getWeight},

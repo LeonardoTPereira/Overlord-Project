@@ -16,11 +16,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.MasteryQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get
             {                    
-                Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
+                Dictionary<string, Func<int, float>> masteryQuestWeights = new Dictionary<string, Func<int, float>>();
                 masteryQuestWeights.Add( nameof(KillQuestSo), Constants.OneOptionQuestLineWeight );
                //masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
                 masteryQuestWeights.Add( Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight );
