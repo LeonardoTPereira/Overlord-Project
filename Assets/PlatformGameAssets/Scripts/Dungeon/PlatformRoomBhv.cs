@@ -15,5 +15,10 @@ namespace PlatformGame.Dungeon
         {
             enemy.GetComponent<EnemyHealth>().EnemyKilledHandler += RemoveFromDictionary;
         }
+
+        protected override void SetEnemySpawners(float centerX, float centerY)
+        {
+            
+        }
     }
 }
