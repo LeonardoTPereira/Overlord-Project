@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.ExperimentControllers;
 using UnityEngine;
 using Util;
 
@@ -39,8 +40,9 @@ namespace Game.LevelGenerator.LevelSOs
             Camera.main.transform.position = center;
             foreach (var room in dungeon.Parts)
             {
+                CurrentColor = Color.HSVToRGB(260/360f, 0, 0f);
                 var position = new Vector3(room.Coordinates.X, room.Coordinates.Y, 0);
-                if (room.Type == Constants.RoomTypeString.Corridor || room.Type == Constants.RoomTypeString.Lock)
+                if (room.Type == Constants.RoomTypeString.Corridor || room.Type == Constants.RoomTypeString.LockedCorridor)
                 {
                     if (room.Type == Constants.RoomTypeString.Corridor)
                     {
@@ -69,6 +71,7 @@ namespace Game.LevelGenerator.LevelSOs
                     }
                     var newCorridor = Instantiate(CorridorPrefab, position, rotation);
                     newCorridor.GetComponent<SpriteRenderer>().color = CurrentColor;
+                    newCorridor.GetComponent<DungeonVisualizerRoomData>().roomData = room;
                     _objectsInScene.Add(newCorridor);
                 }
                 else
@@ -78,6 +81,7 @@ namespace Game.LevelGenerator.LevelSOs
                         , 0, maxEnemies, 0, 0.5f));
                     var newRoom = Instantiate(RoomPrefab, position, RoomPrefab.transform.rotation);
                     newRoom.GetComponent<SpriteRenderer>().color = CurrentColor;
+                    newRoom.GetComponent<DungeonVisualizerRoomData>().roomData = room;
                     _objectsInScene.Add(newRoom);
                     if (room.Type == Constants.RoomTypeString.Start)
                     {

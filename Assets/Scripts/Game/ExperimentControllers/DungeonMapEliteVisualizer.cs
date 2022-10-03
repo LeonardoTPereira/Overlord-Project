@@ -22,9 +22,9 @@ namespace Game.ExperimentControllers
         private int _currentDungeon;
         private int _maxEnemies;
         [SerializeField] private Camera textureCamera;
-        [field: SerializeField] private GeneratorSettings.Parameters DungeonGeneratorParameters { get; set; }
         [field: SerializeField] private FitnessInput Fitness { get; set; }
-
+        public static EventHandler ContinueGenerationEventHandler;
+        public GeneratorSettings generatorSettings;
 
         private void Awake()
         {
@@ -37,11 +37,45 @@ namespace Game.ExperimentControllers
             _dungeonSoTester = GetComponent<DungeonSOTester>();
         }
 
+        private void OnEnable()
+        {
+            ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler += PrintCurrentPopulation;
+        }
+
+        private void PrintCurrentPopulation(object sender, CurrentGenerationEventArgs e)
+        {
+            _generatedDungeons = new List<DungeonFileSo>();
+            foreach (var individual in e.CurrentPopulation.EliteList)
+            {
+                var dungeon =
+                    Interface.CreateDungeonSoFromIndividual(individual, Fitness.DesiredEnemies, Fitness.DesiredItems, Fitness.DesiredNpcs);
+                _generatedDungeons.Add(dungeon);
+            }
+            Debug.Log("Finished");
+            _currentDungeon = 0;
+            _maxEnemies = GetMaxEnemies(_generatedDungeons);
+            var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
+            _dungeonSoTester.DrawDungeonSprites(_generatedDungeons[_currentDungeon++], _maxEnemies, center);
+        }
+
+        private void OnDisable()
+        {
+            ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+        }
+
         public async void Create(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
                 await CreateDungeonsForQuestLine();
+            }
+        }
+
+        public void Continue(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                ContinueGenerationEventHandler?.Invoke(this, EventArgs.Empty);
             }
         }
         
@@ -65,7 +99,7 @@ namespace Game.ExperimentControllers
         
         private async Task CreateDungeonsForQuestLine()
         {
-            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(DungeonGeneratorParameters, Fitness));
+            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(generatorSettings.DungeonParameters, Fitness));
             Debug.Log("Finished");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);

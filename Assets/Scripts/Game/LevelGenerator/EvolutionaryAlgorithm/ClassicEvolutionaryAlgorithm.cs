@@ -49,21 +49,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             //Evolve all the generations from the GA
             for (generation = 0; !HasMetStopCriteria(generation, minFitness); ++generation)
             {
-                //Get every dungeon's fitness
-                foreach (var dun in pop.EliteList)
+                /*CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
+                waitGeneration = true;
+                while (waitGeneration)
                 {
-                    dun.CalculateFitness();
-                    dun.generation = generation;
-                }
-                
-                var bestDungeon = pop.EliteList[0];
-                foreach (var dun in pop.EliteList)
-                {
-                    var current = dun.Fitness.Result;
-                    if (minFitness < current) continue;
-                    minFitness = current;
-                    bestDungeon = dun;
-                }
+                    await Task.Yield();
+                }*/
 
 
                 var intermediate = new List<Individual>();
