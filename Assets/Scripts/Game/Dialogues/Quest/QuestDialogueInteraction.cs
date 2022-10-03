@@ -99,7 +99,6 @@ namespace Game
             if ( !_wasTaskResolved )
             {
                 ((IQuestElement)this).OnQuestTaskResolved(this, new QuestReadEventArgs(DialogueObj as ItemSo, QuestId));
-                ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(QuestId));
                 _wasTaskResolved = true;
             }
 

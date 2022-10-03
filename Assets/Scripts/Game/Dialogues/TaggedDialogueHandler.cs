@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 using Fog.Dialogue;
 using Game.Events;
 using Game.GameManager;
+using Game.Quests;
 using UnityEngine;
 
 namespace Game.Dialogues
 {
-    public class TaggedDialogueHandler : DialogueHandler
+    public class TaggedDialogueHandler : DialogueHandler, IQuestElement
     {
         public static event MarkRoomOnMiniMapEvent MarkRoomOnMiniMapEventHandler;
-
+        public static event StartExchangeEvent StartExchangeEventHandler;
+        private string[] _tags;
 
         private void OnEnable()
         {
@@ -31,56 +35,68 @@ namespace Game.Dialogues
         protected override IEnumerator TypeDialogueTextCoroutine() {
             stringBuilder.Clear();
             stringBuilder.Append(dialogueText.text);
-            var tags = ExtractTags(currentLine.Text);
-            foreach (var character in currentLine.Text) {
+            stringBuilder.Append(ExtractAndSaveTags());
+            var finalText = stringBuilder.ToString();
+            stringBuilder.Clear();
+            foreach (var character in finalText) {
                 stringBuilder.Append(character);
                 dialogueText.text = stringBuilder.ToString();
                 dialogueBox.ScrollToEnd();
                 yield return WaitForFrames(framesBetweenCharacters);
             }
-
-            ProcessTags(tags);
+            ProcessTags();
         }
 
         protected override void FillDialogueText() {
             stringBuilder.Clear();
             stringBuilder.Append((dialogueText == titleText) ? currentTitle : "");
-            var tags = ExtractTags(currentLine.Text);
-            stringBuilder.Append(currentLine.Text);
+            stringBuilder.Append(ExtractAndSaveTags());
             dialogueText.text = stringBuilder.ToString();
-            ProcessTags(tags);
+            ProcessTags();
         }
 
-        private void ProcessTags(string[] tags)
+        private void ProcessTags()
         {
-            foreach (var textTag in tags)
+            foreach (var textTag in _tags)
             {
                 Debug.Log("Process Tag: "+textTag);
                 EvaluateTag(textTag);
             }
         }
 
-        private static string[] ExtractTags(string newText)
+        private string ExtractAndSaveTags()
         {
             // split the whole text into parts based off the <> tags 
             // even numbers in the array are text, odd numbers are tags
+            var oldText = currentLine.Text;
+            var newTextBuilder = new StringBuilder();
             char[] separators = {'<', '>'};
-            var subTexts = newText.Split(separators);
+            var subTexts = oldText.Split(separators);
             var customTags = new List<string>();
             for (var i = 0; i < subTexts.Length; i++)
             {
                 Debug.Log("SubText: "+subTexts[i]);
-                if (i % 2 != 1) continue;
-                if (!IsCustomTag(subTexts[i].Replace(" ", ""))) continue;
+                if (i % 2 != 1)
+                {
+                    newTextBuilder.Append(subTexts[i]);
+                    continue;
+                }
+
+                if (!IsCustomTag(subTexts[i].Replace(" ", "")))
+                {
+                    newTextBuilder.Append("<"+subTexts[i]+">");
+                    continue;
+                }
                 customTags.Add($"{subTexts[i]}");
             }
 
-            return customTags.ToArray();
+            _tags = customTags.ToArray();
+            return newTextBuilder.ToString();
         }
 
         private static bool IsCustomTag(string tag)
         {
-            return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("give=") || tag.StartsWith("exchange");
+            return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("trade=");
         }
         
         private void EvaluateTag(string textTag)
@@ -95,15 +111,15 @@ namespace Game.Dialogues
             }
             else if (textTag.StartsWith("complete="))
             {
-                var quest = textTag.Split('=')[1];
+                var questId = int.Parse(textTag.Split('=')[1]);
+                ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questId));
             }
-            else if (textTag.StartsWith("give="))
+            else if (textTag.StartsWith("trade="))
             {
-                var item = textTag.Split('=')[1];
-            }
-            else if (textTag.StartsWith("exchange="))
-            {
-                var room = textTag.Split('=')[1];
+                var npcName = textTag.Split('=')[1];
+                var questId = int.Parse(textTag.Split(',')[1]);
+                StartExchangeEventHandler?.Invoke(this, new StartExchangeEventArgs(questId));
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestExchangeDialogueEventArgs(npcName, questId)); 
             }
         }
     }

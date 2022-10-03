@@ -4,9 +4,11 @@ using System;
 using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
+using Game.Dialogues;
 using Game.Events;
 using UnityEngine;
 using Game.NPCs;
+using Game.Quests;
 
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -32,6 +34,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public ItemSo ReceivedItem { get; set; }
         public NpcSo Npc { get; set; }
         public static event ItemTradeEvent ItemTradeEventHandler;
+        public bool HasItems { get; private set; }
+
+
+        private void OnEnable()
+        {
+            TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
+        }
+
+        private void OnDisable()
+        {
+            TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
+        }
 
         public override void Init()
         {
@@ -39,6 +53,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemsToExchangeByType = new ItemAmountDictionary();
             ReceivedItem = null;
             Npc = null;
+            HasItems = false;
         }
         
         public override void Init(QuestSo copiedQuest)
@@ -76,16 +91,25 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted 
-                   && ItemsToExchangeByType.ContainsKey(questElement as ItemSo ?? throw new InvalidOperationException());
+            return questElement switch
+            {
+                ItemSo itemSo => !IsCompleted && !HasItems && ItemsToExchangeByType.ContainsKey(itemSo),
+                NpcSo npcSo => !IsCompleted && HasItems && npcSo == Npc,
+                _ => false
+            };
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
+            if (HasItems)
+            {
+                IsCompleted = true;
+                return;
+            }
             ItemsToExchangeByType.RemoveItemWithId(questElement as ItemSo, questId);
             if (ItemsToExchangeByType.Count == 0)
             {
-                IsCompleted = true;
+                HasItems = true;
             }
         }
 
@@ -108,9 +132,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             QuestText = stringBuilder.ToString();
         }
 
-        public void TradeItems()
+        private void TradeItems(object sender, StartExchangeEventArgs eventArgs)
         {
+            if (eventArgs.ExchangeQuestId != Id) return;
             ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(CopyOfItemsToTrade, ReceivedItem, Id));
+            IsCompleted = true;
         }
     }
 }

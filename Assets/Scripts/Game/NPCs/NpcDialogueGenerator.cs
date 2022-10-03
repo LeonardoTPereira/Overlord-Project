@@ -113,6 +113,7 @@ namespace Game.NPCs
             }
 
             questCloser.Append("Thank you very much!");
+            questCloser.Append($"<complete={closedQuest.Id}>");
             return questCloser.ToString();
         }
 
@@ -125,5 +126,14 @@ namespace Game.NPCs
             return stringBuilder.ToString();
         }
 #endif
+        public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)
+        {
+            var questExchangeDialogue = new StringBuilder();
+            questExchangeDialogue.Append("You really got all the items.");
+            var spriteString = quest.ReceivedItem.GetToolSpriteString();
+            questExchangeDialogue.Append($"Take this {quest.ReceivedItem.ItemName} {spriteString} as a reward!");
+            questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
+            return questExchangeDialogue.ToString();
+        }
     }
 }

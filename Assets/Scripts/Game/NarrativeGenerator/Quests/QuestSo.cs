@@ -89,12 +89,12 @@ namespace Game.NarrativeGenerator.Quests
 
         public void SetNextSymbol(MarkovChain chain)
         {
-            var chance = RandomSingleton.GetInstance().Next(0, 98);
+            var chance = RandomSingleton.GetInstance().Next(0, 99);
             float cumulativeProbability = 0;
             foreach ( var nextSymbolChance in NextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
-                if (cumulativeProbability <= chance) continue;
+                if (cumulativeProbability < chance) continue;
                 var nextSymbol = nextSymbolChance.Key;
                 chain.SetSymbol( nextSymbol );
                 break;

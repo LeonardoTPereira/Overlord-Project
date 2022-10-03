@@ -5,7 +5,9 @@ using Game.ExperimentControllers;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
+using MyBox;
 using UnityEngine;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -32,7 +34,7 @@ namespace Game.NarrativeGenerator
             while ( _wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 i++;
-                var selectedNpc = _generatorSettings.PlaceholderNpcs[UnityEngine.Random.Range(0, _generatorSettings.PlaceholderNpcs.Count)];
+                var selectedNpc = _generatorSettings.PlaceholderNpcs.GetRandom();
                 ContinueQuestLineForNpc(selectedNpc, questLineList);
             }
             return questLineList;

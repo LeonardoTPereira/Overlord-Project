@@ -24,6 +24,7 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
         public static event QuestCompletedEvent QuestCompletedEventHandler;
         public static event QuestOpenedEvent QuestOpenedEventHandler;
+        public static event QuestElementEvent AllowExchangeEventHandler;
 
         public void Init()
         {
@@ -78,6 +79,11 @@ namespace Game.NarrativeGenerator.Quests
                 if (questSo.IsCompleted && questSo == GetCurrentQuest())
                 {
                     CompleteCurrentQuest();
+                }
+
+                if (questSo is ExchangeQuestSo {HasItems: true, IsCompleted: false} exchangeQuestSo)
+                {
+                    AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                 }
                 if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
             }
