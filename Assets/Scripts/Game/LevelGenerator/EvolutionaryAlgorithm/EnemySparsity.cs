@@ -18,11 +18,15 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             }
         }
 
+        private const float FitnessPenalty = 100f; 
+
         private static int TotalEnemies { get; set; }
 
-        public static float GetEnemySparsity(in Dungeon dungeon, in int totalEnemies)
+        private static float _minDistance;
+        private static float _maxDistance;
+        public static float GetEnemySparsity(in Dungeon dungeon)
         {
-            TotalEnemies = totalEnemies;
+            TotalEnemies = dungeon.GetNumberOfEnemies();
             
             var averagePosition = GetAveragePositionOfEnemies(dungeon);
             
@@ -30,13 +34,18 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
             var distanceAvg = GetAverageDistance(distances);
 
-            if (distanceAvg == 0) return 0;
+            if (distanceAvg == 0) return FitnessPenalty;
             
             var distanceStdDev = GetDistanceStdDev(distances, distanceAvg);
             
-            var result = distanceStdDev / distanceAvg;
-            
-            return result;
+            var coefficientOfVariation = distanceStdDev / Math.Abs(distanceAvg);
+
+            if (coefficientOfVariation < 0)
+            {
+                Debug.LogWarning("Negative Sparsity");
+            }
+
+            return 1f/coefficientOfVariation;
         }
 
         private static float GetAverageDistance(List<EnemyDistance> distances)
@@ -66,6 +75,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         private static List<EnemyDistance> GetEnemyDistances(Dungeon dungeon, Vector2 averagePosition)
         {
+            _maxDistance = float.MinValue;
+            _minDistance = float.MaxValue;
             var distances = new List<EnemyDistance>();
             foreach (var room in dungeon.Rooms)
             {
@@ -73,6 +84,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 roomPosition.x = room.X + dungeon.MinX;
                 roomPosition.y = room.Y + dungeon.MinY;
                 var distance = Vector2.Distance(roomPosition, averagePosition);
+                _minDistance = Math.Min(distance, _minDistance);
+                _maxDistance = Math.Max(distance, _maxDistance);
                 distances.Add(new EnemyDistance(distance, room.Enemies));
             }
             return distances;

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Game.Events;
 using Game.ExperimentControllers;
+using Game.LevelGenerator.LevelSOs;
+using MyBox;
 using UnityEngine;
 using Util;
 
@@ -11,49 +14,47 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     public class ClassicEvolutionaryAlgorithm : LevelGenerator
     {
         private const int PopSize = 100;
-        private readonly int MAX_GEN_WITHOUT_IMPROVEMENT = 20;
+        private readonly int MAX_GEN_WITHOUT_IMPROVEMENT = 30;
         int nGenerationsWithoutImprovement;
-        double bestFitnessYet;
+        public bool waitGeneration;
+        private float _bestFitnessYet;
 
+        public static event CurrentGenerationEvent CurrentGenerationEventHandler;
+
+        
         protected override Population InitializePopulation()
         {
+            waitGeneration = false;
             var dungeons = new ClassicPopulation(0, 0);
             for (var i = 0; i < PopSize; ++i)
             {
                 var individual = Individual.CreateRandom(FitnessInput);
                 individual.Fix();
-                individual.CalculateFitness();
                 dungeons.EliteList.Add(individual);
+                individual.generation = 0;
             }
-
+            PopulationFitness.CalculateFitness(dungeons.EliteList);
             return dungeons;
         }
 
         protected override async Task EvolvePopulation(Population pop)
         {
             var nGenerationsWithoutImprovement = 0;
-            var bestFitnessYet = double.MaxValue;
             var hasFinished = false;
-            var minFitness = double.MaxValue;
+            var minFitness = float.MaxValue;
             int generation;
+            _bestFitnessYet = float.MaxValue;
+
+ 
             //Evolve all the generations from the GA
             for (generation = 0; !HasMetStopCriteria(generation, minFitness); ++generation)
             {
-                //Get every dungeon's fitness
-                foreach (var dun in pop.EliteList)
+                /*CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
+                waitGeneration = true;
+                while (waitGeneration)
                 {
-                    dun.CalculateFitness();
-                    dun.generation = generation;
-                }
-                
-                var bestDungeon = pop.EliteList[0];
-                foreach (var dun in pop.EliteList)
-                {
-                    var current = dun.Fitness.Result;
-                    if (minFitness < current) continue;
-                    minFitness = current;
-                    bestDungeon = dun;
-                }
+                    await Task.Yield();
+                }*/
 
 
                 var intermediate = new List<Individual>();
@@ -66,15 +67,15 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     foreach (var individual in offspring)
                     {
                         individual.Fix();
-                        individual.CalculateFitness();
                         individual.generation = generation;
                         intermediate.Add(individual);
                         individual.BiomeName = "Classic";
                     }
                 }
-
+                PopulationFitness.CalculateFitness(intermediate);
+                intermediate[0] = PopulationFitness.BestDungeon;
+                _bestFitnessYet = PopulationFitness.BestDungeon.Fitness.Result;
                 var progress = generation / (float)Parameters.MinimumElite;
-                intermediate[0] = bestDungeon;
                 pop.EliteList = intermediate;
                 InvokeGenerationEvent(progress);
                 await Task.Yield();
@@ -83,7 +84,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             InvokeGenerationEvent(1.0f);
         }
 
-        private bool HasMetStopCriteria(int gen, double min)
+        private bool HasMetStopCriteria(int gen, float min)
         {
             if (gen >= Parameters.MinimumElite)
             {
@@ -95,9 +96,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 return true;
             }
 
-            if ((bestFitnessYet - min) > 0.01)
+            if ((_bestFitnessYet - min) > 0.01)
             {
-                bestFitnessYet = min;
+                _bestFitnessYet = min;
                 nGenerationsWithoutImprovement = 0;
             }
             else
@@ -111,7 +112,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public ClassicEvolutionaryAlgorithm(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, 
             FitnessPlot fitnessPlot = null) : base(parameters, fitnessInput, fitnessPlot)
         {
-            bestFitnessYet = double.MaxValue;
             nGenerationsWithoutImprovement = 0;
         }
     }

@@ -25,7 +25,8 @@ namespace Util
         public static class RoomTypeString
         {
             public const string Corridor = "Corridor";
-            public const string Lock = "Lock";
+            public const string LockedCorridor = "LockedCorridor";
+            public const string LockedRoom = "LockedRoom";
             public const string Key = "Key";
             public const string Boss = "Boss";
             public const string Leaf = "Leaf";

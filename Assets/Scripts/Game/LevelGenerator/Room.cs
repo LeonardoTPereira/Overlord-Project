@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
@@ -46,9 +47,11 @@ namespace Game.LevelGenerator
         /// The number of enemies in this room.
         public int Enemies { get; set; } = 0;
 
+        public bool IsGoal { get; set; }
+
         /// The depth of the room in the tree. This is used to control the
         /// depth of the dungeon level.
-        public int Depth { get; set; } = 0;
+        public int Depth { get; set; }
 
         /// The rotation of the individual's parent position is related to the
         /// normal cartesian orientation. 0 means that the parent is in the
@@ -81,11 +84,14 @@ namespace Game.LevelGenerator
             RoomType _type = RoomType.Normal,
             int _key = -1,
             int _id = -1
-        ) {
+        )
+        {
+            Depth = 0;
             Type1 = _type;
             RoomID = _id == -1 ? Room.GetNextId() : _id;
             Key = Type1 == RoomType.Key ? RoomID : Key;
             Key = Type1 == RoomType.Locked ? _key : Key;
+            IsGoal = false;
         }
 
         /// Return a clone this room.
@@ -102,6 +108,7 @@ namespace Game.LevelGenerator
             room.Right = Right;
             room.Parent = Parent;
             room.ParentDirection = ParentDirection;
+            room.IsGoal = IsGoal;
             return room;
         }
 
@@ -114,7 +121,7 @@ namespace Game.LevelGenerator
         /// Return an array with the left, bottom, and right children.
         public Room[] GetChildren()
         {
-            return new Room[] {
+            return new [] {
                     Left,
                     Bottom,
                     Right,
@@ -134,7 +141,7 @@ namespace Game.LevelGenerator
 
         /// Return a tuple corresponding to the position in the dungeon grid of
         /// the child of a parent in the entered direction.
-        private (int, int) GetChildPositionInGrid(
+        public (int, int) GetChildPositionInGrid(
             Common.Direction _dir
         ) {
             var cx = 0;
@@ -180,6 +187,8 @@ namespace Game.LevelGenerator
                         cy = Y;
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_dir), _dir, null);
             }
             return (cx, cy);
         }
@@ -212,7 +221,7 @@ namespace Game.LevelGenerator
             (var x, var y) = GetChildPositionInGrid(_dir);
             _child.X = x;
             _child.Y = y;
-            _child.Rotation = (Rotation + DEGREE_90) % DEGREE_360;
+            
             var room = _grid[x, y];
             if (room != null) { return; }
             switch (_dir)
@@ -221,18 +230,27 @@ namespace Game.LevelGenerator
                     Right = _child;
                     Right.Parent = this;
                     Right.Depth = Depth + 1;
+                    _child.Rotation = RotationModulo(Rotation + DEGREE_90);
                     break;
                 case Common.Direction.Down:
                     Bottom = _child;
                     Bottom.Parent = this;
                     Bottom.Depth = Depth + 1;
+                    _child.Rotation = Rotation;
                     break;
                 case Common.Direction.Left:
                     Left = _child;
                     Left.Parent = this;
                     Left.Depth = Depth + 1;
+                    _child.Rotation = RotationModulo(Rotation - DEGREE_90);
                     break;
             }
+        }
+
+        private int RotationModulo(int newRotation)
+        {
+            var result = newRotation % DEGREE_360;
+            return result < 0 ? result + DEGREE_360 : result;
         }
 
         /// Fix the branch that starts in this node.
@@ -372,8 +390,9 @@ namespace Game.LevelGenerator
                 var current = toVisit.Dequeue();
                 oldTotalEnemies += current.Enemies;
                 current.Enemies = 0;
-                branch.Enqueue(current);
                 current.EnqueueChildrenRooms(toVisit);
+                if (current.IsGoal) continue;
+                branch.Enqueue(current);
             }
 
             var oldEnemies = 0;

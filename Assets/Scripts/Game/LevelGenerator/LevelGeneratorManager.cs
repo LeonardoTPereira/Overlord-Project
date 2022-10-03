@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
 using Game.ExperimentControllers;
@@ -22,6 +23,21 @@ namespace Game.LevelGenerator
         private void Start()
         {
             _fitnessPlot = GetComponent<FitnessPlot>();
+        }
+
+        private void OnEnable()
+        {
+            DungeonMapEliteVisualizer.ContinueGenerationEventHandler += ContinueGenerationEvent;
+        }
+
+        private void ContinueGenerationEvent(object sender, EventArgs e)
+        {
+            (_generator as ClassicEvolutionaryAlgorithm).waitGeneration = false;
+        }
+
+        private void OnDisable()
+        {
+            DungeonMapEliteVisualizer.ContinueGenerationEventHandler -= ContinueGenerationEvent;
         }
 
         // The "Main" behind the Dungeon Generator
@@ -58,6 +74,8 @@ namespace Game.LevelGenerator
                     Interface.CreateDungeonSoFromIndividual(individual, totalEnemies, totalItems, totalNpcs);
                 generatedDungeons.Add(dungeon);
             }
+            
+            Debug.LogWarning($"Needed Enemies: {totalEnemies}, Generated Enemies: {generatedDungeons[0].TotalEnemies}");
 
             return generatedDungeons;
         }

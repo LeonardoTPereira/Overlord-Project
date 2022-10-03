@@ -46,5 +46,5 @@ MonoBehaviour:
     <Population>k__BackingField: 100
     <Mutation>k__BackingField: 5
     <Competitors>k__BackingField: 2
-    <MinimumElite>k__BackingField: 100
+    <MinimumElite>k__BackingField: 200
     <AcceptableFitness>k__BackingField: 0.1
