@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using MyBox;
+using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
@@ -8,10 +10,15 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     {
         public float Result { get; set; }
         public float Distance { get; set; }
+        public float NormalizedDistance { get; set; }
         public float Usage { get; set; }
+        public float NormalizedUsage { get; set; }
         public float EnemySparsity { get; set; }
+        public float NormalizedEnemySparsity { get; set; }
         public float EnemyStandardDeviation { get; set; }
+        public float NormalizedEnemyStandardDeviation { get; set; }
         public FitnessInput DesiredInput { get; set; }
+        private const float FitnessPenalty = 100f;
 
         public Fitness( FitnessInput input )
         {
@@ -19,18 +26,51 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             Result = Common.UNKNOWN;
         }
         
+        public void Calculate(Individual individual, FitnessRange fitnessRange) {
+            var dungeon = individual.dungeon;
+            CalculateDistanceFromInput(individual, fitnessRange.distanceToInput, dungeon);
+            CalculateUsage(individual, fitnessRange.usage, dungeon);
+            CalculateSparsity(fitnessRange.sparsity, dungeon);
+            CalculateStandardDeviation(fitnessRange.standardDeviation, dungeon);
+            UpdateResult();
+        }
+        
         public void Calculate(Individual individual) {
             var dungeon = individual.dungeon;
+            DistanceFromInput(individual, dungeon);
+            GetUsageOfRoomsAndLocks(individual, dungeon);
+            EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon);
+            StdDevEnemyByRoom(dungeon, DesiredInput.DesiredEnemies);
+            UpdateResult(false);
+        }
+
+        private void CalculateDistanceFromInput(Individual individual, RangedFloat fitnessRange, Dungeon dungeon)
+        {
             Distance = DistanceFromInput(individual, dungeon);
+            NormalizedDistance = Normalizer.GetMinMaxNormalization(Distance, fitnessRange.Min, fitnessRange.Max);
+        }        
+        
+        private void CalculateUsage(Individual individual, RangedFloat fitnessRange, Dungeon dungeon)
+        {
             Usage = GetUsageOfRoomsAndLocks(individual, dungeon);
-            EnemySparsity = 1.0f - EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon, DesiredInput.DesiredEnemies);
+            NormalizedUsage = Normalizer.GetMinMaxNormalization(Usage, fitnessRange.Min, fitnessRange.Max);
+        }        
+        
+        private void CalculateSparsity(RangedFloat fitnessRange, Dungeon dungeon)
+        {
+            EnemySparsity = EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon);
+            NormalizedEnemySparsity = Normalizer.GetMinMaxNormalization(EnemySparsity, fitnessRange.Min, fitnessRange.Max);
+        }        
+        private void CalculateStandardDeviation(RangedFloat fitnessRange, Dungeon dungeon)
+        {
             EnemyStandardDeviation = StdDevEnemyByRoom(dungeon, DesiredInput.DesiredEnemies);
-            Result = Distance + Usage + EnemySparsity + EnemyStandardDeviation;
+            NormalizedEnemyStandardDeviation = Normalizer.GetMinMaxNormalization(EnemyStandardDeviation, fitnessRange.Min, fitnessRange.Max);
         }
 
         public override string ToString()
         {
-            return $"Total = {Result}, Distance = {Distance}, Usage = {Usage}, Sparsity = {EnemySparsity}, Std Dev = {EnemyStandardDeviation}";
+            return $"Total = {Result}, Distance = {NormalizedDistance}, Usage = {NormalizedUsage}" +
+                   $", Sparsity = {NormalizedEnemySparsity}, Std Dev = {NormalizedEnemyStandardDeviation}";
         }
 
         private float GetUsageOfRoomsAndLocks(Individual individual, Dungeon dungeon, float desiredPercentage = 1.0f)
@@ -68,16 +108,28 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private static float StdDevEnemyByRoom(in Dungeon dungeon, in int enemies)
         {
             var roomsWithEnemies = dungeon.Rooms.Count(room => room.Enemies > 0);
-            if (roomsWithEnemies == 0) return 1;
+            if (roomsWithEnemies == 0) return FitnessPenalty;
             var mean = enemies/(float)roomsWithEnemies;
             var std = dungeon.Rooms.Where(room => room.Enemies > 0).Sum(room => (float) Math.Pow(room.Enemies - mean, 2));
-            var result = (float) Math.Sqrt(std / roomsWithEnemies)/mean;
-            return result;
+            var coefficientOfVariation = (float) Math.Sqrt(std / roomsWithEnemies)/Math.Abs(mean);
+            return coefficientOfVariation;
         }
 
         public bool IsBetter(Fitness other)
         {
             return Result < other.Result;
+        }
+
+        public void UpdateResult(bool normalized = true)
+        {
+            if (normalized)
+            {
+                Result = NormalizedDistance + NormalizedUsage + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
+            }
+            else
+            {
+                Result = Distance + Usage + EnemySparsity + EnemyStandardDeviation;
+            }
         }
     }
 }

@@ -134,12 +134,27 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public void Fix()
         {
-            dungeon.Fix(Fitness.DesiredInput.DesiredEnemies);
+            dungeon.Fix();
         }
 
+        public void CalculateFitness(FitnessRange fitnessRange)
+        {
+            CalculateLinearCoefficient();
+            CalculateUsage();
+            Fitness.Calculate(this, fitnessRange);
+        }
+        
         public void CalculateFitness()
         {
             CalculateLinearCoefficient();
+            CalculateUsage();
+            Fitness.Calculate(this);
+            exploration = Metric.CoefficientOfExploration(this);
+            leniency = Metric.Leniency(this);
+        }
+
+        private void CalculateUsage()
+        {
             if (dungeon.LockIds.Count > 0)
             {
                 // Calculate the number of locks needed to finish the level
@@ -153,6 +168,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                                                    "\n  Total locks=" + dungeon.LockIds.Count +
                                                    "\n  Needed locks=" + neededLocks);
                 }
+
                 neededRooms = 0.0f;
                 // Calculate the number of rooms needed to finish the level
                 for (int i = 0; i < 3; i++)
@@ -161,6 +177,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     dfs.FindRoute();
                     neededRooms += dfs.NVisitedRooms;
                 }
+
                 neededRooms /= 3.0f;
                 // Validate the calculated number of needed rooms
                 if (neededRooms > dungeon.Rooms.Count)
@@ -172,9 +189,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                                                    "\n  Needed rooms=" + neededRooms);
                 }
             }
-            Fitness.Calculate(this);
-            exploration = Metric.CoefficientOfExploration(this);
-            leniency = Metric.Leniency(this);
         }
 
         public bool IsBetterThan(Individual other)
