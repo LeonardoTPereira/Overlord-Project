@@ -134,7 +134,7 @@ namespace Game.LevelGenerator
             //If negative, is a locked corridor, save it as the negative number of the key that opens it
             else if (roomType < 0)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Lock;
+                roomDataDataInFile.Type = Constants.RoomTypeString.LockedCorridor;
                 roomDataDataInFile.Locks = new List<int>
                 {
                     roomType
@@ -150,7 +150,7 @@ namespace Game.LevelGenerator
             }
             else if (roomType == Common.RoomType.LOCKED)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Lock;
+                roomDataDataInFile.Type = Constants.RoomTypeString.LockedRoom;
                 roomDataDataInFile.Treasures = 1;
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;

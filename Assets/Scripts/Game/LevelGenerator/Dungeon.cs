@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Game.LevelManager;
+using MyBox;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
 {
     public class Dungeon
     {
+        private const float InitialProbability = 1.0f;
+
         /// The probability of generating a new room as a child.
         public static readonly float PROB_HAS_CHILD = 100f;
         /// The probability of generating a single child.
         public static readonly float PROB_CHILD = 100f / 3;
         /// The max depth of a dungeon tree.
-        public static readonly int MAX_DEPTH = 5;
+        public static readonly int MAX_DEPTH = 9;
 
         /// Room Grid, where a reference to all the existing room will be maintained for quick access when creating nodes.
         public RoomGrid DungeonGrid { get; set; }
@@ -46,7 +51,7 @@ namespace Game.LevelGenerator
         public Dungeon()
         {
             Rooms = new List<Room>();
-            Room root = RoomFactory.CreateRoot();
+            var root = RoomFactory.CreateRoot();
             Rooms.Add(root);
             DungeonGrid = new RoomGrid();
             DungeonGrid[root.X, root.Y] = root;
@@ -61,12 +66,12 @@ namespace Game.LevelGenerator
         /// Return a clone this dungeon.
         public Dungeon Clone()
         {
-            Dungeon dungeon = new Dungeon();
+            var dungeon = new Dungeon();
             dungeon.Rooms = new List<Room>();
             dungeon.DungeonGrid = new RoomGrid();
-            foreach (Room old in Rooms)
+            foreach (var old in Rooms)
             {
-                Room aux = old.Clone();
+                var aux = old.Clone();
                 dungeon.Rooms.Add(aux);
                 dungeon.DungeonGrid[old.X, old.Y] = aux;
             }
@@ -78,7 +83,7 @@ namespace Game.LevelGenerator
             dungeon.MaxY = MaxY;
             // Need to use the grid to copy the neighboors, children and parent
             // Check the position of the node in the grid and then substitute the old room with the copied one
-            foreach (Room room in dungeon.Rooms)
+            foreach (var room in dungeon.Rooms)
             {
                 if (room.Parent != null)
                 {
@@ -109,8 +114,8 @@ namespace Game.LevelGenerator
         /// Return the number of enemies of the dungeon.
         public int GetNumberOfEnemies()
         {
-            int sum = 0;
-            foreach (Room room in Rooms)
+            var sum = 0;
+            foreach (var room in Rooms)
             {
                 sum += room.Enemies;
             }
@@ -127,10 +132,10 @@ namespace Game.LevelGenerator
         public Room GetGoal()
         {
             Room goal = null;
-            foreach (Room room in Rooms)
+            foreach (var room in Rooms)
             {
                 if (room.Type1 != RoomType.Locked) { continue; }
-                int _lock = LockIds.IndexOf(room.Key);
+                var _lock = LockIds.IndexOf(room.Key);
                 if (_lock == LockIds.Count - 1)
                 {
                     goal = room;
@@ -161,28 +166,25 @@ namespace Game.LevelGenerator
 
         /// While a node (room) has not been visited, or while the max depth of the tree has not been reached, visit each node and create its children.
         public void GenerateRooms() {
-            Queue<Room> toVisit = new Queue<Room>();
+            var toVisit = new Queue<Room>();
             toVisit.Enqueue(Rooms[0]);
-            int prob;
             while (toVisit.Count > 0)
             {
-                Room current = toVisit.Dequeue();
-                int actualDepth = current.Depth;
+                var current = toVisit.Dequeue();
+                var currentDepth = current.Depth;
                 //If max depth allowed has been reached, stop creating children
-                if (actualDepth > MAX_DEPTH)
+                if (currentDepth > MAX_DEPTH)
                 {
                     toVisit.Clear();
                     break;
                 }
                 //Check how many children the node will have, if any.
-                prob = RandomSingleton.GetInstance().RandomPercent();
-                //The parent node has 100% chance to have children, then, at each height, 10% of chance to NOT have children is added.
-                //If a node has a child, create it with the RoomFactory, insert it as a child of the actual node in the right place
-                //Also enqueue it to be visited later and add it to the list of the rooms of this dungeon
-                if (prob <= (PROB_HAS_CHILD * (1 - actualDepth / (MAX_DEPTH + 1))))
+                float prob = RandomSingleton.GetInstance().RandomPercent();
+                var probabilityOfHavingChildren = ProbHasChild(currentDepth);
+                if (prob <= probabilityOfHavingChildren)
                 {
                     Room child = null;
-                    Common.Direction dir = RandomSingleton.GetInstance().RandomElementFromArray(Common.AllDirections());
+                    var dir = RandomSingleton.GetInstance().RandomElementFromArray(Common.AllDirections());
                     prob = RandomSingleton.GetInstance().RandomPercent();
 
                     if (prob < PROB_CHILD)
@@ -206,7 +208,7 @@ namespace Game.LevelGenerator
                         InstantiateRoom(ref child, ref current, Common.Direction.Left);
                     }
                 }
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -217,35 +219,44 @@ namespace Game.LevelGenerator
             FixLocksAndKeys();
         }
 
+        private static float ProbHasChild(int currentDepth)
+        {
+            //CurrentDepth -1 enforces 100% chance to create at least 3 rooms
+            //(root: depth = 0, first level: depth =1, second level: depth = 2)
+            return PROB_HAS_CHILD * (InitialProbability - (currentDepth-1) / (float)(MAX_DEPTH + 1));
+        }
+
         /// Place enemies in random rooms.
-        public void PlaceEnemies(int _enemies) {
-            while (_enemies > 0)
+        public void PlaceEnemies(int enemies) {
+            if (Rooms.Count < 3)
             {
-                int index = RandomSingleton.GetInstance().Next(1, Rooms.Count);
-                if (!Rooms[index].Equals(GetGoal()))
-                {
-                    Rooms[index].Enemies++;
-                    _enemies--;
-                }
+                Debug.LogError("Only 2 rooms");
+            }
+            while (enemies > 0)
+            {
+                var index = RandomSingleton.GetInstance().Next(1, Rooms.Count);
+                if (Rooms[index].IsGoal) continue;
+                Rooms[index].Enemies++;
+                enemies--;
             }
         }
 
         /// Add a lock and a key.
         public void AddLockAndKey() {
-            Queue<Room> toVisit = new Queue<Room>();
+            var toVisit = new Queue<Room>();
             toVisit.Enqueue(Rooms[0]);
-            bool hasKey = false;
-            bool hasLock = false;
-            int lockId = -1;
+            var hasKey = false;
+            var hasLock = false;
+            var lockId = -1;
             while (toVisit.Count > 0 && !hasLock)
             {
-                Room current = toVisit.Dequeue();
+                var current = toVisit.Dequeue();
                 if (current.Type1 == RoomType.Normal &&
                     !current.Equals(Rooms[0])
                 ) {
                     float prob = RandomSingleton.GetInstance().RandomPercent();
-                    float chance = RoomFactory.PROB_KEY_ROOM +
-                        RoomFactory.PROB_LOCKER_ROOM;
+                    var chance = RoomFactory.PROB_KEY_ROOM +
+                                 RoomFactory.PROB_LOCKER_ROOM;
                     if (chance >= prob)
                     {
                         if (!hasKey)
@@ -266,7 +277,7 @@ namespace Game.LevelGenerator
                         }
                     }
                 }
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -279,10 +290,10 @@ namespace Game.LevelGenerator
         /// Remove a lock and a key.
         public void RemoveLockAndKey() {
             // Choose a random key to remove and find its lock
-            int keyId = RandomSingleton.GetInstance().Next(0, KeyIds.Count);
-            int lockId = -1;
-            int keyCount = 0;
-            foreach (Room room in Rooms)
+            var keyId = RandomSingleton.GetInstance().Next(0, KeyIds.Count);
+            var lockId = -1;
+            var keyCount = 0;
+            foreach (var room in Rooms)
             {
                 if (room.Type1 == RoomType.Key)
                 {
@@ -294,12 +305,12 @@ namespace Game.LevelGenerator
                 }
             }
             // Remove the key
-            bool hasKey = false;
-            Queue<Room> toVisit = new Queue<Room>();
+            var hasKey = false;
+            var toVisit = new Queue<Room>();
             toVisit.Enqueue(Rooms[0]);
             while (toVisit.Count > 0 && !hasKey)
             {
-                Room current = toVisit.Dequeue();
+                var current = toVisit.Dequeue();
                 if (current.Type1 == RoomType.Key && current.RoomID == lockId)
                 {
                     current.Type1 = RoomType.Normal;
@@ -307,7 +318,7 @@ namespace Game.LevelGenerator
                     DungeonGrid[current.X, current.Y] = current;
                     hasKey = true;
                 }
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -316,12 +327,12 @@ namespace Game.LevelGenerator
                 }
             }
             // Remove the lock
-            bool hasLock = false;
+            var hasLock = false;
             toVisit.Clear();
             toVisit.Enqueue(Rooms[0]);
             while (toVisit.Count > 0 && !hasLock)
             {
-                Room current = toVisit.Dequeue();
+                var current = toVisit.Dequeue();
                 if (current.Type1 == RoomType.Locked && current.Key == lockId)
                 {
                     current.Type1 = RoomType.Normal;
@@ -329,7 +340,7 @@ namespace Game.LevelGenerator
                     DungeonGrid[current.X, current.Y] = current;
                     hasLock = true;
                 }
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -371,7 +382,7 @@ namespace Game.LevelGenerator
                 var dungeonGrid = DungeonGrid;
                 dungeonGrid[room.X, room.Y] = room;
                 Rooms.Add(room);
-                Room aux = room.Left;
+                var aux = room.Left;
                 if (aux != null && aux.Parent != null && aux.Parent.Equals(room))
                 {
                     hasInserted = room.ValidateChild(Common.Direction.Left, dungeonGrid);
@@ -417,7 +428,7 @@ namespace Game.LevelGenerator
         /// Recreate the room list by visiting all the rooms in the tree and
         /// adding them to the list while also counting the number of locks and
         /// keys.
-        public void Fix(int totalEnemies) {
+        public void Fix() {
             FixRooms();
             FixMissions();
             FixLocksAndKeys();
@@ -427,14 +438,14 @@ namespace Game.LevelGenerator
         /// Fix the list of rooms.
         private void FixRooms()
         {
-            Queue<Room> toVisit = new Queue<Room>();
+            var toVisit = new Queue<Room>();
             toVisit.Enqueue(Rooms[0]);
             Rooms.Clear();
             while (toVisit.Count > 0)
             {
-                Room current = toVisit.Dequeue();
+                var current = toVisit.Dequeue();
                 Rooms.Add(current);
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -465,7 +476,7 @@ namespace Game.LevelGenerator
             MinY = RoomGrid.LEVEL_GRID_OFFSET;
             MaxX = -RoomGrid.LEVEL_GRID_OFFSET;
             MaxY = -RoomGrid.LEVEL_GRID_OFFSET;
-            foreach (Room room in Rooms)
+            foreach (var room in Rooms)
             {
                 // Update grid bounds
                 MinX = MinX > room.X ? room.X : MinX;
@@ -634,8 +645,8 @@ namespace Game.LevelGenerator
 
         public void SetDimensionsFromBoundaries()
         {
-            int width = DungeonBoundaries.MaxBoundaries.X - DungeonBoundaries.MinBoundaries.X + 1;
-            int height = DungeonBoundaries.MaxBoundaries.Y - DungeonBoundaries.MinBoundaries.Y + 1;
+            var width = DungeonBoundaries.MaxBoundaries.X - DungeonBoundaries.MinBoundaries.X + 1;
+            var height = DungeonBoundaries.MaxBoundaries.Y - DungeonBoundaries.MinBoundaries.Y + 1;
             DungeonDimensions = new Dimensions(width, height);
         }
 
