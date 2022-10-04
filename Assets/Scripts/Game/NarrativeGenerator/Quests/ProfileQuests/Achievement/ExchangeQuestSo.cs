@@ -4,11 +4,9 @@ using System;
 using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
-using Game.Dialogues;
 using Game.Events;
 using UnityEngine;
 using Game.NPCs;
-using Game.Quests;
 
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -29,31 +27,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return ItemsToExchangeByType;
         }
 
+        public ExchangeQuestData ExchangeData { get; set; }
         [field: SerializeField] public ItemAmountDictionary ItemsToExchangeByType { get; set; }
-        private ItemAmountDictionary CopyOfItemsToTrade { get; set; }
-        public ItemSo ReceivedItem { get; set; }
+        
         public NpcSo Npc { get; set; }
-        public static event ItemTradeEvent ItemTradeEventHandler;
         public bool HasItems { get; private set; }
-
-
-        private void OnEnable()
-        {
-            TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
-        }
-
-        private void OnDisable()
-        {
-            TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
-        }
+        public bool HasCreatedDialogue { get; set; }
 
         public override void Init()
         {
             base.Init();
             ItemsToExchangeByType = new ItemAmountDictionary();
-            ReceivedItem = null;
             Npc = null;
             HasItems = false;
+            HasCreatedDialogue = false;
+            ExchangeData = new ExchangeQuestData();
         }
         
         public override void Init(QuestSo copiedQuest)
@@ -63,9 +51,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (exchangeQuest != null)
             {
                 Npc = exchangeQuest.Npc;
-                ReceivedItem = exchangeQuest.ReceivedItem;
                 ItemsToExchangeByType = (ItemAmountDictionary) exchangeQuest.ItemsToExchangeByType.Clone();
-                CopyOfItemsToTrade = exchangeQuest.CopyOfItemsToTrade;
+                ExchangeData = exchangeQuest.ExchangeData;
             }
             else
             {
@@ -79,7 +66,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
             ItemsToExchangeByType = exchangedItems;
-            ReceivedItem = receivedItem;
+            ExchangeData =
+                new ExchangeQuestData((ItemAmountDictionary) ItemsToExchangeByType.Clone(), receivedItem, Id);
         }
         
         public override QuestSo Clone()
@@ -116,7 +104,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
-            CopyOfItemsToTrade = (ItemAmountDictionary) ItemsToExchangeByType.Clone();
             string spriteString;
             foreach (var itemByAmount in ItemsToExchangeByType)
             {                
@@ -126,17 +113,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             stringBuilder.Remove(stringBuilder.Length - 2, 2);
             stringBuilder.Append($" with {Npc.NpcName}.\n");
             
-            spriteString = ReceivedItem.GetToolSpriteString();
-            stringBuilder.Append($"They'll give you a {ReceivedItem.ItemName} {spriteString}!");
+            spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
+            stringBuilder.Append($"They'll give you a {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
             
             QuestText = stringBuilder.ToString();
-        }
-
-        private void TradeItems(object sender, StartExchangeEventArgs eventArgs)
-        {
-            if (eventArgs.ExchangeQuestId != Id) return;
-            ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(CopyOfItemsToTrade, ReceivedItem, Id));
-            IsCompleted = true;
         }
     }
 }

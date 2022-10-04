@@ -31,7 +31,7 @@ namespace Game
         protected Queue<QuestSo> _assignedQuestsQueue;
         public int QuestId { get; set; }
         
-        protected void Awake()
+        protected virtual void Awake()
         {
             _assignedQuestsQueue = new Queue<QuestSo>();
         }

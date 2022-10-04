@@ -116,7 +116,16 @@ namespace Game.NPCs
             questCloser.Append($"<complete={closedQuest.Id}>");
             return questCloser.ToString();
         }
-
+        
+        public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)
+        {
+            var questExchangeDialogue = new StringBuilder();
+            questExchangeDialogue.Append("You really got all the items.");
+            var spriteString = quest.ExchangeData.ReceivedItem.GetToolSpriteString();
+            questExchangeDialogue.Append($"Take this {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} as a reward!");
+            questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
+            return questExchangeDialogue.ToString();
+        }
 #if UNITY_EDITOR
         [ButtonMethod]
         public static string CreateMockGoToQuest()
@@ -126,14 +135,6 @@ namespace Game.NPCs
             return stringBuilder.ToString();
         }
 #endif
-        public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)
-        {
-            var questExchangeDialogue = new StringBuilder();
-            questExchangeDialogue.Append("You really got all the items.");
-            var spriteString = quest.ReceivedItem.GetToolSpriteString();
-            questExchangeDialogue.Append($"Take this {quest.ReceivedItem.ItemName} {spriteString} as a reward!");
-            questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
-            return questExchangeDialogue.ToString();
-        }
+
     }
 }

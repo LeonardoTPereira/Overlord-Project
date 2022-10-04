@@ -81,8 +81,9 @@ namespace Game.NarrativeGenerator.Quests
                     CompleteCurrentQuest();
                 }
 
-                if (questSo is ExchangeQuestSo {HasItems: true, IsCompleted: false} exchangeQuestSo)
+                if (questSo is ExchangeQuestSo {HasItems: true, IsCompleted: false, HasCreatedDialogue: false} exchangeQuestSo)
                 {
+                    exchangeQuestSo.HasCreatedDialogue = true;
                     AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                 }
                 if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
