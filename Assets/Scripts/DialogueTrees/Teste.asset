@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7707621946797282052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74cef597df747d04d9750fa3bd67b10d, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c220e2daec4c6c84fa886460498f6bcf
+  position: {x: 0, y: 0}
+  child: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,6 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81444954e766d34db604c1c7e35082e, type: 3}
   m_Name: Teste
   m_EditorClassIdentifier: 
-  <RootNode>k__BackingField: {fileID: 0}
+  <RootNode>k__BackingField: {fileID: -7707621946797282052}
   <TreeState>k__BackingField: 0
-  <Nodes>k__BackingField: []
+  <Nodes>k__BackingField:
+  - {fileID: -7707621946797282052}

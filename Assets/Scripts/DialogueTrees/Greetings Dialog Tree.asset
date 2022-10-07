@@ -18,8 +18,8 @@ MonoBehaviour:
   position: {x: -15.999958, y: 327.75296}
   _children:
   - {fileID: -2203265954913022222}
-  - {fileID: -5921512659874141547}
   - {fileID: 1094638727138080744}
+  - {fileID: -5921512659874141547}
   attribute: SocialFactor
   attributeFactor: 6
 --- !u!114 &-8306071293600809312

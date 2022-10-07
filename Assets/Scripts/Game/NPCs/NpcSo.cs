@@ -10,10 +10,8 @@ namespace Game.NPCs
     {
         
         [FormerlySerializedAs("_npcName")] [SerializeField] private string npcName;
-        [SerializeField] private int age;
         [SerializeField] private Jobs job;
         [SerializeField] private Races race;
-        [SerializeField] private int traumaFactor;
         [SerializeField] private int violenceFactor;
         [SerializeField] private int attainFactor;
         [SerializeField] private int explorationFactor;
@@ -26,11 +24,6 @@ namespace Game.NPCs
             get => npcName;
             set => npcName = dialogueData.NpcDialogueName = value;
         }
-        public int Age
-        {
-            get => age;
-            set => age = value;
-        }
 
         public Jobs Job
         {
@@ -42,12 +35,6 @@ namespace Game.NPCs
         {
             get => race;
             set => race = value;
-        }
-
-        public int TraumaFactor
-        {
-            get => traumaFactor;
-            set => traumaFactor = value;
         }
 
         public int ViolenceFactor
