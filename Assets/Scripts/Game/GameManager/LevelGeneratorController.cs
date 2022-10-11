@@ -47,11 +47,11 @@ namespace Game.GameManager
 
         public void OnEnable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= CreateLevelFromNarrative;
         }
 
         public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)

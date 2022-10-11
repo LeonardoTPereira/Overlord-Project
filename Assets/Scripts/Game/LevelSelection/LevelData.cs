@@ -11,8 +11,8 @@ namespace Game.LevelSelection
     {
         [field:SerializeField] public QuestLineList QuestLines { get; set; }
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
-        private bool _completed;
-        private bool _surrendered;
+        protected bool IsCompleted { get; set; }
+        protected bool HasSurrendered { get; set; }
 
         public void Init(QuestLineList questLines, DungeonFileSo dungeon)
         {
@@ -20,23 +20,23 @@ namespace Game.LevelSelection
             QuestLines.Init(questLines);
             Dungeon = dungeon;
             QuestLines.ConvertDataForCurrentDungeon(Dungeon.Parts);
-            _completed = false;
-            _surrendered = false;
+            IsCompleted = false;
+            HasSurrendered = false;
         }
 
         public void CompleteLevel()
         {
-            _completed = true;
+            IsCompleted = true;
         }
 
         public void GiveUpLevel()
         {
-            _surrendered = true;
+            HasSurrendered = true;
         }
 
         public bool HasCompleted()
         {
-            return _completed || _surrendered;
+            return IsCompleted || HasSurrendered;
         }
     }
 }

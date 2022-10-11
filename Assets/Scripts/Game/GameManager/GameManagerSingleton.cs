@@ -2,6 +2,8 @@
 using Game.Audio;
 using Game.Events;
 using Game.LevelManager.DungeonLoader;
+using Game.SaveLoadSystem;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -15,6 +17,7 @@ namespace Game.GameManager
         [field: SerializeField] public ProjectileTypeSO playerProjectile { get; set; }
 
         public bool IsLastQuestLine { get; set; }
+        [field: SerializeField] private SceneReference experimentSelectorScreen;
 
         public static event EventHandler GameStartEventHandler;
         
@@ -44,6 +47,10 @@ namespace Game.GameManager
         private void Start()
         {
             GameStartEventHandler?.Invoke(null, EventArgs.Empty);
+            if (SaveLoadManager.HasSaveFile())
+            {
+                SceneManager.LoadScene(experimentSelectorScreen.SceneName);
+            }
         }
         
         private void OnApplicationQuit()

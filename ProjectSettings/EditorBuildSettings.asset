@@ -27,8 +27,11 @@ EditorBuildSettings:
     path: Assets/Scenes/ArenaUI.unity
     guid: 144ec5c99dadf6d4c810819f8e9ca075
   - enabled: 1
-    path: Assets/Scenes/MinimapUI.unity
+    path: Assets/Scenes/MiniMapUI.unity
     guid: 335bb102c4fdbd8409fa7364d324716a
+  - enabled: 1
+    path: Assets/Scenes/ExperimentLevelSelector.unity
+    guid: 98e262a735cfb66468973ba893ee3ac8
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5485ac31a41ef9b46bd1b977b05b8368,
       type: 2}

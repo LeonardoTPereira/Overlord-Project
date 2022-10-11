@@ -10,7 +10,7 @@ namespace Game.NarrativeGenerator
 {
     public static class ProfileCalculator
     {
-        private static Dictionary<string, int> _questWeightsByType = new ();
+        private static Dictionary<string, int> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
 
 
@@ -71,6 +71,7 @@ namespace Game.NarrativeGenerator
         
         private static void CalculateProfileWeights(List<int> answers)
         {
+            _questWeightsByType = new Dictionary<string, int>();
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
             _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[0]);
             _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[1]);
@@ -80,6 +81,7 @@ namespace Game.NarrativeGenerator
         
         private static void CalculateFakeProfile(List<int> answers)
         {
+            _questWeightsByType = new Dictionary<string, int>();
             //TODO make logic circle at every new dungeon
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
             _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[3]);

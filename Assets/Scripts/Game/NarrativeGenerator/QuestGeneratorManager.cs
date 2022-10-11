@@ -32,17 +32,20 @@ namespace Game.NarrativeGenerator
         [field:SerializeField] public bool MustCreateNarrative { get; set; } = false;
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
+        private bool _fixedProfileFromExperiment;
 
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
-        
+        public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
+
 
         public void OnEnable()
         {
             NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
+            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler += SelectPlayerProfile;
         }
 
@@ -50,6 +53,7 @@ namespace Game.NarrativeGenerator
         {
             NarrativeGenerator.NarrativeCreatorEventHandler -= SelectPlayerProfile;
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
+            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
         }
 
@@ -61,9 +65,17 @@ namespace Game.NarrativeGenerator
 
         private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
+            _fixedProfileFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
             var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
                 CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
-            await CreateOrLoadNarrativeForProfile(playerProfile);
+            if (_fixedProfileFromExperiment)
+            {
+                await CreateOrLoadNarrativeForProfile(playerProfile);
+            }
+            else
+            {
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            }
         }
         
         private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
@@ -102,7 +114,7 @@ namespace Game.NarrativeGenerator
                 SaveSOs(playerProfile.PlayerProfileEnum.ToString());
             }
             SelectedLevels.Init(questLines);
-            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+            FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));
         }
 

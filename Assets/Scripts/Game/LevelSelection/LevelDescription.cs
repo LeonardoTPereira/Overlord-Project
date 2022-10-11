@@ -13,9 +13,9 @@ namespace Game.LevelSelection
 
         [field:SerializeField] public TextMeshProUGUI DisplayedText { get; set; }
 
-        private bool _isShowingDungeon;
+        protected bool _isShowingDungeon;
 
-        public void CreateDescriptions(LevelData levelData)
+        public virtual void CreateDescriptions(LevelData levelData)
         {
             CreateDungeonDescription(levelData.Dungeon);
             _isShowingDungeon = false;
@@ -36,7 +36,7 @@ namespace Game.LevelSelection
             ChangeDescription();
         }
 
-        private void ChangeDescription()
+        protected void ChangeDescription()
         {
             _isShowingDungeon = !_isShowingDungeon;
             DisplayedText.text = _isShowingDungeon ? DungeonDescription : QuestDescription;

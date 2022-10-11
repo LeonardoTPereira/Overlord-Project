@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.LevelManager.DungeonLoader;
+using Game.NarrativeGenerator;
 using UnityEngine;
 using Util;
 #if !UNITY_WEBGL || UNITY_EDITOR
@@ -111,6 +112,7 @@ namespace Game.DataCollection
 #endif
         [field: SerializeField] public float TimeToFinish { get; private set; }
         
+        #region //Quest related data
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -234,7 +236,13 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
+        #endregion
         [field: SerializeField] public int PlayerId { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public PlayerProfile InputProfile { get; set; }
+
         private float _startTime;
         private int _currentCombo;
         private RoomData _currentRoom;

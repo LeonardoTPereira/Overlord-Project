@@ -8,6 +8,7 @@ using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;
 using Game.NarrativeGenerator.Quests;
+using Game.SaveLoadSystem;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -81,6 +82,7 @@ namespace Game.LevelManager.DungeonLoader
 
             selectedLevels.GetCurrentLevel().CompleteLevel();
             victoryScreen.SetActive(true);
+            SaveLoadManager.Save();
         }
         
         public void OnLevelLoadedEvents()
