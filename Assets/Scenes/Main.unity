@@ -491,11 +491,18 @@ PrefabInstance:
       propertyPath: nextPanel.sceneIndex
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1485453624184611762, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_Text
+      value: Before we begin the game, we would like to know a little more about
+        you. Please, try to answer the questions below with the answers that best
+        suit you.
+      objectReference: {fileID: 0}
     - target: {fileID: 1485715969279221862, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: questionsData
       value: 
-      objectReference: {fileID: 11400000, guid: 87e2b39734d847449676485068bcf58a,
+      objectReference: {fileID: 11400000, guid: c0518853ef13f80479bbb62fda7ae4d4,
         type: 2}
     - target: {fileID: 1516576439373387153, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
