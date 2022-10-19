@@ -21,7 +21,6 @@ namespace PlatformGame.Dungeon
 
         public override void SpawnEnemies()
         {
-            Debug.Log("TesT");
             while (!_isSpawnPointsGenerated) { }
 
             base.SpawnEnemies();
@@ -29,7 +28,6 @@ namespace PlatformGame.Dungeon
 
         protected override void SetEnemySpawners(float centerX, float centerY)
         {
-            Debug.Log(transform.lossyScale);
             _isSpawnPointsGenerated = false;
             // Need to have the roomModel matrix to work
             char [,] roomModel = new char[,]
@@ -81,7 +79,6 @@ namespace PlatformGame.Dungeon
             {
                 _backtrackingPath[i + 1, j] = true;
                 spawnPoints.Add(new Vector3((j - centerX)* transform.lossyScale.x, (centerY - i) * transform.lossyScale.y, 0));
-                Debug.Log(new Vector3(j - centerX, centerY - i, 0));
             }
 
             // go UP
