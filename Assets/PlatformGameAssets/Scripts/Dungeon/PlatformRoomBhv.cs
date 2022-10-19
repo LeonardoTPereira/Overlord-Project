@@ -80,6 +80,11 @@ namespace PlatformGame.Dungeon
                 _backtrackingPath[i + 1, j] = true;
                 spawnPoints.Add(new Vector3((j - centerX)* transform.lossyScale.x, (centerY - i) * transform.lossyScale.y, 0));
             }
+            // Test the default ground block around the map
+            else if (i + 1 == lineNum)
+            {
+                spawnPoints.Add(new Vector3((j - centerX) * transform.lossyScale.x, (centerY - i) * transform.lossyScale.y, 0));
+            }
 
             // go UP
             if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
