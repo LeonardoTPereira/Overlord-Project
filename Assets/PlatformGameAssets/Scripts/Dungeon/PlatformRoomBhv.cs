@@ -9,6 +9,7 @@ namespace PlatformGame.Dungeon
     public class PlatformRoomBhv : RoomBhv
     {
         private bool[,] _backtrackingPath;
+        private bool _isSpawnPointsGenerated = false;
         //Change enemy spawners later...
         //Do not forget EnemyKilledHandler event inside SpawnEnemies() to remove from enemy dictionary...
 
@@ -17,8 +18,19 @@ namespace PlatformGame.Dungeon
             enemy.GetComponent<EnemyHealth>().EnemyKilledHandler += RemoveFromDictionary;
         }
 
+
+        public override void SpawnEnemies()
+        {
+            Debug.Log("TesT");
+            while (!_isSpawnPointsGenerated) { }
+
+            base.SpawnEnemies();
+        }
+
         protected override void SetEnemySpawners(float centerX, float centerY)
         {
+            Debug.Log(transform.lossyScale);
+            _isSpawnPointsGenerated = false;
             // Need to have the roomModel matrix to work
             char [,] roomModel = new char[,]
             {
@@ -47,25 +59,19 @@ namespace PlatformGame.Dungeon
                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
             };
-            Debug.Log(centerX);
-            Debug.Log(centerY);
             _backtrackingPath = new bool[roomModel.GetLength(0), roomModel.GetLength(1)];
 
             for (int i = 0; i < roomModel.GetLength(0); i++)
                 for (int j = 0; j < roomModel.GetLength(1); j++)
                     _backtrackingPath[i, j] = false;
-            //spawnPoints.Add(new Vector3(1, 1,0));
             int startX = 5, startY = 0;
 
-            Debug.Log("lineNum: " + roomModel.GetLength(0) );
-            Debug.Log("lineNum: " + roomModel.GetLength(1));
-
             SpawnBacktracking(startX, startY, roomModel.GetLength(0), roomModel.GetLength(1), centerX, centerY, roomModel);
+            _isSpawnPointsGenerated = true;
         }
 
         private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float centerX, float centerY, char[,] roomModel)
         {
-            //Debug.Log("i: " + i + "    j: " + j);
             if (roomModel[i,j] == '#')
             {
                 return;
@@ -74,15 +80,15 @@ namespace PlatformGame.Dungeon
             if (i + 1 < lineNum && roomModel[i + 1, j] == '#')
             {
                 _backtrackingPath[i + 1, j] = true;
-                spawnPoints.Add(new Vector3(j - centerX, centerY - i, 0));
+                spawnPoints.Add(new Vector3((j - centerX)* transform.lossyScale.x, (centerY - i) * transform.lossyScale.y, 0));
                 Debug.Log(new Vector3(j - centerX, centerY - i, 0));
             }
 
             // go UP
-            if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
+            if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
             {
-                _backtrackingPath[i + 1, j] = true;
-                SpawnBacktracking(i + 1, j, lineNum, colNum, centerX, centerY, roomModel);
+                _backtrackingPath[i - 1, j] = true;
+                SpawnBacktracking(i - 1, j, lineNum, colNum, centerX, centerY, roomModel);
             }
             // go RIGHT
             if (j + 1 < colNum && !_backtrackingPath[i, j + 1])
@@ -91,10 +97,10 @@ namespace PlatformGame.Dungeon
                 SpawnBacktracking(i, j + 1, lineNum, colNum, centerX, centerY, roomModel);
             }
             // go DOWN
-            if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
+            if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
             {
-                _backtrackingPath[i - 1, j] = true;
-                SpawnBacktracking(i - 1, j, lineNum, colNum, centerX, centerY, roomModel);
+                _backtrackingPath[i + 1, j] = true;
+                SpawnBacktracking(i + 1, j, lineNum, colNum, centerX, centerY, roomModel);
             }
             // go LEFT
             if (j - 1 > 0 && !_backtrackingPath[i, j - 1])
