@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.Audio;
 using Game.Events;
+using Game.SaveLoadSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,11 +13,18 @@ namespace Game.LevelSelection
     public class RealTimeLevelSelectManager : LevelSelectManager
     {
         public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
+        public static event Action SaveStateHandler;
         private bool _hasPressedButton;
 
         private void Awake()
         {
             _hasPressedButton = false;
+        }
+
+        private void Start()
+        {
+
+            SaveStateHandler?.Invoke();
         }
 
         protected override void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)

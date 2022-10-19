@@ -13,11 +13,6 @@ namespace Game.SaveLoadSystem
             Id = Guid.NewGuid().ToString();
         }
 
-        private void Awake()
-        {
-            Id ??= Guid.NewGuid().ToString();
-        }
-
         public object SaveState()
         {
             var state = new Dictionary<string, object>();

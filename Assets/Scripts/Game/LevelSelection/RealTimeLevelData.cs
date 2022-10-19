@@ -26,12 +26,14 @@ namespace Game.LevelSelection
             var saveData = (SaveData) state;
             IsCompleted = saveData.Completed;
             HasSurrendered = saveData.Surrendered;
+            HasDataBeenLoaded = true;
         }
 
+        [Serializable]
         private struct SaveData
         {
-            public bool Completed;
-            public bool Surrendered;
+            [SerializeField] public bool Completed;
+            [SerializeField] public bool Surrendered;
         }
     }
 }

@@ -82,7 +82,6 @@ namespace Game.LevelManager.DungeonLoader
 
             selectedLevels.GetCurrentLevel().CompleteLevel();
             victoryScreen.SetActive(true);
-            SaveLoadManager.Save();
         }
         
         public void OnLevelLoadedEvents()

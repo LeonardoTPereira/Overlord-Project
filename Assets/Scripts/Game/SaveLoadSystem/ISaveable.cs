@@ -1,4 +1,6 @@
-﻿namespace Game.SaveLoadSystem
+﻿using System;
+
+namespace Game.SaveLoadSystem
 {
     public interface ISaveable
     {

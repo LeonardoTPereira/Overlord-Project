@@ -20,7 +20,9 @@ namespace Game.GameManager
         [field: SerializeField] private SceneReference experimentSelectorScreen;
 
         public static event EventHandler GameStartEventHandler;
-        
+        public static event Action LoadStateHandler;
+        private bool _hasLoaded;
+
         public bool arenaMode;
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -28,6 +30,15 @@ namespace Game.GameManager
             if (scene.name == "Main" || scene.name == "ContentGenerator")
             {
                 ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.MainMenuTheme));
+            }
+
+            if (scene.name == "ExperimentLevelSelector")
+            {
+                if (!_hasLoaded)
+                {
+                    LoadStateHandler?.Invoke();
+                    _hasLoaded = true;
+                }
             }
         }
 

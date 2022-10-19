@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
+using Game.SaveLoadSystem;
 using UnityEngine;
 
 namespace Game.LevelSelection
@@ -13,6 +14,7 @@ namespace Game.LevelSelection
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
         protected bool IsCompleted { get; set; }
         protected bool HasSurrendered { get; set; }
+        protected bool HasDataBeenLoaded { get; set; }
 
         public void Init(QuestLineList questLines, DungeonFileSo dungeon)
         {
@@ -20,6 +22,7 @@ namespace Game.LevelSelection
             QuestLines.Init(questLines);
             Dungeon = dungeon;
             QuestLines.ConvertDataForCurrentDungeon(Dungeon.Parts);
+            if (HasDataBeenLoaded) return;
             IsCompleted = false;
             HasSurrendered = false;
         }

@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Game.GameManager;
+using Game.LevelSelection;
 using UnityEngine;
 
 namespace Game.SaveLoadSystem
 {
     public class SaveLoadManager : MonoBehaviour
     {
-        private static readonly string SavePath = $"{Application.persistentDataPath}/save.txt";
-        private static readonly string KeyPath = $"{Application.persistentDataPath}/key.txt";
+        private static string _savePath;
+        private static string _keyPath;
         private static string _key;
         private const int XOrKey = 1243522;
 
         private void Awake()
         {
-            if (!File.Exists(KeyPath))
+            _savePath = $"{Application.persistentDataPath}/save.txt";
+            _keyPath = $"{Application.persistentDataPath}/key.txt";
+            if (!File.Exists(_keyPath))
             {
                 using var rijndael = System.Security.Cryptography.Rijndael.Create();
                 rijndael.GenerateKey();
@@ -23,28 +27,35 @@ namespace Game.SaveLoadSystem
             }
             else
             {
-                _key = File.ReadAllText(KeyPath);
+                _key = File.ReadAllText(_keyPath);
                 _key = EncryptionManager.EncryptDecrypt(_key, XOrKey);
             }
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            Load();
+            RealTimeLevelSelectManager.SaveStateHandler += Save;
+            GameManagerSingleton.LoadStateHandler += Load;
+        }
+        
+        private void OnDisable()
+        {
+            RealTimeLevelSelectManager.SaveStateHandler -= Save;
+            GameManagerSingleton.LoadStateHandler -= Load;
         }
 
         public static bool HasSaveFile()
         {
-            return File.Exists(SavePath);
+            return File.Exists(_savePath);
         }
 
-        public static void Save()
+        private static void Save()
         {
             var state = LoadFile();
             SaveState(state);
             SaveFile(state);
             _key = EncryptionManager.EncryptDecrypt(_key, XOrKey);
-            File.WriteAllText(KeyPath, _key);
+            File.WriteAllText(_keyPath, _key);
         }
 
         
@@ -82,20 +93,24 @@ namespace Game.SaveLoadSystem
         
         private static void SaveFile(object state)
         {
-            using var stream = File.Open(SavePath, FileMode.Create);
+            using var stream = File.Open(_savePath, FileMode.Create);
             var formatter = new BinaryFormatter();
             formatter.Serialize(stream, state);
         }
 
         private static Dictionary<string, object> LoadFile()
         {
-            if (!File.Exists(SavePath))
+            if (!File.Exists(_savePath))
             {
                 Debug.LogWarning("No save file found");
-                return null;
+                return new Dictionary<string, object>();
             }
 
-            using var stream = File.Open(SavePath, FileMode.Open);
+            using var stream = File.Open(_savePath, FileMode.Open);
+            if (stream.Length == 0)
+            {
+                return new Dictionary<string, object>();
+            }
             var formatter = new BinaryFormatter();
             return (Dictionary<string, object>) formatter.Deserialize(stream);
         }
