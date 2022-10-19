@@ -8,6 +8,7 @@ namespace PlatformGame.Dungeon
 {
     public class PlatformRoomBhv : RoomBhv
     {
+        private bool[,] _backtrackingPath;
         //Change enemy spawners later...
         //Do not forget EnemyKilledHandler event inside SpawnEnemies() to remove from enemy dictionary...
 
@@ -18,7 +19,91 @@ namespace PlatformGame.Dungeon
 
         protected override void SetEnemySpawners(float centerX, float centerY)
         {
-            
+            // Need to have the roomModel matrix to work
+            char [,] roomModel = new char[,]
+            {
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', '#', '#', '#', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {'#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+                {' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#'},
+                {' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+                {' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+            Debug.Log(centerX);
+            Debug.Log(centerY);
+            _backtrackingPath = new bool[roomModel.GetLength(0), roomModel.GetLength(1)];
+
+            for (int i = 0; i < roomModel.GetLength(0); i++)
+                for (int j = 0; j < roomModel.GetLength(1); j++)
+                    _backtrackingPath[i, j] = false;
+            //spawnPoints.Add(new Vector3(1, 1,0));
+            int startX = 5, startY = 0;
+
+            Debug.Log("lineNum: " + roomModel.GetLength(0) );
+            Debug.Log("lineNum: " + roomModel.GetLength(1));
+
+            SpawnBacktracking(startX, startY, roomModel.GetLength(0), roomModel.GetLength(1), centerX, centerY, roomModel);
         }
+
+        private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float centerX, float centerY, char[,] roomModel)
+        {
+            //Debug.Log("i: " + i + "    j: " + j);
+            if (roomModel[i,j] == '#')
+            {
+                return;
+            }
+            // Test if the block bellow is a walking block ( so it is a possible spawn point! )
+            if (i + 1 < lineNum && roomModel[i + 1, j] == '#')
+            {
+                _backtrackingPath[i + 1, j] = true;
+                spawnPoints.Add(new Vector3(j - centerX, centerY - i, 0));
+                Debug.Log(new Vector3(j - centerX, centerY - i, 0));
+            }
+
+            // go UP
+            if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
+            {
+                _backtrackingPath[i + 1, j] = true;
+                SpawnBacktracking(i + 1, j, lineNum, colNum, centerX, centerY, roomModel);
+            }
+            // go RIGHT
+            if (j + 1 < colNum && !_backtrackingPath[i, j + 1])
+            {
+                _backtrackingPath[i, j + 1] = true;
+                SpawnBacktracking(i, j + 1, lineNum, colNum, centerX, centerY, roomModel);
+            }
+            // go DOWN
+            if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
+            {
+                _backtrackingPath[i - 1, j] = true;
+                SpawnBacktracking(i - 1, j, lineNum, colNum, centerX, centerY, roomModel);
+            }
+            // go LEFT
+            if (j - 1 > 0 && !_backtrackingPath[i, j - 1])
+            {
+                _backtrackingPath[i, j - 1] = true;
+                SpawnBacktracking(i, j - 1, lineNum, colNum, centerX, centerY, roomModel);
+            }
+
+        }
+
     }
 }

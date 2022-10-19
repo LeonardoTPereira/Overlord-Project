@@ -12,18 +12,21 @@ namespace PlatformGame.Dungeon
         private static readonly int WIDTH = 28;
         private static readonly int HEIGHT = 24;
 
-        public static void CreateRoomOfType(DungeonRoom room, int roomType)
+        public static char[,] CreateRoomOfType(DungeonRoom room, int roomType)
         {
+            char[,] roomMatrix;
             var roomTypeEnum = (Enums.RoomPatterns) roomType;
             switch (roomTypeEnum)
             {
                 default:
-                    CreateTestRoom(room);
+                    roomMatrix = CreateTestRoom(room);
                     break;
             }
+
+            return roomMatrix;
         }
 
-        private static void CreateTestRoom(DungeonRoom room) //For now only works for constant room dimensions
+        private static char[,] CreateTestRoom(DungeonRoom room) //For now only works for constant room dimensions
         {
             var roomEditor = new RoomEditor();
             var tileArray = roomEditor.CreateTileArrayFromModel();
@@ -34,6 +37,7 @@ namespace PlatformGame.Dungeon
                     room.Tiles[i, j] = (int) tileArray[j,i];
                 }
             }
+            return roomEditor.GetRoomMatrix();
         }
     }
 
@@ -74,10 +78,14 @@ namespace PlatformGame.Dungeon
                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
-            };
-
+            };    
         }
-        
+
+        public char[,] GetRoomMatrix()
+        {
+            return roomModel;
+        }
+
         public Enums.TileTypes[,] CreateTileArrayFromModel()
         {
             var tileArray = new Enums.TileTypes[height, width];

@@ -10,6 +10,8 @@ namespace PlatformGame.Dungeon
 {
     public class PlatformDungeonRoom : DungeonRoom
     {
+        public char[,] roomModel;
+
         public PlatformDungeonRoom(Coordinates coordinates, string code, List<int> keyIDs, int treasure, int totalEnemies, int npc) : base(coordinates, code, keyIDs, treasure, totalEnemies, npc) {} 
         
         public override void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
@@ -19,9 +21,13 @@ namespace PlatformGame.Dungeon
             int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
             if (roomGeneratorInput == null)
             {
-                PlatformDefaultRoomCreator.CreateRoomOfType(this, roomType);
+                roomModel = PlatformDefaultRoomCreator.CreateRoomOfType(this, roomType);
             }
+            //Debug.Log(roomModel[].Length);
+            //Debug.Log(roomModel[0,].Length);
         }
+
+
         
         
         
