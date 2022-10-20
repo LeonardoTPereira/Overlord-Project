@@ -22,11 +22,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public List<Individual> EliteList { get; set; }
         public BiomeMap BiomeMap { get; set; }
         public MapElites MapElites { get; set; }
-        private readonly FitnessJson _fitnessJson;
-        private readonly FitnessPlot _fitnessPlot;
+        protected readonly FitnessJson FitnessJson;
+        protected readonly FitnessPlot Plotter;
 
         /// Population constructor.
-        public Population(int explorationSize, int leniencySize, FitnessPlot fitnessPlot = null)
+        public Population(int explorationSize, int leniencySize, FitnessPlot plotter = null)
         {
             LeniencyEliteCount = leniencySize;
             ExplorationEliteCount = explorationSize;
@@ -34,8 +34,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             EliteList = new List<Individual>();
             TotalElites = 0;
             BiomeMap = new BiomeMap();
-            _fitnessJson = new FitnessJson();
-            _fitnessPlot = fitnessPlot;
+            FitnessJson = new FitnessJson();
+            Plotter = plotter;
         }
 
         //TODO Check bug where, apparently, no individual can be created in this loop
@@ -103,15 +103,15 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             foreach (var elite in EliteList)
             {
-                _fitnessJson?.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                FitnessJson?.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
                 /*else
                 {
                     UnityEngine.Debug.LogWarning("No Json Component Linked. Will Not Save Fitness Data to Json");
                 }*/
 
-                if (_fitnessPlot != null)
+                if (Plotter != null)
                 {
-                    _fitnessPlot.UpdateFitnessPlotData(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                    Plotter.UpdateFitnessPlotData(elite, generation);
                 }
                 /*else
                 {
@@ -143,18 +143,18 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public void SaveJson()
         {
-            if (_fitnessJson != null)
+            if (FitnessJson != null)
             {
-                UnityMainThreadDispatcher.Instance().Enqueue(_fitnessJson.SaveJson);
+                UnityMainThreadDispatcher.Instance().Enqueue(FitnessJson.SaveJson);
             }
             else
             {
                 UnityEngine.Debug.LogWarning("No Json Component Linked. Will Not Save Fitness Data to Json");
             }
 
-            if (_fitnessPlot != null)
+            if (Plotter != null)
             {
-                UnityMainThreadDispatcher.Instance().Enqueue(_fitnessPlot.AddAnimationCurves);
+                UnityMainThreadDispatcher.Instance().Enqueue(Plotter.AddAnimationCurves);
             }
             else
             {

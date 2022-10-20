@@ -140,7 +140,6 @@ namespace Game.NarrativeGenerator.Quests
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 nonTerminalSymbol.SetNextSymbol(questChain);
                 questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
-                Debug.Log("new quest");
             }
         }
 

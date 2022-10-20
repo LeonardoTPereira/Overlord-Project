@@ -282,7 +282,7 @@ namespace Game.DataCollection
             _currentRoom.ExitRoom();
             TimeToFinish = Time.realtimeSinceStartup - _startTime;
 #if UNITY_EDITOR
-            CreateJson();
+            //CreateJson();
 #endif
         }
 

@@ -29,13 +29,13 @@ namespace Game.LevelGenerator
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent NewEaGenerationEventHandler;
 
-        protected FitnessPlot fitnessPlot;
+        protected FitnessPlot Plotter;
 
         /// Level Generator constructor.
-        public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot fitnessPlot = null) {
+        public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot plotter = null) {
             Parameters = parameters;
             FitnessInput = fitnessInput;
-            this.fitnessPlot = fitnessPlot;
+            Plotter = plotter;
         }
 
         protected void InvokeGenerationEvent(float progress)
@@ -65,7 +65,7 @@ namespace Game.LevelGenerator
         {
             Population pop = new Population(
                 SearchSpace.ExplorationRanges.Length,
-                SearchSpace.LeniencyRanges.Length, fitnessPlot
+                SearchSpace.LeniencyRanges.Length, Plotter
             );
             var maxTries = INTERMEDIATE_POPULATION;
             var currentTry = 0;
