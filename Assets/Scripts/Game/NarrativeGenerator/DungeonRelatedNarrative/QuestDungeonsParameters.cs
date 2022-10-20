@@ -69,7 +69,7 @@ namespace Game.NarrativeGenerator
         private int CalculateSize(int totalQuests, float explorationPreference)
         {
             var questsThatNeedSpace = totalQuests + _immersionQuestsThatNeedSpace - _immersionQuests;
-            return (int)(questsThatNeedSpace * (1f+explorationPreference/2f));
+            return (int)(questsThatNeedSpace * (1f+explorationPreference));
         }
 
         private float CalculateLinearity(int totalQuests)

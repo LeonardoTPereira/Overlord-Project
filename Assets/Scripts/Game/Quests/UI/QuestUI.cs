@@ -54,7 +54,8 @@ public class QuestUI : MonoBehaviour
 
         foreach (var questLine in currentQuestLines.QuestLines)
         {
-            questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "")+" "+questLine.GetCurrentQuest().ToString();
+            if ( questLine.GetCurrentQuest() != null )
+                questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "")+" "+questLine.GetCurrentQuest().ToString();
             foreach (var quest in questLine.GetCompletedQuests())
             {
                 questContents[1] += "\n - "+quest.GetType().Name.Replace("QuestSo", "")+" "+quest.ToString();
