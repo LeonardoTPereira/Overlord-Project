@@ -17,6 +17,8 @@ namespace Game.NarrativeGenerator
         private int _immersionQuests;
         private int _masteryQuests;
 
+        private int _immersionQuestsThatNeedSpace;
+
         [field: SerializeField]
         public int NKeys { get; set; }
         [field: SerializeField]
@@ -66,7 +68,7 @@ namespace Game.NarrativeGenerator
 
         private int CalculateSize(int totalQuests, float explorationPreference)
         {
-            var questsThatNeedSpace = totalQuests - _immersionQuests;
+            var questsThatNeedSpace = totalQuests + _immersionQuestsThatNeedSpace - _immersionQuests;
             return (int)(questsThatNeedSpace * (1f+explorationPreference/2f));
         }
 
@@ -87,6 +89,10 @@ namespace Game.NarrativeGenerator
                     break;
                 case ImmersionQuestSo:
                     _immersionQuests++;
+                    if ( NeedsSpace(questSo) )
+                    {
+                        _immersionQuestsThatNeedSpace++;
+                    }
                     break;
                 case MasteryQuestSo:
                     _masteryQuests++;
@@ -96,6 +102,11 @@ namespace Game.NarrativeGenerator
                                    "was found to create dialogue");
                     break;
             }
+        }
+
+        private bool NeedsSpace(QuestSo questSo)
+        {
+            return (questSo as ReadQuestSo != null) || (questSo as GiveQuestSo != null);
         }
     }
 }
