@@ -15,6 +15,13 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             standardDeviation = new RangedFloat(float.MaxValue, float.MinValue),
             sparsity = new RangedFloat(float.MaxValue, float.MinValue)
         };
+        private static FitnessRange _currentPopulationFitnessRange = new()
+        {
+            distanceToInput = new RangedFloat(float.MaxValue, float.MinValue),
+            usage = new RangedFloat(float.MaxValue, float.MinValue),
+            standardDeviation = new RangedFloat(float.MaxValue, float.MinValue),
+            sparsity = new RangedFloat(float.MaxValue, float.MinValue)
+        };
         private static bool _hasUpdateInDistance;
         private static bool _hasUpdateInUsage;
         private static bool _hasUpdateInSparsity;
@@ -28,9 +35,10 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             foreach (var individual in population)
             {
                 individual.CalculateFitness(_currentFitnessRange);
-                UpdateRanges(individual.Fitness);
                 ChangeEliteIfBetter(individual);
+                UpdateCurrentPopulationFitnessRange(individual.Fitness);
             }
+            UpdateRanges();
             ReNormalizeFitnessIfRangeWasUpdated(population);
         }
 
@@ -52,6 +60,14 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 ReNormalizeUpdatedParameters(individual.Fitness);
                 ChangeEliteIfBetter(individual);
             }
+        }
+
+        private static void UpdateCurrentPopulationFitnessRange(Fitness fitness)
+        {
+            UpdateRange(fitness.Distance, ref _currentPopulationFitnessRange.distanceToInput);
+            UpdateRange(fitness.Usage, ref _currentPopulationFitnessRange.usage);
+            UpdateRange(fitness.EnemySparsity, ref _currentPopulationFitnessRange.sparsity);
+            UpdateRange(fitness.EnemyStandardDeviation, ref _currentPopulationFitnessRange.standardDeviation);
         }
 
         private static bool HasNoUpdatesInRange()
@@ -99,12 +115,16 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             BestDungeon = individual;
         }
 
-        private static void UpdateRanges(Fitness fitness)
+        private static void UpdateRanges()
         {
-            _hasUpdateInDistance = UpdateRange(fitness.Distance, ref _currentFitnessRange.distanceToInput);
-            _hasUpdateInUsage = UpdateRange(fitness.Usage, ref _currentFitnessRange.usage);
-            _hasUpdateInSparsity = UpdateRange(fitness.EnemySparsity, ref _currentFitnessRange.sparsity);
-            _hasUpdateInStandardDeviation = UpdateRange(fitness.EnemyStandardDeviation, ref _currentFitnessRange.standardDeviation);
+            _hasUpdateInDistance = UpdateRange(_currentPopulationFitnessRange.distanceToInput.Min, ref _currentFitnessRange.distanceToInput);
+            _hasUpdateInDistance = _hasUpdateInDistance || UpdateRange(_currentPopulationFitnessRange.distanceToInput.Max, ref _currentFitnessRange.distanceToInput);
+            _hasUpdateInUsage = UpdateRange(_currentPopulationFitnessRange.usage.Min, ref _currentFitnessRange.usage);
+            _hasUpdateInUsage = _hasUpdateInUsage ||UpdateRange(_currentPopulationFitnessRange.usage.Max, ref _currentFitnessRange.usage);
+            _hasUpdateInSparsity = UpdateRange(_currentPopulationFitnessRange.sparsity.Min, ref _currentFitnessRange.sparsity);
+            _hasUpdateInSparsity = _hasUpdateInSparsity ||UpdateRange(_currentPopulationFitnessRange.sparsity.Max, ref _currentFitnessRange.sparsity);
+            _hasUpdateInStandardDeviation = UpdateRange(_currentPopulationFitnessRange.standardDeviation.Min, ref _currentFitnessRange.standardDeviation);
+            _hasUpdateInStandardDeviation = _hasUpdateInStandardDeviation ||UpdateRange(_currentPopulationFitnessRange.standardDeviation.Max, ref _currentFitnessRange.standardDeviation);
         }
 
         private static bool UpdateRange(float newValue, ref RangedFloat range)

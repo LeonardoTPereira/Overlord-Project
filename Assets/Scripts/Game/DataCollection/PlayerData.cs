@@ -239,7 +239,7 @@ namespace Game.DataCollection
             PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue);
             PlayerId += (int)Time.realtimeSinceStartup;
 #if UNITY_EDITOR
-            var jsonDirectory = Application.dataPath + Constants.SeparatorCharacter + "PlayerData";
+            /*var jsonDirectory = Application.dataPath + Constants.SeparatorCharacter + "PlayerData";
             if (!Directory.Exists(jsonDirectory))
             {
                 Directory.CreateDirectory(jsonDirectory);
@@ -249,7 +249,7 @@ namespace Game.DataCollection
             if (!Directory.Exists(jsonDirectory))
             {
                 Directory.CreateDirectory(jsonDirectory);
-            }
+            }*/
 #endif
         }
 

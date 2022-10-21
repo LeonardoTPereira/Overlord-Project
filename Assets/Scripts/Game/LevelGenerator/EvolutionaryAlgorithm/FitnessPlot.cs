@@ -31,7 +31,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             animationClip.legacy = true;
         }
 
-        public void UpdateFitnessPlotData(Individual individual, int generation, int explorationIndex, int leniencyIndex)
+        public void UpdateFitnessPlotData(Individual individual, int generation)
         {
             if (generation != _currentGeneration)
             {
@@ -51,6 +51,26 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             enemyStandardDeviation += individual.Fitness.EnemyStandardDeviation;
             result += individual.Fitness.Result;
         }
+        
+        public void UpdateFitnessPlotClassicData(Individual individual, int generation)
+        {
+            if (generation != _currentGeneration)
+            {
+                ClassicPlot();
+                distance = 0;
+                usage = 0;
+                sparsity = 0;
+                enemyStandardDeviation = 0;
+                result = 0;
+                _currentGeneration = generation;
+                _individualsOnGeneration = 0;
+            }
+            distance = individual.Fitness.NormalizedDistance;
+            usage = individual.Fitness.NormalizedUsage;
+            sparsity = individual.Fitness.NormalizedEnemySparsity;
+            enemyStandardDeviation = individual.Fitness.NormalizedEnemyStandardDeviation;
+            result = individual.Fitness.Result;
+        }
 
         private void Plot()
         {
@@ -59,6 +79,15 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             usagePlot.AddKey(_currentGeneration, usage / _individualsOnGeneration);
             sparsityPlot.AddKey(_currentGeneration, sparsity / _individualsOnGeneration);
             stdDeviationPlot.AddKey(_currentGeneration, enemyStandardDeviation / _individualsOnGeneration);
+        }
+        
+        private void ClassicPlot()
+        {
+            resultPlot.AddKey(_currentGeneration, result);
+            distancePlot.AddKey(_currentGeneration, distance);
+            usagePlot.AddKey(_currentGeneration, usage);
+            sparsityPlot.AddKey(_currentGeneration, sparsity);
+            stdDeviationPlot.AddKey(_currentGeneration, enemyStandardDeviation);
         }
 
         public void AddAnimationCurves()

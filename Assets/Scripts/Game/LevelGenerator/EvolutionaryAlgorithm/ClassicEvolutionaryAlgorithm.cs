@@ -14,8 +14,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     public class ClassicEvolutionaryAlgorithm : LevelGenerator
     {
         private const int PopSize = 100;
-        private readonly int MAX_GEN_WITHOUT_IMPROVEMENT = 30;
-        int nGenerationsWithoutImprovement;
+        private const int MaxGenWithoutImprovement = 30;
+        private int _nGenerationsWithoutImprovement;
         public bool waitGeneration;
         private float _bestFitnessYet;
 
@@ -25,7 +25,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         protected override Population InitializePopulation()
         {
             waitGeneration = false;
-            var dungeons = new ClassicPopulation(0, 0);
+            var dungeons = new ClassicPopulation(0, 0, Plotter);
             for (var i = 0; i < PopSize; ++i)
             {
                 var individual = Individual.CreateRandom(FitnessInput);
@@ -39,8 +39,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         protected override async Task EvolvePopulation(Population pop)
         {
-            var nGenerationsWithoutImprovement = 0;
-            var hasFinished = false;
+            _nGenerationsWithoutImprovement = 0;
             var minFitness = float.MaxValue;
             int generation;
             _bestFitnessYet = float.MaxValue;
@@ -74,9 +73,13 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 }
                 PopulationFitness.CalculateFitness(intermediate);
                 intermediate[0] = PopulationFitness.BestDungeon;
-                _bestFitnessYet = PopulationFitness.BestDungeon.Fitness.Result;
+                minFitness = PopulationFitness.BestDungeon.Fitness.Result;
                 var progress = generation / (float)Parameters.MinimumElite;
                 pop.EliteList = intermediate;
+                if (pop is ClassicPopulation classicPopulation)
+                {
+                    classicPopulation.UpdateFitnessPlot(generation);
+                }
                 InvokeGenerationEvent(progress);
                 await Task.Yield();
             }
@@ -96,23 +99,23 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 return true;
             }
 
-            if ((_bestFitnessYet - min) > 0.01)
+            if ((_bestFitnessYet - min) > 0.001f)
             {
                 _bestFitnessYet = min;
-                nGenerationsWithoutImprovement = 0;
+                _nGenerationsWithoutImprovement = 0;
             }
             else
             {
-                nGenerationsWithoutImprovement++;
+                _nGenerationsWithoutImprovement++;
             }
 
-            return nGenerationsWithoutImprovement >= MAX_GEN_WITHOUT_IMPROVEMENT;
+            return _nGenerationsWithoutImprovement >= MaxGenWithoutImprovement;
         }
 
         public ClassicEvolutionaryAlgorithm(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, 
             FitnessPlot fitnessPlot = null) : base(parameters, fitnessInput, fitnessPlot)
         {
-            nGenerationsWithoutImprovement = 0;
+            _nGenerationsWithoutImprovement = 0;
         }
     }
 }
