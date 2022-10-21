@@ -73,17 +73,45 @@ namespace Game.NPCs
         #region QuestOpeners
         private static string ExchangeQuestOpener()
         {
-            return "I need you to trade:\n";
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                //TODO: replace someone for the npcs name
+                case 0:
+                    return "I need you to trade:\n";
+                case 1:
+                    return "I have heard there is someone nearby with some good trades! Why don't you go see for yourself? Trade ";
+                default:
+                    return "Have you heard there's someone trying out the merchant career. Go give them some support! Trade ";
+            }
         }
 
         private static string GatherQuestOpener()
         {
-            return "I need you to collect:\n";
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                case 0:
+                    return "I need you to collect:\n";
+                case 1:
+                    return "Why are there so many things laying on the floor!? Please, can't you do something about this? Collect ";
+                default:
+                    return "There's a lot of treasures around this dungeon. Don't be shy, feel free to collect it all! In fact, I think you reall should collect ";
+            }
         }
 
         private static string KillQuestOpener()
         {
-            return "I need you to kill some monsters for me:\n";
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                case 0:
+                    return "I need you to kill some monsters for me:\n";
+                case 1:
+                    return "Nasty monsters! They are EVERYWHERE!! Please don't tell anyone, but I'm a bit scared of them... Could you please kill ";
+                default:
+                    return "The monsters in this dungeon sure are annoying! Do us a favor and kill ";
+            }
         }
 
         private static string DamageQuestOpener()
@@ -93,7 +121,16 @@ namespace Game.NPCs
 
         private static string GiveQuestOpener()
         {
-            return "I need you to give:\n";
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                case 0:
+                    return "I need you to give:\n";
+                case 1:
+                    return "Someone's birthday is comming up! Can you give ";
+                default:
+                    return "I was thinking on giving someone a little present... Can you help me with that? Please, give ";
+            }
         }
 
         private static string ListenQuestOpener()
