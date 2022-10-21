@@ -166,7 +166,7 @@ namespace Game.NPCs
                         }
                         break;
                     case GiveQuestSo giveQuest:
-                        if (!quest.IsCompleted)
+                        if (!giveQuest.HasItemToCollect)
                         {
                             incompleteQuestQueue.Enqueue(quest);
                             continue;

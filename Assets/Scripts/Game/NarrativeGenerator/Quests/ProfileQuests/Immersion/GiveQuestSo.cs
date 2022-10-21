@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using Game.Events;
 using Game.NPCs;
+using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -18,7 +19,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public GiveQuestData GiveQuestData { get; set; }
-        private bool _hasItemToCollect;
+        public bool HasItemToCollect;
         public static event TreasureCollectEvent TreasureLostEventHandler;
 
         public override void Init()
@@ -61,21 +62,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             return questElement switch
             {
-                ItemSo itemSo => !IsCompleted && !_hasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName,
-                NpcSo npcSo => !IsCompleted && _hasItemToCollect && npcSo == Npc,
+                ItemSo itemSo => !IsCompleted && !HasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName,
+                NpcSo npcSo => !IsCompleted && HasItemToCollect && npcSo == GiveQuestData.NpcToReceive,
                 _ => false
             };
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            IsCompleted = true;
-            _hasItemToCollect = true;
-        }
-
-        public override void RemoveElementWithId<T>(T questElement, int questId)
-        {
-            IsCompleted = true;
+            if ( HasItemToCollect )
+                IsCompleted = true;
+            HasItemToCollect = true;
+            Debug.Log("HAS ITEM TO GIVE");
         }
 
         public override void CreateQuestString()

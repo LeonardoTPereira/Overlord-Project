@@ -75,7 +75,6 @@ namespace Game.NarrativeGenerator.Quests
             {
                 if (quest is not T questSo) continue;
                 if (!questSo.HasAvailableElementWithId(questElement, questId)) continue;
-                Debug.Log("FOUND QUEST");
                 questSo.RemoveElementWithId(questElement, questId);
                 if (questSo.IsCompleted && questSo == GetCurrentQuest())
                 {

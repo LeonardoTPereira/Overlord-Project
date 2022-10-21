@@ -44,31 +44,83 @@ namespace Game.NPCs
             switch (openedQuest)
             {
                 case ExchangeQuestSo:
-                    return "I need you to trade:\n";
+                    return ExchangeQuestOpener();
                 case GatherQuestSo:
-                    return "I need you to collect:\n";
+                    return GatherQuestOpener();
                 case KillQuestSo:
-                    return "I need you to kill some monsters for me:\n";
+                    return KillQuestOpener();
                 case DamageQuestSo:
-                    return "I need you to hit this structure:\n";
+                    return DamageQuestOpener();
                 case GiveQuestSo:
-                    return "I need you to give:\n";
+                    return GiveQuestOpener();
                 case ListenQuestSo:
-                    return "I need you to listen carefully to the message from:\n";
+                    return ListenQuestOpener();
                 case ReadQuestSo:
-                    return "I need you to read the message in:\n";
+                    return ReadQuestOpener();
                 case ReportQuestSo:
-                    return "I need you to report this to:\n";
+                    return ReportQuestOpener();
                 case ExploreQuestSo:
-                    return "I need you to explore this dungeon:\n";
+                    return ExploreQuestOpener();
                 case GotoQuestSo:
-                    return "I need you to go to a special place for me:\n";
+                    return GotoQuestOpener();
                 default:
                     Debug.LogError($"No quest type for this quest {openedQuest.GetType()} " +
                                    "was found to create dialogue");
                     return null;
             }
         }
+
+        #region QuestOpeners
+        private static string ExchangeQuestOpener()
+        {
+            return "I need you to trade:\n";
+        }
+
+        private static string GatherQuestOpener()
+        {
+            return "I need you to collect:\n";
+        }
+
+        private static string KillQuestOpener()
+        {
+            return "I need you to kill some monsters for me:\n";
+        }
+
+        private static string DamageQuestOpener()
+        {
+            return "...";
+        }
+
+        private static string GiveQuestOpener()
+        {
+            return "I need you to give:\n";
+        }
+
+        private static string ListenQuestOpener()
+        {
+            return "I need you to listen carefully to the message from:\n";
+        }
+
+        private static string ReadQuestOpener()
+        {
+            return "I need you to read the message in:\n";
+        }
+
+        private static string ReportQuestOpener()
+        {
+            return "I need you to report this to:\n";
+        }
+
+        private static string ExploreQuestOpener()
+        {
+            return "I need you to explore this dungeon:\n";
+        }
+
+        private static string GotoQuestOpener()
+        {
+            return "I need you to go to a special place for me:\n";
+        }
+        #endregion
 
         public static string CreateQuestCloser(QuestSo closedQuest, NpcSo speaker)
         {
