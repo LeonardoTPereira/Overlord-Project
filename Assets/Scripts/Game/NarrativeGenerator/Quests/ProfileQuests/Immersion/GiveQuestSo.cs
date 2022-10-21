@@ -59,28 +59,23 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && Id == questId;
+            return questElement switch
+            {
+                ItemSo itemSo => !IsCompleted && !_hasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName,
+                NpcSo npcSo => !IsCompleted && _hasItemToCollect && npcSo == Npc,
+                _ => false
+            };
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
             IsCompleted = true;
-        }
-
-        //TODO Check the usage of these methods
-        public bool HasItemToCollect(ItemSo itemSo)
-        {
-            return !_hasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName;
-        }
-
-        public void CollectItem ()
-        {
             _hasItemToCollect = true;
         }
 
-        public bool CheckIfCanComplete ()
+        public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            return _hasItemToCollect;
+            IsCompleted = true;
         }
 
         public override void CreateQuestString()

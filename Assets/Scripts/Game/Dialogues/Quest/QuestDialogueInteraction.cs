@@ -94,11 +94,13 @@ namespace Game
 
         public virtual void OnInteractAttempt()
         {
-            if (_isDialogueNull) return;
-            
+            if (_isDialogueNull)
+                return;
+
             if ( !_wasTaskResolved )
             {
                 ((IQuestElement)this).OnQuestTaskResolved(this, new QuestReadEventArgs(DialogueObj as ItemSo, QuestId));
+                ((IQuestElement)this).OnQuestCompleted(this, new QuestReadEventArgs(DialogueObj as ItemSo, QuestId));
                 _wasTaskResolved = true;
             }
 

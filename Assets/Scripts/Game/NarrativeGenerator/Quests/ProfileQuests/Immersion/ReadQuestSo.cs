@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Util;
 using System;
 
+using UnityEngine;
+
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReadQuestSo : ImmersionQuestSo
@@ -55,7 +57,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && QuestId == questId;
+            Debug.Log("Received quest:"+ItemToRead+" Expected:"+(questElement as ItemSo));
+            return !IsCompleted && ItemToRead == (questElement as ItemSo);
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
