@@ -428,11 +428,11 @@ namespace Game.LevelGenerator
         /// Recreate the room list by visiting all the rooms in the tree and
         /// adding them to the list while also counting the number of locks and
         /// keys.
-        public void Fix() {
+        public void Fix(int totalEnemies) {
             FixRooms();
             FixMissions();
             FixLocksAndKeys();
-            //FixEnemies(totalEnemies);
+            FixEnemies(totalEnemies);
         }
 
         /// Fix the list of rooms.

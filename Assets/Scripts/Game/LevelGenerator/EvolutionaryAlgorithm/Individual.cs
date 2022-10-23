@@ -134,7 +134,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public void Fix()
         {
-            dungeon.Fix();
+            dungeon.Fix(Fitness.DesiredInput.DesiredEnemies);
         }
 
         public void CalculateFitness(FitnessRange fitnessRange)

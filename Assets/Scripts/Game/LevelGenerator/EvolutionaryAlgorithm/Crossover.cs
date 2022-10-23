@@ -35,8 +35,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             int nRooms2;
             // If the trade is possible or not
             bool isImpossible;
-            var enemiesPerRoomCut1 = new Queue<int>();
-            var enemiesPerRoomCut2 = new Queue<int>();
 
             do
             {
@@ -74,8 +72,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 // If the crossover is possible, then perform it
                 if (isImpossible) continue;
                 
-                enemiesPerRoomCut1 = roomCut1.GetEnemiesPerRoom();
-                enemiesPerRoomCut2 = roomCut2.GetEnemiesPerRoom();
                 // Swap the branchs
                 SwapBranch(ref roomCut1, ref roomCut2);
                 SwapBranch(ref roomCut2, ref roomCut1);
@@ -128,8 +124,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             if (isImpossible) return individuals;
             roomCut2.FixBranch(missions1);
             roomCut1.FixBranch(missions2);
-            roomCut2.FixEnemies(enemiesPerRoomCut1);
-            roomCut1.FixEnemies(enemiesPerRoomCut2);
             individuals = new Individual[2];
             individuals[0] = new Individual(parent1.Fitness.DesiredInput);
             individuals[1] = new Individual(parent1.Fitness.DesiredInput);
