@@ -16,7 +16,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private const int PopSize = 100;
         private const int MaxGenWithoutImprovement = 30;
         private int _nGenerationsWithoutImprovement;
-        public bool waitGeneration;
         private float _bestFitnessYet;
 
         public static event CurrentGenerationEvent CurrentGenerationEventHandler;
@@ -83,6 +82,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 InvokeGenerationEvent(progress);
                 await Task.Yield();
             }
+
             Debug.LogWarning("Fitness:" + pop.EliteList[0].Fitness);
             InvokeGenerationEvent(1.0f);
         }

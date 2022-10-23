@@ -25,9 +25,12 @@ namespace Game.LevelGenerator
         private Population solution;
         /// Return the found MAP-Elites population.
         public Population Solution { get => solution; }
+        public bool waitGeneration;
 
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent NewEaGenerationEventHandler;
+        public static event CurrentGenerationEvent CurrentGenerationEventHandler;
+
 
         protected FitnessPlot Plotter;
 
@@ -90,7 +93,12 @@ namespace Game.LevelGenerator
             DateTime end = DateTime.Now;
             while (!HasReachedStopCriteria(end, start, pop.GetAmountOfBiomesWithElites(), pop.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)))
             {
-
+                /*CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
+                waitGeneration = true;
+                while (waitGeneration)
+                {
+                    await Task.Yield();
+                }*/
                 var intermediate = CreateIntermediatePopulation(pop, g);
                 // Place the offspring in the MAP-Elites population
                 foreach (Individual individual in intermediate)

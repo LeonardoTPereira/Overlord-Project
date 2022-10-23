@@ -32,7 +32,7 @@ namespace Game.LevelGenerator
 
         private void ContinueGenerationEvent(object sender, EventArgs e)
         {
-            (_generator as ClassicEvolutionaryAlgorithm).waitGeneration = false;
+            _generator.waitGeneration = false;
         }
 
         private void OnDisable()

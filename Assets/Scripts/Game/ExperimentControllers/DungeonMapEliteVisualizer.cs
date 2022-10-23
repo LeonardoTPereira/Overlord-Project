@@ -40,6 +40,7 @@ namespace Game.ExperimentControllers
         private void OnEnable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler += PrintCurrentPopulation;
+            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler += PrintCurrentPopulation;
         }
 
         private void PrintCurrentPopulation(object sender, CurrentGenerationEventArgs e)
@@ -61,6 +62,7 @@ namespace Game.ExperimentControllers
         private void OnDisable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler -= PrintCurrentPopulation;
         }
 
         public async void Create(InputAction.CallbackContext context)
