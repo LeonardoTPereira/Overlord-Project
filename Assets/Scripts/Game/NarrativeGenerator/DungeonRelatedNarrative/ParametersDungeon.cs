@@ -11,10 +11,10 @@ namespace Game.NarrativeGenerator
             = new (new Dictionary<DungeonLinearity, float>
             {
                 { DungeonLinearity.VeryLinear, 1.0f},
-                { DungeonLinearity.Linear, 1.2f},
-                { DungeonLinearity.Medium, 1.4f},
-                { DungeonLinearity.Branched, 1.6f},
-                { DungeonLinearity.VeryBranched, 1.8f},
+                { DungeonLinearity.Linear, 1.4f},
+                { DungeonLinearity.Medium, 1.8f},
+                { DungeonLinearity.Branched, 2.0f},
+                { DungeonLinearity.VeryBranched, 2.4f},
             });
 
         public static float ToFloat(this DungeonLinearity dungeonLinearity)
@@ -66,21 +66,21 @@ namespace Game.NarrativeGenerator
             return (int) DungeonLinearity.VeryBranched;
         }
 
-        public static int GetNKeys(int objectiveQuests, int dungeonSize)
+        public static int GetNKeys(float explorationPreference, int dungeonSize)
         {
-            if (objectiveQuests < 0.2f)
+            if (explorationPreference < 0.2f)
             {
                 return (int)DungeonKeys.AFewKeys;
             }
-            if (objectiveQuests < 0.4f)
+            if (explorationPreference < 0.4f)
             {
                 return (int)DungeonKeys.SomeKeys;
             }
-            if (objectiveQuests < 0.6f || dungeonSize < (int) DungeonSize.Small)
+            if (explorationPreference < 0.6f || dungeonSize < (int) DungeonSize.Small)
             {
                 return (int)DungeonKeys.SeveralKeys;
             }
-            if (objectiveQuests < 0.8f || dungeonSize < (int) DungeonSize.Medium)
+            if (explorationPreference < 0.8f)
             {
                 return (int)DungeonKeys.ManyKeys;
             }

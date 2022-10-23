@@ -42,7 +42,7 @@ MonoBehaviour:
     Min: 40
     Max: 90
   <DungeonParameters>k__BackingField:
-    <Time>k__BackingField: 60
+    <Time>k__BackingField: 30
     <Population>k__BackingField: 100
     <Mutation>k__BackingField: 5
     <Competitors>k__BackingField: 2

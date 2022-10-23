@@ -27,7 +27,7 @@ namespace Game.Events
             var keys = questDungeonParameters.NKeys;
             var locks = keys;
             var linearity = questDungeonParameters.GetLinearity();
-            Fitness = new FitnessInput(rooms, keys, locks, questEnemies, linearity, questItems, questNpcs);
+            Fitness = new FitnessInput(rooms, keys, locks, questEnemies, linearity, questItems, questNpcs, questLines.QuestLines, questLines.TargetProfile);
             Parameters = dungeonParameters;
         }
     }

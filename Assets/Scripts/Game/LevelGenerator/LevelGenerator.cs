@@ -33,6 +33,8 @@ namespace Game.LevelGenerator
 
 
         protected FitnessPlot Plotter;
+        private IndividualJson _individualJson;
+
 
         /// Level Generator constructor.
         public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot plotter = null) {
@@ -57,11 +59,17 @@ namespace Game.LevelGenerator
         /// Perform the level evolution process.
         private async Task Evolution()
         {
-            // Initialize the MAP-Elites population
-            var pop = InitializePopulation();
-            await EvolvePopulation(pop);
-            // Get the final population (solution)
-            solution = pop;
+            _individualJson = new IndividualJson();
+            for (var i = 0; i < 10; i++)
+            {
+                // Initialize the MAP-Elites population
+                var pop = InitializePopulation();
+                await EvolvePopulation(pop);
+                // Get the final population (solution)
+                solution = pop;
+                _individualJson.AddFitness(solution.EliteList[0]);
+            }
+            _individualJson.SaveJson();
         }
 
         protected virtual Population InitializePopulation()
