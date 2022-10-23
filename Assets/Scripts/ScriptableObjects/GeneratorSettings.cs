@@ -21,6 +21,7 @@ namespace Game.ExperimentControllers
         [field: SerializeField] public bool GenerateInRealTime { get; set; }
         [field: SerializeField] public bool EnableRandomProfileToPlayer { get; set; }
         [field: SerializeField] public int ProbabilityToGetTrueProfile { get; set; }
+        [field: SerializeField] public int TotalRunsOfEA { get; set; }
         [field: Foldout("Prefabs for Game", true)]
 
         [field: SerializeField] public List<NpcSo> PlaceholderNpcs { get; set; }

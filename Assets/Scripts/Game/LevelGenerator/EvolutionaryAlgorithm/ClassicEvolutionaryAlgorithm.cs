@@ -112,8 +112,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             return _nGenerationsWithoutImprovement >= MaxGenWithoutImprovement;
         }
 
-        public ClassicEvolutionaryAlgorithm(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, 
-            FitnessPlot fitnessPlot = null) : base(parameters, fitnessInput, fitnessPlot)
+        public ClassicEvolutionaryAlgorithm(GeneratorSettings.Parameters parameters, int timesToExecuteEA, 
+            bool isVisualizingDungeon, FitnessInput fitnessInput, FitnessPlot fitnessPlot = null) 
+            : base(parameters, timesToExecuteEA, isVisualizingDungeon,fitnessInput, fitnessPlot)
         {
             _nGenerationsWithoutImprovement = 0;
         }

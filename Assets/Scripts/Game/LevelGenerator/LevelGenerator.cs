@@ -34,13 +34,18 @@ namespace Game.LevelGenerator
 
         protected FitnessPlot Plotter;
         private IndividualJson _individualJson;
+        protected int timesToExecuteEA;
+        protected bool isVisualizingDungeon;
 
 
         /// Level Generator constructor.
-        public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot plotter = null) {
+        public LevelGenerator(GeneratorSettings.Parameters parameters, int timesToExecuteEA, 
+            bool isVisualizingDungeon, FitnessInput fitnessInput, FitnessPlot plotter = null) {
             Parameters = parameters;
             FitnessInput = fitnessInput;
             Plotter = plotter;
+            this.timesToExecuteEA = timesToExecuteEA;
+            this.isVisualizingDungeon = isVisualizingDungeon;
         }
 
         protected void InvokeGenerationEvent(float progress)
@@ -60,7 +65,7 @@ namespace Game.LevelGenerator
         private async Task Evolution()
         {
             _individualJson = new IndividualJson();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < timesToExecuteEA; i++)
             {
                 // Initialize the MAP-Elites population
                 var pop = InitializePopulation();
@@ -101,12 +106,16 @@ namespace Game.LevelGenerator
             DateTime end = DateTime.Now;
             while (!HasReachedStopCriteria(end, start, pop.GetAmountOfBiomesWithElites(), pop.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)))
             {
-                /*CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
-                waitGeneration = true;
-                while (waitGeneration)
+                if (isVisualizingDungeon)
                 {
-                    await Task.Yield();
-                }*/
+                    CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
+                    waitGeneration = true;
+                    while (waitGeneration)
+                    {
+                        await Task.Yield();
+                    }
+                }
+
                 var intermediate = CreateIntermediatePopulation(pop, g);
                 // Place the offspring in the MAP-Elites population
                 foreach (Individual individual in intermediate)

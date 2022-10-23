@@ -101,7 +101,8 @@ namespace Game.ExperimentControllers
         
         private async Task CreateDungeonsForQuestLine()
         {
-            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(generatorSettings.DungeonParameters, Fitness));
+            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(
+                generatorSettings.DungeonParameters, Fitness, true));
             Debug.Log("Finished");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);

@@ -47,7 +47,8 @@ namespace Game.LevelGenerator
             Debug.Log("Parameters: "+parameters);
             _fitnessInput = eventArgs.Fitness;
             // Start the generation process
-            _generator = new ClassicEvolutionaryAlgorithm(parameters, _fitnessInput,_fitnessPlot);
+            _generator = new ClassicEvolutionaryAlgorithm(parameters, eventArgs.TimesToExecuteEA, 
+                eventArgs.IsVisualizingDungeon ,_fitnessInput,_fitnessPlot);
             await _generator.Evolve();
             return GetListOfGeneratedDungeons();
         }

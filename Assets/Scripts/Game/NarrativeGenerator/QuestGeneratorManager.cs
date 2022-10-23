@@ -142,7 +142,8 @@ namespace Game.NarrativeGenerator
 
         private async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
         {
-            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines, CurrentGeneratorSettings.DungeonParameters));
+            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines, 
+                CurrentGeneratorSettings.DungeonParameters, CurrentGeneratorSettings.TotalRunsOfEA));
             //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 
