@@ -15,7 +15,7 @@ namespace Game.LevelGenerator
         /// The number of parents to be selected for crossover.
         protected static readonly int CROSSOVER_PARENTS = 2;
         /// The size of the intermediate population.
-        private static readonly int INTERMEDIATE_POPULATION = 100;
+        private static readonly int INTERMEDIATE_POPULATION = 500;
 
         /// The evolutionary parameters.
         protected GeneratorSettings.Parameters Parameters;
@@ -28,6 +28,10 @@ namespace Game.LevelGenerator
 
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent NewEaGenerationEventHandler;
+
+        public bool waitGeneration;
+
+        public static event CurrentGenerationEvent CurrentGenerationEventHandler;
 
         protected FitnessPlot fitnessPlot;
 
@@ -55,47 +59,49 @@ namespace Game.LevelGenerator
         private async Task Evolution()
         {
             // Initialize the MAP-Elites population
-            var pop = InitializePopulation();
-            await EvolvePopulation(pop);
+            var population = InitializePopulation();
+            await EvolvePopulation(population);
             // Get the final population (solution)
-            solution = pop;
+            solution = population;
         }
 
         protected virtual Population InitializePopulation()
         {
-            Population pop = new Population(
+            Population population = new Population(
                 SearchSpace.ExplorationRanges.Length,
-                SearchSpace.LeniencyRanges.Length, fitnessPlot
+                SearchSpace.LeniencyRanges.Length,
+                SearchSpace.LinearityRanges.Length,
+                fitnessPlot
             );
             var maxTries = INTERMEDIATE_POPULATION;
             var currentTry = 0;
             // Generate the initial population
-            while (pop.EliteList.Count < Parameters.Population && currentTry < maxTries)
+            while (population.EliteList.Count < Parameters.Population && currentTry < maxTries)
             {
                 var individual = Individual.CreateRandom(FitnessInput);
                 individual.Fix();
                 individual.CalculateFitness();
-                pop.PlaceIndividual(individual);
+                population.PlaceIndividual(individual);
                 currentTry++;
             }
 
-            return pop;
+            return population;
         }
 
-        protected virtual async Task EvolvePopulation(Population pop)
+        protected virtual async Task EvolvePopulation(Population population)
         {
             // Evolve the population
             int g = 0;
             DateTime start = DateTime.Now;
             DateTime end = DateTime.Now;
-            while (!HasReachedStopCriteria(end, start, pop.GetAmountOfBiomesWithElites(), pop.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)))
+            while (!HasReachedStopCriteria(end, start, population.GetAmountOfBiomesWithElites(), population.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)))
             {
 
-                var intermediate = CreateIntermediatePopulation(pop, g);
+                var intermediate = CreateIntermediatePopulation(population, g);
                 // Place the offspring in the MAP-Elites population
                 foreach (Individual individual in intermediate)
                 {
-                    pop.PlaceIndividual(individual);
+                    population.PlaceIndividual(individual);
                 }
                 g++;
                 end = DateTime.Now;
@@ -104,20 +110,26 @@ namespace Game.LevelGenerator
                 double seconds = (end - start).TotalSeconds;
                 var progress = (float) seconds / Parameters.Time;
                 NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress, false));
-                pop.UpdateBiomes(g);
+                population.UpdateBiomes(g);
                 await Task.Yield();
+                CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(population));
+                waitGeneration = true;
+                while (waitGeneration)
+                {
+                    await Task.Yield();
+                }
             }
-            //pop.SaveJson();
+            //population.SaveJson();
             NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f, true));
         }
 
-        private List<Individual> CreateIntermediatePopulation(in Population pop, int g)
+        private List<Individual> CreateIntermediatePopulation(in Population population, int g)
         {
             var intermediate = new List<Individual>();
             while (intermediate.Count < INTERMEDIATE_POPULATION)
             {
                 // Apply the crossover operation
-                var parents = Selection.SelectParents(CROSSOVER_PARENTS, Parameters.Competitors, pop);
+                var parents = Selection.SelectParents(CROSSOVER_PARENTS, Parameters.Competitors, population);
                 var offspring = CreateOffspring(parents);
 
                 // Place the offspring in the MAP-Elites population

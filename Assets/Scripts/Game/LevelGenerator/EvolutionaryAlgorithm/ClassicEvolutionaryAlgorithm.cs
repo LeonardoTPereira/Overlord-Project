@@ -16,16 +16,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private const int PopSize = 100;
         private readonly int MAX_GEN_WITHOUT_IMPROVEMENT = 30;
         int nGenerationsWithoutImprovement;
-        public bool waitGeneration;
         private float _bestFitnessYet;
-
-        public static event CurrentGenerationEvent CurrentGenerationEventHandler;
-
         
         protected override Population InitializePopulation()
         {
             waitGeneration = false;
-            var dungeons = new ClassicPopulation(0, 0);
+            var dungeons = new ClassicPopulation(0, 0, 0);
             for (var i = 0; i < PopSize; ++i)
             {
                 var individual = Individual.CreateRandom(FitnessInput);

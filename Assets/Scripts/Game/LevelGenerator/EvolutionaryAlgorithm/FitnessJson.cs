@@ -39,7 +39,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             data = new List<FitnessData>();
         }
 
-        public void AddFitness(Individual individual, int generation, int explorationIndex, int leniencyIndex)
+        public void AddFitness(Individual individual, int generation, int explorationIndex, int leniencyIndex, int linearityIndex)
         {
             data.Add(new FitnessData(leniencyIndex, explorationIndex, generation, 
                 individual.Fitness.Distance, individual.Fitness.Usage, individual.Fitness.EnemySparsity, 

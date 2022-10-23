@@ -9,7 +9,7 @@ namespace Game.Maestro
     public class BiomeMap
     {
 
-        //exploration x leniency
+        // exploration x leniency x linearity
         private static readonly Dictionary<Biomes, Coordinates[]> CoordinatesByBiomes =
             new()
             {
@@ -66,7 +66,7 @@ namespace Game.Maestro
             var elites = new List<Individual>();
             foreach (var coordinate in coordinates)
             {
-                var elite = mapElites.GetElite(coordinate.X, coordinate.Y);
+                var elite = mapElites.GetElite(coordinate.X, coordinate.Y, 0);
                 if (elite == null) continue;
                 elite.BiomeName = biomeName;
                 elites.Add(elite);

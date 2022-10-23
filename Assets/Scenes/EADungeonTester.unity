@@ -373,13 +373,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textureCamera: {fileID: 1830005869}
   <Fitness>k__BackingField:
-    desiredRooms: 16
-    desiredKeys: 3
-    desiredLocks: 3
+    desiredRooms: 20
+    desiredKeys: 5
+    desiredLocks: 5
     desiredEnemies: 8
     desiredItems: 10
     desiredNpcs: 3
-    desiredLinearity: 2
+    desiredLinearity: 1
   generatorSettings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
 --- !u!1 &1830005868
 GameObject:

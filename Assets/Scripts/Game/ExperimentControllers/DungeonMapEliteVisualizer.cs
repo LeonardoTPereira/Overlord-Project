@@ -40,6 +40,7 @@ namespace Game.ExperimentControllers
         private void OnEnable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler += PrintCurrentPopulation;
+            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler += PrintCurrentPopulation;
         }
 
         private void PrintCurrentPopulation(object sender, CurrentGenerationEventArgs e)
@@ -47,9 +48,11 @@ namespace Game.ExperimentControllers
             _generatedDungeons = new List<DungeonFileSo>();
             foreach (var individual in e.CurrentPopulation.EliteList)
             {
-                var dungeon =
-                    Interface.CreateDungeonSoFromIndividual(individual, Fitness.DesiredEnemies, Fitness.DesiredItems, Fitness.DesiredNpcs);
-                _generatedDungeons.Add(dungeon);
+                if (individual != null){
+                    var dungeon =
+                        Interface.CreateDungeonSoFromIndividual(individual, Fitness.DesiredEnemies, Fitness.DesiredItems, Fitness.DesiredNpcs);
+                    _generatedDungeons.Add(dungeon);
+                }
             }
             Debug.Log("Finished");
             _currentDungeon = 0;
@@ -61,6 +64,7 @@ namespace Game.ExperimentControllers
         private void OnDisable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler -= PrintCurrentPopulation;
         }
 
         public async void Create(InputAction.CallbackContext context)

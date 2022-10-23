@@ -6,6 +6,38 @@ namespace Game.LevelGenerator
     /// This class holds the dungeon levels measurement-related functions.
     class Metric
     {
+        /// Calculate the linear coefficient of the dungeon level.
+        public static float CalculateLinearity( Individual _individual )
+        {
+            Dungeon dungeon = _individual.dungeon;
+            float linearity = 0f;
+            var leafs = 0;
+            foreach (var room in dungeon.Rooms)
+            {
+                var children = 0;
+                if (room.Right?.Parent != null)
+                {
+                    children++;
+                }
+                if (room.Left?.Parent != null)
+                {
+                    children++;
+                }
+                if (room.Bottom?.Parent != null)
+                {
+                    children++;
+                }
+                if (children == 0)
+                {
+                    leafs++;
+                }
+                linearity += children;
+            }
+            int total = dungeon.Rooms.Count;
+            linearity /= (total - leafs);
+            return linearity;
+        }
+
         /// Calculate and return the leniency.
         public static float Leniency( Individual _individual ) 
         {

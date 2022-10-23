@@ -249,7 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2221852777071484948}
   - component: {fileID: 7009612492438467056}
-  - component: {fileID: 5508191248017061023}
+  - component: {fileID: 5080902934986667413}
   m_Layer: 0
   m_Name: ARCO5
   m_TagString: Untagged
@@ -324,7 +324,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5508191248017061023
+--- !u!114 &5080902934986667413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1259,7 +1259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1171959732527579853}
   - component: {fileID: 1241442600828592407}
-  - component: {fileID: 7727385319786981022}
+  - component: {fileID: 7032494384457286986}
   m_Layer: 0
   m_Name: zpack_0
   m_TagString: Untagged
@@ -1334,7 +1334,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7727385319786981022
+--- !u!114 &7032494384457286986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1362,7 +1362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3763055092143151804}
   - component: {fileID: 6456379434643206328}
-  - component: {fileID: 835561059273287961}
+  - component: {fileID: 6296197973873686284}
   m_Layer: 0
   m_Name: FELIZ1
   m_TagString: Untagged
@@ -1437,7 +1437,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &835561059273287961
+--- !u!114 &6296197973873686284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

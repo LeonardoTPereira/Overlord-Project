@@ -19,7 +19,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// The generation in which the individual was created.
         public int generation;
         /// The linear coefficient of the dungeon level.
-        public float linearCoefficient;
+        public float linearity;
         /// The number of locked doors that must be unlocked to reach the goal.
         public int neededLocks;
         /// The number of rooms that must be visited to reach the goal.
@@ -38,7 +38,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             generation = Common.UNKNOWN;
             neededLocks = 0;
             neededRooms = 0.0f;
-            linearCoefficient = 0.0f;
+            linearity = 0.0f;
             leniency = 0.0f;
             exploration = 0.0f;
         }
@@ -56,42 +56,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 generation = generation,
                 neededLocks = neededLocks,
                 neededRooms = neededRooms,
-                linearCoefficient = linearCoefficient,
+                linearity = linearity,
                 dungeon = dungeon,
                 leniency = leniency,
                 exploration = exploration
             };
             return individual;
-        }
-
-        /// Calculate the linear coefficient of the dungeon level.
-        public void CalculateLinearCoefficient()
-        {
-            linearCoefficient = 0f;
-            var leafs = 0;
-            foreach (var room in dungeon.Rooms)
-            {
-                var children = 0;
-                if (room.Right?.Parent != null)
-                {
-                    children++;
-                }
-                if (room.Left?.Parent != null)
-                {
-                    children++;
-                }
-                if (room.Bottom?.Parent != null)
-                {
-                    children++;
-                }
-                if (children == 0)
-                {
-                    leafs++;
-                }
-                linearCoefficient += children;
-            }
-            int total = dungeon.Rooms.Count;
-            linearCoefficient /= (total - leafs);
         }
 
         /// Print the individual attributes and the dungeon map.
@@ -110,7 +80,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             Console.WriteLine(LevelDebug.INDENT +
                 "Enemies=" + dungeon.GetNumberOfEnemies());
             Console.WriteLine(LevelDebug.INDENT +
-                "Linear coefficient=" + linearCoefficient);
+                "Linear coefficient=" + linearity);
             Console.WriteLine(LevelDebug.INDENT +
                 "Coefficient of exploration=" + exploration);
             Console.WriteLine(LevelDebug.INDENT +
@@ -139,14 +109,14 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public void CalculateFitness(FitnessRange fitnessRange)
         {
-            CalculateLinearCoefficient();
+            linearity = Metric.CalculateLinearity(this);
             CalculateUsage();
             Fitness.Calculate(this, fitnessRange);
         }
         
         public void CalculateFitness()
         {
-            CalculateLinearCoefficient();
+            linearity = Metric.CalculateLinearity(this);
             CalculateUsage();
             Fitness.Calculate(this);
             exploration = Metric.CoefficientOfExploration(this);

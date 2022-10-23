@@ -31,7 +31,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             animationClip.legacy = true;
         }
 
-        public void UpdateFitnessPlotData(Individual individual, int generation, int explorationIndex, int leniencyIndex)
+        public void UpdateFitnessPlotData(Individual individual, int generation, int explorationIndex, int leniencyIndex, int linearityIndex)
         {
             if (generation != _currentGeneration)
             {

@@ -9,9 +9,9 @@ namespace Game.Events
     public class CurrentGenerationEventArgs : EventArgs
     {
         public Population CurrentPopulation { get; set; }
-        public CurrentGenerationEventArgs(Population pop)
+        public CurrentGenerationEventArgs(Population population)
         {
-            CurrentPopulation = pop;
+            CurrentPopulation = population;
         }
     }
 }

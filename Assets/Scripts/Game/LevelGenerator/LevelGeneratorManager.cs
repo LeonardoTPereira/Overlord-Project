@@ -32,7 +32,7 @@ namespace Game.LevelGenerator
 
         private void ContinueGenerationEvent(object sender, EventArgs e)
         {
-            (_generator as ClassicEvolutionaryAlgorithm).waitGeneration = false;
+            _generator.waitGeneration = false;
         }
 
         private void OnDisable()
@@ -47,7 +47,7 @@ namespace Game.LevelGenerator
             Debug.Log("Parameters: "+parameters);
             _fitnessInput = eventArgs.Fitness;
             // Start the generation process
-            _generator = new ClassicEvolutionaryAlgorithm(parameters, _fitnessInput,_fitnessPlot);
+            _generator = new LevelGenerator(parameters, _fitnessInput, _fitnessPlot);
             await _generator.Evolve();
             return GetListOfGeneratedDungeons();
         }
@@ -62,7 +62,7 @@ namespace Game.LevelGenerator
             }
             else
             {
-                solutions = _generator.Solution.GetBestEliteForEachBiome();
+                solutions = _generator.Solution.EliteList;
             }
             List<DungeonFileSo> generatedDungeons = new ();
             var totalEnemies = _fitnessInput.DesiredEnemies;

@@ -6,6 +6,7 @@ namespace Game.LevelGenerator
     {
         public static readonly float[] ExplorationRanges = {0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
         public static readonly float[] LeniencyRanges = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f};
+        public static readonly float[] LinearityRanges = {1.0f, 1.4f, 1.8f, 2.2f, 2.6f, 3.0f};
         
         /// Return the index of the entered coefficient of exploration in the
         /// list of ranges of coefficient of exploration.
@@ -17,6 +18,12 @@ namespace Game.LevelGenerator
         /// ranges.
         public static int GetLeniencyIndex(in float leniency) {
             return GetIndex(leniency, LeniencyRanges);
+        }
+
+        /// Return the index of the entered linearity in the list of linearity
+        /// ranges.
+        public static int GetLinearityIndex(in float linearity) {
+            return GetIndex(linearity, LinearityRanges);
         }
 
         /// Return the index of the value in the entered list of ranges.

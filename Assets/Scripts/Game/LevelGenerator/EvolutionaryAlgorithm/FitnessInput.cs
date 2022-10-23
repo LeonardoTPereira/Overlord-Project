@@ -16,7 +16,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         [SerializeField, Range(0, 200)] private int desiredNpcs = 3;
         [SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
         
-        public FitnessInput(int rooms, int keys, int locks, int enemies, float linearCoefficient, int items, int npcs)
+        public FitnessInput(int rooms, int keys, int locks, int enemies, float linearity, int items, int npcs)
         {
             DesiredRooms = rooms;
             DesiredKeys = keys;
@@ -24,7 +24,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             DesiredEnemies = enemies;
             DesiredItems = items;
             DesiredNpcs = npcs;
-            DesiredLinearity = linearCoefficient;
+            DesiredLinearity = linearity;
         }
         
         public int DesiredRooms { get => desiredRooms; set => desiredRooms = value; }

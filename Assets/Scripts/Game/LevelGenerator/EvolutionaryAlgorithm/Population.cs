@@ -18,6 +18,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// The MAP-Elites map (a matrix of individuals).
         public int LeniencyEliteCount { get; }
         public int ExplorationEliteCount { get; }
+        public int LinearityEliteCount { get; }
         public int TotalElites { get; private set; }
         public List<Individual> EliteList { get; set; }
         public BiomeMap BiomeMap { get; set; }
@@ -26,11 +27,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private readonly FitnessPlot _fitnessPlot;
 
         /// Population constructor.
-        public Population(int explorationSize, int leniencySize, FitnessPlot fitnessPlot = null)
+        public Population(int explorationSize, int leniencySize, int linearitySize, FitnessPlot fitnessPlot = null)
         {
             LeniencyEliteCount = leniencySize;
             ExplorationEliteCount = explorationSize;
-            MapElites = new MapElites(ExplorationEliteCount, LeniencyEliteCount);
+            LinearityEliteCount = linearitySize;
+            MapElites = new MapElites(ExplorationEliteCount, LeniencyEliteCount, LinearityEliteCount);
             EliteList = new List<Individual>();
             TotalElites = 0;
             BiomeMap = new BiomeMap();
@@ -43,10 +45,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public void PlaceIndividual(Individual individual) {
             var explorationIndex = SearchSpace.GetCoefficientOfExplorationIndex(individual.exploration);
             var leniencyIndex = SearchSpace.GetLeniencyIndex(individual.leniency);
+            var linearityIndex = SearchSpace.GetLinearityIndex(individual.linearity);
             
-            if (!MapElites.IsCellInMapRange(explorationIndex, leniencyIndex)) return;
+            if (!MapElites.IsCellInMapRange(explorationIndex, leniencyIndex, linearityIndex)) return;
             
-            var currentElite = MapElites.GetElite(explorationIndex, leniencyIndex);
+            var currentElite = MapElites.GetElite(explorationIndex, leniencyIndex, linearityIndex);
             if (currentElite == null)
             {
                 TotalElites++;
@@ -57,7 +60,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 if (currentElite.IsBetterThan(individual)) return;
                 EliteList[EliteList.IndexOf(currentElite)] = individual;
             }
-            MapElites.SetElite(explorationIndex, leniencyIndex, individual);
+            MapElites.SetElite(explorationIndex, leniencyIndex, linearityIndex, individual);
         }
 
         /// Print all the individuals of the MAP-Elites population.
@@ -67,17 +70,21 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             {
                 for (int leniency = 0; leniency < LeniencyEliteCount; leniency++)
                 {
-                    string log = "Elite ";
-                    log += "CE" + SearchSpace.ExplorationRanges[exploration] + "-";
-                    log += "LE" + SearchSpace.LeniencyRanges[leniency];
-                    UnityEngine.Debug.Log(log);
-                    if (MapElites.GetElite(exploration, leniency) is null)
+                    for (int linearity = 0; linearity < LinearityEliteCount; linearity++)
                     {
-                        UnityEngine.Debug.Log(LevelDebug.INDENT + "Empty");
-                    }
-                    else
-                    {
-                        MapElites.GetElite(exploration, leniency).Debug();
+                        string log = "Elite ";
+                        log += "CE" + SearchSpace.ExplorationRanges[exploration] + "-";
+                        log += "LE" + SearchSpace.LeniencyRanges[leniency] + "-";
+                        log += "LC" + SearchSpace.LinearityRanges[linearity] + "-";
+                        UnityEngine.Debug.Log(log);
+                        if (MapElites.GetElite(exploration, leniency, linearity) is null)
+                        {
+                            UnityEngine.Debug.Log(LevelDebug.INDENT + "Empty");
+                        }
+                        else
+                        {
+                            MapElites.GetElite(exploration, leniency, linearity).Debug();
+                        }
                     }
                 }
             }
@@ -90,9 +97,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             {
                 for (var leniency = 0; leniency < LeniencyEliteCount; leniency++)
                 {
-                    if ((MapElites.GetElite(exploration, leniency)?.Fitness.Result ?? float.MaxValue) < acceptableFitness)
+                    for (var linearity = 0; linearity < LinearityEliteCount; linearity++)
                     {
-                        betterCounter++;
+                        if ((MapElites.GetElite(exploration, leniency, linearity)?.Fitness.Result ?? float.MaxValue) < acceptableFitness)
+                        {
+                            betterCounter++;
+                        }
                     }
                 }
             }
@@ -103,7 +113,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             foreach (var elite in EliteList)
             {
-                _fitnessJson?.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                _fitnessJson?.AddFitness(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency), SearchSpace.GetLinearityIndex(elite.linearity));
                 /*else
                 {
                     UnityEngine.Debug.LogWarning("No Json Component Linked. Will Not Save Fitness Data to Json");
@@ -111,7 +121,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
                 if (_fitnessPlot != null)
                 {
-                    _fitnessPlot.UpdateFitnessPlotData(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency));
+                    _fitnessPlot.UpdateFitnessPlotData(elite, generation, SearchSpace.GetCoefficientOfExplorationIndex(elite.exploration), SearchSpace.GetLeniencyIndex(elite.leniency), SearchSpace.GetLinearityIndex(elite.linearity));
                 }
                 /*else
                 {
