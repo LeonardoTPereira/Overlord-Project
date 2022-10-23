@@ -12,8 +12,8 @@ namespace Game.LevelSelection
     {
         [field:SerializeField] public QuestLineList QuestLines { get; set; }
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
-        protected bool IsCompleted { get; set; }
-        protected bool HasSurrendered { get; set; }
+        [field:SerializeField] protected bool IsCompleted { get; set; }
+        [field:SerializeField] protected bool HasSurrendered { get; set; }
         protected bool HasDataBeenLoaded { get; set; }
 
         public void Init(QuestLineList questLines, DungeonFileSo dungeon)

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <QuestLines>k__BackingField: {fileID: 0}
   <Dungeon>k__BackingField: {fileID: 0}
+  <IsCompleted>k__BackingField: 0
+  <HasSurrendered>k__BackingField: 0
   <AchievementWeight>k__BackingField: 2
   <CreativityWeight>k__BackingField: 1
   <ImmersionWeight>k__BackingField: 3

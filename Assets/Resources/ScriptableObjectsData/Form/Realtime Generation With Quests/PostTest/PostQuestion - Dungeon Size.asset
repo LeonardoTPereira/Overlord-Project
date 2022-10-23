@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
   m_Name: PostQuestion - Dungeon Size
   m_EditorClassIdentifier: 
-  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Eu gostei de explorar
-    este n\xEDvel\"?"
+  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Eu achei o tamanho
+    do calabou\xE7o bom\"?"
   description: 1 = Discordo Fortemente       <->      5 = Concordo Fortemente
   answer: 0
