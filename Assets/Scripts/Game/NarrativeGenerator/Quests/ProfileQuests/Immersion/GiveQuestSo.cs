@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using Game.Events;
 using Game.NPCs;
+using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -11,14 +12,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.GiveQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
         }
 
         public GiveQuestData GiveQuestData { get; set; }
-        private bool _hasItemToCollect;
+        public bool HasItemToCollect;
         public static event TreasureCollectEvent TreasureLostEventHandler;
 
         public override void Init()
@@ -59,28 +60,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && Id == questId;
+            return questElement switch
+            {
+                ItemSo itemSo => !IsCompleted && !HasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName,
+                NpcSo npcSo => !IsCompleted && HasItemToCollect && npcSo == GiveQuestData.NpcToReceive,
+                _ => false
+            };
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            IsCompleted = true;
-        }
-
-        //TODO Check the usage of these methods
-        public bool HasItemToCollect(ItemSo itemSo)
-        {
-            return !_hasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName;
-        }
-
-        public void CollectItem ()
-        {
-            _hasItemToCollect = true;
-        }
-
-        public bool CheckIfCanComplete ()
-        {
-            return _hasItemToCollect;
+            if ( HasItemToCollect )
+                IsCompleted = true;
+            HasItemToCollect = true;
+            Debug.Log("HAS ITEM TO GIVE");
         }
 
         public override void CreateQuestString()

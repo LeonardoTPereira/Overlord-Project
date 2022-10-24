@@ -17,6 +17,8 @@ namespace Game.NarrativeGenerator
         private int _immersionQuests;
         private int _masteryQuests;
 
+        private int _immersionQuestsThatNeedSpace;
+
         [field: SerializeField]
         public int NKeys { get; set; }
         [field: SerializeField]
@@ -39,7 +41,8 @@ namespace Game.NarrativeGenerator
             return ((DungeonLinearity)LinearityEnum).ToFloat();
         }
 
-        public void CalculateDungeonParametersFromQuests(IEnumerable<QuestLine> questLines, float explorationPreference)
+        public void CalculateDungeonParametersFromQuests(IEnumerable<QuestLine> questLines, float explorationPreference
+            , float achievementPreference)
         {
             foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
@@ -47,11 +50,11 @@ namespace Game.NarrativeGenerator
             }
 
             var totalQuests = CalculateTotal();
-            var linearityCoefficient = CalculateLinearity(totalQuests);
+            var linearityCoefficient = CalculateLinearity(explorationPreference, achievementPreference);
             var sizeCoefficient = CalculateSize(totalQuests, explorationPreference);
             Size = ParametersDungeon.GetSizeFromEnum(sizeCoefficient);
             LinearityEnum = ParametersDungeon.GetLinearityFromEnum(linearityCoefficient);
-            NKeys = ParametersDungeon.GetNKeys(_creativityQuests/totalQuests, Size);
+            NKeys = ParametersDungeon.GetNKeys(explorationPreference, Size);
             #if UNITY_EDITOR
                 Debug.Log("Dungeon Parameters: "+ ToString() 
                                                 + $"\nCoefficients: Total Quests={totalQuests}, Linearity={linearityCoefficient}, Size={sizeCoefficient}" +
@@ -66,13 +69,13 @@ namespace Game.NarrativeGenerator
 
         private int CalculateSize(int totalQuests, float explorationPreference)
         {
-            var questsThatNeedSpace = totalQuests - _immersionQuests;
-            return (int)(questsThatNeedSpace/2f * (1f+explorationPreference/2f));
+            var questsThatNeedSpace = totalQuests + _immersionQuestsThatNeedSpace - _immersionQuests;
+            return (int)(Math.Sqrt(questsThatNeedSpace) * (1f+explorationPreference)+ (int) DungeonSize.VerySmall);
         }
 
-        private float CalculateLinearity(int totalQuests)
+        private float CalculateLinearity(float explorationPreference, float achievementPreference)
         {
-            return (_creativityQuests + _achievementQuests)/(float)totalQuests;
+            return (2f*explorationPreference + achievementPreference)/3.0f;
         }
 
         private void AddQuestTypeToCounter(QuestSo questSo)
@@ -87,6 +90,10 @@ namespace Game.NarrativeGenerator
                     break;
                 case ImmersionQuestSo:
                     _immersionQuests++;
+                    if ( NeedsSpace(questSo) )
+                    {
+                        _immersionQuestsThatNeedSpace++;
+                    }
                     break;
                 case MasteryQuestSo:
                     _masteryQuests++;
@@ -96,6 +103,11 @@ namespace Game.NarrativeGenerator
                                    "was found to create dialogue");
                     break;
             }
+        }
+
+        private bool NeedsSpace(QuestSo questSo)
+        {
+            return (questSo as ReadQuestSo != null) || (questSo as GiveQuestSo != null);
         }
     }
 }

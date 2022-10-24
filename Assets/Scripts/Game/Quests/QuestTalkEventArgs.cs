@@ -9,6 +9,7 @@ namespace Game.Quests
         public QuestTalkEventArgs(NpcSo npc, int questId):base(questId)
         {
             Npc = npc;
+            Npc = npc;
         }
     }
 }

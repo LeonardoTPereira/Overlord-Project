@@ -47,11 +47,11 @@ namespace Game.GameManager
 
         public void OnEnable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= CreateLevelFromNarrative;
         }
 
         public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
@@ -78,7 +78,7 @@ namespace Game.GameManager
                 var nitems = int.Parse(inputFields["ItemsInputField"].text);
                 var nNpcs = int.Parse(inputFields["NpcsInputField"].text);
                 var linearity = float.Parse(inputFields["LinearityInputField"].text);
-                fitnessInput = new FitnessInput(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs);
+                fitnessInput = new FitnessInput(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs, null, null);
                 CreateEaDungeonEventHandler?.Invoke(this, new CreateEaDungeonEventArgs(parameters, fitnessInput));
             }
             catch (KeyNotFoundException)

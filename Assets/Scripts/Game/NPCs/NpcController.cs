@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
+using Game.Events;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
@@ -20,16 +20,26 @@ namespace Game.NPCs
     public class NpcController : QuestDialogueInteraction
     {    
         [field: SerializeField] public NpcSo Npc { get; set; }
+        public List<ExchangeQuestData> ExchangeDataList { get; set; }
+        public static event ItemTradeEvent ItemTradeEventHandler;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            ExchangeDataList = new List<ExchangeQuestData>();
+        }
         protected override void OnEnable()
         {
             base.OnEnable();
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+            QuestLine.AllowExchangeEventHandler += CreateExchangeDialogue;
+            TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
         }
-
         protected override void OnDisable()
         {
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+            QuestLine.AllowExchangeEventHandler -= CreateExchangeDialogue;
+            TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
             base.OnDisable();
         }
 
@@ -41,9 +51,9 @@ namespace Game.NPCs
             CreateQuestOpenedDialogue(quest, npcInCharge);
         }
 
-        protected override bool IsTarget(QuestSo quest)
+        protected override bool IsTarget(QuestSo questSo)
         {
-            NpcSo questNpc = GetQuestNpc(quest);
+            NpcSo questNpc = GetQuestNpc(questSo);
             return questNpc != null && questNpc.NpcName == Npc.NpcName;
         }
 
@@ -97,6 +107,17 @@ namespace Game.NPCs
             var questId = quest.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, true, questId);
         }
+
+        private void CreateExchangeDialogue(object sender, QuestElementEventArgs eventArgs)
+        {
+            if (eventArgs is not QuestExchangeEventArgs exchangeEventArgs) return;
+            var targetNpc = exchangeEventArgs.ExchangeQuestData.Npc;
+            if (targetNpc != Npc) return;
+            var openerLine = NpcDialogueGenerator.CreateExchangeDialogue(exchangeEventArgs.ExchangeQuestData, Npc);
+            ExchangeDataList.Add(new ExchangeQuestData(exchangeEventArgs.ExchangeQuestData.ExchangeData));
+            var questId = exchangeEventArgs.ExchangeQuestData.Id;
+            dialogue.AddDialogue(Npc.DialogueData, openerLine, false, questId);
+        }
         
 #if UNITY_EDITOR
         [ButtonMethod]
@@ -137,16 +158,19 @@ namespace Game.NPCs
                 var quest = _assignedQuestsQueue.Dequeue();
                 switch (quest)
                 {
-                    case ExchangeQuestSo exchangeQuest when !quest.IsCompleted:
-                        incompleteQuestQueue.Enqueue(quest);
-                        continue;
                     case ExchangeQuestSo exchangeQuest:
-                        exchangeQuest.TradeItems();
+                        if (!exchangeQuest.HasItems)
+                        {
+                            incompleteQuestQueue.Enqueue(quest);
+                            continue;
+                        }
                         break;
-                    case GiveQuestSo giveQuest when !quest.IsCompleted:
-                        incompleteQuestQueue.Enqueue(quest);
-                        continue;
                     case GiveQuestSo giveQuest:
+                        if (!giveQuest.HasItemToCollect)
+                        {
+                            incompleteQuestQueue.Enqueue(quest);
+                            continue;
+                        }
                         giveQuest.GiveItems();
                         break;
                 }
@@ -154,12 +178,17 @@ namespace Game.NPCs
             }
             _assignedQuestsQueue = incompleteQuestQueue;
 
-            var questsInDialogue = dialogue.GetQuestCloserDialogueIds();
-            foreach (var questIds in questsInDialogue)
-            {
-                ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questIds));
-            }
             DialogueHandler.instance.StartDialogue(dialogue);
+        }
+        
+        private void TradeItems(object sender, StartExchangeEventArgs eventArgs)
+        {
+            foreach (var exchangeQuestData in ExchangeDataList.Where(exchangeQuestData 
+                         => eventArgs.ExchangeQuestId == exchangeQuestData.QuestId))
+            {
+                ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(exchangeQuestData.CopyOfItemsToTrade, 
+                    exchangeQuestData.ReceivedItem, exchangeQuestData.QuestId));
+            }
         }
     }
 }

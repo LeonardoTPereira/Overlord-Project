@@ -5,6 +5,7 @@ using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
+using Game.LevelSelection;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -36,6 +37,7 @@ namespace Game.DataCollection
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
+            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
@@ -57,6 +59,7 @@ namespace Game.DataCollection
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
+            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
@@ -89,6 +92,7 @@ namespace Game.DataCollection
             Debug.Log("Map Started");
             CurrentPlayer.StartDungeon(eventArgs.MapName, eventArgs.Map);
             _dungeonDataController.CurrentDungeon = CurrentPlayer.CurrentDungeon;
+            _dungeonDataController.SetDungeonParameters();
         }
 
 

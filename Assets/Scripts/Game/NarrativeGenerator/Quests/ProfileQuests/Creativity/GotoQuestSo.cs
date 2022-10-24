@@ -14,7 +14,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string SymbolType => Constants.GotoQuest;
         public Coordinates SelectedRoomCoordinates { get; set; }
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;

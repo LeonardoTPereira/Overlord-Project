@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField] private DamageQuestData DamageData { get; set; }
         public override string SymbolType => Constants.DamageQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;

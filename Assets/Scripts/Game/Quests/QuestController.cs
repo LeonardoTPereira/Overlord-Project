@@ -82,9 +82,13 @@ namespace Game.Quests
                 case QuestReadEventArgs readQuestArgs:
                     UpdateReadQuest( readQuestArgs );
                     break;
+                case QuestExchangeDialogueEventArgs exchangeDialogueEventArgs:
+                    var npc = questLines.NpcSos.Find(npc => npc.NpcName == exchangeDialogueEventArgs.NpcName);
+                    UpdateTalkQuest(new QuestTalkEventArgs(npc, exchangeDialogueEventArgs.QuestId));
+                    break;
             }
         }
-        
+
         private void CompleteQuest(object sender, QuestElementEventArgs eventArgs)
         {
             foreach (var questLine in questLines.QuestLines.Where(questLine => questLine.GetCurrentQuest()?.Id == eventArgs.QuestId))
@@ -112,11 +116,8 @@ namespace Game.Quests
             var damage = damageQuestArgs.Damage;
             var damageData = new DamageQuestData(damage, enemyDamaged);
             var questId = damageQuestArgs.QuestId;
-            if (questLines.QuestLines.Any(questList => 
-                    questList.RemoveAvailableQuestWithId<DamageQuestSo, DamageQuestData>(damageData, questId)))
-            {
-                return;
-            }
+            questLines.QuestLines.Any(questList => 
+                    questList.RemoveAvailableQuestWithId<DamageQuestSo, DamageQuestData>(damageData, questId));
             //Debug.LogError($"$No damage Quests With This Enemy ({enemyDamaged}) Available");
         }
         
@@ -133,11 +134,9 @@ namespace Game.Quests
             {
                 return;
             }
-            if (questLines.QuestLines.Any(questList =>
-                    questList.RemoveAvailableQuestWithId<GotoQuestSo, Coordinates>(roomExplored, questId)))
-            {
-                return;
-            }
+
+            questLines.QuestLines.Any(questList =>
+                questList.RemoveAvailableQuestWithId<GotoQuestSo, Coordinates>(roomExplored, questId));
             //Debug.LogError($"$No Explore Quests With This Room ({roomExplored}) Available.");
         }
 

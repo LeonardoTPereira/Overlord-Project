@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Game.NarrativeGenerator;
+using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
 
@@ -15,8 +18,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         [SerializeField, Range(0, 200)] private int desiredItems = 10;
         [SerializeField, Range(0, 200)] private int desiredNpcs = 3;
         [SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
-        
-        public FitnessInput(int rooms, int keys, int locks, int enemies, float linearity, int items, int npcs)
+        public IEnumerable<QuestLine> QuestLines { get; private set; }
+        public PlayerProfile PlayerProfile { get; private set; }
+
+        public FitnessInput(int rooms, int keys, int locks, int enemies, float linearity, int items, int npcs,
+            IEnumerable<QuestLine> questLines, PlayerProfile playerProfile)
         {
             DesiredRooms = rooms;
             DesiredKeys = keys;
@@ -25,6 +31,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             DesiredItems = items;
             DesiredNpcs = npcs;
             DesiredLinearity = linearity;
+            QuestLines = questLines;
+            PlayerProfile = playerProfile;
         }
         
         public int DesiredRooms { get => desiredRooms; set => desiredRooms = value; }

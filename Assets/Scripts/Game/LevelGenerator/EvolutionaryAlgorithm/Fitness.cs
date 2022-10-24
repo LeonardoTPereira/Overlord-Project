@@ -124,11 +124,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             if (normalized)
             {
-                Result = NormalizedDistance + NormalizedUsage + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
+                Result = 3*NormalizedDistance + 2*NormalizedUsage + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
             }
             else
             {
-                Result = Distance + Usage + EnemySparsity + EnemyStandardDeviation;
+                Result = 3*Distance + 2*Usage + EnemySparsity + EnemyStandardDeviation;
             }
         }
     }

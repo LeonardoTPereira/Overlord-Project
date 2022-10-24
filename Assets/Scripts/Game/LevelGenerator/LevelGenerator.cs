@@ -25,21 +25,21 @@ namespace Game.LevelGenerator
         private Population solution;
         /// Return the found MAP-Elites population.
         public Population Solution { get => solution; }
+        public bool waitGeneration;
 
         /// The event to handle the progress bar update.
         public static event NewEAGenerationEvent NewEaGenerationEventHandler;
-
-        public bool waitGeneration;
-
         public static event CurrentGenerationEvent CurrentGenerationEventHandler;
 
-        protected FitnessPlot fitnessPlot;
+
+        protected FitnessPlot Plotter;
+        private IndividualJson _individualJson;
 
         /// Level Generator constructor.
-        public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot fitnessPlot = null) {
+        public LevelGenerator(GeneratorSettings.Parameters parameters, FitnessInput fitnessInput, FitnessPlot plotter = null) {
             Parameters = parameters;
             FitnessInput = fitnessInput;
-            this.fitnessPlot = fitnessPlot;
+            Plotter = plotter;
         }
 
         protected void InvokeGenerationEvent(float progress)
@@ -58,11 +58,17 @@ namespace Game.LevelGenerator
         /// Perform the level evolution process.
         private async Task Evolution()
         {
-            // Initialize the MAP-Elites population
-            var population = InitializePopulation();
-            await EvolvePopulation(population);
-            // Get the final population (solution)
-            solution = population;
+            _individualJson = new IndividualJson();
+            for (var i = 0; i < 10; i++)
+            {
+                // Initialize the MAP-Elites population
+                var population = InitializePopulation();
+                await EvolvePopulation(population);
+                // Get the final population (solution)
+                solution = population;
+                _individualJson.AddFitness(solution.EliteList[0]);
+            }
+            _individualJson.SaveJson();
         }
 
         protected virtual Population InitializePopulation()
@@ -71,7 +77,7 @@ namespace Game.LevelGenerator
                 SearchSpace.ExplorationRanges.Length,
                 SearchSpace.LeniencyRanges.Length,
                 SearchSpace.LinearityRanges.Length,
-                fitnessPlot
+                Plotter
             );
             var maxTries = INTERMEDIATE_POPULATION;
             var currentTry = 0;
@@ -96,7 +102,12 @@ namespace Game.LevelGenerator
             DateTime end = DateTime.Now;
             while (!HasReachedStopCriteria(end, start, population.GetAmountOfBiomesWithElites(), population.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)))
             {
-
+                /*CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
+                waitGeneration = true;
+                while (waitGeneration)
+                {
+                    await Task.Yield();
+                }*/
                 var intermediate = CreateIntermediatePopulation(population, g);
                 // Place the offspring in the MAP-Elites population
                 foreach (Individual individual in intermediate)

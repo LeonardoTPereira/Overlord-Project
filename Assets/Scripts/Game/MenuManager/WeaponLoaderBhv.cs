@@ -57,7 +57,10 @@ namespace Game.MenuManager
 
         public void GoToNext()
         {
-            Selected.SelectLevel(0);
+            if (Selected.selectedIndex == -1)
+            {
+                Selected.SelectLevel(null);
+            }
             SceneManager.LoadScene("LevelWithEnemies");
             //SceneManager.LoadScene(levelToLoad.SceneName);
             gameObject.SetActive(false);

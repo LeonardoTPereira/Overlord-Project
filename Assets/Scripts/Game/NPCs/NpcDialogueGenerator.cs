@@ -44,31 +44,120 @@ namespace Game.NPCs
             switch (openedQuest)
             {
                 case ExchangeQuestSo:
-                    return "I need you to trade:\n";
+                    return ExchangeQuestOpener();
                 case GatherQuestSo:
-                    return "I need you to collect:\n";
+                    return GatherQuestOpener();
                 case KillQuestSo:
-                    return "I need you to kill some monsters for me:\n";
+                    return KillQuestOpener();
                 case DamageQuestSo:
-                    return "I need you to hit this structure:\n";
+                    return DamageQuestOpener();
                 case GiveQuestSo:
-                    return "I need you to give:\n";
+                    return GiveQuestOpener();
                 case ListenQuestSo:
-                    return "I need you to listen carefully to the message from:\n";
+                    return ListenQuestOpener();
                 case ReadQuestSo:
-                    return "I need you to read the message in:\n";
+                    return ReadQuestOpener();
                 case ReportQuestSo:
-                    return "I need you to report this to:\n";
+                    return ReportQuestOpener();
                 case ExploreQuestSo:
-                    return "I need you to explore this dungeon:\n";
+                    return ExploreQuestOpener();
                 case GotoQuestSo:
-                    return "I need you to go to a special place for me:\n";
+                    return GotoQuestOpener();
                 default:
                     Debug.LogError($"No quest type for this quest {openedQuest.GetType()} " +
                                    "was found to create dialogue");
                     return null;
             }
         }
+
+        #region QuestOpeners
+        private static string ExchangeQuestOpener()
+        {
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                //TODO: replace someone for the npcs name
+                case 0:
+                    return "I need you to trade:\n";
+                case 1:
+                    return "I have heard there is someone nearby with some good trades! Why don't you go see for yourself? Trade ";
+                default:
+                    return "Have you heard there's someone trying out the merchant career. Go give them some support! Trade ";
+            }
+        }
+
+        private static string GatherQuestOpener()
+        {
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                case 0:
+                    return "I need you to collect:\n";
+                case 1:
+                    return "Why are there so many things laying on the floor!? Please, can't you do something about this? Collect ";
+                default:
+                    return "There's a lot of treasures around this dungeon. Don't be shy, feel free to collect it all! In fact, I think you reall should collect ";
+            }
+        }
+
+        private static string KillQuestOpener()
+        {
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                case 0:
+                    return "I need you to kill some monsters for me:\n";
+                case 1:
+                    return "Nasty monsters! They are EVERYWHERE!! Please don't tell anyone, but I'm a bit scared of them... Could you please kill ";
+                default:
+                    return "The monsters in this dungeon sure are annoying! Do us a favor and kill ";
+            }
+        }
+
+        private static string DamageQuestOpener()
+        {
+            return "...";
+        }
+
+        private static string GiveQuestOpener()
+        {
+            int text = UnityEngine.Random.Range(0, 3);
+            switch (text)
+            {
+                case 0:
+                    return "I need you to give:\n";
+                case 1:
+                    return "Someone's birthday is comming up! Can you give ";
+                default:
+                    return "I was thinking on giving someone a little present... Can you help me with that? Please, give ";
+            }
+        }
+
+        private static string ListenQuestOpener()
+        {
+            return "I need you to listen carefully to the message from:\n";
+        }
+
+        private static string ReadQuestOpener()
+        {
+            return "I need you to read the message in:\n";
+        }
+
+        private static string ReportQuestOpener()
+        {
+            return "I need you to report this to:\n";
+        }
+
+        private static string ExploreQuestOpener()
+        {
+            return "I need you to explore this dungeon:\n";
+        }
+
+        private static string GotoQuestOpener()
+        {
+            return "I need you to go to a special place for me:\n";
+        }
+        #endregion
 
         public static string CreateQuestCloser(QuestSo closedQuest, NpcSo speaker)
         {
@@ -113,9 +202,19 @@ namespace Game.NPCs
             }
 
             questCloser.Append("Thank you very much!");
+            questCloser.Append($"<complete={closedQuest.Id}>");
             return questCloser.ToString();
         }
-
+        
+        public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)
+        {
+            var questExchangeDialogue = new StringBuilder();
+            questExchangeDialogue.Append("You really got all the items.");
+            var spriteString = quest.ExchangeData.ReceivedItem.GetToolSpriteString();
+            questExchangeDialogue.Append($"Take this {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} as a reward!");
+            questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
+            return questExchangeDialogue.ToString();
+        }
 #if UNITY_EDITOR
         [ButtonMethod]
         public static string CreateMockGoToQuest()
@@ -125,5 +224,6 @@ namespace Game.NPCs
             return stringBuilder.ToString();
         }
 #endif
+
     }
 }

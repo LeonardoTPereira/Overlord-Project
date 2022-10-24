@@ -25,8 +25,14 @@ namespace Game.LevelGenerator
                 individual.dungeon.RemoveLockAndKey();
             }
             // Transfer enemies between rooms
-            int size = individual.dungeon.Rooms.Count;
-            List<int> options = Enumerable.Range(1, size - 1).ToList<int>();
+            var size = individual.dungeon.Rooms.Count;
+            var options = Enumerable.Range(1, size-1).ToList();
+            for (var i = 0; i < options.Count; i++)
+            {
+                if (!individual.dungeon.Rooms[options[i]].IsGoal) continue;
+                options.RemoveAt(i);
+                break;
+            }
             while (options.Count / 2 > 1)
             {
                 // Select random rooms
