@@ -10,17 +10,17 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public static Individual BestDungeon { get; private set; }
         private static FitnessRange _currentFitnessRange = new()
         {
-            distanceToInput = new RangedFloat(float.MaxValue, float.MinValue),
-            usage = new RangedFloat(float.MaxValue, float.MinValue),
-            standardDeviation = new RangedFloat(float.MaxValue, float.MinValue),
-            sparsity = new RangedFloat(float.MaxValue, float.MinValue)
+            distanceToInput = new RangedFloat(0, float.MinValue),
+            usage = new RangedFloat(0, float.MinValue),
+            standardDeviation = new RangedFloat(0, float.MinValue),
+            sparsity = new RangedFloat(0, float.MinValue)
         };
         private static FitnessRange _currentPopulationFitnessRange = new()
         {
-            distanceToInput = new RangedFloat(float.MaxValue, float.MinValue),
-            usage = new RangedFloat(float.MaxValue, float.MinValue),
-            standardDeviation = new RangedFloat(float.MaxValue, float.MinValue),
-            sparsity = new RangedFloat(float.MaxValue, float.MinValue)
+            distanceToInput = new RangedFloat(0, float.MinValue),
+            usage = new RangedFloat(0, float.MinValue),
+            standardDeviation = new RangedFloat(0, float.MinValue),
+            sparsity = new RangedFloat(0, float.MinValue)
         };
         private static bool _hasUpdateInDistance;
         private static bool _hasUpdateInUsage;

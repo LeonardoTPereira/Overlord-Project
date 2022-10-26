@@ -34,7 +34,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
             var distanceAvg = GetAverageDistance(distances);
 
-            if (distanceAvg == 0) return FitnessPenalty;
+            if (distanceAvg < float.Epsilon) return FitnessPenalty;
             
             var distanceStdDev = GetDistanceStdDev(distances, distanceAvg);
             

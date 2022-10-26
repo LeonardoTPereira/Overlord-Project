@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.Events;
 using Game.ExperimentControllers;
-using Game.LevelGenerator.LevelSOs;
-using MyBox;
 using UnityEngine;
-using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
 {
@@ -18,9 +12,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private int _nGenerationsWithoutImprovement;
         private float _bestFitnessYet;
 
-        public static event CurrentGenerationEvent CurrentGenerationEventHandler;
-
-        
         protected override Population InitializePopulation()
         {
             waitGeneration = false;
@@ -28,7 +19,16 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             for (var i = 0; i < PopSize; ++i)
             {
                 var individual = Individual.CreateRandom(FitnessInput);
-                individual.Fix();
+                individual.dungeon.PlaceEnemies(FitnessInput.DesiredEnemies);
+                if (individual.dungeon.GetNumberOfEnemies() != FitnessInput.DesiredEnemies)
+                {
+                    Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {individual.dungeon.GetNumberOfEnemies()}");
+                }
+                individual.Fix(FitnessInput.DesiredEnemies);
+                if (individual.dungeon.GetNumberOfEnemies() != FitnessInput.DesiredEnemies)
+                {
+                    Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {individual.dungeon.GetNumberOfEnemies()}");
+                }
                 dungeons.EliteList.Add(individual);
                 individual.generation = 0;
             }
@@ -64,7 +64,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     // Place the offspring in the MAP-Elites population
                     foreach (var individual in offspring)
                     {
-                        individual.Fix();
+                        individual.Fix(FitnessInput.DesiredEnemies);
                         individual.generation = generation;
                         intermediate.Add(individual);
                         individual.BiomeName = "Classic";

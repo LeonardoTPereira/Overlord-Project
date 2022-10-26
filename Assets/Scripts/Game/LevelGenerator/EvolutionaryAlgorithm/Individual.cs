@@ -43,25 +43,17 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             exploration = 0.0f;
         }
 
-        private Individual()
-        {
-        }
-
         /// Return a clone of the individual.
-        public Individual Clone()
+        public Individual(Individual originalIndividual)
         {
-            var individual = new Individual
-            {
-                Fitness = Fitness,
-                generation = generation,
-                neededLocks = neededLocks,
-                neededRooms = neededRooms,
-                linearCoefficient = linearCoefficient,
-                dungeon = dungeon,
-                leniency = leniency,
-                exploration = exploration
-            };
-            return individual;
+            Fitness = originalIndividual.Fitness;
+            generation = originalIndividual.generation;
+            neededLocks = originalIndividual.neededLocks;
+            neededRooms = originalIndividual.neededRooms;
+            linearCoefficient = originalIndividual.linearCoefficient;
+            dungeon = new Dungeon(originalIndividual.dungeon);
+            leniency = originalIndividual.leniency;
+            exploration = originalIndividual.exploration;
         }
 
         /// Calculate the linear coefficient of the dungeon level.
@@ -127,14 +119,13 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var newIndividual = new Individual(input);
             var newDungeon = new Dungeon();
             newDungeon.GenerateRooms();
-            newDungeon.PlaceEnemies(input.DesiredEnemies);
             newIndividual.dungeon = newDungeon;
             return newIndividual;
         }
 
-        public void Fix()
+        public void Fix(int enemies)
         {
-            dungeon.Fix(Fitness.DesiredInput.DesiredEnemies);
+            dungeon.Fix(enemies);
         }
 
         public void CalculateFitness(FitnessRange fitnessRange)

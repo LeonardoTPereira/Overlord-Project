@@ -89,7 +89,7 @@ namespace Game.LevelGenerator
             while (pop.EliteList.Count < Parameters.Population && currentTry < maxTries)
             {
                 var individual = Individual.CreateRandom(FitnessInput);
-                individual.Fix();
+                individual.Fix(FitnessInput.DesiredEnemies);
                 individual.CalculateFitness();
                 pop.PlaceIndividual(individual);
                 currentTry++;
@@ -148,7 +148,7 @@ namespace Game.LevelGenerator
                 // Place the offspring in the MAP-Elites population
                 foreach (var individual in offspring)
                 {
-                    individual.Fix();
+                    individual.Fix(FitnessInput.DesiredEnemies);
                     individual.CalculateFitness();
                     individual.generation = g;
                     intermediate.Add(individual);
@@ -159,24 +159,61 @@ namespace Game.LevelGenerator
 
         protected Individual[] CreateOffspring(Individual[] parents)
         {
+            var originalParentEnemy1 = parents[0].dungeon.GetNumberOfEnemies();
+            var originalParentEnemy2 = parents[1].dungeon.GetNumberOfEnemies();
+            var crossoverOffspringEnemy1 = 0;
+            var crossoverOffspringEnemy2 = 0;
             var offspring = Crossover.Apply(parents[0], parents[1]);
-            // Apply the mutation operation with a random chance or
-            // always that the crossover was not successful
-            if (offspring.Length != 0 && Parameters.Mutation <= RandomSingleton.GetInstance().RandomPercent())
-                return offspring;
             if (offspring.Length == CROSSOVER_PARENTS)
             {
                 parents[0] = offspring[0];
                 parents[1] = offspring[1];
+                crossoverOffspringEnemy1 = parents[0].dungeon.GetNumberOfEnemies();
+                if (crossoverOffspringEnemy1 != FitnessInput.DesiredEnemies)
+                {
+                    Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {crossoverOffspringEnemy1}");
+                }
+                crossoverOffspringEnemy2 = parents[1].dungeon.GetNumberOfEnemies();
+                if (crossoverOffspringEnemy2 != FitnessInput.DesiredEnemies)
+                {
+                    Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {crossoverOffspringEnemy2}");
+                }
             }
             else
             {
                 offspring = new Individual[2];
+                if (Parameters.Mutation > RandomSingleton.GetInstance().RandomPercent())
+                {
+                    parents[0] = new Individual(parents[0]);
+                    parents[1] = new Individual(parents[1]);
+                    var enemiesP12 = parents[0].dungeon.GetNumberOfEnemies();
+                    if (enemiesP12 != FitnessInput.DesiredEnemies)
+                    {
+                        Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {enemiesP12}");
+                    }
+
+                    var enemiesP22 = parents[1].dungeon.GetNumberOfEnemies();
+                    if (enemiesP22 != FitnessInput.DesiredEnemies)
+                    {
+                        Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {enemiesP22}");
+                    }
+                    return parents;
+                }
             }
 
             offspring[0] = Mutation.Apply(parents[0]);
             offspring[1] = Mutation.Apply(parents[1]);
+            var enemiesO1 = offspring[0].dungeon.GetNumberOfEnemies();
+            if (enemiesO1 != FitnessInput.DesiredEnemies)
+            {
+                Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {enemiesO1}");
+            }
 
+            var enemiesO2 = offspring[1].dungeon.GetNumberOfEnemies();
+            if (enemiesO2 != FitnessInput.DesiredEnemies)
+            {
+                Debug.LogError($"Requested {FitnessInput.DesiredEnemies} Enemies, found {enemiesO2}");
+            }
             return offspring;
         }
 

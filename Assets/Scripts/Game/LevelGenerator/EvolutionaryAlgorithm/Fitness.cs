@@ -47,24 +47,24 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private void CalculateDistanceFromInput(Individual individual, RangedFloat fitnessRange, Dungeon dungeon)
         {
             Distance = DistanceFromInput(individual, dungeon);
-            NormalizedDistance = Normalizer.GetMinMaxNormalization(Distance, fitnessRange.Min, fitnessRange.Max);
+            NormalizedDistance = Normalizer.GetMinMaxNormalization(Distance, 0, fitnessRange.Max);
         }        
         
         private void CalculateUsage(Individual individual, RangedFloat fitnessRange, Dungeon dungeon)
         {
             Usage = GetUsageOfRoomsAndLocks(individual, dungeon);
-            NormalizedUsage = Normalizer.GetMinMaxNormalization(Usage, fitnessRange.Min, fitnessRange.Max);
+            NormalizedUsage = Normalizer.GetMinMaxNormalization(Usage, 0, fitnessRange.Max);
         }        
         
         private void CalculateSparsity(RangedFloat fitnessRange, Dungeon dungeon)
         {
             EnemySparsity = EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon);
-            NormalizedEnemySparsity = Normalizer.GetMinMaxNormalization(EnemySparsity, fitnessRange.Min, fitnessRange.Max);
+            NormalizedEnemySparsity = Normalizer.GetMinMaxNormalization(EnemySparsity, 0, fitnessRange.Max);
         }        
         private void CalculateStandardDeviation(RangedFloat fitnessRange, Dungeon dungeon)
         {
             EnemyStandardDeviation = StdDevEnemyByRoom(dungeon, DesiredInput.DesiredEnemies);
-            NormalizedEnemyStandardDeviation = Normalizer.GetMinMaxNormalization(EnemyStandardDeviation, fitnessRange.Min, fitnessRange.Max);
+            NormalizedEnemyStandardDeviation = Normalizer.GetMinMaxNormalization(EnemyStandardDeviation, 0, fitnessRange.Max);
         }
 
         public override string ToString()

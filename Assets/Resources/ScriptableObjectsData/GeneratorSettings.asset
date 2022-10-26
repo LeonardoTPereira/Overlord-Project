@@ -18,6 +18,7 @@ MonoBehaviour:
   <GenerateInRealTime>k__BackingField: 1
   <EnableRandomProfileToPlayer>k__BackingField: 0
   <ProbabilityToGetTrueProfile>k__BackingField: 50
+  <TotalRunsOfEA>k__BackingField: 1
   <PlaceholderNpcs>k__BackingField:
   - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
   - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
@@ -33,8 +34,8 @@ MonoBehaviour:
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
   <EnemiesToKill>k__BackingField:
-    Min: 5
-    Max: 10
+    Min: 1
+    Max: 1
   <ItemsToGather>k__BackingField:
     Min: 1
     Max: 5
@@ -42,7 +43,7 @@ MonoBehaviour:
     Min: 40
     Max: 90
   <DungeonParameters>k__BackingField:
-    <Time>k__BackingField: 30
+    <Time>k__BackingField: 45
     <Population>k__BackingField: 100
     <Mutation>k__BackingField: 5
     <Competitors>k__BackingField: 2

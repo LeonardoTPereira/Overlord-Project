@@ -30,7 +30,7 @@ namespace Game.LevelGenerator
             //saves where the dungeon grid begins and ends in each direction
             foreach (var room in dun.Rooms)
             {
-                switch (room.Type1)
+                switch (room.Type)
                 {
                     case RoomType.Key:
                         keys.Add(room.Key);
@@ -199,7 +199,7 @@ namespace Game.LevelGenerator
         {
             if (actualRoom != null)
             {
-                switch (actualRoom.Type1)
+                switch (actualRoom.Type)
                 {
                     //If it is a normal room, check if is a leaf node. We are currently placing treasures there
                     //If not a leaf, just save as an empty room for now
@@ -238,7 +238,7 @@ namespace Game.LevelGenerator
                 //If corridor is lockes, save the index of the key that opens it
                 //But as a negative value. A negative corridor is locked!
                 //If not, save it only as a normal corridor
-                if (actualRoom.Type1 == RoomType.Locked)
+                if (actualRoom.Type == RoomType.Locked)
                 {
                     map[x, y] = -(keys.IndexOf(actualRoom.Key) + 1);
                 }

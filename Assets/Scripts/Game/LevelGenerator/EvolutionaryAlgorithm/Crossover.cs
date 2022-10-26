@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm
@@ -35,11 +35,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             int nRooms2;
             // If the trade is possible or not
             bool isImpossible;
-
+            var enemiesPerRoomCut1 = new Queue<int>();
+            var enemiesPerRoomCut2 = new Queue<int>();
             do
             {
-                dungeon1 = parent1.dungeon.Clone();
-                dungeon2 = parent2.dungeon.Clone();
+                dungeon1 = new Dungeon(parent1.dungeon);
+                dungeon2 = new Dungeon(parent2.dungeon);
                 // Get a random node from the parent as the root of the branch
                 // that will be traded
                 int index = RandomSingleton.GetInstance().Next(1, dungeon1.Rooms.Count);
@@ -71,15 +72,14 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
                 // If the crossover is possible, then perform it
                 if (isImpossible) continue;
-                
+                enemiesPerRoomCut1 = roomCut1.GetEnemiesPerRoom();
+                enemiesPerRoomCut2 = roomCut2.GetEnemiesPerRoom();
                 // Swap the branchs
                 SwapBranch(ref roomCut1, ref roomCut2);
                 SwapBranch(ref roomCut2, ref roomCut1);
 
                 // Change the parent of each node
-                Room auxRoom = roomCut1.Parent;
-                roomCut1.Parent = roomCut2.Parent;
-                roomCut2.Parent = auxRoom;
+                (roomCut1.Parent, roomCut2.Parent) = (roomCut2.Parent, roomCut1.Parent);
 
                 // Remove the original nodes from the old level grid
                 dungeon1.RemoveFromGrid(roomCut1);
@@ -124,12 +124,21 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             if (isImpossible) return individuals;
             roomCut2.FixBranch(missions1);
             roomCut1.FixBranch(missions2);
+            roomCut2.FixEnemies(enemiesPerRoomCut2);
+            roomCut1.FixEnemies(enemiesPerRoomCut1);
             individuals = new Individual[2];
-            individuals[0] = new Individual(parent1.Fitness.DesiredInput);
-            individuals[1] = new Individual(parent1.Fitness.DesiredInput);
-            individuals[0].dungeon = dungeon1;
-            individuals[1].dungeon = dungeon2;
-
+            individuals[0] = new Individual(parent1);
+            individuals[1] = new Individual(parent2);
+            var enemies = individuals[0].dungeon.GetNumberOfEnemies();
+            if (enemies != parent1.Fitness.DesiredInput.DesiredEnemies)
+            {
+                Debug.LogError($"Requested {parent1.Fitness.DesiredInput.DesiredEnemies} Enemies, found {enemies}");
+            }
+            enemies = individuals[1].dungeon.GetNumberOfEnemies();
+            if (enemies != parent1.Fitness.DesiredInput.DesiredEnemies)
+            {
+                Debug.LogError($"Requested {parent1.Fitness.DesiredInput.DesiredEnemies} Enemies, found {enemies}");
+            }
             return individuals;
         }
 
@@ -163,7 +172,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             {
                 rooms++;
                 Room current = toVisit.Dequeue();
-                switch (current.Type1)
+                switch (current.Type)
                 {
                     case RoomType.Key:
                         AddKeyRoom(missions, current);
@@ -201,11 +210,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// parent of `_room1` in the respective direction.
         private static void SwapBranch( ref Room room1,  ref Room room2)
         {
-            // No room involved in this operation can be null
-            Debug.Assert(
-                room1 != null && room2 != null && room1.Parent != null,
-                Common.PROBLEM_IN_THE_DUNGEON
-            );
             // Set `_room2` as a child of the parent of `_room1`
             if (room1 == null) return;
             switch (room1.ParentDirection)
