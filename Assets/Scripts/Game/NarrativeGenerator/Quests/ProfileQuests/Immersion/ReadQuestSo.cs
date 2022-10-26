@@ -55,7 +55,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && ItemToRead == (questElement as ItemSo);
+            if (questId != Id) return false;
+            return !IsCompleted && ItemToRead.ItemName == (questElement as ItemSo)?.ItemName;
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)

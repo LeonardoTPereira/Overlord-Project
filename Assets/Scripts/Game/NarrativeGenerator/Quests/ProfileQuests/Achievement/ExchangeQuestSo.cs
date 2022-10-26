@@ -4,7 +4,6 @@ using System;
 using System.Text;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
-using Game.Events;
 using UnityEngine;
 using Game.NPCs;
 
@@ -53,6 +52,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 Npc = exchangeQuest.Npc;
                 ItemsToExchangeByType = (ItemAmountDictionary) exchangeQuest.ItemsToExchangeByType.Clone();
                 ExchangeData = exchangeQuest.ExchangeData;
+                HasItems = exchangeQuest.HasItems;
+                HasCreatedDialogue = exchangeQuest.HasCreatedDialogue;
             }
             else
             {
@@ -68,6 +69,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemsToExchangeByType = exchangedItems;
             ExchangeData =
                 new ExchangeQuestData((ItemAmountDictionary) ItemsToExchangeByType.Clone(), receivedItem, Id);
+            HasItems = false;
+            HasCreatedDialogue = false;
         }
         
         public override QuestSo Clone()
@@ -79,6 +82,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
+            if (questId != Id) return false;
             return questElement switch
             {
                 ItemSo itemSo => !IsCompleted && !HasItems && ItemsToExchangeByType.ContainsKey(itemSo),

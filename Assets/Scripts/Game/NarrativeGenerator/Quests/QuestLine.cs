@@ -25,10 +25,12 @@ namespace Game.NarrativeGenerator.Quests
         public static event QuestCompletedEvent QuestCompletedEventHandler;
         public static event QuestOpenedEvent QuestOpenedEventHandler;
         public static event QuestElementEvent AllowExchangeEventHandler;
+        public static event QuestElementEvent AllowGiveEventHandler;
 
         public void Init()
         {
             Quests = new List<QuestSo>();
+            CurrentQuestIndex = 0;
         }
 
         public void Init(QuestLine questLine)
@@ -44,6 +46,7 @@ namespace Game.NarrativeGenerator.Quests
                 Quests.Add(copyQuest);
             }
             NpcInCharge = questLine.NpcInCharge;
+            CurrentQuestIndex = 0;
         }
         
         public void SaveAsset(string directory)
@@ -81,11 +84,18 @@ namespace Game.NarrativeGenerator.Quests
                     CompleteCurrentQuest();
                 }
 
-                if (questSo is ExchangeQuestSo {HasItems: true, IsCompleted: false, HasCreatedDialogue: false} exchangeQuestSo)
+                switch (questSo)
                 {
-                    exchangeQuestSo.HasCreatedDialogue = true;
-                    AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
+                    case ExchangeQuestSo {HasItems: true, IsCompleted: false, HasCreatedDialogue: false} exchangeQuestSo:
+                        exchangeQuestSo.HasCreatedDialogue = true;
+                        AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
+                        break;
+                    case GiveQuestSo {HasItem: true, IsCompleted: false, HasCreatedDialogue: false} giveQuestSo:
+                        giveQuestSo.HasCreatedDialogue = true;
+                        AllowGiveEventHandler?.Invoke(null, new QuestGiveEventArgs(giveQuestSo));
+                        break;
                 }
+
                 if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
             }
             return false;

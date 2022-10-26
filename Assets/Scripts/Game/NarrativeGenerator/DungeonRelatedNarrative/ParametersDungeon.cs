@@ -29,17 +29,16 @@ namespace Game.NarrativeGenerator
     {
         public static int GetSizeFromEnum(float dungeonSizeCoefficient)
         {
-
-            var sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Large;
+            var sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.VeryLarge;
             if (sizeFromEnum > 0)
                 return (int)DungeonSize.VeryLarge;
-            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Medium;
+            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Large;
             if (sizeFromEnum > 0)
                 return (int)DungeonSize.Large;
-            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Small;
+            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Medium;
             if (sizeFromEnum > 0)
                 return (int)DungeonSize.Medium;
-            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.VerySmall;
+            sizeFromEnum = dungeonSizeCoefficient - (int)DungeonSize.Small;
             if (sizeFromEnum > 0)
                 return (int)DungeonSize.Small;
             return (int) DungeonSize.VerySmall;

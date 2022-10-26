@@ -53,6 +53,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
+            if (questId != Id) return false;
             return !IsCompleted 
                    && DamageData.Enemy == (questElement as DamageQuestData)?.Enemy;        
         }

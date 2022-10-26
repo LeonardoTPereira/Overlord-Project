@@ -36,12 +36,10 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeField] public bool IsClosed { get; set; }
         [field: SerializeField] public string QuestText { get; set; }
         private bool _canDrawNext;
-
         public QuestSo Next { get => next; set => next = value; }
         public QuestSo Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
-        public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
 
         public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
@@ -55,8 +53,9 @@ namespace Game.NarrativeGenerator.Quests
             previous = null;
             questName = "Null";
             endsStoryLine = false;
-            Reward = null;
             Id = GetInstanceID();
+            IsCompleted = false;
+            IsClosed = false;
         }
 
         public void Init(string questTitle, bool endsLine, QuestSo previousQuest)
@@ -65,8 +64,9 @@ namespace Game.NarrativeGenerator.Quests
             EndsStoryLine = endsLine;
             Previous = previousQuest;
             next = null;
-            Reward = null;
             Id = GetInstanceID();
+            IsCompleted = false;
+            IsClosed = false;
         }
         
         public virtual void Init(QuestSo copiedQuest)
@@ -75,9 +75,10 @@ namespace Game.NarrativeGenerator.Quests
             EndsStoryLine = copiedQuest.EndsStoryLine;
             Previous = copiedQuest.Previous;
             next = copiedQuest.Next;
-            Reward = copiedQuest.Reward;
             Id = copiedQuest.Id;
             QuestText = copiedQuest.QuestText;
+            IsCompleted = copiedQuest.IsCompleted;
+            IsClosed = copiedQuest.IsCompleted;
         }
 
         public virtual QuestSo Clone()

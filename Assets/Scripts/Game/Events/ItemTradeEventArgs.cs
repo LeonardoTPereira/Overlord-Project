@@ -1,7 +1,5 @@
-﻿using System;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+﻿using Game.NarrativeGenerator.ItemRelatedNarrative;
 using ScriptableObjects;
-using UnityEditor;
 
 namespace Game.Events
 {

@@ -92,7 +92,6 @@ namespace Game.NarrativeGenerator
             foreach (var quest in questLine.Quests.Where(quest => quest != null))
             {
                 _wasQuestAdded[quest.GetType().Name] = true;
-                Debug.Log(quest.GetType().Name);
             }
         }
     }

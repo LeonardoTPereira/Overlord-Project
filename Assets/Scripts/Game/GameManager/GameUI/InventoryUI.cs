@@ -23,22 +23,22 @@ namespace Game.GameManager
         {
             TreasureController.TreasureCollectEventHandler += AddItem;
             NpcController.ItemTradeEventHandler += TradeItems;
-            GiveQuestSo.TreasureLostEventHandler += GiveItem;
+            NpcController.ItemGiveEventHandler += GiveItem;
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetTreasure;
 
         }
 
-        private void GiveItem(object sender, TreasureCollectEventArgs eventArgs)
+        private void GiveItem(object sender, ItemGiveEventArgs eventArgs)
         {
-            RemoveItem(eventArgs.Item);
-            UpdateUI(eventArgs.Item);
+            RemoveItem(eventArgs.GivenItem);
+            UpdateUI(eventArgs.GivenItem);
         }
 
         protected void OnDisable()
         {
             TreasureController.TreasureCollectEventHandler -= AddItem;
             NpcController.ItemTradeEventHandler -= TradeItems;
-            GiveQuestSo.TreasureLostEventHandler -= GiveItem;
+            NpcController.ItemGiveEventHandler -= GiveItem;
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetTreasure;
         }
 

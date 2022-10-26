@@ -65,9 +65,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
+            if (questId != Id) return false;
             return !IsCompleted 
                    &&  EnemiesToKillByType.EnemiesByTypeDictionary.ContainsKey(questElement as WeaponTypeSo 
-                   ?? throw new InvalidOperationException());
+                                                                               ?? throw new InvalidOperationException());
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)

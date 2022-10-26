@@ -83,8 +83,12 @@ namespace Game.Quests
                     UpdateReadQuest( readQuestArgs );
                     break;
                 case QuestExchangeDialogueEventArgs exchangeDialogueEventArgs:
-                    var npc = questLines.NpcSos.Find(npc => npc.NpcName == exchangeDialogueEventArgs.NpcName);
+                    var npc = questLines.NpcSos.Find(_ => _.NpcName == exchangeDialogueEventArgs.NpcName);
                     UpdateTalkQuest(new QuestTalkEventArgs(npc, exchangeDialogueEventArgs.QuestId));
+                    break;
+                case QuestGiveDialogueEventArgs giveDialogueEventArgs:
+                    npc = questLines.NpcSos.Find(_ => _.NpcName == giveDialogueEventArgs.NpcName);
+                    UpdateTalkQuest(new QuestTalkEventArgs(npc, giveDialogueEventArgs.QuestId));
                     break;
             }
         }

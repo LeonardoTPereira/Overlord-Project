@@ -215,6 +215,15 @@ namespace Game.NPCs
             questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
             return questExchangeDialogue.ToString();
         }
+        
+        public static string CreateGiveDialogue(GiveQuestSo quest, NpcSo npc)
+        {
+            var questGiveDialogue = new StringBuilder();
+            var spriteString = quest.GiveQuestData.ItemToGive.GetToolSpriteString();
+            questGiveDialogue.Append($"You really got the {quest.GiveQuestData.ItemToGive.ItemName} {spriteString}.");
+            questGiveDialogue.Append($"<give={npc.NpcName}, {quest.Id}>");
+            return questGiveDialogue.ToString();
+        }
 #if UNITY_EDITOR
         [ButtonMethod]
         public static string CreateMockGoToQuest()
