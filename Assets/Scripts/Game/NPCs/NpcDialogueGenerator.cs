@@ -73,7 +73,7 @@ namespace Game.NPCs
         #region QuestOpeners
         private static string ExchangeQuestOpener()
         {
-            int text = UnityEngine.Random.Range(0, 3);
+            int text = Random.Range(0, 3);
             switch (text)
             {
                 //TODO: replace someone for the npcs name

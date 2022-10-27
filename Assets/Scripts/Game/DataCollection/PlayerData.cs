@@ -238,6 +238,8 @@ namespace Game.DataCollection
             DungeonByAttempt = new DungeonDataByAttempt();
             PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue);
             PlayerId += (int)Time.realtimeSinceStartup;
+            PlayerProfile = new PlayerProfile();
+            GivenPlayerProfile = new PlayerProfile();
 #if UNITY_EDITOR
             /*var jsonDirectory = Application.dataPath + Constants.SeparatorCharacter + "PlayerData";
             if (!Directory.Exists(jsonDirectory))

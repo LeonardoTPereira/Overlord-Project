@@ -89,8 +89,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
+            var questId = exchangeQuest.GetInstanceID();
             var selectedItem = itemsToGive.GetRandomItem();
-            exchangedItems.AddItemWithId(selectedItem, exchangeQuest.Id);
+            exchangedItems.AddItemWithId(selectedItem, questId);
             var receivedItem = itemsToReceive.GetRandomItem();
             var selectedNpc = possibleNpcSos.GetRandom();
 

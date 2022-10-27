@@ -33,6 +33,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 individual.generation = 0;
             }
             PopulationFitness.CalculateFitness(dungeons.EliteList);
+            dungeons.EliteList[0] = PopulationFitness.BestDungeon;
             return dungeons;
         }
 
@@ -71,8 +72,17 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     }
                 }
                 PopulationFitness.CalculateFitness(intermediate);
-                intermediate[0] = PopulationFitness.BestDungeon;
-                minFitness = PopulationFitness.BestDungeon.Fitness.Result;
+                if (pop.EliteList[0].IsBetterThan(PopulationFitness.BestDungeon))
+                {
+                    intermediate[0] = pop.EliteList[0];
+                    intermediate[1] = PopulationFitness.BestDungeon;
+                }
+                else
+                {
+                    intermediate[1] = pop.EliteList[0];
+                    intermediate[0] = PopulationFitness.BestDungeon;
+                }
+                minFitness = intermediate[0].Fitness.Result;
                 var progress = generation / (float)Parameters.MinimumElite;
                 pop.EliteList = intermediate;
                 if (pop is ClassicPopulation classicPopulation)

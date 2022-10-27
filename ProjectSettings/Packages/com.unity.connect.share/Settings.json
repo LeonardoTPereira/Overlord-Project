@@ -6,7 +6,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"E:/Doutorado/ProCoG/RealtimeBuildThesis;E:/Doutorado/ProCoG/Minimap-QuestUI-MoreMissionsBuild;E:/Doutorado/ProCoG/NewNarrativeAndEnemies;E:/Doutorado/ProCoG/QuestSystem;E:/Doutorado/ProCoG/New folder;E:/Doutorado/ProCoG/RealTimeGeneratorBuildv0.0.1;E:/Doutorado/ProCoG/TestForCD;;;\"}"
+                "value": "{\"m_Value\":\"E:/Doutorado/ProCoG/RealtimeBuildPostThesis;E:/Doutorado/ProCoG/RealtimeBuildThesis;E:/Doutorado/ProCoG/Minimap-QuestUI-MoreMissionsBuild;E:/Doutorado/ProCoG/NewNarrativeAndEnemies;E:/Doutorado/ProCoG/QuestSystem;E:/Doutorado/ProCoG/New folder;E:/Doutorado/ProCoG/RealTimeGeneratorBuildv0.0.1;E:/Doutorado/ProCoG/TestForCD;;\"}"
             },
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",

@@ -413,10 +413,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.21093751
+    x: 0
     y: 0
-    width: 0.37222224
-    height: 0.37222221
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -646,6 +646,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8a7a6ba1c194453faf1d7d666b01b990,
         type: 2}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
+        type: 3}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.SceneName
+      value: ExperimentLevelSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneIndex
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3291298612412002614, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: nextPanel

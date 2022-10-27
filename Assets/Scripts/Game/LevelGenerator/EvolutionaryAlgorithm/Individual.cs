@@ -46,7 +46,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// Return a clone of the individual.
         public Individual(Individual originalIndividual)
         {
-            Fitness = originalIndividual.Fitness;
+            Fitness = new Fitness(originalIndividual.Fitness);
             generation = originalIndividual.generation;
             neededLocks = originalIndividual.neededLocks;
             neededRooms = originalIndividual.neededRooms;

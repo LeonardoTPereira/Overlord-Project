@@ -31,7 +31,6 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeReference] private QuestSo previous;
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
-        [SerializeField] private ItemSo reward;
         [field: SerializeField] public bool IsCompleted { get; set; }
         [field: SerializeField] public bool IsClosed { get; set; }
         [field: SerializeField] public string QuestText { get; set; }

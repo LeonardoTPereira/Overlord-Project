@@ -106,7 +106,6 @@ namespace Game.Dialogues
             if (textTag.Length <= 0) return;
             if (textTag.StartsWith("goto="))
             {
-                Debug.Log("Found Go To Tag");
                 var room = textTag.Split('=')[1];
                 MarkRoomOnMiniMapEventHandler?.Invoke(this, new MarkRoomOnMinimapEventArgs(room));
                 IsActive = false;

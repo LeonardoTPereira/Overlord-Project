@@ -49,7 +49,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             usage += individual.Fitness.Usage;
             sparsity += individual.Fitness.EnemySparsity;
             enemyStandardDeviation += individual.Fitness.EnemyStandardDeviation;
-            result += individual.Fitness.Result;
+            result += individual.Fitness.NormalizedResult;
         }
         
         public void UpdateFitnessPlotClassicData(Individual individual, int generation)
@@ -69,7 +69,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             usage = individual.Fitness.NormalizedUsage;
             sparsity = individual.Fitness.NormalizedEnemySparsity;
             enemyStandardDeviation = individual.Fitness.NormalizedEnemyStandardDeviation;
-            result = individual.Fitness.Result;
+            result = individual.Fitness.NormalizedResult;
         }
 
         private void Plot()

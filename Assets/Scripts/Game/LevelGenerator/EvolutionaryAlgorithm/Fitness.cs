@@ -8,7 +8,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     [Serializable]
     public class Fitness
     {
-        public float Result { get; set; }
+        public float NormalizedResult { get; set; }
         public float Distance { get; set; }
         public float NormalizedDistance { get; set; }
         public float Usage { get; set; }
@@ -17,13 +17,31 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public float NormalizedEnemySparsity { get; set; }
         public float EnemyStandardDeviation { get; set; }
         public float NormalizedEnemyStandardDeviation { get; set; }
+        public float Result { get; set; }
+
         public FitnessInput DesiredInput { get; set; }
         private const float FitnessPenalty = 100f;
 
         public Fitness( FitnessInput input )
         {
             DesiredInput = input;
+            NormalizedResult = Common.UNKNOWN;
             Result = Common.UNKNOWN;
+        }
+        
+        public Fitness( Fitness originalFitness )
+        {
+            DesiredInput = originalFitness.DesiredInput;
+            NormalizedResult = originalFitness.NormalizedResult;
+            Distance = originalFitness.Distance;
+            NormalizedDistance = originalFitness.NormalizedDistance;
+            Usage = originalFitness.Usage;
+            NormalizedUsage = originalFitness.NormalizedUsage;
+            EnemySparsity = originalFitness.EnemySparsity;
+            NormalizedEnemySparsity = originalFitness.NormalizedEnemySparsity;
+            EnemyStandardDeviation = originalFitness.EnemyStandardDeviation;
+            NormalizedEnemyStandardDeviation = originalFitness.NormalizedEnemyStandardDeviation;
+            Result = originalFitness.Result;
         }
         
         public void Calculate(Individual individual, FitnessRange fitnessRange) {
@@ -69,7 +87,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
         public override string ToString()
         {
-            return $"Total = {Result}, Distance = {NormalizedDistance}, Usage = {NormalizedUsage}" +
+            return $"Total = {NormalizedResult}, Distance = {NormalizedDistance}, Usage = {NormalizedUsage}" +
                    $", Sparsity = {NormalizedEnemySparsity}, Std Dev = {NormalizedEnemyStandardDeviation}";
         }
 
@@ -124,12 +142,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             if (normalized)
             {
-                Result = 3*NormalizedDistance + 2*NormalizedUsage + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
+                NormalizedResult = 3*NormalizedDistance + 2*NormalizedUsage + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
             }
-            else
-            {
-                Result = 3*Distance + 2*Usage + EnemySparsity + EnemyStandardDeviation;
-            }
+            Result = 3*Distance + 2*Usage + EnemySparsity + EnemyStandardDeviation;
         }
     }
 }

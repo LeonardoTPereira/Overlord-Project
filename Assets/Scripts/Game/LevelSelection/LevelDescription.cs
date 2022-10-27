@@ -26,7 +26,7 @@ namespace Game.LevelSelection
         {
             DungeonDescription = "";
             DungeonDescription += "Rooms: " + dungeon.Parts.Count;
-            DungeonDescription += "\nFitness: " + dungeon.FitnessFromEa.Result;
+            DungeonDescription += "\nFitness: " + dungeon.FitnessFromEa.NormalizedResult;
             DungeonDescription += "\nExploration: " + dungeon.ExplorationCoefficient;
             DungeonDescription += "\nLeniency: " + dungeon.LeniencyCoefficient;
         }

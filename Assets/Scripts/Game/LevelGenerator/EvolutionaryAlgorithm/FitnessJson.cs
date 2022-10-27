@@ -43,7 +43,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             data.Add(new FitnessData(leniencyIndex, explorationIndex, generation, 
                 individual.Fitness.Distance, individual.Fitness.Usage, individual.Fitness.EnemySparsity, 
-                individual.Fitness.EnemyStandardDeviation, individual.Fitness.Result));
+                individual.Fitness.EnemyStandardDeviation, individual.Fitness.NormalizedResult));
         }
 
         public void SaveJson()

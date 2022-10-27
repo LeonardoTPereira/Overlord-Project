@@ -90,7 +90,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             {
                 for (var leniency = 0; leniency < LeniencyEliteCount; leniency++)
                 {
-                    if ((MapElites.GetElite(exploration, leniency)?.Fitness.Result ?? float.MaxValue) < acceptableFitness)
+                    if ((MapElites.GetElite(exploration, leniency)?.Fitness.NormalizedResult ?? float.MaxValue) < acceptableFitness)
                     {
                         betterCounter++;
                     }
