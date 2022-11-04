@@ -32,7 +32,7 @@ namespace PlatformGame.Dungeon
             {
                 for (var j = 0; j < HEIGHT; j++)
                 {
-                    room.Tiles[i, j] = (int) tileArray[j,i];
+                    room.Tiles[i, j] = new Tile(tileArray[j,i], new Vector2(i,j));
                 }
             }
         }

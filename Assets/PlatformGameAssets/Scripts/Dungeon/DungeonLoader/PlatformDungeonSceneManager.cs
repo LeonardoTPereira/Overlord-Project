@@ -28,7 +28,6 @@ namespace PlatformGame.Dungeon.DungeonLoader
         public int maxTreasure;
         private DungeonFileSo currentDungeonSo;
         [field: SerializeReference] private SelectedLevels _selectedLevels;
-        private Map _map;
         private Game.LevelManager.DungeonLoader.DungeonLoader _dungeonLoader;
         private EnemyGeneratorManager _enemyGenerator;
 
@@ -42,7 +41,7 @@ namespace PlatformGame.Dungeon.DungeonLoader
             _dungeonLoader = GetComponent<Game.LevelManager.DungeonLoader.DungeonLoader>();
             Debug.Log("Got Dungeon Loader: "+_dungeonLoader);
             EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
-            _map = _dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLines);
+            _dungeonLoader.LoadNewLevel(currentDungeonSo, currentQuestLines);
             Debug.Log("Loading Enemies");
             Debug.Log("Loaded Enemies");
             
@@ -60,12 +59,7 @@ namespace PlatformGame.Dungeon.DungeonLoader
             Debug.Log("QuestLine Elements: " + currentQuestLines.QuestLines.Count);
             maxTreasure = currentQuestLines.ItemParametersForQuestLines.TotalItems;
         }
-
-        private void GameOver(object sender, EventArgs eventArgs)
-        {
-            SceneManager.UnloadSceneAsync(GameUI);
-            gameOverScreen.SetActive(true);
-        }
+        
 
     }
 }

@@ -15,12 +15,13 @@ namespace PlatformGame.Dungeon
         public override void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
         {
             Dimensions = roomDimensions;
-            InitializeTiles(); // aloca memória para os tiles
             int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
             if (roomGeneratorInput == null)
             {
                 PlatformDefaultRoomCreator.CreateRoomOfType(this, roomType);
             }
+            
+            SetCenterAndFloodFillState();
 
         }
 

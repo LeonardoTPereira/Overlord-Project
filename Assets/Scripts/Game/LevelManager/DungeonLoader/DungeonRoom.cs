@@ -111,6 +111,12 @@ namespace Game.LevelManager.DungeonLoader
             {
                 SoRoomLoader.CreateRoom(this, roomGeneratorInput);
             }
+
+            SetCenterAndFloodFillState();
+        }
+
+        protected void SetCenterAndFloodFillState()
+        {
             _roomCenter = new Vector3(Dimensions.Width / 2.0f, Dimensions.Height / 2.0f, 0);
             _floodFillState.Enqueue(Tiles[(int)_roomCenter.x, (int)_roomCenter.y]);
         }
