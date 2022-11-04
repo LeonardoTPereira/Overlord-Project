@@ -13,7 +13,7 @@ namespace Game.LevelManager.DungeonLoader
 {
     public class DungeonLoader : MonoBehaviour
     {
-        private static Map _dungeonMap;
+        protected static Map _dungeonMap;
         public List<RoomBhv> roomPrefabs;
         public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
         public int TotalTreasures { get; private set; }
@@ -70,7 +70,7 @@ namespace Game.LevelManager.DungeonLoader
             return lockedCorridor != null ? lockedCorridor.LockIDs : new List<int>();
         }
         
-        private void LoadDungeon(DungeonFileSo dungeonFileSo)
+        protected virtual void LoadDungeon(DungeonFileSo dungeonFileSo)
         {
             _dungeonMap = new Map(dungeonFileSo, null);
         }

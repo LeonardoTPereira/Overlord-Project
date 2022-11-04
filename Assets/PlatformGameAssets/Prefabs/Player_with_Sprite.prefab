@@ -1195,7 +1195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: cd2c6e1a64a38b64aad2c33db2fe2161, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: cd2c6e1a64a38b64aad2c33db2fe2161,
+    type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -1238,6 +1239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  runSpeedMultiplier: 1.5
   jumpForce: 20
   isSeparated: 0
 --- !u!114 &5143394460539266013
@@ -1252,7 +1254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d5b12a333e81d488309aa60accb7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrow: {fileID: 4538170677541491681, guid: 8e526460d3caa5e4f928b21c49595707, type: 3}
   bow: {fileID: 4030985922642800756}
   timeToAtack: 0.3
   shootCooldown: 1
@@ -1305,8 +1306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e7f2e929a82be4395a356ce39b5abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  up_part: {fileID: 7303549500419564026}
-  down_part: {fileID: 0}
+  upPart: {fileID: 0}
+  downPart: {fileID: 0}
 --- !u!1 &2952580975974982371
 GameObject:
   m_ObjectHideFlags: 0
