@@ -78,8 +78,8 @@ namespace Game.ExperimentControllers
             var max = new Coordinates(0, 0);
             foreach (var room in generatedDungeon.Rooms)
             {
-                var x = room.Coordinates.X;
-                var y = room.Coordinates.Y;
+                var x = room.coordinates.X;
+                var y = room.coordinates.Y;
                 if (x < min.X)
                 {
                     min.X = x;

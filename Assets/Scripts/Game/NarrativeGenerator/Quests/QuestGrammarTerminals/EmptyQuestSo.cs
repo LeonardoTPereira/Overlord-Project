@@ -12,7 +12,7 @@ namespace Game.NarrativeGenerator.Quests
     public class EmptyQuestSo : QuestSo, ISymbol
     {
         public override string SymbolType { 
-            get { return Constants.EmptyQuest;} 
+            get { return Constants.EMPTY_QUEST;} 
         }
         public override bool CanDrawNext => false;
 
@@ -22,11 +22,6 @@ namespace Game.NarrativeGenerator.Quests
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void CreateQuestString()
         {
             throw new NotImplementedException();
         }

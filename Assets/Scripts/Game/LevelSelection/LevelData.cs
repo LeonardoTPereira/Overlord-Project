@@ -11,15 +11,13 @@ namespace Game.LevelSelection
     {
         [field:SerializeField] public QuestLineList QuestLines { get; set; }
         [field:SerializeField] public DungeonFileSo Dungeon { get; set; }
-        private bool _completed;
-        private bool _surrendered;
+        [SerializeField] private bool _completed;
+        [SerializeField] private bool _surrendered;
 
         public void Init(QuestLineList questLines, DungeonFileSo dungeon)
         {
-            QuestLines = CreateInstance<QuestLineList>();
-            QuestLines.Init(questLines);
+            QuestLines = questLines;
             Dungeon = dungeon;
-            QuestLines.ConvertDataForCurrentDungeon(Dungeon.Rooms);
             _completed = false;
             _surrendered = false;
         }

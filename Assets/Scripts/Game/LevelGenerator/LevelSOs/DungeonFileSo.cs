@@ -10,13 +10,13 @@ using Util;
 namespace Game.LevelGenerator.LevelSOs
 {
     [Serializable, CreateAssetMenu]
-    public class DungeonFileSo : ScriptableObject, ISavableGeneratedContent
+    public class DungeonFileSo : ScriptableObject, SaveableGeneratedContent
     {
         const string Foldername = "Assets/Resources/Experiment/Dungeons";
         
         [field: SerializeField] public Dimensions DungeonSizes { get; set; }
 
-        [field: SerializeField] public List<DungeonRoomData> Rooms { get; set; }
+        [field: SerializeField] public List<SORoom> Rooms { get; set; }
         [field: SerializeField] public Fitness FitnessFromEa { get; set; }
         public float ExplorationCoefficient { get; set; }
         public float LeniencyCoefficient { get; set; }
@@ -39,7 +39,7 @@ namespace Game.LevelGenerator.LevelSOs
             return null;
         }
 
-        public void Init(Dimensions dimensions, List<DungeonRoomData> rooms, Fitness fitness, float exploration, float leniency, string biome)
+        public void Init(Dimensions dimensions, List<SORoom> rooms, Fitness fitness, float exploration, float leniency, string biome)
         {
             DungeonSizes = dimensions;
             Rooms = rooms;

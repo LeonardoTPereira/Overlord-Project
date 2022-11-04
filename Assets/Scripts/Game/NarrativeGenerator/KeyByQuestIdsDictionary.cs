@@ -15,9 +15,9 @@ namespace Game.NarrativeGenerator
 
         public KeyByQuestIdsDictionary(KeyByQuestIdsDictionary<T> keyByQuestIdsDictionary)
         {
-            foreach (var itemQuestPair in keyByQuestIdsDictionary)
+            foreach (var data in keyByQuestIdsDictionary)
             {
-                Add(itemQuestPair.Key, new QuestIdList(itemQuestPair.Value));
+                Add(data.Key, data.Value);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Game.NarrativeGenerator
             this[key].Add(questId);
         }
         
-        public new object Clone()
+        public new KeyByQuestIdsDictionary<T> Clone()
         {
             return new KeyByQuestIdsDictionary<T>(this);
         }

@@ -40,7 +40,6 @@ namespace Game.Maestro
                 else
                 {
                     Debug.LogError("No enemies found to add to room!");
-                    break;
                 }
             }
 

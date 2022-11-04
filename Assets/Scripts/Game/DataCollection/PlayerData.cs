@@ -239,12 +239,12 @@ namespace Game.DataCollection
             PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue);
             PlayerId += (int)Time.realtimeSinceStartup;
 #if UNITY_EDITOR
-            var jsonDirectory = Application.dataPath + Constants.SeparatorCharacter + "PlayerData";
+            var jsonDirectory = Application.persistentDataPath + Constants.SeparatorCharacter + "PlayerData";
             if (!Directory.Exists(jsonDirectory))
             {
                 Directory.CreateDirectory(jsonDirectory);
             }
-            JsonPath = Application.dataPath + Constants.SeparatorCharacter + "PlayerData" +
+            JsonPath = Application.persistentDataPath + Constants.SeparatorCharacter + "PlayerData" +
                        Constants.SeparatorCharacter + PlayerId;
             if (!Directory.Exists(jsonDirectory))
             {
@@ -256,7 +256,7 @@ namespace Game.DataCollection
         public void StartDungeon(string mapName, Map map)
         {
             CurrentDungeon = CreateInstance<DungeonData>();
-            CurrentDungeon.Init(map, mapName, JsonPath, PlayerId);
+            CurrentDungeon.Init(map, mapName, JsonPath);
             var dungeonAttempted = DungeonByAttempt.TryGetValue(mapName, out var currentDungeonList);
             if(dungeonAttempted)
             {
@@ -339,7 +339,7 @@ namespace Game.DataCollection
 
         public void RefreshJson()
         {
-            var playerFile = Application.dataPath + Constants.SeparatorCharacter + "PlayerData" + Constants.SeparatorCharacter +
+            var playerFile = Application.persistentDataPath + Constants.SeparatorCharacter + "PlayerData" + Constants.SeparatorCharacter +
                              "PlayerData.json";
             string lines;
             using (var fileStream = new FileStream(playerFile, FileMode.OpenOrCreate))

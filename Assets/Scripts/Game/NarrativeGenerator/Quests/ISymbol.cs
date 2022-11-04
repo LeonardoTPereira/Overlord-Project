@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
+using Game.NPCs;
+using ScriptableObjects;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -10,6 +11,6 @@ namespace Game.NarrativeGenerator.Quests
         public string SymbolType {get;}
         public bool CanDrawNext {get;}
         public void SetNextSymbol ( MarkovChain chain );
-        public QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings);
+        public QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes );
     }
 }

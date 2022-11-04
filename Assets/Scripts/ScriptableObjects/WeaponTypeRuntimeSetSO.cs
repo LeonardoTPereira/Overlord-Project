@@ -3,7 +3,7 @@
 namespace ScriptableObjects
 {
     [CreateAssetMenu]
-    public class WeaponTypeRuntimeSetSO : RuntimeSetSO<WeaponTypeSo>
+    public class WeaponTypeRuntimeSetSO : RuntimeSetSO<WeaponTypeSO>
     {
     }
 }

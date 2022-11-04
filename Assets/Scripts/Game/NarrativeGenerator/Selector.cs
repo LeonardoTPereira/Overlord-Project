@@ -1,68 +1,70 @@
 using System.Collections.Generic;
 using System.Linq;
-using Game.ExperimentControllers;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator
 {
-    public static class Selector
+    public class Selector
     {
-        private static Dictionary<string,bool> _wasQuestAdded;
-        private static GeneratorSettings _generatorSettings;
+        Dictionary<string,bool> wasQuestAdded = new Dictionary<string,bool>();
 
-        public static QuestLineList CreateMissions(in GeneratorSettings generatorSettings)
+        public QuestLineList CreateMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, 
+            WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
-            _generatorSettings = generatorSettings;
-            _wasQuestAdded = new Dictionary<string,bool>();
-            return DrawMissions();
+            return DrawMissions(possibleNpcs, possibleTreasures, possibleEnemyTypes);
         }
 
-        private static QuestLineList DrawMissions()
+        private QuestLineList DrawMissions(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             CreateQuestDict();
             var questLineList = ScriptableObject.CreateInstance<QuestLineList>();
             questLineList.Init();            
-            CreateQuestLineForEachNpc(questLineList);
+            CreateQuestLineForEachNpc(possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
 
             int i = 0;
             Debug.Log("add necessary quests");
-            while ( _wasQuestAdded.ContainsValue(false) && i < 100 )
+            while ( wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 i++;
-                var selectedNpc = _generatorSettings.PlaceholderNpcs[Random.Range(0, _generatorSettings.PlaceholderNpcs.Count)];
-                ContinueQuestLineForNpc(selectedNpc, questLineList);
+                var selectedNpc = possibleNpcs[Random.Range(0, possibleNpcs.Count)];
+                ContinueQuestLineForNpc(selectedNpc, possibleNpcs, possibleTreasures, possibleEnemyTypes,
+                    questLineList);
             }
             return questLineList;
         }
 
-        private static void CreateQuestLineForEachNpc(QuestLineList questLineList)
+        private void CreateQuestLineForEachNpc(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures,
+            WeaponTypeRuntimeSetSO possibleEnemyTypes, QuestLineList questLineList)
         {
-            foreach (var npcInCharge in _generatorSettings.PlaceholderNpcs)
+            foreach (var npcInCharge in possibleNpcs)
             {
-               CreateQuestLineForNpc(npcInCharge, questLineList);
+               CreateQuestLineForNpc(npcInCharge, possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
             }
         }
 
-        private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
+        private void CreateQuestLineForNpc ( NpcSo npcInCharge, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures,
+            WeaponTypeRuntimeSetSO possibleEnemyTypes, QuestLineList questLineList)
         {
             var questLine = CreateQuestLine();
-            questLine.PopulateQuestLine(_generatorSettings);
+            questLine.PopulateQuestLine(possibleNpcs, possibleTreasures, possibleEnemyTypes);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
             questLine.NpcInCharge = npcInCharge;
             questLineList.QuestLines.Add(questLine);
         }
         
-        private static void ContinueQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
+        private void ContinueQuestLineForNpc ( NpcSo npcInCharge, List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures,
+            WeaponTypeRuntimeSetSO possibleEnemyTypes, QuestLineList questLineList)
         {
             var questLine = questLineList.QuestLines.Single(questLine => questLine.NpcInCharge.NpcName == npcInCharge.NpcName);
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                questLine.PopulateQuestLine(_generatorSettings);
+                questLine.PopulateQuestLine(possibleNpcs, possibleTreasures, possibleEnemyTypes);
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
                 Debug.Log(questLine.Quests.Count);
@@ -70,27 +72,27 @@ namespace Game.NarrativeGenerator
             else
             {
                 Debug.LogError($"No QuestLine Found With {npcInCharge.NpcName} In Charge");
-                CreateQuestLineForNpc(npcInCharge, questLineList);
+                CreateQuestLineForNpc(npcInCharge, possibleNpcs, possibleTreasures, possibleEnemyTypes, questLineList);
             }
         }
 
-        private static QuestLine CreateQuestLine()
+        private QuestLine CreateQuestLine()
         {
             var questLine = ScriptableObject.CreateInstance<QuestLine>();
             questLine.Init();
             return questLine;
         }
 
-        private static void CreateQuestDict ()
+        private void CreateQuestDict ()
         {
-            _wasQuestAdded.Add(nameof(KillQuestSo), false);
+            wasQuestAdded.Add(nameof(KillQuestSo), false);
         }
 
-        private static void UpdateListContents (QuestLine questLine)
+        private void UpdateListContents (QuestLine questLine)
         {
             foreach (var quest in questLine.Quests.Where(quest => quest != null))
             {
-                _wasQuestAdded[quest.GetType().Name] = true;
+                wasQuestAdded[quest.GetType().Name] = true;
             }
         }
     }

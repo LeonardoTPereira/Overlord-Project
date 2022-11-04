@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 using MyBox;
@@ -24,22 +23,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     
                 var achievementQuestWeights = new Dictionary<string, Func<int, int>>
                 {
-                    {Constants.GatherQuest, Constants.TwoOptionQuestLineWeight},
-                    {Constants.ExchangeQuest, Constants.TwoOptionQuestLineWeight},
-                    {Constants.EmptyQuest, Constants.TwoOptionQuestEmptyWeight}
+                    {Constants.GATHER_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.EXCHANGE_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.EMPTY_QUEST, Constants.TwoOptionQuestEmptyWeight}
                 };
                 return achievementQuestWeights;
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( SymbolType )
             {
-                case Constants.GatherQuest:
-                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones);
-                case Constants.ExchangeQuest:
-                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools);
+                case Constants.GATHER_QUEST:
+                    return CreateAndSaveGatherQuestSo(questSos, possibleItems);
+                case Constants.EXCHANGE_QUEST:
+                    return CreateAndSaveExchangeQuestSo(questSos, possibleNpcSos, possibleItems);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;
@@ -58,12 +57,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        public override void CreateQuestString()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
+        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
             var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
@@ -84,14 +78,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return getItemQuest;
         }
 
-        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, 
-            TreasureRuntimeSetSo itemsToGive, TreasureRuntimeSetSo itemsToReceive)
+        private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
-            var selectedItem = itemsToGive.GetRandomItem();
+            var selectedItem = possibleItems.GetRandomItem();
             exchangedItems.AddItemWithId(selectedItem, exchangeQuest.Id);
-            var receivedItem = itemsToReceive.GetRandomItem();
+            var receivedItem = possibleItems.GetRandomItem();
             var selectedNpc = possibleNpcSos.GetRandom();
 
             exchangeQuest.Init($"Exchange {selectedItem} with {selectedNpc} for a reward!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);

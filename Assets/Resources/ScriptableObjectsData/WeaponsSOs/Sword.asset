@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6613e01c240ea8845a65ca9e35388e54, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  <FitnessMultiplier>k__BackingField: 2.7
-  <HasProjectile>k__BackingField: 0
-  <Projectile>k__BackingField: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751,
-    type: 2}
-  <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: f5d0fbde0c47de34b9281aad66fb01b0,
+  multiplier: 2.7
+  hasProjectile: 0
+  projectile: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751, type: 2}
+  weaponPrefab: {fileID: 1699235863348634, guid: f5d0fbde0c47de34b9281aad66fb01b0,
     type: 3}
-  <EnemyTypeName>k__BackingField: Skeleton Sword
+  <EnemyTypeName>k__BackingField: Swordsman

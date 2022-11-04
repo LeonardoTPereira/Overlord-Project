@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
 {
     [Serializable]
-    public class ItemsAmount : ICloneable
+    public class ItemsAmount
     {
         [SerializeField]
         private ItemAmountDictionary itemAmountBySo;
@@ -26,7 +26,11 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
 
         public ItemsAmount(ItemsAmount original)
         {
-            ItemAmountBySo = (ItemAmountDictionary) original.ItemAmountBySo.Clone();
+            ItemAmountBySo = new ItemAmountDictionary();
+            foreach (var itemTypeAmountPair in original.ItemAmountBySo)
+            {
+                ItemAmountBySo.Add(itemTypeAmountPair.Key, itemTypeAmountPair.Value);
+            }
         }
 
         public KeyValuePair<ItemSo, QuestIdList> GetRandom()
@@ -62,11 +66,6 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             {
                 itemAmountBySo.Remove(selectedType);
             }
-        }
-        
-        public object Clone()
-        {
-            return new ItemsAmount(this);
         }
     }
 }

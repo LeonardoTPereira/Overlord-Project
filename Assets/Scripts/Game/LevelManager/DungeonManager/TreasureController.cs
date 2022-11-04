@@ -38,7 +38,7 @@ namespace Game.LevelManager.DungeonManager
         private void OnTreasureCollect()
         {
             ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGetItemEventArgs(Treasure, QuestId));
-            TreasureCollectEventHandler?.Invoke(this, new TreasureCollectEventArgs(Treasure, QuestId));
+            TreasureCollectEventHandler?.Invoke(this, new TreasureCollectEventArgs(Treasure.Value));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.Quests;
 using Unity.Mathematics;
 using Util;
 
@@ -10,7 +11,7 @@ namespace Game.LevelManager.DungeonLoader
 
         public static void DistributeItemsInDungeon(Map map, ItemsAmount items, int total)
         {
-            var itemsInQuestByType = (ItemsAmount) items.Clone();
+            var itemsInQuestByType = new ItemsAmount(items);
             _remainingItems = total;
             var totalTreasureRooms = map.NTreasureRooms;
             var itemsPerRoom = 0;

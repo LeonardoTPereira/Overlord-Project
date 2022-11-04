@@ -38,9 +38,8 @@ namespace Game.LevelGenerator
             public static readonly int CORRIDOR = 100;
             public static readonly int NOTHING = 101;
             public static readonly int BOSS = 102;
-            public static readonly int LEAF = 103;
+            public static readonly int TREASURE = 103;
             public static readonly int START = 104;
-            public static readonly int LOCKED = 105;
         }
     }
 }

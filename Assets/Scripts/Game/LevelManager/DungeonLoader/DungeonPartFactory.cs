@@ -18,21 +18,21 @@ namespace Game.LevelManager.DungeonLoader
             return partCode == Constants.RoomTypeString.Corridor ? new DungeonCorridor(coordinates, partCode) : new DungeonLockedCorridor(coordinates, lockIDs);
         }
 
-        public static DungeonPart CreateDungeonPartFromDungeonFileSO(DungeonRoomData dungeonRoomData)
+        public static DungeonPart CreateDungeonPartFromDungeonFileSO(SORoom dungeonRoom)
         {
-            if (dungeonRoomData.Type?.Equals(Constants.RoomTypeString.Corridor) ?? false)
-                return new DungeonCorridor(dungeonRoomData.Coordinates, dungeonRoomData.Type);
-            if ((dungeonRoomData.Locks?.Count ?? 0) == 0)
-                return new DungeonRoom(dungeonRoomData.Coordinates, dungeonRoomData.Type, dungeonRoomData.Keys ?? new List<int>(),
-                    dungeonRoomData.Treasures, dungeonRoomData.TotalEnemies, dungeonRoomData.Npcs);
-            for (var i = 0; i < dungeonRoomData.Locks.Count; ++i)
+            if (dungeonRoom.type?.Equals(Constants.RoomTypeString.Corridor) ?? false)
+                return new DungeonCorridor(dungeonRoom.coordinates, dungeonRoom.type);
+            if ((dungeonRoom.locks?.Count ?? 0) == 0)
+                return new DungeonRoom(dungeonRoom.coordinates, dungeonRoom.type, dungeonRoom.keys ?? new List<int>(),
+                    dungeonRoom.Treasures, dungeonRoom.TotalEnemies, dungeonRoom.Npcs);
+            for (var i = 0; i < dungeonRoom.locks.Count; ++i)
             {
-                if (IsLegacyLock(dungeonRoomData.Locks[i]))
+                if (IsLegacyLock(dungeonRoom.locks[i]))
                 {
-                    dungeonRoomData.Locks[i] = -dungeonRoomData.Locks[i];
+                    dungeonRoom.locks[i] = -dungeonRoom.locks[i];
                 }
             }
-            return new DungeonLockedCorridor(dungeonRoomData.Coordinates, dungeonRoomData.Locks);
+            return new DungeonLockedCorridor(dungeonRoom.coordinates, dungeonRoom.locks);
         }
 
         private static bool IsLegacyLock(int lockId)

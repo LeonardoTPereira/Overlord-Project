@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.NpcRelatedNarrative;
 using Game.NPCs;
 using ScriptableObjects;
+using UnityEditor;
 using UnityEngine;
 using Util;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+
 namespace Game.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLineList", menuName = "Overlord-Project/QuestLineList", order = 0)]
     [Serializable]
-    public class QuestLineList : ScriptableObject, ISavableGeneratedContent
+    public class QuestLineList : ScriptableObject, SaveableGeneratedContent
     {
         [field: SerializeField] public List<QuestLine> QuestLines { get; set; }
         [field: SerializeField] public List<EnemySO> EnemySos { get; set; }
@@ -23,6 +23,7 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeField] public List<DungeonFileSo> DungeonFileSos { get; set; }
 
 
+        //[field: SerializeField] public QuestNpcsParameters NpcParametersForQuestLines { get; set; }
         [field: SerializeField] public QuestItemsParameters ItemParametersForQuestLines { get; set; }
         [field: SerializeField] public QuestDungeonsParameters DungeonParametersForQuestLines { get; set; }
         [field: SerializeField] public QuestEnemiesParameters EnemyParametersForQuestLines { get; set; }
@@ -38,24 +39,7 @@ namespace Game.NarrativeGenerator.Quests
             DungeonParametersForQuestLines = new QuestDungeonsParameters();
             EnemyParametersForQuestLines = new QuestEnemiesParameters();
             ItemParametersForQuestLines = new QuestItemsParameters();
-        }
-
-        public void Init(QuestLineList copiedQuestLineList)
-        {
-            DungeonFileSos = copiedQuestLineList.DungeonFileSos;
-            EnemySos = copiedQuestLineList.EnemySos;
-            NpcSos = copiedQuestLineList.NpcSos;
-            ItemSos = copiedQuestLineList.ItemSos;
-            DungeonParametersForQuestLines = copiedQuestLineList.DungeonParametersForQuestLines;
-            EnemyParametersForQuestLines = copiedQuestLineList.EnemyParametersForQuestLines;
-            ItemParametersForQuestLines = copiedQuestLineList.ItemParametersForQuestLines;
-            QuestLines = new List<QuestLine>();
-            foreach (var questLine in copiedQuestLineList.QuestLines)
-            {
-                var copyQuestLine = CreateInstance<QuestLine>();
-                copyQuestLine.Init(questLine);
-                AddQuestLine(copyQuestLine);
-            }
+            //NpcParametersForQuestLines = new QuestNpcsParameters();
         }
         public void AddQuestLine(QuestLine questLine)
         {
@@ -118,6 +102,11 @@ namespace Game.NarrativeGenerator.Quests
             EnemyParametersForQuestLines.CalculateMonsterFromQuests(QuestLines);
         }
 
+        /*public void CalculateNpcsFromQuests()
+        {
+            NpcParametersForQuestLines.CalculateNpcsFromQuests(QuestLines);
+        }*/
+
         public void CalculateItemsFromQuests()
         {
             ItemParametersForQuestLines.CalculateItemsFromQuests(QuestLines);
@@ -126,22 +115,6 @@ namespace Game.NarrativeGenerator.Quests
         public void CalculateDungeonParametersFromQuests(float explorationPreference)
         {
             DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines, explorationPreference);
-        }
-
-        public void OpenStartingQuests()
-        {
-            foreach (var questLine in QuestLines)
-            {
-                questLine.OpenCurrentQuest();
-            }
-        }
-
-        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> roomList)
-        {
-            foreach (var questLine in QuestLines)
-            {
-                questLine.ConvertDataForCurrentDungeon(roomList);
-            }
         }
     }
 }

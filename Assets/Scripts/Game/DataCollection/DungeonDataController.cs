@@ -72,7 +72,7 @@ namespace Game.DataCollection
 
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            CurrentDungeon.AddCollectedTreasure(eventArgs.QuestId);
+            CurrentDungeon.AddCollectedTreasure(eventArgs.Amount);
 
         }
 
@@ -118,7 +118,7 @@ namespace Game.DataCollection
             CurrentDungeon.OnPlayerVictory();
         }
         
-        private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
+                private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
         {
             switch (eventArgs.Quest)
             {

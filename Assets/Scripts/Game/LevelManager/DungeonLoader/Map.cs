@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Game.ExperimentControllers;
+﻿using System;
+using System.Collections.Generic;
 using Game.LevelGenerator.LevelSOs;
 using UnityEngine;
 using Util;
@@ -20,34 +20,44 @@ namespace Game.LevelManager.DungeonLoader
         public Coordinates FinalRoomCoordinates { get; set; }
         public Dimensions Dimensions { get; set; }
         public int NTreasureRooms { get; set; }
-        private bool _createRooms;
 
-        public Map(DungeonFileSo dungeonFileSo, bool createRooms, Vector2 roomSize)
+        /**
+         * Constructor of the Map object that uses an input file for the dungeon
+         */
+        public Map(DungeonFileSo dungeonFileSo, string roomsFilePath = null, int mode = 0)
         {
             NTreasureRooms = 0;
-            _createRooms = createRooms;
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
             ReadMapFile(dungeonFileSo);
-            BuildRooms(roomSize);
+            if (roomsFilePath != null)
+            {
+                ReadRoomsFile(roomsFilePath);
+            }
+            else
+            {
+                // Sala vazia padrão
+                BuildDefaultRooms();
+            }
         }
 
         private void ReadMapFile(DungeonFileSo dungeonFileSo)
         {
             Dimensions = dungeonFileSo.DungeonSizes;
+            DungeonPart currentDungeonPart;
             dungeonFileSo.ResetIndex();
-            while (dungeonFileSo.GetNextPart() is { } currentDungeonPart)
+            while ((currentDungeonPart = dungeonFileSo.GetNextPart()) != null)
             {
                 ProcessDungeonPart(currentDungeonPart);
             }
             foreach (var room in dungeonFileSo.Rooms)
             {
-                if ((room.Keys?.Count??0) > 0)
+                if ((room.keys?.Count??0) > 0)
                 {
-                    NKeys += room.Keys.Count;
+                    NKeys += room.keys.Count;
                 }
-                if ((room.Locks?.Count??0) > 0)
+                if ((room.locks?.Count??0) > 0)
                 {
-                    NLocks += room.Locks.Count;
+                    NLocks += room.locks.Count;
                 }
             }
 
@@ -78,38 +88,79 @@ namespace Game.LevelManager.DungeonLoader
         private void AddRoomData(DungeonPart currentDungeonPart)
         {
             NRooms++;
-            if (currentDungeonPart.IsLeafNode() || currentDungeonPart.IsLockedNode())
+            if (currentDungeonPart.IsTreasureRoom())
             {
                 NTreasureRooms++;
             }
         }
 
-        private void BuildRooms(Vector2 roomSize)
+
+        //Recebe os dados de tiles das salas
+        private void ReadRoomsFile(string text)
         {
-            var roomDimensions = new Dimensions((int)roomSize.x, (int)roomSize.y);
-            foreach (var currentPart in DungeonPartByCoordinates.Values)
+            var splitFile = new string[] { "\r\n", "\r", "\n" };
+
+            var nameLines = text.Split(splitFile, StringSplitOptions.RemoveEmptyEntries);
+
+            int roomWidth, roomHeight;
+            DungeonRoom currentRoom;
+            Coordinates currentRoomCoordinates;
+            roomWidth = int.Parse(nameLines[0]);
+            roomHeight = int.Parse(nameLines[1]);
+
+            int txtLine = 3;
+            for (uint i = 2; i < nameLines.Length;)
             {
-                if (currentPart is not DungeonRoom room) continue;
-                RoomGeneratorInput roomGeneratorInput = null;
-                if (_createRooms)
+                int roomX, roomY;
+                roomX = int.Parse(nameLines[i++]);
+                roomY = int.Parse(nameLines[i++]);
+                currentRoomCoordinates = new Coordinates(roomX, roomY);
+                txtLine += 2;
+                try
                 {
-                    var doorList = CreateDoorList(room.Coordinates);
-                    roomGeneratorInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
-                    roomGeneratorInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
+                    currentRoom = (DungeonRoom)DungeonPartByCoordinates[currentRoomCoordinates];
+                    currentRoom.Dimensions = new Dimensions(roomWidth, roomHeight);
+                    currentRoom.InitializeTiles(); // aloca memória para os tiles
+                    for (int x = 0; x < currentRoom.Dimensions.Width; x++)
+                    {
+                        for (int y = 0; y < currentRoom.Dimensions.Height; y++)
+                        {
+                            int tileID = int.Parse(nameLines[i++]);
+                            currentRoom.Tiles[x, y] = tileID; // TODO Desinverter x e y: foi feito assim pois o arquivo de entrada foi passado em um formato invertido
+                            txtLine++;
+                        }
+                    }
                 }
-                room.CreateRoom(roomDimensions, roomGeneratorInput);
+                catch (InvalidCastException)
+                {
+                    Debug.LogError($"One of the rooms in the file has the wrong coordinates - x = {currentRoomCoordinates.X}, y = {currentRoomCoordinates.Y}");
+                }
+            }
+        }
+
+        //Cria salas vazias no tamanho padrão
+        protected virtual void BuildDefaultRooms()
+        {
+            Dimensions roomDimensions = new Dimensions(Constants.DefaultRoomSizeX, Constants.DefaultRoomSizeY);
+            foreach (DungeonPart currentPart in DungeonPartByCoordinates.Values)
+            {
+                if (currentPart is DungeonRoom room)
+                {
+                    var roomInput = ScriptableObject.CreateInstance<RoomGeneratorInput>();
+                    var doorList = CreateDoorList(room.Coordinates);
+                    roomInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
+                    room.CreateRoom(roomDimensions);
+                }
             }
         }
         
         protected List<int> CreateDoorList(Coordinates currentRoomCoordinates)
         {
-            var doorList = new List<int>
-            {
-                IsCorridor(new Coordinates(currentRoomCoordinates.X, currentRoomCoordinates.Y + 1)),
-                IsCorridor(new Coordinates(currentRoomCoordinates.X, currentRoomCoordinates.Y - 1)),
-                IsCorridor(new Coordinates(currentRoomCoordinates.X+1, currentRoomCoordinates.Y)),
-                IsCorridor(new Coordinates(currentRoomCoordinates.X-1, currentRoomCoordinates.Y))
-            };
+            var doorList = new List<int>();
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X, currentRoomCoordinates.Y+1)));
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X, currentRoomCoordinates.Y-1)));
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X+1, currentRoomCoordinates.Y)));
+            doorList.Add(IsCorridor(new Coordinates(currentRoomCoordinates.X-1, currentRoomCoordinates.Y)));
             return doorList;
         }
 

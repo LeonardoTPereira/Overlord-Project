@@ -191,8 +191,30 @@
         {
             "name": "Menu",
             "id": "6d2b5264-d35e-47f7-ab62-b42398d94d02",
-            "actions": [],
-            "bindings": []
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "e93ca669-9abe-49a1-8e3c-3c89fa66aa15",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f82921ab-cc62-42d5-8935-c7f48ca185f2",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

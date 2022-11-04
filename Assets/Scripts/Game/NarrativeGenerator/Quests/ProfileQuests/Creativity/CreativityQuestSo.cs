@@ -2,7 +2,6 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 
@@ -18,21 +17,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var creativityQuestWeights = new Dictionary<string, Func<int, int>>
                 {
-                    {Constants.ExploreQuest, Constants.TwoOptionQuestLineWeight},
-                    {Constants.GotoQuest, Constants.TwoOptionQuestLineWeight},
-                    {Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight}
+                    {Constants.EXPLORE_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.GOTO_QUEST, Constants.TwoOptionQuestLineWeight},
+                    {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
                 };
                 return creativityQuestWeights;
             } 
         }
 
-        public override QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( SymbolType )
             {
-                case Constants.ExploreQuest:
+                case Constants.EXPLORE_QUEST:
                     return CreateAndSaveExploreQuestSo(questSos);
-                case Constants.GotoQuest:
+                case Constants.GOTO_QUEST:
                     return CreateAndSaveGotoQuestSo(questSos);
                 default:
                     Debug.LogError("help something went wrong! - Creativity doesn't contain symbol: "+SymbolType);
@@ -52,16 +51,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        public override void CreateQuestString()
-        {
-            throw new NotImplementedException();
-        }
 
-
-        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos)
+        private static ExploreQuestSo CreateAndSaveExploreQuestSo( List<QuestSo> questSos)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
-            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(71)+30;
+            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(10) + 3;
             exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
             
             if (questSos.Count > 0)
@@ -76,7 +70,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
-            var gotoQuest = CreateInstance<GotoQuestSo>();
+            var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
+            //TODO verify if there's a way to mark the room in the minimap/get a rooms name here
             gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
             if (questSos.Count > 0)
             {

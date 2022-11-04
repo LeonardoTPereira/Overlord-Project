@@ -15,7 +15,7 @@ namespace Game.LevelGenerator
         private Parameters _parameters;
 
         /// Attributes to communicate to Game Manager
-        // Flags if the dungeon has been generated for Unity's Game Manager to handle things after
+        // Flags if the dungeon has been gerated for Unity's Game Manager to handle things after
         private FitnessPlot _fitnessPlot;
 
         private void Start()

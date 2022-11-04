@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -373,9 +372,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.055555556
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -544,12 +543,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1485715969279221862, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: questionsData
-      value: 
-      objectReference: {fileID: 11400000, guid: 87e2b39734d847449676485068bcf58a,
-        type: 2}
     - target: {fileID: 1516576439373387153, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_Name
@@ -669,18 +662,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
-        type: 3}
-      propertyPath: preTestQuestionnaire
-      value: 
-      objectReference: {fileID: 11400000, guid: 87e2b39734d847449676485068bcf58a,
-        type: 2}
-    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
-        type: 3}
-      propertyPath: <CurrentGeneratorSettings>k__BackingField
-      value: 
-      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
-        type: 2}
     - target: {fileID: 3829912036086566211, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: m_RootOrder

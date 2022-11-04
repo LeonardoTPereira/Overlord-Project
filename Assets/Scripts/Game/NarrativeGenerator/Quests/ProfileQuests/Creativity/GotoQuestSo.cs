@@ -1,16 +1,12 @@
 using Util;
 using System.Collections.Generic;
 using System;
-using System.Linq;
-using Game.LevelGenerator.LevelSOs;
-using MyBox;
-using UnityEngine;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GotoQuestSo : CreativityQuestSo
     {
-        public override string SymbolType => Constants.GotoQuest;
+        public override string SymbolType => Constants.GOTO_QUEST;
         public Coordinates SelectedRoomCoordinates { get; set; }
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
@@ -65,20 +61,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             IsCompleted = true;
         }
 
-        public override void CreateQuestString()
+        //TODO highlight the room in the Map UI
+        public override string ToString()
         {
-            QuestText = $"$Go to the room highlighted in the map! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
-        }
-
-        public void SelectRoomCoordinates(List<DungeonRoomData> roomList)
-        {
-            var leafList = roomList.Where(room => room.IsLeaf).ToList();
-            if (!leafList.Any())
-            {
-                Debug.LogError($"No Leaf Nodes in Dungeon. Something went wrong!+" +
-                               $"Dungeon Size: {roomList.Count}");
-            }
-            SelectedRoomCoordinates = leafList.GetRandom().Coordinates;
+            return "Go to the room highlighted in the map";
         }
     }
 }

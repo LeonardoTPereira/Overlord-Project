@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using ScriptableObjects;
+using Util;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
 {
@@ -14,10 +16,9 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         {
         }
 
-        public new object Clone()
+        public new ItemAmountDictionary Clone()
         {
             return new ItemAmountDictionary(this);
         }
-        
     }
 }

@@ -28,7 +28,6 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddItemWhenAchievementQuest(quest);
-                AddItemWhenImmersionQuest(quest);
             }
         }
 
@@ -37,20 +36,11 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             var achievementQuestSo = quest as AchievementQuestSo;
             if (achievementQuestSo != null)
             {
-                AddAchievementItems(achievementQuestSo);
-            }
-        }
-        
-        private void AddItemWhenImmersionQuest(QuestSo quest)
-        {
-            var immersionQuestSo = quest as ImmersionQuestSo;
-            if (immersionQuestSo != null)
-            {
-                AddImmersionItems(immersionQuestSo);
+                AddItems(achievementQuestSo);
             }
         }
 
-        private void AddAchievementItems(AchievementQuestSo quest)
+        private void AddItems(AchievementQuestSo quest)
         {
             var itemDictionary = quest.GetItemDictionary();
             foreach (var dropItemData in itemDictionary)
@@ -62,14 +52,6 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
                     TotalItemValue += dropItemData.Key.Value;
                 }            
             }
-        }
-        
-        private void AddImmersionItems(ImmersionQuestSo quest)
-        {
-            if (quest is not GiveQuestSo giveQuestSo) return;
-            ItemsByType.ItemAmountBySo.AddItemWithId(giveQuestSo.GiveQuestData.ItemToGive, giveQuestSo.Id);
-            TotalItems++;
-            TotalItemValue += giveQuestSo.GiveQuestData.ItemToGive.Value;
         }
 
         public void DebugPrint()

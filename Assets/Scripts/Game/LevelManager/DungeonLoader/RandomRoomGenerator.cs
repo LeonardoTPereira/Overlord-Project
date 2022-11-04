@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Util;
 
 namespace Game.LevelManager.DungeonLoader
 {
@@ -106,16 +105,16 @@ namespace Game.LevelManager.DungeonLoader
                     switch (boardMap[y, x])
                     {
                         case 0: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
+                            roomData[y, x] = new Tile(TileTypes.Floor);
                             break;
                         case 1: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                            roomData[y, x] = new Tile(TileTypes.Block);
                             break;
                         case 2: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
+                            roomData[y, x] = new Tile(TileTypes.Floor);
                             break;
                         default: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                            roomData[y, x] = new Tile(TileTypes.Block);
                             break;
                     }
                 }

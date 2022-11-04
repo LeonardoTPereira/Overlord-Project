@@ -9,8 +9,6 @@ namespace Util
         public static readonly char SeparatorCharacter = Path.DirectorySeparatorChar;
 
         public static readonly Color[] ColorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
-        public static readonly Color VisitedColor = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-        public static readonly Color MarkedColor = new Color(0.8433761f, 0.2772784f, 0.2320754f, 1.0f);
 
         public static float LogNormalization(float value, float minValue, float maxValue, float minNormalized, float maxNormalized)
         {
@@ -19,56 +17,69 @@ namespace Util
 
         public const int NSpawnPointsVer = 6;
         public const int NSpawnPointsHor = 6;
-        public const int DistFromBorder = 2;
+        public const int DistFromBorder = 1;
+
+        public const int DefaultRoomSizeX = 22;
+        public const int DefaultRoomSizeY = 19;
 
         /// Define the room codes for printing purposes.
         public static class RoomTypeString
         {
-            public const string Corridor = "Corridor";
-            public const string Lock = "Lock";
-            public const string Key = "Key";
-            public const string Boss = "Boss";
-            public const string Leaf = "Leaf";
-            public const string Start = "Start";
-            public const string Normal = "Normal";
+            public const string Corridor = "C";
+            public const string Lock = "L";
+            public const string Key = "K";
+            public const string Boss = "B";
+            public const string Treasure = "T";
+            public const string Start = "S";
+            public const string Normal = "N";
         }
 
         #region Terminal quest symbols
         //Mastery
-        public const string KillQuest = "kill";
-        public const string DamageQuest = "damage";
+        public const string KILL_QUEST = "kill";
+        public const string DAMAGE_QUEST = "damage";
         //Immersion
-        public const string ListenQuest = "listen";
-        public const string ReadQuest = "read";
-        public const string ReportQuest = "report";
-        public const string GiveQuest = "give";
+        public const string LISTEN_QUEST = "listen";
+        public const string READ_QUEST = "read";
+        public const string REPORT_QUEST = "report";
+        public const string GIVE_QUEST = "give";
         //Creativity
-        public const string ExploreQuest = "explore";
-        public const string GotoQuest = "goto";
+        public const string EXPLORE_QUEST = "explore";
+        public const string GOTO_QUEST = "goto";
         //Achievement
-        public const string GatherQuest = "gather";
-        public const string ExchangeQuest = "exchange";
+        public const string GATHER_QUEST = "gather";
+        public const string EXCHANGE_QUEST = "exchange";
         //Not implemented
-        public const string ItemQuest = "item";
-        public const string SecretQuest = "secret";
+        public const string ITEM_QUEST = "item";
+        public const string SECRET_QUEST = "secret";
         //Empty
-        public const string EmptyQuest = "empty";
-        public const string StartChain ="start";
+        public const string EMPTY_QUEST = "empty";
+        public const string START ="start";
         #endregion
 
         #region Quest Weights
-        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow(x,2));
+        public static Func<int,int> OneOptionQuestLineWeight = x => 
+        {
+            return (int)(100 - Mathf.Pow(x,2));
+        };
+        public static Func<int,int> OneOptionQuestEmptyWeight = x => 
+        {
+            return (int) Mathf.Pow(x,2);
+        };
 
-        public static readonly Func<int,int> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
+        public static Func<int,int> TwoOptionQuestLineWeight = x => 
+        {
+            return OneOptionQuestLineWeight(x)/2;
+        };
+        public static Func<int,int> TwoOptionQuestEmptyWeight = x => 
+        {
+            return OneOptionQuestEmptyWeight(x);
+        };
 
-        public static readonly Func<int,int> ThreeOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/3;
-        
-        public static readonly Func<int,int> FourOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/4;
-        
-        public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow(x,2);
-
-        public static readonly Func<int,int> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
-
+        public static Func<int,int> FourOptionQuestLineWeight = x => 
+        {
+            return OneOptionQuestLineWeight(x)/4;
+        };
         #endregion
 
         public const string MasteryQuest = "Mastery";

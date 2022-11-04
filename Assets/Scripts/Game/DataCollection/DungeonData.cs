@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Game.LevelManager.DungeonLoader;
 using UnityEngine;
 using Util;
@@ -231,15 +232,11 @@ namespace Game.DataCollection
         [FirestoreProperty]
 #endif
         [field: SerializeField] public int CompletedKillQuests { get; set; }
-#if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreProperty]
-#endif
-        [field: SerializeField] public int PlayerId { get; set; }
         private float _startTime;
         private int _currentCombo;
         private RoomData _currentRoom;
         private string _jsonPath;
-        public void Init(Map map, string mapName, string jsonPath, int playerId)
+        public void Init(Map map, string mapName, string jsonPath)
         {
             PostFormAnswers = new List<int>();
             VisitedRooms = new RoomDataByVisit();
@@ -254,7 +251,6 @@ namespace Game.DataCollection
             TotalAttempts++;
             _startTime = Time.realtimeSinceStartup;
             _jsonPath = jsonPath;
-            PlayerId = playerId;
         }
 
         public void OnPlayerDeath()
@@ -399,7 +395,7 @@ namespace Game.DataCollection
             var dungeonFile = dungeonFolder + Constants.SeparatorCharacter +
                               "DungeonData.json";
             var roomFile = dungeonFolder + Constants.SeparatorCharacter;
-            const string roomFileEnding = "RoomData.json";
+            var roomFileEnding = "RoomData.json";
             var roomFileCounter = 0;
             if (File.Exists(roomFile+roomFileEnding))
             {
@@ -414,7 +410,6 @@ namespace Game.DataCollection
             {
                 roomFile += roomFileEnding;
             }
-            
             string lines;
             using (var fileStream = new FileStream(dungeonFile, FileMode.OpenOrCreate))
             {
@@ -423,28 +418,28 @@ namespace Game.DataCollection
                     lines = sr.ReadToEnd();
                 }
             }
-            
-            var dungeonData = JsonUtility.ToJson(lines);
-            dungeonData+=JsonUtility.ToJson(this);
-            var dungeonString = JsonUtility.ToJson(dungeonData);
-            
-            using (var fileStream = new FileStream(dungeonFile, FileMode.OpenOrCreate))
+
+            using (var fileStream = new FileStream(dungeonFile, FileMode.Open))
             {
-                using (var sw = new StreamWriter(fileStream)) 
+                using (var sw = new StreamWriter(fileStream))
                 {
-                    sw.Write(dungeonString); 
+                    if (lines != "")
+                    {
+                        lines = lines.Remove(lines.LastIndexOf(Environment.NewLine, StringComparison.Ordinal));
+                        sw.Write(lines);
+                    }
+                    sw.Write(JsonUtility.ToJson(this));
                 }
             }
+            
 
-            var roomData = VisitedRooms.SelectMany(roomList => roomList.Value).ToList();
-            var roomString = JsonUtility.ToJson(roomData);
-            using (var fileStream = new FileStream(roomFile, FileMode.OpenOrCreate))
+            var stringBuilder = new StringBuilder();
+            foreach (var room in VisitedRooms.SelectMany(roomList => roomList.Value))
             {
-                    using (var sw = new StreamWriter(fileStream)) 
-                    {
-                            sw.Write(roomString); 
-                    }
+                stringBuilder.Append(JsonUtility.ToJson(room));
             }
+            var roomJson = stringBuilder.ToString();
+            File.WriteAllText(roomFile, roomJson);
         }
     }
 }

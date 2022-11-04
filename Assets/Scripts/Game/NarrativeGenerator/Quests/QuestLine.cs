@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.ExperimentControllers;
-using Game.LevelGenerator;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using Game.Quests;
-#if UNITY_EDITOR
-    using UnityEditor;
-#endif
+using ScriptableObjects;
+using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -17,14 +12,13 @@ namespace Game.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLine", menuName = "Overlord-Project/QuestLine", order = 0)]
     [Serializable]
-    public class QuestLine : ScriptableObject, ISavableGeneratedContent
+    public class QuestLine : ScriptableObject, SaveableGeneratedContent
     {
         [field: SerializeReference] public List<QuestSo> Quests {get; set; }
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
         public static event QuestCompletedEvent QuestCompletedEventHandler;
-        public static event QuestOpenedEvent QuestOpenedEventHandler;
-
+        
         public void Init()
         {
             Quests = new List<QuestSo>();
@@ -77,33 +71,24 @@ namespace Game.NarrativeGenerator.Quests
                 questSo.RemoveElementWithId(questElement, questId);
                 if (questSo.IsCompleted && questSo == GetCurrentQuest())
                 {
-                    CompleteCurrentQuest();
+                    CloseCurrentQuest();
                 }
-                if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
+
+                return true;
             }
             return false;
         }
 
-        private void CompleteCurrentQuest()
+        private void CloseCurrentQuest()
         {
-            var currentQuest = GetCurrentQuest();
-            QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
-        }
-        
-        public void CloseCurrentQuest()
-        {
-            GetCurrentQuest().IsClosed = true;
-            CurrentQuestIndex++;
-            if (GetCurrentQuest() == null) return;
-            OpenCurrentQuest();
-        }
-
-        public void OpenCurrentQuest()
-        {
-            var quest = GetCurrentQuest();
-            QuestOpenedEventHandler?.Invoke(null, new NewQuestEventArgs(quest, NpcInCharge));
-            if (!quest.IsCompleted) return;
-            CompleteCurrentQuest();
+            QuestSo currentQuest;
+            do
+            {
+                currentQuest = GetCurrentQuest();
+                QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
+                currentQuest.IsClosed = true;
+                CurrentQuestIndex++;
+            } while (currentQuest.IsCompleted);
         }
 
         public QuestSo GetCurrentQuest()
@@ -111,17 +96,7 @@ namespace Game.NarrativeGenerator.Quests
             return CurrentQuestIndex >= Quests.Count ? null : Quests[CurrentQuestIndex];
         }
 
-        public List<QuestSo> GetCompletedQuests()
-        {
-            List<QuestSo> completedQuests = new List<QuestSo>();
-            for (int i = 0; i < CurrentQuestIndex; i++)
-            {
-                completedQuests.Add( Quests[i] );
-            }
-            return completedQuests; 
-        }
-
-        public void PopulateQuestLine(in GeneratorSettings generatorSettings)
+        public void PopulateQuestLine(List<NpcSo> possibleNpcs, TreasureRuntimeSetSO possibleTreasures, WeaponTypeRuntimeSetSO possibleEnemyTypes)
         {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
@@ -132,26 +107,7 @@ namespace Game.NarrativeGenerator.Quests
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 nonTerminalSymbol.SetNextSymbol(questChain);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
-            }
-        }
-
-        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> roomList)
-        {
-            foreach (var quest in Quests)
-            {
-                switch (quest)
-                {
-                    case ExploreQuestSo exploreQuest:
-                        var roomCount = roomList.Count(room => room.Type != Constants.RoomTypeString.Corridor);
-                        Debug.LogWarning("Total Rooms: "+roomCount);
-                        exploreQuest.ChangeRoomsPercentageToValue(roomCount);
-                        break;
-                    case GotoQuestSo gotoQuest:
-                        gotoQuest.SelectRoomCoordinates(roomList);
-                        break;
-                }
-                quest.CreateQuestString();
+                questChain.GetLastSymbol().DefineQuestSo(Quests, possibleNpcs, possibleTreasures, possibleEnemyTypes);
             }
         }
     }

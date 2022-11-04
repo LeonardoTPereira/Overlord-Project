@@ -6,7 +6,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExploreQuestSo : CreativityQuestSo
     {
-        public override string SymbolType => Constants.ExploreQuest;
+        public override string SymbolType => Constants.EXPLORE_QUEST;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -73,14 +73,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override void CreateQuestString()
+        public override string ToString()
         {
-            QuestText = $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
-        }
-
-        public void ChangeRoomsPercentageToValue(int roomsCount)
-        {
-            NumOfRoomsToExplore = NumOfRoomsToExplore * roomsCount / 100;        
+            return $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
         }
     }
 }

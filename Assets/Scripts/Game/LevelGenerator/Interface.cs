@@ -75,13 +75,13 @@ namespace Game.LevelGenerator
 
         private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSo, Dungeon dun, int[,] map)
         {
-            dungeonFileSo.Rooms = new List<DungeonRoomData>();
+            dungeonFileSo.Rooms = new List<SORoom>();
             //Now we print it/save to a file/whatever
             for (var i = 0; i < dun.DungeonDimensions.Width * 2; ++i)
             {
                 for (var j = 0; j < dun.DungeonDimensions.Height * 2; ++j)
                 {
-                    DungeonRoomData roomDataDataInFile;
+                    SORoom roomDataInFile;
                     
                     // Calculate the room position in the grid
                     var x = i / 2 + dun.DungeonBoundaries.MinBoundaries.X;
@@ -90,7 +90,7 @@ namespace Game.LevelGenerator
                     //If cell is empty, do nothing (or print empty space in console)
                     if (map[i, j] == Common.RoomType.NOTHING)
                     {
-                        roomDataDataInFile = null;
+                        roomDataInFile = null;
                     }
                     //If there is something (room or corridor) print/save
                     else
@@ -99,85 +99,72 @@ namespace Game.LevelGenerator
                         var roomGrid = dun.DungeonGrid[x, y];
                         var coordinates = new Coordinates(i + dun.DungeonBoundaries.MinBoundaries.X * 2, j + dun.DungeonBoundaries.MinBoundaries.Y * 2);
                         //For Unity's dungeon file we need to save the x and y position of the room
-                        roomDataDataInFile = new DungeonRoomData(i, j);
-                        ConvertEaDungeonToSoDungeon(coordinates, roomDataDataInFile, roomGrid, roomType);
+                        roomDataInFile = new SORoom(i, j);
+                        ConvertEaDungeonToSoDungeon(coordinates, roomDataInFile, roomGrid, roomType);
                     }
 
-                    if (roomDataDataInFile != null)
+                    if (roomDataInFile != null)
                     {
-                        dungeonFileSo.Rooms.Add(roomDataDataInFile);
+                        dungeonFileSo.Rooms.Add(roomDataInFile);
                     }
                 }
             }
         }
 
-        private static void ConvertEaDungeonToSoDungeon(Coordinates coordinates, DungeonRoomData roomDataDataInFile,
-            Room roomGrid, int roomType)
+        private static void ConvertEaDungeonToSoDungeon(Coordinates coordinates, SORoom roomDataInFile, Room roomGrid,
+            int roomType)
         {
             //If room is in (0,0) it is the starting one, we mark it with an "s" and save the "s"
             if (coordinates.X == 0 && coordinates.Y == 0)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Start;
-                roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
+                roomDataInFile.type = Constants.RoomTypeString.Start;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If it is a corridor, writes "c" in the file
             else if (roomType == Common.RoomType.CORRIDOR)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Corridor;
+                roomDataInFile.type = Constants.RoomTypeString.Corridor;
             }
             //If is the boss room, writes "B". Currently is where the Triforce is located
             else if (roomType == Common.RoomType.BOSS)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Boss;
-                roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
+                roomDataInFile.type = Constants.RoomTypeString.Boss;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If negative, is a locked corridor, save it as the negative number of the key that opens it
             else if (roomType < 0)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Lock;
-                roomDataDataInFile.Locks = new List<int>
+                roomDataInFile.type = Constants.RoomTypeString.Lock;
+                roomDataInFile.locks = new List<int>
                 {
                     roomType
                 };
             }
-            else if (roomType == Common.RoomType.LEAF)
+            //If it was a room with treasure, save it as a "T"
+            //TODO: change this as now every room may contain treasures, enemies and/or keys
+            else if (roomType == Common.RoomType.TREASURE)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Leaf;
-                roomDataDataInFile.Treasures = 1;
-                roomDataDataInFile.Npcs = 1;
-                roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
-                roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Leaf room and Leaf");
-            }
-            else if (roomType == Common.RoomType.LOCKED)
-            {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Lock;
-                roomDataDataInFile.Treasures = 1;
-                roomDataDataInFile.Npcs = 1;
-                roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
-                roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Locked room and Leaf");
+                roomDataInFile.type = Constants.RoomTypeString.Treasure;
+                roomDataInFile.Treasures = 1;
+                roomDataInFile.Npcs = 1;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
             //If the room has a positive value, it holds a key.
             //Save the key index so we know what key it is
             else if (roomType > 0)
             {
-                roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
-                roomDataDataInFile.Type = Constants.RoomTypeString.Key;
-                roomDataDataInFile.Keys = new List<int>
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
+                roomDataInFile.type = Constants.RoomTypeString.Key;
+                roomDataInFile.keys = new List<int>
                 {
                     roomType
                 };
-                roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Key room and Leaf");
             }
             //If the cell was none of the above, it must be an empty room
             else
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Normal;
-                roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
-                roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Normal room and Leaf");
+                roomDataInFile.type = Constants.RoomTypeString.Normal;
+                roomDataInFile.TotalEnemies = roomGrid.Enemies;
             }
         }
 
@@ -224,7 +211,7 @@ namespace Game.LevelGenerator
                         map[iPositive * 2, jPositive * 2] = Common.RoomType.BOSS;
                         break;
                     case RoomType.Locked:
-                        map[iPositive * 2, jPositive * 2] = Common.RoomType.LOCKED;
+                        map[iPositive * 2, jPositive * 2] = Common.RoomType.TREASURE;
                         break;
                     //If it is not a room, something is wrong
                     default:
@@ -257,7 +244,7 @@ namespace Game.LevelGenerator
         {
             if (actualRoom.IsLeafNode())
             {
-                map[iPositive * 2, jPositive * 2] = Common.RoomType.LEAF;
+                map[iPositive * 2, jPositive * 2] = Common.RoomType.TREASURE;
             }
             else
             {

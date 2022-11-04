@@ -31,13 +31,13 @@ namespace Game.LevelManager.DungeonManager
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("PlayerTrigger")) return;
+            ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.ItemPickup, 1));
             OnGetKey();
             Destroy(gameObject);
         }
 
         private void OnGetKey()
         {
-            ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.ItemPickup, 1));
             KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(KeyID));
         }
     }

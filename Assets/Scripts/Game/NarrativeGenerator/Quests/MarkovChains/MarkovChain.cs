@@ -42,37 +42,37 @@ namespace Game.NarrativeGenerator.Quests
                 case Constants.CreativityQuest:
                     symbolList.Add( ScriptableObject.CreateInstance<CreativityQuestSo>() );
                 break;
-                case Constants.KillQuest:
+                case Constants.KILL_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<KillQuestSo>() );
                 break;
-                case Constants.DamageQuest:
+                case Constants.DAMAGE_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<DamageQuestSo>() );
                 break;
-                case Constants.ListenQuest:
+                case Constants.LISTEN_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ListenQuestSo>() );
                 break;
-                case Constants.ReadQuest:
+                case Constants.READ_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ReadQuestSo>() );
                 break;
-                case Constants.GiveQuest:
+                case Constants.GIVE_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<GiveQuestSo>() );
                 break;
-                case Constants.ReportQuest:
+                case Constants.REPORT_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ReportQuestSo>() );
                 break;
-                case Constants.GatherQuest:
+                case Constants.GATHER_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<GatherQuestSo>() );
                 break;
-                case Constants.ExchangeQuest:
+                case Constants.EXCHANGE_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ExchangeQuestSo>() );
                 break;
-                case Constants.GotoQuest:
+                case Constants.GOTO_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<GotoQuestSo>() );
                 break;
-                case Constants.ExploreQuest:
+                case Constants.EXPLORE_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<ExploreQuestSo>() );
                 break;
-                case Constants.EmptyQuest:
+                case Constants.EMPTY_QUEST:
                     symbolList.Add( ScriptableObject.CreateInstance<EmptyQuestSo>() );
                 break;
                 default:

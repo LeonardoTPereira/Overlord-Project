@@ -1,22 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using ScriptableObjects;
+using ScriptableObjects.SerializableDictionaryLite;
 
 namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 {
     [Serializable]
-    public class WeaponTypeAmountDictionary : KeyByQuestIdsDictionary<WeaponTypeSo>
+    public class WeaponTypeAmountDictionary : KeyByQuestIdsDictionary<WeaponTypeSO>
     {
-        public WeaponTypeAmountDictionary()
-        {
-        }
-
-        public WeaponTypeAmountDictionary(KeyByQuestIdsDictionary<WeaponTypeSo> keyByQuestIdsDictionary) : base(keyByQuestIdsDictionary)
-        {
-        }
-
-        public new object Clone()
-        {
-            return new WeaponTypeAmountDictionary(this);
-        }
     }
 }

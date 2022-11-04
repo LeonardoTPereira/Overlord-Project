@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Game.NPCs;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,7 +14,7 @@ namespace Game.NarrativeGenerator.Quests
     
     [CreateAssetMenu(fileName = "QuestSo", menuName = "Overlord-Project/QuestSo", order = 0)]
     [Serializable]
-    public abstract class QuestSo : ScriptableObject, ISavableGeneratedContent, ISymbol
+    public abstract class QuestSo : ScriptableObject, SaveableGeneratedContent, ISymbol
     {
         public virtual string SymbolType {get; set;}
         public virtual Dictionary<string, Func<int,int>> NextSymbolChances
@@ -34,7 +34,6 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private ItemSo reward;
         [field: SerializeField] public bool IsCompleted { get; set; }
         [field: SerializeField] public bool IsClosed { get; set; }
-        [field: SerializeField] public string QuestText { get; set; }
         private bool _canDrawNext;
 
         public QuestSo Next { get => next; set => next = value; }
@@ -44,7 +43,7 @@ namespace Game.NarrativeGenerator.Quests
         public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
 
-        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public virtual QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             return null;
         }
@@ -77,7 +76,6 @@ namespace Game.NarrativeGenerator.Quests
             next = copiedQuest.Next;
             Reward = copiedQuest.Reward;
             Id = copiedQuest.Id;
-            QuestText = copiedQuest.QuestText;
         }
 
         public virtual QuestSo Clone()
@@ -118,13 +116,41 @@ namespace Game.NarrativeGenerator.Quests
             #endif
         }
 
-        public override string ToString()
-        {
-            return QuestText;
-        }
+        // public bool IsItemQuest()
+        // {
+        //     return typeof(GatherQuestSo).IsAssignableFrom(GetType());
+        // }
+        
+        // public bool IsDropQuest()
+        // {
+        //     // return typeof(DropQuestSo).IsAssignableFrom(GetType());
+        //     return false;
+        // }
 
+        // public bool IsKillQuest()
+        // {
+        //     return typeof(KillQuestSo).IsAssignableFrom(GetType());
+        // }        
+        
+        // public bool IsGetQuest()
+        // {
+        //     return typeof(GatherQuestSo).IsAssignableFrom(GetType());
+        // }        
+        // public bool IsSecretRoomQuest()
+        // {
+        //     return typeof(SecretRoomQuestSo).IsAssignableFrom(GetType());
+        // }
+        
+        // public bool IsExplorationQuest()
+        // {
+        //     return IsSecretRoomQuest() || IsGetQuest();
+        // }
+        
+        // public bool IsTalkQuest()
+        // {
+        //     return typeof(ListenQuestSo).IsAssignableFrom(GetType());
+        // }
         public abstract bool HasAvailableElementWithId<T>(T questElement, int questId);
         public abstract void RemoveElementWithId<T>(T questElement, int questId);
-        public abstract void CreateQuestString();
     }
 }

@@ -4,10 +4,12 @@ namespace Game.LevelManager.DungeonLoader
 {
     public abstract class DungeonPart
     {
-        public Coordinates Coordinates { get; }
+        private string type;
+        private Coordinates coordinates;
 
-        private string Type { get; }
-
+        public Coordinates Coordinates { get => coordinates; set => coordinates = value; }
+        public string Type { get => type; set => type = value; }
+        
         protected DungeonPart(Coordinates coordinates, string type)
         {
             Coordinates = coordinates;
@@ -33,14 +35,9 @@ namespace Game.LevelManager.DungeonLoader
             return Type?.Equals(Constants.RoomTypeString.Boss) ?? false;
         }
         
-        public bool IsLeafNode()
+        public bool IsTreasureRoom()
         {
-            return Type?.Equals(Constants.RoomTypeString.Leaf) ?? false;
-        }
-        
-        public bool IsLockedNode()
-        {
-            return Type?.Equals(Constants.RoomTypeString.Lock) ?? false;
+            return Type?.Equals(Constants.RoomTypeString.Treasure) ?? false;
         }
 
     }

@@ -8,6 +8,7 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Util;
 
 namespace Game.Quests
@@ -18,8 +19,7 @@ namespace Game.Quests
         [SerializeField] private int completedTasks;
         [field: SerializeReference] private SelectedLevels selectedLevels;
         [SerializeField] private QuestLineList questLines;
-
-        public QuestLineList QuestLines => questLines;
+        public static event QuestOpenedEvent QuestOpenedEventHandler;
 
         public int CountableQuestElements
         {
@@ -36,14 +36,12 @@ namespace Game.Quests
         private void OnEnable()
         {
             IQuestElement.QuestElementEventHandler += UpdateQuest;
-            IQuestElement.QuestCompletedEventHandler += CompleteQuest;
             DungeonSceneManager.NewLevelLoadedEventHandler += OnDungeonLoaded;
         }
 
         private void OnDisable()
         {
             IQuestElement.QuestElementEventHandler -= UpdateQuest;
-            IQuestElement.QuestCompletedEventHandler -= CompleteQuest;
             DungeonSceneManager.NewLevelLoadedEventHandler -= OnDungeonLoaded;
         }
         
@@ -56,8 +54,14 @@ namespace Game.Quests
         {
             yield return new WaitForEndOfFrame();
             questLines = ScriptableObject.CreateInstance<QuestLineList>();
-            questLines.Init(originalQuestLines);
-            questLines.OpenStartingQuests();
+            questLines.Init();
+            foreach (var questLine in originalQuestLines.QuestLines)
+            {
+                var copyQuestLine = ScriptableObject.CreateInstance<QuestLine>();
+                copyQuestLine.Init(questLine);
+                questLines.AddQuestLine(copyQuestLine);
+                QuestOpenedEventHandler?.Invoke(null, new NewQuestEventArgs(copyQuestLine.GetCurrentQuest(), copyQuestLine.NpcInCharge));
+            }
         }
 
         private void UpdateQuest(object sender, QuestElementEventArgs eventArgs)
@@ -81,21 +85,13 @@ namespace Game.Quests
                     break;
             }
         }
-        
-        private void CompleteQuest(object sender, QuestElementEventArgs eventArgs)
-        {
-            foreach (var questLine in questLines.QuestLines.Where(questLine => questLine.GetCurrentQuest()?.Id == eventArgs.QuestId))
-            {
-                questLine.CloseCurrentQuest();
-            }
-        }
 
         private void UpdateKillQuest(QuestKillEnemyEventArgs killQuestArgs)
         {
             var enemyKilled = killQuestArgs.EnemyWeaponTypeSo;
             var questId = killQuestArgs.QuestId;
             if (questLines.QuestLines.Any(questList => 
-                    questList.RemoveAvailableQuestWithId<KillQuestSo, WeaponTypeSo>(enemyKilled, questId)))
+                    questList.RemoveAvailableQuestWithId<KillQuestSo, WeaponTypeSO>(enemyKilled, questId)))
             {
                 return;
             }
@@ -114,7 +110,7 @@ namespace Game.Quests
             {
                 return;
             }
-            //Debug.LogError($"$No damage Quests With This Enemy ({enemyDamaged}) Available");
+            Debug.LogError($"$No damage Quests With This Enemy ({enemyDamaged}) Available");
         }
         
         #endregion
@@ -130,12 +126,8 @@ namespace Game.Quests
             {
                 return;
             }
-            if (questLines.QuestLines.Any(questList =>
-                    questList.RemoveAvailableQuestWithId<GotoQuestSo, Coordinates>(roomExplored, questId)))
-            {
-                return;
-            }
-            //Debug.LogError($"$No Explore Quests With This Room ({roomExplored}) Available.");
+
+            Debug.LogError($"$No Explore Quests With This Room ({roomExplored}) Available.");
         }
 
         #endregion

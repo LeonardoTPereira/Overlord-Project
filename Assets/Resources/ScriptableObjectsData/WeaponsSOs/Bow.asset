@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6613e01c240ea8845a65ca9e35388e54, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: 
-  <FitnessMultiplier>k__BackingField: 0.3
-  <HasProjectile>k__BackingField: 1
-  <Projectile>k__BackingField: {fileID: 11400000, guid: 177b949aebafbc04db5ae7b0d17aa11f,
-    type: 2}
-  <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: 90d508da273c90e4faa76f850efcc9af,
+  multiplier: 0.3
+  hasProjectile: 1
+  projectile: {fileID: 11400000, guid: 177b949aebafbc04db5ae7b0d17aa11f, type: 2}
+  weaponPrefab: {fileID: 1699235863348634, guid: 90d508da273c90e4faa76f850efcc9af,
     type: 3}
-  <EnemyTypeName>k__BackingField: Red Mage
+  <EnemyTypeName>k__BackingField: Fire Mage

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using MyBox;
 using UnityEngine;
 
 namespace Game.NPCs
@@ -115,15 +114,5 @@ namespace Game.NPCs
             questCloser.Append("Thank you very much!");
             return questCloser.ToString();
         }
-
-#if UNITY_EDITOR
-        [ButtonMethod]
-        public static string CreateMockGoToQuest()
-        {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append("I need you to go to the room <goto=10,12>");
-            return stringBuilder.ToString();
-        }
-#endif
     }
 }

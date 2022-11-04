@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Game.Events;
+﻿using Game.Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,32 +29,16 @@ namespace Game.MenuManager
 
         private void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)
         {
-            UnityMainThreadDispatcher.Instance().Enqueue(UpdateProgressBarAndText(eventArgs.CompletionRate, eventArgs.HasFinished));
-            UnityMainThreadDispatcher.Instance().Enqueue(ApplyOldTextWhenFinished(eventArgs.HasFinished));
+            UnityMainThreadDispatcher.Instance().Enqueue(() => Bar.fillAmount = eventArgs.CompletionRate);
+            UnityMainThreadDispatcher.Instance().Enqueue(ApplyOldTextWhenFinished);
         }
 
-        private IEnumerator UpdateProgressBarAndText(float completionRate, bool hasFinished)
+        private void ApplyOldTextWhenFinished()
         {
-            if (completionRate > 1.0f && !hasFinished)
-            {
-                ProgressText.text = "Creating Better Levels";
-                Bar.fillAmount = completionRate % 1.0f;
-            }
-            else
-            {
-                Bar.fillAmount = completionRate;
-            }
-            yield return null;
-        }
-
-        private IEnumerator ApplyOldTextWhenFinished(bool hasFinished)
-        {
-            if (hasFinished)
+            if (Bar.fillAmount >= 1.0f)
             {
                 ProgressText.text = OldText;
             }
-
-            yield return null;
         }
     }
 }

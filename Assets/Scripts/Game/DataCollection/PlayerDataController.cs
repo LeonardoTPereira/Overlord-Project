@@ -144,7 +144,7 @@ namespace Game.DataCollection
 
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            CurrentPlayer.AddCollectedTreasure(eventArgs.QuestId);
+            CurrentPlayer.AddCollectedTreasure(eventArgs.Amount);
         }
 
         private void OnGetKey(object sender, KeyCollectEventArgs eventArgs)

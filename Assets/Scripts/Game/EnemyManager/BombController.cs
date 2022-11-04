@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Threading.Tasks;
 using Game.Audio;
 using Game.GameManager.Player;
@@ -50,7 +49,7 @@ namespace Game.GameManager
             _bombCollider = GetComponent<CircleCollider2D>();
             _bombCollider.enabled = false;
             _bombRigidBody.AddForce(ShootDirection, ForceMode2D.Impulse);
-            StartCoroutine(ExplodeAfterLifetime());
+            ExplodeAfterLifetime();
         }
 
         private void PlayerHasDied(object sender, EventArgs eventArgs)
@@ -63,11 +62,11 @@ namespace Game.GameManager
             Destroy(gameObject);
         }
 
-        private IEnumerator ExplodeAfterLifetime()
+        private async void ExplodeAfterLifetime()
         {
-            yield return new WaitForSeconds(bombLifetime/100);
+            await Task.Delay((int)bombLifetime);
             _bombCollider.enabled = true;
-            yield return new WaitForSeconds((int)bombLifetime);
+            await Task.Delay((int)bombLifetime*1000);
             ExplodeBomb();
         }
 

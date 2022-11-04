@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class GatherQuestSo : AchievementQuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToGatherByType { get; set; }
-        public override string SymbolType => Constants.GatherQuest;
+        public override string SymbolType => Constants.GATHER_QUEST;
 
         public override ItemAmountDictionary GetItemDictionary()
         {
@@ -30,7 +30,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var getQuest = copiedQuest as GatherQuestSo;
             if (getQuest != null)
             {
-                ItemsToGatherByType = (ItemAmountDictionary) getQuest.ItemsToGatherByType.Clone();
+                ItemsToGatherByType = getQuest.ItemsToGatherByType.Clone();
             }
             else
             {
@@ -68,21 +68,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override void CreateQuestString()
+        public override string ToString()
         {
             var stringBuilder = new StringBuilder();
             foreach (var itemByAmount in ItemsToGatherByType)
             {
-                var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
-                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
-            if (stringBuilder.Length == 0)
-            {
-                Debug.LogError("No Items to Collect");
-                QuestText = stringBuilder.ToString();
-            }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
-            QuestText = stringBuilder.ToString();
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            return stringBuilder.ToString();
         }
     }
 }

@@ -5,7 +5,7 @@ using Util;
 namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "EnemySO", menuName = "Enemy/EnemySO")]
-    public class EnemySO : ScriptableObject, ISavableGeneratedContent
+    public class EnemySO : ScriptableObject, SaveableGeneratedContent
     {
         public int health;
         public int damage;
@@ -13,7 +13,7 @@ namespace ScriptableObjects
         public float activeTime;
         public float restTime;
         [SerializeField]
-        public WeaponTypeSo weapon;
+        public WeaponTypeSO weapon;
         [SerializeField]
         public MovementTypeSO movement;
         [SerializeField]
@@ -22,7 +22,7 @@ namespace ScriptableObjects
         public float attackSpeed;
         public float projectileSpeed;
 
-        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, WeaponTypeSo _weapon,
+        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, WeaponTypeSO _weapon,
             MovementTypeSO _movement, BehaviorTypeSO _behavior, float _fitness, float _attackSpeed, float _projectileSpeed)
         {
             health = _health;

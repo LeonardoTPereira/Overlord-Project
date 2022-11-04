@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6613e01c240ea8845a65ca9e35388e54, type: 3}
   m_Name: BombThrower
   m_EditorClassIdentifier: 
-  <FitnessMultiplier>k__BackingField: 0.3
-  <HasProjectile>k__BackingField: 1
-  <Projectile>k__BackingField: {fileID: 11400000, guid: 8b895de68d8f90c4086582af797c66b4,
-    type: 2}
-  <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: ff512e8ade718314aa5bbed0ac37347f,
+  multiplier: 0.3
+  hasProjectile: 1
+  projectile: {fileID: 11400000, guid: 8b895de68d8f90c4086582af797c66b4, type: 2}
+  weaponPrefab: {fileID: 1699235863348634, guid: ff512e8ade718314aa5bbed0ac37347f,
     type: 3}
-  <EnemyTypeName>k__BackingField: Green Mage
+  <EnemyTypeName>k__BackingField: Bomb Mage

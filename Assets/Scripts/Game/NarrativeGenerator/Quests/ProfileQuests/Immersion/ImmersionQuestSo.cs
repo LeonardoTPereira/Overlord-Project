@@ -3,7 +3,6 @@ using Util;
 using MyBox;
 using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 
@@ -19,28 +18,28 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var immersionQuestWeights = new Dictionary<string, Func<int, int>>
                     {
-                        {Constants.ListenQuest, Constants.ThreeOptionQuestLineWeight},
-                        //{Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
-                        {Constants.GiveQuest, Constants.ThreeOptionQuestLineWeight},
-                        {Constants.ReportQuest, Constants.ThreeOptionQuestLineWeight},
-                        {Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight}
+                        {Constants.LISTEN_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.GIVE_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.REPORT_QUEST, Constants.FourOptionQuestLineWeight},
+                        {Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight}
                     };
                 return immersionQuestWeights;
             }
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
         {
             switch ( SymbolType )
             {
-                case Constants.ListenQuest:
-                    return CreateAndSaveListenQuestSo(questSos, generatorSettings.PlaceholderNpcs);
-                case Constants.ReadQuest:
-                    return CreateAndSaveReadQuestSo(questSos, generatorSettings.PlaceholderItems);
-                case Constants.GiveQuest:
-                    return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
-                case Constants.ReportQuest:
-                    return CreateAndSaveReportQuestSo(questSos, generatorSettings.PlaceholderNpcs);
+                case Constants.LISTEN_QUEST:
+                    return CreateAndSaveListenQuestSo(questSos, possibleNpcSos);
+                case Constants.READ_QUEST:
+                    return CreateAndSaveReadQuestSo(questSos, possibleItems);
+                case Constants.GIVE_QUEST:
+                    return CreateAndSaveGiveQuestSo(questSos, possibleNpcSos, possibleItems);
+                case Constants.REPORT_QUEST:
+                    return CreateAndSaveReportQuestSo(questSos, possibleNpcSos);
                 default:
                     Debug.LogError("help something went wrong! - Immersion doesn't contain symbol: "+SymbolType);
                 break;
@@ -55,11 +54,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void CreateQuestString()
         {
             throw new NotImplementedException();
         }
@@ -79,7 +73,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return listenQuest;
         }
 
-        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
+        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSO possibleItems)
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
@@ -94,7 +88,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return readQuest;
         }
 
-        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
+        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems)
         {
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();

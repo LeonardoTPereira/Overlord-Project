@@ -20,10 +20,5 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarNonTerminals
         {
             throw new System.NotImplementedException();
         }
-
-        public override void CreateQuestString()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -14,7 +14,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField]
         public EnemiesByType EnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
-        public override string SymbolType => Constants.KillQuest;
+        public override string SymbolType => Constants.KILL_QUEST;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -47,7 +47,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var killQuest = copiedQuest as KillQuestSo;
             if (killQuest != null)
             {
-                EnemiesToKillByType.EnemiesByTypeDictionary = (WeaponTypeAmountDictionary) killQuest.EnemiesToKillByType.EnemiesByTypeDictionary.Clone();
+                foreach (var enemyByType in killQuest.EnemiesToKillByType.EnemiesByTypeDictionary)
+                {
+                    EnemiesToKillByType.EnemiesByTypeDictionary.Add(enemyByType.Key, enemyByType.Value);
+                }
             }
             else
             {
@@ -66,35 +69,29 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
             return !IsCompleted 
-                   &&  EnemiesToKillByType.EnemiesByTypeDictionary.ContainsKey(questElement as WeaponTypeSo 
+                   &&  EnemiesToKillByType.EnemiesByTypeDictionary.ContainsKey(questElement as WeaponTypeSO 
                    ?? throw new InvalidOperationException());
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            EnemiesToKillByType.EnemiesByTypeDictionary.RemoveItemWithId(questElement as WeaponTypeSo, questId);
+            EnemiesToKillByType.EnemiesByTypeDictionary.RemoveItemWithId(questElement as WeaponTypeSO, questId);
             if ( EnemiesToKillByType.EnemiesByTypeDictionary.Count == 0)
             {
                 IsCompleted = true;
             }
         }
 
-        public override void CreateQuestString()
+        public override string ToString()
         {
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                var spriteString = enemyByAmount.Key.GetEnemySpriteString();
-                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.EnemyTypeName}s {spriteString}, ");
+                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.EnemyTypeName}s, ");
             }
-
-            if (stringBuilder.Length == 0)
-            {
-                Debug.LogError("No Enemies to Kill");
-                QuestText = stringBuilder.ToString();
-            }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
-            QuestText = stringBuilder.ToString();
+            stringBuilder.Remove(stringBuilder.Length - 3, 2);
+            return stringBuilder.ToString();
         }
+        
     }
 }

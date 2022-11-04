@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Game.GameManager.Player
 {
-    public class PlayerShot : PlayerInputHandler
+    public class PlayerShot : PlayerInput
     {
         
         private struct BulletForceAndRotation
@@ -20,15 +20,12 @@ namespace Game.GameManager.Player
         private bool _isHoldingShoot;
         [SerializeField] private GameObject bulletSpawn;
         [SerializeField] private GameObject bulletPrefab;
-        [field: SerializeField] public ProjectileTypeSO ProjectileType { get; set; }
+        [field: SerializeField] public ProjectileTypeSO projectileType { get; set; }
         [SerializeField] private ProjectileTypeRuntimeSetSO projectilesAvailable;
         private Rigidbody2D _rigidbody2D;
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsShooting = Animator.StringToHash("IsShooting");
-        
-        private const float _minShootMagnitude = 0.01f;
-        private const float _maxShootDir = 0.125f;
 
         private void Awake()
         {
@@ -58,7 +55,7 @@ namespace Game.GameManager.Player
             var inputY = context.ReadValue<Vector2>().y;
             var shotDirection = new Vector2(inputX, inputY);
             shotDirection.Normalize();
-            if (shotDirection.magnitude > _minShootMagnitude)
+            if (shotDirection.magnitude > 0.01f)
                 StartCoroutine(ShootBullet(shotDirection));
         }
 
@@ -86,7 +83,7 @@ namespace Game.GameManager.Player
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             var bulletController = bullet.GetComponent<ProjectileController>();
-            bulletController.ProjectileSo = ProjectileType;
+            bulletController.ProjectileSo = projectileType;
             bulletController.Shoot(bulletForceAndRotation.Force + _rigidbody2D.velocity.normalized);
         }
 
@@ -98,17 +95,17 @@ namespace Game.GameManager.Player
         private BulletForceAndRotation GetBulletForceAndRotation(Vector2 shotDirection)
         {
             BulletForceAndRotation bulletForceAndRotation;
-            if (shotDirection.x > _maxShootDir)
+            if (shotDirection.x > 0.01f)
             {
                 bulletForceAndRotation.Rotation = 0;
                 bulletForceAndRotation.Force = new Vector2(shootSpeed, 0f);
             }
-            else if (shotDirection.x < -_maxShootDir)
+            else if (shotDirection.x < -0.01f)
             {
                 bulletForceAndRotation.Rotation = 180;
                 bulletForceAndRotation.Force = new Vector2(-shootSpeed, 0f);
             }
-            else if (shotDirection.y > _maxShootDir)
+            else if (shotDirection.y > 0.01f)
             {
                 bulletForceAndRotation.Rotation = 90;
                 bulletForceAndRotation.Force = new Vector2(0f, shootSpeed);
@@ -152,17 +149,17 @@ namespace Game.GameManager.Player
         
         private void SetProjectileSo()
         {
-            bulletPrefab = ProjectileType.projectilePrefab;
-            bulletPrefab.GetComponent<ProjectileController>().ProjectileSo = ProjectileType;
-            atkSpeed = ProjectileType.atkSpeed;
-            bulletPrefab.GetComponent<SpriteRenderer>().color = ProjectileType.color;
+            bulletPrefab = projectileType.projectilePrefab;
+            bulletPrefab.GetComponent<ProjectileController>().ProjectileSo = projectileType;
+            atkSpeed = projectileType.atkSpeed;
+            bulletPrefab.GetComponent<SpriteRenderer>().color = projectileType.color;
         }
         
         private void NextProjectileSo()
         {
-            var currentIndex = projectilesAvailable.Items.IndexOf(ProjectileType);
+            var currentIndex = projectilesAvailable.Items.IndexOf(projectileType);
             var nextIndex = (currentIndex + 1) % projectilesAvailable.Items.Count;
-            ProjectileType.Copy(projectilesAvailable.Items[nextIndex]);
+            projectileType.Copy(projectilesAvailable.Items[nextIndex]);
             SetProjectileSo();
         }
     }
