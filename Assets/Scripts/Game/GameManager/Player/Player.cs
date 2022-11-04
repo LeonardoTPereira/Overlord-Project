@@ -10,31 +10,27 @@ namespace Game.GameManager.Player
 {
     public class Player : PlaceableRoomObject, ISoundEmitter
     {
-        private static Player _instance;
-        public List<int> keys = new ();
-        public List<int> usedKeys = new ();
-        public int X { private set; get; }
-        public int Y { private set; get; }
-        public Camera cam;
-        public Camera minimap;
+        public List<int> Keys { get; } = new();
+        public List<int> UsedKeys { get; } = new();
+        private Camera _camera;
         private PlayerController _playerController;
         public static event ExitRoomEvent ExitRoomEventHandler;
 
         public void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
             }
             else
             {
-                _instance = this;
-                cam = Camera.main;
+                Instance = this;
+                _camera = Camera.main;
                 _playerController = GetComponent<PlayerController>();
             }
         }
 
-        public static Player Instance { get { return _instance; } }
+        public static Player Instance { get; private set; }
 
         public void OnEnable()
         {
@@ -65,22 +61,20 @@ namespace Game.GameManager.Player
         private void GetKey(object sender, KeyCollectEventArgs eventArgs)
         {
             ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.ItemPickup));
-            keys.Add(eventArgs.KeyIndex);
+            Keys.Add(eventArgs.KeyIndex);
         }
 
-        public void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
+        private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
-            var roomWidth = eventArgs.RoomData.RoomDimensions.Width;
-            var cameraXPosition = eventArgs.PositionInScene.x + roomWidth / 3.5f;
+            var cameraXPosition = eventArgs.PositionInScene.x;
             var cameraYPosition = eventArgs.PositionInScene.y;
-            var cameraZPosition = -5f;
-            cam.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
-            //minimap.transform.position = new Vector3(roomTransf.position.x, roomTransf.position.y, -5f);
+            const float cameraZPosition = -5f;
+            _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         }
 
         private void PlacePlayerInStartRoom(object sender, StartRoomEventArgs e)
         {
-            _instance.transform.position = e.position;
+            Instance.transform.position = e.position;
         }
 
         private void ExitRoom(object sender, ExitRoomEventArgs eventArgs)
@@ -92,8 +86,8 @@ namespace Game.GameManager.Player
 
         private void ResetValues(object sender, EventArgs eventArgs)
         {
-            keys.Clear();
-            usedKeys.Clear();
+            Keys.Clear();
+            UsedKeys.Clear();
             _playerController.ResetHealth();
         }
 

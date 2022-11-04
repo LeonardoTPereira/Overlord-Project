@@ -39,18 +39,18 @@ namespace Game.LevelGenerator.LevelSOs
             Camera.main.transform.position = center;
             foreach (var room in dungeon.Rooms)
             {
-                var position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
-                if (room.type == Constants.RoomTypeString.Corridor || room.type == Constants.RoomTypeString.Lock)
+                var position = new Vector3(room.Coordinates.X, room.Coordinates.Y, 0);
+                if (room.Type == Constants.RoomTypeString.Corridor || room.Type == Constants.RoomTypeString.Lock)
                 {
-                    if (room.type == Constants.RoomTypeString.Corridor)
+                    if (room.Type == Constants.RoomTypeString.Corridor)
                     {
                         CurrentColor = Color.HSVToRGB(293/360f, 0, 0.77f);
                     }
                     else
                     {
-                        if (room.locks?.Count <= 0) continue;
-                        if (room.locks != null)
-                            CurrentColor = Math.Abs(room.locks[0]) switch
+                        if (room.Locks?.Count <= 0) continue;
+                        if (room.Locks != null)
+                            CurrentColor = Math.Abs(room.Locks[0]) switch
                             {
                                 1 => Color.HSVToRGB(81/360f, 0.65f, 0.90f),
                                 2 => Color.HSVToRGB(141/360f, 0.85f, 0.90f),
@@ -79,24 +79,24 @@ namespace Game.LevelGenerator.LevelSOs
                     var newRoom = Instantiate(RoomPrefab, position, RoomPrefab.transform.rotation);
                     newRoom.GetComponent<SpriteRenderer>().color = CurrentColor;
                     _objectsInScene.Add(newRoom);
-                    if (room.type == Constants.RoomTypeString.Start)
+                    if (room.Type == Constants.RoomTypeString.Start)
                     {
                         CurrentColor = Color.HSVToRGB(300/360f, 0.8f, 0.90f);
-                        position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
+                        position = new Vector3(room.Coordinates.X, room.Coordinates.Y, 0);
                         var startEnd = Instantiate(StartEndPrefab, position, StartEndPrefab.transform.rotation);
                         startEnd.GetComponent<SpriteRenderer>().color = CurrentColor;
                         _objectsInScene.Add(startEnd);
                     }
-                    else if (room.type == Constants.RoomTypeString.Boss)
+                    else if (room.Type == Constants.RoomTypeString.Boss)
                     {
                         CurrentColor = Color.HSVToRGB(300/360f, 0.5f, 0.70f);
-                        position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
+                        position = new Vector3(room.Coordinates.X, room.Coordinates.Y, 0);
                         var startEnd = Instantiate(StartEndPrefab, position, StartEndPrefab.transform.rotation);
                         startEnd.GetComponent<SpriteRenderer>().color = CurrentColor;
                         _objectsInScene.Add(startEnd);
                     }
-                    if (room.type != Constants.RoomTypeString.Key) continue;
-                    CurrentColor = Math.Abs(room.keys[0]) switch
+                    if (room.Type != Constants.RoomTypeString.Key) continue;
+                    CurrentColor = Math.Abs(room.Keys[0]) switch
                     {
                         1 => Color.HSVToRGB(81/360f, 0.65f, 0.90f),
                         2 => Color.HSVToRGB(141/360f, 0.85f, 0.90f),
@@ -106,7 +106,7 @@ namespace Game.LevelGenerator.LevelSOs
                         6 => Color.HSVToRGB(241/360f, 0.65f, 0.90f),
                         _ => Color.magenta
                     };
-                    position = new Vector3(room.coordinates.X, room.coordinates.Y, 0);
+                    position = new Vector3(room.Coordinates.X, room.Coordinates.Y, 0);
                     var newKey = Instantiate(KeyPrefab, position, KeyPrefab.transform.rotation);
                     newKey.GetComponent<SpriteRenderer>().color = CurrentColor;
                     _objectsInScene.Add(newKey);
@@ -120,20 +120,20 @@ namespace Game.LevelGenerator.LevelSOs
             {
                 var size = new Vector3(3, 3, 0);
                 // Draw a yellow sphere at the transform's position
-                if (room.type == Constants.RoomTypeString.Corridor)
+                if (room.Type == Constants.RoomTypeString.Corridor)
                 {
                     CurrentColor = Color.gray;
                 }
                 else
                 {
                     size = new Vector3(5, 5, 0);
-                    CurrentColor = room.type == Constants.RoomTypeString.Start ? Color.white : Color.magenta;
+                    CurrentColor = room.Type == Constants.RoomTypeString.Start ? Color.white : Color.magenta;
                 }
-                var position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 0);
+                var position = new Vector3(room.Coordinates.X * 10, room.Coordinates.Y * 10, 0);
                 Gizmos.DrawCube(position, size);
-                if (room.keys?.Count > 0)
+                if (room.Keys?.Count > 0)
                 {
-                    CurrentColor = room.keys[0] switch
+                    CurrentColor = room.Keys[0] switch
                     {
                         1 => Color.yellow,
                         2 => Color.blue,
@@ -143,13 +143,13 @@ namespace Game.LevelGenerator.LevelSOs
                         6 => new Color(230, 230, 250),
                         _ => Color.cyan
                     };
-                    position = new Vector3(room.coordinates.X * 10, room.coordinates.Y * 10, 5);
+                    position = new Vector3(room.Coordinates.X * 10, room.Coordinates.Y * 10, 5);
                     Gizmos.DrawSphere(position, 2);
                 }
 
-                if (room.locks?.Count <= 0) continue;
-                if (room.locks != null)
-                    CurrentColor = Math.Abs(room.locks[0]) switch
+                if (room.Locks?.Count <= 0) continue;
+                if (room.Locks != null)
+                    CurrentColor = Math.Abs(room.Locks[0]) switch
                     {
                         1 => Color.yellow,
                         2 => Color.blue,

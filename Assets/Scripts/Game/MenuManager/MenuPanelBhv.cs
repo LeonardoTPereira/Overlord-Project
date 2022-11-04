@@ -9,6 +9,7 @@ namespace Game.MenuManager
 
         public void GoToNext()
         {
+            Debug.Log("Going to Next Panel");
             nextPanel.SetActive(true);
             gameObject.SetActive(false);
         }

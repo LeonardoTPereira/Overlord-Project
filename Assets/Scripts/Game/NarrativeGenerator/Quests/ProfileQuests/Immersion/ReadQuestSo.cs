@@ -7,7 +7,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReadQuestSo : ImmersionQuestSo
     {
-        public override string SymbolType => Constants.READ_QUEST;
+        public override string SymbolType => Constants.ReadQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -62,10 +62,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             IsCompleted = true;
         }
-        
-        public override string ToString()
+
+        public override void CreateQuestString()
         {
-            return $"{ItemToRead.ItemName}.\n";
+            QuestText = $"{ItemToRead.ItemName}.\n";
         }
     }
 }

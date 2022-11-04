@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
     array:
-    - speaker: {fileID: 11400000, guid: 3495fa02f2d81fb44a4a55b32f618680, type: 2}
-      text: "Hey, eu sou o Coggy. Obrigado por me salvar!\nMinhas engrenagens estavam
-        enferrujando j\xE1."
+    - speaker: {fileID: 0}
+      text: 

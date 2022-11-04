@@ -23,11 +23,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 
         public int Count()
         {
-            if (EnemiesByTypeDictionary == null)
-            {
-                return 0;
-            }
-            return EnemiesByTypeDictionary.Count;
+            return EnemiesByTypeDictionary?.Count ?? 0;
         }
 
         public EnemiesByType()
@@ -37,19 +33,15 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 
         public EnemiesByType(EnemiesByType original)
         {
-            EnemiesByTypeDictionary = new WeaponTypeAmountDictionary();
-            foreach (var weaponTypeAmountPair in original.EnemiesByTypeDictionary)
-            {
-                EnemiesByTypeDictionary.Add(weaponTypeAmountPair.Key, weaponTypeAmountPair.Value);
-            }
+            EnemiesByTypeDictionary = (WeaponTypeAmountDictionary) original.EnemiesByTypeDictionary.Clone();
         }
 
-        public KeyValuePair<WeaponTypeSO, QuestIdList> GetRandom()
+        public KeyValuePair<WeaponTypeSo, QuestIdList> GetRandom()
         {
             return EnemiesByTypeDictionary.GetRandom();
         }
         
-        public void AddNEnemiesFromType(KeyValuePair<WeaponTypeSO, QuestIdList> selectedType, int newEnemies)
+        public void AddNEnemiesFromType(KeyValuePair<WeaponTypeSo, QuestIdList> selectedType, int newEnemies)
         {
             var weaponType = selectedType.Key;
             if (!EnemiesByTypeDictionary.ContainsKey(weaponType))
@@ -63,7 +55,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             }
         }
         
-        public void RemoveCurrentTypeIfEmpty(WeaponTypeSO selectedType)
+        public void RemoveCurrentTypeIfEmpty(WeaponTypeSo selectedType)
         {
             if (EnemiesByTypeDictionary.Count == 0)
                 throw new ArgumentException($"Enemies in Quest cannot be an empty collection. " +
@@ -117,7 +109,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             return false;
         }
 
-        public void RemoveEnemyWithId(WeaponTypeSO weaponTypeSo, int questId)
+        public void RemoveEnemyWithId(WeaponTypeSo weaponTypeSo, int questId)
         {
             EnemiesByTypeDictionary[weaponTypeSo].QuestIds.Remove(questId);
         }

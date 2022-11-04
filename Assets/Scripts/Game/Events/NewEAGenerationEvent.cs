@@ -6,13 +6,14 @@ namespace Game.Events
 
     public class NewEAGenerationEventArgs : EventArgs
     {
-        private float completionRate;
+        public float CompletionRate { get; }
+        public bool HasFinished { get; }
 
-        public NewEAGenerationEventArgs(float completionRate)
+        public NewEAGenerationEventArgs(float completionRate, bool hasFinished)
         {
             CompletionRate = completionRate;
+            HasFinished = hasFinished;
         }
 
-        public float CompletionRate { get => completionRate; set => completionRate = value; }
     }
 }

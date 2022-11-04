@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6613e01c240ea8845a65ca9e35388e54, type: 3}
   m_Name: None
   m_EditorClassIdentifier: 
-  multiplier: 1
-  hasProjectile: 0
-  projectile: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751, type: 2}
-  weaponPrefab: {fileID: 0}
+  <FitnessMultiplier>k__BackingField: 1
+  <HasProjectile>k__BackingField: 0
+  <Projectile>k__BackingField: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751,
+    type: 2}
+  <WeaponPrefab>k__BackingField: {fileID: 0}
   <EnemyTypeName>k__BackingField: Slime

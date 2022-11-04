@@ -85,7 +85,6 @@ namespace Game.LevelGenerator
 
         private async Task EvolvePopulation(Population pop)
         {
-            Debug.Log("Start Evolution Process");
             // Evolve the population
             int g = 0;
             DateTime start = DateTime.Now;
@@ -104,18 +103,17 @@ namespace Game.LevelGenerator
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
                 var progress = (float) seconds / prs.Time;
-                NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress));
+                NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress, false));
                 pop.UpdateBiomes(g);
                 await Task.Yield();
             }
-            Debug.Log("Finish Evolution Process");
             //pop.SaveJson();
-            NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f));
+            NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f, true));
         }
 
         private List<Individual> CreateIntermediatePopulation(in Population pop, int g)
         {
-            List<Individual> intermediate = new List<Individual>();
+            var intermediate = new List<Individual>();
             while (intermediate.Count < INTERMEDIATE_POPULATION)
             {
                 // Apply the crossover operation

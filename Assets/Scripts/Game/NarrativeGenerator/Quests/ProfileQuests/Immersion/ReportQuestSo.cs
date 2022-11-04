@@ -7,7 +7,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReportQuestSo : ImmersionQuestSo
     {
-        public override string SymbolType => Constants.REPORT_QUEST;
+        public override string SymbolType => Constants.ReportQuest;
 
         public override Dictionary<string, Func<int,int>> NextSymbolChances
         {
@@ -16,7 +16,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
         
         public NpcSo Npc { get; set; }
-        public int QuestId { get; set; }
 
         public override void Init()
         {
@@ -28,7 +27,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
-            QuestId = GetInstanceID();
         }
 
         public override void Init(QuestSo copiedQuest)
@@ -55,17 +53,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && QuestId == questId;
+            return !IsCompleted && Id == questId;
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
             IsCompleted = true;
         }
-        
-        public override string ToString()
+
+        public override void CreateQuestString()
         {
-            return $"{Npc.NpcName}.\n";
+            QuestText = $"{Npc.NpcName}.\n";
         }
     }
 }
