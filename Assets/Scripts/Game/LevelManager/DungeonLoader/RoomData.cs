@@ -1,14 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using Util;
 
 namespace Game.LevelManager.DungeonLoader
 {
-    public enum TileTypes
-    {
-        Floor,
-        Block
-    }
-    
+   
     [CreateAssetMenu(fileName = "RoomData", menuName = "RoomGenerator/RoomData")]
     [Serializable]
     public class RoomData : ScriptableObject
@@ -55,11 +51,15 @@ namespace Game.LevelManager.DungeonLoader
     {
         [HideInInspector]
         public string tileName = "Tile";
-        [field: SerializeField] public TileTypes TileType { get; set; }
+        [field: SerializeField] public Enums.TileTypes TileType { get; set; }
+        public bool HasBeenVisited { get; set; }
+        public Vector2 Position { get; set; }
 
-        public Tile(TileTypes tileType)
+        public Tile(Enums.TileTypes tileType, Vector2 position)
         {
             TileType = tileType;
+            HasBeenVisited = false;
+            Position = position;
         }
     }
 

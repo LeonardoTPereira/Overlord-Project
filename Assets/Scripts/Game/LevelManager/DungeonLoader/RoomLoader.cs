@@ -10,16 +10,13 @@ namespace Game.LevelManager.DungeonLoader
         
         public static RoomBhv InstantiateRoom(DungeonRoom dungeonRoom, RoomBhv roomPrefab)
         {
-            var newRoom = Instantiate(roomPrefab);
+            var roomPosition = new Vector2(RoomSpacingX * dungeonRoom.Coordinates.X, -RoomSpacingY * dungeonRoom.Coordinates.Y);
+            var newRoom = Instantiate(roomPrefab, roomPosition, roomPrefab.transform.rotation);
             newRoom.roomData = dungeonRoom;
             newRoom.westDoor = null;
             newRoom.eastDoor = null;
             newRoom.northDoor = null;
             newRoom.southDoor = null;
-
-            //Sets room transform position
-            newRoom.gameObject.transform.position = 
-                new Vector2(RoomSpacingX * dungeonRoom.Coordinates.X, -RoomSpacingY * dungeonRoom.Coordinates.Y);
             return newRoom;
         }
     }

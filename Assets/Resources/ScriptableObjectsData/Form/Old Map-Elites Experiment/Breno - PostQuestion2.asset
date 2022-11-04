@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
+  m_Name: Breno - PostQuestion2
+  m_EditorClassIdentifier: 
+  question: "O qu\xE3o dif\xEDcil foi completar este n\xEDvel?"
+  description: "1 = Muito f\xE1cil    <->    5 = Muito dif\xEDcil"
+  answer: 0

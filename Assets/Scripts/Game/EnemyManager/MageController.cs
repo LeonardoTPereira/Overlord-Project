@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.ComponentModel;
 using Game.GameManager;
 using ScriptableObjects;
 using UnityEngine;
-using Util;
 
 namespace Game.EnemyManager
 {
@@ -19,6 +17,8 @@ namespace Game.EnemyManager
         [field: SerializeField] private GameObject Hands { get; set; }
         [field: SerializeField] private float WaitForStartTimer { get; set; }
 
+        private Coroutine _attackRoutine;
+
         protected override void Awake()
         {
             base.Awake();
@@ -28,13 +28,14 @@ namespace Game.EnemyManager
         {
             base.Start();
             HeadObject.GetComponent<SpriteRenderer>().color = GetColorBasedOnMovement();
-            StartCoroutine(BeginAttackRoutine());
+            _attackRoutine = StartCoroutine(BeginAttackRoutine());
         }
 
         protected override void StartDeath()
         {
             base.StartDeath();
             Hands.SetActive(false);
+            StopCoroutine(_attackRoutine);
         }
 
         private IEnumerator BeginAttackRoutine()
@@ -49,11 +50,11 @@ namespace Game.EnemyManager
             {
                 var playerPosition = PlayerObj.transform.position;
                 var thisPosition = transform.position;
-                Vector2 target = new Vector2(playerPosition.x - thisPosition.x, playerPosition.y - thisPosition.y);
+                var target = new Vector2(playerPosition.x - thisPosition.x, playerPosition.y - thisPosition.y);
                 target.Normalize();
                 target *= ProjectileSpeed;
             
-                GameObject bullet = Instantiate(ProjectilePrefab, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
+                var bullet = Instantiate(ProjectilePrefab, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
                 if (ProjectilePrefab.name == "EnemyBomb")
                 {
                     var bombController = bullet.GetComponent<BombController>();
@@ -75,8 +76,8 @@ namespace Game.EnemyManager
         public override void LoadEnemyData(EnemySO enemyData, int questId)      
         {
             base.LoadEnemyData(enemyData, questId);
-            ProjectilePrefab = enemyData.weapon.projectile.projectilePrefab;
-            ProjectileType = enemyData.weapon.projectile;
+            ProjectilePrefab = enemyData.weapon.Projectile.projectilePrefab;
+            ProjectileType = enemyData.weapon.Projectile;
             if(ProjectilePrefab != null)
             {
                 if (ProjectilePrefab.name == "EnemyBomb")

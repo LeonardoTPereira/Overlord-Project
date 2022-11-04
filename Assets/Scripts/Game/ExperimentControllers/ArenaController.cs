@@ -1,13 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Game.Dialogues;
 using Game.EnemyGenerator;
+using Game.Events;
 using Game.GameManager;
 using Game.LevelManager;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
+using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
@@ -22,16 +26,47 @@ namespace Game.ExperimentControllers
         [field: SerializeField] public int TotalEnemies { get; set; }
         [field: SerializeField] public RoomBhv RoomPrefab { get; set; }
         [field: SerializeField] public Dimensions RoomSize { get; set; }
-        [field: Scene] public string GameUI { get; set; } = "GameUI";
+        [field: SerializeField] public List<int> Keys { get; set; }
+        [field: SerializeField] public List<NpcSo> ArenaNpcs { get; set; }
+        [field: Scene, SerializeField] public string GameUI { get; set; } = "ArenaUI";
+        [field: SerializeField] public ItemAmountDictionary Items { get; set; }
+
+        public static event ShowRoomOnMiniMapEvent ShowRoomOnMiniMapEventHandler;
+
+        private void OnEnable()
+        {
+            TaggedDialogueHandler.MarkRoomOnMiniMapEventHandler += MarkRoom;
+        }
+        
+        private void OnDisable()
+        {
+            TaggedDialogueHandler.MarkRoomOnMiniMapEventHandler -= MarkRoom;
+        }
+
+        private void MarkRoom(object sender, MarkRoomOnMinimapEventArgs e)
+        {
+            ShowRoomOnMiniMapEventHandler?.Invoke(this, new ShowRoomOnMiniMapEventArgs(new Vector3(100, 120, 0)));
+        }
 
         private void Start()
         {
             var enemyGenerator = GetComponent<EnemyGeneratorManager>();
             var enemies = enemyGenerator.EvolveEnemies(Difficulty);
             EnemyLoader.LoadEnemies(enemies);
-            var dungeonRoom = InstantiateDungeonRoom();
-            dungeonRoom.EnemiesByType = new EnemiesByType();
-            dungeonRoom.EnemiesByType.EnemiesByTypeDictionary = CreateDictionaryOfRandomEnemies(enemies);
+
+            var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Start, Keys, 0, TotalEnemies, 0)
+                {
+                    EnemiesByType = new EnemiesByType
+                    {
+                        EnemiesByTypeDictionary = CreateDictionaryOfRandomEnemies(enemies)
+                    },
+                    Items = new ItemsAmount
+                    {
+                        ItemAmountBySo = Items
+                    },
+                    Npcs = ArenaNpcs
+                };
+
             dungeonRoom.CreateRoom(RoomSize);
             var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab);
             LoadGameUI();

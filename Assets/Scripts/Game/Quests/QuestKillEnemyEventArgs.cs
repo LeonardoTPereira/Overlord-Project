@@ -5,9 +5,9 @@ namespace Game.Quests
 {
     public class QuestKillEnemyEventArgs : QuestElementEventArgs
     {
-        public WeaponTypeSO EnemyWeaponTypeSo {get; set; }
+        public WeaponTypeSo EnemyWeaponTypeSo {get; set; }
 
-        public QuestKillEnemyEventArgs(WeaponTypeSO enemyWeaponTypeSo, int questId):base(questId)
+        public QuestKillEnemyEventArgs(WeaponTypeSo enemyWeaponTypeSo, int questId):base(questId)
         {
             EnemyWeaponTypeSo = enemyWeaponTypeSo;
         }

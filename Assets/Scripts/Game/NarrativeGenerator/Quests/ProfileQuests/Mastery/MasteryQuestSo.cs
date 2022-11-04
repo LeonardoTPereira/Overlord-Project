@@ -6,6 +6,7 @@ using UnityEngine;
 using Game.NPCs;
 using System.Linq;
 using System.Text;
+using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -19,21 +20,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             get
             {                    
                 Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
-                masteryQuestWeights.Add( Constants.KILL_QUEST, Constants.TwoOptionQuestLineWeight );
-                masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
-                masteryQuestWeights.Add( Constants.EMPTY_QUEST, Constants.OneOptionQuestEmptyWeight );
+                masteryQuestWeights.Add( Constants.KillQuest, Constants.OneOptionQuestLineWeight );
+               //masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
+                masteryQuestWeights.Add( Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight );
                 return masteryQuestWeights;
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSO possibleItems, WeaponTypeRuntimeSetSO enemyTypes)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {
-                case Constants.KILL_QUEST:
-                    return CreateAndSaveKillQuestSo(questSos, enemyTypes);
-                case Constants.DAMAGE_QUEST:
-                    return CreateAndSaveDamageQuestSo(questSos, enemyTypes);
+                case Constants.KillQuest:
+                    return CreateAndSaveKillQuestSo(questSos, generatorSettings.PossibleWeapons);
+                case Constants.DamageQuest:
+                    return CreateAndSaveDamageQuestSo(questSos, generatorSettings.PossibleWeapons);
                 default:
                     Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);
                 break;
@@ -48,6 +49,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CreateQuestString()
         {
             throw new NotImplementedException();
         }
@@ -108,13 +114,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                     stringBuilder.Append(" and ");
                 }
             }
-            return stringBuilder.ToString();
-        }
-
-        private static string DamageEnemyTypesToString(DamageQuestData damageData)
-        {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Deal {damageData.Damage} damage to {damageData.Enemy.EnemyTypeName}");
             return stringBuilder.ToString();
         }
     }
