@@ -61,12 +61,11 @@ namespace Game.NarrativeGenerator
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append("Category: " + PlayerProfileEnum);
-            stringBuilder.Append("Kill: " + MasteryPreference);
-            stringBuilder.Append("Talk: " + ImmersionPreference);
-            stringBuilder.Append("Get: " + AchievementPreference);
-            stringBuilder.Append("Explore: " + CreativityPreference);
-            return base.ToString();
+            stringBuilder.Append("M:" + MasteryPreference);
+            stringBuilder.Append("T:" + ImmersionPreference);
+            stringBuilder.Append("G:" + AchievementPreference);
+            stringBuilder.Append("E:" + CreativityPreference);
+            return stringBuilder.ToString();
         }
     }
 }

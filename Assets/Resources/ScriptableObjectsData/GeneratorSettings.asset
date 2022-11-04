@@ -34,8 +34,8 @@ MonoBehaviour:
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
   <EnemiesToKill>k__BackingField:
-    Min: 1
-    Max: 1
+    Min: 4
+    Max: 10
   <ItemsToGather>k__BackingField:
     Min: 1
     Max: 5

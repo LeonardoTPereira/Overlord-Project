@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Game.GameManager;
 using Game.LevelSelection;
+using Game.MenuManager;
 using UnityEngine;
 
 namespace Game.SaveLoadSystem
@@ -35,13 +36,20 @@ namespace Game.SaveLoadSystem
         private void OnEnable()
         {
             RealTimeLevelSelectManager.SaveStateHandler += Save;
+            GameOverPanelBhv.RestartLevelEventHandler += Save;
             GameManagerSingleton.LoadStateHandler += Load;
         }
         
         private void OnDisable()
         {
             RealTimeLevelSelectManager.SaveStateHandler -= Save;
+            GameOverPanelBhv.RestartLevelEventHandler -= Save;
             GameManagerSingleton.LoadStateHandler -= Load;
+        }
+
+        private static void Save(object sender, EventArgs e)
+        {
+	        Save();
         }
 
         public static bool HasSaveFile()

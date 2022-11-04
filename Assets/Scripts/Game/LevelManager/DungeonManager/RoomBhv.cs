@@ -62,6 +62,7 @@ namespace Game.LevelManager.DungeonManager
         private EnemyLoader _enemyLoader;
 
         private List<GameObject> _instantiatedEnemies;
+        private List<GameObject> _instantiatedKeys;
 
         private bool _hasBeenVisited;
         
@@ -74,6 +75,7 @@ namespace Game.LevelManager.DungeonManager
             hasEnemies = false;
             enemiesDictionary = new EnemyByAmountDictionary();
             _instantiatedEnemies = new List<GameObject>();
+            _instantiatedKeys = new List<GameObject>();
             _hasBeenVisited = false;
         }
 
@@ -303,6 +305,10 @@ namespace Game.LevelManager.DungeonManager
 
             if (!_hasBeenVisited)
             {
+	            foreach (var key in _instantiatedKeys)
+	            {
+		            key.GetComponent<KeyBhv>().ShowKeyMinimapIcon();
+	            }
                 minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
                 _hasBeenVisited = true;
             }
@@ -336,6 +342,7 @@ namespace Game.LevelManager.DungeonManager
             var key = PlaceObjectInRoom(keyPrefab);
             var keyBhv = key.GetComponent<KeyBhv>();
             keyBhv.KeyID = keyId;
+            _instantiatedKeys.Add(key);
         }
 
         private bool RoomHasTreasure()

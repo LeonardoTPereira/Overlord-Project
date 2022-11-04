@@ -52,6 +52,11 @@ namespace Game.LevelGenerator
         {
             NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress, false));
         }
+        
+        protected void InvokeCompletedEvent()
+        {
+	        NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f, true));
+        }
 
         /// Generate and return a set of levels.
         public async Task Evolve()
@@ -64,7 +69,7 @@ namespace Game.LevelGenerator
         /// Perform the level evolution process.
         private async Task Evolution()
         {
-            _individualJson = new IndividualJson();
+            //_individualJson = new IndividualJson();
             for (var i = 0; i < timesToExecuteEA; i++)
             {
                 // Initialize the MAP-Elites population
@@ -72,9 +77,9 @@ namespace Game.LevelGenerator
                 await EvolvePopulation(pop);
                 // Get the final population (solution)
                 solution = pop;
-                _individualJson.AddFitness(solution.EliteList[0]);
+                //_individualJson.AddFitness(solution.EliteList[0]);
             }
-            _individualJson.SaveJson();
+            //_individualJson.SaveJson();
         }
 
         protected virtual Population InitializePopulation()
@@ -128,12 +133,12 @@ namespace Game.LevelGenerator
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
                 var progress = (float) seconds / Parameters.Time;
-                NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress, false));
+                InvokeGenerationEvent(progress);
                 pop.UpdateBiomes(g);
                 await Task.Yield();
             }
             //pop.SaveJson();
-            NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f, true));
+            InvokeCompletedEvent();
         }
 
         private List<Individual> CreateIntermediatePopulation(in Population pop, int g)

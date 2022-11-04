@@ -662,6 +662,11 @@ PrefabInstance:
       propertyPath: levelSelector.sceneIndex
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3291298612412002614, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: nextPanel
@@ -688,6 +693,26 @@ PrefabInstance:
       propertyPath: nextPanel
       value: 
       objectReference: {fileID: 1255286054}
+    - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 224
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037983831236103, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037984577948451, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9581c0fe0430a1a4b84bef62380ed023, type: 3}
 --- !u!1 &1255286054 stripped

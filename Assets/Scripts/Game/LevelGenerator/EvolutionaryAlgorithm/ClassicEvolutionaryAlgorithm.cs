@@ -68,7 +68,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                         individual.Fix(FitnessInput.DesiredEnemies);
                         individual.generation = generation;
                         intermediate.Add(individual);
-                        individual.BiomeName = "Classic";
+                        individual.BiomeName = individual.Fitness.DesiredInput.PlayerProfile.ToString();
                     }
                 }
                 PopulationFitness.CalculateFitness(intermediate);
@@ -92,9 +92,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 InvokeGenerationEvent(progress);
                 await Task.Yield();
             }
-
-            Debug.LogWarning("Fitness:" + pop.EliteList[0].Fitness);
-            InvokeGenerationEvent(1.0f);
+            InvokeCompletedEvent();
         }
 
         private bool HasMetStopCriteria(int gen, float min)

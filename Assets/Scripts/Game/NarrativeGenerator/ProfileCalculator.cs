@@ -60,13 +60,13 @@ namespace Game.NarrativeGenerator
             };
 
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()] =
-                QuestWeightsCalculator.GetMasteryWeight(playerData.TotalDeaths, playerData.TotalAttempts, playerData.TotalLostHealth);
+                QuestWeightsCalculator.GetMasteryWeight(playerData.SerializedData.TotalDeaths, playerData.SerializedData.TotalAttempts, playerData.SerializedData.TotalLostHealth);
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()] = 
-                QuestWeightsCalculator.GetAchievementWeight(playerData.EnemiesKilled, playerData.TotalEnemies, playerData.TreasuresCollected, playerData.TotalTreasure);
+                QuestWeightsCalculator.GetAchievementWeight(playerData.SerializedData.EnemiesKilled, playerData.SerializedData.TotalEnemies, playerData.SerializedData.TreasuresCollected, playerData.SerializedData.TotalTreasure);
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()] = 
-                QuestWeightsCalculator.GetImmersionWeight(playerData.NpcsInteracted, playerData.TotalNpcs);
+                QuestWeightsCalculator.GetImmersionWeight(playerData.SerializedData.NpcsInteracted, playerData.SerializedData.TotalNpcs);
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()] = 
-                QuestWeightsCalculator.GetCreativityWeight(playerData.UniqueRoomsEntered, playerData.TotalRooms, playerData.LocksOpened, playerData.TotalLocks);
+                QuestWeightsCalculator.GetCreativityWeight(playerData.SerializedData.UniqueRoomsEntered, playerData.SerializedData.TotalRooms, playerData.SerializedData.LocksOpened, playerData.SerializedData.TotalLocks);
         }
         
         private static void CalculateProfileWeights(List<int> answers)
