@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.LevelManager;
 using Game.LevelManager.DungeonLoader;
 using UnityEngine;
 using Util;
@@ -14,17 +15,38 @@ namespace PlatformGame.Dungeon
 
         public static void CreateRoomOfType(DungeonRoom room, int roomType)
         {
+            var dimensions = room.Dimensions;
+            var roomData = ScriptableObject.CreateInstance<RoomData>();
+            roomData.Init(dimensions.Width, dimensions.Height);
             var roomTypeEnum = (Enums.RoomPatterns) roomType;
+            CreateEmptyBorders(roomData, dimensions);
             switch (roomTypeEnum)
             {
                 default:
-                    CreateTestRoom(room);
+                    CreateTestRoom(roomData, dimensions);
                     break;
             }
 
+            room.Tiles = roomData;
+
+        }
+        
+        private static void CreateEmptyBorders(RoomData roomData, Dimensions dimensions)
+        {
+            for (var x = 0; x < dimensions.Width; x++)
+            {
+
+                roomData[x, 0] = new Tile(Enums.TileTypes.Floor, new Vector2(x, 0));
+                roomData[x, dimensions.Height-1] = new Tile(Enums.TileTypes.Floor, new Vector2(x, dimensions.Height-1));
+            }
+            for (var y = 0; y<dimensions.Height; y++)
+            {
+                roomData[0, y] = new Tile(Enums.TileTypes.Floor, new Vector2(0, y));
+                roomData[dimensions.Width-1, y] = new Tile(Enums.TileTypes.Floor, new Vector2(dimensions.Width-1, y));
+            }
         }
 
-        private static void CreateTestRoom(DungeonRoom room) //For now only works for constant room dimensions
+        private static void CreateTestRoom(RoomData room, Dimensions dimensions) //For now only works for constant room dimensions
         {
             var roomEditor = new RoomEditor();
             var tileArray = roomEditor.CreateTileArrayFromModel();
@@ -32,7 +54,7 @@ namespace PlatformGame.Dungeon
             {
                 for (var j = 0; j < HEIGHT; j++)
                 {
-                    room.Tiles[i, j] = new Tile(tileArray[j,i], new Vector2(i,j));
+                    room[i, j] = new Tile(tileArray[j,i], new Vector2(i,j));
                 }
             }
         }

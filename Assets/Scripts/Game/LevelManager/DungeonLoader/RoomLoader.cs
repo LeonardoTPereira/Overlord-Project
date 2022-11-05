@@ -5,8 +5,8 @@ namespace Game.LevelManager.DungeonLoader
 {
     public class RoomLoader : MonoBehaviour
     {
-        private static readonly float RoomSpacingX = 30f; //Spacing between rooms: X
-        private static readonly float RoomSpacingY = 20f; //Spacing between rooms: Y
+        private static readonly float RoomSpacingX = /*30f*/ 65f; //Spacing between rooms: X
+        private static readonly float RoomSpacingY = /*20f*/ 65f; //Spacing between rooms: Y
         
         public static RoomBhv InstantiateRoom(DungeonRoom dungeonRoom, RoomBhv roomPrefab)
         {

@@ -47,7 +47,7 @@ namespace Game.LevelSelection
             {
                 if (!LevelItems[i].IsSelected) continue;
                 Selected.SelectLevel(i);
-                SceneManager.LoadScene("LevelWithEnemies");
+                SceneManager.LoadScene(/*"LevelWithEnemies"*/"Dungeon");
                 return;
             }
         }

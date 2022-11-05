@@ -32,13 +32,18 @@ namespace PlatformGame.Dungeon.DungeonLoader
         private Game.LevelManager.DungeonLoader.DungeonLoader _dungeonLoader;
         private EnemyGeneratorManager _enemyGenerator;
 
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        }
+        
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        }
+        
         private void Start()
         {
-            OnLevelFinishedLoading();
-            
-            _enemyGenerator = GetComponent<EnemyGeneratorManager>();
-            currentQuestLines.EnemySos = _enemyGenerator.EvolveEnemies(DifficultyLevels.Hard);
-            
             _dungeonLoader = GetComponent<Game.LevelManager.DungeonLoader.DungeonLoader>();
             Debug.Log("Got Dungeon Loader: "+_dungeonLoader);
             EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
@@ -50,8 +55,9 @@ namespace PlatformGame.Dungeon.DungeonLoader
         }
 
         
-        private void OnLevelFinishedLoading()
+        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
+            if (scene.name is not ("Dungeon")) return;
             Debug.Log("Finished Loading Dungeon Scene in Dungeon Scene Manager");
             Debug.Log("Selected Levels Amount: " + _selectedLevels.Levels?.Count);
             currentDungeonSo = _selectedLevels.GetCurrentLevel().Dungeon;

@@ -319,8 +319,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1990492715}
-  - component: {fileID: 1990492714}
-  - component: {fileID: 1990492712}
   - component: {fileID: 1990492719}
   - component: {fileID: 1990492720}
   m_Layer: 0
@@ -330,51 +328,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1990492712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990492711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
-    type: 2}
-  <IsEnable>k__BackingField: 0
-  maxGenerations: 500
-  initialPopulationSize: 35
-  intermediatePopulationSize: 100
-  mutationRate: 20
-  geneMutationRate: 30
-  numberOfCompetitors: 2
-  numberOfDesiredElitesPerEnemy: 3
-  minimumAcceptableFitnessPerEnemy: 0.5
---- !u!114 &1990492714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990492711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d6af07f903e07642911ddc4e25f73de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <EnemyPrefab>k__BackingField: {fileID: 501309130492107602, guid: f322ac6cfdbb0ab4c909f13c6497c93d,
-    type: 3}
-  <BareHandEnemyPrefab>k__BackingField: {fileID: 8490286473019879465, guid: 52c5d11e89bf0a043aa12d5dd5ba1b6e,
-    type: 3}
-  <ShooterEnemyPrefab>k__BackingField: {fileID: 501309130492107602, guid: f322ac6cfdbb0ab4c909f13c6497c93d,
-    type: 3}
-  <BomberEnemyPrefab>k__BackingField: {fileID: 8490286473019879465, guid: 52c5d11e89bf0a043aa12d5dd5ba1b6e,
-    type: 3}
-  <HealerEnemyPrefab>k__BackingField: {fileID: 501309130492107602, guid: f322ac6cfdbb0ab4c909f13c6497c93d,
-    type: 3}
 --- !u!4 &1990492715
 Transform:
   m_ObjectHideFlags: 0
@@ -408,7 +361,7 @@ MonoBehaviour:
   survivalMode: 0
   currentQuestLines: {fileID: 0}
   maxTreasure: 0
-  _selectedLevels: {fileID: 11400000, guid: 5c1d215c1f571124392f55036ddb6cc8, type: 2}
+  _selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
 --- !u!114 &1990492720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5992e03aa04a798f0689657c96c8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefabs: []
+  roomPrefabs:
+  - {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236, type: 3}
   <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 44dd45b2841008a458e0fc7759d3088a,
     type: 2}

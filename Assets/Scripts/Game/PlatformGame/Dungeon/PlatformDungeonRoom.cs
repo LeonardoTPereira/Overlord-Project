@@ -16,10 +16,8 @@ namespace PlatformGame.Dungeon
         {
             Dimensions = roomDimensions;
             int roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
-            if (roomGeneratorInput == null)
-            {
-                PlatformDefaultRoomCreator.CreateRoomOfType(this, roomType);
-            }
+            
+            PlatformDefaultRoomCreator.CreateRoomOfType(this, roomType);
             
             SetCenterAndFloodFillState();
 
