@@ -13,6 +13,7 @@ using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PlatformGame.Dungeon.DungeonLoader;
 
 namespace PlatformGame.Dungeon.DungeonLoader
 {

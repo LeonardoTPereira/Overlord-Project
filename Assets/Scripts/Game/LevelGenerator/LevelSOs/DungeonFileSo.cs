@@ -32,10 +32,10 @@ namespace Game.LevelGenerator.LevelSOs
             _currentIndex = 0;
         }
 
-        public DungeonPart GetNextPart()
+        public DungeonPart GetNextPart(Enums.GameType gameType)
         {
             if (_currentIndex < Rooms.Count)
-                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Rooms[_currentIndex++]);
+                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Rooms[_currentIndex++], gameType);
             return null;
         }
 

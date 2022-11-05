@@ -2,12 +2,14 @@
 using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
+using Util;
 
 namespace Game.ExperimentControllers
 {
     [CreateAssetMenu(fileName = "GeneratorSettings", menuName = "Settings/GeneratorSettings")]
     public class GeneratorSettings : ScriptableObject
     {
+        [field: SerializeField] public Enums.GameType GameType { get; set; }
         [field: SerializeField] public bool CreateRooms { get; set; }
         [field: SerializeField] public bool UseLevelSelect { get; set; }
         [field: SerializeField] public bool GenerateInRealTime { get; set; }

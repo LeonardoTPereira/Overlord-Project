@@ -321,8 +321,8 @@ GameObject:
   - component: {fileID: 1990492715}
   - component: {fileID: 1990492714}
   - component: {fileID: 1990492712}
-  - component: {fileID: 1990492718}
   - component: {fileID: 1990492719}
+  - component: {fileID: 1990492720}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -390,20 +390,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1990492718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990492711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f052a7e94f346844853f2f0a258bd0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomPrefabs:
-  - {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236, type: 3}
 --- !u!114 &1990492719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,3 +409,18 @@ MonoBehaviour:
   currentQuestLines: {fileID: 0}
   maxTreasure: 0
   _selectedLevels: {fileID: 11400000, guid: 5c1d215c1f571124392f55036ddb6cc8, type: 2}
+--- !u!114 &1990492720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990492711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5992e03aa04a798f0689657c96c8c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPrefabs: []
+  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 44dd45b2841008a458e0fc7759d3088a,
+    type: 2}

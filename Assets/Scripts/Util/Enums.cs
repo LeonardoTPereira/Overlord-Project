@@ -106,6 +106,12 @@ namespace Util
             HARD = 2,
             ARENA = 3
         }
+        
+        public enum GameType
+        {
+            TopDown,
+            Platformer
+        }
     }
 
     public static class DungeonLinearityConverter
