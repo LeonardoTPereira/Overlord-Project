@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GeneratorSettings
   m_EditorClassIdentifier: 
   <GameType>k__BackingField: 1
-  <CreateRooms>k__BackingField: 0
+  <CreateRooms>k__BackingField: 1
   <UseLevelSelect>k__BackingField: 0
   <GenerateInRealTime>k__BackingField: 0
   <EnableRandomProfileToPlayer>k__BackingField: 0

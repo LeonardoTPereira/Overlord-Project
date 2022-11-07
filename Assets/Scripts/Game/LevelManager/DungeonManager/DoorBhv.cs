@@ -114,6 +114,7 @@ namespace Game.LevelManager.DungeonManager
         {
             if (!other.CompareTag("PlayerTrigger")) return;
             
+            
             var commonKeys = keyID.Intersect(Player.Instance.Keys).ToList();
             if (keyID.Count == 0 || isOpen)
             {
@@ -127,6 +128,7 @@ namespace Game.LevelManager.DungeonManager
                 UseKeys(commonKeys);
                 MovePlayerToNextRoom();
             }
+            
         }
 
         private void UseKeys(List<int> commonKeys)

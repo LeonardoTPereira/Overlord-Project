@@ -15,7 +15,7 @@ namespace Game.LevelManager.DungeonLoader
 
         public bool DoorExists(int doorValue)
         {
-            return doorValue >= 0;
+            return doorValue >/*=*/ 0;
         }
 
         public bool IsNormalDoor(int doorValue)
