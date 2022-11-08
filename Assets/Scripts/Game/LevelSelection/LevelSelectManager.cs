@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Audio;
+using Game.ExperimentControllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Util;
 
 namespace Game.LevelSelection
 {
@@ -12,6 +14,8 @@ namespace Game.LevelSelection
     {
         [field: SerializeField] public SelectedLevels Selected { get; set; }
         [field: SerializeField] public List<LevelSelectItem> LevelItems { get; set; }
+
+        [field: SerializeField] public GeneratorSettings settings;
 
         public static event EventHandler CompletedAllLevelsEventHandler;
         private void OnEnable()
@@ -47,7 +51,15 @@ namespace Game.LevelSelection
             {
                 if (!LevelItems[i].IsSelected) continue;
                 Selected.SelectLevel(i);
-                SceneManager.LoadScene(/*"LevelWithEnemies"*/"Dungeon");
+
+                switch (settings.GameType)
+                {
+                    case Enums.GameType.Platformer: SceneManager.LoadScene("Dungeon");
+                        break;
+                    case Enums.GameType.TopDown: SceneManager.LoadScene("LevelWithEnemies");
+                        break;
+                }
+                
                 return;
             }
         }

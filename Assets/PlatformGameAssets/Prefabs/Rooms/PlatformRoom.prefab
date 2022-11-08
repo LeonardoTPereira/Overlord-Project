@@ -147,11 +147,11 @@ MonoBehaviour:
   doorSouth: {fileID: 444577624811183513}
   doorEast: {fileID: 444482133920235257}
   doorWest: {fileID: 443632018750993433}
-  keyPrefab: {fileID: 114071332633170896, guid: ced0218549bee9d46b47102a1253d89a,
+  keyPrefab: {fileID: 6797390196823937517, guid: c4eb154c6afd59343a6a62aa60dc20dc,
     type: 3}
-  triPrefab: {fileID: 114081354997558450, guid: 5d0b89090a7988a40b83856f0ca97fd9,
+  triPrefab: {fileID: 133874018023328970, guid: d3f3ffd6c3464d84ea43edd5a49fc5eb,
     type: 3}
-  treasurePrefab: {fileID: 3809042944178231462, guid: 8077682c221f2e64fbc7d07b99c1a5a8,
+  treasurePrefab: {fileID: 6971963138770637611, guid: f79cc584e8c52ad429d45bca9b96f133,
     type: 3}
   npcPrefabs:
   - {fileID: 8660505651422530647, guid: c17eb1ae432cb65449e7e4101eacb2a4, type: 3}

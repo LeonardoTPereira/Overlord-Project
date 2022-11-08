@@ -19,14 +19,14 @@ namespace PlatformGame.Dungeon
         }
 
 
-        public override void SpawnEnemies()
+        /*public override void SpawnEnemies()
         {
             while (!_isSpawnPointsGenerated) { }
 
             base.SpawnEnemies();
-        }
+        }*/
 
-        protected override void SetEnemySpawners(float centerX, float centerY)
+        /*protected override void SetEnemySpawners(float centerX, float centerY)
         {
             _isSpawnPointsGenerated = false;
             // Need to have the roomModel matrix to work
@@ -67,6 +67,7 @@ namespace PlatformGame.Dungeon
             SpawnBacktracking(startX, startY, roomModel.GetLength(0), roomModel.GetLength(1), centerX, centerY, roomModel);
             _isSpawnPointsGenerated = true;
         }
+        */
 
         private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float centerX, float centerY, char[,] roomModel)
         {

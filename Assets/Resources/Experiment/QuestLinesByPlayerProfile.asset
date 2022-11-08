@@ -36,17 +36,6 @@ MonoBehaviour:
     reqReferences: {fileID: 0}
     isExpanded: 1
     _keyValues:
-    - Mastery
-    - Achievement
-    - Immersion
     - Creativity
     _keys:
-    - Mastery
-    - Achievement
-    - Immersion
     - Creativity
-    _values:
-    - {fileID: 11400000, guid: 3a8812b6136f27446bde3d0aeed4b5db, type: 2}
-    - {fileID: 11400000, guid: e4288343c2df42945936b99b358513a7, type: 2}
-    - {fileID: 11400000, guid: 615b8d972be6fdb47ac74683fafb9497, type: 2}
-    - {fileID: 11400000, guid: f09ab08d0fad3764eb80567c8b6ea6e4, type: 2}

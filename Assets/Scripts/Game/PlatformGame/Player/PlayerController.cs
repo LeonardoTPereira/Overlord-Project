@@ -21,18 +21,14 @@ namespace PlatformGame.Player
         }
         public void OnEnable()
         {
-            RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
-            DoorBhv.ExitRoomEventHandler += ExitRoom;
             
         }
 
         public void OnDisable()
         {
            
-            RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
-            DoorBhv.ExitRoomEventHandler -= ExitRoom;
             
         }
         
@@ -44,15 +40,5 @@ namespace PlatformGame.Player
             _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         }
 
-        private void PlacePlayerInStartRoom(object sender, StartRoomEventArgs e)
-        {
-            transform.position = e.position;
-        }
-
-        private void ExitRoom(object sender, ExitRoomEventArgs eventArgs)
-        {
-            transform.position = eventArgs.EntrancePosition;
-            
-        }
     }
 }

@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624fab95f03e46c3ab86ef232d222fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
 --- !u!114 &514499398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,10 +414,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.25677085
-    y: 0
-    width: 0.26296297
-    height: 0.26296297
+    x: 0
+    y: 0.13599275
+    width: 0.7243096
+    height: 0.8159565
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

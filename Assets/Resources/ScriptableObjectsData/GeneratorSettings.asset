@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b5a5fb4f7242858b860727e706ca44, type: 3}
   m_Name: GeneratorSettings
   m_EditorClassIdentifier: 
+  <GameType>k__BackingField: 1
   <CreateRooms>k__BackingField: 1
-  <UseLevelSelect>k__BackingField: 1
-  <GenerateInRealTime>k__BackingField: 1
-  <EnableRandomProfileToPlayer>k__BackingField: 1
+  <UseLevelSelect>k__BackingField: 0
+  <GenerateInRealTime>k__BackingField: 0
+  <EnableRandomProfileToPlayer>k__BackingField: 0
   <ProbabilityToGetTrueProfile>k__BackingField: 50
   <PlaceholderNpcs>k__BackingField:
   - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
@@ -29,4 +30,4 @@ MonoBehaviour:
     type: 2}
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
-  <RoomSize>k__BackingField: {x: 30, y: 18}
+  <RoomSize>k__BackingField: {x: 28, y: 24}

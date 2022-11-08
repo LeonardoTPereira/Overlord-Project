@@ -321,8 +321,9 @@ GameObject:
   - component: {fileID: 1990492715}
   - component: {fileID: 1990492719}
   - component: {fileID: 1990492720}
+  - component: {fileID: 1990492721}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: DungeonManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,11 +358,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 0}
   victoryScreen: {fileID: 0}
-  createMaps: 0
-  survivalMode: 0
   currentQuestLines: {fileID: 0}
   maxTreasure: 0
-  _selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
+  selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
 --- !u!114 &1990492720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,5 +375,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefabs:
   - {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236, type: 3}
-  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 44dd45b2841008a458e0fc7759d3088a,
+  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
     type: 2}
+--- !u!114 &1990492721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990492711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624fab95f03e46c3ab86ef232d222fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}

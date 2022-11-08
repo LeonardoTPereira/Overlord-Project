@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.Audio;
 using Game.Events;
@@ -8,60 +8,44 @@ using UnityEngine;
 
 namespace Game.GameManager.Player
 {
-    public class Player : PlaceableRoomObject, ISoundEmitter
+    public class PlayerSoundAndCamera : MonoBehaviour, ISoundEmitter
     {
-        public List<int> Keys { get; } = new();
-        public List<int> UsedKeys { get; } = new();
         private Camera _camera;
         private PlayerController _playerController;
-        public static event ExitRoomEvent ExitRoomEventHandler;
-
+        
         public void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-                _camera = Camera.main;
-                _playerController = GetComponent<PlayerController>();
-            }
+            _camera = Camera.main;
+            _playerController = GetComponent<PlayerController>();
         }
-
-        public static Player Instance { get; private set; }
 
         public void OnEnable()
         {
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetValues;
-            RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
-            KeyBhv.KeyCollectEventHandler += GetKey;
             RoomBhv.EnterRoomEventHandler += AdjustCamera;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
             EnemyController.PlayerHitEventHandler += HurtPlayer;
             ProjectileController.PlayerHitEventHandler += HurtPlayer;
             BombController.PlayerHitEventHandler += HurtPlayer;
             PlayerController.PlayerDeathEventHandler += KillPlayer;
+            KeyBhv.KeyCollectEventHandler += GetKey;
         }
 
         public void OnDisable()
         {
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetValues;
-            RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
-            KeyBhv.KeyCollectEventHandler -= GetKey;
             RoomBhv.EnterRoomEventHandler -= AdjustCamera;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;
             EnemyController.PlayerHitEventHandler -= HurtPlayer;
             ProjectileController.PlayerHitEventHandler -= HurtPlayer;
             BombController.PlayerHitEventHandler -= HurtPlayer;
             PlayerController.PlayerDeathEventHandler -= KillPlayer;
+            KeyBhv.KeyCollectEventHandler -= GetKey;
         }
 
         private void GetKey(object sender, KeyCollectEventArgs eventArgs)
         {
             ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.ItemPickup));
-            Keys.Add(eventArgs.KeyIndex);
         }
 
         private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
@@ -72,22 +56,13 @@ namespace Game.GameManager.Player
             _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         }
 
-        private void PlacePlayerInStartRoom(object sender, StartRoomEventArgs e)
-        {
-            Instance.transform.position = e.position;
-        }
-
         private void ExitRoom(object sender, ExitRoomEventArgs eventArgs)
         {
-            Instance.transform.position = eventArgs.EntrancePosition;
             eventArgs.PlayerHealthWhenExiting = _playerController.GetHealth();
-            ExitRoomEventHandler?.Invoke(this, eventArgs);
         }
 
         private void ResetValues(object sender, EventArgs eventArgs)
         {
-            Keys.Clear();
-            UsedKeys.Clear();
             _playerController.ResetHealth();
         }
 
