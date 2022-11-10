@@ -25,7 +25,7 @@ namespace Game.DataCollection
             });
 #else
             var jsonData = JsonUtility.ToJson(playerData);
-            FirebaseWebGLBridge.FirebaseFirestore.AddDocument("users", jsonData, playerData.PlayerId.ToString(), "DisplayInfo", "DisplayErrorObject");
+            FirebaseWebGLBridge.FirebaseFirestore.AddDocument("users", jsonData, playerData.SerializedData.PlayerId.ToString(), "DisplayInfo", "DisplayErrorObject");
             var dungeonData = playerData.CurrentDungeon;
             jsonData = JsonUtility.ToJson(dungeonData);
             FirebaseWebGLBridge.FirebaseFirestore.AddDocument("dungeons", jsonData, dungeonData.LevelName, "DisplayInfo", "DisplayErrorObject");
