@@ -2,6 +2,7 @@
 using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -14,15 +15,15 @@ namespace Game.GameManager.Player
         protected void OnEnable()
         {
             TreasureController.TreasureCollectEventHandler += AddItem;
-            ExchangeQuestSo.ItemTradeEventHandler += TradeItems;
-            GiveQuestSo.TreasureLostEventHandler += GiveItem;
+            NpcController.ItemTradeEventHandler += TradeItems;
+            NpcController.ItemGiveEventHandler += GiveItem;
         }
         
         protected void OnDisable()
         {
             TreasureController.TreasureCollectEventHandler -= AddItem;
-            ExchangeQuestSo.ItemTradeEventHandler -= TradeItems;
-            GiveQuestSo.TreasureLostEventHandler -= GiveItem;
+            NpcController.ItemTradeEventHandler -= TradeItems;
+            NpcController.ItemGiveEventHandler -= GiveItem;
         }
 
         private void Awake()
@@ -35,9 +36,9 @@ namespace Game.GameManager.Player
             Inventory.AddItemWithId(eventArgs.Item, eventArgs.QuestId);
         }
 
-        private void GiveItem(object sender, TreasureCollectEventArgs eventArgs)
+        private void GiveItem(object sender, ItemGiveEventArgs eventArgs)
         {
-            RemoveItem(eventArgs.Item, eventArgs.QuestId);
+            RemoveItem(eventArgs.GivenItem, eventArgs.QuestId);
         }
         
         private void TradeItems(object sender, ItemTradeEventArgs eventArgs)

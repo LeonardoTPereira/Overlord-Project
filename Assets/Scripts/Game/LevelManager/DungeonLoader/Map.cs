@@ -42,7 +42,7 @@ namespace Game.LevelManager.DungeonLoader
             {
                 ProcessDungeonPart(currentDungeonPart);
             }
-            foreach (var room in dungeonFileSo.Rooms)
+            foreach (var room in dungeonFileSo.Parts)
             {
                 if ((room.Keys?.Count??0) > 0)
                 {

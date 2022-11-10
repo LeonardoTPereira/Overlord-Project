@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Events;
+using Game.ExperimentControllers;
 using Game.LevelGenerator;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.MenuManager;
@@ -26,7 +27,9 @@ namespace Game.GameManager
 
         [Separator("Parameters to Create Dungeons")]
         [SerializeField]
-        protected Parameters parameters;
+        protected GeneratorSettings.Parameters parameters;
+        [SerializeField]
+        protected FitnessInput fitnessInput;
 
         public void Awake()
         {
@@ -44,11 +47,11 @@ namespace Game.GameManager
 
         public void OnEnable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= CreateLevelFromNarrative;
         }
 
         public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
@@ -75,8 +78,9 @@ namespace Game.GameManager
                 var nitems = int.Parse(inputFields["ItemsInputField"].text);
                 var nNpcs = int.Parse(inputFields["NpcsInputField"].text);
                 var linearity = float.Parse(inputFields["LinearityInputField"].text);
-                parameters.FitnessParameters = new FitnessParameters(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs);
-                CreateEaDungeonEventHandler?.Invoke(this, new CreateEaDungeonEventArgs(parameters));
+                fitnessInput = new FitnessInput(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs, null, null);
+                CreateEaDungeonEventHandler?.Invoke(this, new CreateEaDungeonEventArgs(parameters, fitnessInput,
+                    false));
             }
             catch (KeyNotFoundException)
             {

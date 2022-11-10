@@ -165,7 +165,7 @@ namespace Game.GameManager
                 case MovementEnum.Flee1D:
                     return EnemyMovement.FleeFromPlayer1D;
                 default:
-                    Debug.Log("No Movement Attached to Enemy");
+                    Debug.LogError("No Movement Attached to Enemy");
                     return null;
             }
         }

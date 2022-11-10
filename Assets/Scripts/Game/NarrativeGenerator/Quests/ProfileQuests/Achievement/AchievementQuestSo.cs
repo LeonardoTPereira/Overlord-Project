@@ -16,13 +16,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.AchievementQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get {
                 if ( _nextSymbolChances != null )
                     return _nextSymbolChances;
                     
-                var achievementQuestWeights = new Dictionary<string, Func<int, int>>
+                var achievementQuestWeights = new Dictionary<string, Func<int, float>>
                 {
                     {Constants.GatherQuest, Constants.TwoOptionQuestLineWeight},
                     {Constants.ExchangeQuest, Constants.TwoOptionQuestLineWeight},
@@ -37,7 +37,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.GatherQuest:
-                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones);
+                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones, generatorSettings.ItemsToGather);
                 case Constants.ExchangeQuest:
                     return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools);
                 default:
@@ -63,13 +63,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
+        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems, RangedInt itemRange)
         {
             var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
             var questId = getItemQuest.GetInstanceID();
             var selectedItem = possibleItems.GetRandomItem();
-            var nItemsToCollect = RandomSingleton.GetInstance().Random.Next(5) + 5;
+            var nItemsToCollect = RandomSingleton.GetInstance().Random.Next(itemRange.Max - itemRange.Min) + itemRange.Min;
             for (var i = 0; i < nItemsToCollect; i++)
             {
                 selectedItems.AddItemWithId(selectedItem, questId);
@@ -89,8 +89,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
+            var questId = exchangeQuest.GetInstanceID();
             var selectedItem = itemsToGive.GetRandomItem();
-            exchangedItems.AddItemWithId(selectedItem, exchangeQuest.Id);
+            exchangedItems.AddItemWithId(selectedItem, questId);
             var receivedItem = itemsToReceive.GetRandomItem();
             var selectedNpc = possibleNpcSos.GetRandom();
 

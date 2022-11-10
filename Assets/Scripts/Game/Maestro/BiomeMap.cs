@@ -80,7 +80,7 @@ namespace Game.Maestro
             foreach (var biome in Enum.GetValues(typeof(Biomes)).Cast<Biomes>())
             {
                 var elites = LevelsByBiome[biome];
-                if (elites.Any(elite => elite.Fitness.Result < value))
+                if (elites.Any(elite => elite.Fitness.NormalizedResult < value))
                 {
                     betterBiomesCount++;
                 }

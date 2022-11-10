@@ -7,8 +7,8 @@
 
         public Boundaries(Coordinates minBoundaries, Coordinates maxBoundaries)
         {
-            MinBoundaries = minBoundaries;
-            MaxBoundaries = maxBoundaries;
+            MinBoundaries = new Coordinates(minBoundaries);
+            MaxBoundaries = new Coordinates(maxBoundaries);
         }
 
         public Coordinates MinBoundaries { get => minBoundaries; set => minBoundaries = value; }

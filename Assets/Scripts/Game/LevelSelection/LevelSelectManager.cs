@@ -28,29 +28,34 @@ namespace Game.LevelSelection
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 
-        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        protected virtual void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "LevelSelector") return;
             if (AllLevelsCompleted())
             {
-                CompletedAllLevelsEventHandler?.Invoke(null, EventArgs.Empty);
+                InvokeCompletedLevelsEvent();
                 SceneManager.LoadScene("ContentGenerator");
             }
             ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.LevelSelectTheme));
         }
 
-        private bool AllLevelsCompleted()
+        protected static void InvokeCompletedLevelsEvent()
+        {
+            CompletedAllLevelsEventHandler?.Invoke(null, EventArgs.Empty);
+        }
+
+        protected bool AllLevelsCompleted()
         {
             return LevelItems.All(level => level.Level.HasCompleted());
         }
 
-        public void ConfirmStageSelection(InputAction.CallbackContext context)
+        public virtual void ConfirmStageSelection(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            for (var i = 0; i < LevelItems.Count; ++i)
+            foreach (var levelItem in LevelItems.Where(levelItem => levelItem.IsSelected))
             {
-                if (!LevelItems[i].IsSelected) continue;
-                Selected.SelectLevel(i);
+
+                Selected.SelectLevel(levelItem.Level);
 
                 switch (settings.GameType)
                 {
@@ -59,7 +64,7 @@ namespace Game.LevelSelection
                     case Enums.GameType.TopDown: SceneManager.LoadScene("LevelWithEnemies");
                         break;
                 }
-                
+
                 return;
             }
         }

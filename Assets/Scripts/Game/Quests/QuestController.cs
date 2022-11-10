@@ -79,9 +79,20 @@ namespace Game.Quests
                 case QuestExploreRoomEventArgs exploreQuestArgs:
                     UpdateExploreQuest( exploreQuestArgs );
                     break;
+                case QuestReadEventArgs readQuestArgs:
+                    UpdateReadQuest( readQuestArgs );
+                    break;
+                case QuestExchangeDialogueEventArgs exchangeDialogueEventArgs:
+                    var npc = questLines.NpcSos.Find(_ => _.NpcName == exchangeDialogueEventArgs.NpcName);
+                    UpdateTalkQuest(new QuestTalkEventArgs(npc, exchangeDialogueEventArgs.QuestId));
+                    break;
+                case QuestGiveDialogueEventArgs giveDialogueEventArgs:
+                    npc = questLines.NpcSos.Find(_ => _.NpcName == giveDialogueEventArgs.NpcName);
+                    UpdateTalkQuest(new QuestTalkEventArgs(npc, giveDialogueEventArgs.QuestId));
+                    break;
             }
         }
-        
+
         private void CompleteQuest(object sender, QuestElementEventArgs eventArgs)
         {
             foreach (var questLine in questLines.QuestLines.Where(questLine => questLine.GetCurrentQuest()?.Id == eventArgs.QuestId))
@@ -109,11 +120,8 @@ namespace Game.Quests
             var damage = damageQuestArgs.Damage;
             var damageData = new DamageQuestData(damage, enemyDamaged);
             var questId = damageQuestArgs.QuestId;
-            if (questLines.QuestLines.Any(questList => 
-                    questList.RemoveAvailableQuestWithId<DamageQuestSo, DamageQuestData>(damageData, questId)))
-            {
-                return;
-            }
+            questLines.QuestLines.Any(questList => 
+                    questList.RemoveAvailableQuestWithId<DamageQuestSo, DamageQuestData>(damageData, questId));
             //Debug.LogError($"$No damage Quests With This Enemy ({enemyDamaged}) Available");
         }
         
@@ -130,11 +138,9 @@ namespace Game.Quests
             {
                 return;
             }
-            if (questLines.QuestLines.Any(questList =>
-                    questList.RemoveAvailableQuestWithId<GotoQuestSo, Coordinates>(roomExplored, questId)))
-            {
-                return;
-            }
+
+            questLines.QuestLines.Any(questList =>
+                questList.RemoveAvailableQuestWithId<GotoQuestSo, Coordinates>(roomExplored, questId));
             //Debug.LogError($"$No Explore Quests With This Room ({roomExplored}) Available.");
         }
 
@@ -194,6 +200,21 @@ namespace Game.Quests
                 return;
             }
             Debug.Log($"No Talk Quests With This Npc ({npcToTalk}) Available");
+        }
+        #endregion
+
+        #region Read
+        private void UpdateReadQuest(QuestReadEventArgs readQuestArgs)
+        {
+            Debug.Log("received read quest event args");
+            var itemToRead = readQuestArgs.ReadableItem;
+            var questId = readQuestArgs.QuestId;
+            if (questLines.QuestLines.Any(questList =>
+                    questList.RemoveAvailableQuestWithId<ReadQuestSo, ItemSo>(itemToRead, questId)))
+            {
+                return;
+            }
+            Debug.Log($"No Read Quests With This item ({itemToRead}) Available");
         }
         #endregion
     }

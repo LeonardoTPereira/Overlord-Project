@@ -357,7 +357,7 @@ MonoBehaviour:
   victoryScreen: {fileID: 1255286055}
   currentQuestLines: {fileID: 0}
   maxTreasure: 0
-  selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
+  selectedLevels: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd, type: 2}
 --- !u!1 &826402168
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,9 +415,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.13599275
-    width: 0.7243096
-    height: 0.8159565
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -647,16 +647,73 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8a7a6ba1c194453faf1d7d666b01b990,
         type: 2}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
+        type: 3}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.SceneName
+      value: ExperimentLevelSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneIndex
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3291298612412002614, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: nextPanel
       value: 
       objectReference: {fileID: 1255286057}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
+        type: 3}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.SceneName
+      value: ExperimentLevelSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneIndex
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5988532049002213385, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: nextPanel
       value: 
       objectReference: {fileID: 1255286054}
+    - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 224
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037983831236103, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037984577948451, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9581c0fe0430a1a4b84bef62380ed023, type: 3}
 --- !u!1 &1255286054 stripped

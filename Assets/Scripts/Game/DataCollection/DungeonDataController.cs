@@ -4,6 +4,7 @@ using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
+using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
@@ -14,6 +15,7 @@ namespace Game.DataCollection
     public class DungeonDataController : MonoBehaviour
     {
         public DungeonData CurrentDungeon { get; set; }
+        private PlayerProfile _inputProfile;
 
         private void OnEnable()
         {
@@ -32,6 +34,7 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler += OnDeath;
             DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += OnLevelWithFixedProfileCreated;
         }
 
         private void OnDisable()
@@ -51,6 +54,7 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
         }
         
 
@@ -60,6 +64,11 @@ namespace Game.DataCollection
             CurrentDungeon.AddLostHealth(eventArgs.DamageDone);        
         }
 
+        private void OnLevelWithFixedProfileCreated(object sender, ProfileSelectedEventArgs eventArgs)
+        {
+            _inputProfile = eventArgs.PlayerProfile;
+        }
+        
         private void ResetCombo(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.ResetCombo();
@@ -213,6 +222,11 @@ namespace Game.DataCollection
                     Debug.LogError("This mastery quest type does not exist!");
                     break;
             }        
+        }
+
+        public void SetDungeonParameters()
+        {
+            CurrentDungeon.InputProfile = _inputProfile;
         }
     }
 }

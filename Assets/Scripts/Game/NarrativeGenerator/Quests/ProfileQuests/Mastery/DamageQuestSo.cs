@@ -11,7 +11,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         [field: SerializeField] private DamageQuestData DamageData { get; set; }
         public override string SymbolType => Constants.DamageQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
@@ -53,6 +53,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
+            if (questId != Id) return false;
             return !IsCompleted 
                    && DamageData.Enemy == (questElement as DamageQuestData)?.Enemy;        
         }

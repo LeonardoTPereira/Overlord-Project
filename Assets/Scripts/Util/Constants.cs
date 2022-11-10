@@ -25,7 +25,8 @@ namespace Util
         public static class RoomTypeString
         {
             public const string Corridor = "Corridor";
-            public const string Lock = "Lock";
+            public const string LockedCorridor = "LockedCorridor";
+            public const string LockedRoom = "LockedRoom";
             public const string Key = "Key";
             public const string Boss = "Boss";
             public const string Leaf = "Leaf";
@@ -57,17 +58,17 @@ namespace Util
         #endregion
 
         #region Quest Weights
-        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow(x,2));
+        public static readonly Func<int,float> OneOptionQuestLineWeight = x => (100 - Mathf.Pow((0.5f*x),2));
 
-        public static readonly Func<int,int> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
+        public static readonly Func<int,float> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
 
-        public static readonly Func<int,int> ThreeOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/3;
+        public static readonly Func<int,float> ThreeOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/3;
         
-        public static readonly Func<int,int> FourOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/4;
+        public static readonly Func<int,float> FourOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/4;
         
-        public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow(x,2);
+        public static readonly Func<int,float> OneOptionQuestEmptyWeight = x => Mathf.Pow((0.5f*x),2);
 
-        public static readonly Func<int,int> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
+        public static readonly Func<int,float> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
 
         #endregion
 

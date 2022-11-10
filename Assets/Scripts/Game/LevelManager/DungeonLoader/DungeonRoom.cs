@@ -102,7 +102,7 @@ namespace Game.LevelManager.DungeonLoader
         public virtual void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
         {
             Dimensions = roomDimensions;
-            var roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
+            var roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.Count);
             if (roomGeneratorInput == null)
             {
                 DefaultRoomCreator.CreateRoomOfType(this, roomType);

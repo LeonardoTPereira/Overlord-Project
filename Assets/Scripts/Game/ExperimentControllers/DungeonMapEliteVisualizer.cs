@@ -22,8 +22,9 @@ namespace Game.ExperimentControllers
         private int _currentDungeon;
         private int _maxEnemies;
         [SerializeField] private Camera textureCamera;
-        [field: SerializeField] private Parameters DungeonGeneratorParameters { get; set; }
-
+        [field: SerializeField] private FitnessInput Fitness { get; set; }
+        public static EventHandler ContinueGenerationEventHandler;
+        public GeneratorSettings generatorSettings;
 
         private void Awake()
         {
@@ -36,11 +37,47 @@ namespace Game.ExperimentControllers
             _dungeonSoTester = GetComponent<DungeonSOTester>();
         }
 
+        private void OnEnable()
+        {
+            ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler += PrintCurrentPopulation;
+            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler += PrintCurrentPopulation;
+        }
+
+        private void PrintCurrentPopulation(object sender, CurrentGenerationEventArgs e)
+        {
+            _generatedDungeons = new List<DungeonFileSo>();
+            foreach (var individual in e.CurrentPopulation.EliteList)
+            {
+                var dungeon =
+                    Interface.CreateDungeonSoFromIndividual(individual, Fitness.DesiredEnemies, Fitness.DesiredItems, Fitness.DesiredNpcs);
+                _generatedDungeons.Add(dungeon);
+            }
+            Debug.Log("Finished");
+            _currentDungeon = 0;
+            _maxEnemies = GetMaxEnemies(_generatedDungeons);
+            var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
+            _dungeonSoTester.DrawDungeonSprites(_generatedDungeons[_currentDungeon++], _maxEnemies, center);
+        }
+
+        private void OnDisable()
+        {
+            ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+        }
+
         public async void Create(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
                 await CreateDungeonsForQuestLine();
+            }
+        }
+
+        public void Continue(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                ContinueGenerationEventHandler?.Invoke(this, EventArgs.Empty);
             }
         }
         
@@ -64,7 +101,8 @@ namespace Game.ExperimentControllers
         
         private async Task CreateDungeonsForQuestLine()
         {
-            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(DungeonGeneratorParameters));
+            _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(
+                generatorSettings.DungeonParameters, Fitness, true));
             Debug.Log("Finished");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
@@ -76,7 +114,7 @@ namespace Game.ExperimentControllers
         {
             var min = new Coordinates(0, 0);
             var max = new Coordinates(0, 0);
-            foreach (var room in generatedDungeon.Rooms)
+            foreach (var room in generatedDungeon.Parts)
             {
                 var x = room.Coordinates.X;
                 var y = room.Coordinates.Y;
@@ -105,7 +143,7 @@ namespace Game.ExperimentControllers
 
         private static int GetMaxEnemies(IEnumerable<DungeonFileSo> generatedDungeons)
         {
-            return (from dungeon in generatedDungeons from room in dungeon.Rooms select room.TotalEnemies).Prepend(0).Max();
+            return (from dungeon in generatedDungeons from room in dungeon.Parts select room.TotalEnemies).Prepend(0).Max();
         }
 #if UNITY_EDITOR
         public void PrintCurrentDungeon()
@@ -131,11 +169,11 @@ namespace Game.ExperimentControllers
         {
             
             var parentDirectory = "Assets"+ Constants.SeparatorCharacter + "Resources" + Constants.SeparatorCharacter + "DungeonPrints";
-            var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredParameters.DesiredRooms
-                                      +"_K_" +dungeon.FitnessFromEa.DesiredParameters.DesiredKeys
-                                      +"_L_" +dungeon.FitnessFromEa.DesiredParameters.DesiredLocks
-                                      +"_Lin_" +dungeon.FitnessFromEa.DesiredParameters.DesiredLinearity
-                                      +"_E_" +dungeon.FitnessFromEa.DesiredParameters.DesiredEnemies;
+            var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredInput.DesiredRooms
+                                      +"_K_" +dungeon.FitnessFromEa.DesiredInput.DesiredKeys
+                                      +"_L_" +dungeon.FitnessFromEa.DesiredInput.DesiredLocks
+                                      +"_Lin_" +dungeon.FitnessFromEa.DesiredInput.DesiredLinearity
+                                      +"_E_" +dungeon.FitnessFromEa.DesiredInput.DesiredEnemies;
             if (!AssetDatabase.IsValidFolder(parentDirectory + Constants.SeparatorCharacter + directoryPath))
             {
                 AssetDatabase.CreateFolder(parentDirectory, directoryPath);
