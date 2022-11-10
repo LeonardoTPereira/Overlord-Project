@@ -14,6 +14,11 @@ namespace Util
             X = x;
             Y = y;
         }
+        public Coordinates(Coordinates originalCoordinates)
+        {
+            X = originalCoordinates.X;
+            Y = originalCoordinates.Y;
+        }
         [DefaultValue(-1)]
         public int X { get => x; set => x = value; }
         [DefaultValue(-1)]

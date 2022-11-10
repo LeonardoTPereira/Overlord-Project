@@ -24,10 +24,13 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
         public static event QuestCompletedEvent QuestCompletedEventHandler;
         public static event QuestOpenedEvent QuestOpenedEventHandler;
+        public static event QuestElementEvent AllowExchangeEventHandler;
+        public static event QuestElementEvent AllowGiveEventHandler;
 
         public void Init()
         {
             Quests = new List<QuestSo>();
+            CurrentQuestIndex = 0;
         }
 
         public void Init(QuestLine questLine)
@@ -43,6 +46,7 @@ namespace Game.NarrativeGenerator.Quests
                 Quests.Add(copyQuest);
             }
             NpcInCharge = questLine.NpcInCharge;
+            CurrentQuestIndex = 0;
         }
         
         public void SaveAsset(string directory)
@@ -79,6 +83,19 @@ namespace Game.NarrativeGenerator.Quests
                 {
                     CompleteCurrentQuest();
                 }
+
+                switch (questSo)
+                {
+                    case ExchangeQuestSo {HasItems: true, IsCompleted: false, HasCreatedDialogue: false} exchangeQuestSo:
+                        exchangeQuestSo.HasCreatedDialogue = true;
+                        AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
+                        break;
+                    case GiveQuestSo {HasItem: true, IsCompleted: false, HasCreatedDialogue: false} giveQuestSo:
+                        giveQuestSo.HasCreatedDialogue = true;
+                        AllowGiveEventHandler?.Invoke(null, new QuestGiveEventArgs(giveQuestSo));
+                        break;
+                }
+
                 if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
             }
             return false;
@@ -121,7 +138,7 @@ namespace Game.NarrativeGenerator.Quests
             return completedQuests; 
         }
 
-        public void PopulateQuestLine(in GeneratorSettings generatorSettings)
+        public void PopulateQuestLine(in GeneratorSettings generatorSettings )
         {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
@@ -136,19 +153,35 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> roomList)
+        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, Dictionary<string,bool> addedQuests )
+        {
+            List<string> missingQuests = new List<string>();
+            foreach (KeyValuePair<string,bool> quest in addedQuests)
+            {
+                if ( !quest.Value )
+                    missingQuests.Add(quest.Key);
+            }
+            
+            var questChain = new MarkovChain();
+            foreach ( string missingQuest in missingQuests)
+            {
+                questChain.SetSymbol(missingQuest);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
+            }
+        }
+
+        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> dungeonParts)
         {
             foreach (var quest in Quests)
             {
                 switch (quest)
                 {
                     case ExploreQuestSo exploreQuest:
-                        var roomCount = roomList.Count(room => room.Type != Constants.RoomTypeString.Corridor);
-                        Debug.LogWarning("Total Rooms: "+roomCount);
+                        var roomCount = dungeonParts.Count(room => room.Type != Constants.RoomTypeString.Corridor);
                         exploreQuest.ChangeRoomsPercentageToValue(roomCount);
                         break;
                     case GotoQuestSo gotoQuest:
-                        gotoQuest.SelectRoomCoordinates(roomList);
+                        gotoQuest.SelectRoomCoordinates(dungeonParts);
                         break;
                 }
                 quest.CreateQuestString();

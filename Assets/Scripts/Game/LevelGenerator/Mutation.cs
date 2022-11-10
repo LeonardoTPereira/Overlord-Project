@@ -14,7 +14,7 @@ namespace Game.LevelGenerator
 
         /// Reproduce a new individual by mutating a parent.
         public static Individual Apply(Individual _parent) {
-            Individual individual = _parent.Clone();
+            Individual individual = new Individual(_parent);
             // Remove or add a lock and a key
             if (MUTATION_TYPE_RATE > RandomSingleton.GetInstance().RandomPercent())
             {
@@ -25,8 +25,8 @@ namespace Game.LevelGenerator
                 individual.dungeon.RemoveLockAndKey();
             }
             // Transfer enemies between rooms
-            int size = individual.dungeon.Rooms.Count;
-            List<int> options = Enumerable.Range(1, size - 1).ToList<int>();
+            var size = individual.dungeon.Rooms.Count;
+            var options = Enumerable.Range(1, size-1).ToList();
             while (options.Count / 2 > 1)
             {
                 // Select random rooms

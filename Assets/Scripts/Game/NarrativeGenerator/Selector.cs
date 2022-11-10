@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
+using MyBox;
 using UnityEngine;
+using Util;
 
 namespace Game.NarrativeGenerator
 {
@@ -27,12 +30,11 @@ namespace Game.NarrativeGenerator
             questLineList.Init();            
             CreateQuestLineForEachNpc(questLineList);
 
-            int i = 0;
-            Debug.Log("add necessary quests");
+            var i = 0;
             while ( _wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 i++;
-                var selectedNpc = _generatorSettings.PlaceholderNpcs[Random.Range(0, _generatorSettings.PlaceholderNpcs.Count)];
+                var selectedNpc = _generatorSettings.PlaceholderNpcs.GetRandom();
                 ContinueQuestLineForNpc(selectedNpc, questLineList);
             }
             return questLineList;
@@ -62,10 +64,9 @@ namespace Game.NarrativeGenerator
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                questLine.PopulateQuestLine(_generatorSettings);
+                questLine.CompleteMissingQuests(_generatorSettings, _wasQuestAdded );
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
-                Debug.Log(questLine.Quests.Count);
             }
             else
             {

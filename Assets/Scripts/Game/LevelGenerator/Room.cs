@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using Util;
 
 namespace Game.LevelGenerator
@@ -36,18 +38,20 @@ namespace Game.LevelGenerator
         public int RoomID { get; set; }
 
         /// The type of the room.
-        public RoomType Type1 { get; set; }
+        public RoomType Type { get; set; }
 
         /// The ID of the key that opens this room. The ID is equal to -1 when
         /// the room is not locked and does not have a key.
         public int Key { get; set; } = -1;
 
         /// The number of enemies in this room.
-        public int Enemies { get; set; } = 0;
+        public int Enemies { get; set; }
+
+        public bool IsGoal { get; set; }
 
         /// The depth of the room in the tree. This is used to control the
         /// depth of the dungeon level.
-        public int Depth { get; set; } = 0;
+        public int Depth { get; set; }
 
         /// The rotation of the individual's parent position is related to the
         /// normal cartesian orientation. 0 means that the parent is in the
@@ -70,38 +74,45 @@ namespace Game.LevelGenerator
         /// The direction from what the parent connects with this room.
         /// This attribute reduces operations at crossover.
         public Common.Direction ParentDirection { get; set; } = Common.Direction.Down;
+        /// The x position of the room in the grid.
+        public int X { get; set; }
 
+        /// The y position of the room in the grid.
+        public int Y { get; set; }
         /// Room constructor.
         ///
         /// The default is a normal room without a predefined room ID. The key
         /// room defines its key to open as its room ID. The locked room
         /// defines its key to open as the entered key to open.
-        public Room(
-            RoomType _type = RoomType.Normal,
-            int _key = -1,
-            int _id = -1
-        ) {
-            Type1 = _type;
+        public Room(RoomType _type = RoomType.Normal, int _key = -1, int _id = -1)
+        {
+            Depth = 0;
+            Type = _type;
             RoomID = _id == -1 ? Room.GetNextId() : _id;
-            Key = Type1 == RoomType.Key ? RoomID : Key;
-            Key = Type1 == RoomType.Locked ? _key : Key;
+            Key = Type == RoomType.Key ? RoomID : Key;
+            Key = Type == RoomType.Locked ? _key : Key;
+            IsGoal = false;
+            Enemies = 0;
         }
 
         /// Return a clone this room.
-        public Room Clone()
+        public Room(Room copiedRoom)
         {
-            Room room = new Room(Type1, Key, RoomID);
-            room.Enemies = Enemies;
-            room.Depth = Depth;
-            room.X = X;
-            room.Y = Y;
-            room.Rotation = Rotation;
-            room.Left = Left;
-            room.Bottom = Bottom;
-            room.Right = Right;
-            room.Parent = Parent;
-            room.ParentDirection = ParentDirection;
-            return room;
+            Enemies = copiedRoom.Enemies;
+            Depth = copiedRoom.Depth;
+            X = copiedRoom.X;
+            Y = copiedRoom.Y;
+            Rotation = copiedRoom.Rotation;
+            Left = null;
+            Bottom = null;
+            Right = null;
+            Parent = null;
+            ParentDirection = copiedRoom.ParentDirection;
+            IsGoal = copiedRoom.IsGoal;
+            Depth = copiedRoom.Depth;
+            Type = copiedRoom.Type;
+            RoomID = copiedRoom.RoomID;
+            Key = copiedRoom.Key;
         }
 
         /// Return true if the room is a leaf node.
@@ -113,7 +124,7 @@ namespace Game.LevelGenerator
         /// Return an array with the left, bottom, and right children.
         public Room[] GetChildren()
         {
-            return new Room[] {
+            return new [] {
                     Left,
                     Bottom,
                     Right,
@@ -133,12 +144,12 @@ namespace Game.LevelGenerator
 
         /// Return a tuple corresponding to the position in the dungeon grid of
         /// the child of a parent in the entered direction.
-        private (int, int) GetChildPositionInGrid(
+        public (int, int) GetChildPositionInGrid(
             Common.Direction _dir
         ) {
-            int cx = 0;
-            int cy = 0;
-            int rot = (Rotation / DEGREE_90) % 2;
+            var cx = 0;
+            var cy = 0;
+            var rot = (Rotation / DEGREE_90) % 2;
             switch (_dir)
             {
                 case Common.Direction.Right:
@@ -179,6 +190,8 @@ namespace Game.LevelGenerator
                         cy = Y;
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_dir), _dir, null);
             }
             return (cx, cy);
         }
@@ -192,7 +205,7 @@ namespace Game.LevelGenerator
             Common.Direction _dir,
             RoomGrid _grid
         ) {
-            (int x, int y) = GetChildPositionInGrid(_dir);
+            (var x, var y) = GetChildPositionInGrid(_dir);
             return _grid[x, y] is null;
         }
 
@@ -208,11 +221,11 @@ namespace Game.LevelGenerator
             ref Room _child,
             Common.Direction _dir
         ) {
-            (int x, int y) = GetChildPositionInGrid(_dir);
+            (var x, var y) = GetChildPositionInGrid(_dir);
             _child.X = x;
             _child.Y = y;
-            _child.Rotation = (Rotation + DEGREE_90) % DEGREE_360;
-            Room room = _grid[x, y];
+            
+            var room = _grid[x, y];
             if (room != null) { return; }
             switch (_dir)
             {
@@ -220,18 +233,27 @@ namespace Game.LevelGenerator
                     Right = _child;
                     Right.Parent = this;
                     Right.Depth = Depth + 1;
+                    _child.Rotation = RotationModulo(Rotation + DEGREE_90);
                     break;
                 case Common.Direction.Down:
                     Bottom = _child;
                     Bottom.Parent = this;
                     Bottom.Depth = Depth + 1;
+                    _child.Rotation = Rotation;
                     break;
                 case Common.Direction.Left:
                     Left = _child;
                     Left.Parent = this;
                     Left.Depth = Depth + 1;
+                    _child.Rotation = RotationModulo(Rotation - DEGREE_90);
                     break;
             }
+        }
+
+        private int RotationModulo(int newRotation)
+        {
+            var result = newRotation % DEGREE_360;
+            return result < 0 ? result + DEGREE_360 : result;
         }
 
         /// Fix the branch that starts in this node.
@@ -242,14 +264,14 @@ namespace Game.LevelGenerator
         public void FixBranch(List<int> _missions) {
             // If both lock and key are in the branch, assign to them new IDs,
             // and add all the missions in the new missions list
-            Queue<int> newMissions = new Queue<int>();
-            for (int i = 0; i < _missions.Count - 1; i++)
+            var newMissions = new Queue<int>();
+            for (var i = 0; i < _missions.Count - 1; i++)
             {
-                for (int j = i + 1; j < _missions.Count; j++)
+                for (var j = i + 1; j < _missions.Count; j++)
                 {
                     if (_missions[i] == -_missions[j])
                     {
-                        int newId = Room.GetNextId();
+                        var newId = GetNextId();
                         _missions[i] = _missions[i] > 0 ? newId : -newId;
                         _missions[j] = -_missions[i];
                     }
@@ -263,14 +285,14 @@ namespace Game.LevelGenerator
             }
 
             // Gather all the rooms of the branch
-            Queue<Room> branch = new Queue<Room>();
-            Queue<Room> toVisit = new Queue<Room>();
+            var branch = new Queue<Room>();
+            var toVisit = new Queue<Room>();
             toVisit.Enqueue(this);
             while (toVisit.Count > 0)
             {
-                Room current = toVisit.Dequeue();
+                var current = toVisit.Dequeue();
                 branch.Enqueue(current);
-                foreach (Room child in current.GetChildren())
+                foreach (var child in current.GetChildren())
                 {
                     if (child != null && current.Equals(child.Parent))
                     {
@@ -282,21 +304,21 @@ namespace Game.LevelGenerator
             // Place missions in the branch randomly while there are more rooms than missions; otherwise, this while stops
             while (branch.Count > newMissions.Count)
             {
-                Room current = branch.Dequeue();
-                int prob = RandomSingleton.GetInstance().RandomPercent();
+                var current = branch.Dequeue();
+                var prob = RandomSingleton.GetInstance().RandomPercent();
                 // If there are no missions left, then assign the remaining
                 // rooms as normal rooms; otherwise, check if the current room
                 // will not receive a mission
                 if (newMissions.Count == 0 ||
                     RoomFactory.PROB_NORMAL_ROOM > prob
                 ) {
-                    current.Type1 = RoomType.Normal;
+                    current.Type = RoomType.Normal;
                     current.Key = -1;
                 }
                 else
                 {
                     // The current room will receive a mission
-                    int missionId = newMissions.Dequeue();
+                    var missionId = newMissions.Dequeue();
                     // Assign the mission ID to the current room
                     FixMission(ref current, missionId);
                 }
@@ -308,8 +330,8 @@ namespace Game.LevelGenerator
             while (branch.Count > 0 && newMissions.Count > 0)
             {
                 // The current room will receive a mission
-                Room current = branch.Dequeue();
-                int missionId = newMissions.Dequeue();
+                var current = branch.Dequeue();
+                var missionId = newMissions.Dequeue();
                 // Assign the mission ID to the current room
                 FixMission(ref current, missionId);
             }
@@ -323,21 +345,125 @@ namespace Game.LevelGenerator
         ) {
             if (_mission > 0)
             {
-                _room.Type1 = RoomType.Key;
+                _room.Type = RoomType.Key;
                 _room.RoomID = _mission;
                 _room.Key = _mission;
             }
             else
             {
-                _room.Type1 = RoomType.Locked;
+                _room.Type = RoomType.Locked;
                 _room.Key = -_mission;
             }
         }
 
-        /// The x position of the room in the grid.
-        public int X { get; set; }
+        public Queue<int> GetEnemiesPerRoom()
+        {
+            var toVisit = new Queue<Room>();
+            var enemiesInRoom = new Queue<int>();
+            toVisit.Enqueue(this);
+            while (toVisit.Count > 0)
+            {
+                var current = toVisit.Dequeue();
+                if (current.Enemies > 0)
+                {
+                    enemiesInRoom.Enqueue(current.Enemies);
+                }
+                current.EnqueueChildrenRooms(toVisit);
+            }
+            return enemiesInRoom;
+        }
+        
+        public void FixEnemies(Queue<int> enemiesPerRoom)
+        {
+            if (enemiesPerRoom.Count == 0) return;
+            // Gather all the rooms of the branch
+            var branch = new Queue<Room>();
+            var toVisit = new Queue<Room>();
+            toVisit.Enqueue(this);
+            var existingEnemies = 0;
+            while (toVisit.Count > 0)
+            {
+                var current = toVisit.Dequeue();
+                existingEnemies += current.Enemies;
+                current.Enemies = 0;
+                current.EnqueueChildrenRooms(toVisit);
+                branch.Enqueue(current);
+            }
 
-        /// The y position of the room in the grid.
-        public int Y { get; set; }
+            var oldEnemies = 0;
+            foreach (var enemies in enemiesPerRoom)
+            {
+                oldEnemies += enemies;
+            }
+            enemiesPerRoom = RedistributeEnemiesIfNotEnoughRooms(enemiesPerRoom, branch.Count);
+            var newEnemies = 0;
+            foreach (var enemies in enemiesPerRoom)
+            {
+                newEnemies += enemies;
+            }
+
+            if (newEnemies != oldEnemies)
+            {
+                Debug.LogError($"Different enemies in Queue: old={oldEnemies}, new={newEnemies}");
+            }
+            while (branch.Count > enemiesPerRoom.Count)
+            {
+                var current = branch.Dequeue();
+                var prob = RandomSingleton.GetInstance().RandomPercent();
+                if (prob > 50) continue;
+                current.Enemies = enemiesPerRoom.Dequeue();
+                if (enemiesPerRoom.Count == 0) return;
+            }
+
+            while (branch.Count > 0)
+            {
+                var current = branch.Dequeue();
+                current.Enemies = enemiesPerRoom.Dequeue();
+            }
+            
+            toVisit.Clear();
+            toVisit.Enqueue(this);
+            var newEnemiesInBranch = 0;
+            while (toVisit.Count > 0)
+            {
+                var current = toVisit.Dequeue();
+                current.EnqueueChildrenRooms(toVisit);
+                newEnemiesInBranch += current.Enemies;
+            }
+        }
+
+        private static Queue<int> RedistributeEnemiesIfNotEnoughRooms(Queue<int> enemiesPerRoom, int totalRooms)
+        {
+            if (totalRooms >= enemiesPerRoom.Count) return enemiesPerRoom;
+            
+            var excessEnemies = 0;
+
+            while (totalRooms < enemiesPerRoom.Count)
+            {
+                excessEnemies += enemiesPerRoom.Dequeue();
+            }
+
+            var newEnemiesPerRoom = excessEnemies / enemiesPerRoom.Count;
+            var extraEnemies = excessEnemies % enemiesPerRoom.Count;
+            var enemiesToDistribute = new Queue<int>();
+            enemiesToDistribute.Enqueue(enemiesPerRoom.Dequeue() + newEnemiesPerRoom + extraEnemies);
+            while (enemiesPerRoom.Count > 0)
+            {
+                enemiesToDistribute.Enqueue(enemiesPerRoom.Dequeue() + newEnemiesPerRoom);
+            }
+
+            return enemiesToDistribute;
+        }
+
+        public void EnqueueChildrenRooms(Queue<Room> toVisit)
+        {
+            foreach (var room in GetChildren())
+            {
+                if (room != null)
+                {
+                    toVisit.Enqueue(room);
+                }
+            }
+        }
     }
 }

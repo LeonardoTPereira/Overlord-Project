@@ -30,7 +30,7 @@ namespace Game.LevelGenerator
             //saves where the dungeon grid begins and ends in each direction
             foreach (var room in dun.Rooms)
             {
-                switch (room.Type1)
+                switch (room.Type)
                 {
                     case RoomType.Key:
                         keys.Add(room.Key);
@@ -75,7 +75,7 @@ namespace Game.LevelGenerator
 
         private static void InitializeDungeonSoFromMap(DungeonFileSo dungeonFileSo, Dungeon dun, int[,] map)
         {
-            dungeonFileSo.Rooms = new List<DungeonRoomData>();
+            dungeonFileSo.Parts = new List<DungeonRoomData>();
             //Now we print it/save to a file/whatever
             for (var i = 0; i < dun.DungeonDimensions.Width * 2; ++i)
             {
@@ -105,7 +105,7 @@ namespace Game.LevelGenerator
 
                     if (roomDataDataInFile != null)
                     {
-                        dungeonFileSo.Rooms.Add(roomDataDataInFile);
+                        dungeonFileSo.Parts.Add(roomDataDataInFile);
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace Game.LevelGenerator
             //If negative, is a locked corridor, save it as the negative number of the key that opens it
             else if (roomType < 0)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Lock;
+                roomDataDataInFile.Type = Constants.RoomTypeString.LockedCorridor;
                 roomDataDataInFile.Locks = new List<int>
                 {
                     roomType
@@ -147,16 +147,14 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Leaf room and Leaf");
             }
             else if (roomType == Common.RoomType.LOCKED)
             {
-                roomDataDataInFile.Type = Constants.RoomTypeString.Lock;
+                roomDataDataInFile.Type = Constants.RoomTypeString.LockedRoom;
                 roomDataDataInFile.Treasures = 1;
                 roomDataDataInFile.Npcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Locked room and Leaf");
             }
             //If the room has a positive value, it holds a key.
             //Save the key index so we know what key it is
@@ -169,7 +167,6 @@ namespace Game.LevelGenerator
                     roomType
                 };
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Key room and Leaf");
             }
             //If the cell was none of the above, it must be an empty room
             else
@@ -177,7 +174,6 @@ namespace Game.LevelGenerator
                 roomDataDataInFile.Type = Constants.RoomTypeString.Normal;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
-                Debug.Log("Is Normal room and Leaf");
             }
         }
 
@@ -203,7 +199,7 @@ namespace Game.LevelGenerator
         {
             if (actualRoom != null)
             {
-                switch (actualRoom.Type1)
+                switch (actualRoom.Type)
                 {
                     //If it is a normal room, check if is a leaf node. We are currently placing treasures there
                     //If not a leaf, just save as an empty room for now
@@ -242,7 +238,7 @@ namespace Game.LevelGenerator
                 //If corridor is lockes, save the index of the key that opens it
                 //But as a negative value. A negative corridor is locked!
                 //If not, save it only as a normal corridor
-                if (actualRoom.Type1 == RoomType.Locked)
+                if (actualRoom.Type == RoomType.Locked)
                 {
                     map[x, y] = -(keys.IndexOf(actualRoom.Key) + 1);
                 }

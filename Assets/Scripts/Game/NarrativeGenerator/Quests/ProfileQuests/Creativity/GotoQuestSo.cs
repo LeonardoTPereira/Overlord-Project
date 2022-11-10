@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Game.LevelGenerator.LevelSOs;
+using Game.LevelManager.DungeonLoader;
 using MyBox;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string SymbolType => Constants.GotoQuest;
         public Coordinates SelectedRoomCoordinates { get; set; }
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
@@ -70,13 +71,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             QuestText = $"$Go to the room highlighted in the map! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
         }
 
-        public void SelectRoomCoordinates(List<DungeonRoomData> roomList)
+        public void SelectRoomCoordinates(List<DungeonRoomData> partsList)
         {
-            var leafList = roomList.Where(room => room.IsLeaf).ToList();
+            var leafList = partsList.Where(room => room.IsLeaf).ToList();
             if (!leafList.Any())
             {
-                Debug.LogError($"No Leaf Nodes in Dungeon. Something went wrong!+" +
-                               $"Dungeon Size: {roomList.Count}");
+                leafList = partsList.Where(room => room.Type != Constants.RoomTypeString.Corridor).ToList();
             }
             SelectedRoomCoordinates = leafList.GetRandom().Coordinates;
         }

@@ -8,7 +8,7 @@ namespace Game.NPCs
 {
     [CreateAssetMenu(fileName = "NpcSO", menuName = "NpcModule/Npcs", order = 0)]
     [Serializable]
-    public class NpcSo : ScriptableObject
+    public class NpcSo : ScriptableObject, IDialogueObjSo
     {
         
         [FormerlySerializedAs("_npcName")] [SerializeField] private string npcName;

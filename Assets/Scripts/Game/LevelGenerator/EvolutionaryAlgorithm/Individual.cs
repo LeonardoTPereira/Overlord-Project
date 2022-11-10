@@ -31,9 +31,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         private Fitness fitness;
         public string BiomeName { get; set; }
 
-        public Individual(FitnessParameters fitnessParameters)
+        public Individual(FitnessInput fitnessInput)
         {
-            Fitness = new Fitness(fitnessParameters);
+            Fitness = new Fitness(fitnessInput);
             dungeon = new Dungeon();
             generation = Common.UNKNOWN;
             neededLocks = 0;
@@ -43,25 +43,17 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             exploration = 0.0f;
         }
 
-        private Individual()
-        {
-        }
-
         /// Return a clone of the individual.
-        public Individual Clone()
+        public Individual(Individual originalIndividual)
         {
-            var individual = new Individual
-            {
-                Fitness = Fitness,
-                generation = generation,
-                neededLocks = neededLocks,
-                neededRooms = neededRooms,
-                linearCoefficient = linearCoefficient,
-                dungeon = dungeon,
-                leniency = leniency,
-                exploration = exploration
-            };
-            return individual;
+            Fitness = new Fitness(originalIndividual.Fitness);
+            generation = originalIndividual.generation;
+            neededLocks = originalIndividual.neededLocks;
+            neededRooms = originalIndividual.neededRooms;
+            linearCoefficient = originalIndividual.linearCoefficient;
+            dungeon = new Dungeon(originalIndividual.dungeon);
+            leniency = originalIndividual.leniency;
+            exploration = originalIndividual.exploration;
         }
 
         /// Calculate the linear coefficient of the dungeon level.
@@ -122,24 +114,38 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         }
 
         /// Generate and return a random individual.
-        public static Individual CreateRandom(FitnessParameters parameters)
+        public static Individual CreateRandom(FitnessInput input)
         {
-            var newIndividual = new Individual(parameters);
+            var newIndividual = new Individual(input);
             var newDungeon = new Dungeon();
             newDungeon.GenerateRooms();
-            newDungeon.PlaceEnemies(parameters.DesiredEnemies);
             newIndividual.dungeon = newDungeon;
             return newIndividual;
         }
 
-        public void Fix()
+        public void Fix(int enemies)
         {
-            dungeon.Fix(Fitness.DesiredParameters.DesiredEnemies);
+            dungeon.Fix(enemies);
         }
 
+        public void CalculateFitness(FitnessRange fitnessRange)
+        {
+            CalculateLinearCoefficient();
+            CalculateUsage();
+            Fitness.Calculate(this, fitnessRange);
+        }
+        
         public void CalculateFitness()
         {
             CalculateLinearCoefficient();
+            CalculateUsage();
+            Fitness.Calculate(this);
+            exploration = Metric.CoefficientOfExploration(this);
+            leniency = Metric.Leniency(this);
+        }
+
+        private void CalculateUsage()
+        {
             if (dungeon.LockIds.Count > 0)
             {
                 // Calculate the number of locks needed to finish the level
@@ -153,6 +159,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                                                    "\n  Total locks=" + dungeon.LockIds.Count +
                                                    "\n  Needed locks=" + neededLocks);
                 }
+
                 neededRooms = 0.0f;
                 // Calculate the number of rooms needed to finish the level
                 for (int i = 0; i < 3; i++)
@@ -161,6 +168,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     dfs.FindRoute();
                     neededRooms += dfs.NVisitedRooms;
                 }
+
                 neededRooms /= 3.0f;
                 // Validate the calculated number of needed rooms
                 if (neededRooms > dungeon.Rooms.Count)
@@ -172,9 +180,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                                                    "\n  Needed rooms=" + neededRooms);
                 }
             }
-            Fitness.Calculate(this);
-            exploration = Metric.CoefficientOfExploration(this);
-            leniency = Metric.Leniency(this);
         }
 
         public bool IsBetterThan(Individual other)

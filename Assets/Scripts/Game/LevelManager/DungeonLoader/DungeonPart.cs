@@ -40,7 +40,7 @@ namespace Game.LevelManager.DungeonLoader
         
         public bool IsLockedNode()
         {
-            return Type?.Equals(Constants.RoomTypeString.Lock) ?? false;
+            return Type?.Equals(Constants.RoomTypeString.LockedRoom) ?? false;
         }
 
     }

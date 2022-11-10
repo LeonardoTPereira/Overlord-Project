@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: GeneratorSettings
   m_EditorClassIdentifier: 
   <CreateRooms>k__BackingField: 1
+  <RoomSize>k__BackingField: {x: 30, y: 18}
   <UseLevelSelect>k__BackingField: 1
   <GenerateInRealTime>k__BackingField: 1
-  <EnableRandomProfileToPlayer>k__BackingField: 1
+  <EnableRandomProfileToPlayer>k__BackingField: 0
   <ProbabilityToGetTrueProfile>k__BackingField: 50
+  <TotalRunsOfEA>k__BackingField: 1
   <PlaceholderNpcs>k__BackingField:
   - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
   - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
@@ -27,6 +29,23 @@ MonoBehaviour:
     type: 2}
   <Tools>k__BackingField: {fileID: 11400000, guid: 04f66858849a0f04dbd7abdaa38d2b06,
     type: 2}
+  <ReadableItems>k__BackingField: {fileID: 11400000, guid: 221106eeab139a54f81f3ce747e35f54,
+    type: 2}
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
-  <RoomSize>k__BackingField: {x: 30, y: 18}
+  <EnemiesToKill>k__BackingField:
+    Min: 4
+    Max: 10
+  <ItemsToGather>k__BackingField:
+    Min: 1
+    Max: 5
+  <RoomsToExplore>k__BackingField:
+    Min: 40
+    Max: 90
+  <DungeonParameters>k__BackingField:
+    <Time>k__BackingField: 45
+    <Population>k__BackingField: 100
+    <Mutation>k__BackingField: 5
+    <Competitors>k__BackingField: 2
+    <MinimumElite>k__BackingField: 200
+    <AcceptableFitness>k__BackingField: 0.1

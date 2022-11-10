@@ -55,6 +55,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
+            if (questId != Id) return false;
             return !IsCompleted 
                    && ItemsToGatherByType.ContainsKey(questElement as ItemSo ?? throw new InvalidOperationException());
         }

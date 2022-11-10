@@ -5,7 +5,7 @@ namespace Game.GameManager
 {
     public class MinimapCameraController : MonoBehaviour
     {
-        private const float CameraSpeed = 50f;
+        private const float CameraSpeed = 70f;
         public IEnumerator SmoothlyMoveCameraToRoom(Vector3 destination)
         {
             var step = CameraSpeed * Time.deltaTime;
