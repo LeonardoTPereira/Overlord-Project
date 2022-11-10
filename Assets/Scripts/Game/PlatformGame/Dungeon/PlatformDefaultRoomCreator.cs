@@ -15,7 +15,7 @@ namespace PlatformGame.Dungeon
         private static readonly int WIDTH = 28;
         private static readonly int HEIGHT = 24;
 
-        public static void CreateRoomOfType(DungeonRoom room, int roomType, RoomGeneratorInput roomGeneratorInput)
+        public static void CreateRoomOfType(DungeonRoom room, RoomGeneratorInput roomGeneratorInput)
         {
             var dimensions = room.Dimensions;
             var roomData = ScriptableObject.CreateInstance<RoomData>();

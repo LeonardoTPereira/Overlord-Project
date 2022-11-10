@@ -62,6 +62,7 @@ namespace Game.MenuManager
                 Selected.SelectLevel(null);
             }
             SceneManager.LoadScene("LevelWithEnemies");
+            //SceneManager.LoadScene("Dungeon");
             //SceneManager.LoadScene(levelToLoad.SceneName);
             gameObject.SetActive(false);
         }

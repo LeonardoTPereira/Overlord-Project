@@ -212,10 +212,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.20833334
+    x: 0
     y: 0
-    width: 0.32222226
-    height: 0.3222222
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -699,6 +699,7 @@ MonoBehaviour:
   - {fileID: 464339851}
   - {fileID: 262022216}
   - {fileID: 1036894179}
+  settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
 --- !u!114 &1437280575 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6435992424990430927, guid: e9b9caeb16cc41e48b9d535545643999,

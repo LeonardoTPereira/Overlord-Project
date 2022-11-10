@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExperimentLevelSelector.unity
     guid: 98e262a735cfb66468973ba893ee3ac8
+  - enabled: 1
+    path: Assets/PlatformGameAssets/Scenes/Dungeon.unity
+    guid: 5cef6e07bf1e43f4dbede5b5e3eea83c
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5485ac31a41ef9b46bd1b977b05b8368,
       type: 2}

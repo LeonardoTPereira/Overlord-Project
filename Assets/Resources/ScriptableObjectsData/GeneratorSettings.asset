@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b5a5fb4f7242858b860727e706ca44, type: 3}
   m_Name: GeneratorSettings
   m_EditorClassIdentifier: 
-  <GameType>k__BackingField: 1
+  <GameType>k__BackingField: 0
   <CreateRooms>k__BackingField: 1
   <RoomSize>k__BackingField: {x: 30, y: 18}
   <UseLevelSelect>k__BackingField: 1
@@ -34,21 +34,19 @@ MonoBehaviour:
     type: 2}
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
     type: 2}
-
   <EnemiesToKill>k__BackingField:
-    Min: 4
-    Max: 10
+    Min: 0
+    Max: 0
   <ItemsToGather>k__BackingField:
-    Min: 1
-    Max: 5
+    Min: 0
+    Max: 0
   <RoomsToExplore>k__BackingField:
-    Min: 40
-    Max: 90
+    Min: 0
+    Max: 0
   <DungeonParameters>k__BackingField:
-    <Time>k__BackingField: 45
-    <Population>k__BackingField: 100
-    <Mutation>k__BackingField: 5
-    <Competitors>k__BackingField: 2
-    <MinimumElite>k__BackingField: 200
-    <AcceptableFitness>k__BackingField: 0.1
-
+    <Time>k__BackingField: 0
+    <Population>k__BackingField: 0
+    <Mutation>k__BackingField: 0
+    <Competitors>k__BackingField: 0
+    <MinimumElite>k__BackingField: 0
+    <AcceptableFitness>k__BackingField: 0
