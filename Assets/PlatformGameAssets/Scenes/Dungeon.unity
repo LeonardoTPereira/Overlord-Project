@@ -360,7 +360,7 @@ MonoBehaviour:
   victoryScreen: {fileID: 0}
   currentQuestLines: {fileID: 0}
   maxTreasure: 0
-  selectedLevels: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5, type: 2}
+  selectedLevels: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd, type: 2}
 --- !u!114 &1990492720
 MonoBehaviour:
   m_ObjectHideFlags: 0
