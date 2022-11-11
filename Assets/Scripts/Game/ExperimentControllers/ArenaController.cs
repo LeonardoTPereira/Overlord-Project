@@ -68,7 +68,7 @@ namespace Game.ExperimentControllers
                 };
 
             dungeonRoom.CreateRoom(RoomSize);
-            var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab);
+            var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab, Enums.GameType.TopDown);
             LoadGameUI();
             StartCoroutine(SpawnEnemies(room));
         }

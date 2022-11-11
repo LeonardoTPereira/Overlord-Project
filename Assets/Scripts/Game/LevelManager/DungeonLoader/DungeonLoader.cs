@@ -96,7 +96,7 @@ namespace Game.LevelManager.DungeonLoader
         {
             foreach (var currentPart in _dungeonMap.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
-                var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBhv);
+                var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBhv, CurrentGeneratorSettings.GameType);
                 CheckConnections(currentPart, newRoom, dimensions);
                 roomBHVMap.Add(currentPart.Coordinates, newRoom); 
             }

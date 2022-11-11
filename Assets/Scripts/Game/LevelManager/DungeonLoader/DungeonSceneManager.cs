@@ -26,14 +26,14 @@ namespace Game.LevelManager.DungeonLoader
         private DungeonFileSo _currentDungeonSo;
         [field: SerializeReference] private SelectedLevels selectedLevels;
         private DungeonLoader _dungeonLoader;
-        private void OnEnable()
+        protected void OnEnable()
         {
             PlayerController.PlayerDeathEventHandler += GameOver;
             TriforceBhv.GotTriforceEventHandler += LevelComplete;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
-        private void Start()
+        protected void Start()
         {
             _dungeonLoader = GetComponent<DungeonLoader>();
             EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
@@ -60,13 +60,13 @@ namespace Game.LevelManager.DungeonLoader
             SceneManager.LoadSceneAsync(MinimapUI, LoadSceneMode.Additive);
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             PlayerController.PlayerDeathEventHandler -= GameOver;
             TriforceBhv.GotTriforceEventHandler -= LevelComplete;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
-        
+
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             if (VerifySceneName(scene)) return;
