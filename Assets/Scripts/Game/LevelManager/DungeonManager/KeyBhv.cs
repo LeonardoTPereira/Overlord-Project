@@ -8,7 +8,10 @@ namespace Game.LevelManager.DungeonManager
     public class KeyBhv : PlaceableRoomObject, ISoundEmitter
     {
         public int KeyID { get; set; }
+        [field: SerializeField] public GameObject MinimapIcon { get; set; }
+        private SpriteRenderer _minimapSprite;
         private Color color;
+        
 
         public static event KeyCollectEvent KeyCollectEventHandler;
 
@@ -19,6 +22,8 @@ namespace Game.LevelManager.DungeonManager
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             sr.color = Constants.ColorId[KeyID - 1];
             color = sr.color;
+            _minimapSprite = MinimapIcon.GetComponent<SpriteRenderer>();
+            _minimapSprite.enabled = false;
         }
 
         private void OnDrawGizmos()
@@ -39,6 +44,12 @@ namespace Game.LevelManager.DungeonManager
         {
             ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.ItemPickup, 1));
             KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(KeyID));
+        }
+
+        public void ShowKeyMinimapIcon()
+        {
+	        _minimapSprite.color = color;
+	        _minimapSprite.enabled = true;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Game.NarrativeGenerator.Quests
                 case Constants.CreativityQuest:
                     symbolList.Add( ScriptableObject.CreateInstance<CreativityQuestSo>() );
                 break;
-                case Constants.KillQuest:
+                case nameof(KillQuestSo):
                     symbolList.Add( ScriptableObject.CreateInstance<KillQuestSo>() );
                 break;
                 case Constants.DamageQuest:

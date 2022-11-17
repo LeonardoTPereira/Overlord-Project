@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu, Serializable]
+    [CreateAssetMenu(fileName = "ItemSO", menuName = "Items/Item"), Serializable]
     public class ItemSo : ScriptableObject
     {
         [SerializeField]
@@ -21,7 +21,7 @@ namespace ScriptableObjects
         
         public string GetToolSpriteString()
         {
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();    
             stringBuilder.Append($"<sprite=\"Tools\" name=\"{ItemName}\">");
             return stringBuilder.ToString();
         }

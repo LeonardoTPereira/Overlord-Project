@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439916e8aecfeb34fb2672df782b905c, type: 3}
+  m_Name: Mastery2
+  m_EditorClassIdentifier: 
+  <QuestLines>k__BackingField: {fileID: 0}
+  <Dungeon>k__BackingField: {fileID: 0}
+  <IsCompleted>k__BackingField: 0
+  <HasSurrendered>k__BackingField: 0
+  <AchievementWeight>k__BackingField: 2
+  <CreativityWeight>k__BackingField: 1
+  <ImmersionWeight>k__BackingField: 3
+  <MasteryWeight>k__BackingField: 4

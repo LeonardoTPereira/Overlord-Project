@@ -39,6 +39,7 @@ namespace Game.LevelManager.DungeonManager
         public GameObject keyPrefab;
         public GameObject triPrefab;
         public GameObject treasurePrefab;
+        public GameObject readableItemPrefab;
         public GameObject[] npcPrefabs;
 
         public Collider2D colNorth;
@@ -61,6 +62,7 @@ namespace Game.LevelManager.DungeonManager
         private EnemyLoader _enemyLoader;
 
         private List<GameObject> _instantiatedEnemies;
+        private List<GameObject> _instantiatedKeys;
 
         private bool _hasBeenVisited;
         
@@ -73,6 +75,7 @@ namespace Game.LevelManager.DungeonManager
             hasEnemies = false;
             enemiesDictionary = new EnemyByAmountDictionary();
             _instantiatedEnemies = new List<GameObject>();
+            _instantiatedKeys = new List<GameObject>();
             _hasBeenVisited = false;
         }
 
@@ -302,6 +305,10 @@ namespace Game.LevelManager.DungeonManager
 
             if (!_hasBeenVisited)
             {
+	            foreach (var key in _instantiatedKeys)
+	            {
+		            key.GetComponent<KeyBhv>().ShowKeyMinimapIcon();
+	            }
                 minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
                 _hasBeenVisited = true;
             }
@@ -335,6 +342,7 @@ namespace Game.LevelManager.DungeonManager
             var key = PlaceObjectInRoom(keyPrefab);
             var keyBhv = key.GetComponent<KeyBhv>();
             keyBhv.KeyID = keyId;
+            _instantiatedKeys.Add(key);
         }
 
         private bool RoomHasTreasure()
@@ -353,12 +361,28 @@ namespace Game.LevelManager.DungeonManager
         {
             foreach (var questId in questIds.QuestIds)
             {
-                GetAvailablePosition();
-                var treasure = PlaceObjectInRoom(treasurePrefab);
-                var treasureController = treasure.GetComponent<TreasureController>();
-                treasureController.Treasure = item;
-                treasureController.QuestId = questId;
+                if ( item as ReadableItemSo != null )
+                    PlaceReadableItem(item, questId);
+                else
+                    PlaceTreasureItem(item, questId);
             }
+        }
+
+        private void PlaceReadableItem(ItemSo item, int questId)
+        {
+            GetAvailablePosition();
+            var readableItem = PlaceObjectInRoom(readableItemPrefab);
+            var readableItemController = readableItem.GetComponent<ReadableItemController>();
+            readableItemController.SetItemInfo( item as ReadableItemSo, questId );
+        }
+
+        private void PlaceTreasureItem(ItemSo item, int questId)
+        {
+            GetAvailablePosition();
+            var treasure = PlaceObjectInRoom(treasurePrefab);
+            var treasureController = treasure.GetComponent<TreasureController>();
+            treasureController.Treasure = item;
+            treasureController.QuestId = questId;
         }
 
         private void PlaceTriforceInRoom()

@@ -653,9 +653,6 @@ namespace Game.LevelManager.DungeonLoader
             BoardSetup();
             SetupWalls();
             RoomData generatedRoom = PassToRoomData();
-            
-            Debug.Log("Room generated");
-            
             return generatedRoom;
         }
         

@@ -35,7 +35,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     } while (Array.IndexOf(competitors, selected) != -1);
                     competitors[selectedCount++] = selected;
                 } while (selectedCount < competitorsAmount);
-                parents[i] = Tournament(competitors).Clone();
+                parents[i] = new Individual(Tournament(competitors));
             }
             return parents;
         }

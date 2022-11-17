@@ -17,12 +17,12 @@ namespace Game.NarrativeGenerator.Quests
     public abstract class QuestSo : ScriptableObject, ISavableGeneratedContent, ISymbol
     {
         public virtual string SymbolType {get; set;}
-        public virtual Dictionary<string, Func<int,int>> NextSymbolChances
+        public virtual Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
         }
-        protected Dictionary<string, Func<int,int>> _nextSymbolChances;
+        protected Dictionary<string, Func<int,float>> _nextSymbolChances;
         public virtual bool CanDrawNext {
             get => true;
         }
@@ -31,17 +31,14 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeReference] private QuestSo previous;
         [SerializeField] private string questName;
         [SerializeField] private bool endsStoryLine;
-        [SerializeField] private ItemSo reward;
         [field: SerializeField] public bool IsCompleted { get; set; }
         [field: SerializeField] public bool IsClosed { get; set; }
         [field: SerializeField] public string QuestText { get; set; }
         private bool _canDrawNext;
-
         public QuestSo Next { get => next; set => next = value; }
         public QuestSo Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
-        public ItemSo Reward { get => reward; set => reward = value; }
         public int Id { get; set; }
 
         public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
@@ -55,8 +52,9 @@ namespace Game.NarrativeGenerator.Quests
             previous = null;
             questName = "Null";
             endsStoryLine = false;
-            Reward = null;
             Id = GetInstanceID();
+            IsCompleted = false;
+            IsClosed = false;
         }
 
         public void Init(string questTitle, bool endsLine, QuestSo previousQuest)
@@ -65,8 +63,9 @@ namespace Game.NarrativeGenerator.Quests
             EndsStoryLine = endsLine;
             Previous = previousQuest;
             next = null;
-            Reward = null;
             Id = GetInstanceID();
+            IsCompleted = false;
+            IsClosed = false;
         }
         
         public virtual void Init(QuestSo copiedQuest)
@@ -75,9 +74,10 @@ namespace Game.NarrativeGenerator.Quests
             EndsStoryLine = copiedQuest.EndsStoryLine;
             Previous = copiedQuest.Previous;
             next = copiedQuest.Next;
-            Reward = copiedQuest.Reward;
             Id = copiedQuest.Id;
             QuestText = copiedQuest.QuestText;
+            IsCompleted = copiedQuest.IsCompleted;
+            IsClosed = copiedQuest.IsCompleted;
         }
 
         public virtual QuestSo Clone()
@@ -89,8 +89,8 @@ namespace Game.NarrativeGenerator.Quests
 
         public void SetNextSymbol(MarkovChain chain)
         {
-            var chance = RandomSingleton.GetInstance().Next(0, 100);
-            var cumulativeProbability = 0;
+            var chance = RandomSingleton.GetInstance().Next(0, 99);
+            float cumulativeProbability = 0;
             foreach ( var nextSymbolChance in NextSymbolChances )
             {
                 cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );

@@ -2,6 +2,8 @@
 using Game.Audio;
 using Game.Events;
 using Game.LevelManager.DungeonLoader;
+using Game.SaveLoadSystem;
+using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -15,9 +17,12 @@ namespace Game.GameManager
         [field: SerializeField] public ProjectileTypeSO playerProjectile { get; set; }
 
         public bool IsLastQuestLine { get; set; }
+        [field: SerializeField] private SceneReference experimentSelectorScreen;
 
         public static event EventHandler GameStartEventHandler;
-        
+        public static event Action LoadStateHandler;
+        private bool _hasLoaded;
+
         public bool arenaMode;
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -25,6 +30,15 @@ namespace Game.GameManager
             if (scene.name == "Main" || scene.name == "ContentGenerator")
             {
                 ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.MainMenuTheme));
+            }
+
+            if (scene.name == "ExperimentLevelSelector")
+            {
+                if (!_hasLoaded)
+                {
+                    LoadStateHandler?.Invoke();
+                    _hasLoaded = true;
+                }
             }
         }
 
@@ -44,6 +58,10 @@ namespace Game.GameManager
         private void Start()
         {
             GameStartEventHandler?.Invoke(null, EventArgs.Empty);
+            if (SaveLoadManager.HasSaveFile())
+            {
+                SceneManager.LoadScene(experimentSelectorScreen.SceneName);
+            }
         }
         
         private void OnApplicationQuit()

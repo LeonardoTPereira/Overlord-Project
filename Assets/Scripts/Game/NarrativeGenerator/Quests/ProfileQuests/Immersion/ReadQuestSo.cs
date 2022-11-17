@@ -9,7 +9,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.ReadQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
@@ -55,7 +55,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && QuestId == questId;
+            if (questId != Id) return false;
+            return !IsCompleted && ItemToRead.ItemName == (questElement as ItemSo)?.ItemName;
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)

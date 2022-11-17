@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
-using Game.NPCs;
 using Malee.List;
 using ScriptableObjects;
 using UnityEngine;

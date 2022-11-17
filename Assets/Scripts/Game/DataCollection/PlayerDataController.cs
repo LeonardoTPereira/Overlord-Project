@@ -5,16 +5,18 @@ using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
+using Game.LevelSelection;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
+using Game.SaveLoadSystem;
 using UnityEngine;
 
 namespace Game.DataCollection
 {
-    public class PlayerDataController : MonoBehaviour
+    public class PlayerDataController : MonoBehaviour, ISaveable
     {
         public PlayerData CurrentPlayer { get; private set; }
         private DungeonDataController _dungeonDataController;
@@ -36,6 +38,7 @@ namespace Game.DataCollection
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
+            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
@@ -57,6 +60,7 @@ namespace Game.DataCollection
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
+            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
@@ -89,17 +93,18 @@ namespace Game.DataCollection
             Debug.Log("Map Started");
             CurrentPlayer.StartDungeon(eventArgs.MapName, eventArgs.Map);
             _dungeonDataController.CurrentDungeon = CurrentPlayer.CurrentDungeon;
+            _dungeonDataController.SetDungeonParameters();
         }
 
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            CurrentPlayer.PlayerProfile = eventArgs.PlayerProfile;
+            CurrentPlayer.SerializedData.PlayerProfile = eventArgs.PlayerProfile;
         }
 
         private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            CurrentPlayer.GivenPlayerProfile = eventArgs.PlayerProfile;
+            CurrentPlayer.SerializedData.GivenPlayerProfile = eventArgs.PlayerProfile;
         }
 
         private void ResetCombo(object sender, EventArgs eventArgs)
@@ -114,7 +119,7 @@ namespace Game.DataCollection
 
         private void OnPreTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
         {
-            CurrentPlayer.PreFormAnswers = eventArgs.AnswerValue;
+            CurrentPlayer.SerializedData.PreFormAnswers = eventArgs.AnswerValue;
         }
 
         private void OnKillEnemy(object sender, EventArgs eventArgs)
@@ -163,6 +168,8 @@ namespace Game.DataCollection
             CurrentPlayer.SaveAndRefreshAssets();
             CurrentPlayer.RefreshJson();
 #endif
+            CurrentPlayer.AddPostTestDataToDungeon(null);
+            _gameplayData.SendProfileToServer(CurrentPlayer);
         }
 
         private void OnPostTestFormAnswered(object sender, FormAnsweredEventArgs eventArgs)
@@ -176,19 +183,19 @@ namespace Game.DataCollection
             switch (eventArgs.Quest)
             {
                 case AchievementQuestSo achievementQuest:
-                    CurrentPlayer.CompletedAchievementQuests++;
+                    CurrentPlayer.SerializedData.CompletedAchievementQuests++;
                     GetAchievementTerminalAndUpdate(achievementQuest);
                     break;
                 case CreativityQuestSo creativityQuest:
-                    CurrentPlayer.CompletedCreativityQuests++;
+                    CurrentPlayer.SerializedData.CompletedCreativityQuests++;
                     GetCreativityTerminalAndUpdate(creativityQuest);
                     break;
                 case ImmersionQuestSo immersionQuest:
-                    CurrentPlayer.CompletedImmersionQuests++;
+                    CurrentPlayer.SerializedData.CompletedImmersionQuests++;
                     GetImmersionTerminalAndUpdate(immersionQuest);
                     break;
                 case MasteryQuestSo masteryQuest:
-                    CurrentPlayer.CompletedMasteryQuests++;
+                    CurrentPlayer.SerializedData.CompletedMasteryQuests++;
                     GetMasteryTerminalAndUpdate(masteryQuest);
                     break;
                 default:
@@ -203,10 +210,10 @@ namespace Game.DataCollection
             switch (achievementQuest)
             {
                 case ExchangeQuestSo:
-                    CurrentPlayer.CompletedExchangeQuests++;
+                    CurrentPlayer.SerializedData.CompletedExchangeQuests++;
                     break;
                 case GatherQuestSo:
-                    CurrentPlayer.CompletedGatherQuests++;
+                    CurrentPlayer.SerializedData.CompletedGatherQuests++;
                     break;
                 default:
                     Debug.LogError("This achievement quest type does not exist!");
@@ -219,10 +226,10 @@ namespace Game.DataCollection
             switch (creativityQuest)
             {
                 case ExploreQuestSo:
-                    CurrentPlayer.CompletedExploreQuests++;
+                    CurrentPlayer.SerializedData.CompletedExploreQuests++;
                     break;
                 case GotoQuestSo:
-                    CurrentPlayer.CompletedGoToQuests++;
+                    CurrentPlayer.SerializedData.CompletedGoToQuests++;
                     break;
                 default:
                     Debug.LogError("This creativity quest type does not exist!");
@@ -235,16 +242,16 @@ namespace Game.DataCollection
             switch (immersionQuest)
             {
                 case GiveQuestSo:
-                    CurrentPlayer.CompletedGiveQuests++;
+                    CurrentPlayer.SerializedData.CompletedGiveQuests++;
                     break;
                 case ListenQuestSo:
-                    CurrentPlayer.CompletedListenQuests++;
+                    CurrentPlayer.SerializedData.CompletedListenQuests++;
                     break;
                 case ReadQuestSo:
-                    CurrentPlayer.CompletedReadQuests++;
+                    CurrentPlayer.SerializedData.CompletedReadQuests++;
                     break;
                 case ReportQuestSo:
-                    CurrentPlayer.CompletedReportQuests++;
+                    CurrentPlayer.SerializedData.CompletedReportQuests++;
                     break;
                 default:
                     Debug.LogError("This immersion quest type does not exist!");
@@ -257,15 +264,25 @@ namespace Game.DataCollection
             switch (masteryQuest)
             {
                 case DamageQuestSo:
-                    CurrentPlayer.CompletedDamageQuests++;
+                    CurrentPlayer.SerializedData.CompletedDamageQuests++;
                     break;
                 case KillQuestSo:
-                    CurrentPlayer.CompletedDamageQuests++;
+                    CurrentPlayer.SerializedData.CompletedDamageQuests++;
                     break;
                 default:
                     Debug.LogError("This mastery quest type does not exist!");
                     break;
             }        
+        }
+
+        public object SaveState()
+        {
+	        return CurrentPlayer.SaveState();
+        }
+
+        public void LoadState(object state)
+        {
+	        CurrentPlayer.LoadState(state);
         }
     }
 }

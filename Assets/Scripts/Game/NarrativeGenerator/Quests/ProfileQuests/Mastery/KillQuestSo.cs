@@ -16,7 +16,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
         public override string SymbolType => Constants.KillQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
@@ -65,14 +65,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
+            if (questId != Id) return false;
             return !IsCompleted 
                    &&  EnemiesToKillByType.EnemiesByTypeDictionary.ContainsKey(questElement as WeaponTypeSo 
-                   ?? throw new InvalidOperationException());
+                                                                               ?? throw new InvalidOperationException());
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
             EnemiesToKillByType.EnemiesByTypeDictionary.RemoveItemWithId(questElement as WeaponTypeSo, questId);
+            Debug.Log(EnemiesToKillByType.EnemiesByTypeDictionary.Count);
             if ( EnemiesToKillByType.EnemiesByTypeDictionary.Count == 0)
             {
                 IsCompleted = true;
@@ -90,7 +92,6 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
             if (stringBuilder.Length == 0)
             {
-                Debug.LogError("No Enemies to Kill");
                 QuestText = stringBuilder.ToString();
             }
             stringBuilder.Remove(stringBuilder.Length - 2, 2);
