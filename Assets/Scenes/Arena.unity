@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
-  <TotalEnemies>k__BackingField: 1
+  <TotalEnemies>k__BackingField: 5
   <RoomPrefab>k__BackingField: {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102,
     type: 3}
   <RoomSize>k__BackingField:
@@ -336,7 +336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132918278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 15, y: 10, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -834,5 +834,6 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5989198140068896509, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8fea4dd3f18348d42a4a32bb977123cd, type: 3}

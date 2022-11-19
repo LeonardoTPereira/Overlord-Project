@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Game.GameManager.Player
 {
@@ -11,6 +12,7 @@ namespace Game.GameManager.Player
         private Rigidbody2D _rigidbody2D;
         [SerializeField] private float speed;
         private Vector2 _lastFacingVector;
+        private Vector2 _lastSpeed;
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
@@ -20,16 +22,22 @@ namespace Game.GameManager.Player
 
         public void Move(InputAction.CallbackContext context)
         {
-            if (!_canMove) return;
-            var inputX = context.ReadValue<Vector2>().x;
-            var inputY = context.ReadValue<Vector2>().y;
-            var movement = new Vector2(inputX, inputY);
-            movement.Normalize();
-            if (movement.magnitude > 0.01f)
-                _rigidbody2D.velocity = new Vector2(movement.x * speed, movement.y * speed);
-            else
-                _rigidbody2D.velocity = Vector3.zero;
-            UpdateMoveAnimation(movement);
+	        if (context.canceled)
+	        {
+		        _lastSpeed = Vector2.zero;
+		        return;
+	        }
+	        if (!_canMove) return;
+	        if (!context.performed) return;
+	        var movement = context.ReadValue<Vector2>();
+	        movement.Normalize();
+	        _lastSpeed = new Vector2(movement.x * speed, movement.y * speed);
+	        UpdateMoveAnimation(movement);
+        }
+
+        private void FixedUpdate()
+        {
+	        _rigidbody2D.velocity = _lastSpeed;
         }
 
         private void Awake()

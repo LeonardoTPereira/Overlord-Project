@@ -317,12 +317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5992e03aa04a798f0689657c96c8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefabs:
-  - {fileID: 114939094486873598, guid: c44be27716565aa4bb90c9d82734fd40, type: 3}
-  - {fileID: 114939094486873598, guid: 21265ebc8154f094b98a29adfdbbebf1, type: 3}
-  - {fileID: 114939094486873598, guid: f779d5e8c005367469c5cc56a485f102, type: 3}
-  - {fileID: 114939094486873598, guid: 962c76af55ff3be468234bd041d69557, type: 3}
-  - {fileID: 114939094486873598, guid: 57c99de9578f3bb4188e20cc716b0c5b, type: 3}
+  roomBehavior: {fileID: 114939094486873598, guid: 1a443cf8b23c21b4faf41d9c7d26aa06,
+    type: 3}
   <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
     type: 2}
 --- !u!4 &514499399
@@ -413,10 +409,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.18593751
     y: 0
-    width: 1
-    height: 1
+    width: 0.28333336
+    height: 0.28333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

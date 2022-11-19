@@ -14,8 +14,10 @@ namespace Game.LevelManager.DungeonManager
         public bool isOpen;
         public bool isClosedByEnemies;
         public Sprite lockedSprite;
-        public Sprite closedSprite;
-        public Sprite openedSprite;
+        public List<Sprite> closedSprites;
+        public List<Sprite> openedSprites;
+        private Sprite _closedSprite;
+        private Sprite _openedSprite;
         public Transform teleportTransform;
         public Material gradientMaterial;
         [SerializeField]
@@ -41,18 +43,29 @@ namespace Game.LevelManager.DungeonManager
             _doorSprite = GetComponent<SpriteRenderer>();
             if (keyID == null)
             {
-                Destroy(gameObject);
-                return;
+	            Destroy(gameObject);
+	            return;
             }
             var firstKeyID = GetFirstKeyId();
             if (firstKeyID > 0)
             {
-                SetLockedSprite(firstKeyID);
+	            SetLockedSprite(firstKeyID);
             }
-            if (!_currentRoom.hasEnemies || !isClosedByEnemies) return;
+
+            if (!_currentRoom.hasEnemies || !isClosedByEnemies)
             {
-                if (keyID.Count != 0 && !isOpen) return;
-                _doorSprite.sprite = closedSprite;
+	            _doorSprite.sprite = _openedSprite;
+            }
+            else
+            {
+	            if (keyID.Count != 0 && !isOpen)
+	            {
+		            _doorSprite.sprite = _openedSprite;
+	            }
+	            else
+	            {
+		            _doorSprite.sprite = _closedSprite;
+	            }
             }
         }
 
@@ -164,16 +177,23 @@ namespace Game.LevelManager.DungeonManager
 
         private void OpenDoor()
         {
-            _doorSprite.sprite = openedSprite;
+            _doorSprite.sprite = _openedSprite;
         }
 
         public void OpenDoorAfterKilling()
         {
             if ((keyID?.Count ?? -1) == 0 || isOpen)
             {
-                _doorSprite.sprite = openedSprite;
+                _doorSprite.sprite = _openedSprite;
             }
             isClosedByEnemies = false;
+        }
+
+        public void SetTheme(Enums.RoomThemeEnum theme)
+        {
+	        _closedSprite = closedSprites[(int) theme];
+	        _openedSprite = openedSprites[(int) theme];
+	        
         }
     }
 }
