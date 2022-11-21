@@ -303,10 +303,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.253125
-    y: 0
-    width: 0.22592594
-    height: 0.22592592
+    x: 0
+    y: 0.055555556
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -493,35 +493,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 699199370929876372, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: nextPanel.Scene
-      value: 
-      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
-        type: 3}
-    - target: {fileID: 699199370929876372, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: nextPanel.SceneName
-      value: ExperimentLevelSelector
-      objectReference: {fileID: 0}
-    - target: {fileID: 699199370929876372, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: nextPanel.sceneIndex
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1485453624184611762, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_Text
-      value: Before we begin the game, we would like to know a little more about
-        you. Please, try to answer the questions below with the answers that best
-        suit you.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1485715969279221862, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: questionsData
-      value: 
-      objectReference: {fileID: 11400000, guid: c0518853ef13f80479bbb62fda7ae4d4,
-        type: 2}
     - target: {fileID: 1516576439373387153, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_Name
@@ -632,60 +603,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1516576439561316138, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1516576439593614743, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1516576439594577735, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1516576439931873964, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_text
-      value: 'Next
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1516576439931873964, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 72
-      objectReference: {fileID: 0}
-    - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_text
-      value: 'This game is a part of a doctorate research project which has the objective
-        of making the player explore different levels, with different enemies and
-        collect gameplay data.
-
-
-        You must navigate through the level, finding
-        keys which open locked doors.
-
-
-        Use "WASD" to move, the "keys" to
-        shoot and "X" to interact with NPCs and objects.
-
-
-        Don''t worry about
-        going the wrong way, the time or the amount of deaths :)
-
-
-        To win
-        the game, you must find the item below:'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 47.4
       objectReference: {fileID: 0}
     - target: {fileID: 1516576441142089456, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
