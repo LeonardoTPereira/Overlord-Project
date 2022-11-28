@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Game.SaveLoadSystem;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game.LevelSelection
 {
-    public class LevelSelectItem : MonoBehaviour, ISelectHandler, IDeselectHandler
+    public class LevelSelectItem : MonoBehaviour, ISelectHandler, IDeselectHandler, ISaveable
     {
         public string LevelId { get; set; }
 
@@ -32,6 +33,24 @@ namespace Game.LevelSelection
         public void OnDeselect(BaseEventData eventData)
         {
             IsSelected = false;
+        }
+
+        public object SaveState()
+        {
+            if (Level is RealTimeLevelData realTimeLevelData)
+            {
+                return realTimeLevelData.SaveState();
+            }
+
+            return null;
+        }
+
+        public void LoadState(object state)
+        {
+            if (Level is RealTimeLevelData realTimeLevelData)
+            {
+                realTimeLevelData.LoadState(state);
+            }        
         }
     }
 }

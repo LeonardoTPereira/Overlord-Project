@@ -5,6 +5,7 @@ using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
@@ -21,23 +22,23 @@ namespace Game.GameManager
         protected void OnEnable()
         {
             TreasureController.TreasureCollectEventHandler += AddItem;
-            ExchangeQuestSo.ItemTradeEventHandler += TradeItems;
-            GiveQuestSo.TreasureLostEventHandler += GiveItem;
+            NpcController.ItemTradeEventHandler += TradeItems;
+            NpcController.ItemGiveEventHandler += GiveItem;
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetTreasure;
 
         }
 
-        private void GiveItem(object sender, TreasureCollectEventArgs eventArgs)
+        private void GiveItem(object sender, ItemGiveEventArgs eventArgs)
         {
-            RemoveItem(eventArgs.Item);
-            UpdateUI(eventArgs.Item);
+            RemoveItem(eventArgs.GivenItem);
+            UpdateUI(eventArgs.GivenItem);
         }
 
         protected void OnDisable()
         {
             TreasureController.TreasureCollectEventHandler -= AddItem;
-            ExchangeQuestSo.ItemTradeEventHandler -= TradeItems;
-            GiveQuestSo.TreasureLostEventHandler -= GiveItem;
+            NpcController.ItemTradeEventHandler -= TradeItems;
+            NpcController.ItemGiveEventHandler -= GiveItem;
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetTreasure;
         }
 

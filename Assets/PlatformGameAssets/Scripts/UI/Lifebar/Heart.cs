@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 // This is the heart of the Lifebar_UI
 // The Heart have the 'heart' uss StyleSheet and an icon ( empty, half or full heart sprite)

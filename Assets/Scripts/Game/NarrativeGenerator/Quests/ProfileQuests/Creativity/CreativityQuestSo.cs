@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
+using MyBox;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -12,11 +13,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.CreativityQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get
             {
-                var creativityQuestWeights = new Dictionary<string, Func<int, int>>
+                var creativityQuestWeights = new Dictionary<string, Func<int, float>>
                 {
                     {Constants.ExploreQuest, Constants.TwoOptionQuestLineWeight},
                     {Constants.GotoQuest, Constants.TwoOptionQuestLineWeight},
@@ -31,7 +32,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.ExploreQuest:
-                    return CreateAndSaveExploreQuestSo(questSos);
+                    return CreateAndSaveExploreQuestSo(questSos, generatorSettings.RoomsToExplore);
                 case Constants.GotoQuest:
                     return CreateAndSaveGotoQuestSo(questSos);
                 default:
@@ -58,10 +59,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
 
-        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos)
+        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos, RangedInt roomsToExplore)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
-            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(71)+30;
+            var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(roomsToExplore.Max - roomsToExplore.Min) + roomsToExplore.Min;
             exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
             
             if (questSos.Count > 0)
@@ -76,8 +77,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
-            var gotoQuest = ScriptableObject.CreateInstance<GotoQuestSo>();
-            //TODO verify if there's a way to mark the room in the minimap/get a rooms name here
+            var gotoQuest = CreateInstance<GotoQuestSo>();
             gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
             if (questSos.Count > 0)
             {

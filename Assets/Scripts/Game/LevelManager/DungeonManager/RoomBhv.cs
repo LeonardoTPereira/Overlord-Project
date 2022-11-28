@@ -18,6 +18,7 @@ namespace Game.LevelManager.DungeonManager
     {
 
         public static event StartRoomEvent StartRoomEventHandler;
+        public static event ShowRoomOnMiniMapEvent ShowRoomOnMiniMapEventHandler;
 
         public DungeonRoom roomData;
         public List<int> northDoor;
@@ -26,18 +27,19 @@ namespace Game.LevelManager.DungeonManager
         public List<int> westDoor;
 
         public bool hasEnemies;
-        private bool _hasPlacedInCenter;
         public EnemyByAmountDictionary enemiesDictionary;
         private Vector3 _position;
+        private Transform _transform;
 
         public DoorBhv doorNorth;
         public DoorBhv doorSouth;
         public DoorBhv doorEast;
         public DoorBhv doorWest;
 
-        public KeyBhv keyPrefab;
-        public TriforceBhv triPrefab;
-        public TreasureController treasurePrefab;
+        public GameObject keyPrefab;
+        public GameObject triPrefab;
+        public GameObject treasurePrefab;
+        public GameObject readableItemPrefab;
         public GameObject[] npcPrefabs;
 
         public Collider2D colNorth;
@@ -60,29 +62,31 @@ namespace Game.LevelManager.DungeonManager
         private EnemyLoader _enemyLoader;
 
         private List<GameObject> _instantiatedEnemies;
+        private List<GameObject> _instantiatedKeys;
 
-        private Coordinates _coordinates;
-
+        private bool _hasBeenVisited;
+        
         public static event EnterRoomEvent EnterRoomEventHandler;
 
         public int QuestId { get; set; }
-
+        
         private void Awake()
         {
             hasEnemies = false;
-            _hasPlacedInCenter = false;
             enemiesDictionary = new EnemyByAmountDictionary();
             _instantiatedEnemies = new List<GameObject>();
+            _instantiatedKeys = new List<GameObject>();
+            _hasBeenVisited = false;
         }
 
         // Use this for initialization
         private void Start()
         {
-            _coordinates = roomData.Coordinates;
             _enemyLoader = GetComponent<EnemyLoader>();
 
             SetLayout();
-            _position = transform.position;
+            _transform = transform;
+            _position = _transform.position;
             if (RoomHasKey())
             {
                 PlaceKeysInRoom();
@@ -98,9 +102,10 @@ namespace Game.LevelManager.DungeonManager
             if (roomData.IsStartRoom())
             {
                 transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
-                minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
+                minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
                 GetAvailablePosition();
-                StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition));
+                StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition+_position));
+                _hasBeenVisited = true;
             }
             else if (roomData.IsFinalRoom())
             {
@@ -128,15 +133,14 @@ namespace Game.LevelManager.DungeonManager
 
             var centerX = roomData.Dimensions.Width / 2.0f - 0.5f;
             var centerY = roomData.Dimensions.Height / 2.0f - 0.5f;
-            const float delta = 0.0f; //para que os colisores das portas e das paredes não se sobreponham completamente
-            SetDoorsTransform(centerX, centerY, delta);
+            SetDoorsTransform(centerX, centerY);
 
             SetCollidersOnRoom(centerX, centerY);
 
             InstantiateTiles(centerX, centerY);
 
             //Instantiate corner props
-            var nwColumnObject = Instantiate(NWColumn, transform, true);
+            var nwColumnObject =  Instantiate(NWColumn, transform, true);
             nwColumnObject.transform.localPosition = new Vector2(-1f - centerX, roomData.Dimensions.Height - centerY);
             var seColumnObject = Instantiate(SEColumn, transform, true);
             seColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, -1f - centerY);
@@ -154,48 +158,11 @@ namespace Game.LevelManager.DungeonManager
             {
                 for (var iy = 0; iy < roomData.Dimensions.Height; iy++)
                 {
-                    var tileID = roomData.Tiles[ix, iy];
+                    var tileID = roomData.Tiles[ix, iy].TileType;
                     TileBhv tileObj;
-                    if (tileID == (int) Enums.TileTypes.Block)
+                    if (tileID == Enums.TileTypes.Block)
                     {
                         tileObj = Instantiate(blockPrefab);
-                        /*if (ix == 0)
-                        {
-                            if (iy == 0)
-                            {
-                                auxObj = Instantiate(NWColumn, transform, true);
-                                auxObj.transform.localPosition =
-                                    new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                            }
-
-                            if (iy == (roomData.Dimensions.Height - 1))
-                            {
-                                auxObj = Instantiate(SWColumn, transform, true);
-                                auxObj.transform.localPosition =
-                                    new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                            }
-
-                            tileObj.GetComponent<SpriteRenderer>().sprite = westWall;
-                        }
-                        else if (iy == 0)
-                        {
-                            tileObj.GetComponent<SpriteRenderer>().sprite = northWall;
-                        }
-                        else if (ix == (roomData.Dimensions.Width - 1))
-                        {
-                            if (iy == (roomData.Dimensions.Height - 1))
-                            {
-                                auxObj = Instantiate(SEColumn, transform, true);
-                                auxObj.transform.localPosition =
-                                    new Vector2(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY);
-                            }
-
-                            tileObj.GetComponent<SpriteRenderer>().sprite = eastWall;
-                        }
-                        else if (iy == (roomData.Dimensions.Height - 1))
-                        {
-                            tileObj.GetComponent<SpriteRenderer>().sprite = southWall;
-                        }*/
                     }
                     else
                     {
@@ -231,7 +198,7 @@ namespace Game.LevelManager.DungeonManager
                      iy < (roomData.Dimensions.Height - Constants.DistFromBorder);
                      iy += (roomData.Dimensions.Height / Constants.NSpawnPointsHor))
                 {
-                    if (roomData.Tiles[ix, iy] == (int) Enums.TileTypes.Block) continue;
+                    if (roomData.Tiles[ix, iy].TileType == Enums.TileTypes.Block) continue;
                     // Calculate the spawn point 2D position (spx, spy)
                     var spx = ix - centerX + xOffset;
                     var rh = roomData.Dimensions.Height - 1;
@@ -276,12 +243,12 @@ namespace Game.LevelManager.DungeonManager
             colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
         }
 
-        private void SetDoorsTransform(float centerX, float centerY, float delta)
+        private void SetDoorsTransform(float centerX, float centerY)
         {
-            doorNorth.transform.localPosition = new Vector2(0.0f, centerY + 1 - delta);
-            doorSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1 + delta);
-            doorEast.transform.localPosition = new Vector2(centerX + 1 - delta, 0.0f);
-            doorWest.transform.localPosition = new Vector2(-centerX - 1 + delta, 0.0f);
+            doorNorth.transform.localPosition = new Vector2(0.0f, centerY + 1);
+            doorSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1);
+            doorEast.transform.localPosition = new Vector2(centerX + 1, 0.0f);
+            doorWest.transform.localPosition = new Vector2(-centerX - 1, 0.0f);
         }
 
         private void OnDrawGizmos()
@@ -335,8 +302,17 @@ namespace Game.LevelManager.DungeonManager
                 ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.DoorClose, 1));
                 SpawnEnemies();
             }
-            minimapIcon.GetComponent<SpriteRenderer>().color = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
-            EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, roomData.Dimensions, enemiesDictionary, gameObject.transform.position));
+
+            if (!_hasBeenVisited)
+            {
+	            foreach (var key in _instantiatedKeys)
+	            {
+		            key.GetComponent<KeyBhv>().ShowKeyMinimapIcon();
+	            }
+                minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
+                _hasBeenVisited = true;
+            }
+            EnterRoomEventHandler?.Invoke(this, new EnterRoomEventArgs(roomData.Coordinates, roomData.Dimensions, enemiesDictionary, transform.position));
             ((IQuestElement) this).OnQuestTaskResolved(this, new QuestExploreRoomEventArgs( roomData.Coordinates, QuestId ));
         }
 
@@ -363,9 +339,10 @@ namespace Game.LevelManager.DungeonManager
         private void PlaceKeyInRoom(int keyId)
         {
             GetAvailablePosition();
-            var key = Instantiate(keyPrefab, _availablePosition, transform.rotation);
-            key.transform.position = _availablePosition;
-            key.KeyID = keyId;
+            var key = PlaceObjectInRoom(keyPrefab);
+            var keyBhv = key.GetComponent<KeyBhv>();
+            keyBhv.KeyID = keyId;
+            _instantiatedKeys.Add(key);
         }
 
         private bool RoomHasTreasure()
@@ -384,35 +361,48 @@ namespace Game.LevelManager.DungeonManager
         {
             foreach (var questId in questIds.QuestIds)
             {
-                GetAvailablePosition();
-                var treasure = Instantiate(treasurePrefab, transform);
-                treasure.Treasure = item;
-                treasure.transform.position = _availablePosition;
-                treasure.QuestId = questId;
+                if ( item as ReadableItemSo != null )
+                    PlaceReadableItem(item, questId);
+                else
+                    PlaceTreasureItem(item, questId);
             }
+        }
+
+        private void PlaceReadableItem(ItemSo item, int questId)
+        {
+            GetAvailablePosition();
+            var readableItem = PlaceObjectInRoom(readableItemPrefab);
+            var readableItemController = readableItem.GetComponent<ReadableItemController>();
+            readableItemController.SetItemInfo( item as ReadableItemSo, questId );
+        }
+
+        private void PlaceTreasureItem(ItemSo item, int questId)
+        {
+            GetAvailablePosition();
+            var treasure = PlaceObjectInRoom(treasurePrefab);
+            var treasureController = treasure.GetComponent<TreasureController>();
+            treasureController.Treasure = item;
+            treasureController.QuestId = questId;
         }
 
         private void PlaceTriforceInRoom()
         {
             GetAvailablePosition();
-            var tri = Instantiate(triPrefab, transform);
-            tri.transform.position = _availablePosition;
-        
+            PlaceObjectInRoom(triPrefab);
         }
 
         private void GetAvailablePosition()
         {
-            if (!_hasPlacedInCenter)
-            {
-                _availablePosition = roomData.GetCenterMostFreeTilePosition() + _position;
-                _hasPlacedInCenter = true;
-            }
-            else
-            {
-                _availablePosition = roomData.GetNextAvailablePosition(_availablePosition - _position) + _position;
-            }
+            _availablePosition = roomData.GetNextAvailablePosition();
         }
 
+        private GameObject PlaceObjectInRoom(GameObject prefab)
+        {
+            var instance = Instantiate(prefab, transform, true);
+            instance.transform.localPosition = _availablePosition;
+            return instance;
+        }
+        
         private bool RoomHasNpc(){
             return roomData.Npcs != null;
         }
@@ -433,9 +423,8 @@ namespace Game.LevelManager.DungeonManager
                 if (npcPrefab.GetComponent<NpcController>().Npc == npc)
                     prefab = npcPrefab;
             }
-            var npcController = Instantiate(prefab, transform);
             GetAvailablePosition();
-            npcController.transform.position = _availablePosition;
+            PlaceObjectInRoom(prefab);
         }
 
         public void KillEnemies()
@@ -451,5 +440,13 @@ namespace Game.LevelManager.DungeonManager
             enemiesDictionary. Remove(killedEnemyWeapon);
         }
 
+        public void MarkToVisit()
+        {
+            if (!_hasBeenVisited)
+            {
+                minimapIcon.GetComponent<SpriteRenderer>().color = Constants.MarkedColor;
+            }
+            ShowRoomOnMiniMapEventHandler?.Invoke(this, new ShowRoomOnMiniMapEventArgs(transform.position));
+        }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlatformGame.Player;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 public class LifebarWindow : MonoBehaviour
 {

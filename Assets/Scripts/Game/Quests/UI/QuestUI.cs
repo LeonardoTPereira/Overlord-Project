@@ -1,18 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
-
-using Game.LevelSelection;
 using Game.NarrativeGenerator.Quests;
 using Game.Quests;
 
 public class QuestUI : MonoBehaviour
 {
-    [SerializeField] private InputActionAsset controls;
-    private InputActionMap _inputActionMap;
-    public InputAction toggleQuestUI;
+    [SerializeField] private InputActionReference interactAction;
 
     private QuestUIController _controller;
     private VisualElement _root;
@@ -22,15 +18,15 @@ public class QuestUI : MonoBehaviour
     private void Awake()
     {
         QuestController questController = FindObjectOfType<QuestController>();
+        if ( questController == null )
+            Destroy(gameObject);
         currentQuestLines = questController.QuestLines;
-
-        _inputActionMap = controls.FindActionMap("UI");
-        toggleQuestUI = _inputActionMap.FindAction("ToggleQuestUI");
-        toggleQuestUI.performed += OnQuestUIToggle;
+        
     }
 
     private void OnEnable()
     {
+        interactAction.action.performed += OnQuestUIToggle;
         UIDocument menu = GetComponent<UIDocument>();
         _root = menu.rootVisualElement;
 
@@ -39,6 +35,11 @@ public class QuestUI : MonoBehaviour
         _controller.ToggleQuestUI();
     }
 
+    private void OnDisable()
+    {
+        interactAction.action.performed -= OnQuestUIToggle;
+    }
+    
     public void OnQuestUIToggle(InputAction.CallbackContext context)
     {
         PopulateLabels();
@@ -53,7 +54,8 @@ public class QuestUI : MonoBehaviour
 
         foreach (var questLine in currentQuestLines.QuestLines)
         {
-            questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "")+" "+questLine.GetCurrentQuest().ToString();
+            if ( questLine.GetCurrentQuest() != null )
+                questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "")+" "+questLine.GetCurrentQuest().ToString();
             foreach (var quest in questLine.GetCompletedQuests())
             {
                 questContents[1] += "\n - "+quest.GetType().Name.Replace("QuestSo", "")+" "+quest.ToString();

@@ -8,6 +8,7 @@ using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;
 using Game.NarrativeGenerator.Quests;
+using Game.SaveLoadSystem;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ namespace Game.LevelManager.DungeonLoader
     {
         public GameObject gameOverScreen, victoryScreen;
         [field: Scene] public string GameUI { get; set; } = "GameUI";
+        [field: Scene] public string MinimapUI { get; set; } = "MinimapUI";
         public static event EventHandler NewLevelLoadedEventHandler;
         public QuestLineList currentQuestLines;
         public int maxTreasure;
@@ -39,6 +41,7 @@ namespace Game.LevelManager.DungeonLoader
             PlayBgm(AudioManager.BgmTracks.DungeonTheme);
             gameOverScreen.GetComponent<GameOverPanelBhv>().currentLevel = selectedLevels.GetCurrentLevel();
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(MinimapUI, LoadSceneMode.Additive);
             StartCoroutine(_dungeonLoader.OnStartMap(_currentDungeonSo.BiomeName));
         }
 
@@ -67,6 +70,7 @@ namespace Game.LevelManager.DungeonLoader
         private void GameOver(object sender, EventArgs eventArgs)
         {
             SceneManager.UnloadSceneAsync(GameUI);
+            SceneManager.UnloadSceneAsync(MinimapUI);
             gameOverScreen.SetActive(true);
         }
         
@@ -74,6 +78,7 @@ namespace Game.LevelManager.DungeonLoader
         {
             PlayBgm(AudioManager.BgmTracks.VictoryTheme);            
             SceneManager.UnloadSceneAsync(GameUI);
+            SceneManager.UnloadSceneAsync(MinimapUI);
 
             selectedLevels.GetCurrentLevel().CompleteLevel();
             victoryScreen.SetActive(true);

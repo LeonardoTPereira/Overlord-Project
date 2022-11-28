@@ -80,9 +80,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 32
       m_Height: 64
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 32
-      m_HorizontalAdvance: 32
+      m_HorizontalBearingX: -16
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 0
     m_GlyphRect:
       m_X: 1
       m_Y: 67
@@ -96,9 +96,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 32
       m_Height: 64
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 32
-      m_HorizontalAdvance: 32
+      m_HorizontalBearingX: -16
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 0
     m_GlyphRect:
       m_X: 35
       m_Y: 67
@@ -112,9 +112,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 32
       m_Height: 64
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 32
-      m_HorizontalAdvance: 32
+      m_HorizontalBearingX: -16
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 0
     m_GlyphRect:
       m_X: 69
       m_Y: 67
@@ -128,9 +128,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 32
       m_Height: 64
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 32
-      m_HorizontalAdvance: 32
+      m_HorizontalBearingX: -16
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 0
     m_GlyphRect:
       m_X: 103
       m_Y: 67
@@ -144,9 +144,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 32
       m_Height: 64
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 32
-      m_HorizontalAdvance: 32
+      m_HorizontalBearingX: -16
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 0
     m_GlyphRect:
       m_X: 1
       m_Y: 1
@@ -160,9 +160,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 32
       m_Height: 64
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 32
-      m_HorizontalAdvance: 32
+      m_HorizontalBearingX: -16
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 0
     m_GlyphRect:
       m_X: 35
       m_Y: 1

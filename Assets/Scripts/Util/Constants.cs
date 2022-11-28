@@ -9,6 +9,8 @@ namespace Util
         public static readonly char SeparatorCharacter = Path.DirectorySeparatorChar;
 
         public static readonly Color[] ColorId = new Color[] { Color.yellow, Color.blue, Color.green, Color.red, Color.gray, Color.white, Color.cyan, Color.black };
+        public static readonly Color VisitedColor = new Color(0.5433761f, 0.2772784f, 0.6320754f, 1.0f);
+        public static readonly Color MarkedColor = new Color(0.8433761f, 0.2772784f, 0.2320754f, 1.0f);
 
         public static float LogNormalization(float value, float minValue, float maxValue, float minNormalized, float maxNormalized)
         {
@@ -23,7 +25,8 @@ namespace Util
         public static class RoomTypeString
         {
             public const string Corridor = "Corridor";
-            public const string Lock = "Lock";
+            public const string LockedCorridor = "LockedCorridor";
+            public const string LockedRoom = "LockedRoom";
             public const string Key = "Key";
             public const string Boss = "Boss";
             public const string Leaf = "Leaf";
@@ -55,17 +58,17 @@ namespace Util
         #endregion
 
         #region Quest Weights
-        public static readonly Func<int,int> OneOptionQuestLineWeight = x => (int)(100 - Mathf.Pow(x,2));
+        public static readonly Func<int,float> OneOptionQuestLineWeight = x => (100 - Mathf.Pow((0.5f*x),2));
 
-        public static readonly Func<int,int> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
+        public static readonly Func<int,float> TwoOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/2;
 
-        public static readonly Func<int,int> ThreeOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/3;
+        public static readonly Func<int,float> ThreeOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/3;
         
-        public static readonly Func<int,int> FourOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/4;
+        public static readonly Func<int,float> FourOptionQuestLineWeight = x => OneOptionQuestLineWeight(x)/4;
         
-        public static readonly Func<int,int> OneOptionQuestEmptyWeight = x => (int) Mathf.Pow(x,2);
+        public static readonly Func<int,float> OneOptionQuestEmptyWeight = x => Mathf.Pow((0.5f*x),2);
 
-        public static readonly Func<int,int> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
+        public static readonly Func<int,float> TwoOptionQuestEmptyWeight = x => OneOptionQuestEmptyWeight(x);
 
         #endregion
 

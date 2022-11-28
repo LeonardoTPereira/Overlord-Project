@@ -4,7 +4,7 @@
     {
         public static event QuestElementEvent QuestElementEventHandler;
         public static event QuestElementEvent QuestCompletedEventHandler;
-        public int QuestId { get; set; }
+
         public void OnQuestTaskResolved(object sender, QuestElementEventArgs args)
         {
             QuestElementEventHandler?.Invoke(sender, args);

@@ -7,6 +7,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public NpcSo NpcToReceive { get; set; }
         public ItemSo ItemToGive { get; set; }
+        public int QuestId { get; set; }
 
         public GiveQuestData()
         {
@@ -14,10 +15,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             ItemToGive = null;
         }
         
-        public GiveQuestData(NpcSo npcToReceive, ItemSo itemToGive)
+        public GiveQuestData(NpcSo npcToReceive, ItemSo itemToGive, int questId)
         {
             NpcToReceive = npcToReceive;
             ItemToGive = itemToGive;
+            QuestId = questId;
+        }
+        
+        public GiveQuestData(GiveQuestData originalData)
+        {
+            NpcToReceive = originalData.NpcToReceive;
+            ItemToGive = originalData.ItemToGive;
+            QuestId = originalData.QuestId;
         }
     }
 }
