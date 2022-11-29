@@ -155,6 +155,17 @@
                 },
                 {
                     "name": "",
+                    "id": "2221d03f-db2e-4f1c-8811-4a549f1634fd",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c7b68339-da3c-4596-8a40-b00ace233078",
                     "path": "<Keyboard>/shift",
                     "interactions": "",

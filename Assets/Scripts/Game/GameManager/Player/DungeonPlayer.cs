@@ -16,7 +16,7 @@ namespace Game.GameManager.Player
 
         [SerializeField] private Collider2D _playerTrigger;
 
-        private static readonly float CooldownToUse = 5f;
+        private static readonly float CooldownToUse = 2f;
 
         public static event ExitRoomEvent ExitRoomEventHandler;
 
