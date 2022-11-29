@@ -21,7 +21,6 @@ namespace PlatformGame.Enemy
         {
             base.InitializeHealth();
             _enemyAnimation = GetComponent<EnemyAnimation>();
-            enemySo = null;
         }
 
         public void LoadHealth(EnemySO enemySo)

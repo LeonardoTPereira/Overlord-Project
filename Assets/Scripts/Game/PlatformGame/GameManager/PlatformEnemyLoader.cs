@@ -33,6 +33,7 @@ namespace PlatformGame.GameManager
             {
                 enemy = Instantiate(EnemyPrefab, position, rotation);
             }
+
             enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
             return enemy;
         }
