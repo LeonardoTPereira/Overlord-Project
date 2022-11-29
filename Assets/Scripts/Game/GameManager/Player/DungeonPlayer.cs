@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game.Audio;
 using Game.Events;
@@ -12,11 +13,16 @@ namespace Game.GameManager.Player
     {
         public List<int> Keys { get; } = new();
         public List<int> UsedKeys { get; } = new();
-        
+
+        [SerializeField] private Collider2D _playerTrigger;
+
+        private static readonly float CooldownToUse = 5f;
+
         public static event ExitRoomEvent ExitRoomEventHandler;
 
         public void Awake()
         {
+           
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -59,6 +65,14 @@ namespace Game.GameManager.Player
         {
             Instance.transform.position = eventArgs.EntrancePosition;
             ExitRoomEventHandler?.Invoke(this, eventArgs);
+            StartCoroutine(CountToUse());
+        }
+
+        private IEnumerator CountToUse()
+        {
+            _playerTrigger.enabled = false;
+            yield return new WaitForSeconds(CooldownToUse);
+            _playerTrigger.enabled = true;
         }
 
         private void ResetValues(object sender, EventArgs eventArgs)

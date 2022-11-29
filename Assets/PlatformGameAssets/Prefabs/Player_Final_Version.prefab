@@ -162,9 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b72e55a5d7db084baa34d7ab259e003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 10
   runSpeedMultiplier: 1.5
-  jumpForce: 100
+  jumpForce: 200
   isSeparated: 1
 --- !u!114 &5243512210156797414
 MonoBehaviour:
@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3e60d7b307a5d4cb506bd878fc55cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerTrigger: {fileID: 4382789248446249681}
 --- !u!1001 &1480729289038994960
 PrefabInstance:
   m_ObjectHideFlags: 0
