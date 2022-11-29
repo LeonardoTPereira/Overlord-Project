@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Gameplay;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PlatformGame.Player
 {
@@ -23,6 +24,7 @@ namespace PlatformGame.Player
             Debug.Log("GAME OVER");
             PlayerDiedEvent?.Invoke();
             base.Kill();
+            SceneManager.LoadScene("ExperimentLevelSelector");
             Destroy(gameObject);
         }
 

@@ -40,6 +40,7 @@ namespace PlatformGame.Dungeon.DungeonLoader
         protected override void LevelComplete(object sender, EventArgs eventArgs)
         {
             SetComplete();
+            SceneManager.LoadScene("ExperimentLevelSelector");
         }
     }
 }

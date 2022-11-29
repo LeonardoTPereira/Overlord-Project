@@ -23,7 +23,7 @@ namespace PlatformGame.Weapons.Melee
         private IEnumerator DoTackle()
         {
             var wolfTransform = transform;
-            var force = (wolfTransform.up + wolfTransform.right * 3).normalized;
+            var force = (wolfTransform.up*2 + wolfTransform.right).normalized;
             force = force * wolfTackleForce;
             _wolfRigidBody2D.AddForce(force, ForceMode2D.Impulse);
             yield return new WaitForSeconds(attackDuration);

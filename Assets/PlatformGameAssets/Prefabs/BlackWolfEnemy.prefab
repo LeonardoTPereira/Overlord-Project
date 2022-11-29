@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponDamage: 2
   attackDuration: 2
-  wolfTackleForce: 10
+  wolfTackleForce: 60
 --- !u!60 &2941216801302319537
 PolygonCollider2D:
   m_ObjectHideFlags: 0
