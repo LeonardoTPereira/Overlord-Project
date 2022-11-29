@@ -261,21 +261,21 @@ namespace Game.LevelManager.DungeonManager
             {
                 foreach (var questId in enemiesFromType.Value.QuestIds)
                 {
-                    int actualSpawn;
+                    int currentSpawn;
                     if (selectedSpawnPoints.Count >= spawnPoints.Count)
                     {
                         selectedSpawnPoints.Clear();
                     }
                     do
                     {
-                        actualSpawn = RandomSingleton.GetInstance().Next(0, spawnPoints.Count);
-                    } while (selectedSpawnPoints.Contains(actualSpawn));
+                        currentSpawn = RandomSingleton.GetInstance().Next(0, spawnPoints.Count);
+                    } while (selectedSpawnPoints.Contains(currentSpawn));
                     var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
-                        new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
+                        new Vector3(spawnPoints[currentSpawn].x, spawnPoints[currentSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key, questId);
                     _instantiatedEnemies.Add(enemy);
                     enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
-                    selectedSpawnPoints.Add(actualSpawn);
+                    selectedSpawnPoints.Add(currentSpawn);
                 }
             }
         }
@@ -286,6 +286,22 @@ namespace Game.LevelManager.DungeonManager
             {
                 ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.DoorClose, 1));
                 SpawnEnemies();
+                if (doorEast != null)
+                {
+	                doorEast.CloseDoor();
+                }
+                if (doorWest != null)
+                {
+	                doorWest.CloseDoor();
+                }
+                if (doorNorth != null)
+                {
+	                doorNorth.CloseDoor();
+                }
+                if (doorSouth != null)
+                {
+	                doorSouth.CloseDoor();
+                }
             }
 
             if (!_hasBeenVisited)
@@ -303,10 +319,10 @@ namespace Game.LevelManager.DungeonManager
 
         private void SetKeysToDoors()
         {
-            doorNorth.keyID = northDoor;
-            doorSouth.keyID = southDoor;
-            doorEast.keyID = eastDoor;
-            doorWest.keyID = westDoor;
+	        doorNorth.SetKey(northDoor);
+	        doorSouth.SetKey(southDoor);
+	        doorEast.SetKey(eastDoor);
+	        doorWest.SetKey(westDoor);
         }
 
         private bool RoomHasKey()
@@ -422,7 +438,25 @@ namespace Game.LevelManager.DungeonManager
         
         public void RemoveFromDictionary(object sender, EnemySO killedEnemyWeapon)
         {
-            enemiesDictionary. Remove(killedEnemyWeapon);
+            enemiesDictionary.Remove(killedEnemyWeapon);
+            if (enemiesDictionary.Count != 0) return;
+            hasEnemies = false;
+            if (doorEast != null)
+            {
+	            doorEast.OpenDoorAfterKilling();
+            }
+            if (doorWest != null)
+            {
+	            doorWest.OpenDoorAfterKilling();
+            }
+            if (doorNorth != null)
+            {
+	            doorNorth.OpenDoorAfterKilling();
+            }
+            if (doorSouth != null)
+            {
+	            doorSouth.OpenDoorAfterKilling();
+            }
         }
 
         public void MarkToVisit()

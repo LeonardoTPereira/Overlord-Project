@@ -144,7 +144,6 @@ namespace Game.NarrativeGenerator
         {
             return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines, 
                 CurrentGeneratorSettings.DungeonParameters, CurrentGeneratorSettings.TotalRunsOfEA));
-            //Quests.DungeonFileSos = LevelSelector.FilterLevels(Quests.DungeonFileSos);
         }
 
         private void SaveSOs(string profileName)

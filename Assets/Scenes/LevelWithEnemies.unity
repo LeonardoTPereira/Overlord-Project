@@ -677,10 +677,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.29375002
     y: 0
-    width: 0
-    height: 0
+    width: 0.32592595
+    height: 0.32592592
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1200,7 +1200,7 @@ PrefabInstance:
         type: 3}
       propertyPath: questionsData
       value: 
-      objectReference: {fileID: 11400000, guid: 8a7a6ba1c194453faf1d7d666b01b990,
+      objectReference: {fileID: 11400000, guid: ec1973f1462a7404baf1ca6d47496fca,
         type: 2}
     - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
@@ -1454,13 +1454,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7416396612373760025, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 224
+      value: -856
       objectReference: {fileID: 0}
     - target: {fileID: 7923233537400942061, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
@@ -1477,6 +1487,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8454037983931358478, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -294
+      objectReference: {fileID: 0}
     - target: {fileID: 8454037984114904316, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: m_text
@@ -1488,6 +1503,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSize
       value: 50.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037984114904317, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037984114904317, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454037984114904317, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -658
       objectReference: {fileID: 0}
     - target: {fileID: 8454037984383699983, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}

@@ -36,37 +36,41 @@ namespace Game.LevelManager.DungeonManager
         {
             isOpen = false;
             _currentRoom = transform.parent.GetComponent<RoomBhv>();
+            _doorSprite = GetComponent<SpriteRenderer>();
         }
 
-        private void Start()
+        private bool DestroyIfDoesNotExist()
         {
-            _doorSprite = GetComponent<SpriteRenderer>();
-            if (keyID == null)
-            {
-	            Destroy(gameObject);
-	            return;
-            }
-            var firstKeyID = GetFirstKeyId();
-            if (firstKeyID > 0)
-            {
-	            SetLockedSprite(firstKeyID);
-            }
+	        if (keyID != null) return false;
+	        Destroy(gameObject);
+	        return true;
+        }
 
-            if (!_currentRoom.hasEnemies || !isClosedByEnemies)
-            {
-	            _doorSprite.sprite = _openedSprite;
-            }
-            else
-            {
-	            if (keyID.Count != 0 && !isOpen)
-	            {
-		            _doorSprite.sprite = _openedSprite;
-	            }
-	            else
-	            {
-		            _doorSprite.sprite = _closedSprite;
-	            }
-            }
+        private void SetSprite()
+        {
+	        var firstKeyID = GetFirstKeyId();
+	        if (_currentRoom.hasEnemies && isClosedByEnemies)
+	        {
+		        if (firstKeyID > 0)
+		        {
+			        SetLockedSprite(firstKeyID);
+		        }
+		        else
+		        {
+			        _doorSprite.sprite = _closedSprite;
+		        }
+	        }
+	        else
+	        {
+		        if (firstKeyID > 0 && !isOpen)
+		        {
+			        SetLockedSprite(firstKeyID);
+		        }
+		        else
+		        {
+			        _doorSprite.sprite = _openedSprite;
+		        }
+	        }
         }
 
         private int GetFirstKeyId()
@@ -130,13 +134,13 @@ namespace Game.LevelManager.DungeonManager
             var commonKeys = keyID.Intersect(Player.Instance.Keys).ToList();
             if (keyID.Count == 0 || isOpen)
             {
-                if (isClosedByEnemies) return;
+                if (_currentRoom.hasEnemies && isClosedByEnemies) return;
                 MovePlayerToNextRoom();
             }
             
             else if (commonKeys.Count == keyID.Count)
             {
-                if (isClosedByEnemies) return;
+                if (_currentRoom.hasEnemies && isClosedByEnemies) return;
                 UseKeys(commonKeys);
                 MovePlayerToNextRoom();
             }
@@ -151,8 +155,7 @@ namespace Game.LevelManager.DungeonManager
             }
 
             OpenDoor();
-            if (!destination._currentRoom.hasEnemies)
-                destination.OpenDoor();
+            destination.OpenDoor();
             isOpen = true;
             destination.isOpen = true;
             OnKeyUsed(commonKeys.First());
@@ -193,7 +196,19 @@ namespace Game.LevelManager.DungeonManager
         {
 	        _closedSprite = closedSprites[(int) theme];
 	        _openedSprite = openedSprites[(int) theme];
-	        
+        }
+
+        public void CloseDoor()
+        {
+	        if (DestroyIfDoesNotExist()) return;
+	        SetSprite();
+        }
+
+        public void SetKey(List<int> keyIDs)
+        {
+	        keyID = keyIDs;
+	        if (DestroyIfDoesNotExist()) return;
+	        SetSprite();
         }
     }
 }
