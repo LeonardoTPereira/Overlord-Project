@@ -13,9 +13,7 @@ namespace Game.LevelGenerator.LevelSOs
     public class DungeonFileSo : ScriptableObject, ISavableGeneratedContent
     {
         const string Foldername = "Assets/Resources/Experiment/Dungeons";
-        
         [field: SerializeField] public Dimensions DungeonSizes { get; set; }
-
         [field: SerializeField] public List<DungeonRoomData> Parts { get; set; }
         [field: SerializeField] public Fitness FitnessFromEa { get; set; }
         public float ExplorationCoefficient { get; set; }
@@ -24,7 +22,6 @@ namespace Game.LevelGenerator.LevelSOs
         public int TotalEnemies { get; set; }
         public int TotalTreasures { get; set; }
         public int TotalNpcs { get; set; }
-
         private int _currentIndex = 0;
 
         public void ResetIndex()

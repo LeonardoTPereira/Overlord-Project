@@ -2,6 +2,16 @@
 {
     public static class Enums
     {
+	    public enum RoomThemeEnum
+	    {
+		    Purple,
+		    Blue,
+		    Green,
+		    Yellow,
+		    Red,
+		    Count
+	    }
+	    
         public enum MovementEnum
         {
             None,

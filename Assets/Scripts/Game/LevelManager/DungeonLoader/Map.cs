@@ -50,7 +50,6 @@ namespace Game.LevelManager.DungeonLoader
                     NLocks += room.Locks.Count;
                 }
             }
-
             NEnemies = dungeonFileSo.TotalEnemies;
             TotalTreasure = dungeonFileSo.TotalTreasures;
             NNPCs = dungeonFileSo.TotalNpcs;

@@ -11,6 +11,7 @@ using ScriptableObjects;
 using UnityEngine;
 using Util;
 using Game.Quests;
+using UnityEngine.Tilemaps;
 
 namespace Game.LevelManager.DungeonManager
 {
@@ -20,6 +21,7 @@ namespace Game.LevelManager.DungeonManager
         public static event StartRoomEvent StartRoomEventHandler;
         public static event ShowRoomOnMiniMapEvent ShowRoomOnMiniMapEventHandler;
 
+        private Enums.RoomThemeEnum _theme;
         public DungeonRoom roomData;
         public List<int> northDoor;
         public List<int> southDoor;
@@ -47,11 +49,30 @@ namespace Game.LevelManager.DungeonManager
         public Collider2D colEast;
         public Collider2D colWest;
 
-        public TileBhv tilePrefab;
-        public BlockBhv blockPrefab;
+        public Tilemap floorTilemap;
+        public Tilemap blockTilemap;
+        public List<TileBase> blockTiles;
+        public List<TileBase> floorTiles;
+        private TileBase _blockTile;
+        private TileBase _floorTile;
 
-        public Sprite northWall, southWall, eastWall, westWall;
-        public GameObject NWColumn, NEColumn, SEColumn, SWColumn;
+        private Sprite _northWall;
+        private Sprite _southWall;
+        private Sprite _eastWall; 
+        private Sprite _westWall;
+        public List<Sprite> northWalls;
+        public List<Sprite> southWalls;
+        public List<Sprite> eastWalls;
+        public List<Sprite> westWalls;
+        public List<GameObject> NWColumns;
+        public List<GameObject> NEColumns;
+        public List<GameObject> SEColumns;
+        public List<GameObject> SWColumns;
+        
+        private GameObject _nwColumn;
+        private GameObject _neColumn;
+        private GameObject _seColumn;
+        private GameObject _swColumn;
 
         public GameObject minimapIcon;
 
@@ -63,6 +84,7 @@ namespace Game.LevelManager.DungeonManager
 
         private List<GameObject> _instantiatedEnemies;
         private List<GameObject> _instantiatedKeys;
+        
 
         private bool _hasBeenVisited;
         
@@ -77,45 +99,13 @@ namespace Game.LevelManager.DungeonManager
             _instantiatedEnemies = new List<GameObject>();
             _instantiatedKeys = new List<GameObject>();
             _hasBeenVisited = false;
+            floorTilemap.ClearAllTiles();
         }
 
         // Use this for initialization
         private void Start()
         {
             _enemyLoader = GetComponent<EnemyLoader>();
-
-            SetLayout();
-            _transform = transform;
-            _position = _transform.position;
-            if (RoomHasKey())
-            {
-                PlaceKeysInRoom();
-            }
-            if (RoomHasTreasure())
-            {
-                PlaceTreasuresInRoom();
-            }
-            if (RoomHasNpc())
-            {
-                PlaceNpcsInRoom();
-            }
-            if (roomData.IsStartRoom())
-            {
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
-                minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
-                GetAvailablePosition();
-                StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition+_position));
-                _hasBeenVisited = true;
-            }
-            else if (roomData.IsFinalRoom())
-            {
-                PlaceTriforceInRoom();
-                transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
-            }
-            SelectEnemies();
-
-            minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
-            
         }
 
         private void DebugRoomData()
@@ -131,50 +121,45 @@ namespace Game.LevelManager.DungeonManager
         {
             SetKeysToDoors();
 
-            var centerX = roomData.Dimensions.Width / 2.0f - 0.5f;
-            var centerY = roomData.Dimensions.Height / 2.0f - 0.5f;
-            SetDoorsTransform(centerX, centerY);
+            SetDoorsTransform();
 
-            SetCollidersOnRoom(centerX, centerY);
+            SetCollidersOnRoom();
 
-            InstantiateTiles(centerX, centerY);
+            InstantiateTileMap();
 
             //Instantiate corner props
-            var nwColumnObject =  Instantiate(NWColumn, transform, true);
-            nwColumnObject.transform.localPosition = new Vector2(-1f - centerX, roomData.Dimensions.Height - centerY);
-            var seColumnObject = Instantiate(SEColumn, transform, true);
-            seColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, -1f - centerY);
-            var neColumnObject  = Instantiate(NEColumn, transform, true);
-            neColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width - centerX, roomData.Dimensions.Height - centerY);
-            var swColumnObject = Instantiate(SWColumn, transform, true);
-            swColumnObject.transform.localPosition = new Vector2(-1f - centerX, -1f - centerY);
+            var nwColumnObject =  Instantiate(_nwColumn, transform, true);
+            nwColumnObject.transform.localPosition = new Vector2(-0.5f, roomData.Dimensions.Height+0.5f);
+            var seColumnObject = Instantiate(_seColumn, transform, true);
+            seColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width+0.5f, -0.5f);
+            var neColumnObject  = Instantiate(_neColumn, transform, true);
+            neColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width+0.5f, roomData.Dimensions.Height+0.5f);
+            var swColumnObject = Instantiate(_swColumn, transform, true);
+            swColumnObject.transform.localPosition = new Vector2(-0.5f, -0.5f);
         
-            SetEnemySpawners(centerX, centerY);
+            SetEnemySpawners();
         }
-
-        private void InstantiateTiles(float centerX, float centerY)
+        
+        private void InstantiateTileMap()
         {
-            for (var ix = 0; ix < roomData.Dimensions.Width; ix++)
-            {
-                for (var iy = 0; iy < roomData.Dimensions.Height; iy++)
-                {
-                    var tileID = roomData.Tiles[ix, iy].TileType;
-                    TileBhv tileObj;
-                    if (tileID == Enums.TileTypes.Block)
-                    {
-                        tileObj = Instantiate(blockPrefab);
-                    }
-                    else
-                    {
-                        tileObj = Instantiate(tilePrefab);
-                    }
-
-                    tileObj.SetPosition(ix - centerX, roomData.Dimensions.Height - 1 - iy - centerY, transform);
-                }
-            }
+	        for (var ix = 0; ix < roomData.Dimensions.Width; ix++)
+	        {
+		        for (var iy = 0; iy < roomData.Dimensions.Height; iy++)
+		        {
+			        var tileID = roomData.Tiles[ix, iy].TileType;
+			        if (tileID == Enums.TileTypes.Block)
+			        {
+				        blockTilemap.SetTile(new Vector3Int(ix, iy), _blockTile);
+			        }
+			        else
+			        {
+				        floorTilemap.SetTile(new Vector3Int(ix, iy), _floorTile);
+			        }
+		        }
+	        }
         }
 
-        private void SetEnemySpawners(float centerX, float centerY)
+        private void SetEnemySpawners()
         {
             var roomPosition = transform.position;
             var xOffset = roomPosition.x;
@@ -200,9 +185,8 @@ namespace Game.LevelManager.DungeonManager
                 {
                     if (roomData.Tiles[ix, iy].TileType == Enums.TileTypes.Block) continue;
                     // Calculate the spawn point 2D position (spx, spy)
-                    var spx = ix - centerX + xOffset;
-                    var rh = roomData.Dimensions.Height - 1;
-                    var spy = rh - iy - centerY + yOffset;
+                    var spx = ix + xOffset + 0.5f;
+                    var spy = iy + yOffset + 0.5f;
                     var point = new Vector3(spx, spy, 0);
 
                     // Add the calculated point to spawn point list
@@ -224,31 +208,32 @@ namespace Game.LevelManager.DungeonManager
             }
         }
 
-        private void SetCollidersOnRoom(float centerX, float centerY)
+        private void SetCollidersOnRoom()
         {
-            //Posiciona os colisores das paredes da sala
-            colNorth.transform.localPosition = new Vector2(0.0f, centerY + 1);
-            colSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1);
-            colEast.transform.localPosition = new Vector2(centerX + 1, 0.0f);
-            colWest.transform.localPosition = new Vector2(-centerX - 1, 0.0f);
-            colNorth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-            colSouth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-            colEast.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
-            colWest.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
-
-            //Ajusta sprites das paredes
-            colNorth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-            colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
-            colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
-            colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+	        colNorth.gameObject.GetComponent<SpriteRenderer>().sprite = _northWall;
+	        colSouth.gameObject.GetComponent<SpriteRenderer>().sprite = _southWall;
+	        colEast.gameObject.GetComponent<SpriteRenderer>().sprite = _eastWall;
+	        colWest.gameObject.GetComponent<SpriteRenderer>().sprite = _westWall;
+	        colNorth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, -0.5f);
+	        colSouth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, roomData.Dimensions.Height+0.5f);
+	        colEast.transform.localPosition = new Vector2(roomData.Dimensions.Width+0.5f, roomData.Dimensions.Height/2f);
+	        colWest.transform.localPosition = new Vector2(-0.5f, roomData.Dimensions.Height/2f);
+	        colNorth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+	        colSouth.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+	        colEast.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+	        colWest.GetComponent<BoxCollider2D>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+	        colNorth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+	        colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
+	        colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+	        colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
         }
 
-        private void SetDoorsTransform(float centerX, float centerY)
+        private void SetDoorsTransform()
         {
-            doorNorth.transform.localPosition = new Vector2(0.0f, centerY + 1);
-            doorSouth.transform.localPosition = new Vector2(0.0f, -centerY - 1);
-            doorEast.transform.localPosition = new Vector2(centerX + 1, 0.0f);
-            doorWest.transform.localPosition = new Vector2(-centerX - 1, 0.0f);
+            doorNorth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, roomData.Dimensions.Height+0.5f);
+            doorSouth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, -0.5f);
+            doorEast.transform.localPosition = new Vector2(roomData.Dimensions.Width+0.5f, roomData.Dimensions.Height/2f);
+            doorWest.transform.localPosition = new Vector2(-0.5f, roomData.Dimensions.Height/2f);
         }
 
         private void OnDrawGizmos()
@@ -276,21 +261,21 @@ namespace Game.LevelManager.DungeonManager
             {
                 foreach (var questId in enemiesFromType.Value.QuestIds)
                 {
-                    int actualSpawn;
+                    int currentSpawn;
                     if (selectedSpawnPoints.Count >= spawnPoints.Count)
                     {
                         selectedSpawnPoints.Clear();
                     }
                     do
                     {
-                        actualSpawn = RandomSingleton.GetInstance().Next(0, spawnPoints.Count);
-                    } while (selectedSpawnPoints.Contains(actualSpawn));
+                        currentSpawn = RandomSingleton.GetInstance().Next(0, spawnPoints.Count);
+                    } while (selectedSpawnPoints.Contains(currentSpawn));
                     var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
-                        new Vector3(spawnPoints[actualSpawn].x, spawnPoints[actualSpawn].y, 0f), 
+                        new Vector3(spawnPoints[currentSpawn].x, spawnPoints[currentSpawn].y, 0f), 
                         transform.rotation, enemiesFromType.Key, questId);
                     _instantiatedEnemies.Add(enemy);
                     enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
-                    selectedSpawnPoints.Add(actualSpawn);
+                    selectedSpawnPoints.Add(currentSpawn);
                 }
             }
         }
@@ -301,6 +286,22 @@ namespace Game.LevelManager.DungeonManager
             {
                 ((ISoundEmitter)this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.DoorClose, 1));
                 SpawnEnemies();
+                if (doorEast != null)
+                {
+	                doorEast.CloseDoor();
+                }
+                if (doorWest != null)
+                {
+	                doorWest.CloseDoor();
+                }
+                if (doorNorth != null)
+                {
+	                doorNorth.CloseDoor();
+                }
+                if (doorSouth != null)
+                {
+	                doorSouth.CloseDoor();
+                }
             }
 
             if (!_hasBeenVisited)
@@ -318,10 +319,10 @@ namespace Game.LevelManager.DungeonManager
 
         private void SetKeysToDoors()
         {
-            doorNorth.keyID = northDoor;
-            doorSouth.keyID = southDoor;
-            doorEast.keyID = eastDoor;
-            doorWest.keyID = westDoor;
+	        doorNorth.SetKey(northDoor);
+	        doorSouth.SetKey(southDoor);
+	        doorEast.SetKey(eastDoor);
+	        doorWest.SetKey(westDoor);
         }
 
         private bool RoomHasKey()
@@ -437,7 +438,25 @@ namespace Game.LevelManager.DungeonManager
         
         public void RemoveFromDictionary(object sender, EnemySO killedEnemyWeapon)
         {
-            enemiesDictionary. Remove(killedEnemyWeapon);
+            enemiesDictionary.Remove(killedEnemyWeapon);
+            if (enemiesDictionary.Count != 0) return;
+            hasEnemies = false;
+            if (doorEast != null)
+            {
+	            doorEast.OpenDoorAfterKilling();
+            }
+            if (doorWest != null)
+            {
+	            doorWest.OpenDoorAfterKilling();
+            }
+            if (doorNorth != null)
+            {
+	            doorNorth.OpenDoorAfterKilling();
+            }
+            if (doorSouth != null)
+            {
+	            doorSouth.OpenDoorAfterKilling();
+            }
         }
 
         public void MarkToVisit()
@@ -447,6 +466,58 @@ namespace Game.LevelManager.DungeonManager
                 minimapIcon.GetComponent<SpriteRenderer>().color = Constants.MarkedColor;
             }
             ShowRoomOnMiniMapEventHandler?.Invoke(this, new ShowRoomOnMiniMapEventArgs(transform.position));
+        }
+
+        public void SetTheme(Enums.RoomThemeEnum theme)
+        {
+	        _theme = theme;
+	        doorEast.SetTheme(_theme);
+	        doorWest.SetTheme(_theme);
+	        doorNorth.SetTheme(_theme);
+	        doorSouth.SetTheme(_theme);
+	        _nwColumn = NWColumns[(int) _theme];
+	        _neColumn = NEColumns[(int) _theme];
+	        _swColumn = SWColumns[(int) _theme];
+	        _seColumn = SEColumns[(int) _theme];
+	        _blockTile = blockTiles[(int) _theme];
+	        _floorTile = floorTiles[(int) _theme];
+	        _northWall = northWalls[(int) _theme];
+	        _southWall = southWalls[(int) _theme];
+	        _eastWall = eastWalls[(int) _theme];
+	        _westWall = westWalls[(int) _theme];
+
+	        SetLayout();
+	        _transform = transform;
+	        _position = _transform.position;
+	        if (RoomHasKey())
+	        {
+		        PlaceKeysInRoom();
+	        }
+	        if (RoomHasTreasure())
+	        {
+		        PlaceTreasuresInRoom();
+	        }
+	        if (RoomHasNpc())
+	        {
+		        PlaceNpcsInRoom();
+	        }
+	        if (roomData.IsStartRoom())
+	        {
+		        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+		        minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
+		        GetAvailablePosition();
+		        StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition+_position));
+		        _hasBeenVisited = true;
+	        }
+	        else if (roomData.IsFinalRoom())
+	        {
+		        PlaceTriforceInRoom();
+		        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
+	        }
+	        SelectEnemies();
+
+	        minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
+	        minimapIcon.transform.position += new Vector3(roomData.Dimensions.Width/2f, roomData.Dimensions.Height/2f, 0f);
         }
     }
 }

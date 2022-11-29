@@ -71,9 +71,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1691099297
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 764546877, guid: 20dfbd22f0d91634f9c688272b7d3325, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 2734901287599356336}
   m_Layer: 0
   m_Name: ReadableItem
-  m_TagString: Untagged
+  m_TagString: Collectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,8 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: f633229936a600e4e8986794d6f86f23, type: 2}
-  dialogueLine: You thought this would be an interesting piece of lore, but it is
-    I, Dio.
+  DialogueLine: 
 --- !u!114 &2734901287599356336
 MonoBehaviour:
   m_ObjectHideFlags: 0
