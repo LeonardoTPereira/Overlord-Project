@@ -67,5 +67,14 @@ namespace Game.NarrativeGenerator
             stringBuilder.Append("E:" + CreativityPreference);
             return stringBuilder.ToString();
         }
+
+        //TODO FIX THIS FOR NON-PRETEST DATA AND CREATE UNIT TEST!
+        public void Normalize()
+        {
+	        MasteryPreference *= 2;
+	        ImmersionPreference *= 2;
+	        AchievementPreference *= 2;
+	        CreativityPreference *= 2;
+        }
     }
 }

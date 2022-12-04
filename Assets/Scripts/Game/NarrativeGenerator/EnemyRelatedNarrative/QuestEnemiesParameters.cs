@@ -38,26 +38,16 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             return stringBuilder.ToString();
         }
 
-        public void CalculateDifficultyFromProfile(PlayerProfile playerProfile)
+        public void CalculateDifficultyFromProfile(float masteryPreference)
         {
-            switch (playerProfile.MasteryPreference)
-            {
-                case < 15:
-                    Difficulty = DifficultyLevels.VeryEasy;
-                    break;
-                case < 35:
-                    Difficulty = DifficultyLevels.Easy;
-                    break;
-                case < 65:
-                    Difficulty = DifficultyLevels.Medium;
-                    break;
-                case < 85:
-                    Difficulty = DifficultyLevels.Hard;
-                    break;
-                default:
-                    Difficulty = DifficultyLevels.VeryHard;
-                    break;
-            }
+	        Difficulty = masteryPreference switch
+	        {
+		        < 0.15f => DifficultyLevels.VeryEasy,
+		        < 0.35f => DifficultyLevels.Easy,
+		        < 0.65f => DifficultyLevels.Medium,
+		        < 0.85f => DifficultyLevels.Hard,
+		        _ => DifficultyLevels.VeryHard
+	        };
         }
 
         public void CalculateMonsterFromQuests(IEnumerable<QuestLine> questLines)

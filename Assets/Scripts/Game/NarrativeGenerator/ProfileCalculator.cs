@@ -155,6 +155,7 @@ namespace Game.NarrativeGenerator
             CalculateStartSymbolWeights ( playerProfile );
             var favoriteQuest = _questWeightsByType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
+            playerProfile.Normalize();
             return playerProfile;
         }
     }
