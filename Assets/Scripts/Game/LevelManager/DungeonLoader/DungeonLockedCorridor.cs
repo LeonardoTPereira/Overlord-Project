@@ -7,7 +7,7 @@ namespace Game.LevelManager.DungeonLoader
     {
 
         private List<int> lockIDs;
-        public DungeonLockedCorridor(Coordinates coordinates, List<int> lockIDs) : base(coordinates, Constants.RoomTypeString.Lock)
+        public DungeonLockedCorridor(Coordinates coordinates, List<int> lockIDs) : base(coordinates, Constants.RoomTypeString.LockedCorridor)
         {
             LockIDs = lockIDs;
         }

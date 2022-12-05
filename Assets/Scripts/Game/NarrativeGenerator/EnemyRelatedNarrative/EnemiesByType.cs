@@ -104,6 +104,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
                 if (!enemy.Key.IsRanger() && !enemy.Key.IsMelee()) continue;
                 if (enemy.Value.QuestIds.Count <= 0) continue;
                 AddNEnemiesFromType(enemy, 1);
+                enemies.RemoveCurrentTypeIfEmpty(enemy.Key);
                 return true;
             }
             return false;

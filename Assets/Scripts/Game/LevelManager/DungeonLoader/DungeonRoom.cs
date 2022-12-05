@@ -58,7 +58,7 @@ namespace Game.LevelManager.DungeonLoader
                 var y = candidateTile.Position.y;
                 PushNewTiles(x, y);
             } while (_floodFillState.Count > 0 && TileIsOccupied(candidateTile));
-            _currentFreeTilePosition = new Vector3(candidateTile.Position.x + 0.5f - Dimensions.Width/2,  Dimensions.Height -1 - candidateTile.Position.y + 0.5f - Dimensions.Height/2, 0);
+            _currentFreeTilePosition = new Vector3(candidateTile.Position.x + 0.5f,  candidateTile.Position.y + 0.5f, 0);
             return _currentFreeTilePosition;
         }
 
@@ -102,7 +102,7 @@ namespace Game.LevelManager.DungeonLoader
         public void CreateRoom(Dimensions roomDimensions, RoomGeneratorInput roomGeneratorInput = null)
         {
             Dimensions = roomDimensions;
-            var roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.COUNT);
+            var roomType = RandomSingleton.GetInstance().Random.Next((int)Enums.RoomPatterns.Count);
             if (roomGeneratorInput == null)
             {
                 DefaultRoomCreator.CreateRoomOfType(this, roomType);

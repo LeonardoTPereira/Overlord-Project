@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Game.Events;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
+using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
@@ -32,12 +33,14 @@ namespace Game.GameManager
         private void OnEnable()
         {
             QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += LoadDataForExperiment;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
         private void OnDisable()
         {
             QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 
@@ -88,21 +91,29 @@ namespace Game.GameManager
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
+
             PlayerProfile selectedProfile;
-            if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
+            if (sender.GetType() == typeof(RealTimeLevelSelectManager))
             {
                 selectedProfile = profileSelectedEventArgs.PlayerProfile;
+                SetQuestLinesForProfile(selectedProfile);
             }
             else
             {
-                selectedProfile = new PlayerProfile();
-                do
+                if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
                 {
-                    selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
-                } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
+                    selectedProfile = profileSelectedEventArgs.PlayerProfile;
+                }
+                else
+                {
+                    selectedProfile = new PlayerProfile();
+                    do
+                    {
+                        selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
+                    } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
+                }
+                ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
             }
-            ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
-            SetQuestLinesForProfile(selectedProfile);
         }
     }
 }

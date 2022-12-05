@@ -17,6 +17,7 @@ using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
+using Random = System.Random;
 
 namespace Game.ExperimentControllers
 {
@@ -67,6 +68,8 @@ namespace Game.ExperimentControllers
                 };
             dungeonRoom.CreateRoom(RoomSize);
             var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab);
+            var theme = RandomSingleton.GetInstance().Next(0, (int)Enums.RoomThemeEnum.Count);
+            room.SetTheme((Enums.RoomThemeEnum) theme);
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
             StartCoroutine(SpawnEnemies(room));
         }

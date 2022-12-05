@@ -2,7 +2,6 @@ using ScriptableObjects;
 using Util;
 using System.Collections.Generic;
 using System;
-using Game.Events;
 using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -11,26 +10,31 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.GiveQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
         }
 
         public GiveQuestData GiveQuestData { get; set; }
-        private bool _hasItemToCollect;
-        public static event TreasureCollectEvent TreasureLostEventHandler;
+
+        public bool HasItem { get; private set; }
+        public bool HasCreatedDialogue { get; set; }        
 
         public override void Init()
         {
             base.Init();
+            HasItem = false;
+            HasCreatedDialogue = false;
             GiveQuestData = new GiveQuestData();
         }
 
         public void Init(string questName, bool endsStoryLine, QuestSo previous, NpcSo npc, ItemSo item)
         {
             base.Init(questName, endsStoryLine, previous);
-            GiveQuestData = new GiveQuestData(npc, item);
+            HasItem = false;
+            HasCreatedDialogue = false;
+            GiveQuestData = new GiveQuestData(npc, item, Id);
         }
 
         public override void Init(QuestSo copiedQuest)
@@ -41,7 +45,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 var npcToReceive = giveQuest.GiveQuestData.NpcToReceive;
                 var itemToGive = giveQuest.GiveQuestData.ItemToGive;
-                GiveQuestData = new GiveQuestData(npcToReceive, itemToGive);
+                GiveQuestData = new GiveQuestData(npcToReceive, itemToGive, Id);
+                HasItem = giveQuest.HasItem;
+                HasCreatedDialogue = giveQuest.HasCreatedDialogue;
             }
             else
             {
@@ -59,39 +65,29 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && Id == questId;
+            if (questId != Id) return false;
+            return questElement switch
+            {
+                ItemSo itemSo => !IsCompleted && !HasItem && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName,
+                NpcSo npcSo => !IsCompleted && HasItem && npcSo == GiveQuestData.NpcToReceive,
+                _ => false
+            };
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
         {
-            IsCompleted = true;
-        }
-
-        //TODO Check the usage of these methods
-        public bool HasItemToCollect(ItemSo itemSo)
-        {
-            return !_hasItemToCollect && GiveQuestData.ItemToGive.ItemName == itemSo.ItemName;
-        }
-
-        public void CollectItem ()
-        {
-            _hasItemToCollect = true;
-        }
-
-        public bool CheckIfCanComplete ()
-        {
-            return _hasItemToCollect;
+            if (HasItem)
+            {
+                IsCompleted = true;
+                return;
+            }
+            HasItem = true;
         }
 
         public override void CreateQuestString()
         {
             var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
             QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
-        }
-
-        public void GiveItems()
-        {
-            TreasureLostEventHandler?.Invoke(this, new TreasureCollectEventArgs(GiveQuestData.ItemToGive, Id));
         }
     }
 }

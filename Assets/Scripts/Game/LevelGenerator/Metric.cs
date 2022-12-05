@@ -46,7 +46,7 @@ namespace Game.LevelGenerator
             foreach (Room room in dungeon.Rooms)
             {
                 // Place the key
-                if (room.Type1 == RoomType.Key)
+                if (room.Type == RoomType.Key)
                 {
                     int ki = dungeon.KeyIds.IndexOf(room.Key);
                     if (ki != -1)
@@ -55,7 +55,7 @@ namespace Game.LevelGenerator
                     }
                 }
                 // Place the lock at the same index as its the key
-                if (room.Type1 == RoomType.Locked)
+                if (room.Type == RoomType.Locked)
                 {
                     int li = dungeon.KeyIds.IndexOf(room.Key);
                     if (li != -1)

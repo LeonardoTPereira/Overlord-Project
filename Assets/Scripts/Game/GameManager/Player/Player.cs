@@ -66,8 +66,8 @@ namespace Game.GameManager.Player
 
         private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
-            var cameraXPosition = eventArgs.PositionInScene.x;
-            var cameraYPosition = eventArgs.PositionInScene.y;
+            var cameraXPosition = eventArgs.PositionInScene.x+eventArgs.RoomData.RoomDimensions.Width/2f;
+            var cameraYPosition = eventArgs.PositionInScene.y+eventArgs.RoomData.RoomDimensions.Height/2f;
             const float cameraZPosition = -5f;
             _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         }

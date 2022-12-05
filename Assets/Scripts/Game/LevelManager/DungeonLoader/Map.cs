@@ -39,7 +39,7 @@ namespace Game.LevelManager.DungeonLoader
             {
                 ProcessDungeonPart(currentDungeonPart);
             }
-            foreach (var room in dungeonFileSo.Rooms)
+            foreach (var room in dungeonFileSo.Parts)
             {
                 if ((room.Keys?.Count??0) > 0)
                 {
@@ -50,7 +50,6 @@ namespace Game.LevelManager.DungeonLoader
                     NLocks += room.Locks.Count;
                 }
             }
-
             NEnemies = dungeonFileSo.TotalEnemies;
             TotalTreasure = dungeonFileSo.TotalTreasures;
             NNPCs = dungeonFileSo.TotalNpcs;

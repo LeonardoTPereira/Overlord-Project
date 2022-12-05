@@ -476,23 +476,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382c7e19dc0849edb19cc54c9ad50708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restTime: 0
-  activeTime: 0
-  movementSpeed: 0
-  <AttackSpeed>k__BackingField: 0
-  <Damage>k__BackingField: 0
   <IndexOnEnemyList>k__BackingField: 0
   <PlayerObj>k__BackingField: {fileID: 0}
   bloodParticle: {fileID: 1641766589315918870}
   <CureParticle>k__BackingField: {fileID: 4077262268631171857}
-  <Movement>k__BackingField: {fileID: 0}
-  walkUntil: 0
-  waitUntil: 0
-  hasMoveDirBeenChosen: 0
-  hasFixedMoveDir: 0
-  dataHasBeenLoaded: 0
   enemyColorPalette: {fileID: 11400000, guid: 04d92d8f0fd61d84b955af52faf59fe0, type: 2}
-  targetMoveDir: {x: 0, y: 0, z: 0}
   <ProjectileType>k__BackingField: {fileID: 0}
   <ProjectileSpeed>k__BackingField: 0
   <ProjectilePrefab>k__BackingField: {fileID: 0}

@@ -10,14 +10,14 @@ namespace Game.LevelSelection
     public class SelectedLevels : ScriptableObject
     {
         [field: SerializeField] public List<LevelData> Levels { get; set; }
-        [SerializeField] private int selectedIndex;
+        [field: SerializeField] public int selectedIndex { get; private set; }
 
         public void Init(QuestLineList questLines)
         {
             var dungeons = questLines.DungeonFileSos;
-            for (var i = 0; i < dungeons.Count; ++i)
+            for (var i = 0; i < Levels.Count; ++i)
             {
-                Levels[i].Init(questLines, dungeons[i]);
+                Levels[i].Init(questLines, dungeons[0]);
             }
         }
 
@@ -26,9 +26,19 @@ namespace Game.LevelSelection
             return Levels[selectedIndex];
         }
 
-        public void SelectLevel(int index)
+        public void SelectLevel(LevelData selectedLevel)
         {
-            selectedIndex = index;
+            if (selectedLevel == null)
+            {
+                selectedIndex = 0;
+                return;
+            }
+            for (var i = 0; i < Levels.Count; ++i)
+            {
+                if (Levels[i] != selectedLevel) continue;
+                selectedIndex = i;
+                break;
+            }
         }
     }
 }

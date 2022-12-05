@@ -13,16 +13,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.ImmersionQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get
             {
-                var immersionQuestWeights = new Dictionary<string, Func<int, int>>
+                var immersionQuestWeights = new Dictionary<string, Func<int, float>>
                     {
-                        {Constants.ListenQuest, Constants.ThreeOptionQuestLineWeight},
-                        //{Constants.READ_QUEST, Constants.FourOptionQuestLineWeight},
-                        {Constants.GiveQuest, Constants.ThreeOptionQuestLineWeight},
-                        {Constants.ReportQuest, Constants.ThreeOptionQuestLineWeight},
+                        {Constants.ListenQuest, Constants.FourOptionQuestLineWeight},
+                        {Constants.ReadQuest, Constants.FourOptionQuestLineWeight},
+                        {Constants.GiveQuest, Constants.FourOptionQuestLineWeight},
+                        {Constants.ReportQuest, Constants.FourOptionQuestLineWeight},
                         {Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight}
                     };
                 return immersionQuestWeights;
@@ -36,7 +36,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 case Constants.ListenQuest:
                     return CreateAndSaveListenQuestSo(questSos, generatorSettings.PlaceholderNpcs);
                 case Constants.ReadQuest:
-                    return CreateAndSaveReadQuestSo(questSos, generatorSettings.PlaceholderItems);
+                    return CreateAndSaveReadQuestSo(questSos, generatorSettings.ReadableItems);
                 case Constants.GiveQuest:
                     return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
                 case Constants.ReportQuest:

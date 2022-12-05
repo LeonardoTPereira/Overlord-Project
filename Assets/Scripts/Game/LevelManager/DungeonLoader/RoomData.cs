@@ -14,8 +14,8 @@ namespace Game.LevelManager.DungeonLoader
         [field: SerializeField] public TileRow[] Room { get; set; }
         public Tile this[int x, int y]
         {
-            get { return Room[x][y];}
-            set { Room[x][y] = value; }
+            get => Room[x][y];
+            set => Room[x][y] = value;
         }
 
         public void Init(int rows, int cols)
@@ -36,8 +36,8 @@ namespace Game.LevelManager.DungeonLoader
         [field: SerializeField] public Tile[] Tiles { get; set; }
         public Tile this[int index]
         {
-            get { return Tiles[index];}
-            set { Tiles[index] = value; }
+            get => Tiles[index];
+            set => Tiles[index] = value;
         }
 
         public TileRow(int cols)

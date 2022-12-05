@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -217,6 +218,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1583647087}
     m_Modifications:
+    - target: {fileID: 5677077938545413857, guid: eb8bf5bcac51cf14cafb3c50436bff97,
+        type: 3}
+      propertyPath: <Selected>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5,
+        type: 2}
     - target: {fileID: 5677077938545413861, guid: eb8bf5bcac51cf14cafb3c50436bff97,
         type: 3}
       propertyPath: m_Name
@@ -326,6 +333,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677077939224943540, guid: eb8bf5bcac51cf14cafb3c50436bff97,
+        type: 3}
+      propertyPath: m_text
+      value: '- Weapon info -
+
+        Select a weapon to show details.
+
+        Click
+        the confirm button after the level is generated to start playing.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677077939224943540, guid: eb8bf5bcac51cf14cafb3c50436bff97,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 63.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb8bf5bcac51cf14cafb3c50436bff97, type: 3}
@@ -548,10 +570,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.1421875
     y: 0
-    width: 1
-    height: 1
+    width: 0.40833336
+    height: 0.40833333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

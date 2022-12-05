@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using MyBox;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -15,12 +16,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         public override string SymbolType => Constants.MasteryQuest;
 
-        public override Dictionary<string, Func<int,int>> NextSymbolChances
+        public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get
             {                    
-                Dictionary<string, Func<int, int>> masteryQuestWeights = new Dictionary<string, Func<int, int>>();
-                masteryQuestWeights.Add( Constants.KillQuest, Constants.OneOptionQuestLineWeight );
+                Dictionary<string, Func<int, float>> masteryQuestWeights = new Dictionary<string, Func<int, float>>();
+                masteryQuestWeights.Add( nameof(KillQuestSo), Constants.OneOptionQuestLineWeight );
                //masteryQuestWeights.Add( Constants.DAMAGE_QUEST, Constants.TwoOptionQuestLineWeight );
                 masteryQuestWeights.Add( Constants.EmptyQuest, Constants.OneOptionQuestEmptyWeight );
                 return masteryQuestWeights;
@@ -32,7 +33,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.KillQuest:
-                    return CreateAndSaveKillQuestSo(questSos, generatorSettings.PossibleWeapons);
+                    return CreateAndSaveKillQuestSo(questSos, generatorSettings.PossibleWeapons, generatorSettings.EnemiesToKill);
                 case Constants.DamageQuest:
                     return CreateAndSaveDamageQuestSo(questSos, generatorSettings.PossibleWeapons);
                 default:
@@ -58,13 +59,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes)
+        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, WeaponTypeRuntimeSetSO enemyTypes, RangedInt enemiesToKill)
         {
             var killQuest = CreateInstance<KillQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
             var questId = killQuest.GetInstanceID();
             var selectedEnemyType = enemyTypes.GetRandomItem();
-            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next(5) + 5;
+            var nEnemiesToKill = RandomSingleton.GetInstance().Random.Next( enemiesToKill.Max - enemiesToKill.Min) + enemiesToKill.Min;
             for (var i = 0; i < nEnemiesToKill; i++)
             {
                 selectedEnemyTypes.EnemiesByTypeDictionary.AddItemWithId(selectedEnemyType, questId);

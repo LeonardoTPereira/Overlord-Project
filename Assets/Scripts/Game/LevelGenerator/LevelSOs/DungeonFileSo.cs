@@ -13,10 +13,8 @@ namespace Game.LevelGenerator.LevelSOs
     public class DungeonFileSo : ScriptableObject, ISavableGeneratedContent
     {
         const string Foldername = "Assets/Resources/Experiment/Dungeons";
-        
         [field: SerializeField] public Dimensions DungeonSizes { get; set; }
-
-        [field: SerializeField] public List<DungeonRoomData> Rooms { get; set; }
+        [field: SerializeField] public List<DungeonRoomData> Parts { get; set; }
         [field: SerializeField] public Fitness FitnessFromEa { get; set; }
         public float ExplorationCoefficient { get; set; }
         public float LeniencyCoefficient { get; set; }
@@ -24,7 +22,6 @@ namespace Game.LevelGenerator.LevelSOs
         public int TotalEnemies { get; set; }
         public int TotalTreasures { get; set; }
         public int TotalNpcs { get; set; }
-
         private int _currentIndex = 0;
 
         public void ResetIndex()
@@ -34,15 +31,15 @@ namespace Game.LevelGenerator.LevelSOs
 
         public DungeonPart GetNextPart()
         {
-            if (_currentIndex < Rooms.Count)
-                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Rooms[_currentIndex++]);
+            if (_currentIndex < Parts.Count)
+                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Parts[_currentIndex++]);
             return null;
         }
 
         public void Init(Dimensions dimensions, List<DungeonRoomData> rooms, Fitness fitness, float exploration, float leniency, string biome)
         {
             DungeonSizes = dimensions;
-            Rooms = rooms;
+            Parts = rooms;
             FitnessFromEa = fitness;
             ExplorationCoefficient = exploration;
             LeniencyCoefficient = leniency;
@@ -70,11 +67,11 @@ namespace Game.LevelGenerator.LevelSOs
 
             // Set the dungeon filename
             string filename = "";
-            filename = "R" + FitnessFromEa.DesiredParameters.DesiredRooms +
-                       "-K" + FitnessFromEa.DesiredParameters.DesiredKeys +
-                       "-L" + FitnessFromEa.DesiredParameters.DesiredLocks +
-                       "-E" + FitnessFromEa.DesiredParameters.DesiredEnemies +
-                       "-L" + FitnessFromEa.DesiredParameters.DesiredLinearity;
+            filename = "R" + FitnessFromEa.DesiredInput.DesiredRooms +
+                       "-K" + FitnessFromEa.DesiredInput.DesiredKeys +
+                       "-L" + FitnessFromEa.DesiredInput.DesiredLocks +
+                       "-E" + FitnessFromEa.DesiredInput.DesiredEnemies +
+                       "-L" + FitnessFromEa.DesiredInput.DesiredLinearity;
             return filename;
         }
     }

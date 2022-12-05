@@ -123,9 +123,10 @@ namespace Game.NarrativeGenerator.Quests
             ItemParametersForQuestLines.CalculateItemsFromQuests(QuestLines);
         }
 
-        public void CalculateDungeonParametersFromQuests(float explorationPreference)
+        public void CalculateDungeonParametersFromQuests(float explorationPreference, float achievementPreference)
         {
-            DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines, explorationPreference);
+            DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines
+                , explorationPreference/100f, achievementPreference/100f);
         }
 
         public void OpenStartingQuests()
@@ -136,11 +137,11 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> roomList)
+        public void ConvertDataForCurrentDungeon(List<DungeonRoomData> dungeonParts)
         {
             foreach (var questLine in QuestLines)
             {
-                questLine.ConvertDataForCurrentDungeon(roomList);
+                questLine.ConvertDataForCurrentDungeon(dungeonParts);
             }
         }
     }
