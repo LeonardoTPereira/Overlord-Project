@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: bdcb7684eeecac1478f0b9f080c66f1b
+guid: 6085ccc56b818a245b6f5294b641ec04
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,11 +63,6 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-<<<<<<<< HEAD:Assets/Sprites/Stages/StageSelectBorder/StageSelectBorder/StageSelectBorder.png.meta
-  cookieLightType: 0
-========
-  cookieLightType: 1
->>>>>>>> 2d-game/feature/life-bar:Assets/Sprites/Stages/StageSelectBorder/StageSelectBorder.png.meta
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -86,11 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-<<<<<<<< HEAD:Assets/Sprites/Stages/StageSelectBorder/StageSelectBorder/StageSelectBorder.png.meta
     textureCompression: 1
-========
-    textureCompression: 0
->>>>>>>> 2d-game/feature/life-bar:Assets/Sprites/Stages/StageSelectBorder/StageSelectBorder.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -102,23 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-<<<<<<<< HEAD:Assets/Sprites/Stages/StageSelectBorder/StageSelectBorder/StageSelectBorder.png.meta
     textureCompression: 1
-========
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
->>>>>>>> 2d-game/feature/life-bar:Assets/Sprites/Stages/StageSelectBorder/StageSelectBorder.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -129,22 +104,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StageSelectBorder0
+      name: heart3_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 128
-        height: 128
+        x: 4
+        y: 4
+        width: 9
+        height: 8
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3de43edbf6ec45200800000000000000
-      internalID: 167986065442033363
+      spriteID: 6ffb7e0e631859c43ae44b7174230b94
+      internalID: 1191049544
       vertices: []
       indices: 
       edges: []
@@ -160,7 +135,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      StageSelectBorder0: 167986065442033363
+      heart3_0: 1191049544
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

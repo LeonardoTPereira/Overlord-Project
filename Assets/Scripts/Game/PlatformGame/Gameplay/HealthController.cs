@@ -15,7 +15,7 @@ namespace Gameplay
         [SerializeField] protected float invincibilityCooldown = 0.5f;
         [SerializeField] private bool hasDeathAnimation = false;
 
-        private void Awake()
+        private void Start()
         {
             InitializeHealth();
         }
@@ -59,6 +59,11 @@ namespace Gameplay
             if(!hasDeathAnimation)
                 Destroy(gameObject);
                 
+        }
+
+        public bool GetCanTakeDamage()
+        {
+            return _canTakeDamage;
         }
     }
 }
