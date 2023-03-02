@@ -375,6 +375,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefabs:
   - {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236, type: 3}
+  roomBehavior: {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236,
+    type: 3}
   <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
     type: 2}
 --- !u!114 &1990492721

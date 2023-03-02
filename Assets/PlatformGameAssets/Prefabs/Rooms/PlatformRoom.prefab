@@ -37,6 +37,7 @@ Transform:
   - {fileID: 553729011477510845}
   - {fileID: 554280117236519679}
   - {fileID: 3641194248484908330}
+  - {fileID: 960705400022629625}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,26 +164,20 @@ MonoBehaviour:
   colSouth: {fileID: 532851550740135977}
   colEast: {fileID: 533092978700220583}
   colWest: {fileID: 533426415328935781}
-  tilePrefab: {fileID: 1527278069395091098, guid: 82187ef5661b4b1449600a25a179d6c2,
-    type: 3}
-  blockPrefab: {fileID: 4441550916188784159, guid: dedd422fb02814245a7c63a02bb1348f,
-    type: 3}
-  northWall: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
-    type: 3}
-  southWall: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
-    type: 3}
-  eastWall: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
-    type: 3}
-  westWall: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
-    type: 3}
-  NWColumn: {fileID: 2471780992194759067, guid: b35b0a06baf37574298afa8c05919a6e,
-    type: 3}
-  NEColumn: {fileID: 7764125768302373310, guid: 0a9e76d78270a554ba3f0c5faaf9ff7a,
-    type: 3}
-  SEColumn: {fileID: 3022459174159889229, guid: 31cf7c9a9ed97a54d9b6efaf9bf3feed,
-    type: 3}
-  SWColumn: {fileID: 2492866788600840322, guid: 62066c63b5e270345b829c3b9858bf97,
-    type: 3}
+  floorTilemap: {fileID: 4455812602570842597}
+  blockTilemap: {fileID: 3606013052040174672}
+  blockTiles:
+  - {fileID: 11400000, guid: 5284caf1cf10f0b448e922cb4cd9a0c7, type: 2}
+  floorTiles:
+  - {fileID: 11400000, guid: 53ef6fbb2abbcf744b864e3c488e3255, type: 2}
+  northWalls: []
+  southWalls: []
+  eastWalls: []
+  westWalls: []
+  NWColumns: []
+  NEColumns: []
+  SEColumns: []
+  SWColumns: []
   minimapIcon: {fileID: 5608423412200049958}
   spawnPoints: []
 --- !u!114 &1275152284339928314
@@ -338,10 +333,10 @@ MonoBehaviour:
   isClosedByEnemies: 0
   lockedSprite: {fileID: -8271068474211349475, guid: 2029ebd237c51d9458a6a3e19a84d009,
     type: 3}
-  closedSprite: {fileID: 8116881027754228708, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
-  openedSprite: {fileID: 8833092169558052483, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
+  closedSprites:
+  - {fileID: -8271068474211349475, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
+  openedSprites:
+  - {fileID: 8833092169558052483, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
   teleportTransform: {fileID: 554288691117253237}
   gradientMaterial: {fileID: 2100000, guid: 5db105d0bbe6bfa4fbcc1197e12afd7b, type: 2}
   destination: {fileID: 2760642564320694933, guid: 1846683e8ac887748a9d6f0f49dd5fd7,
@@ -360,7 +355,7 @@ GameObject:
   - component: {fileID: 4388029658525826834}
   m_Layer: 0
   m_Name: ColliderNorth
-  m_TagString: Block
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -516,7 +511,7 @@ GameObject:
   - component: {fileID: 246170295980309866}
   m_Layer: 0
   m_Name: ColliderEast
-  m_TagString: Block
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -672,7 +667,7 @@ GameObject:
   - component: {fileID: 2008460799424966447}
   m_Layer: 0
   m_Name: ColliderWest
-  m_TagString: Block
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -914,10 +909,10 @@ MonoBehaviour:
   isClosedByEnemies: 0
   lockedSprite: {fileID: -8255633091534753244, guid: 2029ebd237c51d9458a6a3e19a84d009,
     type: 3}
-  closedSprite: {fileID: 8075906169999462093, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
-  openedSprite: {fileID: -1067720821487760424, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
+  closedSprites:
+  - {fileID: -8255633091534753244, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
+  openedSprites:
+  - {fileID: -1067720821487760424, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
   teleportTransform: {fileID: 554141068372347045}
   gradientMaterial: {fileID: 2100000, guid: 8f79ab74a235e69408fd36c02bb99811, type: 2}
   destination: {fileID: 8690080842966673077, guid: 754960a2ab7dfaa498c71bbee6dab635,
@@ -1053,10 +1048,10 @@ MonoBehaviour:
   isClosedByEnemies: 0
   lockedSprite: {fileID: 7197164629796255074, guid: 2029ebd237c51d9458a6a3e19a84d009,
     type: 3}
-  closedSprite: {fileID: 4756552926343668897, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
-  openedSprite: {fileID: -2289932202002941261, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
+  closedSprites:
+  - {fileID: 7197164629796255074, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
+  openedSprites:
+  - {fileID: -2289932202002941261, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
   teleportTransform: {fileID: 554100489431959193}
   gradientMaterial: {fileID: 2100000, guid: 5af165038c57488488a10367446e405f, type: 2}
   destination: {fileID: 3761539166365797510, guid: 33bc69aee992c69439b5f20d84f43731,
@@ -1256,7 +1251,7 @@ GameObject:
   - component: {fileID: 4206797234156568438}
   m_Layer: 0
   m_Name: ColliderSouth
-  m_TagString: Block
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1498,10 +1493,10 @@ MonoBehaviour:
   isClosedByEnemies: 0
   lockedSprite: {fileID: -3306514295279833502, guid: 2029ebd237c51d9458a6a3e19a84d009,
     type: 3}
-  closedSprite: {fileID: 5477934414418473839, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
-  openedSprite: {fileID: 2454217201168548841, guid: 2029ebd237c51d9458a6a3e19a84d009,
-    type: 3}
+  closedSprites:
+  - {fileID: -3306514295279833502, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
+  openedSprites:
+  - {fileID: 2454217201168548841, guid: 2029ebd237c51d9458a6a3e19a84d009, type: 3}
   teleportTransform: {fileID: 553531719985944181}
   gradientMaterial: {fileID: 2100000, guid: c88c6a03d73d70a43a9d8c26c177ed75, type: 2}
   destination: {fileID: 2111537569747417202, guid: 6493f5f9ec583344d9eee647ad947f21,
@@ -1590,3 +1585,90 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &3055577756808354213
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 553909188759562523}
+    m_Modifications:
+    - target: {fileID: 761398065570083025, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_Name
+      value: PlatformGrid
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4def86c2300d24f42ba85a0bc7c6d9ad, type: 3}
+--- !u!4 &960705400022629625 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2824473570850137436, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 3055577756808354213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &3606013052040174672 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 1759981683570066933, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 3055577756808354213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &4455812602570842597 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 1707337270431070272, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 3055577756808354213}
+  m_PrefabAsset: {fileID: 0}

@@ -18,6 +18,26 @@ namespace PlatformGame.Dungeon
         {
             enemy.GetComponent<EnemyHealth>().EnemyKilledHandler += RemoveFromDictionary;
         }
+        
+        protected override void SetSpritesTheme()
+        {
+            doorEast.SetTheme(0);
+            doorWest.SetTheme(0);
+            doorNorth.SetTheme(0);
+            doorSouth.SetTheme(0);
+            _blockTile = blockTiles[0];
+            _floorTile = floorTiles[0];
+        }
+        
+        protected override void InstantiateCornerProps()
+        {
+            //Do not instantiate anything
+        }
+        
+        protected override void SetSpritesToWalls()
+        {
+            //Do nothing
+        }
 
 /*
         public override void SpawnEnemies()
@@ -111,5 +131,5 @@ namespace PlatformGame.Dungeon
         }
     */
     }
-    
+
 }
