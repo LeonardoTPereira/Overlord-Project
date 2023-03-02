@@ -35,9 +35,9 @@ namespace Game.MenuManager
         {
             var str = "";
             str += "\"" + weaponSo.description + "\"\n";
-            str += "Dano: " + weaponSo.damage + "\n";
-            str += "Velocidade do projétil: " + weaponSo.moveSpeed + "\n";
-            str += "Velocidade de ataque: " + weaponSo.atkSpeed + "\n";
+            str += "Damage: " + weaponSo.damage + "\n";
+            str += "Bullet Speed: " + weaponSo.moveSpeed + "\n";
+            str += "Attack Speed: " + weaponSo.atkSpeed + "\n";
             return str;
         }
     }

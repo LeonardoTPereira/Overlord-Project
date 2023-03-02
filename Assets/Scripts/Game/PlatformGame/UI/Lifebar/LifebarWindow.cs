@@ -33,9 +33,17 @@ public class LifebarWindow : MonoBehaviour
     {
         PlayerHealth.InitializePlayerHealthEvent += UI_SetMaxLife;
         PlayerHealth.PlayerTakeDamageEvent += UI_TakeDamage;
+        PlayerHealth.PlayerTakeHealEvent += UI_TakeHeal;
         _root = _UIDocument.rootVisualElement;
         _firstLine = _root.Q<GroupBox>("first-line");
         _secondLine = _root.Q<GroupBox>("second-line");
+    }
+
+    private void PrintHeartState()
+    {
+        Debug.Log("INDEX: " + _currentHeartIndex);
+        Debug.Log("LINE: " + _currentHeartLine);
+        Debug.Log("HEART_STATE: " + _currentHeartState);
     }
 
      // Creates a 'VisualElement' Heart and add it to the life bar and the list of hearts
@@ -82,31 +90,44 @@ public class LifebarWindow : MonoBehaviour
         {
             _currentHeartState = FULL_HEART;
         }
+        //PrintHeartState();
     }
 
-    // Clear hearts in the Lifebar_UI, between two given indexes
-    private void ClearHeart(int indexFrom, int indexTo)
+    // Fill hearts in the Lifebar_UI, between two given indexes, with the given 'heartSprite' sprite
+    private void FillHeart(int indexFrom, int indexTo, Sprite heartSprite)
     {
         if (indexFrom < 0)
+        {
             indexFrom = 0;
-
+        }
+        else if (indexTo > _hearts.Count)
+        {
+            indexTo = _hearts.Count;
+        }
+        else if (indexFrom > _hearts.Count)
+        {
+            return;
+        }
         for (int i = indexFrom; i < indexTo; i++)
         {
-            _hearts[i].UpdateIcon(_emptyHeart);
+            _hearts[i].UpdateIcon(heartSprite);
         }
     }
 
-    // Updates the lifebar UI accordly to the damage taken by the player
+
+    // Updates the lifebar UI according to the damage taken by the player
     // OBS: 1 Damage equals to half heart, and 2 is a full heart of damage
     private void UI_TakeDamage(int damage)
     {
         int numberOfHeartsDestroyed = damage / 2; // One heart stores 2 hitpoints, so it convert damagepoits to hearts destroyed
 
         // Updates the Lifebar_UI accordly to the number of hearts damaged
-        ClearHeart(_currentHeartIndex - numberOfHeartsDestroyed + 1, _currentHeartIndex + 1);
+        FillHeart(_currentHeartIndex - numberOfHeartsDestroyed + 1, _currentHeartIndex + 1, _emptyHeart);
 
-        _currentHeartIndex -= numberOfHeartsDestroyed;  // Updates the current heart index 
-                
+        _currentHeartIndex -= numberOfHeartsDestroyed;  // Updates the current heart index                
+        if (_currentHeartIndex < 0)
+            _currentHeartIndex = -1;
+
         // After the number of full hearts were removed in the Lifebar_UI, it updates the heart at the current index
         // and tests if there is a damage (1 damage = HALF_HEART damaged) that needs to be treated
         if (_currentHeartIndex >= 0)
@@ -143,5 +164,50 @@ public class LifebarWindow : MonoBehaviour
         // Updates the 'current heart' line
         if (_currentHeartIndex < HEARTS_TO_SECOND_LINE)
             _currentHeartLine = FIRST_LINE;
+
+        //PrintHeartState();
+    }
+
+    // Similar to UI_TakeDamage, but treat healing
+    private void UI_TakeHeal(int heal)
+    {
+        int numberOfHeartsHealed = heal / 2;
+
+        FillHeart(_currentHeartIndex, _currentHeartIndex + numberOfHeartsHealed + 1, _fullHeart);
+
+        _currentHeartIndex += numberOfHeartsHealed;
+        if (_currentHeartIndex >= _hearts.Count)
+        {
+            _currentHeartIndex = _hearts.Count - 1;
+            _currentHeartState = FULL_HEART;
+        }
+
+        switch (_currentHeartState)
+        {
+            case HALF_HEART:
+                if (heal % FULL_HEART == 1)
+                {                        
+                    _hearts[_currentHeartIndex].UpdateIcon(_fullHeart);
+                    _currentHeartState = FULL_HEART;
+                }
+                else
+                {
+                    _hearts[_currentHeartIndex].UpdateIcon(_halfHeart);
+                }
+                break;
+            case FULL_HEART:
+                if (heal % FULL_HEART == 1 && _currentHeartIndex + 1 < _hearts.Count)
+                {                        
+                    _currentHeartIndex++;
+                    _hearts[_currentHeartIndex].UpdateIcon(_halfHeart);
+                    _currentHeartState = HALF_HEART;
+                }
+                break;
+        }        
+
+        if (_currentHeartIndex >= HEARTS_TO_SECOND_LINE)
+            _currentHeartLine = SECOND_LINE;
+
+        //PrintHeartState();
     }
 }

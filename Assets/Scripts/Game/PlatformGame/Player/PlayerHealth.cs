@@ -12,6 +12,7 @@ namespace PlatformGame.Player
         public static event Action<int> InitializePlayerHealthEvent;
         public static event Action PlayerDiedEvent;
         public static event Action<int> PlayerTakeDamageEvent;
+        public static event Action<int> PlayerTakeHealEvent;
 
         protected override void InitializeHealth()
         {
@@ -35,6 +36,12 @@ namespace PlatformGame.Player
                 PlayerTakeDamageEvent?.Invoke(damage);
                 base.TakeDamage(damage);
             }
+        }
+
+        public override void ApplyHeal(int heal)
+        {
+            base.ApplyHeal(heal);
+            PlayerTakeHealEvent?.Invoke(heal);
         }
     }
 }

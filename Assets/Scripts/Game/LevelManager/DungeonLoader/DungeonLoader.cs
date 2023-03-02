@@ -15,12 +15,16 @@ namespace Game.LevelManager.DungeonLoader
 {
     public class DungeonLoader : MonoBehaviour
     {
+
         protected static Map _dungeonMap;
         public List<RoomBhv> roomPrefabs;
-        public Dictionary<Coordinates, RoomBhv> roomBHVMap; //2D array for easy room indexing
+        public Dictionary<Coordinates, RoomBhv> RoomBhvMap; //2D array for easy room indexing
+        public RoomBhv roomBehavior;
+
         public int TotalTreasures { get; private set; }
         public static event StartMapEvent StartMapEventHandler;
         [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+        private Enums.RoomThemeEnum _selectedTheme;
 
         private void OnEnable()
         {
@@ -29,7 +33,7 @@ namespace Game.LevelManager.DungeonLoader
 
         private void FindRoomAndMarkToVisit(object sender, MarkRoomOnMinimapEventArgs e)
         {
-            roomBHVMap[e.RoomCoordinates].MarkToVisit();
+            RoomBhvMap[e.RoomCoordinates].MarkToVisit();
         }
 
         private void OnDisable()
@@ -49,10 +53,10 @@ namespace Game.LevelManager.DungeonLoader
             TotalTreasures = currentQuestLineList.ItemParametersForQuestLines.TotalItems;
             NpcDispenser.DistributeNpcsInDungeon(_dungeonMap, currentQuestLineList.NpcSos);
 
-            roomBHVMap = new Dictionary<Coordinates, RoomBhv>();
+            RoomBhvMap = new Dictionary<Coordinates, RoomBhv>();
 
-            var selectedRoom = roomPrefabs[RandomSingleton.GetInstance().Random.Next(roomPrefabs.Count)];
-            InstantiateRooms(selectedRoom, _dungeonMap.Dimensions);
+            _selectedTheme = (Enums.RoomThemeEnum) RandomSingleton.GetInstance().Random.Next((int) Enums.RoomThemeEnum.Count);
+            InstantiateRooms();
             ConnectRoooms();
         }
         
@@ -60,7 +64,7 @@ namespace Game.LevelManager.DungeonLoader
         {
             yield return null;
             StartMapEventHandler?.Invoke(null, new StartMapEventArgs(mapName, _dungeonMap, TotalTreasures));
-            roomBHVMap[_dungeonMap.StartRoomCoordinates].OnRoomEnter();
+            RoomBhvMap[_dungeonMap.StartRoomCoordinates].OnRoomEnter();
         }
         
         private void SetDestinations(Coordinates targetCoordinates, Coordinates sourceCoordinates, int orientation)
@@ -68,12 +72,12 @@ namespace Game.LevelManager.DungeonLoader
             switch (orientation)
             {
                 case 1:
-                    roomBHVMap[sourceCoordinates].doorWest.SetDestination(roomBHVMap[targetCoordinates].doorEast);
-                    roomBHVMap[targetCoordinates].doorEast.SetDestination(roomBHVMap[sourceCoordinates].doorWest);
+                    RoomBhvMap[sourceCoordinates].doorWest.SetDestination(RoomBhvMap[targetCoordinates].doorEast);
+                    RoomBhvMap[targetCoordinates].doorEast.SetDestination(RoomBhvMap[sourceCoordinates].doorWest);
                     break;
                 case 2:
-                    roomBHVMap[sourceCoordinates].doorNorth.SetDestination(roomBHVMap[targetCoordinates].doorSouth);
-                    roomBHVMap[targetCoordinates].doorSouth.SetDestination(roomBHVMap[sourceCoordinates].doorNorth);
+                    RoomBhvMap[sourceCoordinates].doorNorth.SetDestination(RoomBhvMap[targetCoordinates].doorSouth);
+                    RoomBhvMap[targetCoordinates].doorSouth.SetDestination(RoomBhvMap[sourceCoordinates].doorNorth);
                     break;
             }
         }
@@ -92,13 +96,16 @@ namespace Game.LevelManager.DungeonLoader
             _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms, CurrentGeneratorSettings.RoomSize, CurrentGeneratorSettings.GameType);
         }
 
-        private void InstantiateRooms(RoomBhv roomBhv, Dimensions dimensions)
+        private void InstantiateRooms()
         {
             foreach (var currentPart in _dungeonMap.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
-                var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBhv, CurrentGeneratorSettings.GameType);
-                CheckConnections(currentPart, newRoom, dimensions);
-                roomBHVMap.Add(currentPart.Coordinates, newRoom); 
+
+                var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBehavior, CurrentGeneratorSettings.GameType);
+                CheckConnections(currentPart, newRoom, _dungeonMap.Dimensions);
+                newRoom.SetTheme(_selectedTheme);
+                RoomBhvMap.Add(currentPart.Coordinates, newRoom); 
+
             }
         }
 
@@ -148,7 +155,7 @@ namespace Game.LevelManager.DungeonLoader
         
         public void ConnectRoooms()
         {
-            foreach (RoomBhv currentRoom in roomBHVMap.Values)
+            foreach (RoomBhv currentRoom in RoomBhvMap.Values)
             {
                 CreateConnectionsBetweenRooms(currentRoom);
             }

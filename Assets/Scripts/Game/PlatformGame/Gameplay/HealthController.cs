@@ -65,5 +65,13 @@ namespace Gameplay
         {
             return _canTakeDamage;
         }
+
+        public virtual void ApplyHeal(int heal)
+        {
+            Health = Health + heal;
+
+            if (Health > maxHealth)
+                Health = maxHealth;
+        }
     }
 }

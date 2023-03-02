@@ -23,12 +23,13 @@ namespace Game.DataCollection
             docRef.SetAsync(dungeonData, SetOptions.MergeAll).ContinueWithOnMainThread(_ => {
                 Debug.Log($"Added data to the {dungeonData.LevelName} document in the dungeons collection.");
             });
-#else
+/*#else
             var jsonData = JsonUtility.ToJson(playerData);
             FirebaseWebGLBridge.FirebaseFirestore.AddDocument("users", jsonData, playerData.SerializedData.PlayerId.ToString(), "DisplayInfo", "DisplayErrorObject");
             var dungeonData = playerData.CurrentDungeon;
             jsonData = JsonUtility.ToJson(dungeonData);
             FirebaseWebGLBridge.FirebaseFirestore.AddDocument("dungeons", jsonData, dungeonData.LevelName, "DisplayInfo", "DisplayErrorObject");
+            */
 #endif
         }
     }

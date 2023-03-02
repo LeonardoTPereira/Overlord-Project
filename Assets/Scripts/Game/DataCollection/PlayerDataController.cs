@@ -267,7 +267,7 @@ namespace Game.DataCollection
                     CurrentPlayer.SerializedData.CompletedDamageQuests++;
                     break;
                 case KillQuestSo:
-                    CurrentPlayer.SerializedData.CompletedDamageQuests++;
+                    CurrentPlayer.SerializedData.CompletedKillQuests++;
                     break;
                 default:
                     Debug.LogError("This mastery quest type does not exist!");
