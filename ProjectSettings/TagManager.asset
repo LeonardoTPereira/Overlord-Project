@@ -17,6 +17,11 @@ TagManager:
   - Final
   - PlayerTrigger
   - Heal
+  - EnemyMelee
+  - PlayerProjectile
+  - EnemyProjectile
+  - PlayerMelee
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -29,8 +34,8 @@ TagManager:
   - Minimap
   - Bomb
   - 
-  - 
-  - 
+  - Unit
+  - Weapon
   - 
   - 
   - 

@@ -112,5 +112,11 @@
             Hard = 2,
             Arena = 3
         }
+        
+        public enum GameType
+        {
+            TopDown,
+            Platformer
+        }
     }
 }

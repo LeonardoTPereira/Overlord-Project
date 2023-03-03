@@ -54,6 +54,7 @@ namespace Game.ExperimentControllers
             var enemyGenerator = GetComponent<EnemyGeneratorManager>();
             var enemies = enemyGenerator.EvolveEnemies(Difficulty);
             EnemyLoader.LoadEnemies(enemies);
+
             var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Start, Keys, 0, TotalEnemies, 0)
                 {
                     EnemiesByType = new EnemiesByType
@@ -66,12 +67,25 @@ namespace Game.ExperimentControllers
                     },
                     Npcs = ArenaNpcs
                 };
+
             dungeonRoom.CreateRoom(RoomSize);
-            var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab);
+            
+            var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab, Enums.GameType.TopDown);
+            
             var theme = RandomSingleton.GetInstance().Next(0, (int)Enums.RoomThemeEnum.Count);
             room.SetTheme((Enums.RoomThemeEnum) theme);
-            SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
+            LoadGameUI();
             StartCoroutine(SpawnEnemies(room));
+        }
+
+        protected virtual DungeonRoom InstantiateDungeonRoom()
+        {
+            return new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Normal, new List<int>(), 0, TotalEnemies, 0);
+        }
+
+        protected virtual void LoadGameUI()
+        {
+            SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
         }
 
         private WeaponTypeAmountDictionary CreateDictionaryOfRandomEnemies(List<EnemySO> enemies)

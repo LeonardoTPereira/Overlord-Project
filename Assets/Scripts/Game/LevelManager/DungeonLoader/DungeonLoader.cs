@@ -15,9 +15,12 @@ namespace Game.LevelManager.DungeonLoader
 {
     public class DungeonLoader : MonoBehaviour
     {
-	    public RoomBhv roomBehavior;
-	    private static Map _dungeonMap;
+
+        protected static Map _dungeonMap;
+        public List<RoomBhv> roomPrefabs;
         public Dictionary<Coordinates, RoomBhv> RoomBhvMap; //2D array for easy room indexing
+        public RoomBhv roomBehavior;
+
         public int TotalTreasures { get; private set; }
         public static event StartMapEvent StartMapEventHandler;
         [field: SerializeField] public GeneratorSettings CurrentGeneratorSettings { get; set; }
@@ -88,19 +91,21 @@ namespace Game.LevelManager.DungeonLoader
             return lockedCorridor != null ? lockedCorridor.LockIDs : new List<int>();
         }
         
-        private void LoadDungeon(DungeonFileSo dungeonFileSo)
+        protected virtual void LoadDungeon(DungeonFileSo dungeonFileSo)
         {
-            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms, CurrentGeneratorSettings.RoomSize);
+            _dungeonMap = new Map(dungeonFileSo, CurrentGeneratorSettings.CreateRooms, CurrentGeneratorSettings.RoomSize, CurrentGeneratorSettings.GameType);
         }
 
         private void InstantiateRooms()
         {
             foreach (var currentPart in _dungeonMap.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
-                var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBehavior);
+
+                var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBehavior, CurrentGeneratorSettings.GameType);
                 CheckConnections(currentPart, newRoom, _dungeonMap.Dimensions);
                 newRoom.SetTheme(_selectedTheme);
                 RoomBhvMap.Add(currentPart.Coordinates, newRoom); 
+
             }
         }
 

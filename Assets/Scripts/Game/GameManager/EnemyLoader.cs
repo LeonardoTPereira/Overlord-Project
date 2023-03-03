@@ -98,7 +98,7 @@ namespace Game.GameManager
             return enemy;
         }
     
-        public GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
+        public virtual GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
             //TODO change to use weaponType in comparison

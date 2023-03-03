@@ -4,12 +4,16 @@ using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
+using Util;
 
 namespace Game.ExperimentControllers
 {
     [CreateAssetMenu(fileName = "GeneratorSettings", menuName = "Settings/GeneratorSettings")]
     public class GeneratorSettings : ScriptableObject
     {
+
+        [field: SerializeField] public Enums.GameType GameType { get; set; }
+
         [field: Foldout("Room Generator Parameters", true)]
 
         [field: SerializeField] public bool CreateRooms { get; set; }

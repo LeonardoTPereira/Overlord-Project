@@ -1,4 +1,5 @@
 ﻿using Game.Events;
+using Game.ExperimentControllers;
 using Game.LevelSelection;
 using Game.NarrativeGenerator;
 using MyBox;
@@ -6,6 +7,7 @@ using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Util;
 
 namespace Game.MenuManager
 {
@@ -14,6 +16,7 @@ namespace Game.MenuManager
         [SerializeField] private GameObject previousPanel;
         [SerializeField] private Button button;
         [SerializeField] private SceneReference levelToLoad;
+        [SerializeField] private GeneratorSettings settings;
         [field: SerializeField] public SelectedLevels Selected { get; set; }
 
         [field: SerializeField] public ProjectileTypeSO chosenProjectile { get; set; }
@@ -61,7 +64,14 @@ namespace Game.MenuManager
             {
                 Selected.SelectLevel(null);
             }
-            SceneManager.LoadScene("LevelWithEnemies");
+            
+            switch (settings.GameType)
+            {
+                case Enums.GameType.Platformer: SceneManager.LoadScene("Dungeon");
+                    break;
+                case Enums.GameType.TopDown: SceneManager.LoadScene("LevelWithEnemies");
+                    break;
+            }
             //SceneManager.LoadScene(levelToLoad.SceneName);
             gameObject.SetActive(false);
         }

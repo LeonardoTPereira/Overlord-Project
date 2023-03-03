@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
 using UnityEngine;
@@ -21,11 +22,13 @@ namespace Game.LevelManager.DungeonLoader
         public Dimensions Dimensions { get; set; }
         public int NTreasureRooms { get; set; }
         private bool _createRooms;
+        private Enums.GameType _gameType;
 
-        public Map(DungeonFileSo dungeonFileSo, bool createRooms, Vector2 roomSize)
+        public Map(DungeonFileSo dungeonFileSo, bool createRooms, Vector2 roomSize, Enums.GameType gameType)
         {
             NTreasureRooms = 0;
             _createRooms = createRooms;
+            _gameType = gameType;
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
             ReadMapFile(dungeonFileSo);
             BuildRooms(roomSize);
@@ -35,7 +38,7 @@ namespace Game.LevelManager.DungeonLoader
         {
             Dimensions = dungeonFileSo.DungeonSizes;
             dungeonFileSo.ResetIndex();
-            while (dungeonFileSo.GetNextPart() is { } currentDungeonPart)
+            while (dungeonFileSo.GetNextPart(_gameType) is { } currentDungeonPart)
             {
                 ProcessDungeonPart(currentDungeonPart);
             }
@@ -100,7 +103,7 @@ namespace Game.LevelManager.DungeonLoader
             }
         }
         
-        private List<int> CreateDoorList(Coordinates currentRoomCoordinates)
+        protected List<int> CreateDoorList(Coordinates currentRoomCoordinates)
         {
             var doorList = new List<int>
             {

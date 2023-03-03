@@ -26,7 +26,7 @@ namespace Game.GameManager
 
         private void Start()
         {
-            var maxSize = Player.Player.Instance.GetComponent<PlayerController>().GetMaxHealth();
+            var maxSize = Player.DungeonPlayer.Instance.GetComponent<PlayerController>().GetMaxHealth();
             var spriteWidth = fullHeartSprite.rect.size.x;
             CreateGridOfImages(maxSize, spriteWidth, spriteWidth);
             ProcessImageList(maxSize);
@@ -35,7 +35,7 @@ namespace Game.GameManager
         private void ResetHealth(object sender, EventArgs eventArgs)
         {
             if (ImageList == null) return;
-            for (var i = 0; i < Player.Player.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
+            for (var i = 0; i < Player.DungeonPlayer.Instance.GetComponent<PlayerController>().GetMaxHealth(); ++i)
             {
                 ImageList[i].sprite = fullHeartSprite;
             }

@@ -74,7 +74,7 @@ namespace Game.GameManager
             _animator = GetComponent<Animator>();
             _healthController = gameObject.GetComponent<HealthController>();
             _enemyRigidBody = gameObject.GetComponent<Rigidbody2D>();
-            PlayerObj = Player.Player.Instance.gameObject;
+            PlayerObj = Player.DungeonPlayer.Instance.gameObject;
             _hasGotComponents = true;
         }
 

@@ -131,7 +131,8 @@ namespace Game.LevelManager.DungeonManager
         {
             if (!other.CompareTag("PlayerTrigger")) return;
             
-            var commonKeys = keyID.Intersect(Player.Instance.Keys).ToList();
+            
+            var commonKeys = keyID.Intersect(DungeonPlayer.Instance.Keys).ToList();
             if (keyID.Count == 0 || isOpen)
             {
                 if (_currentRoom.hasEnemies && isClosedByEnemies) return;
@@ -144,14 +145,15 @@ namespace Game.LevelManager.DungeonManager
                 UseKeys(commonKeys);
                 MovePlayerToNextRoom();
             }
+
         }
 
         private void UseKeys(List<int> commonKeys)
         {
             ((ISoundEmitter) this).OnSoundEmitted(this, new EmitPitchedSfxEventArgs(AudioManager.SfxTracks.LockOpen, 1));
-            foreach (var key in commonKeys.Where(key => !Player.Instance.UsedKeys.Contains(key)))
+            foreach (var key in commonKeys.Where(key => !DungeonPlayer.Instance.UsedKeys.Contains(key)))
             {
-                Player.Instance.UsedKeys.Add(key);
+                DungeonPlayer.Instance.UsedKeys.Add(key);
             }
 
             OpenDoor();
