@@ -1950,7 +1950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4963722333495049391}
   - component: {fileID: 1000221247079000299}
-  - component: {fileID: 658120353065979752}
+  - component: {fileID: 6256339099568782023}
   m_Layer: 0
   m_Name: "CABE\xC7A"
   m_TagString: Untagged
@@ -2025,7 +2025,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &658120353065979752
+--- !u!114 &6256339099568782023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

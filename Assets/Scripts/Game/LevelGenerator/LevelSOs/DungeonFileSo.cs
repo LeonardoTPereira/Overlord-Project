@@ -29,10 +29,12 @@ namespace Game.LevelGenerator.LevelSOs
             _currentIndex = 0;
         }
 
-        public DungeonPart GetNextPart()
+        public DungeonPart GetNextPart(Enums.GameType gameType)
         {
+
             if (_currentIndex < Parts.Count)
-                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Parts[_currentIndex++]);
+                return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Parts[_currentIndex++], gameType);
+
             return null;
         }
 

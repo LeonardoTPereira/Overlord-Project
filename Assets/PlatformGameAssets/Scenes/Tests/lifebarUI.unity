@@ -269,7 +269,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 432408731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f2cbaf24dce3a64688f0f9ead034e00, type: 3}
+  m_Script: {fileID: 11500000, guid: a160b7fba4d8e1b4d98e425ce4801a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _UIDocument: {fileID: 432408736}
@@ -305,10 +305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7ada235a582ad4c9db0023ad09d94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCopy: {fileID: 501309130492107602, guid: f322ac6cfdbb0ab4c909f13c6497c93d,
-    type: 3}
-  enemySos:
-  - {fileID: 11400000, guid: 36230052dc3003247a8d2b9265c2e0d9, type: 2}
 --- !u!4 &594474761
 Transform:
   m_ObjectHideFlags: 0

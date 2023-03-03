@@ -660,10 +660,10 @@ namespace Game.LevelManager.DungeonLoader
         {
             columns = (int)input.Size.y;
             rows = (int)input.Size.x;
-            leftDoor = input.DoorExists(input.DoorEast);
-            rightDoor = input.DoorExists(input.DoorWest);
-            bottomDoor = input.DoorExists(input.DoorSouth);
-            topDoor = input.DoorExists(input.DoorNorth);
+            topDoor = input.DoorExists(input.DoorEast); //top
+            bottomDoor = input.DoorExists(input.DoorWest); //bottom
+            leftDoor = input.DoorExists(input.DoorSouth); //left
+            rightDoor = input.DoorExists(input.DoorNorth); //right
         }
     }
 }

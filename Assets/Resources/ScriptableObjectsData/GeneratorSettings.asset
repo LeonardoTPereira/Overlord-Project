@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b5a5fb4f7242858b860727e706ca44, type: 3}
   m_Name: GeneratorSettings
   m_EditorClassIdentifier: 
+  <GameType>k__BackingField: 1
   <CreateRooms>k__BackingField: 1
-  <RoomSize>k__BackingField: {x: 30, y: 18}
+  <RoomSize>k__BackingField: {x: 28, y: 24}
   <UseLevelSelect>k__BackingField: 1
   <GenerateInRealTime>k__BackingField: 1
   <EnableRandomProfileToPlayer>k__BackingField: 0

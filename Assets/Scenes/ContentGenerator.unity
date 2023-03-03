@@ -220,6 +220,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5677077938545413857, guid: eb8bf5bcac51cf14cafb3c50436bff97,
         type: 3}
+      propertyPath: settings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 5677077938545413857, guid: eb8bf5bcac51cf14cafb3c50436bff97,
+        type: 3}
       propertyPath: <Selected>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5,
@@ -570,10 +576,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.1421875
+    x: 0
     y: 0
-    width: 0.40833336
-    height: 0.40833333
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

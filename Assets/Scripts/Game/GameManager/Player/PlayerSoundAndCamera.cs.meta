@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Game/GameManager/Player/PlayerSoundAndCamera.cs.meta
+guid: 764a9e3dee8c36c4794b27b23c4a821e
+========
+guid: 8f2cbaf24dce3a64688f0f9ead034e00
+>>>>>>>> 2d-game/feature/life-bar:Assets/Scripts/Game/PlatformGame/UI/Lifebar/LifebarWindow.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

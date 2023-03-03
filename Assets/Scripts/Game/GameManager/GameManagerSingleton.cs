@@ -36,7 +36,7 @@ namespace Game.GameManager
             {
                 if (!_hasLoaded)
                 {
-                    LoadStateHandler?.Invoke();
+                    //LoadStateHandler?.Invoke();
                     _hasLoaded = true;
                 }
             }

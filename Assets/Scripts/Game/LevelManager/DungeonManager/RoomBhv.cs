@@ -21,7 +21,7 @@ namespace Game.LevelManager.DungeonManager
         public static event StartRoomEvent StartRoomEventHandler;
         public static event ShowRoomOnMiniMapEvent ShowRoomOnMiniMapEventHandler;
 
-        private Enums.RoomThemeEnum _theme;
+        protected Enums.RoomThemeEnum _theme;
         public DungeonRoom roomData;
         public List<int> northDoor;
         public List<int> southDoor;
@@ -53,13 +53,13 @@ namespace Game.LevelManager.DungeonManager
         public Tilemap blockTilemap;
         public List<TileBase> blockTiles;
         public List<TileBase> floorTiles;
-        private TileBase _blockTile;
-        private TileBase _floorTile;
+        protected TileBase _blockTile;
+        protected TileBase _floorTile;
 
-        private Sprite _northWall;
-        private Sprite _southWall;
-        private Sprite _eastWall; 
-        private Sprite _westWall;
+        protected Sprite _northWall;
+        protected Sprite _southWall;
+        protected Sprite _eastWall; 
+        protected Sprite _westWall;
         public List<Sprite> northWalls;
         public List<Sprite> southWalls;
         public List<Sprite> eastWalls;
@@ -69,10 +69,10 @@ namespace Game.LevelManager.DungeonManager
         public List<GameObject> SEColumns;
         public List<GameObject> SWColumns;
         
-        private GameObject _nwColumn;
-        private GameObject _neColumn;
-        private GameObject _seColumn;
-        private GameObject _swColumn;
+        protected GameObject _nwColumn;
+        protected GameObject _neColumn;
+        protected GameObject _seColumn;
+        protected GameObject _swColumn;
 
         public GameObject minimapIcon;
 
@@ -127,7 +127,13 @@ namespace Game.LevelManager.DungeonManager
 
             InstantiateTileMap();
 
-            //Instantiate corner props
+            InstantiateCornerProps();
+        
+            SetEnemySpawners();
+        }
+
+        protected virtual void InstantiateCornerProps()
+        {
             var nwColumnObject =  Instantiate(_nwColumn, transform, true);
             nwColumnObject.transform.localPosition = new Vector2(-0.5f, roomData.Dimensions.Height+0.5f);
             var seColumnObject = Instantiate(_seColumn, transform, true);
@@ -136,8 +142,6 @@ namespace Game.LevelManager.DungeonManager
             neColumnObject.transform.localPosition = new Vector2(roomData.Dimensions.Width+0.5f, roomData.Dimensions.Height+0.5f);
             var swColumnObject = Instantiate(_swColumn, transform, true);
             swColumnObject.transform.localPosition = new Vector2(-0.5f, -0.5f);
-        
-            SetEnemySpawners();
         }
         
         private void InstantiateTileMap()
@@ -159,7 +163,11 @@ namespace Game.LevelManager.DungeonManager
 	        }
         }
 
-        private void SetEnemySpawners()
+        protected virtual void SetEnemySpawners(float centerX, float centerY)
+        {
+        }
+
+        protected virtual  void SetEnemySpawners()
         {
             var roomPosition = transform.position;
             var xOffset = roomPosition.x;
@@ -210,10 +218,7 @@ namespace Game.LevelManager.DungeonManager
 
         private void SetCollidersOnRoom()
         {
-	        colNorth.gameObject.GetComponent<SpriteRenderer>().sprite = _northWall;
-	        colSouth.gameObject.GetComponent<SpriteRenderer>().sprite = _southWall;
-	        colEast.gameObject.GetComponent<SpriteRenderer>().sprite = _eastWall;
-	        colWest.gameObject.GetComponent<SpriteRenderer>().sprite = _westWall;
+	        SetSpritesTheme();
 	        colNorth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, -0.5f);
 	        colSouth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, roomData.Dimensions.Height+0.5f);
 	        colEast.transform.localPosition = new Vector2(roomData.Dimensions.Width+0.5f, roomData.Dimensions.Height/2f);
@@ -226,6 +231,14 @@ namespace Game.LevelManager.DungeonManager
 	        colSouth.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(roomData.Dimensions.Width + 2, 1);
 	        colEast.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
 	        colWest.gameObject.GetComponent<SpriteRenderer>().size = new Vector2(1, roomData.Dimensions.Height + 2);
+        }
+
+        protected virtual void SetSpritesToWalls()
+        {
+            colNorth.gameObject.GetComponent<SpriteRenderer>().sprite = _northWall;
+            colSouth.gameObject.GetComponent<SpriteRenderer>().sprite = _southWall;
+            colEast.gameObject.GetComponent<SpriteRenderer>().sprite = _eastWall;
+            colWest.gameObject.GetComponent<SpriteRenderer>().sprite = _westWall;
         }
 
         private void SetDoorsTransform()
@@ -253,7 +266,7 @@ namespace Game.LevelManager.DungeonManager
             enemiesDictionary = roomData.EnemiesByType.GetEnemiesForRoom();
         }
 
-        public void SpawnEnemies()
+        public virtual void SpawnEnemies()
         {
             var selectedSpawnPoints = new List<int>();
             _instantiatedEnemies.Clear();
@@ -271,13 +284,20 @@ namespace Game.LevelManager.DungeonManager
                         currentSpawn = RandomSingleton.GetInstance().Next(0, spawnPoints.Count);
                     } while (selectedSpawnPoints.Contains(currentSpawn));
                     var enemy = _enemyLoader.InstantiateEnemyFromScriptableObject(
-                        new Vector3(spawnPoints[currentSpawn].x, spawnPoints[currentSpawn].y, 0f), 
-                        transform.rotation, enemiesFromType.Key, questId);
+                    
+                    new Vector3(spawnPoints[currentSpawn].x, spawnPoints[currentSpawn].y, 0f), 
+                    transform.rotation, enemiesFromType.Key, questId);
                     _instantiatedEnemies.Add(enemy);
-                    enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
+                    
+                    RemoveFromDictionaryWhenEnemyDied(enemy);
                     selectedSpawnPoints.Add(currentSpawn);
                 }
             }
+        }
+
+        protected virtual void RemoveFromDictionaryWhenEnemyDied(GameObject enemy)
+        {
+            enemy.GetComponent<EnemyController>().EnemyKilledHandler += RemoveFromDictionary;
         }
 
         public void OnRoomEnter()
@@ -471,20 +491,7 @@ namespace Game.LevelManager.DungeonManager
         public void SetTheme(Enums.RoomThemeEnum theme)
         {
 	        _theme = theme;
-	        doorEast.SetTheme(_theme);
-	        doorWest.SetTheme(_theme);
-	        doorNorth.SetTheme(_theme);
-	        doorSouth.SetTheme(_theme);
-	        _nwColumn = NWColumns[(int) _theme];
-	        _neColumn = NEColumns[(int) _theme];
-	        _swColumn = SWColumns[(int) _theme];
-	        _seColumn = SEColumns[(int) _theme];
-	        _blockTile = blockTiles[(int) _theme];
-	        _floorTile = floorTiles[(int) _theme];
-	        _northWall = northWalls[(int) _theme];
-	        _southWall = southWalls[(int) _theme];
-	        _eastWall = eastWalls[(int) _theme];
-	        _westWall = westWalls[(int) _theme];
+	        SetSpritesTheme();
 
 	        SetLayout();
 	        _transform = transform;
@@ -518,6 +525,24 @@ namespace Game.LevelManager.DungeonManager
 
 	        minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
 	        minimapIcon.transform.position += new Vector3(roomData.Dimensions.Width/2f, roomData.Dimensions.Height/2f, 0f);
+        }
+
+        protected virtual void SetSpritesTheme()
+        {
+            doorEast.SetTheme(_theme);
+            doorWest.SetTheme(_theme);
+            doorNorth.SetTheme(_theme);
+            doorSouth.SetTheme(_theme);
+            _nwColumn = NWColumns[(int) _theme];
+            _neColumn = NEColumns[(int) _theme];
+            _swColumn = SWColumns[(int) _theme];
+            _seColumn = SEColumns[(int) _theme];
+            _blockTile = blockTiles[(int) _theme];
+            _floorTile = floorTiles[(int) _theme];
+            _northWall = northWalls[(int) _theme];
+            _southWall = southWalls[(int) _theme];
+            _eastWall = eastWalls[(int) _theme];
+            _westWall = westWalls[(int) _theme];
         }
     }
 }

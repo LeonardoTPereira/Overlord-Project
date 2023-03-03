@@ -32,7 +32,7 @@ namespace Game.DataCollection
             RoomBhv.EnterRoomEventHandler += OnRoomEnter;            
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
-            Player.ExitRoomEventHandler += OnRoomExit;
+            DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler += OnLevelWithFixedProfileCreated;
         }
@@ -52,7 +52,7 @@ namespace Game.DataCollection
             RoomBhv.EnterRoomEventHandler -= OnRoomEnter;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
-            Player.ExitRoomEventHandler -= OnRoomExit;
+            DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
         }

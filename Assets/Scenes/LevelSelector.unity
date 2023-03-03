@@ -306,6 +306,7 @@ MonoBehaviour:
   - {fileID: 3105447847001723272}
   - {fileID: 3105447847001723271}
   - {fileID: 3105447847001723270}
+  settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
 --- !u!4 &1424897363
 Transform:
   m_ObjectHideFlags: 0
@@ -431,6 +432,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: ba373954-b52a-4709-8901-aed820fbc078
     m_ActionName: MenuNavigation/ChangeDescription[/Keyboard/e,/Mouse/rightButton,/Keyboard/q,/DualShock4GamepadHID/leftShoulder,/DualShock4GamepadHID/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3182be8a-e413-435e-ae8c-0c2bd04bb7ae
+    m_ActionName: Player/Cancel[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6a5dd544-5c2a-488b-b22a-2a14de53dc22
+    m_ActionName: Player/ChangeMiniMap[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d5a4ecc5-c8ec-4576-9324-bb5f6682e073
+    m_ActionName: UI/ToggleQuestUI[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MenuNavigation
