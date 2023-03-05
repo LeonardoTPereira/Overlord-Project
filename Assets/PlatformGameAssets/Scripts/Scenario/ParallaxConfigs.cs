@@ -8,8 +8,8 @@ namespace PlatformGame.Scenario
     {
         public static ParallaxConfigs Instance;
 
-        [Header("Size of background chunk")] // Put the background chunk sprite in it and get "gameObject.GetComponent<SpriteRenderer>().bounds.size.x" value
-        public float chunkSize;
+        // Background "chunk" sprite size in X axis
+        [HideInInspector] public float chunkSize;
 
         [Header("Parallax Factor in X axis")]
         [Range(0.0f, 1.0f)]
@@ -28,7 +28,7 @@ namespace PlatformGame.Scenario
         public float farthestX;
 
 
-        [Header("Parallax Factor in X axis")]
+        [Header("Parallax Factor in Y axis")]
         [Range(0.0f, 1.0f)]
         public float closestY;
         [Range(0.0f, 1.0f)]
@@ -50,6 +50,11 @@ namespace PlatformGame.Scenario
                 Instance = this;
             else
                 Destroy(this);
+        }
+
+        private void OnEnable()
+        {
+            chunkSize = this.gameObject.GetComponentInChildren<SpriteRenderer>().bounds.size.x;
         }
     }
 }

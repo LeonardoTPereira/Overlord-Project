@@ -73,6 +73,8 @@ namespace PlatformGame.Scenario
                     _parallaxFactorInY = _parallaxConfigs.closestY;
                     break;
             }
+
+            _backgroundSlotSize = _parallaxConfigs.chunkSize;
         }
 
         void Update()

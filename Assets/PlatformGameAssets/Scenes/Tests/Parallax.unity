@@ -169,9 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &19076209
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,9 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &23565561
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,9 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &24641686
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,9 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &44558368
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,9 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &46417873
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +646,7 @@ Transform:
   - {fileID: 617182757}
   - {fileID: 1740111378}
   m_Father: {fileID: 236320786}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &62077670
 GameObject:
@@ -1293,9 +1283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &212468694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,6 +1377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 236320786}
+  - component: {fileID: 236320787}
   m_Layer: 0
   m_Name: ScenarioBackground (1)
   m_TagString: Untagged
@@ -1404,16 +1393,44 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236320785}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 735217348}
   - {fileID: 1077601078}
   - {fileID: 55191253}
   - {fileID: 2000965431}
-  m_Father: {fileID: 405773502}
-  m_RootOrder: 0
+  m_Father: {fileID: 404256078}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &236320787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236320785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665246fdb18fee04cbffcd689cede238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkSize: 0
+  closestX: 0
+  closeX: 0
+  middleCloseX: 0
+  middleX: 0
+  middleFarX: 0
+  farX: 0
+  farthestX: 0
+  closestY: 0
+  closeY: 0
+  middleCloseY: 0
+  middleY: 0
+  middleFarY: 0
+  farY: 0
+  farthestY: 0
 --- !u!1 &238106048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1463,7 @@ Transform:
   - {fileID: 1429432898}
   - {fileID: 735579008}
   m_Father: {fileID: 1077601078}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &238106050
 MonoBehaviour:
@@ -1460,9 +1477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &241744792
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,9 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &302909480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,6 +2096,7 @@ Transform:
   m_Children:
   - {fileID: 410584990}
   - {fileID: 405773502}
+  - {fileID: 236320786}
   - {fileID: 540003880}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -2217,8 +2231,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 4.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 236320786}
+  m_Children: []
   m_Father: {fileID: 404256078}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2827,9 +2840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &475679887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,9 +2887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &476541814
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,9 +3186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &492550482
 GameObject:
   m_ObjectHideFlags: 0
@@ -3309,9 +3316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &496615457
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3494,9 +3499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &511202729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3543,9 +3546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &514292785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,7 +3579,7 @@ Transform:
   - {fileID: 972833980}
   - {fileID: 949535141}
   m_Father: {fileID: 1077601078}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &514292787
 MonoBehaviour:
@@ -3592,9 +3593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &521405642
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,9 +3691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!1 &531352109
 GameObject:
   m_ObjectHideFlags: 0
@@ -3813,7 +3810,7 @@ Transform:
   m_Children:
   - {fileID: 1036366338}
   m_Father: {fileID: 404256078}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &540003881
 MonoBehaviour:
@@ -4045,9 +4042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &577594128
 GameObject:
   m_ObjectHideFlags: 0
@@ -4178,9 +4173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &594474759
 GameObject:
   m_ObjectHideFlags: 0
@@ -4275,9 +4268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &619817916
 GameObject:
   m_ObjectHideFlags: 0
@@ -4408,9 +4399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &634056283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4625,9 +4614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &675453337
 GameObject:
   m_ObjectHideFlags: 0
@@ -4925,9 +4912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &720088257
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4992,7 +4977,7 @@ GameObject:
   - component: {fileID: 735217350}
   - component: {fileID: 735217349}
   m_Layer: 0
-  m_Name: sky
+  m_Name: FixedBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5006,11 +4991,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735217347}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.07, y: -0.060000062, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.14, y: -0.12000036, z: 10}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1077601078}
+  m_Father: {fileID: 236320786}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &735217349
@@ -5025,9 +5010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &735217350
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5547,9 +5530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &788244193
 GameObject:
   m_ObjectHideFlags: 0
@@ -5680,9 +5661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &808917925
 GameObject:
   m_ObjectHideFlags: 0
@@ -6186,9 +6165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &869880343
 GameObject:
   m_ObjectHideFlags: 0
@@ -6319,9 +6296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &904269369
 GameObject:
   m_ObjectHideFlags: 0
@@ -6367,9 +6342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &904269372
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6804,9 +6777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &1015542843
 GameObject:
   m_ObjectHideFlags: 0
@@ -7419,9 +7390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &1061224144
 GameObject:
   m_ObjectHideFlags: 0
@@ -7468,9 +7437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &1073632279
 GameObject:
   m_ObjectHideFlags: 0
@@ -7583,14 +7550,13 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 735217348}
   - {fileID: 238106049}
   - {fileID: 514292786}
   - {fileID: 1228902069}
   - {fileID: 1746090168}
   - {fileID: 1166750550}
   m_Father: {fileID: 236320786}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1087349905
 GameObject:
@@ -7753,9 +7719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &1111872505
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7841,7 +7805,7 @@ Transform:
   - {fileID: 2064870677}
   - {fileID: 1381293070}
   m_Father: {fileID: 1077601078}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1166750551
 MonoBehaviour:
@@ -7855,9 +7819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &1168568533
 GameObject:
   m_ObjectHideFlags: 0
@@ -8347,7 +8309,7 @@ Transform:
   - {fileID: 476541815}
   - {fileID: 1956556668}
   m_Father: {fileID: 1077601078}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1228902070
 MonoBehaviour:
@@ -8361,9 +8323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &1235710078
 GameObject:
   m_ObjectHideFlags: 0
@@ -8410,9 +8370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &1250646839
 GameObject:
   m_ObjectHideFlags: 0
@@ -8627,9 +8585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &1284563194
 GameObject:
   m_ObjectHideFlags: 0
@@ -8713,9 +8669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &1339007296
 GameObject:
   m_ObjectHideFlags: 0
@@ -9098,9 +9052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &1412813994
 GameObject:
   m_ObjectHideFlags: 0
@@ -9315,9 +9267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &1450151988
 GameObject:
   m_ObjectHideFlags: 0
@@ -9569,9 +9519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &1499202171
 GameObject:
   m_ObjectHideFlags: 0
@@ -9786,9 +9734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &1519658549
 GameObject:
   m_ObjectHideFlags: 0
@@ -9835,9 +9781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.7
+  _backgroundType: 0
 --- !u!1 &1528889572
 GameObject:
   m_ObjectHideFlags: 0
@@ -9968,9 +9912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.8
+  _backgroundType: 0
 --- !u!1 &1561332817
 GameObject:
   m_ObjectHideFlags: 0
@@ -10976,9 +10918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &1744050101
 GameObject:
   m_ObjectHideFlags: 0
@@ -11024,9 +10964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &1744050104
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11111,7 +11049,7 @@ Transform:
   - {fileID: 1364233134}
   - {fileID: 827009886}
   m_Father: {fileID: 1077601078}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1746090169
 MonoBehaviour:
@@ -11125,9 +11063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 39.56
-  _camera: {fileID: 405773497}
-  _parallaxFactor: 0.2
+  _backgroundType: 0
 --- !u!1 &1748122484
 GameObject:
   m_ObjectHideFlags: 0
@@ -11174,9 +11110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &1755725014
 GameObject:
   m_ObjectHideFlags: 0
@@ -11427,9 +11361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &1773401200
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11529,9 +11461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &1852245973
 GameObject:
   m_ObjectHideFlags: 0
@@ -11915,9 +11845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &1923851896
 GameObject:
   m_ObjectHideFlags: 0
@@ -12133,9 +12061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0
+  _backgroundType: 0
 --- !u!1 &1956556667
 GameObject:
   m_ObjectHideFlags: 0
@@ -12266,9 +12192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 19.78
-  _camera: {fileID: 410584985}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &2000965430
 GameObject:
   m_ObjectHideFlags: 0
@@ -12304,7 +12228,7 @@ Transform:
   - {fileID: 1393712569}
   - {fileID: 19076210}
   m_Father: {fileID: 236320786}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2046069922
 GameObject:
@@ -12435,9 +12359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 1
+  _backgroundType: 0
 --- !u!212 &2058993521
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12872,9 +12794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a498fedbff338f040ab38a5e53e9667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSlotSize: 79.12
-  _camera: {fileID: 540003879}
-  _parallaxFactor: 0.5
+  _backgroundType: 0
 --- !u!1 &2134780314
 GameObject:
   m_ObjectHideFlags: 0
