@@ -27,8 +27,6 @@ namespace PlatformGame.Scenario
 
         void Start()
         {
-            _camera = GameObject.FindGameObjectWithTag("MainCamera");
-
             GetParallaxConfigs();
             _xCentralPos = this.transform.position.x;
             _yCentralPos = this.transform.position.y;                    
@@ -71,14 +69,16 @@ namespace PlatformGame.Scenario
                     //_parallaxFactorInY = _parallaxConfigs.closestY;
                     break;
             }
-
+            _camera = _parallaxConfigs.mainCamera;
             _parallaxFactorInY = _parallaxFactorInX * _parallaxConfigs.yFactor;
             _backgroundSlotSize = _parallaxConfigs.chunkSize;
         }
 
         void Update()
         {
+#if UNITY_EDITOR
             GetParallaxConfigs();
+#endif
             _temp = _camera.transform.position.x * (1 - _parallaxFactorInX);
             _xDistance = _camera.transform.position.x * _parallaxFactorInX;
             _yDistance = (_camera.transform.position.y - _yCentralPos) * _parallaxFactorInY;

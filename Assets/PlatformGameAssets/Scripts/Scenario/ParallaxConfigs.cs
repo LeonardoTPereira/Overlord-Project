@@ -10,6 +10,7 @@ namespace PlatformGame.Scenario
 
         // Background "chunk" sprite size in X axis
         [HideInInspector] public float chunkSize;
+        [HideInInspector] public GameObject mainCamera;
 
         [Header("Parallax Factor in X axis")]
         [Range(0.0f, 1.0f)]
@@ -61,7 +62,8 @@ namespace PlatformGame.Scenario
         private void OnEnable()
         {
             chunkSize = this.gameObject.GetComponentInChildren<SpriteRenderer>().bounds.size.x;
-            this.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("MainCamera").transform);
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            this.gameObject.transform.SetParent(mainCamera.transform);
         }
     }
 }
