@@ -27,7 +27,12 @@ namespace PlatformGame.Scenario
         [Range(0.0f, 1.0f)]
         public float farthestX;
 
+        // Value multiplied with the X factor to get the Y factor
+        [Header("Parallax Factor in Y axis")]
+        [Range(0.0f, 1.0f)]
+        public float yFactor;
 
+        /*
         [Header("Parallax Factor in Y axis")]
         [Range(0.0f, 1.0f)]
         public float closestY;
@@ -43,6 +48,7 @@ namespace PlatformGame.Scenario
         public float farY;
         [Range(0.0f, 1.0f)]
         public float farthestY;
+        */
 
         private void Awake()
         {
@@ -55,6 +61,7 @@ namespace PlatformGame.Scenario
         private void OnEnable()
         {
             chunkSize = this.gameObject.GetComponentInChildren<SpriteRenderer>().bounds.size.x;
+            this.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("MainCamera").transform);
         }
     }
 }

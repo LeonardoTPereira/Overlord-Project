@@ -28,12 +28,10 @@ namespace PlatformGame.Scenario
         void Start()
         {
             _camera = GameObject.FindGameObjectWithTag("MainCamera");
-            _xCentralPos = this.transform.position.x;
-            _yCentralPos = this.transform.position.y;
-
-            _camera.transform.parent = this.gameObject.transform;
 
             GetParallaxConfigs();
+            _xCentralPos = this.transform.position.x;
+            _yCentralPos = this.transform.position.y;                    
 
             _backgroundSlotSize = this.gameObject.GetComponentInChildren<SpriteRenderer>().bounds.size.x;    // has to have a gameobject with a spriterender used as background
         }
@@ -46,34 +44,35 @@ namespace PlatformGame.Scenario
             {
                 case BackgroundType.Farthest:
                     _parallaxFactorInX = _parallaxConfigs.farthestX;
-                    _parallaxFactorInY = _parallaxConfigs.farthestY;
+                    //_parallaxFactorInY = _parallaxConfigs.farthestY;
                     break;
                 case BackgroundType.Far:
                     _parallaxFactorInX = _parallaxConfigs.farX;
-                    _parallaxFactorInY = _parallaxConfigs.farY;
+                    //_parallaxFactorInY = _parallaxConfigs.farY;
                     break;
                 case BackgroundType.MiddleFar:
                     _parallaxFactorInX = _parallaxConfigs.middleFarX;
-                    _parallaxFactorInX = _parallaxConfigs.middleFarY;
+                    //_parallaxFactorInY = _parallaxConfigs.middleFarY;
                     break;
                 case BackgroundType.Middle:
                     _parallaxFactorInX = _parallaxConfigs.middleX;
-                    _parallaxFactorInX = _parallaxConfigs.middleY;
+                    //_parallaxFactorInY = _parallaxConfigs.middleY;
                     break;
                 case BackgroundType.MiddleClose:
                     _parallaxFactorInX = _parallaxConfigs.middleCloseX;
-                    _parallaxFactorInX = _parallaxConfigs.middleCloseY;
+                    //_parallaxFactorInY = _parallaxConfigs.middleCloseY;
                     break;
                 case BackgroundType.Close:
                     _parallaxFactorInX = _parallaxConfigs.closeX;
-                    _parallaxFactorInY = _parallaxConfigs.closeY;
+                    //_parallaxFactorInY = _parallaxConfigs.closeY;
                     break;
                 case BackgroundType.Closest:
                     _parallaxFactorInX = _parallaxConfigs.closestX;
-                    _parallaxFactorInY = _parallaxConfigs.closestY;
+                    //_parallaxFactorInY = _parallaxConfigs.closestY;
                     break;
             }
 
+            _parallaxFactorInY = _parallaxFactorInX * _parallaxConfigs.yFactor;
             _backgroundSlotSize = _parallaxConfigs.chunkSize;
         }
 
@@ -82,10 +81,9 @@ namespace PlatformGame.Scenario
             GetParallaxConfigs();
             _temp = _camera.transform.position.x * (1 - _parallaxFactorInX);
             _xDistance = _camera.transform.position.x * _parallaxFactorInX;
-            _yDistance = _camera.transform.position.y * _parallaxFactorInY;
+            _yDistance = (_camera.transform.position.y - _yCentralPos) * _parallaxFactorInY;
 
             transform.position = new Vector3(_xCentralPos + _xDistance, _yCentralPos + _yDistance, transform.position.z);
-
 
             // Repositioning of the background sprites
             if (_temp > _xCentralPos + _backgroundSlotSize * 2)
