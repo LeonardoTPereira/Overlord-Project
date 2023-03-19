@@ -8,7 +8,10 @@ using Util;
 namespace PlatformGame.Dungeon
 {
     public class PlatformRoomBhv : RoomBhv
-    {
+    {        
+        [Header("Plataform Game Related")]
+        public CompositeCollider2D colRoomConfiner;
+
         private bool[,] _backtrackingPath;
         private bool _isSpawnPointsGenerated = false;
         //Change enemy spawners later...
@@ -130,6 +133,14 @@ namespace PlatformGame.Dungeon
 
         }
     */
+
+
+        protected override void SetCollidersOnRoom()
+        {
+            base.SetCollidersOnRoom();
+            colRoomConfiner.gameObject.transform.localPosition = new Vector2(roomData.Dimensions.Width / 2f - 1, roomData.Dimensions.Height / 2f - 1);
+            colRoomConfiner.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, roomData.Dimensions.Height + 2);
+        }
     }
 
 }

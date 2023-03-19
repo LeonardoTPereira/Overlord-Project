@@ -216,7 +216,7 @@ namespace Game.LevelManager.DungeonManager
             }
         }
 
-        private void SetCollidersOnRoom()
+        protected virtual void SetCollidersOnRoom()
         {
 	        SetSpritesTheme();
 	        colNorth.transform.localPosition = new Vector2(roomData.Dimensions.Width/2f, -0.5f);
