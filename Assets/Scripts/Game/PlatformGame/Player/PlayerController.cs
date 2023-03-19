@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace PlatformGame.Player
     {
         
         private Camera _camera;
-        
+        [SerializeField] private CinemachineConfiner2D _confiner;
+
         public void Awake()
         {
             _camera = Camera.main;
@@ -34,10 +36,13 @@ namespace PlatformGame.Player
         
         private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
+            //_confiner.m_BoundingShape2D = eventArgs._roomCompositeColl;
+            /*
             var cameraXPosition = eventArgs.PositionInScene.x;
             var cameraYPosition = eventArgs.PositionInScene.y;
             const float cameraZPosition = -5f;
             _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
+            */
         }
 
     }
