@@ -138,8 +138,8 @@ namespace PlatformGame.Dungeon
         protected override void SetCollidersOnRoom()
         {
             base.SetCollidersOnRoom();
-            colRoomConfiner.gameObject.transform.localPosition = new Vector2(roomData.Dimensions.Width / 2f - 1, roomData.Dimensions.Height / 2f - 1);
-            colRoomConfiner.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(roomData.Dimensions.Width + 2, roomData.Dimensions.Height + 2);
+            colRoomConfiner.gameObject.transform.localPosition = new Vector2(roomData.Dimensions.Width / 2f , roomData.Dimensions.Height / 2f );
+            colRoomConfiner.gameObject.GetComponent<BoxCollider2D>().size = new Vector2((roomData.Dimensions.Width + 2)*3, (roomData.Dimensions.Height + 2)*3);
         }
     }
 

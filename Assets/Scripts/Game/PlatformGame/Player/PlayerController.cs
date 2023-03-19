@@ -8,6 +8,7 @@ using Game.GameManager;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using PlatformGame.Weapons;
+using PlatformGame.Dungeon;
 
 namespace PlatformGame.Player
 {
@@ -36,6 +37,11 @@ namespace PlatformGame.Player
         
         private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
+            PlatformRoomBhv platRoom = sender as PlatformRoomBhv;
+            if (platRoom != null)
+            {
+                _confiner.m_BoundingShape2D = platRoom.colRoomConfiner;
+            }
             //_confiner.m_BoundingShape2D = eventArgs._roomCompositeColl;
             /*
             var cameraXPosition = eventArgs.PositionInScene.x;
