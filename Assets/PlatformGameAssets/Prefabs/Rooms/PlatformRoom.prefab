@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 533672475483984825}
   - component: {fileID: 382197366467793439}
   - component: {fileID: 4388029658525826834}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ColliderNorth
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 533092978700220583}
   - component: {fileID: 381731356421472931}
   - component: {fileID: 246170295980309866}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ColliderEast
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 533426415328935781}
   - component: {fileID: 382201620004121827}
   - component: {fileID: 2008460799424966447}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ColliderWest
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1368,7 +1368,7 @@ GameObject:
   - component: {fileID: 532851550740135977}
   - component: {fileID: 381786258809697615}
   - component: {fileID: 4206797234156568438}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ColliderSouth
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1770,6 +1770,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3766376910619997648, guid: 4def86c2300d24f42ba85a0bc7c6d9ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4def86c2300d24f42ba85a0bc7c6d9ad, type: 3}

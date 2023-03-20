@@ -10,6 +10,7 @@ using Game.LevelManager.DungeonManager;
 using PlatformGame.Weapons;
 using PlatformGame.Dungeon;
 
+
 namespace PlatformGame.Player
 {
     public class PlayerController : MonoBehaviour
@@ -42,14 +43,9 @@ namespace PlatformGame.Player
             {
                 _confiner.m_BoundingShape2D = platRoom.colRoomConfiner;
             }
-            //_confiner.m_BoundingShape2D = eventArgs._roomCompositeColl;
-            /*
-            var cameraXPosition = eventArgs.PositionInScene.x;
-            var cameraYPosition = eventArgs.PositionInScene.y;
-            const float cameraZPosition = -5f;
-            _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
-            */
         }
 
     }
 }
+
+

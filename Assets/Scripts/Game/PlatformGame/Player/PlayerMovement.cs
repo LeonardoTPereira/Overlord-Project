@@ -18,48 +18,32 @@ namespace PlatformGame.Player
         private bool isRunning;
         private Rigidbody2D _rb;
         private bool _canMove;
-        private PlayerAnimationController playerAnimation;
 
         public static event Action OnFlip;
 
         private void OnEnable()
         {
             OnFlip += Flip;
-            PlayerShots.IsShooting += DisableInput;
-            PlayerShots.StopShooting += EnableInput;
         }
 
         private void OnDisable()
         {
             OnFlip -= Flip;
-            PlayerShots.IsShooting -= DisableInput;
-            PlayerShots.StopShooting -= EnableInput;
         }
 
-        private void Awake()
+        public void PressedMovement(InputAction.CallbackContext context)
         {
-            _canMove = true;
-        }
-
-        private void OnMove(InputValue value)
-        {
-            moveDirection = value.Get<float>();
-        }
-
-        private void OnRun(InputValue value)
-        {
-            isRunning = value.isPressed;
-        }
-
-        private void OnJump()
-        {
-            if (isGrounded&&_canMove)
+            moveDirection = context.ReadValue<float>();
+            if (moveDirection > 0 && isFacingRight)
             {
-                _rb.AddForce(Vector2.up*jumpForce, ForceMode2D.Impulse);
-                isGrounded = false;
+                OnFlip?.Invoke();
+            }
+            else if (moveDirection < 0 && !isFacingRight)
+            {
+                OnFlip?.Invoke();
             }
         }
-
+        
         private void OnCollisionEnter2D(Collision2D col)
         {
             if (col.collider.transform.CompareTag("Floor"))
@@ -67,11 +51,9 @@ namespace PlatformGame.Player
                 isGrounded = true;
             }
         }
-
+        /*
         private void FixedUpdate()
         {
-            if (_canMove)
-            {
                 if (moveDirection < 0 && isFacingRight)
                 {
                     OnFlip?.Invoke();
@@ -80,16 +62,12 @@ namespace PlatformGame.Player
                 {
                     OnFlip?.Invoke();
                 }
-                
-                _rb.transform.position += Vector3.right*moveDirection*Time.fixedDeltaTime*speed*(isRunning?(runSpeedMultiplier):(1));
-            }
-            playerAnimation.AnimateMove(isRunning, Mathf.Abs(moveDirection), _canMove, isSeparated);
+            //playerAnimation.AnimateMove(isRunning, Mathf.Abs(moveDirection), _canMove, isSeparated);
         }
-        
+        */
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
-            playerAnimation = GetComponent<PlayerAnimationController>();
             isGrounded = true;
             isFacingRight = true;
         }
@@ -97,22 +75,10 @@ namespace PlatformGame.Player
         private void Flip()
         {
             isFacingRight = !isFacingRight;
-            //transform.Rotate(0f, 180f, 0f, Space.Self);
             Vector3 newScale = transform.localScale;
             newScale.x *= -1;
             transform.localScale = newScale;
-        }
-        
-        private void EnableInput()
-        {
-            _canMove = true;
-        }
-        
-        private void DisableInput()
-        {
-            _canMove = false;
-        }
-        
+        }        
     }
 }
 
