@@ -143,8 +143,8 @@ namespace Game.LevelManager.DungeonManager
             var swColumnObject = Instantiate(_swColumn, transform, true);
             swColumnObject.transform.localPosition = new Vector2(-0.5f, -0.5f);
         }
-        
-        private void InstantiateTileMap()
+
+        protected virtual void InstantiateTileMap()
         {
 	        for (var ix = 0; ix < roomData.Dimensions.Width; ix++)
 	        {

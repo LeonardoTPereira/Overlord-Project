@@ -31,7 +31,24 @@ namespace PlatformGame.Dungeon
             _blockTile = blockTiles[0];
             _floorTile = floorTiles[0];
         }
-        
+
+        protected override void InstantiateTileMap()
+        {
+            base.InstantiateTileMap();
+
+            for (var ix = -1; ix < roomData.Dimensions.Width + 1; ix++)
+            {
+                blockTilemap.SetTile(new Vector3Int(ix, -1), _blockTile);
+                blockTilemap.SetTile(new Vector3Int(ix, roomData.Dimensions.Height), _blockTile);
+            }
+            for (var iy = -1; iy < roomData.Dimensions.Height + 1; iy++)
+            {
+                blockTilemap.SetTile(new Vector3Int(-1, iy), _blockTile);
+                blockTilemap.SetTile(new Vector3Int(roomData.Dimensions.Width, iy), _blockTile);
+            }
+        }
+
+
         protected override void InstantiateCornerProps()
         {
             //Do not instantiate anything

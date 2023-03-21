@@ -182,11 +182,6 @@ namespace PlatformGame.Player
 
             bool RunDetection(RayRange range)
             {
-                /*
-                var test = Physics2D.Raycast(range.Start, range.Dir, _detectionRayLength, _groundLayer).collider.gameObject.name;
-                if (test != null)
-                    Debug.Log("Objeto colidindo: " + test);
-                */
                 return EvaluateRayPositions(range).Any(point => Physics2D.Raycast(point, range.Dir, _detectionRayLength, _groundLayer));
             }
         }
