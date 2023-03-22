@@ -1735,7 +1735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774456514}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.1, z: -10}
+  m_LocalPosition: {x: 36.6, y: 17, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2812,17 +2812,7 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1512521593}
-    m_ColliderPaths:
-    - - X: 468636256
-        Y: 288717696
-      - X: -605305088
-        Y: 288717696
-      - X: -605305088
-        Y: -146858848
-      - X: 468636256
-        Y: -146858848
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 46.863598, y: -14.685885}
@@ -2908,7 +2898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1533688676
 Transform:
   m_ObjectHideFlags: 0
@@ -3980,7 +3970,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937769441}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.1, z: -10}
+  m_LocalPosition: {x: 20.574877, y: 14.361759, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7827,7 +7817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5243512210235137424}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 36.6, y: 12.9, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9820,7 +9810,7 @@ MonoBehaviour:
   _fallClamp: -40
   _minFallSpeed: 80
   _maxFallSpeed: 120
-  _jumpHeight: 30
+  _jumpHeight: 35
   _jumpApexThreshold: 10
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
