@@ -92,10 +92,15 @@ namespace PlatformGame.Player
             }
             else if (context.canceled)
             {
+                _releasedJump = true;
                 _pressedJump = false;
             }
+            else
+            {
+                _releasedJump = false;
+            }
         }
-
+        /*
         public void ReleaseJump(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -105,9 +110,9 @@ namespace PlatformGame.Player
             else if (context.canceled)
             {
                 _releasedJump = false;
-            }
+            }            
         }
-
+        */
         public void PressingRunButton(InputAction.CallbackContext context)
         {
             if (context.performed)

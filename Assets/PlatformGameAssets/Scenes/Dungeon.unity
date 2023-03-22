@@ -2812,7 +2812,17 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1512521593}
+    m_ColliderPaths:
+    - - X: 468636256
+        Y: 288717696
+      - X: -605305088
+        Y: 288717696
+      - X: -605305088
+        Y: -146858848
+      - X: 468636256
+        Y: -146858848
   m_CompositePaths:
     m_Paths:
     - - {x: 46.863598, y: -14.685885}
@@ -2898,7 +2908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1533688676
 Transform:
   m_ObjectHideFlags: 0
@@ -3902,6 +3912,8 @@ GameObject:
   - component: {fileID: 1937769442}
   - component: {fileID: 1937769445}
   - component: {fileID: 1937769446}
+  - component: {fileID: 1937769448}
+  - component: {fileID: 1937769447}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4042,6 +4054,39 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1937769447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937769441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a160b7fba4d8e1b4d98e425ce4801a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIDocument: {fileID: 1937769448}
+  _emptyHeart: {fileID: -949340753, guid: cc3411ff1f1a9ce4bbb844f50d3cd2d3, type: 3}
+  _halfHeart: {fileID: -643931395, guid: ee3fddf42b72eb64cbd14ee115a03f48, type: 3}
+  _fullHeart: {fileID: 1191049544, guid: 6085ccc56b818a245b6f5294b641ec04, type: 3}
+--- !u!114 &1937769448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937769441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 5d450240c85cdaa43a391bae846b9faf, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: dec7e7a59ae568a438a5b5e7672c631e,
+    type: 3}
+  m_SortingOrder: 0
 --- !u!1 &1966406337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7765,10 +7810,10 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5243512210235137424}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.28407836, y: 4.4032145}
@@ -8907,8 +8952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974fafeb24f227144bc442be5cbc4cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 999999
-  invincibilityCooldown: 0.5
+  maxHealth: 40
+  invincibilityCooldown: 1
   hasDeathAnimation: 0
 --- !u!114 &7528631103763758407
 MonoBehaviour:
