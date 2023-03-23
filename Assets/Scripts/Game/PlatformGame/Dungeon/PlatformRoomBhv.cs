@@ -59,7 +59,7 @@ namespace PlatformGame.Dungeon
             //Do nothing
         }
 
-/*
+        
         public override void SpawnEnemies()
         {
             while (!_isSpawnPointsGenerated) { }
@@ -67,11 +67,15 @@ namespace PlatformGame.Dungeon
             base.SpawnEnemies();
         }
 
-        protected override void SetEnemySpawners(float centerX, float centerY)
+        protected override void SetEnemySpawners()
         {
+            var roomPosition = transform.position;
+            var xOffset = roomPosition.x;
+            var yOffset = roomPosition.y;
+
             _isSpawnPointsGenerated = false;
-            // Need to have the roomModel matrix to work
-            
+
+            // Need to have the roomModel matrix to work            
             char [,] roomModel = CreateRoomModel();
             _backtrackingPath = new bool[roomModel.GetLength(0), roomModel.GetLength(1)];
 
@@ -80,7 +84,7 @@ namespace PlatformGame.Dungeon
                     _backtrackingPath[i, j] = false;
             int startX = 5, startY = 0;
 
-            SpawnBacktracking(startX, startY, roomModel.GetLength(0), roomModel.GetLength(1), centerX, centerY, roomModel);
+            SpawnBacktracking(startX, startY, roomModel.GetLength(0), roomModel.GetLength(1), xOffset, yOffset, roomModel);
             _isSpawnPointsGenerated = true;
         }
         
@@ -91,7 +95,7 @@ namespace PlatformGame.Dungeon
             {
                 for (int j = 0; j < 28; j++)
                 {
-                    switch (roomData.Tiles[i,j].TileType)
+                    switch (roomData.Tiles[j,i].TileType)
                     {
                         case Enums.TileTypes.Block: model[i, j] = '#';
                             break;
@@ -103,53 +107,96 @@ namespace PlatformGame.Dungeon
 
             return model;
         }
-        
-
-        private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float centerX, float centerY, char[,] roomModel)
+        private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float xOffset, float yOffset, char[,] roomModel)
         {
-            if (roomModel[i,j] == '#')
+            if (roomModel[i, j] == '#')
             {
                 return;
             }
             // Test if the block bellow is a walking block ( so it is a possible spawn point! )
-            if (i + 1 < lineNum && roomModel[i + 1, j] == '#')
+            if (i - 1 > 0 && roomModel[i - 1, j] == '#')
             {
                 _backtrackingPath[i + 1, j] = true;
-                spawnPoints.Add(new Vector3((j - centerX)* transform.lossyScale.x, (centerY - i) * transform.lossyScale.y, 0));
+                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
             }
             // Test the default ground block around the map
-            else if (i + 1 == lineNum)
+            else if (i - 1 == 0)
             {
-                spawnPoints.Add(new Vector3((j - centerX) * transform.lossyScale.x, (centerY - i) * transform.lossyScale.y, 0));
+                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
             }
 
             // go UP
             if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
             {
                 _backtrackingPath[i - 1, j] = true;
-                SpawnBacktracking(i - 1, j, lineNum, colNum, centerX, centerY, roomModel);
+                SpawnBacktracking(i - 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
             }
             // go RIGHT
             if (j + 1 < colNum && !_backtrackingPath[i, j + 1])
             {
                 _backtrackingPath[i, j + 1] = true;
-                SpawnBacktracking(i, j + 1, lineNum, colNum, centerX, centerY, roomModel);
+                SpawnBacktracking(i, j + 1, lineNum, colNum, xOffset, yOffset, roomModel);
             }
             // go DOWN
             if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
             {
                 _backtrackingPath[i + 1, j] = true;
-                SpawnBacktracking(i + 1, j, lineNum, colNum, centerX, centerY, roomModel);
+                SpawnBacktracking(i + 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
             }
             // go LEFT
             if (j - 1 > 0 && !_backtrackingPath[i, j - 1])
             {
                 _backtrackingPath[i, j - 1] = true;
-                SpawnBacktracking(i, j - 1, lineNum, colNum, centerX, centerY, roomModel);
+                SpawnBacktracking(i, j - 1, lineNum, colNum, xOffset, yOffset, roomModel);
             }
-
         }
-    */
+
+        // Putting spawn points in the roof of valid tiles
+        /*
+            private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float xOffset, float yOffset, char[,] roomModel)
+            {
+                if (roomModel[i,j] == '#')
+                {
+                    return;
+                }
+                // Test if the block bellow is a walking block ( so it is a possible spawn point! )
+                if (i + 1 < lineNum && roomModel[i + 1, j] == '#')
+                {
+                    _backtrackingPath[i + 1, j] = true;
+                    spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
+                }
+                // Test the default ground block around the map
+                else if (i + 1 == lineNum)
+                {
+                    spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
+                }
+
+                // go UP
+                if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
+                {
+                    _backtrackingPath[i - 1, j] = true;
+                    SpawnBacktracking(i - 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
+                }
+                // go RIGHT
+                if (j + 1 < colNum && !_backtrackingPath[i, j + 1])
+                {
+                    _backtrackingPath[i, j + 1] = true;
+                    SpawnBacktracking(i, j + 1, lineNum, colNum, xOffset, yOffset, roomModel);
+                }
+                // go DOWN
+                if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
+                {
+                    _backtrackingPath[i + 1, j] = true;
+                    SpawnBacktracking(i + 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
+                }
+                // go LEFT
+                if (j - 1 > 0 && !_backtrackingPath[i, j - 1])
+                {
+                    _backtrackingPath[i, j - 1] = true;
+                    SpawnBacktracking(i, j - 1, lineNum, colNum, xOffset, yOffset, roomModel);
+                }
+            }
+        */
 
 
         protected override void SetCollidersOnRoom()

@@ -163,10 +163,6 @@ namespace Game.LevelManager.DungeonManager
 	        }
         }
 
-        protected virtual void SetEnemySpawners(float centerX, float centerY)
-        {
-        }
-
         protected virtual  void SetEnemySpawners()
         {
             var roomPosition = transform.position;
