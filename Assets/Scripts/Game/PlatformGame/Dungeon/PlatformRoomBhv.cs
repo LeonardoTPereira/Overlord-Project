@@ -48,7 +48,6 @@ namespace PlatformGame.Dungeon
             }
         }
 
-
         protected override void InstantiateCornerProps()
         {
             //Do not instantiate anything
@@ -58,14 +57,15 @@ namespace PlatformGame.Dungeon
         {
             //Do nothing
         }
-
-        
+                
         public override void SpawnEnemies()
         {
             while (!_isSpawnPointsGenerated) { }
 
             base.SpawnEnemies();
         }
+
+        private int startX, startY;
 
         protected override void SetEnemySpawners()
         {
@@ -82,12 +82,37 @@ namespace PlatformGame.Dungeon
             for (int i = 0; i < roomModel.GetLength(0); i++)
                 for (int j = 0; j < roomModel.GetLength(1); j++)
                     _backtrackingPath[i, j] = false;
-            int startX = 5, startY = 0;
 
-            SpawnBacktracking(startX, startY, roomModel.GetLength(0), roomModel.GetLength(1), xOffset, yOffset, roomModel);
+            SetBacktrackingStartPosition(roomModel);
+
+            SpawnBacktracking(startY, startX, roomModel.GetLength(0), roomModel.GetLength(1), xOffset, yOffset, roomModel);
             _isSpawnPointsGenerated = true;
         }
-        
+
+        private void SetBacktrackingStartPosition(char[,] roomModel)
+        {
+            if (northDoor != null)
+            {
+                startX = (roomModel.GetLength(1) - 1) / 2;
+                startY = (roomModel.GetLength(0) - 1);
+            }
+            else if (eastDoor != null)
+            {
+                startX = (roomModel.GetLength(1) - 1);
+                startY = (roomModel.GetLength(0) - 1) / 2;
+            }
+            else if (southDoor != null)
+            {
+                startX = (roomModel.GetLength(1) - 1) / 2;
+                startY = 0;
+            }
+            else
+            {
+                startX = 0;
+                startY = (roomModel.GetLength(0) - 1) / 2;
+            }
+        }
+                
         private char[,] CreateRoomModel()
         {
             char[,] model = new char[24, 28];
@@ -104,9 +129,9 @@ namespace PlatformGame.Dungeon
                     }
                 }
             }
-
             return model;
         }
+
         private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float xOffset, float yOffset, char[,] roomModel)
         {
             if (roomModel[i, j] == '#')
@@ -117,12 +142,12 @@ namespace PlatformGame.Dungeon
             if (i - 1 > 0 && roomModel[i - 1, j] == '#')
             {
                 _backtrackingPath[i + 1, j] = true;
-                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
+                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + i * transform.lossyScale.y + 0.5f, 0));
             }
             // Test the default ground block around the map
             else if (i - 1 == 0)
             {
-                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
+                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + i * transform.lossyScale.y + 0.5f, 0));
             }
 
             // go UP
@@ -151,54 +176,6 @@ namespace PlatformGame.Dungeon
             }
         }
 
-        // Putting spawn points in the roof of valid tiles
-        /*
-            private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float xOffset, float yOffset, char[,] roomModel)
-            {
-                if (roomModel[i,j] == '#')
-                {
-                    return;
-                }
-                // Test if the block bellow is a walking block ( so it is a possible spawn point! )
-                if (i + 1 < lineNum && roomModel[i + 1, j] == '#')
-                {
-                    _backtrackingPath[i + 1, j] = true;
-                    spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
-                }
-                // Test the default ground block around the map
-                else if (i + 1 == lineNum)
-                {
-                    spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x, yOffset + i * transform.lossyScale.y, 0));
-                }
-
-                // go UP
-                if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
-                {
-                    _backtrackingPath[i - 1, j] = true;
-                    SpawnBacktracking(i - 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
-                }
-                // go RIGHT
-                if (j + 1 < colNum && !_backtrackingPath[i, j + 1])
-                {
-                    _backtrackingPath[i, j + 1] = true;
-                    SpawnBacktracking(i, j + 1, lineNum, colNum, xOffset, yOffset, roomModel);
-                }
-                // go DOWN
-                if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
-                {
-                    _backtrackingPath[i + 1, j] = true;
-                    SpawnBacktracking(i + 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
-                }
-                // go LEFT
-                if (j - 1 > 0 && !_backtrackingPath[i, j - 1])
-                {
-                    _backtrackingPath[i, j - 1] = true;
-                    SpawnBacktracking(i, j - 1, lineNum, colNum, xOffset, yOffset, roomModel);
-                }
-            }
-        */
-
-
         protected override void SetCollidersOnRoom()
         {
             base.SetCollidersOnRoom();
@@ -206,5 +183,4 @@ namespace PlatformGame.Dungeon
             colRoomConfiner.gameObject.GetComponent<BoxCollider2D>().size = new Vector2((roomData.Dimensions.Width + 2)*3, (roomData.Dimensions.Height + 2)*3);
         }
     }
-
 }

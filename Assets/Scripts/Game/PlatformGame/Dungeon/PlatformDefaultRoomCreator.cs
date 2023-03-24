@@ -39,14 +39,12 @@ namespace PlatformGame.Dungeon
             }
 
             room.Tiles = roomData;
-
         }
         
         private static void CreateEmptyBorders(RoomData roomData, Dimensions dimensions)
         {
             for (var x = 0; x < dimensions.Width; x++)
             {
-
                 roomData[x, 0] = new Tile(Enums.TileTypes.Floor, new Vector2(x, 0));
                 roomData[x, dimensions.Height-1] = new Tile(Enums.TileTypes.Floor, new Vector2(x, dimensions.Height-1));
             }
@@ -59,15 +57,14 @@ namespace PlatformGame.Dungeon
 
         private static RoomForm GetRoomFormFromInput(RoomGeneratorInput input)
         {
-            if ((input.DoorExists(input.DoorNorth) || input.DoorExists(input.DoorSouth)) &&
-                (!input.DoorExists(input.DoorEast) && !input.DoorExists(input.DoorWest)))
+            if ((input.DoorNorth == 1 || input.DoorSouth == 1) &&
+                (input.DoorEast == 0 && input.DoorWest == 0))
                 return RoomForm.Vertical;
-            if ((input.DoorExists(input.DoorEast) || input.DoorExists(input.DoorWest)) &&
-                (!input.DoorExists(input.DoorNorth) && !input.DoorExists(input.DoorSouth)))
+            if ((input.DoorEast == 1 || input.DoorWest == 1) &&
+                (input.DoorNorth == 0 && input.DoorSouth == 0))
                 return RoomForm.Horizontal;
 
             return RoomForm.Both;
-
         }
 
         private static void CreateRoom(RoomData room, Dimensions dimensions, char[,] model)
