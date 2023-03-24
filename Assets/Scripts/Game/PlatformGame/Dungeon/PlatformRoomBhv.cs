@@ -48,6 +48,21 @@ namespace PlatformGame.Dungeon
             }
         }
 
+        protected override void GetAvailablePosition()
+        {
+            while (!_isSpawnPointsGenerated) { }
+
+            int randSpawnpointIndex = Random.Range(0, spawnPoints.Count);
+            _availablePosition = spawnPoints[randSpawnpointIndex] + new Vector3(1.0f, 1.0f, 0);
+        }
+
+        protected override GameObject PlaceObjectInRoom(GameObject prefab)
+        {
+            var instance = Instantiate(prefab, transform, true);
+            instance.transform.position = _availablePosition;
+            return instance;
+        }
+
         protected override void InstantiateCornerProps()
         {
             //Do not instantiate anything
@@ -145,13 +160,13 @@ namespace PlatformGame.Dungeon
                 spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + i * transform.lossyScale.y + 0.5f, 0));
             }
             // Test the default ground block around the map
-            else if (i - 1 == 0)
+            if (i - 1 == 0 && roomModel[i - 1, j] != '#')
             {
-                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + i * transform.lossyScale.y + 0.5f, 0));
+                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + (i - 1)* transform.lossyScale.y + 0.5f, 0));
             }
 
             // go UP
-            if (i - 1 > 0 && !_backtrackingPath[i - 1, j])
+            if (i - 1 >= 0 && !_backtrackingPath[i - 1, j])
             {
                 _backtrackingPath[i - 1, j] = true;
                 SpawnBacktracking(i - 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
@@ -169,11 +184,17 @@ namespace PlatformGame.Dungeon
                 SpawnBacktracking(i + 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
             }
             // go LEFT
-            if (j - 1 > 0 && !_backtrackingPath[i, j - 1])
+            if (j - 1 >= 0 && !_backtrackingPath[i, j - 1])
             {
                 _backtrackingPath[i, j - 1] = true;
                 SpawnBacktracking(i, j - 1, lineNum, colNum, xOffset, yOffset, roomModel);
             }
+        }
+
+        protected override void CallStartRoomEvent()
+        {
+            _availablePosition -= transform.position - new Vector3(1.0f, 1.0f, 0);
+            base.CallStartRoomEvent();
         }
 
         protected override void SetCollidersOnRoom()

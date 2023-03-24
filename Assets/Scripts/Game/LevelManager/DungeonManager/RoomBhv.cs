@@ -78,7 +78,7 @@ namespace Game.LevelManager.DungeonManager
 
         public List<Vector3> spawnPoints;
 
-        private Vector3 _availablePosition;
+        protected Vector3 _availablePosition;
 
         private EnemyLoader _enemyLoader;
 
@@ -408,12 +408,12 @@ namespace Game.LevelManager.DungeonManager
             PlaceObjectInRoom(triPrefab);
         }
 
-        private void GetAvailablePosition()
+        protected virtual void GetAvailablePosition()
         {
             _availablePosition = roomData.GetNextAvailablePosition();
         }
 
-        private GameObject PlaceObjectInRoom(GameObject prefab)
+        protected virtual GameObject PlaceObjectInRoom(GameObject prefab)
         {
             var instance = Instantiate(prefab, transform, true);
             instance.transform.localPosition = _availablePosition;
@@ -509,7 +509,7 @@ namespace Game.LevelManager.DungeonManager
 		        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
 		        minimapIcon.GetComponent<SpriteRenderer>().color = Constants.VisitedColor;
 		        GetAvailablePosition();
-		        StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition+_position));
+                CallStartRoomEvent();
 		        _hasBeenVisited = true;
 	        }
 	        else if (roomData.IsFinalRoom())
@@ -521,6 +521,11 @@ namespace Game.LevelManager.DungeonManager
 
 	        minimapIcon.transform.localScale = new Vector3(roomData.Dimensions.Width, roomData.Dimensions.Height, 1);
 	        minimapIcon.transform.position += new Vector3(roomData.Dimensions.Width/2f, roomData.Dimensions.Height/2f, 0f);
+        }
+
+        protected virtual void CallStartRoomEvent()
+        {
+            StartRoomEventHandler?.Invoke(this, new StartRoomEventArgs(_availablePosition + _position));
         }
 
         protected virtual void SetSpritesTheme()

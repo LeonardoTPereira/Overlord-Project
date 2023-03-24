@@ -59,6 +59,7 @@ namespace Game.LevelManager.DungeonLoader
                 PushNewTiles(x, y);
             } while (_floodFillState.Count > 0 && TileIsOccupied(candidateTile));
             _currentFreeTilePosition = new Vector3(candidateTile.Position.x + 0.5f,  candidateTile.Position.y + 0.5f, 0);
+
             return _currentFreeTilePosition;
         }
         

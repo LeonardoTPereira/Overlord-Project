@@ -20,14 +20,7 @@ namespace PlatformGame.Dungeon
             {
                 PlatformDefaultRoomCreator.CreateRoomOfType(this, roomGeneratorInput);    
             }
-
             SetCenterAndFloodFillState();
-
-        }
-
-
-        
-        
-        
+        }       
     }
 }
