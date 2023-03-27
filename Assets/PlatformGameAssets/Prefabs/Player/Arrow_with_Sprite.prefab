@@ -148,4 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToDestroy: 10
   arrowRightImpulseScale: 8
-  arrowUpImpulseScale: 1
+  arrowUpImpulseScale: 0.5

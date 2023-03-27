@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1031233592581628382}
   - component: {fileID: 1658335158295548799}
   - component: {fileID: 6346992240278522553}
-  - component: {fileID: 7995843197535710817}
-  m_Layer: 7
+  - component: {fileID: 756338889074599931}
+  m_Layer: 0
   m_Name: DarkArrow
   m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0103991, y: 0.49196815}
   m_EdgeRadius: 0
---- !u!114 &7995843197535710817
+--- !u!114 &756338889074599931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,9 +143,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8404213578863933165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d635e4d421c858a419350b2f3f197feb, type: 3}
+  m_Script: {fileID: 11500000, guid: 67ea20241639a0a4d8bcc86979923af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeToDestroy: 10
-  arrowRightImpulseScale: 8
-  arrowUpImpulseScale: 2
+  _minimumForce: 15
+  _maximumForce: 60
