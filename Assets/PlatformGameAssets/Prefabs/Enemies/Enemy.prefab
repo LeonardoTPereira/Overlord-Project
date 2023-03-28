@@ -143,6 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b57ce57e19b7ff4882767cfba3e15c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumAttackSpeed: 0.75
+  _maximumAttackSpeed: 3
   attackCooldown: 1
   weapon: {fileID: 1922618788134557976}
   timeToAtack: 0.3
