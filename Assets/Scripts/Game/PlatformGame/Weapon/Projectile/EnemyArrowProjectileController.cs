@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlatformGame.Util;
 
 namespace PlatformGame.Weapons.Projectiles
 {
@@ -17,20 +18,12 @@ namespace PlatformGame.Weapons.Projectiles
             var projectileTransform = transform;
             var force = (projectileTransform.up*arrowUpImpulseScale + projectileTransform.right*arrowRightImpulseScale).normalized;
 
-            CalculateEnemyLaunchPower();
+            // Projectile speed is setted from 1f to 4f in SearchSpace
+            LaunchPower = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(LaunchPower, _minimumForce, _maximumForce, 1f, 4f);
 
             force = force * LaunchPower;
             ProjectileRigidbody2D.AddForce(force, ForceMode2D.Impulse);
             yield return null;
         }
-
-        // Since the values of projectile speed is setted to the top-down game (from 1f to 4f in SearchSpace)
-        // for this enemy, we need to calculate using new values for platform game
-        private void CalculateEnemyLaunchPower()
-        {
-            LaunchPower = _minimumForce + (_maximumForce - _minimumForce) *(LaunchPower - 1f) / (4f - 1f);
-        }
-
-    }
-    
+    }    
 }

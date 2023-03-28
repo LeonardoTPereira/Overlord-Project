@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4469285319610141208}
   - component: {fileID: 1147878792515087140}
   - component: {fileID: 3744739896568080127}
-  - component: {fileID: 5000563594066626293}
+  - component: {fileID: 112414178983584239}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5000563594066626293
+--- !u!114 &112414178983584239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

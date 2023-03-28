@@ -6,6 +6,7 @@ using PlatformGame.Player;
 using ScriptableObjects;
 using UnityEngine.Serialization;
 using PlatformGame.Weapons;
+using PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
@@ -17,15 +18,20 @@ namespace PlatformGame.Enemy
         private bool _canAttack;
         private EnemyAnimation _enemyAnimation;
         private EnemyMovement _enemyMovement;
-        private WeaponController _weaponController;
-    
+        protected WeaponController _weaponController;
+
+        [SerializeField] private float _minimumAttackSpeed;
+        [SerializeField] private float _maximumAttackSpeed;
         [SerializeField] protected float attackCooldown = 1f;
         [SerializeField] protected GameObject weapon;
         [SerializeField] protected float timeToAtack = 0.3f; //This property depends on attack animation.
         
         public virtual void LoadAttack(EnemySO enemySo){
             _weaponController.LoadWeapon(enemySo);
-            attackCooldown = 1/enemySo.attackSpeed;   
+
+            // Value of attack speed is from 0.75f to 4f in SearchSpace.cs
+            attackCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.attackSpeed, _minimumAttackSpeed, _maximumAttackSpeed, 0.75f, 4f);
+            //attackCooldown = 1/enemySo.attackSpeed;   
         }
 
         private void OnEnable()
