@@ -93,6 +93,8 @@ MonoBehaviour:
   maxHealth: 5
   invincibilityCooldown: 0.5
   hasDeathAnimation: 0
+  _minimumHealth: 1
+  _maximumHealth: 6
 --- !u!114 &4469285319610141208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumSpeed: 0.8
+  _maximumSpeed: 10
 --- !u!114 &1147878792515087140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b57ce57e19b7ff4882767cfba3e15c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minimumAttackSpeed: 0.75
+  _minimumAttackSpeed: 0.25
   _maximumAttackSpeed: 3
   attackCooldown: 1
   weapon: {fileID: 1922618788134557976}
@@ -192,7 +196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6da3672bf30bd94f95d29b0424fe25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumDamage: 1
+  _maximumDamage: 4
   weaponDamage: 1
+  _minimumAttackSpeed: 0.25
+  _maximumAttackSpeed: 3
   projectilePrefab: {fileID: 8404213578863933165, guid: d3a43ff390e036949b252b9c49b9abbe,
     type: 3}
   launchPower: 15

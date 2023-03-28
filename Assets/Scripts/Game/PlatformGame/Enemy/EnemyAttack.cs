@@ -30,8 +30,7 @@ namespace PlatformGame.Enemy
             _weaponController.LoadWeapon(enemySo);
 
             // Value of attack speed is from 0.75f to 4f in SearchSpace.cs
-            attackCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.attackSpeed, _minimumAttackSpeed, _maximumAttackSpeed, 0.75f, 4f);
-            //attackCooldown = 1/enemySo.attackSpeed;   
+            attackCooldown = 1/CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.attackSpeed, _minimumAttackSpeed, _maximumAttackSpeed, 0.75f, 4f);
         }
 
         private void OnEnable()

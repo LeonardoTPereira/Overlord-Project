@@ -147,5 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToDestroy: 10
-  _minimumForce: 15
+  _minimumForce: 10
   _maximumForce: 60
