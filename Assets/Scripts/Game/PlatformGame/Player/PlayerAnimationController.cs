@@ -9,6 +9,17 @@ namespace PlatformGame.Player
     {
         [SerializeField] private Animator upPart;
         [SerializeField] private Animator downPart;
+        private Controller _controller;
+
+        private void Start()
+        {
+            _controller = GetComponent<Controller>();
+        }
+
+        private void Update()
+        {
+            //AnimateMove(_controller.);
+        }
 
         public void AnimateMove(bool isRunning, float speed, bool canMove, bool isSeparated)
         {

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ using Game.GameManager;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using PlatformGame.Weapons;
+using PlatformGame.Dungeon;
+
 
 namespace PlatformGame.Player
 {
@@ -14,7 +17,8 @@ namespace PlatformGame.Player
     {
         
         private Camera _camera;
-        
+        [SerializeField] private CinemachineConfiner2D _confiner;
+
         public void Awake()
         {
             _camera = Camera.main;
@@ -34,11 +38,14 @@ namespace PlatformGame.Player
         
         private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
-            var cameraXPosition = eventArgs.PositionInScene.x;
-            var cameraYPosition = eventArgs.PositionInScene.y;
-            const float cameraZPosition = -5f;
-            _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
+            PlatformRoomBhv platRoom = sender as PlatformRoomBhv;
+            if (platRoom != null)
+            {
+                _confiner.m_BoundingShape2D = platRoom.colRoomConfiner;
+            }
         }
 
     }
 }
+
+
