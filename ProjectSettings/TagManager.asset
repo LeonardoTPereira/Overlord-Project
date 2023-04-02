@@ -37,7 +37,7 @@ TagManager:
   - Unit
   - Weapon
   - 
-  - 
+  - Ground
   - 
   - 
   - 
@@ -59,26 +59,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Farthest
-    uniqueID: 3641653695
+  - name: PlatformFloors
+    uniqueID: 1968741669
     locked: 0
-  - name: Far
-    uniqueID: 501730537
+  - name: PlatformBlocks
+    uniqueID: 4275585839
     locked: 0
-  - name: MiddleFar
-    uniqueID: 154751633
-    locked: 0
-  - name: Middle
-    uniqueID: 1059134879
-    locked: 0
-  - name: MiddleClose
-    uniqueID: 3950933619
-    locked: 0
-  - name: Close
-    uniqueID: 27161825
-    locked: 0
-  - name: Closest
-    uniqueID: 1410548619
+  - name: Doors
+    uniqueID: 4045229337
     locked: 0
   - name: Characters
     uniqueID: 2603867999

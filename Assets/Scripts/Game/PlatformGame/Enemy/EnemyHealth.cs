@@ -6,15 +6,18 @@ using Gameplay;
 using ScriptableObjects;
 using TMPro;
 using PlatformGame.Weapons;
+using PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
     public class EnemyHealth : HealthController
     {
-        private EnemyAnimation _enemyAnimation;
+        [SerializeField] private int _minimumHealth = 1;
+        [SerializeField] private int _maximumHealth = 6;
 
-        private EnemySO enemySo;
-        
+        private EnemyAnimation _enemyAnimation;
+        private EnemySO enemySo;        
+
         public EventHandler<EnemySO> EnemyKilledHandler;
 
         protected override void InitializeHealth()
@@ -25,7 +28,7 @@ namespace PlatformGame.Enemy
 
         public void LoadHealth(EnemySO enemySo)
         {
-            maxHealth = enemySo.health;
+            maxHealth = (int)Mathf.Round(CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform((float)enemySo.health, (float)_minimumHealth, (float)_maximumHealth, 1.0f, 6.0f));
             this.enemySo = enemySo;
             InitializeHealth();
         }
@@ -37,5 +40,4 @@ namespace PlatformGame.Enemy
             _enemyAnimation.AnimateDeath();
         }
     }
-
 }

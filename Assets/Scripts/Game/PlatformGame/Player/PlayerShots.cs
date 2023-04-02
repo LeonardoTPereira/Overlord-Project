@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlatformGame.Weapons;
+using UnityEngine.InputSystem;
 
 namespace PlatformGame.Player
 {
@@ -63,7 +64,7 @@ namespace PlatformGame.Player
             StopShooting?.Invoke();
         }
         
-        private void OnFire()
+        public void OnFire(InputAction.CallbackContext context)
         {
             Shoot();
         }

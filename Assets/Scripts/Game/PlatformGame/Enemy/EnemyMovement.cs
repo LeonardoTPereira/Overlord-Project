@@ -4,11 +4,15 @@ using UnityEngine;
 using System;
 using PlatformGame.Player;
 using ScriptableObjects;
+using PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
     public class EnemyMovement : MonoBehaviour
     {
+        [SerializeField] private float _minimumSpeed = 0.8f;
+        [SerializeField] private float _maximumSpeed = 3.2f;
+
         public event Action OnFlip;
         
         private float _moveDirection;
@@ -25,7 +29,8 @@ namespace PlatformGame.Enemy
         public void LoadMovement(EnemySO enemySo)
         {
             _movementType = enemySo.movement.movementType;
-            _speed = enemySo.movementSpeed;
+            // From 0.8f to 3.2f in SearchSpace
+            _speed = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, _minimumSpeed, _maximumSpeed, .8f, 3.2f);
         }
         
         
