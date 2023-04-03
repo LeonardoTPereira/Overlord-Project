@@ -66,14 +66,18 @@ namespace PlatformGame.Util
             {
                 return;
             }
-            // Check if the upper block is a ground block or upper wall limit
-            //if (i - 1 == 0 || i - 1 >= 0 && )
 
+            //Check if the upper block is a ground block or upper wall limit
+            if (i + 1 < _rowNum && roomModel[i + 1, j] == '#')
+            {
+                _backtrackingPath[i + 1, j] = true;
+                return;
+            }
 
             // Test if the block bellow is a walking block
             if (i - 1 > 0 && roomModel[i - 1, j] == '#')
             {
-                _backtrackingPath[i + 1, j] = true;
+                _backtrackingPath[i - 1, j] = true;
                 _spawnPoints.Add(new Vector3(_xOffset + j * _roomLossyScale.x + 0.5f, _yOffset + i * _roomLossyScale.y + 0.5f, 0));
             }
             // Test the default ground block around the map
@@ -83,11 +87,12 @@ namespace PlatformGame.Util
             }
 
             // go UP
-            if (i - 1 >= 0 && !_backtrackingPath[i - 1, j])
+            if (i + 1 < _rowNum && !_backtrackingPath[i + 1, j])
             {
-                _backtrackingPath[i - 1, j] = true;
-                SpawnBacktracking(i - 1, j, roomModel);
+                _backtrackingPath[i + 1, j] = true;
+                SpawnBacktracking(i + 1, j, roomModel);
             }
+
             // go RIGHT
             if (j + 1 < _colNum && !_backtrackingPath[i, j + 1])
             {
@@ -95,10 +100,10 @@ namespace PlatformGame.Util
                 SpawnBacktracking(i, j + 1,  roomModel);
             }
             // go DOWN
-            if (i + 1 < _rowNum && !_backtrackingPath[i + 1, j])
+            if (i - 1 >= 0 && !_backtrackingPath[i - 1, j])
             {
-                _backtrackingPath[i + 1, j] = true;
-                SpawnBacktracking(i + 1, j, roomModel);
+                _backtrackingPath[i - 1, j] = true;
+                SpawnBacktracking(i - 1, j, roomModel);
             }
             // go LEFT
             if (j - 1 >= 0 && !_backtrackingPath[i, j - 1])
