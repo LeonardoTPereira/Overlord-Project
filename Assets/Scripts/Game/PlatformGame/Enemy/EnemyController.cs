@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using PlatformGame.Player;
 using ScriptableObjects;
 using UnityEngine;
+using PlatformGame.Enemy.Movement;
 
 namespace PlatformGame.Enemy
 {
@@ -15,11 +16,11 @@ namespace PlatformGame.Enemy
         private EnemyAnimation _enemyAnimation;
         private Collider2D _enemyCollider;
         private Rigidbody2D _enemyRigidBody;
+        private MovementManager _moveManager;         
 
         private bool _hasLoadedEnemy;
         private bool _isPlayerAlive;
-        private bool _isPhysicsDeactivated; 
-         
+        private bool _isPhysicsDeactivated;
         
         private void OnEnable()
         {

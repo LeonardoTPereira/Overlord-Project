@@ -5,6 +5,9 @@ using System;
 using PlatformGame.Player;
 using ScriptableObjects;
 using PlatformGame.Util;
+using System.ComponentModel;
+using Util;
+using PlatformGame.Enemy.Movement;
 
 namespace PlatformGame.Enemy
 {
@@ -26,11 +29,14 @@ namespace PlatformGame.Enemy
 
         private float _speed;
 
+        protected MovementManager _moveManager;
+
         public void LoadMovement(EnemySO enemySo)
         {
             _movementType = enemySo.movement.movementType;
             // From 0.8f to 3.2f in SearchSpace
             _speed = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, _minimumSpeed, _maximumSpeed, .8f, 3.2f);
+            GenerateMovementComponent(enemySo.movement.enemyMovementIndex);
         }
         
         
@@ -66,6 +72,30 @@ namespace PlatformGame.Enemy
             _movementType = NoMovement;
         }
 
+        protected virtual void GenerateMovementComponent(Enums.MovementEnum moveEnum)
+        {
+            _moveManager = null;
+            switch (moveEnum)
+            {
+                case Enums.MovementEnum.None:
+                    break;
+                case Enums.MovementEnum.Random:
+                    break;
+                case Enums.MovementEnum.Random1D:
+                    break;
+                case Enums.MovementEnum.Flee1D:
+                    break;
+                case Enums.MovementEnum.Flee:
+                    break;
+                case Enums.MovementEnum.Follow1D:
+                    break;
+                case Enums.MovementEnum.Follow:
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException("Movement Enum does not exist");
+            }
+        }
+
         private Vector2 NoMovement(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false)
         {
             return Vector2.zero;
@@ -74,8 +104,11 @@ namespace PlatformGame.Enemy
 
         private void Update()
         {
-            if (!CanMove()) return;
-            UpdateDirection();
+            if (!CanMove()) 
+                return;
+
+            if (_moveManager == null)
+                UpdateDirection();
         }
 
         private void UpdateDirection()
