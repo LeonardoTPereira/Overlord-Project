@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8185935825969948841}
   - component: {fileID: 9192190562205025512}
   - component: {fileID: 873205780334145869}
+  - component: {fileID: 93551931798231266}
   - component: {fileID: 1621832517034882216}
   - component: {fileID: 3020446638019837023}
   - component: {fileID: 4857534918970064244}
@@ -97,7 +98,9 @@ MonoBehaviour:
   maxHealth: 5
   invincibilityCooldown: 0.5
   hasDeathAnimation: 1
---- !u!114 &1621832517034882216
+  _minimumHealth: 1
+  _maximumHealth: 6
+--- !u!114 &93551931798231266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,9 +109,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 501309130492107602}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4e35beb65ee1346a02eaa8c273059f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minimumSpeed: 0.8
+  _maximumSpeed: 3.2
+  _movementEnum: 0
+  _isThisATest: 1
+--- !u!114 &1621832517034882216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501309130492107602}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumSpeed: 0.8
+  _maximumSpeed: 3.2
+  _movementEnum: 2
+  _isThisATest: 1
 --- !u!50 &3020446638019837023
 Rigidbody2D:
   serializedVersion: 4
@@ -201,6 +224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3947093f11dbb924bb40b73f62870639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumDamage: 1
+  _maximumDamage: 4
   weaponDamage: 2
   attackDuration: 2
   wolfTackleForce: 60

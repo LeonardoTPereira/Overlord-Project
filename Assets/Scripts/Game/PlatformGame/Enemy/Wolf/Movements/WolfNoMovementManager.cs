@@ -6,9 +6,11 @@ namespace PlatformGame.Enemy.Movement
 {
     public class WolfNoMovementManager : WolfMovementManager
     {
-        private void FixedUpdate()
+        public override void Move(float moveDirection, float speed) { }
+
+        public override void Test()
         {
-            
+            Debug.Log("This is a Wolf NO MOVEMENT Test");
         }
     }
 }

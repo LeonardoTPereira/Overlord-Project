@@ -27,6 +27,7 @@ namespace PlatformGame.Enemy.Movement
                 case Enums.MovementEnum.Follow1D:
                     break;
                 case Enums.MovementEnum.Follow:
+                    _moveManager = gameObject.AddComponent(typeof(WolfFollowMovementManager)) as WolfFollowMovementManager;
                     break;
                 default:
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");

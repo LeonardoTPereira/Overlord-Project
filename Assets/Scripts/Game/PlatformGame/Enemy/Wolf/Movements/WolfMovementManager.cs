@@ -4,18 +4,13 @@ using UnityEngine;
 
 namespace PlatformGame.Enemy.Movement
 {
-    public class WolfMovementManager : MovementManager
+    public abstract class WolfMovementManager : MovementManager
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        public override void Move(float speed, bool canMove) { }
+        public override void Attack() { }
+        public override void Victory() { }
+        public override void Death() { }
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        public override void Test() { }
     }
 }
