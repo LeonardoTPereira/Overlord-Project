@@ -5,6 +5,7 @@ using PlatformGame.Player;
 using ScriptableObjects;
 using UnityEngine;
 using PlatformGame.Enemy.Movement;
+using Util;
 
 namespace PlatformGame.Enemy
 {
@@ -80,6 +81,10 @@ namespace PlatformGame.Enemy
             _enemyAttack.LoadAttack(enemySo);
             _enemyHealth.LoadHealth(enemySo);
             _hasLoadedEnemy = true;
+
+            _enemyAttack.SetAttackJump(true);
+            if (enemySo.movement.enemyMovementIndex == Enums.MovementEnum.None)
+                _enemyAttack.SetAttackJump(false);
         }
         
         private Vector2 FollowPlayer(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false) //temp for test

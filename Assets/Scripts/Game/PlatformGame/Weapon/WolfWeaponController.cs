@@ -17,7 +17,8 @@ namespace PlatformGame.Weapons.Melee
 
         protected override void OnUsing()
         {
-            StartCoroutine(DoTackle());
+            if (HasAttackJump)
+                StartCoroutine(DoTackle());
         }
 
         private IEnumerator DoTackle()

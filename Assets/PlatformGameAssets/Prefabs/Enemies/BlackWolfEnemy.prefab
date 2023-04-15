@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 9192190562205025512}
   - component: {fileID: 873205780334145869}
   - component: {fileID: 93551931798231266}
-  - component: {fileID: 1621832517034882216}
   - component: {fileID: 3020446638019837023}
   - component: {fileID: 4857534918970064244}
   m_Layer: 11
@@ -70,7 +69,7 @@ MonoBehaviour:
   _maximumAttackSpeed: 3
   attackCooldown: 1
   weapon: {fileID: 4508373788111812251}
-  timeToAtack: 0.3
+  timeToAtack: 2
 --- !u!114 &9192190562205025512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,24 +113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minimumSpeed: 0.8
   _maximumSpeed: 3.2
+  _isThisATest: 1
   _movementEnum: 0
-  _isThisATest: 1
---- !u!114 &1621832517034882216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501309130492107602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minimumSpeed: 0.8
-  _maximumSpeed: 3.2
-  _movementEnum: 2
-  _isThisATest: 1
 --- !u!50 &3020446638019837023
 Rigidbody2D:
   serializedVersion: 4
@@ -227,6 +210,7 @@ MonoBehaviour:
   _minimumDamage: 1
   _maximumDamage: 4
   weaponDamage: 2
+  HasAttackJump: 0
   attackDuration: 2
   wolfTackleForce: 60
 --- !u!60 &2941216801302319537

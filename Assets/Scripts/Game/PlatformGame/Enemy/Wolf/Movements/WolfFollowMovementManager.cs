@@ -6,43 +6,35 @@ namespace PlatformGame.Enemy.Movement
 {
     public class WolfFollowMovementManager : WolfMovementManager
     {
-        private float _moveDirection;
         private Rigidbody2D _rb;
-        private GameObject _player;
-        private bool _canMove;
 
-        private void Awake()
+        public override void InitializeVariables()
         {
             // After, use timer to set enemy freeze for some seconds
             _rb = GetComponent<Rigidbody2D>();
-            _player = GameObject.FindGameObjectWithTag("Player");
         }
 
-        private void Update()
+        public override void Move(float moveDirection, float speed, bool canMove)
         {
-            if (!_canMove)
+            if (!canMove)
                 return;
-            UpdateDirection();
+            SetMoveAnimation(speed, canMove);
+            _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
+            //_rb.transform.position += Vector3.right * (-1)*_moveDirection * Time.fixedDeltaTime * speed;
         }
 
-        private void UpdateDirection()
+        private void SetMoveAnimation(float speed, bool canMove)
         {
-            _moveDirection = (transform.position - _player.transform.position).x;
-        }
-
-        public override void Move(float speed, bool canMove)
-        {
-            if (_canMove)
+            if (canMove)
             {
                 _animator.SetBool("IsRunning", false);
-                _animator.SetFloat("Speed", speed);
+                _animator.SetFloat("Speed", Mathf.Abs(speed));
             }
             else
             {
                 _animator.SetBool("IsRunning", false);
                 _animator.SetFloat("Speed", 0f);
             }
-            _rb.transform.position += Vector3.right * _moveDirection * Time.fixedDeltaTime * speed;
         }
 
         public override void Test()
@@ -51,3 +43,4 @@ namespace PlatformGame.Enemy.Movement
         }
     }
 }
+

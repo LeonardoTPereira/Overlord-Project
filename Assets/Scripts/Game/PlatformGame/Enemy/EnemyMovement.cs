@@ -22,6 +22,7 @@ namespace PlatformGame.Enemy
         private bool _isFacingRight;
         private bool _canMove;
 
+        private GameObject _player;
 
         private float _speed;
 
@@ -34,6 +35,8 @@ namespace PlatformGame.Enemy
 
         public void LoadMovement(EnemySO enemySo)
         {
+            _player = GameObject.FindGameObjectWithTag("Player");
+            _isFacingRight = true;
             // From 0.8f to 3.2f in SearchSpace
             _speed = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, _minimumSpeed, _maximumSpeed, .8f, 3.2f);
 
@@ -45,9 +48,21 @@ namespace PlatformGame.Enemy
                 _itFlips = false;
 
             GenerateMovementComponent(_movementEnum);
+
+            _moveManager.InitializeVariables();
+            _moveManager.Test();
         }
-        
-        
+        private void UpdateDirection()
+        {
+            if (!_canMove)
+                return;
+            _moveDirection = (_player.transform.position - transform.position).x;
+            if (_moveDirection > 0)
+                _moveDirection = 1;
+            else
+                _moveDirection = -1;
+        }
+
         private void OnEnable()
         {
             OnFlip += Flip;
@@ -57,64 +72,33 @@ namespace PlatformGame.Enemy
         {
             OnFlip -= Flip;
         }
-        
-        private void Awake()
-        {
-            InitialiseVariables();
-        }
-        
-        private void InitialiseVariables()
-        {
-            _canMove = true;
-            _moveDirection = 1;
-            _isFacingRight = true;
-        }
 
-        protected virtual void GenerateMovementComponent(Enums.MovementEnum moveEnum)
-        {
-            _moveManager = null;
-            switch (moveEnum)
-            {
-                case Enums.MovementEnum.None:
-                    break;
-                case Enums.MovementEnum.Random:
-                    break;
-                case Enums.MovementEnum.Random1D:
-                    break;
-                case Enums.MovementEnum.Flee1D:
-                    break;
-                case Enums.MovementEnum.Flee:
-                    break;
-                case Enums.MovementEnum.Follow1D:
-                    break;
-                case Enums.MovementEnum.Follow:
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException("Movement Enum does not exist");
-            }
-        }
-
-        private Vector2 NoMovement(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false)
-        {
-            return Vector2.zero;
-        }
+        protected virtual void GenerateMovementComponent(Enums.MovementEnum moveEnum) { }
 
         public void UpdateMovement()
         {
-            _moveManager.Move(_speed, _canMove);
-            VerifyOrientationAndFlip();  
+            UpdateDirection();
+            VerifyOrientationAndFlip();
+            _moveManager.Move(_moveDirection, _speed, _canMove);
         }
 
         private void VerifyOrientationAndFlip()
         {
-            if (_moveDirection < 0 && _isFacingRight && _itFlips)
+            if (_moveDirection < 0 && _isFacingRight)
             {
                 OnFlip?.Invoke();
             }
-            if (_moveDirection > 0 && !_isFacingRight && _itFlips)
+            if (_moveDirection > 0 && !_isFacingRight)
             {
                 OnFlip?.Invoke();
             }
+        }
+        public void Flip()
+        {
+            _isFacingRight = !_isFacingRight;
+            Vector3 newScale = transform.localScale;
+            newScale.x *= -1;
+            transform.localScale = newScale;
         }
 
         public void EnableMove()
@@ -126,6 +110,5 @@ namespace PlatformGame.Enemy
         {
             _canMove = false;
         }
-
     }
 }

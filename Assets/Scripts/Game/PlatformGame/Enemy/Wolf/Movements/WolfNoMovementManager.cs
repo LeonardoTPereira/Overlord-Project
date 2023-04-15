@@ -6,7 +6,9 @@ namespace PlatformGame.Enemy.Movement
 {
     public class WolfNoMovementManager : WolfMovementManager
     {
-        public override void Move(float moveDirection, float speed) { }
+        public override void InitializeVariables() { }
+
+        //public override void Move(float moveDirection, float speed, bool canMove) { }
 
         public override void Test()
         {

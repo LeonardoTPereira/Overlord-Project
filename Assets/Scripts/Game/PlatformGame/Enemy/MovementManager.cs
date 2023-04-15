@@ -11,12 +11,15 @@ namespace PlatformGame.Enemy.Movement
         private void Awake()
         {
             if (_animator == null)
-                _animator = GetComponent<Animator>();
+                _animator = GetComponentInChildren<Animator>();
         }
-        public abstract void Move(float speed, bool canMove);
+
+        public abstract void InitializeVariables();
+        public abstract void Move(float moveDirection, float speed, bool canMove);
         public abstract void Attack();
         public abstract void Victory();
         public abstract void Death();
+        public abstract void Flip();
         public abstract void Test();
     }
 }

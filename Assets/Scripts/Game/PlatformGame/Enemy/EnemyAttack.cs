@@ -105,6 +105,10 @@ namespace PlatformGame.Enemy
             _canAttack = false;
         }
         
+        public void SetAttackJump(bool HasAttackJump)
+        {
+            _weaponController.HasAttackJump = HasAttackJump;
+        }
     }
 }
 
