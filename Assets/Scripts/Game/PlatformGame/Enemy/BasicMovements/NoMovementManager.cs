@@ -11,7 +11,6 @@ namespace PlatformGame.Enemy.Movement
         public override void Attack() { }
         public override void Victory() { }
         public override void Death() { }
-        public override void Flip() { }
         public override void Test()
         {
             Debug.Log("This is a NO MOVEMENT Test");

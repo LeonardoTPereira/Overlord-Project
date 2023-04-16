@@ -19,7 +19,6 @@ namespace PlatformGame.Enemy.Movement
         public abstract void Attack();
         public abstract void Victory();
         public abstract void Death();
-        public abstract void Flip();
         public abstract void Test();
     }
 }

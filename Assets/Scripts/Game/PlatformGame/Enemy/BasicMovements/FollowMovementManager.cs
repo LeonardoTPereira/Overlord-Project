@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlatformGame.Enemy.Movement
 {
-    public class WolfFollowMovementManager : WolfMovementManager
+    public class FollowMovementManager : MovementManager
     {
         private Rigidbody2D _rb;
 
@@ -37,10 +37,15 @@ namespace PlatformGame.Enemy.Movement
             }
         }
 
+        public override void Attack() { }
+        public override void Victory() { }
+        public override void Death() { }
+
         public override void Test()
         {
             Debug.Log("This is a Wolf FOLLOW PLAYER Test");
         }
     }
 }
+
 

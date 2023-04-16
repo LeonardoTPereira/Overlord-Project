@@ -16,7 +16,7 @@ namespace PlatformGame.Enemy.Movement
                     _moveManager = gameObject.AddComponent(typeof(NoMovementManager)) as NoMovementManager;
                     break;
                 case Enums.MovementEnum.Random:
-                    _moveManager = gameObject.AddComponent(typeof(WolfRandomMovementManager)) as WolfRandomMovementManager;
+                    //_moveManager = gameObject.AddComponent(typeof(WolfRandomMovementManager)) as WolfRandomMovementManager;
                     break;
                 case Enums.MovementEnum.Random1D:
                     break;
@@ -27,7 +27,7 @@ namespace PlatformGame.Enemy.Movement
                 case Enums.MovementEnum.Follow1D:
                     break;
                 case Enums.MovementEnum.Follow:
-                    _moveManager = gameObject.AddComponent(typeof(WolfFollowMovementManager)) as WolfFollowMovementManager;
+                    _moveManager = gameObject.AddComponent(typeof(FollowMovementManager)) as FollowMovementManager;
                     break;
                 default:
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");
