@@ -29,10 +29,6 @@ namespace PlatformGame.Enemy
         protected MovementManager _moveManager;
         private bool _itFlips = true;
 
-        [Header("Test attributes (only used if isThisATest is marked)")]
-        [SerializeField] private bool _isThisATest = false;
-        [SerializeField] private Enums.MovementEnum _movementEnum;
-
         public void LoadMovement(EnemySO enemySo)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
@@ -40,14 +36,11 @@ namespace PlatformGame.Enemy
             // From 0.8f to 3.2f in SearchSpace
             _speed = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, _minimumSpeed, _maximumSpeed, .8f, 3.2f);
 
-            if (!_isThisATest)
-                _movementEnum = enemySo.movement.enemyMovementIndex;
-
             // This movement doesn't flip to player direction
-            if (_movementEnum == Enums.MovementEnum.Follow1D)
+            if (enemySo.movement.enemyMovementIndex == Enums.MovementEnum.Follow1D)
                 _itFlips = false;
 
-            GenerateMovementComponent(_movementEnum);
+            GenerateMovementComponent(enemySo.movement.enemyMovementIndex);
 
             _moveManager.InitializeVariables();
             _moveManager.Test();

@@ -82,6 +82,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isThisATest: 1
+  _movementEnum: 0
 --- !u!114 &873205780334145869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,10 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4e35beb65ee1346a02eaa8c273059f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minimumSpeed: 0.8
-  _maximumSpeed: 3.2
-  _isThisATest: 1
-  _movementEnum: 0
+  _minimumSpeed: 7
+  _maximumSpeed: 12
 --- !u!50 &3020446638019837023
 Rigidbody2D:
   serializedVersion: 4

@@ -13,7 +13,7 @@ namespace PlatformGame.Enemy.Movement
             switch (moveEnum)
             {
                 case Enums.MovementEnum.None:
-                    _moveManager = gameObject.AddComponent(typeof(WolfNoMovementManager)) as WolfNoMovementManager;
+                    _moveManager = gameObject.AddComponent(typeof(NoMovementManager)) as NoMovementManager;
                     break;
                 case Enums.MovementEnum.Random:
                     _moveManager = gameObject.AddComponent(typeof(WolfRandomMovementManager)) as WolfRandomMovementManager;

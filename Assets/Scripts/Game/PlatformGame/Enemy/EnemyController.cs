@@ -22,7 +22,11 @@ namespace PlatformGame.Enemy
         private bool _hasLoadedEnemy;
         private bool _isPlayerAlive;
         private bool _isPhysicsDeactivated;
-        
+
+        [Header("Test attributes (only used if isThisATest is marked)")]
+        [SerializeField] private bool _isThisATest = false;
+        [SerializeField] private Enums.MovementEnum _movementEnum;
+
         private void OnEnable()
         {
             PlayerHealth.PlayerDiedEvent += PlayerHasDied;
@@ -76,7 +80,9 @@ namespace PlatformGame.Enemy
 
         public void LoadEnemyData(EnemySO enemySo, int questId)
         {
-            enemySo.movement.movementType = FollowPlayer; //temp for test
+            if (_isThisATest)
+                enemySo.movement.enemyMovementIndex = _movementEnum;
+            //enemySo.movement.movementType = FollowPlayer; //temp for test
             _enemyMovement.LoadMovement(enemySo);
             _enemyAttack.LoadAttack(enemySo);
             _enemyHealth.LoadHealth(enemySo);

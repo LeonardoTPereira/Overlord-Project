@@ -45,7 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3947093f11dbb924bb40b73f62870639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumDamage: 1
+  _maximumDamage: 4
   weaponDamage: 2
+  HasAttackJump: 0
   attackDuration: 2
   wolfTackleForce: 60
 --- !u!60 &6626979193811516106
@@ -160,6 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isThisATest: 0
+  _movementEnum: 0
 --- !u!114 &9167305087979182646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +180,8 @@ MonoBehaviour:
   maxHealth: 5
   invincibilityCooldown: 0.5
   hasDeathAnimation: 1
+  _minimumHealth: 1
+  _maximumHealth: 6
 --- !u!114 &7324937096971001811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumSpeed: 5
+  _maximumSpeed: 10
 --- !u!50 &6542682806478362404
 Rigidbody2D:
   serializedVersion: 4
