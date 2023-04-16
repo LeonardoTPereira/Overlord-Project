@@ -26,8 +26,9 @@ namespace PlatformGame.Enemy
 
         private float _speed;
 
-        protected MovementManager _moveManager;
-        private bool _itFlips = true;
+        [HideInInspector] public MovementManager moveManager;
+        protected bool _itFlips = true;
+        protected bool _flipsInOpositeDirection = false;
 
         public void LoadMovement(EnemySO enemySo)
         {
@@ -42,8 +43,8 @@ namespace PlatformGame.Enemy
 
             GenerateMovementComponent(enemySo.movement.enemyMovementIndex);
 
-            _moveManager.InitializeVariables();
-            _moveManager.Test();
+            moveManager.InitializeVariables();
+            moveManager.Test();
         }
         private void UpdateDirection()
         {
@@ -72,18 +73,24 @@ namespace PlatformGame.Enemy
         {
             UpdateDirection();
             VerifyOrientationAndFlip();
-            _moveManager.Move(_moveDirection, _speed, _canMove);
+            moveManager.Move(_moveDirection, _speed, _canMove);
         }
 
         private void VerifyOrientationAndFlip()
         {
-            if (_moveDirection < 0 && _isFacingRight)
+            if (_itFlips)
             {
-                OnFlip?.Invoke();
-            }
-            if (_moveDirection > 0 && !_isFacingRight)
-            {
-                OnFlip?.Invoke();
+                float auxDirection = _moveDirection;
+                if (_flipsInOpositeDirection)
+                    auxDirection *= -1;
+                if (auxDirection < 0 && _isFacingRight)
+                {
+                    OnFlip?.Invoke();
+                }
+                if (auxDirection > 0 && !_isFacingRight)
+                {
+                    OnFlip?.Invoke();
+                }
             }
         }
         public void Flip()

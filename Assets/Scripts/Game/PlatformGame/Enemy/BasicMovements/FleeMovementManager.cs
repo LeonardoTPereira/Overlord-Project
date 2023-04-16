@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlatformGame.Enemy.Movement
 {
-    public class FollowMovementManager : MovementManager
+    public class FleeMovementManager : MovementManager
     {
         private Rigidbody2D _rb;
 
@@ -19,7 +19,7 @@ namespace PlatformGame.Enemy.Movement
             if (!canMove)
                 return;
             SetMoveAnimation(speed, canMove);
-            _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
+            _rb.velocity = new Vector2((-1)*moveDirection * speed, _rb.velocity.y);
             //_rb.transform.position += Vector3.right * (-1)*_moveDirection * Time.fixedDeltaTime * speed;
         }
 
@@ -47,3 +47,5 @@ namespace PlatformGame.Enemy.Movement
         }
     }
 }
+
+
