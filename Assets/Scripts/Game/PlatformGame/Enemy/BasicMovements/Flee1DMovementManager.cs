@@ -8,16 +8,6 @@ namespace PlatformGame.Enemy.Movement
     {
         private Rigidbody2D _rb;
 
-        private void OnEnable()
-        {
-            OnFlip += Flip;
-        }
-
-        private void OnDisable()
-        {
-            OnFlip -= Flip;
-        }
-
         public override void InitializeVariables()
         {
             // After, use timer to set enemy freeze for some seconds
@@ -29,7 +19,7 @@ namespace PlatformGame.Enemy.Movement
             if (!canMove)
                 return;
             SetMoveAnimation(speed, canMove);
-            VerifyOrientationAndFlip();
+            VerifyOrientationAndFlip(moveDirection);
             _rb.velocity = new Vector2((-1)*moveDirection * speed, _rb.velocity.y);
             //_rb.transform.position += Vector3.right * (-1)*_moveDirection * Time.fixedDeltaTime * speed;
         }
@@ -57,26 +47,20 @@ namespace PlatformGame.Enemy.Movement
             Debug.Log("This is a Wolf FOLLOW PLAYER Test");
         }
 
-        private void VerifyOrientationAndFlip(float moveDirection)
+        protected override void VerifyOrientationAndFlip(float moveDirection)
         {
-            if ((-1)* moveDirection < 0 && _isFacingRight)
+            if ((-1)* moveDirection < 0 && _isFacingRight && !_flipLeft)
             {
-                OnFlip?.Invoke();
+                _flipLeft = true;
+                _flipRight = false;
+                base.VerifyOrientationAndFlip(moveDirection);
             }
-            if ((-1)* moveDirection > 0 && !_isFacingRight)
+            else if ((-1)* moveDirection > 0 && !_isFacingRight && !_flipRight)
             {
-                OnFlip?.Invoke();
-            }            
-        }
-
-        public void Flip()
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector3 newScale = transform.localScale;
-            newScale.x *= -1;
-            transform.localScale = newScale;
+                _flipLeft = false;
+                _flipRight = true;
+                base.VerifyOrientationAndFlip(moveDirection);
+            }
         }
     }
 }
-
-

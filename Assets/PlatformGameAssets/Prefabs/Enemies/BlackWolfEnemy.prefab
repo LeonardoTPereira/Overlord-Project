@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isThisATest: 1
-  _movementEnum: 3
+  _movementEnum: 6
 --- !u!114 &873205780334145869
 MonoBehaviour:
   m_ObjectHideFlags: 0

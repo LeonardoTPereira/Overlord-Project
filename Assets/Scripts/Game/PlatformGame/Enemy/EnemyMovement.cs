@@ -15,11 +15,8 @@ namespace PlatformGame.Enemy
     {
         [SerializeField] private float _minimumSpeed = 0.8f;
         [SerializeField] private float _maximumSpeed = 3.2f;
-
-        public event Action OnFlip;
-        
+                
         private float _moveDirection;
-        private bool _isFacingRight;
         private bool _canMove;
 
         private GameObject _player;
@@ -33,7 +30,6 @@ namespace PlatformGame.Enemy
         public void LoadMovement(EnemySO enemySo)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
-            _isFacingRight = true;
             // From 0.8f to 3.2f in SearchSpace
             _speed = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, _minimumSpeed, _maximumSpeed, .8f, 3.2f);
 
@@ -55,16 +51,6 @@ namespace PlatformGame.Enemy
                 _moveDirection = 1;
             else
                 _moveDirection = -1;
-        }
-
-        private void OnEnable()
-        {
-            OnFlip += Flip;
-        }
-
-        private void OnDisable()
-        {
-            OnFlip -= Flip;
         }
 
         protected virtual void GenerateMovementComponent(Enums.MovementEnum moveEnum)
@@ -106,33 +92,7 @@ namespace PlatformGame.Enemy
         public void UpdateMovement()
         {
             UpdateDirection();
-            VerifyOrientationAndFlip();
             moveManager.Move(_moveDirection, _speed, _canMove);
-        }
-
-        private void VerifyOrientationAndFlip()
-        {
-            if (_itFlips)
-            {
-                float auxDirection = _moveDirection;
-                if (_flipsInOpositeDirection)
-                    auxDirection *= -1;
-                if (auxDirection < 0 && _isFacingRight)
-                {
-                    OnFlip?.Invoke();
-                }
-                if (auxDirection > 0 && !_isFacingRight)
-                {
-                    OnFlip?.Invoke();
-                }
-            }
-        }
-        public void Flip()
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector3 newScale = transform.localScale;
-            newScale.x *= -1;
-            transform.localScale = newScale;
         }
 
         public void EnableMove()

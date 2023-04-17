@@ -18,6 +18,7 @@ namespace PlatformGame.Enemy.Movement
         {
             if (!canMove)
                 return;
+            VerifyOrientationAndFlip(moveDirection);
             SetMoveAnimation(speed, canMove);
             _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
             //_rb.transform.position += Vector3.right * (-1)*_moveDirection * Time.fixedDeltaTime * speed;
@@ -43,6 +44,21 @@ namespace PlatformGame.Enemy.Movement
         public override void Test()
         {
             Debug.Log("This is a Wolf FOLLOW PLAYER Test");
+        }
+        protected override void VerifyOrientationAndFlip(float moveDirection)
+        {
+            if (moveDirection < 0 && _isFacingRight && !_flipLeft)
+            {
+                _flipLeft = true;
+                _flipRight = false;
+                base.VerifyOrientationAndFlip(moveDirection);
+            }
+            else if (moveDirection > 0 && !_isFacingRight && !_flipRight)
+            {
+                _flipLeft = false;
+                _flipRight = true;
+                base.VerifyOrientationAndFlip(moveDirection);
+            }
         }
     }
 }

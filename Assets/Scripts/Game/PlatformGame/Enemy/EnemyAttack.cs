@@ -18,7 +18,7 @@ namespace PlatformGame.Enemy
         public event Action OnStopAttacking;
         private bool _canAttack;
         private EnemyAnimation _enemyAnimation;
-        private MovementManager _enemyMovement;
+        private EnemyMovement _enemyMovement;
         protected WeaponController _weaponController;
 
         [SerializeField] private float _minimumAttackSpeed;
@@ -36,13 +36,12 @@ namespace PlatformGame.Enemy
 
         private void OnEnable()
         {
-            _enemyMovement.OnFlip += FlipWeapon;
             PlayerHealth.PlayerDiedEvent += DisableAttack;
         }
 
         protected void OnDisable()
         {
-            _enemyMovement.OnFlip -= FlipWeapon;
+            _enemyMovement.moveManager.OnFlip -= FlipWeapon;
             PlayerHealth.PlayerDiedEvent -= EnableAttack;
         }
     
@@ -52,13 +51,17 @@ namespace PlatformGame.Enemy
             GetAllComponents();
         }
 
+        IEnumerator Start()
+        {
+            yield return new WaitUntil(() => _enemyMovement.moveManager != null);
+            _enemyMovement.moveManager.OnFlip += FlipWeapon;
+        }
+
         protected virtual void GetAllComponents()
         {
             _weaponController = weapon.GetComponent<WeaponController>();
             _enemyAnimation = GetComponent<EnemyAnimation>();
-            do {
-                _enemyMovement = GetComponent<EnemyMovement>().moveManager;
-            } while( _enemyMovement == null );
+             _enemyMovement = GetComponent<EnemyMovement>();
         }
     
         public void Attack()
