@@ -22,6 +22,9 @@ namespace PlatformGame.Enemy.Movement
                 case Enums.MovementEnum.Random1D:
                     break;
                 case Enums.MovementEnum.Flee1D:
+                    _itFlips = true;
+                    _flipsInOpositeDirection = true;
+                    moveManager = gameObject.AddComponent(typeof(Flee1DMovementManager)) as Flee1DMovementManager;
                     break;
                 case Enums.MovementEnum.Flee:
                     moveManager = gameObject.AddComponent(typeof(FleeMovementManager)) as FleeMovementManager;
@@ -29,6 +32,8 @@ namespace PlatformGame.Enemy.Movement
                     _flipsInOpositeDirection = true;
                     break;
                 case Enums.MovementEnum.Follow1D:
+                    _itFlips = true;
+                    moveManager = gameObject.AddComponent(typeof(Follow1DMovementManager)) as Follow1DMovementManager;
                     break;
                 case Enums.MovementEnum.Follow:
                     _itFlips = true;

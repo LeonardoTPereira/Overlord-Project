@@ -8,6 +8,16 @@ namespace PlatformGame.Enemy.Movement
     {
         private Rigidbody2D _rb;
 
+        private void OnEnable()
+        {
+            OnFlip += Flip;
+        }
+
+        private void OnDisable()
+        {
+            OnFlip -= Flip;
+        }
+
         public override void InitializeVariables()
         {
             // After, use timer to set enemy freeze for some seconds
@@ -19,6 +29,7 @@ namespace PlatformGame.Enemy.Movement
             if (!canMove)
                 return;
             SetMoveAnimation(speed, canMove);
+            VerifyOrientationAndFlip();
             _rb.velocity = new Vector2((-1)*moveDirection * speed, _rb.velocity.y);
             //_rb.transform.position += Vector3.right * (-1)*_moveDirection * Time.fixedDeltaTime * speed;
         }
@@ -44,6 +55,26 @@ namespace PlatformGame.Enemy.Movement
         public override void Test()
         {
             Debug.Log("This is a Wolf FOLLOW PLAYER Test");
+        }
+
+        private void VerifyOrientationAndFlip(float moveDirection)
+        {
+            if ((-1)* moveDirection < 0 && _isFacingRight)
+            {
+                OnFlip?.Invoke();
+            }
+            if ((-1)* moveDirection > 0 && !_isFacingRight)
+            {
+                OnFlip?.Invoke();
+            }            
+        }
+
+        public void Flip()
+        {
+            _isFacingRight = !_isFacingRight;
+            Vector3 newScale = transform.localScale;
+            newScale.x *= -1;
+            transform.localScale = newScale;
         }
     }
 }

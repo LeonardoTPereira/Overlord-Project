@@ -7,6 +7,7 @@ using ScriptableObjects;
 using UnityEngine.Serialization;
 using PlatformGame.Weapons;
 using PlatformGame.Util;
+using PlatformGame.Enemy.Movement;
 
 namespace PlatformGame.Enemy
 {
@@ -17,7 +18,7 @@ namespace PlatformGame.Enemy
         public event Action OnStopAttacking;
         private bool _canAttack;
         private EnemyAnimation _enemyAnimation;
-        private EnemyMovement _enemyMovement;
+        private MovementManager _enemyMovement;
         protected WeaponController _weaponController;
 
         [SerializeField] private float _minimumAttackSpeed;
@@ -50,11 +51,14 @@ namespace PlatformGame.Enemy
             _canAttack = true;
             GetAllComponents();
         }
+
         protected virtual void GetAllComponents()
         {
             _weaponController = weapon.GetComponent<WeaponController>();
             _enemyAnimation = GetComponent<EnemyAnimation>();
-            _enemyMovement = GetComponent<EnemyMovement>();
+            do {
+                _enemyMovement = GetComponent<EnemyMovement>().moveManager;
+            } while( _enemyMovement == null );
         }
     
         public void Attack()
@@ -111,4 +115,3 @@ namespace PlatformGame.Enemy
         }
     }
 }
-
