@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3873244278048140445}
+  - component: {fileID: 9192190562205025512}
   - component: {fileID: 7425211686582357960}
   - component: {fileID: 8185935825969948841}
-  - component: {fileID: 9192190562205025512}
   - component: {fileID: 873205780334145869}
   - component: {fileID: 3153328800392888952}
   - component: {fileID: 3020446638019837023}
@@ -41,6 +41,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9192190562205025512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501309130492107602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isThisATest: 1
+  _movementEnum: 1
 --- !u!114 &7425211686582357960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,25 +80,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b57ce57e19b7ff4882767cfba3e15c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canAttack: 1
   _minimumAttackSpeed: 1
   _maximumAttackSpeed: 3
   attackCooldown: 1
   weapon: {fileID: 4508373788111812251}
   timeToAtack: 2
---- !u!114 &9192190562205025512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501309130492107602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isThisATest: 1
-  _movementEnum: 1
 --- !u!114 &873205780334145869
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b57ce57e19b7ff4882767cfba3e15c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canAttack: 1
   _minimumAttackSpeed: 0.25
   _maximumAttackSpeed: 2
   attackCooldown: 1
@@ -164,8 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isThisATest: 0
-  _movementEnum: 0
+  _isThisATest: 1
+  _movementEnum: 1
 --- !u!114 &9167305087979182646
 MonoBehaviour:
   m_ObjectHideFlags: 0

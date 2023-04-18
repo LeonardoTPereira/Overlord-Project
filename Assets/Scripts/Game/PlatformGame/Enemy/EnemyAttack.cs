@@ -16,11 +16,11 @@ namespace PlatformGame.Enemy
         
         public event Action OnIsAttacking;
         public event Action OnStopAttacking;
-        private bool _canAttack;
         private EnemyAnimation _enemyAnimation;
         private EnemyMovement _enemyMovement;
         protected WeaponController _weaponController;
 
+        [SerializeField] private bool _canAttack;
         [SerializeField] private float _minimumAttackSpeed;
         [SerializeField] private float _maximumAttackSpeed;
         [SerializeField] protected float attackCooldown = 1f;

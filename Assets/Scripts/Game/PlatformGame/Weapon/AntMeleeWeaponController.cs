@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AntMeleeWeaponController : MonoBehaviour
+namespace PlatformGame.Weapons.Melee
 {
-    // Start is called before the first frame update
-    void Start()
+    public class AntMeleeWeaponController : MeleeWeaponController
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override void OnUsing() { }
     }
 }

@@ -13,8 +13,6 @@ namespace PlatformGame.Enemy.Movement
             switch (moveEnum)
             {
                 case Enums.MovementEnum.None:
-                    _itFlips = true;
-                    moveManager = gameObject.AddComponent(typeof(NoMovementManager)) as NoMovementManager;
                     break;
                 case Enums.MovementEnum.Random:
                     //_moveManager = gameObject.AddComponent(typeof(WolfRandomMovementManager)) as WolfRandomMovementManager;
@@ -22,22 +20,12 @@ namespace PlatformGame.Enemy.Movement
                 case Enums.MovementEnum.Random1D:
                     break;
                 case Enums.MovementEnum.Flee1D:
-                    _itFlips = true;
-                    _flipsInOpositeDirection = true;
-                    moveManager = gameObject.AddComponent(typeof(Flee1DMovementManager)) as Flee1DMovementManager;
                     break;
                 case Enums.MovementEnum.Flee:
-                    moveManager = gameObject.AddComponent(typeof(FleeMovementManager)) as FleeMovementManager;
-                    _itFlips = true;
-                    _flipsInOpositeDirection = true;
                     break;
                 case Enums.MovementEnum.Follow1D:
-                    _itFlips = true;
-                    moveManager = gameObject.AddComponent(typeof(Follow1DMovementManager)) as Follow1DMovementManager;
                     break;
                 case Enums.MovementEnum.Follow:
-                    _itFlips = true;
-                    moveManager = gameObject.AddComponent(typeof(FollowMovementManager)) as FollowMovementManager;
                     break;
                 default:
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");

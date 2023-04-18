@@ -312,11 +312,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <EnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 9f43e4c7c17338445abe1f653f545add,
     type: 3}
-  <BareHandEnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 9f43e4c7c17338445abe1f653f545add,
+  <BareHandEnemyPrefab>k__BackingField: {fileID: 7905377499348614207, guid: 360ba4e110e6a804bb561daef43e9b36,
     type: 3}
   <ShooterEnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 9f43e4c7c17338445abe1f653f545add,
     type: 3}
-  <BomberEnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 9f43e4c7c17338445abe1f653f545add,
+  <BomberEnemyPrefab>k__BackingField: {fileID: 7905377499348614207, guid: 360ba4e110e6a804bb561daef43e9b36,
     type: 3}
   <HealerEnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 9f43e4c7c17338445abe1f653f545add,
     type: 3}

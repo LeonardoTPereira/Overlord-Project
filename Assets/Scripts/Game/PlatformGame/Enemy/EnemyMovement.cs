@@ -25,18 +25,12 @@ namespace PlatformGame.Enemy
         private float _speed;
 
         [HideInInspector] public MovementManager moveManager;
-        protected bool _itFlips = true;
-        protected bool _flipsInOpositeDirection = false;
 
         public void LoadMovement(EnemySO enemySo)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
             // From 0.8f to 3.2f in SearchSpace
             _speed = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, _minimumSpeed, _maximumSpeed, .8f, 3.2f);
-
-            // This movement doesn't flip to player direction
-            if (enemySo.movement.enemyMovementIndex == Enums.MovementEnum.Follow1D)
-                _itFlips = false;
 
             GenerateMovementComponent(enemySo.movement.enemyMovementIndex);
 
@@ -59,7 +53,6 @@ namespace PlatformGame.Enemy
             switch (moveEnum)
             {
                 case Enums.MovementEnum.None:
-                    _itFlips = true;
                     moveManager = gameObject.AddComponent(typeof(NoMovementManager)) as NoMovementManager;
                     break;
                 case Enums.MovementEnum.Random: // This trigger basic horizontal movement, from one right to the left
@@ -68,14 +61,11 @@ namespace PlatformGame.Enemy
                 case Enums.MovementEnum.Random1D:
                     break;
                 case Enums.MovementEnum.Flee1D:
-                    _itFlips = true;
-                    _flipsInOpositeDirection = true;
                     moveManager = gameObject.AddComponent(typeof(Flee1DMovementManager)) as Flee1DMovementManager;
                     break;
                 case Enums.MovementEnum.Flee:
                     break;
                 case Enums.MovementEnum.Follow1D:
-                    _itFlips = true;
                     moveManager = gameObject.AddComponent(typeof(Follow1DMovementManager)) as Follow1DMovementManager;
                     break;
                 case Enums.MovementEnum.Follow:
