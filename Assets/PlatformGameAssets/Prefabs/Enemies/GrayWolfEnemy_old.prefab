@@ -340,6 +340,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minimumSpeed: 0.8
   _maximumSpeed: 3.2
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  moveManager: {fileID: 0}
 --- !u!114 &8314099738113335215
 MonoBehaviour:
   m_ObjectHideFlags: 0

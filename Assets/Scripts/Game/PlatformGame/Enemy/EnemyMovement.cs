@@ -15,6 +15,7 @@ namespace PlatformGame.Enemy
     {
         [SerializeField] private float _minimumSpeed = 0.8f;
         [SerializeField] private float _maximumSpeed = 3.2f;
+        public LayerMask _groundLayerMask;
                 
         private float _moveDirection;
         private bool _canMove;
@@ -61,8 +62,8 @@ namespace PlatformGame.Enemy
                     _itFlips = true;
                     moveManager = gameObject.AddComponent(typeof(NoMovementManager)) as NoMovementManager;
                     break;
-                case Enums.MovementEnum.Random: // This trigger basic vertical movement, from one right to the left
-                    //_moveManager = gameObject.AddComponent(typeof(WolfRandomMovementManager)) as WolfRandomMovementManager;
+                case Enums.MovementEnum.Random: // This trigger basic horizontal movement, from one right to the left
+                    moveManager = gameObject.AddComponent(typeof(HorizontalMovementManager)) as HorizontalMovementManager;
                     break;
                 case Enums.MovementEnum.Random1D:
                     break;
@@ -92,7 +93,7 @@ namespace PlatformGame.Enemy
         public void UpdateMovement()
         {
             UpdateDirection();
-            moveManager.Move(_moveDirection, _speed, _canMove);
+            moveManager.Move(_moveDirection, _speed, _canMove, _groundLayerMask);
         }
 
         public void EnableMove()

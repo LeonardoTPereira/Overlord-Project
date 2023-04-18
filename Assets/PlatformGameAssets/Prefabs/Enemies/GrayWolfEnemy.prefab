@@ -196,6 +196,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minimumSpeed: 5
   _maximumSpeed: 10
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  moveManager: {fileID: 0}
 --- !u!50 &6542682806478362404
 Rigidbody2D:
   serializedVersion: 4

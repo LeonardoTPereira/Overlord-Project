@@ -14,11 +14,11 @@ namespace PlatformGame.Enemy.Movement
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public override void Move(float moveDirection, float speed, bool canMove)
+        public override void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM)
         {
             if (!canMove)
                 return;
-            VerifyOrientationAndFlip(moveDirection);
+            VerifyOrientationAndFlip(moveDirection, groundLM);
             SetMoveAnimation(speed, canMove);
             _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
             //_rb.transform.position += Vector3.right * (-1)*_moveDirection * Time.fixedDeltaTime * speed;
@@ -45,19 +45,19 @@ namespace PlatformGame.Enemy.Movement
         {
             Debug.Log("This is a Wolf FOLLOW PLAYER Test");
         }
-        protected override void VerifyOrientationAndFlip(float moveDirection)
+        protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
         {
             if (moveDirection < 0 && _isFacingRight && !_flipLeft)
             {
                 _flipLeft = true;
                 _flipRight = false;
-                base.VerifyOrientationAndFlip(moveDirection);
+                base.VerifyOrientationAndFlip(moveDirection, groundLM);
             }
             else if (moveDirection > 0 && !_isFacingRight && !_flipRight)
             {
                 _flipLeft = false;
                 _flipRight = true;
-                base.VerifyOrientationAndFlip(moveDirection);
+                base.VerifyOrientationAndFlip(moveDirection, groundLM);
             }
         }
     }

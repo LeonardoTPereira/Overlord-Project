@@ -109,6 +109,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minimumSpeed: 0.8
   _maximumSpeed: 10
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  moveManager: {fileID: 0}
 --- !u!114 &1147878792515087140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isThisATest: 0
+  _movementEnum: 0
 --- !u!114 &112414178983584239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +205,7 @@ MonoBehaviour:
   _minimumDamage: 1
   _maximumDamage: 4
   weaponDamage: 1
+  HasAttackJump: 0
   _minimumAttackSpeed: 0.25
   _maximumAttackSpeed: 3
   projectilePrefab: {fileID: 8404213578863933165, guid: d3a43ff390e036949b252b9c49b9abbe,

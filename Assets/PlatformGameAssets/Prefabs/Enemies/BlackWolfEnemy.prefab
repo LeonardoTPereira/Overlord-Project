@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8185935825969948841}
   - component: {fileID: 9192190562205025512}
   - component: {fileID: 873205780334145869}
-  - component: {fileID: 93551931798231266}
+  - component: {fileID: 3153328800392888952}
   - component: {fileID: 3020446638019837023}
   - component: {fileID: 4857534918970064244}
   m_Layer: 11
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isThisATest: 1
-  _movementEnum: 6
+  _movementEnum: 1
 --- !u!114 &873205780334145869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   hasDeathAnimation: 1
   _minimumHealth: 1
   _maximumHealth: 6
---- !u!114 &93551931798231266
+--- !u!114 &3153328800392888952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,11 +110,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 501309130492107602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e4e35beb65ee1346a02eaa8c273059f, type: 3}
+  m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _minimumSpeed: 7
   _maximumSpeed: 12
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 16384
   moveManager: {fileID: 0}
 --- !u!50 &3020446638019837023
 Rigidbody2D:
@@ -150,7 +153,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.23206425, y: 3.1009924}
+  m_Offset: {x: 0.23206425, y: 0.73595107}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -161,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.4641285, y: 6.0754266}
+  m_Size: {x: 5.4641285, y: 6.1555977}
   m_EdgeRadius: 0
 --- !u!1 &4508373788111812251
 GameObject:
@@ -189,7 +192,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4508373788111812251}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.91, y: 3.82, z: 0}
+  m_LocalPosition: {x: -2.91, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -435,7 +438,7 @@ PrefabInstance:
     - target: {fileID: 4707914323714025782, guid: d4cc550208516f74083e8b56cd28cc41,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.32
       objectReference: {fileID: 0}
     - target: {fileID: 4707914323714025782, guid: d4cc550208516f74083e8b56cd28cc41,
         type: 3}

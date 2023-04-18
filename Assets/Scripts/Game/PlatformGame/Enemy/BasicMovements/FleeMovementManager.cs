@@ -14,7 +14,7 @@ namespace PlatformGame.Enemy.Movement
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public override void Move(float moveDirection, float speed, bool canMove)
+        public override void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM)
         {
             if (!canMove)
                 return;

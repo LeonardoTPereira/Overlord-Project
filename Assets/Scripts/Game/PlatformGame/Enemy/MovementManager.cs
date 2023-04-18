@@ -31,25 +31,18 @@ namespace PlatformGame.Enemy.Movement
         }
 
         public abstract void InitializeVariables();
-        public abstract void Move(float moveDirection, float speed, bool canMove);
+        public abstract void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM);
         public abstract void Attack();
         public abstract void Victory();
         public abstract void Death();
         public abstract void Test();
 
-        protected virtual void VerifyOrientationAndFlip(float moveDirection)
+        protected virtual void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
         {
-            if (_flipRight)
-            {
-                OnFlip?.Invoke();
-            }
-            else if (_flipLeft)
-            {
-                OnFlip?.Invoke();
-            }
+            OnFlip?.Invoke();            
             //Debug.Log("R: " + _flipRight + " L: " + _flipLeft);
         }
-
+        
         private void Flip()
         {
             _isFacingRight = !_isFacingRight;
@@ -57,5 +50,16 @@ namespace PlatformGame.Enemy.Movement
             newScale.x *= -1;
             transform.localScale = newScale;
         }
+        
+        /*
+        private void Flip()
+        {
+            _isFacingRight = !_isFacingRight;
+            var currentTransform = transform;
+            currentTransform.Rotate(currentTransform.up, 180);
+            var currentScale = currentTransform.localScale;
+            currentTransform.localScale = new Vector3(currentScale.x, currentScale.y, -currentScale.z);
+        }
+        */
     }
 }
