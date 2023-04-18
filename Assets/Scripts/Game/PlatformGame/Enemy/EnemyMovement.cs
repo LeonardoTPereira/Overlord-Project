@@ -63,7 +63,7 @@ namespace PlatformGame.Enemy
                     moveManager = gameObject.AddComponent(typeof(NoMovementManager)) as NoMovementManager;
                     break;
                 case Enums.MovementEnum.Random: // This trigger basic horizontal movement, from one right to the left
-                    moveManager = gameObject.AddComponent(typeof(HorizontalMovementManager)) as HorizontalMovementManager;
+                    moveManager = gameObject.AddComponent(typeof(PatrolMovementManager)) as PatrolMovementManager;
                     break;
                 case Enums.MovementEnum.Random1D:
                     break;

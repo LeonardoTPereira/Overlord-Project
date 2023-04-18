@@ -57,41 +57,6 @@ namespace PlatformGame.Enemy.Movement
         {
             Debug.Log("This is a RANDOM MOVEMENT Test");
         }
-        /*
-        protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
-        {
-            if (!_isInFlipCooldown)
-            {
-                var currentTransform = transform;
-                //Vector3 testPos = new Vector3(transform.position.x, 1f, transform.position.z);
-                Vector3 directionPos = transform.right;
-                if (!_isFacingRight)
-                    directionPos *= -1;
-
-                bool hasNotGround = (Physics2D.Raycast(currentTransform.position + directionPos * MAX_HORIZONTAL_DIST,
-                    -currentTransform.up,
-                    MAX_VERTICAL_DIST, groundLM).collider == null);
-
-                bool hasFrontBlock = (Physics2D.Raycast(currentTransform.position + new Vector3(0, Y_OFFSET, 0),
-                    currentTransform.position + directionPos * MAX_HORIZONTAL_DIST + new Vector3(0, Y_OFFSET, 0),
-                    MAX_HORIZONTAL_DIST, groundLM).collider != null);
-                //Debug.Log("hasNotGround: " + hasNotGround + " hasFrontBlock: " + hasFrontBlock);
-                //Debug.Log(directionPos);
-
-                Vector3 test = currentTransform.position + new Vector3(0, Y_OFFSET, 0);
-                //Debug.Log("Origin transform: " + test);
-                Vector3 test2 = currentTransform.position + directionPos + new Vector3(0, Y_OFFSET, 0);
-                //Debug.Log("Destiny transform: " + test2);
-
-
-                if (hasNotGround || hasFrontBlock)
-                {
-                    //Debug.Log("hasNotGround: " + hasNotGround + " hasFrontBlock: " + hasFrontBlock);
-                    StartCoroutine(StartFlipCooldown());
-                    base.VerifyOrientationAndFlip(moveDirection, groundLM);
-                }
-            }
-        }*/
 
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
         {

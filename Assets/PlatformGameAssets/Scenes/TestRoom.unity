@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 659328085}
   m_Layer: 14
   m_Name: Square (1)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
-  <TotalEnemies>k__BackingField: 1
+  <TotalEnemies>k__BackingField: 15
   <RoomPrefab>k__BackingField: {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236,
     type: 3}
   <RoomSize>k__BackingField:
@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 2059300348}
   m_Layer: 14
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
