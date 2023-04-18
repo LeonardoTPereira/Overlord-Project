@@ -113,10 +113,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7905377499348614202}
+  - component: {fileID: 3501610731093666749}
+  - component: {fileID: 3340132085230373504}
   - component: {fileID: 7905377499348614204}
   - component: {fileID: 7905377499348614205}
   - component: {fileID: 1347258470928445032}
-  - component: {fileID: -4052685395339398408}
   - component: {fileID: 1583393119733662214}
   m_Layer: 11
   m_Name: InfectedAnt2
@@ -144,6 +145,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3501610731093666749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905377499348614207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isThisATest: 0
+  _movementEnum: 0
+--- !u!114 &3340132085230373504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905377499348614207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1fc7ca2136f4614c8809942fd28a5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  invincibilityCooldown: 0.5
+  hasDeathAnimation: 0
+  _minimumHealth: 1
+  _maximumHealth: 6
 --- !u!61 &7905377499348614204
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -207,38 +239,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.6356101, y: -0.9385022}
   m_Size: {x: 2.6404676, y: 2.8770044}
   m_Direction: 0
---- !u!114 &-4052685395339398408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7905377499348614207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 1b62db0ad79b60476df3fdde6b55b86f55e09a80f706b20700000000a1ed8b39fd477086e3477c91272a8d64e1d87447
-  m_ShapePath:
-  - {x: -0.41425204, y: -2.2721221, z: 0}
-  - {x: -0.41241932, y: -0.5253172, z: 0}
-  - {x: -1.1574001, y: -0.30031347, z: 0}
-  - {x: -0.11706567, y: 1.1991673, z: 0}
-  - {x: -0.18375826, y: 3.1332579, z: 0}
-  - {x: 1.5003917, y: 3.4154272, z: 0}
-  - {x: 1.5883641, y: 1.408773, z: 0}
-  - {x: 0.46411443, y: 0.2845235, z: 0}
-  - {x: 1.1097624, y: -2.1482644, z: 0}
-  m_ShapePathHash: 516204107
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 92510
 --- !u!114 &1583393119733662214
 MonoBehaviour:
   m_ObjectHideFlags: 0

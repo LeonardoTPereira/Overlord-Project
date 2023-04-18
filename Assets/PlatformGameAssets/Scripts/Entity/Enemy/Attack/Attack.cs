@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Entity;
 using UnityEngine;
 
 namespace Enemy
@@ -17,14 +16,14 @@ namespace Enemy
         [SerializeField] private float shootOffSet = 0.5f;
         [SerializeField] private ParticleSystem salivaParticle;
 
-        private TransformController transformController;
+        //private TransformController transformController;
         
         private void Start()
         {
             Initialize();
 
-            transformController = GetComponent<TransformController>();
-            transformController.LookAt(GameObject.FindWithTag("Player").transform);
+            //transformController = GetComponent<TransformController>();
+            //transformController.LookAt(GameObject.FindWithTag("Player").transform);
         
             InvokeRepeating("AnimateShoot", 0f, fireRate);
             InvokeRepeating("Shoot", shootOffSet, fireRate);

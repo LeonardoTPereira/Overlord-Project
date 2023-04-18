@@ -73,17 +73,12 @@ namespace PlatformGame.Enemy
                     moveManager = gameObject.AddComponent(typeof(Flee1DMovementManager)) as Flee1DMovementManager;
                     break;
                 case Enums.MovementEnum.Flee:
-                    moveManager = gameObject.AddComponent(typeof(FleeMovementManager)) as FleeMovementManager;
-                    _itFlips = true;
-                    _flipsInOpositeDirection = true;
                     break;
                 case Enums.MovementEnum.Follow1D:
                     _itFlips = true;
                     moveManager = gameObject.AddComponent(typeof(Follow1DMovementManager)) as Follow1DMovementManager;
                     break;
                 case Enums.MovementEnum.Follow:
-                    _itFlips = true;
-                    moveManager = gameObject.AddComponent(typeof(FollowMovementManager)) as FollowMovementManager;
                     break;
                 default:
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");
