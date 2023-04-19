@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ScriptableObjects;
 
 namespace PlatformGame.Enemy.Movement
 {
@@ -8,7 +9,7 @@ namespace PlatformGame.Enemy.Movement
     {
         private Rigidbody2D _rb;
 
-        public override void InitializeVariables()
+        public override void InitializeVariables(EnemySO enemySo)
         {
             // After, use timer to set enemy freeze for some seconds
             _rb = GetComponent<Rigidbody2D>();

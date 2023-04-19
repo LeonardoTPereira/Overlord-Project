@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ScriptableObjects;
 
 namespace PlatformGame.Enemy.Movement
 {
@@ -30,7 +31,7 @@ namespace PlatformGame.Enemy.Movement
             OnFlip -= Flip;
         }
 
-        public abstract void InitializeVariables();
+        public abstract void InitializeVariables(EnemySO enemySo);
         public abstract void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM);
         public abstract void Attack();
         public abstract void Victory();

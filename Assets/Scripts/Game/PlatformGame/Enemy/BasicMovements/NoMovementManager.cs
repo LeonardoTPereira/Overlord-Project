@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ScriptableObjects;
 
 namespace PlatformGame.Enemy.Movement
 {
     public class NoMovementManager : MovementManager
     {
-        public override void InitializeVariables() { }
+        public override void InitializeVariables(EnemySO enemySo) { }
         public override void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM) 
         {
             VerifyOrientationAndFlip(moveDirection, groundLM);

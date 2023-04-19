@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isThisATest: 1
-  _movementEnum: 1
+  _movementEnum: 4
 --- !u!114 &7425211686582357960
 MonoBehaviour:
   m_ObjectHideFlags: 0

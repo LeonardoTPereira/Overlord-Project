@@ -88,9 +88,12 @@ namespace PlatformGame.Enemy
             _enemyHealth.LoadHealth(enemySo);
             _hasLoadedEnemy = true;
 
+            var enemyMovementIndex = enemySo.movement.enemyMovementIndex;
             _enemyAttack.SetAttackJump(true);
-            if (enemySo.movement.enemyMovementIndex == Enums.MovementEnum.None ||
-                enemySo.movement.enemyMovementIndex == Enums.MovementEnum.Random)
+            if (enemyMovementIndex == Enums.MovementEnum.None ||
+                enemyMovementIndex == Enums.MovementEnum.Random ||
+                enemyMovementIndex == Enums.MovementEnum.Random1D ||
+                enemyMovementIndex == Enums.MovementEnum.Flee)
                 _enemyAttack.SetAttackJump(false);
         }
         

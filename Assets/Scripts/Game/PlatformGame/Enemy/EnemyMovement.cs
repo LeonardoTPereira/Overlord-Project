@@ -34,7 +34,7 @@ namespace PlatformGame.Enemy
 
             GenerateMovementComponent(enemySo.movement.enemyMovementIndex);
 
-            moveManager.InitializeVariables();
+            moveManager.InitializeVariables(enemySo);
             moveManager.Test();
         }
         private void UpdateDirection()
@@ -59,6 +59,7 @@ namespace PlatformGame.Enemy
                     moveManager = gameObject.AddComponent(typeof(PatrolMovementManager)) as PatrolMovementManager;
                     break;
                 case Enums.MovementEnum.Random1D:
+                    moveManager = gameObject.AddComponent(typeof(CooldownPatrolMovementManager)) as CooldownPatrolMovementManager;
                     break;
                 case Enums.MovementEnum.Flee1D:
                     moveManager = gameObject.AddComponent(typeof(Flee1DMovementManager)) as Flee1DMovementManager;
