@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isThisATest: 1
-  _movementEnum: 4
+  _isThisATest: 0
+  _movementEnum: 0
 --- !u!114 &7425211686582357960
 MonoBehaviour:
   m_ObjectHideFlags: 0

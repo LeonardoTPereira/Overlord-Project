@@ -48,7 +48,6 @@ namespace PlatformGame.Enemy.Movement
 
             SetMoveAnimation(speed, canMove);
             _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
-            Debug.Log(_rb.velocity);
         }
 
         IEnumerator StartFlipCooldown()

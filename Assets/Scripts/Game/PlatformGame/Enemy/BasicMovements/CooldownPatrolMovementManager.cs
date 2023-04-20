@@ -58,7 +58,6 @@ namespace PlatformGame.Enemy.Movement
             
             SetMoveAnimation(speed, canMove);
             _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
-            Debug.Log(_rb.velocity);
         }
 
         // OBS: Bug related to flip when the enemy hits a wall (it call StartFlipDefaultCooldown and, if StartFlipCooldown ends and sets 
@@ -66,16 +65,26 @@ namespace PlatformGame.Enemy.Movement
         // (flips by OnTheOtherTriggerExitMethod and Move line ~53)
         IEnumerator StartFlipCooldown()
         {
+            if (_isFlipCooldown)
+                yield break;
+
             _isFlipCooldown = true;
+
             yield return new WaitForSeconds(_flipCooldown);
+
             _isFlipCooldown = false;
         }
 
         IEnumerator StartFlipDefaultCooldown()
         {
+            if (_isFlipDefaultCooldown)
+                yield break;
+
             _isFlipDefaultCooldown = true;
             _isFlipCooldown = false;
+
             yield return new WaitForSeconds(FLIP_DEFAULT_COOLDOWN);
+
             _isFlipDefaultCooldown = false;
         }
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM) 

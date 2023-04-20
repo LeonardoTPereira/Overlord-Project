@@ -6,6 +6,7 @@ using ScriptableObjects;
 using UnityEngine;
 using PlatformGame.Enemy.Movement;
 using Util;
+using PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
@@ -80,9 +81,12 @@ namespace PlatformGame.Enemy
 
         public void LoadEnemyData(EnemySO enemySo, int questId)
         {
-            if (_isThisATest)
-                enemySo.movement.enemyMovementIndex = _movementEnum;
-            //enemySo.movement.movementType = FollowPlayer; //temp for test
+            EnemyTestManager etm = EnemyTestManager.Instance;
+            if (etm.IsTestActive)
+            {
+                enemySo = etm.GenerateTestPlataformEnemySO();
+            }
+
             _enemyMovement.LoadMovement(enemySo);
             _enemyAttack.LoadAttack(enemySo);
             _enemyHealth.LoadHealth(enemySo);
@@ -93,10 +97,10 @@ namespace PlatformGame.Enemy
             if (enemyMovementIndex == Enums.MovementEnum.None ||
                 enemyMovementIndex == Enums.MovementEnum.Random ||
                 enemyMovementIndex == Enums.MovementEnum.Random1D ||
-                enemyMovementIndex == Enums.MovementEnum.Flee)
+                enemyMovementIndex == Enums.MovementEnum.Flee ||
+                enemyMovementIndex == Enums.MovementEnum.Follow)
                 _enemyAttack.SetAttackJump(false);
         }
-        
         private Vector2 FollowPlayer(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false) //temp for test
         {
             Vector2 direction = playerPos - enemyPos;
