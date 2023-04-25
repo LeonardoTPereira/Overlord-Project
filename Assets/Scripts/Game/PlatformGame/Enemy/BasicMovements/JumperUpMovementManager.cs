@@ -9,10 +9,10 @@ namespace PlatformGame.Enemy.Movement
 {
     public class JumperUpMovementManager : MovementManager
     {
-        private const float MIN_JUMP_FORCE = 1000f;
-        private const float MAX_JUMP_FORCE = 6000f;
+        private const float MIN_JUMP_FORCE = 2000f;
+        private const float MAX_JUMP_FORCE = 3500f;
         private const float MIN_JUMP_COOLDOWN = 1f;
-        private const float MAX_JUMP_COOLDOWN = 5f;
+        private const float MAX_JUMP_COOLDOWN = 3f;
 
         private Rigidbody2D _rb;
         private bool _isInJumpCooldown = false;
@@ -23,11 +23,9 @@ namespace PlatformGame.Enemy.Movement
         public override void InitializeVariables(EnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
-            _jumpCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.movementSpeed, MIN_JUMP_FORCE, MAX_JUMP_FORCE, .8f, 3.2f);
+            _jumpCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(4f - enemySo.movementSpeed, MIN_JUMP_COOLDOWN, MAX_JUMP_COOLDOWN, .8f, 3.2f);
             _jumpForce = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.projectileSpeed, MIN_JUMP_FORCE, MAX_JUMP_FORCE, 1f, 4f);
-            _jumpForce = MIN_JUMP_FORCE;
-            _jumpForce = MAX_JUMP_FORCE;
-            _jumpCooldown = MIN_JUMP_COOLDOWN;
+            Debug.Log("Jump Cooldown: " + _jumpCooldown + " Force: " + _jumpForce);
             //_jumpCooldown = MAX_JUMP_COOLDOWN;
         }
 

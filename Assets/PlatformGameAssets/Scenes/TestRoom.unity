@@ -153,14 +153,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsTestActive: 1
-  Health: 42
-  Damage: 0
-  MovementSpeed: 0
-  ActiveTime: 0
-  RestTime: 0
-  AttackSpeed: 0
-  ProjectileSpeed: 0
-  Movement: 0
+  Health: 6
+  Damage: 4
+  MovementSpeed: 0.8
+  ActiveTime: 10
+  RestTime: 1.5
+  AttackSpeed: 4
+  ProjectileSpeed: 1
+  Movement: 2
 --- !u!4 &417082791
 Transform:
   m_ObjectHideFlags: 0
@@ -354,6 +354,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatformPlayerAndCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865400857086745112, guid: bacc14d06fed1e8418a76bc6d657b7a7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865400857086745112, guid: bacc14d06fed1e8418a76bc6d657b7a7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18.1
       objectReference: {fileID: 0}
     - target: {fileID: 1865400857851600184, guid: bacc14d06fed1e8418a76bc6d657b7a7,
         type: 3}
