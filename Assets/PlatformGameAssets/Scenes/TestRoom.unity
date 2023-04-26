@@ -160,7 +160,7 @@ MonoBehaviour:
   RestTime: 1.5
   AttackSpeed: 4
   ProjectileSpeed: 1
-  Movement: 2
+  Movement: 3
 --- !u!4 &417082791
 Transform:
   m_ObjectHideFlags: 0
