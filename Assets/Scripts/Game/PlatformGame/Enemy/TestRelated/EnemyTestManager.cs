@@ -30,12 +30,19 @@ namespace PlatformGame.Enemy
         }
 
         public bool IsTestActive = false;
+        [Range(1, 6)]
         public int Health;
+        [Range(1, 4)]
         public int Damage;
+        [Range(.8f, 3.2f)]
         public float MovementSpeed;
+        [Range(1.5f, 10f)]
         public float ActiveTime;
+        [Range(.3f, 1.5f)]
         public float RestTime;
+        [Range(.75f, 4f)]
         public float AttackSpeed;
+        [Range(1f, 4f)]
         public float ProjectileSpeed;
         public Enums.MovementEnum Movement;
 
