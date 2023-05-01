@@ -9,9 +9,9 @@ namespace PlatformGame.Enemy.Movement
 {
     public class JumperMovementManager : MovementManager
     {
-        private const float FLIP_COOLDOWN = .0f;
-        private const float MIN_JUMP_FORCE = 2000f;
-        private const float MAX_JUMP_FORCE = 6000f;
+        private const float FLIP_COOLDOWN = .5f;
+        private const float MIN_JUMP_FORCE = 1500f;
+        private const float MAX_JUMP_FORCE = 3000f;
         private const float MIN_JUMP_COOLDOWN = 1f;
         private const float MAX_JUMP_COOLDOWN = 5f;
 
@@ -25,7 +25,7 @@ namespace PlatformGame.Enemy.Movement
         public override void InitializeVariables(EnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
-            _jumpCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(4f - enemySo.movementSpeed, MIN_JUMP_FORCE, MAX_JUMP_FORCE, .8f, 3.2f);
+            _jumpCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(4f - enemySo.movementSpeed, MIN_JUMP_COOLDOWN, MAX_JUMP_COOLDOWN, .8f, 3.2f);
             _jumpForce = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.projectileSpeed, MIN_JUMP_FORCE, MAX_JUMP_FORCE, 1f, 4f);
         }
 
@@ -54,7 +54,7 @@ namespace PlatformGame.Enemy.Movement
 
             _isInJumpCooldown = true;
 
-            _rb.AddForce(new Vector2(0.8f * moveDirection, 1).normalized * _jumpForce);
+            _rb.AddForce(new Vector2(0.5f * moveDirection, 1).normalized * _jumpForce);
 
             yield return new WaitForSeconds(_jumpCooldown);
 
@@ -96,10 +96,11 @@ namespace PlatformGame.Enemy.Movement
             Debug.Log("OnAir: " + IsOnAir());
             Debug.Log("!_isInFlipCooldown: " + !_isInFlipCooldown);
             Debug.Log("FloorTag: " +(col.gameObject.CompareTag("Floor")));
+            Debug.Log("TAG: " +col.gameObject.tag);
             if (col.gameObject.CompareTag("Floor") && !_isInFlipCooldown && IsOnAir())
             {
                 StartCoroutine(StartFlipCooldown());
-                _rb.velocity = new Vector2(_rb.velocity.x * (-1), _rb.velocity.y);
+                //_rb.velocity = new Vector2(_rb.velocity.x * (-1), _rb.velocity.y);
                 base.VerifyOrientationAndFlip(0f, _mask);
             }
         }
