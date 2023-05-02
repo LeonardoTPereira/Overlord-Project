@@ -20,8 +20,7 @@ namespace PlatformGame.Enemy.Archer
             {
                 downPart.SetBool("IsRunning", false);
                 downPart.SetFloat("Speed", 0f);
-            }
-        
+            }        
         }
 
         public override void AnimateAttack()

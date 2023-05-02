@@ -26,8 +26,7 @@ namespace PlatformGame.Enemy
             {
                 _wolfAnimator.SetBool("IsRunning", false);
                 _wolfAnimator.SetFloat("Speed", 0f);
-            }
-        
+            }        
         }
 
         public override void AnimateAttack()
