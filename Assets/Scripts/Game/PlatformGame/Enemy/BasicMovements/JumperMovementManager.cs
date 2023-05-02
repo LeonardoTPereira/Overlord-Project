@@ -91,12 +91,16 @@ namespace PlatformGame.Enemy.Movement
             Debug.Log("This is a JUMPER MOVEMENT Test");
         }
 
-        private void OnTriggerEnter2D(Collider2D col)
+        private void DebugLogs(Collider2D col)
         {
             Debug.Log("OnAir: " + IsOnAir());
             Debug.Log("!_isInFlipCooldown: " + !_isInFlipCooldown);
-            Debug.Log("FloorTag: " +(col.gameObject.CompareTag("Floor")));
-            Debug.Log("TAG: " +col.gameObject.tag);
+            Debug.Log("FloorTag: " + (col.gameObject.CompareTag("Floor")));
+        }
+
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            //DebugLogs(col);
             if (col.gameObject.CompareTag("Floor") && !_isInFlipCooldown && IsOnAir())
             {
                 StartCoroutine(StartFlipCooldown());

@@ -11,47 +11,51 @@ namespace PlatformGame.Enemy.Movement
     {
         private const float FLIP_DEFAULT_COOLDOWN = .5f;            
         private const float FLIP_MIN_COOLDOWN = 2f;
-        private const float FLIP_MAX_COOLDOWN = 8f;
+        private const float FLIP_MAX_COOLDOWN = 5.5f;
 
         private Rigidbody2D _rb;
         private LayerMask _mask;
-        private EdgeTester _edgeTester;
+        //private EdgeTester _edgeTester;
 
         private float _flipCooldown = FLIP_MIN_COOLDOWN;
         private bool _isFlipDefaultCooldown = false;
-        private bool _isFlipCooldown = false;
 
         public override void InitializeVariables(EnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
-            _edgeTester = transform.GetChild(0).gameObject.GetComponent<EdgeTester>();
-            _edgeTester.edgeTesterOnTriggerExit.AddListener(OnTheOtherTriggerExitMethod);
+            //_edgeTester = transform.GetChild(0).gameObject.GetComponent<EdgeTester>();
+            //_edgeTester.edgeTesterOnTriggerExit.AddListener(OnTheOtherTriggerExitMethod);
 
-            _flipCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.attackSpeed, FLIP_MIN_COOLDOWN, FLIP_MAX_COOLDOWN, 1f, 4f);
+            _flipCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.attackSpeed, FLIP_MIN_COOLDOWN, FLIP_MAX_COOLDOWN, 0.75f, 4f);
+            Debug.Log(_flipCooldown);
         }
 
         private void OnDisable()
         {
-            _edgeTester.edgeTesterOnTriggerExit.RemoveListener(OnTheOtherTriggerExitMethod);
+            //_edgeTester.edgeTesterOnTriggerExit.RemoveListener(OnTheOtherTriggerExitMethod);
         }
 
+        /*
         private void OnTheOtherTriggerExitMethod(Collider2D col)
         {
             if (col.gameObject.tag == "Floor" && !_isFlipDefaultCooldown)
             {
-                StartCoroutine(StartFlipDefaultCooldown());
+                // Reset move cooldown and move
                 base.VerifyOrientationAndFlip(0f, _mask);
             }
         }
+        */
 
         public override void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM)
         {
             if (!canMove)
                 return;
 
-            if (!_isFlipDefaultCooldown && !_isFlipCooldown)
+            if (!_isFlipDefaultCooldown)
                 VerifyOrientationAndFlip(moveDirection, groundLM);
-            
+
+            StartCoroutine(StartFlipDefaultCooldown());
+
             moveDirection = -1f;
             if (_isFacingRight)
                 moveDirection = 1f;
@@ -60,36 +64,19 @@ namespace PlatformGame.Enemy.Movement
             _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
         }
 
-        // OBS: Bug related to flip when the enemy hits a wall (it call StartFlipDefaultCooldown and, if StartFlipCooldown ends and sets 
-        // _isFlipCooldown to false, the enemy flips twice and the enemy keeps in front of the wall
-        // (flips by OnTheOtherTriggerExitMethod and Move line ~53)
-        IEnumerator StartFlipCooldown()
-        {
-            if (_isFlipCooldown)
-                yield break;
-
-            _isFlipCooldown = true;
-
-            yield return new WaitForSeconds(_flipCooldown);
-
-            _isFlipCooldown = false;
-        }
-
         IEnumerator StartFlipDefaultCooldown()
         {
             if (_isFlipDefaultCooldown)
                 yield break;
 
             _isFlipDefaultCooldown = true;
-            _isFlipCooldown = false;
 
-            yield return new WaitForSeconds(FLIP_DEFAULT_COOLDOWN);
+            yield return new WaitForSeconds(_flipCooldown);
 
             _isFlipDefaultCooldown = false;
         }
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM) 
         {
-            StartCoroutine(StartFlipCooldown());
             base.VerifyOrientationAndFlip(moveDirection, _mask);
         }
 
