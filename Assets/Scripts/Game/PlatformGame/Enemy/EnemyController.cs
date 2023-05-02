@@ -24,10 +24,6 @@ namespace PlatformGame.Enemy
         private bool _isPlayerAlive;
         private bool _isPhysicsDeactivated;
 
-        [Header("Test attributes (only used if isThisATest is marked)")]
-        [SerializeField] private bool _isThisATest = false;
-        [SerializeField] private Enums.MovementEnum _movementEnum;
-
         private void OnEnable()
         {
             PlayerHealth.PlayerDiedEvent += PlayerHasDied;

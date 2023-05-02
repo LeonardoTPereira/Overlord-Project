@@ -8,17 +8,16 @@ namespace PlatformGame.Enemy.Movement
 {
     public abstract class MovementManager : MonoBehaviour
     {
-        [SerializeField] protected Animator _animator;
         public event Action OnFlip;
 
         protected bool _flipRight = false;
         protected bool _flipLeft = false;
         protected bool _isFacingRight = true;
+        protected EnemyAnimation _animation;
 
         private void Awake()
         {
-            if (_animator == null)
-                _animator = GetComponentInChildren<Animator>();
+            _animation = GetComponent<EnemyAnimation>();
         }
 
         private void OnEnable()
@@ -33,9 +32,6 @@ namespace PlatformGame.Enemy.Movement
 
         public abstract void InitializeVariables(EnemySO enemySo);
         public abstract void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM);
-        public abstract void Attack();
-        public abstract void Victory();
-        public abstract void Death();
         public abstract void Test();
 
         protected virtual void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
@@ -51,16 +47,5 @@ namespace PlatformGame.Enemy.Movement
             newScale.x *= -1;
             transform.localScale = newScale;
         }
-        
-        /*
-        private void Flip()
-        {
-            _isFacingRight = !_isFacingRight;
-            var currentTransform = transform;
-            currentTransform.Rotate(currentTransform.up, 180);
-            var currentScale = currentTransform.localScale;
-            currentTransform.localScale = new Vector3(currentScale.x, currentScale.y, -currentScale.z);
-        }
-        */
     }
 }

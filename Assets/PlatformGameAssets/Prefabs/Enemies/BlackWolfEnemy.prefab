@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3873244278048140445}
   - component: {fileID: 9192190562205025512}
-  - component: {fileID: 7425211686582357960}
+  - component: {fileID: -8472465185487734304}
   - component: {fileID: 8185935825969948841}
   - component: {fileID: 873205780334145869}
   - component: {fileID: 3153328800392888952}
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isThisATest: 0
   _movementEnum: 0
---- !u!114 &7425211686582357960
+--- !u!114 &-8472465185487734304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,10 +64,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 501309130492107602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84452ec7968668a4f998945c1681ebd0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b1736b3356f67d4aba98ff0ca21971f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wolfAnimator: {fileID: 1081168696131413190}
+  _animator: {fileID: 1081168696131413190}
 --- !u!114 &8185935825969948841
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,9 +12,7 @@ namespace PlatformGame.Enemy.Movement
         {
             VerifyOrientationAndFlip(moveDirection, groundLM);
         }
-        public override void Attack() { }
-        public override void Victory() { }
-        public override void Death() { }
+
         public override void Test()
         {
             Debug.Log("This is a NO MOVEMENT Test");

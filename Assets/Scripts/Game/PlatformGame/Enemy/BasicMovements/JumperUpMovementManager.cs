@@ -72,9 +72,6 @@ namespace PlatformGame.Enemy.Movement
             if (_isFacingRight && moveDirection < 0f || !_isFacingRight && moveDirection > 0f)
                 base.VerifyOrientationAndFlip(moveDirection, groundLM);
         }
-        public override void Attack() { }
-        public override void Victory() { }
-        public override void Death() { }
         public override void Test()
         {
             Debug.Log("This is a JUMPER UP MOVEMENT Test");

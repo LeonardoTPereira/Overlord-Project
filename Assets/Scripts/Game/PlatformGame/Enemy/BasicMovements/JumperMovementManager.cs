@@ -43,7 +43,7 @@ namespace PlatformGame.Enemy.Movement
             if (_isFacingRight)
                 moveDirection = 1f;
 
-            SetMoveAnimation(speed, canMove); // SET JUMP ANIMATION HERE
+           // _animation.; // SET JUMP ANIMATION HERE
             StartCoroutine(StartJump(moveDirection));
         }
 
@@ -68,24 +68,8 @@ namespace PlatformGame.Enemy.Movement
             _isInFlipCooldown = false;
         }
 
-        private void SetMoveAnimation(float speed, bool canMove)
-        {
-            if (canMove)
-            {
-                _animator.SetBool("IsRunning", false);
-                _animator.SetFloat("Speed", Mathf.Abs(speed));
-            }
-            else
-            {
-                _animator.SetBool("IsRunning", false);
-                _animator.SetFloat("Speed", 0f);
-            }
-        }
 
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM) { }
-        public override void Attack() { }
-        public override void Victory() { }
-        public override void Death() { }
         public override void Test()
         {
             Debug.Log("This is a JUMPER MOVEMENT Test");
