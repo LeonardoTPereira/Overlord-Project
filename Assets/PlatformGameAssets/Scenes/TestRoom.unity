@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8e26000d23cca45a736fae52594025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTestActive: 1
+  IsTestActive: 0
   Health: 6
   Damage: 4
   MovementSpeed: 3.2
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
-  <TotalEnemies>k__BackingField: 1
+  <TotalEnemies>k__BackingField: 20
   <RoomPrefab>k__BackingField: {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236,
     type: 3}
   <RoomSize>k__BackingField:

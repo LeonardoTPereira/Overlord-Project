@@ -82,21 +82,9 @@ namespace PlatformGame.Enemy.Movement
 
         private void SetMoveAnimation(float speed, bool canMove)
         {
-            if (canMove)
-            {
-                _animator.SetBool("IsRunning", false);
-                _animator.SetFloat("Speed", Mathf.Abs(speed));
-            }
-            else
-            {
-                _animator.SetBool("IsRunning", false);
-                _animator.SetFloat("Speed", 0f);
-            }
+            _animation.AnimateMove(false, speed, canMove);
         }
 
-        public override void Attack() { }
-        public override void Victory() { }
-        public override void Death() { }
         public override void Test()
         {
             Debug.Log("This is a RANDOM MOVEMENT Test");
