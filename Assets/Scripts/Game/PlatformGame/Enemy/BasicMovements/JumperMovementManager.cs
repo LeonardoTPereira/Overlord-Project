@@ -70,6 +70,7 @@ namespace PlatformGame.Enemy.Movement
             Debug.Log("OnAir: " + IsOnAir());
             Debug.Log("!_isInFlipCooldown: " + !_isInFlipCooldown);
             Debug.Log("FloorTag: " + (col.gameObject.CompareTag("Floor")));
+            Debug.Log("Collider obj name: " + col.gameObject.name);
         }
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -77,8 +78,8 @@ namespace PlatformGame.Enemy.Movement
             //DebugLogs(col);
             if (col.gameObject.CompareTag("Floor") && !_isInFlipCooldown && IsOnAir())
             {
+                DebugLogs( col);
                 StartCoroutine(StartFlipCooldown());
-                //_rb.velocity = new Vector2(_rb.velocity.x * (-1), _rb.velocity.y);
                 base.VerifyOrientationAndFlip(0f, _mask);
             }
         }
