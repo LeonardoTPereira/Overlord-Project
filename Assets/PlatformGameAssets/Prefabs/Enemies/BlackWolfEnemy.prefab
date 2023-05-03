@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3153328800392888952}
   - component: {fileID: 3020446638019837023}
   - component: {fileID: 4857534918970064244}
-  - component: {fileID: 3606690165972975697}
+  - component: {fileID: 8488755514019671522}
   m_Layer: 11
   m_Name: BlackWolfEnemy
   m_TagString: Enemy
@@ -167,8 +167,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.4641285, y: 6.1555977}
   m_EdgeRadius: 0
---- !u!61 &3606690165972975697
-BoxCollider2D:
+--- !u!60 &8488755514019671522
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -180,7 +180,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.034469366, y: 0.85024405}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -190,9 +190,14 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 7.1355424, y: 4.079262}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 2.5753524, y: 2.5284197}
+      - {x: -3.5505412, y: 3.06924}
+      - {x: -3.6240878, y: 1.3656083}
+      - {x: -2.808156, y: -0.61144984}
+      - {x: 2.3233442, y: -0.5978217}
+      - {x: 2.7282305, y: 0.41139036}
 --- !u!1 &4508373788111812251
 GameObject:
   m_ObjectHideFlags: 0

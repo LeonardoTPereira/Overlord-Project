@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7324937096971001811}
   - component: {fileID: 6542682806478362404}
   - component: {fileID: 3481248607842539023}
-  - component: {fileID: 7499231419631064013}
+  - component: {fileID: 1277314746386026308}
   m_Layer: 11
   m_Name: GrayWolfEnemy
   m_TagString: Enemy
@@ -248,8 +248,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.4641285, y: 6.114033}
   m_EdgeRadius: 0
---- !u!61 &7499231419631064013
-BoxCollider2D:
+--- !u!60 &1277314746386026308
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -261,7 +261,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.55165243, y: 2.9675088}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -271,9 +271,16 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 6.9730625, y: 3.8153286}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 2.299385, y: 4.5823846}
+      - {x: -0.43930602, y: 4.853914}
+      - {x: -2.64637, y: 5.4067717}
+      - {x: -3.7666097, y: 5.181322}
+      - {x: -3.6343355, y: 3.5137665}
+      - {x: -2.4847891, y: 1.726978}
+      - {x: 2.5446944, y: 1.6271354}
+      - {x: 2.5485334, y: 4.0630884}
 --- !u!1001 &3928241741738466910
 PrefabInstance:
   m_ObjectHideFlags: 0
