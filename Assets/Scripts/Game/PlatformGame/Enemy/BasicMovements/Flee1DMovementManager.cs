@@ -37,6 +37,10 @@ namespace PlatformGame.Enemy.Movement
 
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
         {
+            if (_isInFlipCooldown)
+                return;
+            StartCoroutine(StartFlipCooldown());
+
             if ((-1)* moveDirection < 0 && _isFacingRight && !_flipLeft)
             {
                 _flipLeft = true;

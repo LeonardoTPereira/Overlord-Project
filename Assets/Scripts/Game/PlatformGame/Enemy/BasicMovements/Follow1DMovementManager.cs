@@ -32,10 +32,15 @@ namespace PlatformGame.Enemy.Movement
 
         public override void Test()
         {
-            Debug.Log("This is a Wolf FOLLOW PLAYER Test");
+            Debug.Log("This is a FOLLOW 1D PLAYER Test");
         }
+
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
         {
+            if (_isInFlipCooldown)
+                return;
+            StartCoroutine(StartFlipCooldown());
+
             if (moveDirection < 0 && _isFacingRight && !_flipLeft)
             {
                 _flipLeft = true;

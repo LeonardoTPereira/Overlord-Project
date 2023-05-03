@@ -9,10 +9,11 @@ namespace PlatformGame.Enemy.Movement
     public abstract class MovementManager : MonoBehaviour
     {
         public event Action OnFlip;
-
+        protected const float FLIP_COOLDOWN = 0.5f;
         protected bool _flipRight = false;
         protected bool _flipLeft = false;
         protected bool _isFacingRight = true;
+        protected bool _isInFlipCooldown = false;
         protected EnemyAnimation _animation;
 
         private void Awake()
@@ -37,9 +38,17 @@ namespace PlatformGame.Enemy.Movement
         protected virtual void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM)
         {
             OnFlip?.Invoke();            
-            //Debug.Log("R: " + _flipRight + " L: " + _flipLeft);
         }
-        
+
+        protected IEnumerator StartFlipCooldown()
+        {
+            if (_isInFlipCooldown)
+                yield break;
+            _isInFlipCooldown = true;
+            yield return new WaitForSeconds(FLIP_COOLDOWN);
+            _isInFlipCooldown = false;
+        }
+
         private void Flip()
         {
             _isFacingRight = !_isFacingRight;
