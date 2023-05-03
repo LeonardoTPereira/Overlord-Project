@@ -12,8 +12,7 @@ using PlatformGame.Enemy.Movement;
 namespace PlatformGame.Enemy
 {
     public class EnemyAttack : MonoBehaviour
-    {
-        
+    {        
         public event Action OnIsAttacking;
         public event Action OnStopAttacking;
         private EnemyAnimation _enemyAnimation;
@@ -61,7 +60,7 @@ namespace PlatformGame.Enemy
         {
             _weaponController = weapon.GetComponent<WeaponController>();
             _enemyAnimation = GetComponent<EnemyAnimation>();
-             _enemyMovement = GetComponent<EnemyMovement>();
+            _enemyMovement = GetComponent<EnemyMovement>();
         }
     
         public void Attack()

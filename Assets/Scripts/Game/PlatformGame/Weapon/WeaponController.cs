@@ -17,7 +17,8 @@ namespace PlatformGame.Weapons
 
         [HideInInspector] public bool HasAttackJump;
 
-        public virtual void LoadWeapon(EnemySO enemySo){
+        public virtual void LoadWeapon(EnemySO enemySo)
+        {
             // Strengh setted from 1 to 4 in SearchSpace.cs
             weaponDamage = Mathf.RoundToInt(CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform((float)enemySo.damage, (float)_minimumDamage,(float)_maximumDamage, 1f, 4f));
         }
@@ -28,6 +29,5 @@ namespace PlatformGame.Weapons
         {
             PlayerHitEvent?.Invoke(damage);
         }
-
     }
 }
