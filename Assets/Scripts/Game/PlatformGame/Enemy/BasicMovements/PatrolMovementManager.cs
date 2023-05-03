@@ -9,10 +9,7 @@ namespace PlatformGame.Enemy.Movement
 {
     public class PatrolMovementManager : MovementManager
     {
-        private const float FLIP_COOLDOWN = .5f;
-
         private Rigidbody2D _rb;
-        private bool _isInFlipCooldown = false;
         private LayerMask _mask;
         private EdgeTester _edgeTester;
 
@@ -48,13 +45,6 @@ namespace PlatformGame.Enemy.Movement
 
             SetMoveAnimation(speed, canMove);
             _rb.velocity = new Vector2(moveDirection * speed, _rb.velocity.y);
-        }
-
-        IEnumerator StartFlipCooldown()
-        {
-            _isInFlipCooldown = true;
-            yield return new WaitForSeconds(FLIP_COOLDOWN);
-            _isInFlipCooldown = false;
         }
 
         private void SetMoveAnimation(float speed, bool canMove)

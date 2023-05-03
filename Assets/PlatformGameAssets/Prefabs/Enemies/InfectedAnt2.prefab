@@ -71,6 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c247932198aef4eaf1a87dc20a3b84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumDamage: 1
+  _maximumDamage: 4
+  weaponDamage: 1
+  HasAttackJump: 0
+  attackDuration: 0
 --- !u!1 &7433197892770757802
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,8 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isThisATest: 1
-  _movementEnum: 1
 --- !u!114 &3340132085230373504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b57ce57e19b7ff4882767cfba3e15c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canAttack: 0
   _minimumAttackSpeed: 1
   _maximumAttackSpeed: 3
   attackCooldown: 1
@@ -220,7 +224,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 7905377499348614207}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0d474b3f7fc976e428776ffd343a22c6, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

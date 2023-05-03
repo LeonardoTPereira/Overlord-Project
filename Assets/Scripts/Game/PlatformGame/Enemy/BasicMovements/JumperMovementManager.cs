@@ -9,14 +9,12 @@ namespace PlatformGame.Enemy.Movement
 {
     public class JumperMovementManager : MovementManager
     {
-        private const float FLIP_COOLDOWN = .5f;
         private const float MIN_JUMP_FORCE = 1500f;
         private const float MAX_JUMP_FORCE = 3000f;
         private const float MIN_JUMP_COOLDOWN = 1f;
         private const float MAX_JUMP_COOLDOWN = 5f;
 
         private Rigidbody2D _rb;
-        private bool _isInFlipCooldown = false;
         private bool _isInJumpCooldown = false;
         private LayerMask _mask;
         private float _jumpForce = MIN_JUMP_FORCE;
@@ -60,14 +58,6 @@ namespace PlatformGame.Enemy.Movement
 
             _isInJumpCooldown = false;
         }
-
-        IEnumerator StartFlipCooldown()
-        {
-            _isInFlipCooldown = true;
-            yield return new WaitForSeconds(FLIP_COOLDOWN);
-            _isInFlipCooldown = false;
-        }
-
 
         protected override void VerifyOrientationAndFlip(float moveDirection, LayerMask groundLM) { }
         public override void Test()

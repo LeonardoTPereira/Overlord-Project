@@ -8,7 +8,7 @@ namespace PlatformGame.Util
     public class EdgeTester : MonoBehaviour
     {
         public bool IsOnGround = true;
-        public UnityEvent<Collider2D> edgeTesterOnTriggerExit;
+        [HideInInspector] public UnityEvent<Collider2D> edgeTesterOnTriggerExit;
 
         private void OnTriggerExit2D(Collider2D collision)
         {
