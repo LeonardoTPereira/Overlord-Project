@@ -78,7 +78,7 @@ namespace PlatformGame.Enemy
         public void LoadEnemyData(EnemySO enemySo, int questId)
         {
             EnemyTestManager etm = EnemyTestManager.Instance;
-            if (etm.IsTestActive)
+            if (etm != null && etm.IsTestActive)
             {
                 enemySo = etm.GenerateTestPlataformEnemySO();
             }
