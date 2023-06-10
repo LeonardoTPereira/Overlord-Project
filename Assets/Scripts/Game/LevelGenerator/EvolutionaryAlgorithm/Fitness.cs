@@ -39,8 +39,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var dungeon = individual.dungeon;
             DistanceFromInput(individual, dungeon);
             GetUsageOfRoomsAndLocks(individual, dungeon);
-            EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon);
-            StdDevEnemyByRoom(dungeon, DesiredInput.DesiredEnemies);
+            //EvolutionaryAlgorithm.EnemySparsity.GetEnemySparsity(dungeon);
+            //StdDevEnemyByRoom(dungeon, DesiredInput.DesiredEnemies);
             UpdateResult(false);
         }
 
@@ -123,11 +123,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         {
             if (normalized)
             {
-                Result = 3*NormalizedDistance + 2*NormalizedUsage + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
+                Result = 3*NormalizedDistance + 2*NormalizedUsage; // + NormalizedEnemySparsity + NormalizedEnemyStandardDeviation;
             }
             else
             {
-                Result = 3*Distance + 2*Usage + EnemySparsity + EnemyStandardDeviation;
+                Result = 3*Distance + 2*Usage; // + EnemySparsity + EnemyStandardDeviation;
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             [SerializeField] public float usage;
             [SerializeField] public float sparsity;
             [SerializeField] public float enemyStandardDeviation;
-            [SerializeField] public float result;
+            [SerializeField] public float fitness_result;
             [SerializeField] public float normalizedDistance;
             [SerializeField] public float normalizedUsage;
             [SerializeField] public float normalizedSparsity;
@@ -50,7 +50,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 normalizedUsage = individual.Fitness.NormalizedUsage;
                 normalizedSparsity = individual.Fitness.NormalizedEnemySparsity;
                 normalizedEnemyStandardDeviation = individual.Fitness.NormalizedEnemyStandardDeviation;
-                result = individual.Fitness.Result;
+                fitness_result = individual.Fitness.Result;
                 enemies = individual.dungeon.GetNumberOfEnemies();
                 rooms = individual.dungeon.Rooms.Count;
                 keys = individual.dungeon.KeyIds.Count;
