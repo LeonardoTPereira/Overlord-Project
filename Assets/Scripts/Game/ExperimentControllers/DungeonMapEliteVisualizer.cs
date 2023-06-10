@@ -173,7 +173,7 @@ namespace Game.ExperimentControllers
             var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredInput.DesiredRooms
                                       +"_K_" +dungeon.FitnessFromEa.DesiredInput.DesiredKeys
                                       +"_L_" +dungeon.FitnessFromEa.DesiredInput.DesiredLocks
-                                      +"_Lin_" +dungeon.FitnessFromEa.DesiredInput.DesiredLinearity
+                                      //+"_Lin_" +dungeon.FitnessFromEa.DesiredInput.DesiredLinearity
                                       +"_E_" +dungeon.FitnessFromEa.DesiredInput.DesiredEnemies;
             if (!AssetDatabase.IsValidFolder(parentDirectory + Constants.SeparatorCharacter + directoryPath))
             {

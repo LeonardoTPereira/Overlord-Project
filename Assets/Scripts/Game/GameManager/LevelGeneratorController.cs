@@ -77,8 +77,8 @@ namespace Game.GameManager
                 var nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
                 var nitems = int.Parse(inputFields["ItemsInputField"].text);
                 var nNpcs = int.Parse(inputFields["NpcsInputField"].text);
-                var linearity = float.Parse(inputFields["LinearityInputField"].text);
-                fitnessInput = new FitnessInput(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs, null, null);
+                // var linearity = float.Parse(inputFields["LinearityInputField"].text);
+                fitnessInput = new FitnessInput(nRooms, nKeys, nLocks, nEnemies, /*linearity,*/ nitems, nNpcs, null, null);
                 CreateEaDungeonEventHandler?.Invoke(this, new CreateEaDungeonEventArgs(parameters, fitnessInput));
             }
             catch (KeyNotFoundException)

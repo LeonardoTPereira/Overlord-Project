@@ -17,11 +17,11 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         [SerializeField, Range(0, 200)] private int desiredEnemies = 40;
         [SerializeField, Range(0, 200)] private int desiredItems = 10;
         [SerializeField, Range(0, 200)] private int desiredNpcs = 3;
-        [SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
+        //[SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
         public IEnumerable<QuestLine> QuestLines { get; private set; }
         public PlayerProfile PlayerProfile { get; private set; }
 
-        public FitnessInput(int rooms, int keys, int locks, int enemies, float linearity, int items, int npcs,
+        public FitnessInput(int rooms, int keys, int locks, int enemies, /*float linearity,*/ int items, int npcs,
             IEnumerable<QuestLine> questLines, PlayerProfile playerProfile)
         {
             DesiredRooms = rooms;
@@ -30,7 +30,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             DesiredEnemies = enemies;
             DesiredItems = items;
             DesiredNpcs = npcs;
-            DesiredLinearity = linearity;
+            //DesiredLinearity = linearity;
             QuestLines = questLines;
             PlayerProfile = playerProfile;
         }
@@ -41,6 +41,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public int DesiredEnemies { get => desiredEnemies; set => desiredEnemies = value; }
         public int DesiredItems { get => desiredItems; set => desiredItems = value; }
         public int DesiredNpcs { get => desiredNpcs; set => desiredNpcs = value; }
-        public float DesiredLinearity { get => desiredLinearity; set => desiredLinearity = value; }
+        //public float DesiredLinearity { get => desiredLinearity; set => desiredLinearity = value; }
     }
 }

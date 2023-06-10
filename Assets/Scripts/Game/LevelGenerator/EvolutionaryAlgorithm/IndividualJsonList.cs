@@ -37,7 +37,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             [SerializeField] public int desiredRooms;
             [SerializeField] public int desiredKeys;
             [SerializeField] public int desiredLocks;
-            [SerializeField] public float desiredLinearity;
+            //[SerializeField] public float desiredLinearity;
             
             public IndividualData(Individual individual)
             {
@@ -63,7 +63,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 desiredRooms = individual.Fitness.DesiredInput.DesiredRooms;
                 desiredKeys = individual.Fitness.DesiredInput.DesiredKeys;
                 desiredLocks = individual.Fitness.DesiredInput.DesiredLocks;
-                desiredLinearity = individual.Fitness.DesiredInput.DesiredLinearity;
+                //desiredLinearity = individual.Fitness.DesiredInput.DesiredLinearity;
             }
         }
         [SerializeField] private List<IndividualData> data;

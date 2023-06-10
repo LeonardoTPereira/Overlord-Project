@@ -94,13 +94,12 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             var rooms = dungeon.Rooms.Count;
             var keys = dungeon.KeyIds.Count;
             var locks = dungeon.LockIds.Count;
-            var linearity = individual.linearity;
+            //var linearity = individual.linearity;
             var fRooms = Math.Abs(DesiredInput.DesiredRooms - rooms) / (float) DesiredInput.DesiredRooms;
             var fKeys = Math.Abs(DesiredInput.DesiredKeys - keys) / (float) DesiredInput.DesiredKeys;
             var fLocks = Math.Abs(DesiredInput.DesiredLocks - locks) / (float) DesiredInput.DesiredLocks;
-            var fLinearity = Math.Abs(DesiredInput.DesiredLinearity - linearity) /
-                                 DesiredInput.DesiredLinearity;
-            var distance = fRooms + fKeys + fLocks + fLinearity;
+            //var fLinearity = Math.Abs(DesiredInput.DesiredLinearity - linearity) / DesiredInput.DesiredLinearity;
+            var distance = fRooms + fKeys + fLocks; //+ fLinearity;
             return distance;
         }
 

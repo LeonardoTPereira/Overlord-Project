@@ -75,8 +75,8 @@ namespace Game.LevelGenerator.LevelSOs
             filename = "R" + FitnessFromEa.DesiredInput.DesiredRooms +
                        "-K" + FitnessFromEa.DesiredInput.DesiredKeys +
                        "-L" + FitnessFromEa.DesiredInput.DesiredLocks +
-                       "-E" + FitnessFromEa.DesiredInput.DesiredEnemies +
-                       "-L" + FitnessFromEa.DesiredInput.DesiredLinearity;
+                       "-E" + FitnessFromEa.DesiredInput.DesiredEnemies;
+                       //+ "-L" + FitnessFromEa.DesiredInput.DesiredLinearity;
             return filename;
         }
     }
