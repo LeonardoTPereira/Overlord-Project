@@ -15,7 +15,7 @@ namespace Game.LevelGenerator
         /// The number of parents to be selected for crossover.
         protected static readonly int CROSSOVER_PARENTS = 2;
         /// The size of the intermediate population.
-        private static readonly int INTERMEDIATE_POPULATION = 500;
+        private static readonly int INTERMEDIATE_POPULATION = 100;
 
         /// The evolutionary parameters.
         protected GeneratorSettings.Parameters Parameters;
@@ -58,17 +58,19 @@ namespace Game.LevelGenerator
         /// Perform the level evolution process.
         private async Task Evolution()
         {
-            _individualJson = new IndividualJson();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 3; i++)
             {
+                Debug.Log("Initialize Population: " + i);
                 // Initialize the MAP-Elites population
                 var population = InitializePopulation();
+                Debug.Log("Initialize Population Finished: " + i);
                 await EvolvePopulation(population);
                 // Get the final population (solution)
                 solution = population;
-                _individualJson.AddFitness(solution.EliteList[0]);
+                Debug.Log("Passou aqui: " + i);
+                // _individualJson.AddFitness(solution.EliteList[0]);
             }
-            _individualJson.SaveJson();
+            // _individualJson.SaveJson();
         }
 
         protected virtual Population InitializePopulation()
@@ -91,6 +93,8 @@ namespace Game.LevelGenerator
                 currentTry++;
             }
 
+            population.Debug();
+
             return population;
         }
 
@@ -102,12 +106,8 @@ namespace Game.LevelGenerator
             DateTime end = DateTime.Now;
             while (!HasReachedStopCriteria(end, start, population.GetAmountOfBiomesWithElites(), population.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)))
             {
-                /*CurrentGenerationEventHandler?.Invoke(this, new CurrentGenerationEventArgs(pop));
-                waitGeneration = true;
-                while (waitGeneration)
-                {
-                    await Task.Yield();
-                }*/
+                _individualJson = new IndividualJson();
+                Debug.Log("HasReachedStopCriteria: " + HasReachedStopCriteria(end, start, population.GetAmountOfBiomesWithElites(), population.GetAmountOfBiomesWithElitesBetterThan(Parameters.AcceptableFitness)));
                 var intermediate = CreateIntermediatePopulation(population, g);
                 // Place the offspring in the MAP-Elites population
                 foreach (Individual individual in intermediate)
@@ -119,7 +119,9 @@ namespace Game.LevelGenerator
 
                 // Update the progress bar
                 double seconds = (end - start).TotalSeconds;
+                Debug.Log("Seconds: " + seconds);
                 var progress = (float) seconds / Parameters.Time;
+                population.Debug();
                 NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(progress, false));
                 population.UpdateBiomes(g);
                 await Task.Yield();
@@ -129,6 +131,8 @@ namespace Game.LevelGenerator
                 {
                     await Task.Yield();
                 }
+                _individualJson.AddFitness(population.EliteList[0]);
+                _individualJson.SaveJson();
             }
             //population.SaveJson();
             NewEaGenerationEventHandler?.Invoke(this, new NewEAGenerationEventArgs(1.0f, true));

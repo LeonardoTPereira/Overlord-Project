@@ -58,6 +58,7 @@ namespace Game.LevelGenerator
             dungeonFileSo.FitnessFromEa = individual.Fitness;
             dungeonFileSo.ExplorationCoefficient = individual.exploration;
             dungeonFileSo.LeniencyCoefficient = individual.leniency;
+            dungeonFileSo.LinearityCoefficient = individual.linearity;
             //We initialize the map with the equivalent of an empty cell
             for (int i = 0; i < 2 * dun.DungeonDimensions.Width; ++i)
             {

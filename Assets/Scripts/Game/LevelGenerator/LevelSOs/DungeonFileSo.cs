@@ -20,6 +20,7 @@ namespace Game.LevelGenerator.LevelSOs
         [field: SerializeField] public Fitness FitnessFromEa { get; set; }
         public float ExplorationCoefficient { get; set; }
         public float LeniencyCoefficient { get; set; }
+        public float LinearityCoefficient { get; set; }
         public string BiomeName { get; set; }
         public int TotalEnemies { get; set; }
         public int TotalTreasures { get; set; }
@@ -39,13 +40,14 @@ namespace Game.LevelGenerator.LevelSOs
             return null;
         }
 
-        public void Init(Dimensions dimensions, List<DungeonRoomData> rooms, Fitness fitness, float exploration, float leniency, string biome)
+        public void Init(Dimensions dimensions, List<DungeonRoomData> rooms, Fitness fitness, float exploration, float leniency, float linearity, string biome)
         {
             DungeonSizes = dimensions;
             Parts = rooms;
             FitnessFromEa = fitness;
             ExplorationCoefficient = exploration;
             LeniencyCoefficient = leniency;
+            LinearityCoefficient = linearity;
         }
         
         public void SaveAsset(string directory)

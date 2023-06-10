@@ -379,7 +379,7 @@ MonoBehaviour:
     desiredEnemies: 8
     desiredItems: 10
     desiredNpcs: 3
-    desiredLinearity: 1
+    desiredLinearity: 1.5
   generatorSettings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
 --- !u!1 &1830005868
 GameObject:

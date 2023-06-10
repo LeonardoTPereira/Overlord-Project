@@ -10,7 +10,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     [Serializable]
     public class IndividualJsonList
     {
-        private const string filePath = @"E:\Doutorado\Resultados\RealTimeQuestGenerator\DungeonGeneration";
+        private const string filePath = @"C:\Users\Gabriell\Documents\TCC\Resultados\RealTimeQuestGenerator\DungeonGeneration\";
         private string dungeonSetting;
         [Serializable]
         private struct IndividualData
@@ -38,15 +38,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
             [SerializeField] public int desiredKeys;
             [SerializeField] public int desiredLocks;
             [SerializeField] public float desiredLinearity;
-            [SerializeField] public int quests;
-            [SerializeField] public int achievementQuests;
-            [SerializeField] public int creativityQuests;
-            [SerializeField] public int immersionQuests;
-            [SerializeField] public int masteryQuests;
-            [SerializeField] public int achievementWeight;
-            [SerializeField] public int creativityWeight;
-            [SerializeField] public int immersionWeight;
-            [SerializeField] public int masteryWeight;
             
             public IndividualData(Individual individual)
             {
@@ -73,37 +64,6 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 desiredKeys = individual.Fitness.DesiredInput.DesiredKeys;
                 desiredLocks = individual.Fitness.DesiredInput.DesiredLocks;
                 desiredLinearity = individual.Fitness.DesiredInput.DesiredLinearity;
-                achievementQuests = 0;
-                creativityQuests = 0;
-                immersionQuests = 0;
-                masteryQuests = 0;
-                foreach (var quest in individual.Fitness.DesiredInput.QuestLines.SelectMany(questLine => questLine.Quests))
-                {
-                    switch (quest)
-                    {
-                        case AchievementQuestSo:
-                            achievementQuests++;
-                            break;
-                        case CreativityQuestSo:
-                            creativityQuests++;
-                            break;
-                        case ImmersionQuestSo:
-                            immersionQuests++;
-                            break;
-                        case MasteryQuestSo:
-                            masteryQuests++;
-                            break;
-                        default:
-                            Debug.LogError($"No quest type for this quest {quest.GetType()} " +
-                                           "was found to create dialogue");
-                            break;
-                    }
-                }
-                quests = creativityQuests + masteryQuests + immersionQuests + achievementQuests;
-                achievementWeight = (int) individual.Fitness.DesiredInput.PlayerProfile.AchievementPreference;
-                creativityWeight = (int) individual.Fitness.DesiredInput.PlayerProfile.CreativityPreference;
-                immersionWeight = (int) individual.Fitness.DesiredInput.PlayerProfile.ImmersionPreference;
-                masteryWeight = (int) individual.Fitness.DesiredInput.PlayerProfile.MasteryPreference;
             }
         }
         [SerializeField] private List<IndividualData> data;
@@ -121,8 +81,9 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         public void SaveJson()
         {
             dungeonSetting =
-                $"A{data[0].achievementWeight}-C{data[0].creativityWeight}-I{data[0].immersionWeight}-M{data[0].masteryWeight}";
+                $"A{data[0].generation}";
             var finalPath = filePath + dungeonSetting + ".json";
+            Debug.Log("Writing to: " + finalPath);
             if (!File.Exists(finalPath))
             {
                 File.Create(finalPath).Dispose();

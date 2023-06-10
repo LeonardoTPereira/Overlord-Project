@@ -11,8 +11,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
     /// where each matrix's ax corresponds to a different feature.
     ///
     /// This particular population is mapped into the level's coefficient of
-    /// exploration and leniency. Thus, each Elite (or matrix cell) corresponds
-    /// to a combination of a different degree of exploration and leniency.
+    /// exploration, leniency and linearity. Thus, each Elite (or matrix cell) corresponds
+    /// to a combination of a different degree of exploration, leniency and linearity.
     public class Population
     {
         /// The MAP-Elites map (a matrix of individuals).
@@ -29,8 +29,8 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         /// Population constructor.
         public Population(int explorationSize, int leniencySize, int linearitySize, FitnessPlot plotter = null)
         {
-            LeniencyEliteCount = leniencySize;
             ExplorationEliteCount = explorationSize;
+            LeniencyEliteCount = leniencySize;
             LinearityEliteCount = linearitySize;
             MapElites = new MapElites(ExplorationEliteCount, LeniencyEliteCount, LinearityEliteCount);
             EliteList = new List<Individual>();
@@ -73,16 +73,16 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                     for (int linearity = 0; linearity < LinearityEliteCount; linearity++)
                     {
                         string log = "Elite ";
-                        log += "CE" + SearchSpace.ExplorationRanges[exploration] + "-";
-                        log += "LE" + SearchSpace.LeniencyRanges[leniency] + "-";
-                        log += "LC" + SearchSpace.LinearityRanges[linearity] + "-";
-                        UnityEngine.Debug.Log(log);
-                        if (MapElites.GetElite(exploration, leniency, linearity) is null)
+                        log += "- CE = " + SearchSpace.ExplorationRanges[exploration] + " - ";
+                        log += "- LE = " + SearchSpace.LeniencyRanges[leniency] + " - ";
+                        log += " LC = " + SearchSpace.LinearityRanges[linearity] + " -";
+                        if (MapElites.GetElite(exploration, leniency, linearity) is not null)
                         {
-                            UnityEngine.Debug.Log(LevelDebug.INDENT + "Empty");
-                        }
-                        else
-                        {
+                            //UnityEngine.Debug.Log(LevelDebug.INDENT + "Empty");
+                        //}
+                        //else
+                        //{
+                            UnityEngine.Debug.Log(log);
                             MapElites.GetElite(exploration, leniency, linearity).Debug();
                         }
                     }

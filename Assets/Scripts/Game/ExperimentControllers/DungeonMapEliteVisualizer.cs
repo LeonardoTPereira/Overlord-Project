@@ -54,7 +54,7 @@ namespace Game.ExperimentControllers
                     _generatedDungeons.Add(dungeon);
                 }
             }
-            Debug.Log("Finished");
+            Debug.Log("Finished - PrintCurrentPopulation");
             _currentDungeon = 0;
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
@@ -104,7 +104,7 @@ namespace Game.ExperimentControllers
         private async Task CreateDungeonsForQuestLine()
         {
             _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(generatorSettings.DungeonParameters, Fitness));
-            Debug.Log("Finished");
+            Debug.Log("Finished - CreateDungeonsForQuestLine");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
             _dungeonSoTester.DrawDungeonSprites(_generatedDungeons[_currentDungeon++], _maxEnemies, center);
@@ -181,12 +181,14 @@ namespace Game.ExperimentControllers
             }
             Debug.Log("Leniency: " + dungeon.LeniencyCoefficient);
             Debug.Log("Exploration: " + dungeon.ExplorationCoefficient);
+            Debug.Log("Linearity: " + dungeon.LinearityCoefficient);
             Debug.Log("Enemies: " + dungeon.TotalEnemies);
             var leniencyBin = (int)(dungeon.LeniencyCoefficient * 10.00001f) % 6;
             var explorationBin = (int)(dungeon.ExplorationCoefficient * 10.00001f) % 5 + 1;
+            var linearityBin = (int)(dungeon.LinearityCoefficient * 10.00001f) % 5 + 1;
             var assetPath = parentDirectory + Constants.SeparatorCharacter + directoryPath +
                             Constants.SeparatorCharacter
-                            + "L." + leniencyBin + "E." + explorationBin;
+                            + "L." + leniencyBin + "E." + explorationBin + "LC." + linearityBin;
             return assetPath;
         }
 #endif
