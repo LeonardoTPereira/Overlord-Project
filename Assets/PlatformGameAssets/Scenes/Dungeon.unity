@@ -4100,6 +4100,201 @@ Transform:
   m_Father: {fileID: 1264982680}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1787470187
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1298926665771868862, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_Name
+      value: DungeonCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624461662876885859, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3186488427515375608, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: questionsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 85849b9c8b4ee7d448ad7292254525ca,
+        type: 2}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
+        type: 3}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelWithEnemies.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 5cef6e07bf1e43f4dbede5b5e3eea83c,
+        type: 3}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.SceneName
+      value: ExperimentLevelSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneIndex
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelWithEnemies.SceneName
+      value: Dungeon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelWithEnemies.sceneIndex
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
+        type: 3}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.SceneName
+      value: ExperimentLevelSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneIndex
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: levelSelector.sceneEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9581c0fe0430a1a4b84bef62380ed023, type: 3}
+--- !u!1 &1787470188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8454037983831236103, guid: 9581c0fe0430a1a4b84bef62380ed023,
+    type: 3}
+  m_PrefabInstance: {fileID: 1787470187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1787470189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5988532049002213391, guid: 9581c0fe0430a1a4b84bef62380ed023,
+    type: 3}
+  m_PrefabInstance: {fileID: 1787470187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1791996205
 GameObject:
   m_ObjectHideFlags: 0
@@ -4433,8 +4628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879a647a7c43f96428150af1c5a69078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverScreen: {fileID: 0}
-  victoryScreen: {fileID: 0}
+  gameOverScreen: {fileID: 1787470188}
+  victoryScreen: {fileID: 1787470189}
   currentQuestLines: {fileID: 0}
   maxTreasure: 0
   selectedLevels: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd, type: 2}
