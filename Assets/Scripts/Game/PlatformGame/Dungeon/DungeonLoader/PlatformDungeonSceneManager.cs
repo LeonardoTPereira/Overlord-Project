@@ -31,16 +31,17 @@ namespace PlatformGame.Dungeon.DungeonLoader
         {
             //No sound yet
         }
-
+        
         protected override void GameOver(object sender, EventArgs eventArgs)
         {
-            //Not implemented yet
+            gameOverScreen.SetActive(true);
         }
         
         protected override void LevelComplete(object sender, EventArgs eventArgs)
         {
             SetComplete();
-            SceneManager.LoadScene("ExperimentLevelSelector");
+            victoryScreen.SetActive(true);
+            //SceneManager.LoadScene("ExperimentLevelSelector");
         }
     }
 }
