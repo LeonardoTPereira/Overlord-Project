@@ -34,7 +34,16 @@ namespace Game.LevelSelection
             if (AllLevelsCompleted())
             {
                 InvokeCompletedLevelsEvent();
-                SceneManager.LoadScene("ContentGenerator");
+
+                switch(settings.GameType)
+                {
+                    case Enums.GameType.TopDown:
+                        SceneManager.LoadScene("ContentGenerator");
+                        break;
+                    case Enums.GameType.Platformer:
+                        SceneManager.LoadScene("PlatformContentGenerator");
+                        break;
+                }
             }
             ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.LevelSelectTheme));
         }
