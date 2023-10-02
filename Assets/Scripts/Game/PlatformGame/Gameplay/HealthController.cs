@@ -56,6 +56,7 @@ namespace Gameplay
         protected virtual void Kill()
         {
             _isDead = true;
+
             if(!hasDeathAnimation)
                 Destroy(gameObject);
                 

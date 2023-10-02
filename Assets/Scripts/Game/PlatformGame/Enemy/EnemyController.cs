@@ -24,6 +24,10 @@ namespace PlatformGame.Enemy
         private bool _isPlayerAlive;
         private bool _isPhysicsDeactivated;
 
+        [SerializeField] private WeaponTypeSo _weapon;
+
+        public int QuestId { get; set; }
+
         private void OnEnable()
         {
             PlayerHealth.PlayerDiedEvent += PlayerHasDied;
@@ -78,14 +82,17 @@ namespace PlatformGame.Enemy
         public void LoadEnemyData(EnemySO enemySo, int questId)
         {
             EnemyTestManager etm = EnemyTestManager.Instance;
+
             if (etm != null && etm.IsTestActive)
             {
                 enemySo = etm.GenerateTestPlataformEnemySO();
             }
 
+            QuestId = questId;
+
             _enemyMovement.LoadMovement(enemySo);
             _enemyAttack.LoadAttack(enemySo);
-            _enemyHealth.LoadHealth(enemySo);
+            _enemyHealth.LoadHealth(enemySo, questId);
             _hasLoadedEnemy = true;
 
             var enemyMovementIndex = enemySo.movement.enemyMovementIndex;
