@@ -80,6 +80,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlatformAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed876f53-7dfb-48ff-bcb2-777afe6872c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -476,6 +485,61 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""PS4"",
                     ""action"": ""ChangeMiniMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""765ca530-ff35-496e-9779-213191b91702"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f40b228d-616a-459c-bbd7-9dbe25e950d5"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5ec2101-cb21-48d1-a6ad-2fc08f6dcb18"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cffbdeae-d256-41b2-bb0f-1ab7fc8a2b71"",
+                    ""path"": ""<WebGLGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""WebGL"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1feee394-1fae-4a6a-83f3-cd4dfd8ebb2e"",
+                    ""path"": ""<DualSenseGamepadHID>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlatformAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1407,6 +1471,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_ChangeMiniMap = m_Player.FindAction("ChangeMiniMap", throwIfNotFound: true);
+        m_Player_PlatformAction = m_Player.FindAction("PlatformAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1491,6 +1556,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_ChangeMiniMap;
+    private readonly InputAction m_Player_PlatformAction;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1501,6 +1567,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputAction @ChangeMiniMap => m_Wrapper.m_Player_ChangeMiniMap;
+        public InputAction @PlatformAction => m_Wrapper.m_Player_PlatformAction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1528,6 +1595,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @ChangeMiniMap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
                 @ChangeMiniMap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
                 @ChangeMiniMap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
+                @PlatformAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
+                @PlatformAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
+                @PlatformAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1550,6 +1620,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @ChangeMiniMap.started += instance.OnChangeMiniMap;
                 @ChangeMiniMap.performed += instance.OnChangeMiniMap;
                 @ChangeMiniMap.canceled += instance.OnChangeMiniMap;
+                @PlatformAction.started += instance.OnPlatformAction;
+                @PlatformAction.performed += instance.OnPlatformAction;
+                @PlatformAction.canceled += instance.OnPlatformAction;
             }
         }
     }
@@ -1795,6 +1868,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnChangeMiniMap(InputAction.CallbackContext context);
+        void OnPlatformAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

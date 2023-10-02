@@ -2888,6 +2888,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1079818208, guid: b9e38676673037f42a3f7e63103be6d7, type: 3}
+      propertyPath: submitAction
+      value: 
+      objectReference: {fileID: -7835721132659651190, guid: 770109cbba2bb474da09f4d3062a9aab,
+        type: 3}
     - target: {fileID: 251593565399073389, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5718,7 +5723,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 506.42996
+  orthographic size: 120
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -6169,7 +6174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1345975225328756561
 GameObject:
   m_ObjectHideFlags: 0
@@ -6187,7 +6192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &1345975225328756652
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6907,7 +6912,7 @@ PrefabInstance:
     - target: {fileID: 1865400857851600184, guid: bacc14d06fed1e8418a76bc6d657b7a7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.399996
+      value: 15.399989
       objectReference: {fileID: 0}
     - target: {fileID: 1865400857851600184, guid: bacc14d06fed1e8418a76bc6d657b7a7,
         type: 3}
