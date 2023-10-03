@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
   m_Name: Narrative - PostQuestion11
   m_EditorClassIdentifier: 
-  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Os itens que encontrei
-    foram distribu\xEDdos por um humano\"?"
+  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \u201CEu gostei do
+    desafio proporcionado em completar as miss\xF5es\u201D?"
   description: 1 = Discordo Fortemente       <->      5 = Concordo Fortemente
   answer: 0

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0b414e77cfb7743be47f4ba69b1e76, type: 3}
   m_Name: Narrative - PostQuestion9
   m_EditorClassIdentifier: 
-  question: "O quanto voc\xEA concorda com a afirma\xE7\xE3o: \"Os n\xEDveis que
-    joguei foram criados por humanos\"?"
-  description: 1 = Discordo Fortemente       <->      5 = Concordo Fortemente
+  question: "O qu\xE3o diversificado voc\xEA achou os inimigos do n\xEDvel?"
+  description: 1 = Pouco diversificado       <->      5 = Muito diversificado
   answer: 0

@@ -4261,10 +4261,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3186488427515375608, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
+      propertyPath: _hasCheckbox
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3186488427515375608, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
       propertyPath: questionsData
       value: 
       objectReference: {fileID: 11400000, guid: 85849b9c8b4ee7d448ad7292254525ca,
         type: 2}
+    - target: {fileID: 3186488427515375608, guid: 9581c0fe0430a1a4b84bef62380ed023,
+        type: 3}
+      propertyPath: checkboxPrefab
+      value: 
+      objectReference: {fileID: 1682351134811150, guid: e568e9770b129f645a7613baee9c23a1,
+        type: 3}
     - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: levelSelector.Scene
@@ -4300,7 +4311,7 @@ PrefabInstance:
     - target: {fileID: 3272807322735825970, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: levelWithEnemies.sceneIndex
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3289899952095208146, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
@@ -4345,12 +4356,12 @@ PrefabInstance:
     - target: {fileID: 3365085251671324116, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 693.575
       objectReference: {fileID: 0}
     - target: {fileID: 3365085251671324116, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 351.7875
       objectReference: {fileID: 0}
     - target: {fileID: 3365085251671324116, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
@@ -4370,7 +4381,7 @@ PrefabInstance:
     - target: {fileID: 3365095198315791016, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.529598
       objectReference: {fileID: 0}
     - target: {fileID: 3365149633029200060, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
@@ -4406,17 +4417,17 @@ PrefabInstance:
         type: 3}
       propertyPath: levelSelector.Scene
       value: 
-      objectReference: {fileID: 102900000, guid: 98e262a735cfb66468973ba893ee3ac8,
+      objectReference: {fileID: 102900000, guid: 917b48b9603337342b3f5cde6b170bb3,
         type: 3}
     - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: levelSelector.SceneName
-      value: ExperimentLevelSelector
+      value: PlatformExperimentLevelSelector
       objectReference: {fileID: 0}
     - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
       propertyPath: levelSelector.sceneIndex
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5504058186346374518, guid: 9581c0fe0430a1a4b84bef62380ed023,
         type: 3}
@@ -6947,6 +6958,11 @@ PrefabInstance:
       propertyPath: m_BoundingShape2D
       value: 
       objectReference: {fileID: 1512521591}
+    - target: {fileID: 1865400857851600184, guid: bacc14d06fed1e8418a76bc6d657b7a7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.399999
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bacc14d06fed1e8418a76bc6d657b7a7, type: 3}
 --- !u!1 &1970728112055382231
