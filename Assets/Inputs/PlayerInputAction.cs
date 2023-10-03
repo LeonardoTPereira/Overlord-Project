@@ -98,6 +98,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""631d900e-7438-4370-a146-d9427dd2c53e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -549,6 +558,28 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""PlatformOpenQuest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f13e93dd-fc6f-4391-8382-71d514f15265"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8a4d9ba-55ab-4584-9783-be3354a8a261"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1482,6 +1513,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_ChangeMiniMap = m_Player.FindAction("ChangeMiniMap", throwIfNotFound: true);
         m_Player_PlatformAction = m_Player.FindAction("PlatformAction", throwIfNotFound: true);
         m_Player_PlatformOpenQuest = m_Player.FindAction("PlatformOpenQuest", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1568,6 +1600,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ChangeMiniMap;
     private readonly InputAction m_Player_PlatformAction;
     private readonly InputAction m_Player_PlatformOpenQuest;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1580,6 +1613,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @ChangeMiniMap => m_Wrapper.m_Player_ChangeMiniMap;
         public InputAction @PlatformAction => m_Wrapper.m_Player_PlatformAction;
         public InputAction @PlatformOpenQuest => m_Wrapper.m_Player_PlatformOpenQuest;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1613,6 +1647,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @PlatformOpenQuest.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
                 @PlatformOpenQuest.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
                 @PlatformOpenQuest.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1641,6 +1678,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @PlatformOpenQuest.started += instance.OnPlatformOpenQuest;
                 @PlatformOpenQuest.performed += instance.OnPlatformOpenQuest;
                 @PlatformOpenQuest.canceled += instance.OnPlatformOpenQuest;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -1888,6 +1928,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnChangeMiniMap(InputAction.CallbackContext context);
         void OnPlatformAction(InputAction.CallbackContext context);
         void OnPlatformOpenQuest(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

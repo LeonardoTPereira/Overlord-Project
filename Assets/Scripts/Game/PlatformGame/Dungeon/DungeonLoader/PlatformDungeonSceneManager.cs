@@ -17,11 +17,6 @@ namespace PlatformGame.Dungeon.DungeonLoader
             
         }
 
-        protected override void SetGameOverCurrentLevel()
-        {
-            
-        }
-
         protected override void LoadSecondaryScenes()
         {
             
