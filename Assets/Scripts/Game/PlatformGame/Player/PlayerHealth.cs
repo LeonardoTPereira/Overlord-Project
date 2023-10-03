@@ -25,7 +25,7 @@ namespace PlatformGame.Player
             Debug.Log("GAME OVER");
             PlayerDiedEvent?.Invoke();
             base.Kill();
-            SceneManager.LoadScene("ExperimentLevelSelector");
+            SceneManager.LoadScene("PlatformExperimentLevelSelector");
             Destroy(gameObject);
         }
 

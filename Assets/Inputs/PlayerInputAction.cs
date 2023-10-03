@@ -89,6 +89,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlatformOpenQuest"",
+                    ""type"": ""Button"",
+                    ""id"": ""84765105-d790-43d8-b27a-9732aa4d3983"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -490,17 +499,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""765ca530-ff35-496e-9779-213191b91702"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""PlatformAction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f40b228d-616a-459c-bbd7-9dbe25e950d5"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -540,6 +538,17 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1751b5b7-1b6c-4e97-a7fb-c062f69e63ab"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PlatformOpenQuest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1472,6 +1481,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_ChangeMiniMap = m_Player.FindAction("ChangeMiniMap", throwIfNotFound: true);
         m_Player_PlatformAction = m_Player.FindAction("PlatformAction", throwIfNotFound: true);
+        m_Player_PlatformOpenQuest = m_Player.FindAction("PlatformOpenQuest", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1557,6 +1567,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_ChangeMiniMap;
     private readonly InputAction m_Player_PlatformAction;
+    private readonly InputAction m_Player_PlatformOpenQuest;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1568,6 +1579,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputAction @ChangeMiniMap => m_Wrapper.m_Player_ChangeMiniMap;
         public InputAction @PlatformAction => m_Wrapper.m_Player_PlatformAction;
+        public InputAction @PlatformOpenQuest => m_Wrapper.m_Player_PlatformOpenQuest;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1598,6 +1610,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @PlatformAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
                 @PlatformAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
                 @PlatformAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
+                @PlatformOpenQuest.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
+                @PlatformOpenQuest.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
+                @PlatformOpenQuest.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1623,6 +1638,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @PlatformAction.started += instance.OnPlatformAction;
                 @PlatformAction.performed += instance.OnPlatformAction;
                 @PlatformAction.canceled += instance.OnPlatformAction;
+                @PlatformOpenQuest.started += instance.OnPlatformOpenQuest;
+                @PlatformOpenQuest.performed += instance.OnPlatformOpenQuest;
+                @PlatformOpenQuest.canceled += instance.OnPlatformOpenQuest;
             }
         }
     }
@@ -1869,6 +1887,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnChangeMiniMap(InputAction.CallbackContext context);
         void OnPlatformAction(InputAction.CallbackContext context);
+        void OnPlatformOpenQuest(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

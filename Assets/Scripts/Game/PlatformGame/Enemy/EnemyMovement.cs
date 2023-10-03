@@ -35,7 +35,7 @@ namespace PlatformGame.Enemy
             GenerateMovementComponent(enemySo.movement.enemyMovementIndex);
 
             moveManager.InitializeVariables(enemySo);
-            moveManager.Test();
+            //moveManager.Test();
         }
         private void UpdateDirection()
         {

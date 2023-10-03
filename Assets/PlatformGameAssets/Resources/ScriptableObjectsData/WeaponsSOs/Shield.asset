@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6613e01c240ea8845a65ca9e35388e54, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  <FitnessMultiplier>k__BackingField: 2.8
+  <HasProjectile>k__BackingField: 0
+  <Projectile>k__BackingField: {fileID: 11400000, guid: 47389775fe05aed46b3d5ab5912b5751,
+    type: 2}
+  <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: e8a7393e255af194fa11fab6a52f658f,
+    type: 3}
+  <EnemyTypeName>k__BackingField: Skeleton Shield

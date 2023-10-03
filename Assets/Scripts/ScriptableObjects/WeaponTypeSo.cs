@@ -13,6 +13,8 @@ namespace ScriptableObjects
 
         [field: SerializeField] public GameObject WeaponPrefab { get; set; }
         [field: SerializeField] public string EnemyTypeName { get; set; }
+
+        [field: SerializeField] public bool HasSprite = true;
         
         public bool IsHealer()
         {
@@ -36,8 +38,12 @@ namespace ScriptableObjects
 
         public object GetEnemySpriteString()
         {
+            if (!HasSprite)
+                return "";
+
             var stringBuilder = new StringBuilder();
             stringBuilder.Append($"<sprite=\"Enemies\" name=\"{EnemyTypeName}\">");
+            Debug.Log(stringBuilder.ToString());
             return stringBuilder.ToString();
         }
     }

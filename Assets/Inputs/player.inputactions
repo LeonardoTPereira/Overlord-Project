@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PlatformOpenQuest",
+                    "type": "Button",
+                    "id": "84765105-d790-43d8-b27a-9732aa4d3983",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -468,17 +477,6 @@
                 },
                 {
                     "name": "",
-                    "id": "765ca530-ff35-496e-9779-213191b91702",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "PlatformAction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f40b228d-616a-459c-bbd7-9dbe25e950d5",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -518,6 +516,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlatformAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1751b5b7-1b6c-4e97-a7fb-c062f69e63ab",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PlatformOpenQuest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
