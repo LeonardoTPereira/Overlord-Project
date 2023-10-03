@@ -55,6 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weapon: {fileID: 0}
 --- !u!114 &-8825977824652786039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,8 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minimumSpeed: 0.8
-  _maximumSpeed: 3.2
+  _minimumSpeed: 4.5
+  _maximumSpeed: 8
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 16384
@@ -352,12 +353,12 @@ PrefabInstance:
     - target: {fileID: 8010875089620858995, guid: 396102d2920f4664ea5192aa14690a00,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.23
+      value: 3.7
       objectReference: {fileID: 0}
     - target: {fileID: 8010875089620858995, guid: 396102d2920f4664ea5192aa14690a00,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.59
+      value: -1.58
       objectReference: {fileID: 0}
     - target: {fileID: 8010875089620858995, guid: 396102d2920f4664ea5192aa14690a00,
         type: 3}

@@ -160,7 +160,7 @@ MonoBehaviour:
   RestTime: 1.5
   AttackSpeed: 4
   ProjectileSpeed: 4
-  Movement: 5
+  Movement: 1
 --- !u!4 &417082791
 Transform:
   m_ObjectHideFlags: 0
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
   <TotalEnemies>k__BackingField: 20
-  <RoomPrefab>k__BackingField: {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236,
+  <RoomPrefab>k__BackingField: {fileID: 556261465001929205, guid: 44eec1c14eb48ee4884e20a5aa556596,
     type: 3}
   <RoomSize>k__BackingField:
     width: 28
