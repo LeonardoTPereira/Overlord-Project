@@ -10,7 +10,7 @@
             ChangeDescription();
         }
 
-        private void CreateDungeonDescription(RealTimeLevelData realTimeLevelData)
+        protected virtual void CreateDungeonDescription(RealTimeLevelData realTimeLevelData)
         {
             if (realTimeLevelData.AchievementWeight == 4)
             {
