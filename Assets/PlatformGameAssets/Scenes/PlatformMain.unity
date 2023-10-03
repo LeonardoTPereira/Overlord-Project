@@ -304,9 +304,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.12289157
-    width: 0.757503
-    height: 0.8552711
+    y: 0.018480493
+    width: 1
+    height: 0.9644508
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -493,6 +493,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 23110011866361898, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 699199370929876372, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: nextPanel.Scene
+      value: 
+      objectReference: {fileID: 102900000, guid: 917b48b9603337342b3f5cde6b170bb3,
+        type: 3}
+    - target: {fileID: 699199370929876372, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: nextPanel.SceneName
+      value: PlatformExperimentLevelSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 699199370929876372, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: nextPanel.sceneIndex
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1485715969279221862, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: questionsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 87e2b39734d847449676485068bcf58a,
+        type: 2}
     - target: {fileID: 1516576439373387153, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_Name
@@ -608,6 +635,44 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1516576439931873964, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_text
+      value: "Pr\xF3ximo\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576439931873964, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 33.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576440018881662, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576440018881663, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: nextPanel
+      value: 
+      objectReference: {fileID: 1874450901}
+    - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_text
+      value: "Este jogo \xE9 parte de um projeto de pesquisa de TCC com o objetivo
+        de fazer o jogador explorar diferentes n\xEDveis com inimigos diversificados,
+        a fim de coletar dados do jogador.\n\nUtilize \"WASD\" para movimentar-se,
+        ESPA\xC7O para pular e clique com o bot\xE3o esquerdo do mouse para atirar.
+        Use o bot\xE3o X e E para interagir com NPCs e certos itens e TAB para mudar
+        a visualiza\xE7\xE3o do minimapa.\n\nVoc\xEA precisa navegar pelo n\xEDvel,
+        encontrar chaves e abrir portas.\n\nH\xE1 miss\xF5es opcionais solicitadas
+        por tr\xEAs NPCs espalhados pelo calabou\xE7o.\n\nPara vencer, colete o item
+        abaixo:\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 19.75
+      objectReference: {fileID: 0}
     - target: {fileID: 1516576440918953186, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_IsActive
@@ -618,8 +683,114 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1516576441253883651, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517411849573018956, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591254216384127294, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591254216384127294, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591342256928642850, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591342256928642850, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591342256928642850, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591342256928642850, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591394483961679158, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591394483961679158, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591394483961679158, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.529598
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 719.47504
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 364.73752
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591929837905820926, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591929837905820926, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592017253729935914, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592017253729935914, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 018140db0d3665645b9b0bdaf219c6ec, type: 3}
+--- !u!1 &1874450901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1517411849573018956, guid: 018140db0d3665645b9b0bdaf219c6ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 1874450900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3829912036038089743
 PrefabInstance:
   m_ObjectHideFlags: 0
