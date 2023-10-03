@@ -4,12 +4,14 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Game.Audio;
 using UnityEngine.InputSystem;
+using MyBox;
 
 namespace Game.MenuManager
 {
     public class PauseMenu : MonoBehaviour
     {
         [SerializeField] private InputActionReference _pausePressAction;
+        [SerializeField] private GameObject _postFormQuestions;
 
         public static bool isGamePaused = false;
         public static float PausedTime;
@@ -88,6 +90,12 @@ namespace Game.MenuManager
         public void ReloadScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        public void BackToLevelSelection()
+        {
+            _postFormQuestions.SetActive(true);
+            this.gameObject.SetActive(false);
         }
 
         public void QuitGame()
