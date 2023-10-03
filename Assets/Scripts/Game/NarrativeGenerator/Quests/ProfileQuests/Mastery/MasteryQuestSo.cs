@@ -87,7 +87,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var damageQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var totalDamage = RandomSingleton.GetInstance().Random.Next(100) + 20;
-            damageQuest.Init(selectedEnemyType.EnemyTypeName, false, 
+            damageQuest.Init(selectedEnemyType.RealTypeName(), false, 
                 questSos.Count > 0 ? questSos[^1] : null, selectedEnemyType, totalDamage);
             
             if (questSos.Count > 0)

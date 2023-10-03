@@ -5771,7 +5771,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 120
+  orthographic size: 520
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -6960,7 +6960,7 @@ PrefabInstance:
     - target: {fileID: 1865400857851600184, guid: bacc14d06fed1e8418a76bc6d657b7a7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.399999
+      value: 15.399993
       objectReference: {fileID: 0}
     - target: {fileID: 1865400857851600184, guid: bacc14d06fed1e8418a76bc6d657b7a7,
         type: 3}
@@ -9530,6 +9530,8 @@ MonoBehaviour:
   interactAction: {fileID: 4647015306999821288, guid: 770109cbba2bb474da09f4d3062a9aab,
     type: 3}
   <MinimapCamera>k__BackingField: {fileID: 986226212756628599}
+  _fullScreenSize: 1080
+  _minimapSize: 520
 --- !u!224 &7581917956110803837
 RectTransform:
   m_ObjectHideFlags: 0

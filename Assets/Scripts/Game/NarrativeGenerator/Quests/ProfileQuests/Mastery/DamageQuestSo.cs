@@ -70,7 +70,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"{DamageData.Enemy.EnemyTypeName} and give {DamageData.Damage} damage to it.\n";
+            QuestText = $"{DamageData.Enemy.RealTypeName()} and give {DamageData.Damage} damage to it.\n";
         }
     }
 }

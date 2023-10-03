@@ -15,9 +15,36 @@ namespace ScriptableObjects
         [field: SerializeField] public string EnemyTypeName { get; set; }
 
         [field: SerializeField] public bool HasSprite = true;
+
+        [field: SerializeField] public bool IsPlatformGame = false;
+                       
+
+        public string RealTypeName()
+        {
+            if (IsPlatformGame)
+            {
+                switch(EnemyTypeName)
+                {
+                    case "Red Mage":
+                        return "Shadow";
+                    case "Green Mage":
+                        return "Infected Ant";
+                    case "Blue Mage":
+                        return "Furious Ant";
+                    case "Slime":
+                        return "Gray Wolf";
+                    default:
+                        return "Black Wolf";
+                }
+            }
+            return EnemyTypeName;
+        }
         
         public bool IsHealer()
         {
+            if (IsPlatformGame)
+                return UnityEngine.Random.Range(0, 100) > 50f;
+
             return EnemyTypeName == "Healer";
         }
 
@@ -33,6 +60,9 @@ namespace ScriptableObjects
         
         public bool IsSword()
         {
+            if (IsPlatformGame)
+                return RealTypeName() == "Infected Ant" || RealTypeName() == "Furious Ant";
+
             return EnemyTypeName == "Sword";
         }
 
@@ -42,7 +72,7 @@ namespace ScriptableObjects
                 return "";
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"<sprite=\"Enemies\" name=\"{EnemyTypeName}\">");
+            stringBuilder.Append($"<sprite=\"Enemies\" name=\"{RealTypeName()}\">");
             Debug.Log(stringBuilder.ToString());
             return stringBuilder.ToString();
         }
