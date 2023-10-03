@@ -508,7 +508,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865400857851600189}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.4, y: 18.1, z: -10}
+  m_LocalPosition: {x: 15.399982, y: 14.361759, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1599,6 +1599,7 @@ GameObject:
   - component: {fileID: 4605652679827011404}
   - component: {fileID: 7484488574333798648}
   - component: {fileID: 4686120725930810183}
+  - component: {fileID: 1865400856450703070}
   m_Layer: 11
   m_Name: Player_Hyper_Final_Version
   m_TagString: Player
@@ -1916,6 +1917,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7219334, y: 8.058142}
   m_EdgeRadius: 0
+--- !u!114 &1865400856450703070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847799463271793484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61fbc9755b8ebab4eb88425974730ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInteractions: 1
+  nFramesCooldown: 5
+  canInteract: 0
+  interactAction: {fileID: -7835721132659651190, guid: 770109cbba2bb474da09f4d3062a9aab,
+    type: 3}
 --- !u!1 &5853165346494794153
 GameObject:
   m_ObjectHideFlags: 0
