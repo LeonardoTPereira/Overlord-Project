@@ -271,7 +271,7 @@ MonoBehaviour:
     type: 3}
   treasurePrefab: {fileID: 6971963138770637611, guid: f79cc584e8c52ad429d45bca9b96f133,
     type: 3}
-  readableItemPrefab: {fileID: 9194557456358039778, guid: 4fdf592e3e5bd1245b12c60460c521c5,
+  readableItemPrefab: {fileID: 9194557456358039778, guid: 7f938a1b3164c374b80ba27ccdae96c0,
     type: 3}
   npcPrefabs:
   - {fileID: 8660505651422530647, guid: 85587999c0d9f084aa0791d39e68613c, type: 3}
