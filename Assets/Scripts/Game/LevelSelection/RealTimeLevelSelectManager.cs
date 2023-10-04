@@ -67,7 +67,15 @@ namespace Game.LevelSelection
                     profileWeights.Add(realTimeLevelData.ImmersionWeight);
                     profileWeights.Add(realTimeLevelData.MasteryWeight);
                     PreTestFormQuestionAnsweredEventHandler?.Invoke(this, new FormAnsweredEventArgs(-1, profileWeights));
-                    SceneManager.LoadScene("ContentGenerator");
+                    switch (settings.GameType)
+                    {
+                        case Enums.GameType.TopDown:
+                            SceneManager.LoadScene("ContentGenerator");
+                            break;
+                        case Enums.GameType.Platformer:
+                            SceneManager.LoadScene("PlatformContentGenerator");
+                            break;
+                    }
                     return;
                 }
                 Debug.LogError("Level Data is not Real Time!");
