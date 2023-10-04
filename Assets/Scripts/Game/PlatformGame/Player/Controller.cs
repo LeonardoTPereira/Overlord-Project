@@ -369,7 +369,7 @@ namespace PlatformGame.Player
                 if (Physics2D.OverlapBox(posToTry, _characterBounds.size, 0, _groundLayer))
                 {
                     transform.position = positionToMoveTo;
-                    /*
+                    
                     // We've landed on a corner or hit our head on a ledge. Nudge the player gently
                     if (i == 1)
                     {
@@ -377,7 +377,7 @@ namespace PlatformGame.Player
                         var dir = transform.position - hit.transform.position;
                         transform.position += dir.normalized * move.magnitude;
                     }
-                    */
+                    
                     return;
                 }
 

@@ -24,7 +24,7 @@ namespace Game.LevelManager.DungeonLoader
         public QuestLineList currentQuestLines;
         public int maxTreasure;
         private DungeonFileSo _currentDungeonSo;
-        [field: SerializeReference] private SelectedLevels selectedLevels;
+        [field: SerializeReference] protected SelectedLevels selectedLevels;
         private DungeonLoader _dungeonLoader;
         protected void OnEnable()
         {

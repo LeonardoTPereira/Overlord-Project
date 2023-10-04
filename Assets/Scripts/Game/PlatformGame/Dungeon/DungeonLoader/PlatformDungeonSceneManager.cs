@@ -2,6 +2,7 @@ using System;
 using Game.Audio;
 using Game.LevelManager.DungeonLoader;
 using UnityEngine.SceneManagement;
+using Game.MenuManager;
 
 namespace PlatformGame.Dungeon.DungeonLoader
 {
@@ -11,7 +12,13 @@ namespace PlatformGame.Dungeon.DungeonLoader
         {
             return scene.name is not ("Dungeon");
         }
-        
+
+        protected override void SetGameOverCurrentLevel()
+        {
+            base.SetGameOverCurrentLevel();
+            FindObjectOfType<PauseMenu>().currentLevel = selectedLevels.GetCurrentLevel();
+        }
+
         protected override void PlayBackgroundMusic()
         {
             

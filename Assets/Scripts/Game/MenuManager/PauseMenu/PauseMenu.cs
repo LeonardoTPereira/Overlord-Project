@@ -5,6 +5,7 @@ using TMPro;
 using Game.Audio;
 using UnityEngine.InputSystem;
 using MyBox;
+using Game.LevelSelection;
 
 namespace Game.MenuManager
 {
@@ -25,6 +26,8 @@ namespace Game.MenuManager
         //private ScoreSystem scoreSystem;
 
         private AudioManager audioManager;
+
+        public LevelData currentLevel { private get; set; }
 
         private void Start()
         {
@@ -94,6 +97,7 @@ namespace Game.MenuManager
 
         public void BackToLevelSelection()
         {
+            currentLevel.GiveUpLevel();
             _postFormQuestions.SetActive(true);
             gameObject.SetActive(false);
         }
