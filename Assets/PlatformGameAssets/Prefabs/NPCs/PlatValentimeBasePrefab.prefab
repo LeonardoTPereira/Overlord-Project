@@ -159,6 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: 49817d70b085e8146a5c795febd4e245, type: 2}
   DialogueLine: 
+  isInPortuguese: 1
   <Npc>k__BackingField: {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206,
     type: 2}
 --- !u!1 &8660505652315594279

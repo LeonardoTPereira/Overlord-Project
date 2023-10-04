@@ -95,7 +95,7 @@ namespace Game.MenuManager
         public void BackToLevelSelection()
         {
             _postFormQuestions.SetActive(true);
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         public void QuitGame()

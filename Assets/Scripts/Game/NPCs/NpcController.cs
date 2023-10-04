@@ -18,7 +18,8 @@ namespace Game.NPCs
 {
 
     public class NpcController : QuestDialogueInteraction
-    {    
+    {
+        [field: SerializeField] private bool isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
         public List<ExchangeQuestData> ExchangeDataList { get; set; }
         public List<GiveQuestData> GiveDataList { get; set; }
@@ -103,14 +104,26 @@ namespace Game.NPCs
             if (eventArgs.NpcInCharge != Npc) return;
             var questId = eventArgs.Quest.Id;
             dialogue.StopDialogueFromQuest(questId);
-            var closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
+
+            string closerLine;
+            if (isInPortuguese)
+                closerLine = PTBR_NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
+            else
+                closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
+
             dialogue.AddDialogue(Npc.DialogueData, closerLine, false, questId, true);
         }
         
         private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
         {
             if (npcInCharge != Npc) return;
-            var openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
+
+            string openerLine;
+            if (isInPortuguese)
+                openerLine = PTBR_NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
+            else
+                openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
+
             var questId = quest.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, true, questId);
         }
@@ -120,7 +133,13 @@ namespace Game.NPCs
             if (eventArgs is not QuestExchangeEventArgs exchangeEventArgs) return;
             var targetNpc = exchangeEventArgs.ExchangeQuestData.Npc;
             if (targetNpc != Npc) return;
-            var openerLine = NpcDialogueGenerator.CreateExchangeDialogue(exchangeEventArgs.ExchangeQuestData, Npc);
+
+            string openerLine;
+            if (isInPortuguese)
+                openerLine = PTBR_NpcDialogueGenerator.CreateExchangeDialogue(exchangeEventArgs.ExchangeQuestData, Npc);
+            else
+                openerLine = NpcDialogueGenerator.CreateExchangeDialogue(exchangeEventArgs.ExchangeQuestData, Npc);
+
             ExchangeDataList.Add(new ExchangeQuestData(exchangeEventArgs.ExchangeQuestData.ExchangeData));
             var questId = exchangeEventArgs.ExchangeQuestData.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, false, questId);
@@ -131,7 +150,13 @@ namespace Game.NPCs
             if (eventArgs is not QuestGiveEventArgs giveEventArgs) return;
             var targetNpc = giveEventArgs.GiveQuestData.GiveQuestData.NpcToReceive;
             if (targetNpc != Npc) return;
-            var openerLine = NpcDialogueGenerator.CreateGiveDialogue(giveEventArgs.GiveQuestData, Npc);
+
+            string openerLine;
+            if (isInPortuguese)
+                openerLine = PTBR_NpcDialogueGenerator.CreateGiveDialogue(giveEventArgs.GiveQuestData, Npc);
+            else
+                openerLine = NpcDialogueGenerator.CreateGiveDialogue(giveEventArgs.GiveQuestData, Npc);
+
             GiveDataList.Add(new GiveQuestData(giveEventArgs.GiveQuestData.GiveQuestData));
             var questId = giveEventArgs.GiveQuestData.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, false, questId);
@@ -162,7 +187,10 @@ namespace Game.NPCs
         
         protected override void CreateIntroDialogue()
         {
-            DialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
+            if (isInPortuguese)
+                DialogueLine = PTBR_NpcDialogueGenerator.CreateGreeting(Npc);
+            else
+                DialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
             DialogueObj = Npc;
             base.CreateIntroDialogue();
         }
