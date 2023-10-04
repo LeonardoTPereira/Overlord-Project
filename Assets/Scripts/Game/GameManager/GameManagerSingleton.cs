@@ -13,6 +13,7 @@ namespace Game.GameManager
 {
     public class GameManagerSingleton : MonoBehaviour, ISoundEmitter
     {
+        public bool IsInPortuguese = false;
         public static GameManagerSingleton Instance { get; private set; }
         [field: SerializeField] public ProjectileTypeSO playerProjectile { get; set; }
 

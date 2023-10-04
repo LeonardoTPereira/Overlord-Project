@@ -9,6 +9,7 @@ using UnityEngine;
 using Game.NPCs;
 using MyBox;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.GameManager;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -95,8 +96,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var receivedItem = itemsToReceive.GetRandomItem();
             var selectedNpc = possibleNpcSos.GetRandom();
 
-            exchangeQuest.Init($"Exchange {selectedItem} with {selectedNpc} for a reward!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);
-            
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+                exchangeQuest.Init($"Troque o item {selectedItem} com {selectedNpc} para receber uma recompensa!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);
+            else
+                exchangeQuest.Init($"Exchange {selectedItem} with {selectedNpc} for a reward!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);
+
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = exchangeQuest;
@@ -113,15 +117,32 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             for (var i = 0; i < selectedItems.Count; i++)
             {
                 var itemAmountPair = selectedItems.ElementAt(i);
-                stringBuilder.Append($"$Gather {itemAmountPair.Value} {itemAmountPair.Key}");
-                if (itemAmountPair.Value.QuestIds.Count > 1)
+
+                if (GameManagerSingleton.Instance.IsInPortuguese)
                 {
-                    stringBuilder.Append("s");
+                    stringBuilder.Append($"Junte {itemAmountPair.Value} {itemAmountPair.Key}");
+                    if (itemAmountPair.Value.QuestIds.Count > 1)
+                    {
+                        stringBuilder.Append("s");
+                    }
+
+                    if (i < (selectedItems.Count - 1))
+                    {
+                        stringBuilder.Append(" e ");
+                    }
                 }
-                
-                if (i < (selectedItems.Count - 1))
+                else
                 {
-                    stringBuilder.Append(" and ");
+                    stringBuilder.Append($"$Gather {itemAmountPair.Value} {itemAmountPair.Key}");
+                    if (itemAmountPair.Value.QuestIds.Count > 1)
+                    {
+                        stringBuilder.Append("s");
+                    }
+
+                    if (i < (selectedItems.Count - 1))
+                    {
+                        stringBuilder.Append(" and ");
+                    }
                 }
             }
             return stringBuilder.ToString();

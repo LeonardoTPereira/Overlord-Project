@@ -68,7 +68,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"$Go to the room highlighted in the map! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
+            if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                QuestText = $"$Vá para a sala marcada no mapa! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
+            else
+                QuestText = $"$Go to the room highlighted in the map! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
         }
 
         public void SelectRoomCoordinates(List<DungeonRoomData> partsList)
