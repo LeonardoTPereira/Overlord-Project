@@ -3,6 +3,7 @@ using System.Linq;
 using PlatformGame.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Game.MenuManager;
 
 namespace PlatformGame.Player
 {
@@ -48,7 +49,7 @@ namespace PlatformGame.Player
 
             if (_isDead) return;
 
-            //if (PauseMenu.Instance.IsPaused) return;
+            if (PauseMenu.isGamePaused) return;
             // Calculate velocity
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
