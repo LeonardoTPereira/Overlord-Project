@@ -58,12 +58,12 @@ namespace Game.MenuManager
         // Exit the Pause Menu
         public void Resume()
         {
+            // Unfreeze the game
+            Time.timeScale = 1f;
             //audioManager.PlaySFX("Button");
             // Exit the Pause Menu in the canvas
             pauseMenuUI.SetActive(false);
 
-            // Unfreeze the game
-            Time.timeScale = 1f;
 
             // Set false meaning that the game is NOT paused
             isGamePaused = false;
