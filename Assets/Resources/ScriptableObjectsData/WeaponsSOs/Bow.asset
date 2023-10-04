@@ -20,5 +20,5 @@ MonoBehaviour:
     type: 3}
   <EnemyTypeName>k__BackingField: Red Mage
   HasSprite: 0
+  IsInPortuguese: 1
   IsPlatformGame: 1
-  RealTypeName: 

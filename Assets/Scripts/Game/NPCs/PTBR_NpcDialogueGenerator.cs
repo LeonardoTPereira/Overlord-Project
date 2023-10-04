@@ -79,11 +79,11 @@ namespace Game.NPCs
             {
                 //TODO: replace someone for the npcs name
                 case 0:
-                    return "I need you to trade:\n";
+                    return "Você precisa negociar com:\n";
                 case 1:
-                    return "I have heard there is someone nearby with some good trades! Why don't you go see for yourself? Trade ";
+                    return "Ouvi dizer que tem alguém por aí muito bom para fazer negócios! Por que você não vai vê-lo com seus próprios olhos? Negocie ";
                 default:
-                    return "Have you heard there's someone trying out the merchant career. Go give them some support! Trade ";
+                    return "Você soube que tem alguém tentando a carreira de comerciante? Dê um suporte para ele! Negocie ";
             }
         }
 
@@ -93,11 +93,11 @@ namespace Game.NPCs
             switch (text)
             {
                 case 0:
-                    return "I need you to collect:\n";
+                    return "Eu preciso que você colete:\n";
                 case 1:
-                    return "Why are there so many things laying on the floor!? Please, can't you do something about this? Collect ";
+                    return "Por que diabos há tanta coisa espalhada no chão!? Você pode fazer algo sobre isso, por favor? Colete ";
                 default:
-                    return "There's a lot of treasures around this dungeon. Don't be shy, feel free to collect it all! In fact, I think you reall should collect ";
+                    return "Há muitos tesouros por este calabouço. Não seja tímido, colete tudo o que puder! Enfim, acho que você deveria coletar ";
             }
         }
 
@@ -107,11 +107,11 @@ namespace Game.NPCs
             switch (text)
             {
                 case 0:
-                    return "I need you to kill some monsters for me:\n";
+                    return "Eu preciso que você acabe com os seguintes monstros:\n";
                 case 1:
-                    return "Nasty monsters! They are EVERYWHERE!! Please don't tell anyone, but I'm a bit scared of them... Could you please kill ";
+                    return "Monstros nojentos! Eles estão por TODA PARTE!!! Por favor não conte a ninguém, mas estou com medo deles... Você poderia derrotar ";
                 default:
-                    return "The monsters in this dungeon sure are annoying! Do us a favor and kill ";
+                    return "Os monstros daqui são irritantes! Faça um favor para o planeta e derrote ";
             }
         }
 
@@ -126,37 +126,37 @@ namespace Game.NPCs
             switch (text)
             {
                 case 0:
-                    return "I need you to give:\n";
+                    return "Eu preciso que você me dê:\n";
                 case 1:
-                    return "Someone's birthday is comming up! Can you give ";
+                    return "O meu aniversário está próximo! Você poderia me presentear com ";
                 default:
-                    return "I was thinking on giving someone a little present... Can you help me with that? Please, give ";
+                    return "Eu estava pensando em dar um presente para uma certa pessoa... Você poderia me ajudar com isso? Me dê ";
             }
         }
 
         private static string ListenQuestOpener()
         {
-            return "I need you to listen carefully to the message from:\n";
+            return "Eu preciso que você escute com atenção, tudo o que dizer:\n";
         }
 
         private static string ReadQuestOpener()
         {
-            return "I need you to read the message in:\n";
+            return "Eu preciso que você leia a mensagem contida em:\n";
         }
 
         private static string ReportQuestOpener()
         {
-            return "I need you to report this to:\n";
+            return "Eu preciso que você reporte isto para:\n";
         }
 
         private static string ExploreQuestOpener()
         {
-            return "I need you to explore this dungeon:\n";
+            return "Eu preciso que você explore este calabouço:\n";
         }
 
         private static string GotoQuestOpener()
         {
-            return "I need you to go to a special place for me:\n";
+            return "Eu preciso que você vá para um lugar específico:\n";
         }
         #endregion
 
@@ -179,7 +179,7 @@ namespace Game.NPCs
                     questCloser.Append("Você causou sérios danos a eles!\n");
                     break;
                 case GiveQuestSo:
-                    questCloser.Append("VocÊ entregou tudo o que era preciso!\n");
+                    questCloser.Append("Você entregou tudo o que era preciso!\n");
                     break;
                 case ListenQuestSo:
                     questCloser.Append("Obrigado por ouvir a mensagem!\n");
