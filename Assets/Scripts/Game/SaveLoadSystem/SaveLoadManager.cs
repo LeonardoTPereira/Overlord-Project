@@ -11,7 +11,7 @@ namespace Game.SaveLoadSystem
 {
     public class SaveLoadManager : MonoBehaviour
     {
-        private static string _savePath;
+        private static string _savePath; // normaly in AppData\LocalLow\GR-ICMC\Overlord
         private static string _keyPath;
         private static string _key;
         private const int XOrKey = 1243522;

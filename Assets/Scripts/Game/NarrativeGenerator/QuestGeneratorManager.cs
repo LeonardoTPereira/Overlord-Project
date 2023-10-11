@@ -70,6 +70,7 @@ namespace Game.NarrativeGenerator
             _fixedProfileFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
             var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
                 CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
+            Debug.Log(playerProfile.ToString());
             if (_fixedProfileFromExperiment)
             {
                 await CreateOrLoadNarrativeForProfile(playerProfile);

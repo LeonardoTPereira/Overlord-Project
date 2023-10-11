@@ -13,6 +13,7 @@ namespace Game.LevelSelection
 {
     public class RealTimeLevelSelectManager : LevelSelectManager
     {
+        [SerializeField] private bool _automaticalySelectIdealProfile = false;              // If true, after the player answers the pre-test, it auto jump to ideal profile game
         public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
         public static event Action SaveStateHandler;
         private bool _hasPressedButton;
@@ -26,6 +27,48 @@ namespace Game.LevelSelection
         {
 
             SaveStateHandler?.Invoke();
+
+            if (_automaticalySelectIdealProfile)
+            {
+                int aw, cw, iw, mw;
+
+                iw = PlayerPrefs.GetInt("ImmersionWeight");
+                aw = PlayerPrefs.GetInt("AchievementWeight");
+                mw = PlayerPrefs.GetInt("MasteryWeight");
+                cw = PlayerPrefs.GetInt("CreativityWeight");
+                Debug.Log("IW:" + iw + " AW:" + aw + " MW:" + mw + " CW:" + cw);
+
+                foreach (LevelSelectItem levelItem in LevelItems)
+                {
+                    
+                    if (!levelItem.Level.HasCompleted() && levelItem.Level.IsSameProfile(aw, cw, iw, mw))
+                    {
+                        if (levelItem.Level is RealTimeLevelData realTimeLevelData)
+                        {
+                            Selected.SelectLevel(levelItem.Level);
+                            var profileWeights = new List<int>();
+
+                            profileWeights.Add(aw);
+                            profileWeights.Add(cw);
+                            profileWeights.Add(iw);
+                            profileWeights.Add(mw);
+                            PreTestFormQuestionAnsweredEventHandler?.Invoke(this, new FormAnsweredEventArgs(-1, profileWeights));
+                            switch (settings.GameType)
+                            {
+                                case Enums.GameType.TopDown:
+                                    SceneManager.LoadScene("ContentGenerator");
+                                    break;
+                                case Enums.GameType.Platformer:
+                                    SceneManager.LoadScene("PlatformContentGenerator");
+                                    break;
+                            }
+                            return;
+                        }
+                        Debug.LogError("Level Data is not Real Time!");
+                        return;
+                    }
+                }
+            }
         }
 
         protected override void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)

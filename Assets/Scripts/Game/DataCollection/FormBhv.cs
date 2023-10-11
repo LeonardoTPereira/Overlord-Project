@@ -77,8 +77,17 @@ namespace Game.DataCollection
                 PostTestFormQuestionAnsweredEventHandler?.Invoke(null, new FormAnsweredEventArgs(formID, answers));
             else
             {
+                SetPlayerPretestPrefs(answers);
                 PreTestFormQuestionAnsweredEventHandler?.Invoke(this, new FormAnsweredEventArgs(formID, answers));
             }
+        }
+
+        private void SetPlayerPretestPrefs(List<int> ans)
+        {
+            PlayerPrefs.SetInt("ImmersionWeight", ans[2]);
+            PlayerPrefs.SetInt("AchievementWeight", ans[0]);
+            PlayerPrefs.SetInt("MasteryWeight", ans[3]);
+            PlayerPrefs.SetInt("CreativityWeight", ans[1]);
         }
     }
 }

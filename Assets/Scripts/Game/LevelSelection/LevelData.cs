@@ -41,5 +41,10 @@ namespace Game.LevelSelection
         {
             return IsCompleted || HasSurrendered;
         }
+
+        public virtual bool IsSameProfile(int aw, int cw, int iw, int mw)
+        {
+            return false;
+        }
     }
 }

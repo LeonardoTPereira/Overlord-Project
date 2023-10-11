@@ -171,9 +171,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.04517454
+    y: 0.01091703
     width: 1
-    height: 0.9101643
+    height: 0.9788483
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -507,6 +507,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 84765105-d790-43d8-b27a-9732aa4d3983
     m_ActionName: Player/PlatformOpenQuest[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 631d900e-7438-4370-a146-d9427dd2c53e
+    m_ActionName: Player/Pause[/Keyboard/p,/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MenuNavigation
@@ -540,6 +544,7 @@ MonoBehaviour:
   - {fileID: 6435992424789036167}
   - {fileID: 8446094776650353115}
   settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
+  _automaticalySelectIdealProfile: 1
 --- !u!114 &1437280578
 MonoBehaviour:
   m_ObjectHideFlags: 0

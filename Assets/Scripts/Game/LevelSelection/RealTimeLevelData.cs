@@ -35,5 +35,10 @@ namespace Game.LevelSelection
             [SerializeField] public bool Completed;
             [SerializeField] public bool Surrendered;
         }
+
+        public override bool IsSameProfile(int aw, int cw, int iw, int mw)
+        {
+            return (aw == AchievementWeight && cw == CreativityWeight && iw == ImmersionWeight && mw == MasteryWeight);
+        }
     }
 }
