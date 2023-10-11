@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731703, g: 0.13414727, b: 0.121078506, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -304,9 +304,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.093699515
+    y: 0.01091703
     width: 1
-    height: 0.8114903
+    height: 0.9788483
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -513,6 +513,12 @@ PrefabInstance:
         type: 3}
       propertyPath: nextPanel.sceneIndex
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1485453624184611762, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_Text
+      value: "Antes de tudo, gostar\xEDamos de saber um pouco mais sobre o que voc\xEA
+        gosta de jogar. Por favor, responda o question\xE1rio a seguir."
       objectReference: {fileID: 0}
     - target: {fileID: 1485715969279221862, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
@@ -736,7 +742,7 @@ PrefabInstance:
     - target: {fileID: 1591394483961679158, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.529598
+      value: 0.5654787
       objectReference: {fileID: 0}
     - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
@@ -751,12 +757,12 @@ PrefabInstance:
     - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 719.47504
+      value: 710.2251
       objectReference: {fileID: 0}
     - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 364.73752
+      value: 360.11255
       objectReference: {fileID: 0}
     - target: {fileID: 1591410795679808074, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
