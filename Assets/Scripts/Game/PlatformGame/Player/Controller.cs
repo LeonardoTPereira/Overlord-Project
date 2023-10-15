@@ -4,6 +4,7 @@ using PlatformGame.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Game.MenuManager;
+using UnityEditor;
 
 namespace PlatformGame.Player
 {
@@ -200,6 +201,12 @@ namespace PlatformGame.Player
             _raysUp = new RayRange(b.min.x + _rayBuffer, b.max.y, b.max.x - _rayBuffer, b.max.y, Vector2.up);
             _raysLeft = new RayRange(b.min.x, b.min.y + _rayBuffer, b.min.x, b.max.y - _rayBuffer, Vector2.left);
             _raysRight = new RayRange(b.max.x, b.min.y + _rayBuffer, b.max.x, b.max.y - _rayBuffer, Vector2.right);
+            /*
+            // Draw collision edges
+            if (SceneView.currentDrawingSceneView == null)
+            {
+                Gizmos.DrawRay(transform.position, direction);
+            }*/
         }
 
 
