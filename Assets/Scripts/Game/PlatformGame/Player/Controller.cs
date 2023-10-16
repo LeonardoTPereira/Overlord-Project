@@ -181,7 +181,7 @@ namespace PlatformGame.Player
                 _coyoteUsable = true; // Only trigger when first touching
                 LandingThisFrame = true;
             }
-            Debug.Log("t");
+
             _colDown = groundedCheck;
             // The rest
             _colUp = RunDetection(_raysUp);
