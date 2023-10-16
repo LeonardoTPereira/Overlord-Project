@@ -1763,17 +1763,7 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1512521593}
-    m_ColliderPaths:
-    - - X: 468636256
-        Y: 288717696
-      - X: -605305088
-        Y: 288717696
-      - X: -605305088
-        Y: -146858848
-      - X: 468636256
-        Y: -146858848
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 46.863598, y: -14.685885}
@@ -1859,7 +1849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1533688676
 Transform:
   m_ObjectHideFlags: 0
@@ -6692,11 +6682,11 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.28407836, y: 2.4154148}
-  m_Size: {x: 2.0150847, y: 7.648861}
+  m_Offset: {x: -0.28407836, y: 2.2561083}
+  m_Size: {x: 2.0150847, y: 7.967474}
   m_Direction: 0
 --- !u!4 &5243512210235137423
 Transform:
@@ -8637,7 +8627,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5243512210235137424}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -10511,7 +10501,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5243512210235137424}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: a16d6325487beff46a6b71d37d6aa367, type: 2}
   m_IsTrigger: 0
