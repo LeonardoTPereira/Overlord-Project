@@ -28,7 +28,7 @@ namespace Game.GameManager
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Main" || scene.name == "ContentGenerator")
+            if (scene.name == "Main" || scene.name == "ContentGenerator" || scene.name == "PlatformMain")
             {
                 ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.MainMenuTheme));
             }
