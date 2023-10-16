@@ -21,6 +21,20 @@ namespace Game.LevelSelection
             };
         }
 
+        public override void CompleteLevel()
+        {
+            Debug.Log("COMPLETED LEVEL: " + PlayerPrefsKey());
+            PlayerPrefs.SetInt(PlayerPrefsKey(), 1);
+            IsCompleted = true;
+        }
+
+        public override void GiveUpLevel()
+        {
+            Debug.Log("GIVEUP LEVEL: " + PlayerPrefsKey());
+            PlayerPrefs.SetInt(PlayerPrefsKey(), 2);
+            HasSurrendered = true;
+        }
+
         public void LoadState(object state)
         {
             var saveData = (SaveData) state;
@@ -34,6 +48,16 @@ namespace Game.LevelSelection
         {
             [SerializeField] public bool Completed;
             [SerializeField] public bool Surrendered;
+        }
+
+        public override bool HasCompleted()
+        {
+            return IsCompleted || HasSurrendered || PlayerPrefs.HasKey(PlayerPrefsKey());
+        }
+
+        private string PlayerPrefsKey()
+        {
+            return ("A" + AchievementWeight + "C" + CreativityWeight + "I" + ImmersionWeight + "M" + MasteryWeight);
         }
     }
 }

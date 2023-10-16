@@ -9,5 +9,10 @@ namespace PlatformGame.GameManager
             Application.Quit();
             Debug.Log("PRESSED EXIT GAME");
         }
+
+        public void ResetPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }
