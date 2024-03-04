@@ -37,6 +37,5 @@ namespace PlatformGame.GameManager
             enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
             return enemy;
         }
-
     }
 }

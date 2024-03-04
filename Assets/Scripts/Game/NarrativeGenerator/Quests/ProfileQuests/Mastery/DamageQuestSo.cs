@@ -70,7 +70,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"{DamageData.Enemy.EnemyTypeName} and give {DamageData.Damage} damage to it.\n";
+            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                QuestText = $"{DamageData.Enemy.RealTypeName()} e cause {DamageData.Damage} de dano nele.\n";
+            else
+                QuestText = $"{DamageData.Enemy.RealTypeName()} and give {DamageData.Damage} damage to it.\n";
         }
     }
 }

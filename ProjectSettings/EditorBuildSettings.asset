@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/PlatformGameAssets/Scenes/PlatformMain.unity
+    guid: 910f6cd6163bc0c4aa8428a1f9fe518c
+  - enabled: 1
+    path: Assets/PlatformGameAssets/Scenes/PlatformExperimentLevelSelector.unity
+    guid: 917b48b9603337342b3f5cde6b170bb3
+  - enabled: 1
+    path: Assets/PlatformGameAssets/Scenes/PlatformContentGenerator.unity
+    guid: 8f92ec44044a98940a750c1bdd645de0
+  - enabled: 1
+    path: Assets/PlatformGameAssets/Scenes/Dungeon.unity
+    guid: 5cef6e07bf1e43f4dbede5b5e3eea83c
+  - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 99ec3263bfe19b5438fb08251f190f78
   - enabled: 1
@@ -32,9 +44,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExperimentLevelSelector.unity
     guid: 98e262a735cfb66468973ba893ee3ac8
-  - enabled: 1
-    path: Assets/PlatformGameAssets/Scenes/Dungeon.unity
-    guid: 5cef6e07bf1e43f4dbede5b5e3eea83c
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5485ac31a41ef9b46bd1b977b05b8368,
       type: 2}

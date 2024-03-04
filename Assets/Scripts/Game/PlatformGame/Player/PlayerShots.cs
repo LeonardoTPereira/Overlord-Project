@@ -21,12 +21,12 @@ namespace PlatformGame.Player
 
         private void OnEnable()
         {
-            PlayerMovement.OnFlip += FlipBow;
+            CharacterController2D.OnFlip += FlipBow;
         }
     
         private void OnDisable()
         {
-            PlayerMovement.OnFlip -= FlipBow;
+            CharacterController2D.OnFlip -= FlipBow;
         }
     
         private void Awake()

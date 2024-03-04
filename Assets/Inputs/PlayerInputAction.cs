@@ -80,6 +80,33 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlatformAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed876f53-7dfb-48ff-bcb2-777afe6872c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlatformOpenQuest"",
+                    ""type"": ""Button"",
+                    ""id"": ""84765105-d790-43d8-b27a-9732aa4d3983"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""631d900e-7438-4370-a146-d9427dd2c53e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -476,6 +503,83 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""PS4"",
                     ""action"": ""ChangeMiniMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f40b228d-616a-459c-bbd7-9dbe25e950d5"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5ec2101-cb21-48d1-a6ad-2fc08f6dcb18"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cffbdeae-d256-41b2-bb0f-1ab7fc8a2b71"",
+                    ""path"": ""<WebGLGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""WebGL"",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1feee394-1fae-4a6a-83f3-cd4dfd8ebb2e"",
+                    ""path"": ""<DualSenseGamepadHID>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlatformAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1751b5b7-1b6c-4e97-a7fb-c062f69e63ab"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PlatformOpenQuest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f13e93dd-fc6f-4391-8382-71d514f15265"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8a4d9ba-55ab-4584-9783-be3354a8a261"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1407,6 +1511,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_ChangeMiniMap = m_Player.FindAction("ChangeMiniMap", throwIfNotFound: true);
+        m_Player_PlatformAction = m_Player.FindAction("PlatformAction", throwIfNotFound: true);
+        m_Player_PlatformOpenQuest = m_Player.FindAction("PlatformOpenQuest", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1491,6 +1598,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_ChangeMiniMap;
+    private readonly InputAction m_Player_PlatformAction;
+    private readonly InputAction m_Player_PlatformOpenQuest;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1501,6 +1611,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputAction @ChangeMiniMap => m_Wrapper.m_Player_ChangeMiniMap;
+        public InputAction @PlatformAction => m_Wrapper.m_Player_PlatformAction;
+        public InputAction @PlatformOpenQuest => m_Wrapper.m_Player_PlatformOpenQuest;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1528,6 +1641,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @ChangeMiniMap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
                 @ChangeMiniMap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
                 @ChangeMiniMap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeMiniMap;
+                @PlatformAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
+                @PlatformAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
+                @PlatformAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformAction;
+                @PlatformOpenQuest.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
+                @PlatformOpenQuest.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
+                @PlatformOpenQuest.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlatformOpenQuest;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1550,6 +1672,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @ChangeMiniMap.started += instance.OnChangeMiniMap;
                 @ChangeMiniMap.performed += instance.OnChangeMiniMap;
                 @ChangeMiniMap.canceled += instance.OnChangeMiniMap;
+                @PlatformAction.started += instance.OnPlatformAction;
+                @PlatformAction.performed += instance.OnPlatformAction;
+                @PlatformAction.canceled += instance.OnPlatformAction;
+                @PlatformOpenQuest.started += instance.OnPlatformOpenQuest;
+                @PlatformOpenQuest.performed += instance.OnPlatformOpenQuest;
+                @PlatformOpenQuest.canceled += instance.OnPlatformOpenQuest;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -1795,6 +1926,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnChangeMiniMap(InputAction.CallbackContext context);
+        void OnPlatformAction(InputAction.CallbackContext context);
+        void OnPlatformOpenQuest(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

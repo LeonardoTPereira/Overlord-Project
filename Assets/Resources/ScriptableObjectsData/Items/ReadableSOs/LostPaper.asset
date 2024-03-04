@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b571d30f4d821794faf8bfbe2023942d, type: 3}
   m_Name: LostPaper
   m_EditorClassIdentifier: 
+  _isInPortuguese: 1
   sprite: {fileID: -947857914, guid: 20dfbd22f0d91634f9c688272b7d3325, type: 3}
   <ItemName>k__BackingField: Lost Paper
   <Value>k__BackingField: 0

@@ -14,6 +14,13 @@ namespace PlatformGame.Player
         public static event Action<int> PlayerTakeDamageEvent;
         public static event Action<int> PlayerTakeHealEvent;
 
+        [SerializeField] private GameObject _gameOverPanel;
+
+        protected override void Start()
+        {
+            base.Start();
+        }
+
         protected override void InitializeHealth()
         {
             base.InitializeHealth();
@@ -24,9 +31,8 @@ namespace PlatformGame.Player
         {
             Debug.Log("GAME OVER");
             PlayerDiedEvent?.Invoke();
+            _gameOverPanel.SetActive(true);
             base.Kill();
-            SceneManager.LoadScene("ExperimentLevelSelector");
-            Destroy(gameObject);
         }
 
         public override void TakeDamage(int damage)

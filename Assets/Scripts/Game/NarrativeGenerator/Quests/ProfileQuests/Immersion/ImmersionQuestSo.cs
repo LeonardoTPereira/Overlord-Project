@@ -68,8 +68,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var listenQuest = CreateInstance<ListenQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
-            listenQuest.Init("Talk to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-            
+
+            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                listenQuest.Init("Fale com "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
+            else
+                listenQuest.Init("Talk to " + selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
+
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = listenQuest;
@@ -83,8 +87,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
-            readQuest.Init("Read "+selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
-            
+
+            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                readQuest.Init("Leia o conteúdo do artefato "+selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
+            else
+                readQuest.Init("Read " + selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
+
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = readQuest;
@@ -99,8 +107,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             var selectedItem = possibleItems.GetRandomItem();
-            giveQuest.Init($"Give {selectedItem} to {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
-            
+
+            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                giveQuest.Init($"Dê o item {selectedItem} para {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
+            else
+                giveQuest.Init($"Give {selectedItem} to {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
+
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = giveQuest;
@@ -114,7 +126,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var reportQuest = CreateInstance<ReportQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
-            reportQuest.Init("Report back to "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
+
+            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                reportQuest.Init("Retorne e reporte para "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
+            else
+                reportQuest.Init("Report back to " + selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
 
             if (questSos.Count > 0)
             {

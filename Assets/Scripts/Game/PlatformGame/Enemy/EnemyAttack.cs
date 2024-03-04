@@ -7,19 +7,19 @@ using ScriptableObjects;
 using UnityEngine.Serialization;
 using PlatformGame.Weapons;
 using PlatformGame.Util;
+using PlatformGame.Enemy.Movement;
 
 namespace PlatformGame.Enemy
 {
     public class EnemyAttack : MonoBehaviour
-    {
-        
+    {        
         public event Action OnIsAttacking;
         public event Action OnStopAttacking;
-        private bool _canAttack;
         private EnemyAnimation _enemyAnimation;
         private EnemyMovement _enemyMovement;
         protected WeaponController _weaponController;
 
+        [SerializeField] private bool _canAttack;
         [SerializeField] private float _minimumAttackSpeed;
         [SerializeField] private float _maximumAttackSpeed;
         [SerializeField] protected float attackCooldown = 1f;
@@ -35,13 +35,12 @@ namespace PlatformGame.Enemy
 
         private void OnEnable()
         {
-            _enemyMovement.OnFlip += FlipWeapon;
             PlayerHealth.PlayerDiedEvent += DisableAttack;
         }
 
         protected void OnDisable()
         {
-            _enemyMovement.OnFlip -= FlipWeapon;
+            _enemyMovement.moveManager.OnFlip -= FlipWeapon;
             PlayerHealth.PlayerDiedEvent -= EnableAttack;
         }
     
@@ -50,6 +49,13 @@ namespace PlatformGame.Enemy
             _canAttack = true;
             GetAllComponents();
         }
+
+        IEnumerator Start()
+        {
+            yield return new WaitUntil(() => _enemyMovement.moveManager != null);
+            _enemyMovement.moveManager.OnFlip += FlipWeapon;
+        }
+
         protected virtual void GetAllComponents()
         {
             _weaponController = weapon.GetComponent<WeaponController>();
@@ -105,6 +111,9 @@ namespace PlatformGame.Enemy
             _canAttack = false;
         }
         
+        public void SetAttackJump(bool HasAttackJump)
+        {
+            _weaponController.HasAttackJump = HasAttackJump;
+        }
     }
 }
-

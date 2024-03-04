@@ -15,7 +15,10 @@ namespace Game.MenuManager
         private void Start()
         {
             OldText = ProgressText.text;
-            ProgressText.text = "Generating Content";
+            if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                ProgressText.text = "Gerando o Calabouço";
+            else
+                ProgressText.text = "Generating Content";
         }
 
         private void OnEnable()
@@ -38,7 +41,11 @@ namespace Game.MenuManager
         {
             if (completionRate > 1.0f && !hasFinished)
             {
-                ProgressText.text = "Creating Better Levels";
+                if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                    ProgressText.text = "Gerando Níveis Melhorados";
+                else
+                    ProgressText.text = "Creating Better Levels";
+
                 Bar.fillAmount = completionRate % 1.0f;
             }
             else

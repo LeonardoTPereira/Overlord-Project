@@ -271,12 +271,12 @@ MonoBehaviour:
     type: 3}
   treasurePrefab: {fileID: 6971963138770637611, guid: f79cc584e8c52ad429d45bca9b96f133,
     type: 3}
-  readableItemPrefab: {fileID: 9194557456358039778, guid: 4fdf592e3e5bd1245b12c60460c521c5,
+  readableItemPrefab: {fileID: 9194557456358039778, guid: 7f938a1b3164c374b80ba27ccdae96c0,
     type: 3}
   npcPrefabs:
-  - {fileID: 8660505651422530647, guid: c17eb1ae432cb65449e7e4101eacb2a4, type: 3}
-  - {fileID: 8660505651422530647, guid: 4bd60b72951525c409a275bfa0e02c9b, type: 3}
-  - {fileID: 8660505651422530647, guid: d4adacb8ed3efe446add959004f88150, type: 3}
+  - {fileID: 8660505651422530647, guid: 85587999c0d9f084aa0791d39e68613c, type: 3}
+  - {fileID: 8660505651422530647, guid: e814f12798292644f9734b6b3b825078, type: 3}
+  - {fileID: 8660505651422530647, guid: be7671a6a45afba41ab31f0a50a9d17b, type: 3}
   colNorth: {fileID: 533672475483984825}
   colSouth: {fileID: 532851550740135977}
   colEast: {fileID: 533092978700220583}
@@ -310,15 +310,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6af07f903e07642911ddc4e25f73de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemyPrefab>k__BackingField: {fileID: 1922618786936525125, guid: db01dc663a1d3cb4daaaa1ee54bfa896,
+  <EnemyPrefab>k__BackingField: {fileID: 501309130492107602, guid: f322ac6cfdbb0ab4c909f13c6497c93d,
     type: 3}
-  <BareHandEnemyPrefab>k__BackingField: {fileID: 1922618786936525125, guid: db01dc663a1d3cb4daaaa1ee54bfa896,
+  <BareHandEnemyPrefab>k__BackingField: {fileID: 8490286473019879465, guid: 52c5d11e89bf0a043aa12d5dd5ba1b6e,
     type: 3}
   <ShooterEnemyPrefab>k__BackingField: {fileID: 1922618786936525125, guid: db01dc663a1d3cb4daaaa1ee54bfa896,
     type: 3}
-  <BomberEnemyPrefab>k__BackingField: {fileID: 1922618786936525125, guid: db01dc663a1d3cb4daaaa1ee54bfa896,
+  <BomberEnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 9f43e4c7c17338445abe1f653f545add,
     type: 3}
-  <HealerEnemyPrefab>k__BackingField: {fileID: 1922618786936525125, guid: db01dc663a1d3cb4daaaa1ee54bfa896,
+  <HealerEnemyPrefab>k__BackingField: {fileID: 865652967160887112, guid: 4d6218904523a9f448404e8118182111,
     type: 3}
 --- !u!1 &556300262251256887
 GameObject:

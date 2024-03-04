@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using PlatformGame.Player;
 using ScriptableObjects;
 using UnityEngine;
+using PlatformGame.Enemy.Movement;
+using Util;
+using PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
@@ -15,12 +18,16 @@ namespace PlatformGame.Enemy
         private EnemyAnimation _enemyAnimation;
         private Collider2D _enemyCollider;
         private Rigidbody2D _enemyRigidBody;
+        private MovementManager _moveManager;         
 
         private bool _hasLoadedEnemy;
         private bool _isPlayerAlive;
-        private bool _isPhysicsDeactivated; 
-         
-        
+        private bool _isPhysicsDeactivated;
+
+        [SerializeField] private WeaponTypeSo _weapon;
+
+        public int QuestId { get; set; }
+
         private void OnEnable()
         {
             PlayerHealth.PlayerDiedEvent += PlayerHasDied;
@@ -74,13 +81,29 @@ namespace PlatformGame.Enemy
 
         public void LoadEnemyData(EnemySO enemySo, int questId)
         {
-            enemySo.movement.movementType = FollowPlayer; //temp for test
+            EnemyTestManager etm = EnemyTestManager.Instance;
+
+            if (etm != null && etm.IsTestActive)
+            {
+                enemySo = etm.GenerateTestPlataformEnemySO();
+            }
+
+            QuestId = questId;
+
             _enemyMovement.LoadMovement(enemySo);
             _enemyAttack.LoadAttack(enemySo);
-            _enemyHealth.LoadHealth(enemySo);
+            _enemyHealth.LoadHealth(enemySo, questId);
             _hasLoadedEnemy = true;
+
+            var enemyMovementIndex = enemySo.movement.enemyMovementIndex;
+            _enemyAttack.SetAttackJump(true);
+            if (enemyMovementIndex == Enums.MovementEnum.None ||
+                enemyMovementIndex == Enums.MovementEnum.Random ||
+                enemyMovementIndex == Enums.MovementEnum.Random1D ||
+                enemyMovementIndex == Enums.MovementEnum.Flee ||
+                enemyMovementIndex == Enums.MovementEnum.Follow)
+                _enemyAttack.SetAttackJump(false);
         }
-        
         private Vector2 FollowPlayer(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false) //temp for test
         {
             Vector2 direction = playerPos - enemyPos;

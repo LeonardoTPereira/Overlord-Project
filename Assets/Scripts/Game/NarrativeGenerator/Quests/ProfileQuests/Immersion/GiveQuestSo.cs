@@ -87,7 +87,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void CreateQuestString()
         {
             var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
-            QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+
+            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                QuestText = $"o item {GiveQuestData.ItemToGive.ItemName} {spriteString} para {GiveQuestData.NpcToReceive.NpcName}.\n";
+            else
+                QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
         }
     }
 }
