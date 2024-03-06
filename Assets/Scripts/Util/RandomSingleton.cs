@@ -8,7 +8,7 @@ namespace Util
     {
         private RandomSingleton()
         {
-            var seed = (int) DateTime.Now.Ticks & 0x0000FFFF;
+            var seed = (int)DateTime.Now.Ticks & 0x0000FFFF;
             Random = new Random(seed);
         }
 
@@ -23,7 +23,7 @@ namespace Util
 
         public float Next(float min, float max)
         {
-            return (float) Random.NextDouble() * (max - min) + min;
+            return (float)Random.NextDouble() * (max - min) + min;
         }
 
         public int Next(int min, int max)
@@ -31,17 +31,20 @@ namespace Util
             return Random.Next(min, max);
         }
 
-        public int RandomPercent() {
+        public int RandomPercent()
+        {
             return Random.Next(100);
         }
 
         /// Return a random element from the entered array.
-        public T RandomElementFromArray<T>(T[] range) {
+        public T RandomElementFromArray<T>(T[] range)
+        {
             return range[Random.Next(0, range.Length)];
         }
 
         /// Return a random element from the entered list.
-        public T RandomElementFromList<T>(List<T> range) {
+        public T RandomElementFromList<T>(List<T> range)
+        {
             return range[Random.Next(0, range.Count)];
         }
     }
