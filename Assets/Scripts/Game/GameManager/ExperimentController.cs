@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Game.Events;
+﻿using Game.Events;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
@@ -8,6 +6,8 @@ using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;

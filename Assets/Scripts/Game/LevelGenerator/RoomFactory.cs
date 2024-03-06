@@ -33,7 +33,8 @@ namespace Game.LevelGenerator
         /// The created room will have one of the following types: a normal
         /// room, a room with a key, or a locked room. Besides, locks and keys
         /// are placed in the dungeon without bound one to the other.
-        public static Room CreateRoom() {
+        public static Room CreateRoom()
+        {
             // Probability penalty for levels with exceding number of locks
             float penalty = 0.0f;
             // The more keys without locks higher the chances to create a lock
@@ -53,7 +54,8 @@ namespace Game.LevelGenerator
                 // A lock can only exist if a room with a key has already been
                 // created, else, the lock room is turned into a key room
                 availableKeys.Count == 0
-            ) {
+            )
+            {
                 // Create a room with a key with room ID
                 room = new Room(RoomType.Key);
                 availableKeys.Add(room.RoomID);

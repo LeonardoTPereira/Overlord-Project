@@ -1,12 +1,12 @@
-﻿using System;
-using Game.Events;
+﻿using Game.Events;
 using Game.GameManager.Player;
+using System;
 using UnityEngine;
 
 namespace Game.GameManager
 {
 
-    
+
     public class HealthUI : GridOfElementsUI
     {
         [SerializeField]

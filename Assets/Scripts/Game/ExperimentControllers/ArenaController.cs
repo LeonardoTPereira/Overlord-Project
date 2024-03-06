@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Game.Dialogues;
+﻿using Game.Dialogues;
 using Game.EnemyGenerator;
 using Game.Events;
 using Game.GameManager;
@@ -14,10 +11,11 @@ using Game.NarrativeGenerator.Quests;
 using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
-using Random = System.Random;
 
 namespace Game.ExperimentControllers
 {
@@ -38,7 +36,7 @@ namespace Game.ExperimentControllers
         {
             TaggedDialogueHandler.MarkRoomOnMiniMapEventHandler += MarkRoom;
         }
-        
+
         private void OnDisable()
         {
             TaggedDialogueHandler.MarkRoomOnMiniMapEventHandler -= MarkRoom;
@@ -56,24 +54,24 @@ namespace Game.ExperimentControllers
             EnemyLoader.LoadEnemies(enemies);
 
             var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Start, Keys, 0, TotalEnemies, 0)
+            {
+                EnemiesByType = new EnemiesByType
                 {
-                    EnemiesByType = new EnemiesByType
-                    {
-                        EnemiesByTypeDictionary = CreateDictionaryOfRandomEnemies(enemies)
-                    },
-                    Items = new ItemsAmount
-                    {
-                        ItemAmountBySo = Items
-                    },
-                    Npcs = ArenaNpcs
-                };
+                    EnemiesByTypeDictionary = CreateDictionaryOfRandomEnemies(enemies)
+                },
+                Items = new ItemsAmount
+                {
+                    ItemAmountBySo = Items
+                },
+                Npcs = ArenaNpcs
+            };
 
             dungeonRoom.CreateRoom(RoomSize);
-            
+
             var room = RoomLoader.InstantiateRoom(dungeonRoom, RoomPrefab, Enums.GameType.TopDown);
-            
+
             var theme = RandomSingleton.GetInstance().Next(0, (int)Enums.RoomThemeEnum.Count);
-            room.SetTheme((Enums.RoomThemeEnum) theme);
+            room.SetTheme((Enums.RoomThemeEnum)theme);
             LoadGameUI();
             StartCoroutine(SpawnEnemies(room));
         }
@@ -92,7 +90,7 @@ namespace Game.ExperimentControllers
         {
             var weaponDictionary = new WeaponTypeAmountDictionary();
             for (int i = 0; i < TotalEnemies; i++)
-            {                
+            {
                 QuestIdList questIdList;
                 var enemy = enemies.GetRandom();
                 if (!weaponDictionary.ContainsKey(enemy.weapon))
@@ -111,6 +109,6 @@ namespace Game.ExperimentControllers
             room.SpawnEnemies();
         }
     }
-    
-    
+
+
 }

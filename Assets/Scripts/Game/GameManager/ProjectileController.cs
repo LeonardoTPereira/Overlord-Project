@@ -1,7 +1,7 @@
-﻿using System;
-using Game.Audio;
+﻿using Game.Audio;
 using Game.GameManager.Player;
 using ScriptableObjects;
+using System;
 using UnityEngine;
 using Util;
 
@@ -26,7 +26,7 @@ namespace Game.GameManager
         [field: SerializeField] public ProjectileTypeSO ProjectileSo { get; set; }
 
         private Rigidbody2D bulletRigidBody;
-    
+
         // Use this for initialization
         private void Awake()
         {
@@ -137,7 +137,7 @@ namespace Game.GameManager
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(projEnum.ToString(), "Projectile index does not exist in the PlayerProjectileEnum");
-            } 
+            }
         }
 
         private void StraightShot(Vector2 facingDirection)

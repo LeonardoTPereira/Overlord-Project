@@ -1,5 +1,5 @@
-﻿using System;
-using Game.NarrativeGenerator;
+﻿using Game.NarrativeGenerator;
+using System;
 
 namespace Game.Events
 {

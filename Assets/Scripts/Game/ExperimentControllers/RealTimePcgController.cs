@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Game.Events;
+﻿using Game.Events;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
@@ -17,7 +17,7 @@ namespace Game.ExperimentControllers
 
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
-        
+
         private void OnEnable()
         {
             QuestGeneratorManager.QuestLineCreatedEventHandler += LoadQuestData;
@@ -35,7 +35,7 @@ namespace Game.ExperimentControllers
             yield return new WaitUntil(() => CanLoadNarrativesToDungeonEntrances(scene));
             SetQuestLineInDungeons();
         }
-        
+
         private void SetQuestLineInDungeons()
         {
             var dungeonFileSos = new List<DungeonFileSo>(_questLines.DungeonFileSos);
@@ -49,21 +49,21 @@ namespace Game.ExperimentControllers
                 dungeonFileSos.RemoveAt(selectedIndex);
             }
         }
-        
+
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
         }
-        
+
         private static bool CanLoadNarrativesToDungeonEntrances(Scene scene)
         {
             return scene.name == "Overworld";
         }
-        
+
         private void LoadQuestData(object sender, QuestLineCreatedEventArgs questLineArgs)
         {
             _questLines = questLineArgs.QuestLines;
-            Debug.Log("Quest Line Loaded: "+_questLines);
+            Debug.Log("Quest Line Loaded: " + _questLines);
         }
     }
 }

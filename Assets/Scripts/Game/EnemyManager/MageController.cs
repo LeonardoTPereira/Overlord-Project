@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using Game.GameManager;
+﻿using Game.GameManager;
 using ScriptableObjects;
+using System.Collections;
 using UnityEngine;
 
 namespace Game.EnemyManager
@@ -43,7 +43,7 @@ namespace Game.EnemyManager
             yield return new WaitForSeconds(WaitForStartTimer);
             yield return StartCoroutine(UseSkill());
         }
-        
+
         protected virtual IEnumerator UseSkill()
         {
             while (true)
@@ -53,7 +53,7 @@ namespace Game.EnemyManager
                 var target = new Vector2(playerPosition.x - thisPosition.x, playerPosition.y - thisPosition.y);
                 target.Normalize();
                 target *= ProjectileSpeed;
-            
+
                 var bullet = Instantiate(ProjectilePrefab, ProjectileSpawn.transform.position, ProjectileSpawn.transform.rotation);
                 if (ProjectilePrefab.name == "EnemyBomb")
                 {
@@ -73,12 +73,12 @@ namespace Game.EnemyManager
             }
         }
 
-        public override void LoadEnemyData(EnemySO enemyData, int questId)      
+        public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
             base.LoadEnemyData(enemyData, questId);
             ProjectilePrefab = enemyData.weapon.Projectile.projectilePrefab;
             ProjectileType = enemyData.weapon.Projectile;
-            if(ProjectilePrefab != null)
+            if (ProjectilePrefab != null)
             {
                 if (ProjectilePrefab.name == "EnemyBomb")
                 {

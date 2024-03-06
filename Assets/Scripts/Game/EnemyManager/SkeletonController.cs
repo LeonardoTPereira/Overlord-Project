@@ -28,7 +28,7 @@ namespace Game.EnemyManager
                 Shield.GetComponent<SpriteRenderer>().color = movementColor;
             }
         }
-        
+
         public override void LoadEnemyData(EnemySO enemyData, int questId)
         {
             base.LoadEnemyData(enemyData, questId);

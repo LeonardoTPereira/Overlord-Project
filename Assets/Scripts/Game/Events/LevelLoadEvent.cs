@@ -1,6 +1,6 @@
-﻿using System;
-using Game.LevelGenerator.LevelSOs;
+﻿using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
+using System;
 
 namespace Game.Events
 {

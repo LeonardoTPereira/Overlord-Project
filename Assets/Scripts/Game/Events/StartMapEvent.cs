@@ -1,5 +1,5 @@
-﻿using System;
-using Game.LevelManager.DungeonLoader;
+﻿using Game.LevelManager.DungeonLoader;
+using System;
 
 namespace Game.Events
 {

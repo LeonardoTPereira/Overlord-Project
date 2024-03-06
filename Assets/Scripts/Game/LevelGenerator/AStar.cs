@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 //Thanks to https://bitbucket.org/dandago/experimental/src/7adeb5f8cdfb054b540887d53cabf27e22a10059/AStarPathfinding/?at=master
 namespace Game.LevelGenerator
@@ -26,7 +25,8 @@ namespace Game.LevelGenerator
         /// The A* algorithm.
         public static int FindRoute(
             Dungeon _dungeon
-        ) {
+        )
+        {
             // Counter for all the locks that were opened during the A* execution
             // TODO: Make the A* (or another algorithm) use only the really needed ones, the A* in the search phase opens some unecessary locked doors, but this could be prevented
             // By making partial A* from the start to the key of the first locked door found, then from the key to the door, from the door to the key to the next locked one, and so on
@@ -38,7 +38,8 @@ namespace Game.LevelGenerator
             List<Location> allLocksLocation = new List<Location>();
 
             //  The starting location is room (0,0)
-            Location start = new Location {
+            Location start = new Location
+            {
                 X = -2 * _dungeon.MinX,
                 Y = -2 * _dungeon.MinY
             };
@@ -78,12 +79,12 @@ namespace Game.LevelGenerator
                         // The sequential, positivie index of the key is its representation
                         else if (current.Type == RoomType.Key)
                         {
-                            map[iPositive * 2, jPositive * 2] = _dungeon.KeyIds.IndexOf(current.Key)+1;
+                            map[iPositive * 2, jPositive * 2] = _dungeon.KeyIds.IndexOf(current.Key) + 1;
                         }
                         // If the room is locked, the room is a normal room, only the corridor is locked. But is the lock is the last one in the sequential order, than the room is the objective
                         else if (current.Type == RoomType.Locked)
                         {
-                            if (_dungeon.LockIds.IndexOf(current.Key) == _dungeon.LockIds.Count -1)
+                            if (_dungeon.LockIds.IndexOf(current.Key) == _dungeon.LockIds.Count - 1)
                             {
                                 map[iPositive * 2, jPositive * 2] = 102;
                             }
@@ -104,11 +105,18 @@ namespace Game.LevelGenerator
                             int y = parent.Y - current.Y + jPositive * 2;
                             if (current.Type == RoomType.Locked)
                             {
-                                locksLocation.Add(new Location { X = x, Y = y, Parent = new Location {
-                                    X = 2 * (parent.X - current.X) + iPositive * 2,
-                                    Y = 2 * (parent.Y - current.Y) + jPositive * 2 } }
+                                locksLocation.Add(new Location
+                                {
+                                    X = x,
+                                    Y = y,
+                                    Parent = new Location
+                                    {
+                                        X = 2 * (parent.X - current.X) + iPositive * 2,
+                                        Y = 2 * (parent.Y - current.Y) + jPositive * 2
+                                    }
+                                }
                                 );
-                                map[x, y] = -(_dungeon.KeyIds.IndexOf(current.Key)+1);
+                                map[x, y] = -(_dungeon.KeyIds.IndexOf(current.Key) + 1);
                             }
                             // If the connection is open, 100 represents a normal corridor
                             else
@@ -258,7 +266,8 @@ namespace Game.LevelGenerator
             int _x,
             int _y,
             int[,] _map
-        ) {
+        )
+        {
             var proposedLocations = new List<Location>();
             if (_y > 0)
             {
@@ -277,7 +286,7 @@ namespace Game.LevelGenerator
                 proposedLocations.Add(new Location { X = _x + 1, Y = _y });
             }
             return proposedLocations.Where(
-                    l => (_map[l.X,l.Y] >= 0 && _map[l.X,l.Y] != 101)
+                    l => (_map[l.X, l.Y] >= 0 && _map[l.X, l.Y] != 101)
                 ).ToList();
         }
 
@@ -287,7 +296,8 @@ namespace Game.LevelGenerator
             int _y,
             int _targetX,
             int _targetY
-        ) {
+        )
+        {
             return Math.Abs(_targetX - _x) + Math.Abs(_targetY - _y);
         }
     }

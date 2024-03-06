@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Util;
 
 namespace Game.EnemyGenerator
@@ -23,7 +23,8 @@ namespace Game.EnemyGenerator
         /// population. Instead of selecting directly an individual, we select
         /// its coordinate from the auxiliary list and remove it then it is not
         /// available for the next selection.
-        public static Individual[] Select(int _amount,  int _competitors,  Population _pop) {
+        public static Individual[] Select(int _amount, int _competitors, Population _pop)
+        {
             // Get the list of Elites' coordinates (the available competitors)
             List<Coordinate> avco = _pop.GetElitesCoordinates();
             // Ensure the population size is enough for the tournament
@@ -57,7 +58,8 @@ namespace Game.EnemyGenerator
             int _competitors,
             Population _pop,
             List<Coordinate> _avco
-        ) {
+        )
+        {
             // List of available competitors
             List<Coordinate> avco = new List<Coordinate>(_avco);
             // Initialize the auxiliary variables

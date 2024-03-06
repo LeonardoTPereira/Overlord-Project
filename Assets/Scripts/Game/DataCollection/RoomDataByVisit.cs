@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using ScriptableObjects.SerializableDictionaryLite;
+﻿using ScriptableObjects.SerializableDictionaryLite;
+using System.Collections.Generic;
 
 namespace Game.DataCollection
 {

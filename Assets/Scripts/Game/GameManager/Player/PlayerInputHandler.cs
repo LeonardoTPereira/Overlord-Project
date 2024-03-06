@@ -1,5 +1,5 @@
-﻿using System;
-using Game.Dialogues;
+﻿using Game.Dialogues;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,15 +19,15 @@ namespace Game.GameManager.Player
             MinimapController.FullscreenUIEvent += StopInput;
             MinimapController.ExitFullscreenUIEvent += StartInput;
         }
-        
+
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if(scene.name is "Overworld" or "LevelWithEnemies")
+            if (scene.name is "Overworld" or "LevelWithEnemies")
             {
                 StartInput(null, EventArgs.Empty);
             }
         }
-        
+
         protected virtual void OnDisable()
         {
             DialogueController.DialogueOpenEventHandler -= StopInput;

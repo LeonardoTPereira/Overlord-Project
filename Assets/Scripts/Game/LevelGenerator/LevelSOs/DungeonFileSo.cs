@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
+﻿using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelManager;
 using Game.LevelManager.DungeonLoader;
+using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -46,7 +46,7 @@ namespace Game.LevelGenerator.LevelSOs
             ExplorationCoefficient = exploration;
             LeniencyCoefficient = leniency;
         }
-        
+
         public void SaveAsset(string directory)
         {
 #if UNITY_EDITOR
@@ -58,12 +58,12 @@ namespace Game.LevelGenerator.LevelSOs
             }
             fileName += Constants.SeparatorCharacter + newFolder;
             fileName += Constants.SeparatorCharacter;
-            fileName += GetFilename()+".asset";
+            fileName += GetFilename() + ".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
 #endif
         }
-        
+
         private string GetFilename()
         {
 

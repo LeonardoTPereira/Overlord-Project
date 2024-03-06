@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using Game.GameManager;
+﻿using Game.GameManager;
+using System.ComponentModel;
 using UnityEngine;
 using Util;
 
@@ -16,14 +16,14 @@ namespace Game.EnemyManager
             GetComponent<SpriteRenderer>().color = OriginalColor;
             Eye.GetComponent<SpriteRenderer>().color = GetEyeColorBasedOnMovement();
         }
-        
+
         private Color GetEyeColorBasedOnMovement()
         {
             switch (EnemyData.movement.enemyMovementIndex)
             {
                 case Enums.MovementEnum.Random:
                 case Enums.MovementEnum.Random1D:
-                    return enemyColorPalette.DetailColorA; 
+                    return enemyColorPalette.DetailColorA;
                 case Enums.MovementEnum.Flee1D:
                 case Enums.MovementEnum.Flee:
                     return enemyColorPalette.DetailColorB;
@@ -31,7 +31,7 @@ namespace Game.EnemyManager
                 case Enums.MovementEnum.Follow:
                     return enemyColorPalette.DetailColorC;
                 case Enums.MovementEnum.None:
-                    return enemyColorPalette.DetailColorD; 
+                    return enemyColorPalette.DetailColorD;
                 default:
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");
             }

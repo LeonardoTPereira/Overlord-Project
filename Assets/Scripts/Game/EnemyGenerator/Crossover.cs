@@ -17,7 +17,8 @@ namespace Game.EnemyGenerator
         public static Individual[] Apply(
             Individual parent1,
             Individual parent2
-        ) {
+        )
+        {
             // Create aliases for the parents' genes
             var parent1Enemy = parent1.Enemy;
             var parent1Weapon = parent1.Weapon;
@@ -103,13 +104,14 @@ namespace Game.EnemyGenerator
             T _v2,
             (T min, T max) _bounds,
             float _alpha
-            ) {
+            )
+        {
             // Convert the entered values to float
             Type ft = typeof(float);
-            float fv1 = (float) Convert.ChangeType(_v1, ft);
-            float fv2 = (float) Convert.ChangeType(_v2, ft);
-            float fa = (float) Convert.ChangeType(_bounds.min, ft);
-            float fb = (float) Convert.ChangeType(_bounds.max, ft);
+            float fv1 = (float)Convert.ChangeType(_v1, ft);
+            float fv2 = (float)Convert.ChangeType(_v2, ft);
+            float fa = (float)Convert.ChangeType(_bounds.min, ft);
+            float fb = (float)Convert.ChangeType(_bounds.max, ft);
             // Identify the maximum and minimum values
             float max = Mathf.Max(fv1, fv2);
             float min = Mathf.Min(fv1, fv2);
@@ -125,8 +127,8 @@ namespace Game.EnemyGenerator
             // Convert and return the crossover result to type `T`
             Type pt = typeof(T);
             return (
-                (T) Convert.ChangeType(a, pt),
-                (T) Convert.ChangeType(b, pt)
+                (T)Convert.ChangeType(a, pt),
+                (T)Convert.ChangeType(b, pt)
             );
         }
     }

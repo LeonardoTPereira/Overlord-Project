@@ -1,6 +1,6 @@
-﻿using System;
-using Game.EnemyManager;
+﻿using Game.EnemyManager;
 using Game.LevelManager;
+using System;
 using UnityEditor;
 using UnityEngine;
 using Util;
@@ -54,7 +54,7 @@ namespace Game.DataCollection
 #if UNITY_EDITOR
         public void CreateAsset(string assetPath, int revisitIndex)
         {
-            var fileName = assetPath + Constants.SeparatorCharacter + "Room"+RoomId+"Data"+revisitIndex+".asset";
+            var fileName = assetPath + Constants.SeparatorCharacter + "Room" + RoomId + "Data" + revisitIndex + ".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             EditorUtility.SetDirty(this);

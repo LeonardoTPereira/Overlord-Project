@@ -1,5 +1,5 @@
-﻿using System;
-using ScriptableObjects.SerializableDictionaryLite;
+﻿using ScriptableObjects.SerializableDictionaryLite;
+using System;
 
 namespace Game.Audio
 {

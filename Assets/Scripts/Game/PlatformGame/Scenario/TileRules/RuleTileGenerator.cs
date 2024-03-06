@@ -1,9 +1,8 @@
 //This tool is a part of the VinTools Unity Package: https://vinarkgames.itch.io/vintools
 
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 #if UNITY_EDITOR
@@ -25,13 +24,13 @@ public class RuleTileGenerator : EditorWindow
         new Vector3Int(0, -1, 0),
         new Vector3Int(1, -1, 0),
     };
-    
+
     [MenuItem("VinTools/Editor Windows/Rule Tile Generator")]
     public static void ShowWindow()
     {
         GetWindow<RuleTileGenerator>("Rule Tile Generator");
     }
-    
+
     private void OnGUI()
     {
         scrollpos = GUILayout.BeginScrollView(scrollpos);

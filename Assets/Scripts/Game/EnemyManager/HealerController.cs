@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
-using Game.GameManager;
+﻿using Game.GameManager;
 using MyBox;
 using ScriptableObjects;
+using System.Collections;
 using UnityEngine;
 
 namespace Game.EnemyManager
@@ -23,7 +22,7 @@ namespace Game.EnemyManager
             base.Awake();
             HideHealArea();
         }
-        
+
         private void HideHealArea()
         {
             healArea.SetAlpha(0);
@@ -43,7 +42,7 @@ namespace Game.EnemyManager
                 for (var i = 0; i < hitCount; ++i)
                 {
                     if (!_collisionResults[i].CompareTag("Enemy")) continue;
-                    if(!_collisionResults[i].gameObject.GetComponent<EnemyController>().Heal(Health)) continue;
+                    if (!_collisionResults[i].gameObject.GetComponent<EnemyController>().Heal(Health)) continue;
                     healed = true;
                 }
                 if (healed)

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel;
-using Game.Audio;
+﻿using Game.Audio;
 using Game.GameManager.Player;
 using Game.Quests;
 using ScriptableObjects;
+using System;
+using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using Util;
 
@@ -55,7 +55,7 @@ namespace Game.GameManager
         public EventHandler<EnemySO> EnemyKilledHandler;
 
         private Coroutine _walkRoutine;
-        
+
 
         protected virtual void Start()
         {
@@ -97,10 +97,10 @@ namespace Game.GameManager
         {
             PlayerHitEventHandler?.Invoke(null, EventArgs.Empty);
         }
-        
+
         public virtual bool Heal(int health)
         {
-            if(!_healthController.ApplyHeal(health)) return false;
+            if (!_healthController.ApplyHeal(health)) return false;
             CureParticle.Play();
             return true;
         }
@@ -109,7 +109,7 @@ namespace Game.GameManager
         {
             if (_healthController.GetHealth() <= 0) return;
             ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.EnemyHit));
-            var mainParticle= bloodParticle.main;
+            var mainParticle = bloodParticle.main;
             mainParticle.startSpeed = 0;
             var forceOverLifetime = bloodParticle.forceOverLifetime;
             forceOverLifetime.enabled = true;
@@ -204,7 +204,7 @@ namespace Game.GameManager
 
         protected virtual void StartDeath()
         {
-            ((ISoundEmitter) this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.EnemyDeath));
+            ((ISoundEmitter)this).OnSoundEmitted(this, new EmitSfxEventArgs(AudioManager.SfxTracks.EnemyDeath));
             StopCoroutine(_walkRoutine);
             _animator.SetTrigger(DieTrigger);
             _enemyCollider.enabled = false;
@@ -218,7 +218,7 @@ namespace Game.GameManager
         private void InvokeEnemyKilledEvents()
         {
             EnemyKilledHandler?.Invoke(this, EnemyData);
-            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
         }
 
@@ -237,14 +237,14 @@ namespace Game.GameManager
             _healthController.SetHealth(enemyData.health);
             QuestId = questId;
         }
-        
+
         protected Color GetColorBasedOnMovement()
         {
             switch (EnemyData.movement.enemyMovementIndex)
             {
                 case Enums.MovementEnum.Random:
                 case Enums.MovementEnum.Random1D:
-                    return enemyColorPalette.OutfitColorA; 
+                    return enemyColorPalette.OutfitColorA;
                 case Enums.MovementEnum.Flee1D:
                 case Enums.MovementEnum.Flee:
                     return enemyColorPalette.OutfitColorB;
@@ -252,7 +252,7 @@ namespace Game.GameManager
                 case Enums.MovementEnum.Follow:
                     return enemyColorPalette.OutfitColorC;
                 case Enums.MovementEnum.None:
-                    return enemyColorPalette.OutfitColorD; 
+                    return enemyColorPalette.OutfitColorD;
                 default:
                     throw new InvalidEnumArgumentException("Movement Enum does not exist");
             }

@@ -59,7 +59,8 @@ namespace Game.EnemyGenerator
             (float, float) _rRestTime,
             WeaponType[] _rWeaponType,
             (float, float) _rProjectileSpeed
-        ) {
+        )
+        {
             rHealth = _rHealth;
             rStrength = _rStrength;
             rAttackSpeed = _rAttackSpeed;
@@ -101,7 +102,7 @@ namespace Game.EnemyGenerator
         /// Return the array of all movement types.
         public static MovementType[] AllMovementTypes()
         {
-            return (MovementType[]) Enum.GetValues(typeof(MovementType));
+            return (MovementType[])Enum.GetValues(typeof(MovementType));
         }
 
         /// Return the list of all movement types.
@@ -123,7 +124,7 @@ namespace Game.EnemyGenerator
         /// Return the array of all weapon types.
         public static WeaponType[] AllWeaponTypes()
         {
-            return (WeaponType[]) Enum.GetValues(typeof(WeaponType));
+            return (WeaponType[])Enum.GetValues(typeof(WeaponType));
         }
 
         /// Return the list of ranged weapon types.

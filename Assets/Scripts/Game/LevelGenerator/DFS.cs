@@ -6,10 +6,11 @@ namespace Game.LevelGenerator
     class DFS : PathFinding
     {
         public DFS(Dungeon _dungeon)
-            : base(_dungeon) {}
+            : base(_dungeon) { }
 
         /// The DFS Algorithm.
-        public int FindRoute() {
+        public int FindRoute()
+        {
             openList.Add(start);
             path.Add(start);
             while (openList.Count > 0)

@@ -11,11 +11,12 @@ namespace Game.EnemyGenerator
         private const float HighBonus = 1.25f;
         private const float HighPenalty = 0.5f;
         private const float LowBonus = 1.15f;
-        
+
         /// Calculate the difficulty of the entered individual.
         public static void Calculate(
             ref Individual individual
-        ) {
+        )
+        {
             // Calculate all the difficulty factors
             float fH = CalculateHealthFactor(individual);
             float fS = CalculateStrengthFactor(individual);
@@ -28,14 +29,16 @@ namespace Game.EnemyGenerator
         /// Return the health factor.
         private static float CalculateHealthFactor(
             Individual _individual
-        ) {
+        )
+        {
             return _individual.Enemy.Health * 2;
         }
 
         /// Calculate and return the movement factor.
         private static float CalculateMovementFactor(
             Individual _individual
-        ) {
+        )
+        {
             // Create an alias for the enemy gene of the individual
             EnemyData e = _individual.Enemy;
             // Calculate movement factor
@@ -49,7 +52,8 @@ namespace Game.EnemyGenerator
         /// Calculate and return the strength factor.
         private static float CalculateStrengthFactor(
             Individual _individual
-        ) {
+        )
+        {
             // Create aliases for the genes of the individual
             EnemyData e = _individual.Enemy;
             WeaponData w = _individual.Weapon;
@@ -74,7 +78,8 @@ namespace Game.EnemyGenerator
         ///
         /// The gameplay weights were empirically chosen based on the gameplay
         /// of the game prototype mentioned in Program.cs
-        private static float CalculateGameplayFactor(Individual individual) {
+        private static float CalculateGameplayFactor(Individual individual)
+        {
             var enemy = individual.Enemy;
             var weapon = individual.Weapon;
             var gameplayFactor = 1f;

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Fog.Dialogue;
+﻿using Fog.Dialogue;
 using Malee.List;
 using ScriptableObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Game.Dialogues
@@ -21,26 +21,28 @@ namespace Game.Dialogues
             lines = new ReorderableDialogueList();
         }
 
-        [field:Reorderable, SerializeField] public ReorderableQuestDialogueList QuestDialogues { get; set; }
-        [field:Reorderable, SerializeField] public ReorderableQuestDialogueList NewQuestDialogues { get; set; }
-        public override void BeforeDialogue(){
+        [field: Reorderable, SerializeField] public ReorderableQuestDialogueList QuestDialogues { get; set; }
+        [field: Reorderable, SerializeField] public ReorderableQuestDialogueList NewQuestDialogues { get; set; }
+        public override void BeforeDialogue()
+        {
             DialogueOpenEventHandler?.Invoke(null, EventArgs.Empty);
             base.BeforeDialogue();
             DialogueHandler.instance.OnDialogueStart -= BeforeDialogue;
             RecreateDialogueLines();
         }
 
-        public override void AfterDialogue(){
+        public override void AfterDialogue()
+        {
             DialogueCloseEventHandler?.Invoke(null, EventArgs.Empty);
             base.AfterDialogue();
             DialogueHandler.instance.OnDialogueStart -= AfterDialogue;
             RemoveUnrepeatedLines();
         }
 
-        public void AddDialogue(NpcDialogueData dialogueData, string dialogueLine, bool keepDialogueAfterSpoken, int id, 
+        public void AddDialogue(NpcDialogueData dialogueData, string dialogueLine, bool keepDialogueAfterSpoken, int id,
             bool isQuestCloser = false)
         {
-            NewQuestDialogues.Add(new QuestDialogueLine(dialogueData, dialogueLine,keepDialogueAfterSpoken, 
+            NewQuestDialogues.Add(new QuestDialogueLine(dialogueData, dialogueLine, keepDialogueAfterSpoken,
                 id, isQuestCloser));
         }
 
@@ -78,10 +80,10 @@ namespace Game.Dialogues
                 }
             }
         }
-        
+
         private void RemoveUnrepeatedLines()
         {
-            for (var i = QuestDialogues.Count-1; i > -1; i--)
+            for (var i = QuestDialogues.Count - 1; i > -1; i--)
             {
                 if (!QuestDialogues[i].KeepAfterSpoken)
                 {
@@ -89,7 +91,7 @@ namespace Game.Dialogues
                 }
             }
         }
-        
+
         [Serializable]
         public class ReorderableQuestDialogueList : ReorderableArray<QuestDialogueLine> { }
 

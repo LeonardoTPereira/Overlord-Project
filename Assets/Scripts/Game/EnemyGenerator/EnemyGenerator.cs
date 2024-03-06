@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Util;
 
 namespace Game.EnemyGenerator
@@ -27,7 +26,8 @@ namespace Game.EnemyGenerator
         /// Enemy Generator constructor.
         public EnemyGenerator(
             Parameters parameters
-        ) {
+        )
+        {
             _parameters = parameters;
             _data = new Data
             {
@@ -116,7 +116,7 @@ namespace Game.EnemyGenerator
             _data.final = new List<Individual>(_solution.ToList());
 
         }
-        
+
         private bool HasReachedStopCriteria(int generation, int totalElitesPerType, float elitesWithAcceptableFitnessPerType)
         {
             if (totalElitesPerType < _parameters.MinimumElite) return false;
@@ -124,5 +124,5 @@ namespace Game.EnemyGenerator
             return generation > _parameters.Generations;
         }
     }
-    
+
 }

@@ -28,7 +28,7 @@ namespace Game.LevelGenerator
         /// Return the array of all weapon types.
         public static Direction[] AllDirections()
         {
-            return (Direction[]) Enum.GetValues(typeof(Direction));
+            return (Direction[])Enum.GetValues(typeof(Direction));
         }
 
         /// Define the room codes for printing purposes.

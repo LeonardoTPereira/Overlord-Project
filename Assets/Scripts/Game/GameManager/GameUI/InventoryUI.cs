@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Game.Events;
+﻿using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using ScriptableObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -60,7 +59,7 @@ namespace Game.GameManager
             var currentItems = _itemAmountDictionary.Count;
             var spriteWidth = itemSo.sprite.rect.size.x;
             ClearTreasureImages();
-            CreateGridOfImages(currentItems, spriteWidth, spriteWidth*6);
+            CreateGridOfImages(currentItems, spriteWidth, spriteWidth * 6);
             ProcessImageList();
         }
 
@@ -85,7 +84,7 @@ namespace Game.GameManager
             AddItemToDictionary(eventArgs.Item);
             UpdateUI(eventArgs.GivenItems.First().Key);
         }
-        
+
         private void RemoveItem(ItemSo item)
         {
             if (!_itemAmountDictionary.ContainsKey(item)) return;
@@ -102,7 +101,7 @@ namespace Game.GameManager
             _itemAmountDictionary.Clear();
             ClearTreasureImages();
         }
-        
+
         private void ProcessImageList()
         {
             var itemList = _itemAmountDictionary.Keys.ToList();
@@ -116,8 +115,8 @@ namespace Game.GameManager
                 amountText.transform.localPosition = Vector3.zero;
                 var rectTransform = amountText.GetComponent<RectTransform>();
                 var itemAnchoredPosition = keyImage.GetComponent<RectTransform>().anchoredPosition;
-                rectTransform.anchoredPosition = itemAnchoredPosition + new Vector2(keyImage.sprite.rect.size.x*TextWidth, 0);
-                amountText.GetComponent<TextMeshProUGUI>().text = " x"+_itemAmountDictionary[itemSo];
+                rectTransform.anchoredPosition = itemAnchoredPosition + new Vector2(keyImage.sprite.rect.size.x * TextWidth, 0);
+                amountText.GetComponent<TextMeshProUGUI>().text = " x" + _itemAmountDictionary[itemSo];
                 _textList.Add(amountText);
             }
         }

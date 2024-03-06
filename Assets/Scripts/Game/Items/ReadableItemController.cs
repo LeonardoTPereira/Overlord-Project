@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using ScriptableObjects;
+using UnityEngine;
 
 namespace Game
 {
@@ -11,8 +9,8 @@ namespace Game
 
         [SerializeField] private QuestDialogueInteraction _questDialogue;
         private ReadableItemSo itemSo;
-        
-        public void SetItemInfo ( ReadableItemSo item, int questId )
+
+        public void SetItemInfo(ReadableItemSo item, int questId)
         {
             _questDialogue.DialogueObj = item;
             _questDialogue.DialogueLine = item.SetRandomText();

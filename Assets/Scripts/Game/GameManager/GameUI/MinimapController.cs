@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
-using Game.Events;
+﻿using Game.Events;
 using Game.ExperimentControllers;
 using Game.LevelManager.DungeonManager;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,14 +17,14 @@ namespace Game.GameManager
             Fullscreen,
             Count
         }
-        
+
         public static event EventHandler FullscreenUIEvent;
         public static event EventHandler ExitFullscreenUIEvent;
         public static event EventHandler EndedMiniMapEvent;
 
-        [field: SerializeField] private GameObject FullMap {get; set; }
-        [field: SerializeField] private GameObject MiniMap {get; set; }
-        private ViewStates _viewState; 
+        [field: SerializeField] private GameObject FullMap { get; set; }
+        [field: SerializeField] private GameObject MiniMap { get; set; }
+        private ViewStates _viewState;
         [SerializeField] private InputActionReference interactAction;
         [field: SerializeField] private Camera MinimapCamera { get; set; }
 
@@ -46,18 +46,20 @@ namespace Game.GameManager
             minimapCameraTransform.parent = mainCameraTransform;
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             interactAction.action.performed += ChangeMinimapView;
             RoomBhv.ShowRoomOnMiniMapEventHandler += ShowRoomOnMap;
             ArenaController.ShowRoomOnMiniMapEventHandler += ShowRoomOnMap;
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             interactAction.action.performed -= ChangeMinimapView;
             RoomBhv.ShowRoomOnMiniMapEventHandler -= ShowRoomOnMap;
             ArenaController.ShowRoomOnMiniMapEventHandler -= ShowRoomOnMap;
         }
-        
+
         private void ShowRoomOnMap(object sender, ShowRoomOnMiniMapEventArgs eventArgs)
         {
 
@@ -78,19 +80,19 @@ namespace Game.GameManager
             EnterNewState();
             EndedMiniMapEvent?.Invoke(null, EventArgs.Empty);
         }
-        
+
         private void ChangeMinimapView(InputAction.CallbackContext context)
         {
             ExitCurrentState();
 
             UpdateState();
-            
+
             EnterNewState();
         }
 
         private void UpdateState()
         {
-            _viewState = (ViewStates) (((int) _viewState + 1) % (int) ViewStates.Count);
+            _viewState = (ViewStates)(((int)_viewState + 1) % (int)ViewStates.Count);
         }
 
         private void EnterNewState()

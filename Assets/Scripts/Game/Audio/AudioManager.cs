@@ -24,7 +24,7 @@ namespace Game.Audio
             LevelSelectTheme,
             VictoryTheme
         }
-        
+
         public enum SfxTracks
         {
             PlayerHit,
@@ -62,7 +62,7 @@ namespace Game.Audio
         {
             ISoundEmitter.EmitSoundEventHandler += PlayAudio;
         }
-        
+
         private void OnDisable()
         {
             ISoundEmitter.EmitSoundEventHandler -= PlayAudio;
@@ -98,7 +98,7 @@ namespace Game.Audio
             newAudioSource.maxDistance = sound.MaxRange;
             return newAudioSource;
         }
-        
+
         private void PlayBgm(PlayBgmEventArgs eventArgs)
         {
             PlaySound(bgmAudioDictionary[eventArgs.BackGroundMusic]);
@@ -118,14 +118,14 @@ namespace Game.Audio
             StopOtherSounds();
             sound.Source.Play();
         }
-     
+
         public void PlayAudioOnce(Audio sound)
         {
             if (sound.Source == null)
                 return;
             sound.Source.PlayOneShot(sound.Source.clip);
         }
-     
+
         public void PlayAudioOnceRandomizePitch(Audio sound, int pitchOffset)
         {
             if (sound.Source == null)
@@ -139,12 +139,12 @@ namespace Game.Audio
         {
             StartCoroutine(StartFade(sound.Source, 2, 0));
         }
-     
+
         public IEnumerator StartFade(AudioSource fadeSource, float duration, float targetVolume)
         {
             float currentTime = 0;
             float start = fadeSource.volume;
-     
+
             while (currentTime < duration)
             {
                 currentTime += Time.deltaTime;
@@ -152,7 +152,7 @@ namespace Game.Audio
                 yield return null;
             }
         }
-     
+
         public void StopAudio(Audio sound)
         {
             if (sound.Source == null)

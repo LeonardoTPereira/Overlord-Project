@@ -1,5 +1,5 @@
-﻿using System;
-using Game.NarrativeGenerator.Quests;
+﻿using Game.NarrativeGenerator.Quests;
+using System;
 
 namespace Game.Events
 {

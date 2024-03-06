@@ -1,16 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using Game.ExperimentControllers;
+﻿using Game.ExperimentControllers;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.NarrativeGenerator.Quests;
+using System;
+using System.Threading.Tasks;
 
 namespace Game.Events
 {
     public delegate Task CreateEaDungeonEvent(object sender, CreateEaDungeonEventArgs e);
     public class CreateEaDungeonEventArgs : EventArgs
     {
-        public GeneratorSettings.Parameters Parameters { get ; set ; }
-        public FitnessInput Fitness{ get ; set ; }
+        public GeneratorSettings.Parameters Parameters { get; set; }
+        public FitnessInput Fitness { get; set; }
         public int TimesToExecuteEA { get; set; }
         public bool IsVisualizingDungeon { get; set; }
 
@@ -20,7 +20,7 @@ namespace Game.Events
             Fitness = fitness;
             IsVisualizingDungeon = isVisualizingDungeon;
         }
-        public CreateEaDungeonEventArgs(QuestLineList questLines, GeneratorSettings.Parameters dungeonParameters, 
+        public CreateEaDungeonEventArgs(QuestLineList questLines, GeneratorSettings.Parameters dungeonParameters,
             int timesToExecuteEA = 1, bool isVisualizingDungeon = false)
         {
             var questDungeonParameters = questLines.DungeonParametersForQuestLines;

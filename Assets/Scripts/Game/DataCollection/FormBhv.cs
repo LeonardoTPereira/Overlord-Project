@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Game.Events;
+﻿using Game.Events;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,9 +52,9 @@ namespace Game.DataCollection
 
         public void Submit()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             AssetDatabase.SaveAssetIfDirty(questionsData);
-            #endif
+#endif
             List<int> answers = new List<int>();
             foreach (FormQuestionBhv q in questions)
             {
@@ -68,7 +68,7 @@ namespace Game.DataCollection
                 {
                     if (t.isOn)
                         answers.Add(-1);
-                    else 
+                    else
                         answers.Add(-2);
                 }
             }

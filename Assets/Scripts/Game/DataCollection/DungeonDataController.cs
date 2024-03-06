@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Dialogues;
+﻿using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
@@ -8,6 +7,7 @@ using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
+using System;
 using UnityEngine;
 
 namespace Game.DataCollection
@@ -29,7 +29,7 @@ namespace Game.DataCollection
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             DialogueController.DialogueOpenEventHandler += OnInteractNPC;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
-            RoomBhv.EnterRoomEventHandler += OnRoomEnter;            
+            RoomBhv.EnterRoomEventHandler += OnRoomEnter;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
@@ -56,24 +56,24 @@ namespace Game.DataCollection
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
         }
-        
+
 
 
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
         {
-            CurrentDungeon.AddLostHealth(eventArgs.DamageDone);        
+            CurrentDungeon.AddLostHealth(eventArgs.DamageDone);
         }
 
         private void OnLevelWithFixedProfileCreated(object sender, ProfileSelectedEventArgs eventArgs)
         {
             _inputProfile = eventArgs.PlayerProfile;
         }
-        
+
         private void ResetCombo(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.ResetCombo();
         }
-        
+
         private void IncrementCombo(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.IncrementCombo();
@@ -96,7 +96,7 @@ namespace Game.DataCollection
             CurrentDungeon.IncrementOpenedLocks();
 
         }
-        
+
         private void OnKillEnemy(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.IncrementKills();
@@ -106,17 +106,17 @@ namespace Game.DataCollection
         {
             CurrentDungeon.IncrementInteractionsWithNpcs();
         }
-        
+
         private void OnRoomEnter(object sender, EnterRoomEventArgs eventArgs)
         {
             CurrentDungeon.OnRoomEnter(eventArgs.RoomData);
         }
-        
+
         private void OnRoomExit(object sender, ExitRoomEventArgs eventArgs)
         {
             CurrentDungeon.OnRoomExit();
         }
-        
+
         private void OnDeath(object sender, EventArgs eventArgs)
         {
             CurrentDungeon.OnPlayerDeath();
@@ -126,7 +126,7 @@ namespace Game.DataCollection
         {
             CurrentDungeon.OnPlayerVictory();
         }
-        
+
         private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)
         {
             switch (eventArgs.Quest)
@@ -169,7 +169,7 @@ namespace Game.DataCollection
                     break;
             }
         }
-        
+
         private void GetCreativityTerminalAndUpdate(CreativityQuestSo creativityQuest)
         {
             switch (creativityQuest)
@@ -185,7 +185,7 @@ namespace Game.DataCollection
                     break;
             }
         }
-        
+
         private void GetImmersionTerminalAndUpdate(ImmersionQuestSo immersionQuest)
         {
             switch (immersionQuest)
@@ -207,7 +207,7 @@ namespace Game.DataCollection
                     break;
             }
         }
-        
+
         private void GetMasteryTerminalAndUpdate(MasteryQuestSo masteryQuest)
         {
             switch (masteryQuest)
@@ -221,7 +221,7 @@ namespace Game.DataCollection
                 default:
                     Debug.LogError("This mastery quest type does not exist!");
                     break;
-            }        
+            }
         }
 
         public void SetDungeonParameters()

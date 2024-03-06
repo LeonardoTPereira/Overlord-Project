@@ -9,7 +9,7 @@ namespace Game.Events
     {
         public ItemAmountDictionary GivenItems { get; set; }
 
-        public ItemTradeEventArgs(ItemAmountDictionary givenItems, ItemSo item, int questId): base(item, questId)
+        public ItemTradeEventArgs(ItemAmountDictionary givenItems, ItemSo item, int questId) : base(item, questId)
         {
             GivenItems = givenItems;
             Item = item;

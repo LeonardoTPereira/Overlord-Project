@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using MyBox;
 using ScriptableObjects;
+using System.Collections.Generic;
 using UnityEngine;
-using MyBox;
 
 namespace Game.EnemyGenerator
 {
@@ -97,8 +97,8 @@ namespace Game.EnemyGenerator
             var enemyList = new List<EnemySO>();
             foreach (var individual in generator.Solution.ToList())
             {
-                var weaponIndex = (int) individual.Weapon.Weapon;
-                var movementIndex = (int) individual.Enemy.Movement;
+                var weaponIndex = (int)individual.Weapon.Weapon;
+                var movementIndex = (int)individual.Enemy.Movement;
                 var behaviorIndex = 0; // Behaviors are not implemented yet
 
                 EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();

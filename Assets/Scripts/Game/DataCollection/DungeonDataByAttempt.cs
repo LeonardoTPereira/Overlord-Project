@@ -1,7 +1,6 @@
-﻿using System;
+﻿using ScriptableObjects.SerializableDictionaryLite;
+using System;
 using System.Collections.Generic;
-using ScriptableObjects.SerializableDictionaryLite;
-using UnityEngine;
 
 namespace Game.DataCollection
 {
