@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
-    
+
 #if UNITY_EDITOR
     public class PreferencesWindow
     {
@@ -84,6 +84,6 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
             }
         }
     }
-    
+
 #endif
 }

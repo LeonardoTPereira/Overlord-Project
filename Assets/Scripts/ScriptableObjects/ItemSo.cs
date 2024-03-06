@@ -19,10 +19,10 @@ namespace ScriptableObjects
             stringBuilder.Append($"<sprite=\"Gemstones\" name=\"{ItemName}\">");
             return stringBuilder.ToString();
         }
-        
+
         public string GetToolSpriteString()
         {
-            var stringBuilder = new StringBuilder();    
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append($"<sprite=\"Tools\" name=\"{ItemName}\">");
             return stringBuilder.ToString();
         }

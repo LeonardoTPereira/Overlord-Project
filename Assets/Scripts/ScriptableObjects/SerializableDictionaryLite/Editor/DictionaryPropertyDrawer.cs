@@ -68,7 +68,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
 
             if (list == null)
                 return 0;
-            
+
             //Default header height
             float height = EditorGUIUtility.singleLineHeight;
             //Default space between entires
@@ -466,7 +466,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
                     string[] names = keyToUse.enumDisplayNames;
                     if (names.Length <= keyToUse.enumValueIndex || keyToUse.enumValueIndex < 0)
                     {
-                        list.Selected = new[] {index};
+                        list.Selected = new[] { index };
                         List_onRemoveCallback(list);
                         return;
                     }
@@ -656,7 +656,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
 
             SetPropertyDefault(KeysValues.GetArrayElementAtIndex(KeysValues.arraySize - 1), KeysValues);
             SetPropertyDefault(KeysProp.GetArrayElementAtIndex(KeysProp.arraySize - 1), KeysProp);
-            
+
             KeysValues.serializedObject.ApplyModifiedProperties();
             ValuesProp.serializedObject.ApplyModifiedProperties();
             KeysProp.serializedObject.ApplyModifiedProperties();
@@ -1025,5 +1025,5 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
             }
         }
     }
-    #endif
+#endif
 }

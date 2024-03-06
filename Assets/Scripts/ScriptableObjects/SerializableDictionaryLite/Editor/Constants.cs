@@ -2,7 +2,7 @@ using UnityEditor;
 
 namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public sealed class Constants
     {
         private const bool DEF_SHOW_PAGES = false;
@@ -54,5 +54,5 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
             PageCount = DEF_PAGE_COUNT;
         }
     }
-    #endif
+#endif
 }

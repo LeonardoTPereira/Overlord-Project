@@ -48,7 +48,7 @@ namespace ScriptableObjects
             }
             fileName += Constants.SeparatorCharacter + newFolder;
             fileName += Constants.SeparatorCharacter;
-            fileName += weapon+".asset";
+            fileName += weapon + ".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
 #endif

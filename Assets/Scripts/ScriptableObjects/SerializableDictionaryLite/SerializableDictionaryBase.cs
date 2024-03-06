@@ -1,8 +1,8 @@
 //Based of the following thread https://forum.unity.com/threads/finally-a-serializable-dictionary-for-unity-extracted-from-system-collections-generic.335797/
 
+using ScriptableObjects.SerializableDictionaryLite.References;
 using System.Collections.Generic;
 using System.Reflection;
-using ScriptableObjects.SerializableDictionaryLite.References;
 using UnityEngine;
 
 namespace ScriptableObjects.SerializableDictionaryLite
@@ -192,7 +192,7 @@ namespace ScriptableObjects.SerializableDictionaryLite
             _keys.Add(key);
             _values.Add(value);
         }
-        
+
         public void Clear()
         {
             if (_dict != null)
@@ -205,7 +205,7 @@ namespace ScriptableObjects.SerializableDictionaryLite
             if (_values != null)
                 _values.Clear();
         }
-        
+
         public bool Remove(TKey key)
         {
             if (_dict == null)
@@ -216,7 +216,7 @@ namespace ScriptableObjects.SerializableDictionaryLite
             if (_keys != null)
             {
                 index = _keys.IndexOf(key);
-                
+
                 if (index != -1)
                     _keys.RemoveAt(index);
             }
@@ -453,7 +453,7 @@ namespace ScriptableObjects.SerializableDictionaryLite
         }
 
 #endif
-        
+
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             if (_dict == null || _dict.Count == 0)

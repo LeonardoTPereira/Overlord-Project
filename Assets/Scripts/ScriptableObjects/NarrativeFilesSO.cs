@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace  ScriptableObjects
+namespace ScriptableObjects
 {
     [CreateAssetMenu]
     public class NarrativeFilesSO : ScriptableObject

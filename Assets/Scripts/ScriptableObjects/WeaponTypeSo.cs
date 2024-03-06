@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu] [Serializable]
+    [CreateAssetMenu]
+    [Serializable]
     public class WeaponTypeSo : ScriptableObject
     {
         [field: SerializeField] public float FitnessMultiplier { get; set; }
@@ -17,7 +18,7 @@ namespace ScriptableObjects
         [field: SerializeField] public bool HasSprite = true;
         [field: SerializeField] public bool IsInPortuguese = false;
         [field: SerializeField] public bool IsPlatformGame = false;
-                       
+
 
         public string RealTypeName()
         {
@@ -55,10 +56,10 @@ namespace ScriptableObjects
                             return "Black Wolf";
                     }
                 }
-            }            
+            }
             return EnemyTypeName;
         }
-        
+
         public bool IsHealer()
         {
             if (IsPlatformGame)
@@ -76,7 +77,7 @@ namespace ScriptableObjects
         {
             return !IsRanger() && !IsHealer();
         }
-        
+
         public bool IsSword()
         {
             if (IsPlatformGame)

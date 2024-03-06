@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace ScriptableObjects.SerializableDictionaryLite.Editor
 {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [InitializeOnLoad]
     public class Definer
     {
@@ -13,9 +13,9 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
             {
                 "RH_SerializedDictionary"
             };
-            
+
             Shared.Editor.Definer.ApplyDefines(defines);
         }
     }
-    #endif
+#endif
 }
