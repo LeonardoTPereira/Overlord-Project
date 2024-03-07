@@ -4,8 +4,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-#if UNITY_EDITOR
-#endif
 
 namespace ScriptableObjects.SerializableDictionaryLite.ReorderableList
 {
