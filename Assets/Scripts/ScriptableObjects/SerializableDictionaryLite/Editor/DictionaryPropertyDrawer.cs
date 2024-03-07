@@ -360,7 +360,6 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
         private void List_onElementsReorder(int startIndex, int newIndex)
         {
             KeysValues.MoveArrayElement(startIndex, newIndex);
-            //KeysProp.MoveArrayElement(startIndex, newIndex);
             ValuesProp.MoveArrayElement(startIndex, newIndex);
         }
 
@@ -660,8 +659,6 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
             KeysValues.serializedObject.ApplyModifiedProperties();
             ValuesProp.serializedObject.ApplyModifiedProperties();
             KeysProp.serializedObject.ApplyModifiedProperties();
-
-            //SetPropertyDefault(ValuesProp.GetArrayElementAtIndex(ValuesProp.arraySize - 1), null);
         }
 
         private void List_onRemoveCallback(ReorderableList.ReorderableList list)
