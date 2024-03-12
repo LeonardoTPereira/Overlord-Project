@@ -31,20 +31,6 @@ namespace Game.DataCollection
                 GivenPlayerProfile = new PlayerProfile()
             };
             DungeonByAttempt = new DungeonDataByAttempt();
-
-#if UNITY_EDITOR
-            /*var jsonDirectory = Application.dataPath + Constants.SeparatorCharacter + "PlayerData";
-            if (!Directory.Exists(jsonDirectory))
-            {
-                Directory.CreateDirectory(jsonDirectory);
-            }
-            JsonPath = Application.dataPath + Constants.SeparatorCharacter + "PlayerData" +
-                       Constants.SeparatorCharacter + PlayerId;
-            if (!Directory.Exists(jsonDirectory))
-            {
-                Directory.CreateDirectory(jsonDirectory);
-            }*/
-#endif
         }
 
         public void StartDungeon(string mapName, Map map)
