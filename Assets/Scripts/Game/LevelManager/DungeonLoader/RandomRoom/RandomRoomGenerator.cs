@@ -4,7 +4,7 @@ using Util;
 
 namespace Game.LevelManager.DungeonLoader
 {
-    //Class for room generation using cellular automata
+    // Room generation using cellular automata
     public static class RandomRoomGenerator
     {        
         private static bool leftDoor;
@@ -25,49 +25,41 @@ namespace Game.LevelManager.DungeonLoader
         private static float boardFinalErosion;
         
         private static List<Vector3> gridPositions = new List<Vector3>();
-        
-        static void InitialiseList()
-        {
-            gridPositions.Clear();
 
-            for (int x = 0; x<columns; x++)
+        public static RoomData CreateNewRoom(RoomGeneratorInput roomGeneratorInput)
+        {
+            TranslateInput(roomGeneratorInput);
+            boardDensity = 2;
+            switch (boardDensity)
             {
-                for (int y = 0; y< rows; y++)
-                {
-                    boardMap[y, x]=0;
-                    gridPositions.Add(new Vector3(x,y,0f));
-                }
+                case 1:
+                    boardFinalErosion = 0f;
+                    rule = 3;
+                    break;
+                case 2:
+                    boardFinalErosion = 1f;
+                    rule = 1;
+                    break;
+                case 3:
+                    boardFinalErosion = 0.5f;
+                    rule = 1;
+                    break;
             }
+
+            BoardSetup();
+            SetupWalls();
+            RoomData generatedRoom = PassToRoomData();
+            return generatedRoom;
         }
 
-        static RoomData PassToRoomData()
+        static void TranslateInput(RoomGeneratorInput input)
         {
-            RoomData roomData = ScriptableObject.CreateInstance<RoomData>();
-            roomData.Init(rows,columns);
-
-            for (int x = 0; x < columns; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    switch (boardMap[y, x])
-                    {
-                        case 0: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
-                            break;
-                        case 1: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
-                            break;
-                        case 2: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
-                            break;
-                        default: 
-                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
-                            break;
-                    }
-                }
-            }
-
-            return roomData;
+            columns = (int)input.Size.y;
+            rows = (int)input.Size.x;
+            topDoor = input.DoorExists(input.DoorEast); //top
+            bottomDoor = input.DoorExists(input.DoorWest); //bottom
+            leftDoor = input.DoorExists(input.DoorSouth); //left
+            rightDoor = input.DoorExists(input.DoorNorth); //right
         }
 
         static void BoardSetup()
@@ -80,7 +72,7 @@ namespace Game.LevelManager.DungeonLoader
                 for (int y = -1; y < rows + 1; y++)
                 {
                     tile = 0;
-                    
+
                     if (x == -1 || x == columns || y == -1 || y == rows)
                     {
                         tile = 3;
@@ -89,12 +81,12 @@ namespace Game.LevelManager.DungeonLoader
                     boardMap[y, x] = tile;
                 }
             }
-            
+
             tile = 4;
             if (topDoor)
             {
-                int pos = columns/2;
-                for (int y = rows, x = pos, i = 0; i<1; i++, x++)
+                int pos = columns / 2;
+                for (int y = rows, x = pos, i = 0; i < 1; i++, x++)
                 {
                     boardMap[y, x] = tile;
                     doorsNumber++;
@@ -102,8 +94,8 @@ namespace Game.LevelManager.DungeonLoader
             }
             if (leftDoor)
             {
-                int pos = rows/2;
-                for (int y = pos, x = -1, i = 0; i<1; i++, y++)
+                int pos = rows / 2;
+                for (int y = pos, x = -1, i = 0; i < 1; i++, y++)
                 {
                     boardMap[y, x] = tile;
                     doorsNumber++;
@@ -111,8 +103,8 @@ namespace Game.LevelManager.DungeonLoader
             }
             if (bottomDoor)
             {
-                int pos = columns/2;
-                for (int y = -1, x = pos, i = 0; i<1; i++, x++)
+                int pos = columns / 2;
+                for (int y = -1, x = pos, i = 0; i < 1; i++, x++)
                 {
                     boardMap[y, x] = tile;
                     doorsNumber++;
@@ -120,20 +112,95 @@ namespace Game.LevelManager.DungeonLoader
             }
             if (rightDoor)
             {
-                int pos = rows/2;
-                for (int y = pos, x = columns, i = 0; i<1; i++, y++)
+                int pos = rows / 2;
+                for (int y = pos, x = columns, i = 0; i < 1; i++, y++)
                 {
                     boardMap[y, x] = tile;
                     doorsNumber++;
                 }
             }
-            
+
             InitialiseList();
-            
+
             while (gridPositions.Count != 0)
             {
                 Vector3 randomPosition = RandomPosition();
-                boardMap[(int) randomPosition.y, (int) randomPosition.x] = 1;
+                boardMap[(int)randomPosition.y, (int)randomPosition.x] = 1;
+            }
+        }
+
+        static RoomData PassToRoomData()
+        {
+            RoomData roomData = ScriptableObject.CreateInstance<RoomData>();
+            roomData.Init(rows, columns);
+
+            for (int x = 0; x < columns; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    switch (boardMap[y, x])
+                    {
+                        case 0:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
+                            break;
+                        case 1:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                            break;
+                        case 2:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
+                            break;
+                        default:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                            break;
+                    }
+                }
+            }
+
+            return roomData;
+        }
+
+        static void SetupWalls()
+        {
+            List<Vector3> doorPositions = FindAllDoors();
+            List<Vector3> foundDoors = new List<Vector3>();
+
+            foundDoors.Clear();
+
+            CleanSetup();
+
+            if (!IsPossible(doorPositions[0], ref foundDoors))
+            {
+                for (int i = 0; i < doorPositions.Count; i++)
+                {
+                    if (!foundDoors.Contains(doorPositions[i]))
+                    {
+                        DigTo(GetRandomDiscoveredPositionFromDoor(doorPositions[0]), doorPositions[i]);
+                        if (IsPossible(doorPositions[0], ref foundDoors))
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            FillClosedAreas(GetRandomDiscoveredPositionFromDoor(doorPositions[0]));
+
+            erosion = boardFinalErosion;
+            ApplyErosion(); // Apply final erosion
+
+        }
+
+        static void InitialiseList()
+        {
+            gridPositions.Clear();
+
+            for (int x = 0; x < columns; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    boardMap[y, x] = 0;
+                    gridPositions.Add(new Vector3(x, y, 0f));
+                }
             }
         }
 
@@ -365,37 +432,6 @@ namespace Game.LevelManager.DungeonLoader
             }
         }
 
-        static void SetupWalls()
-        {
-            List<Vector3> doorPositions = FindAllDoors();
-            List<Vector3> foundDoors = new List<Vector3>();
-            
-            foundDoors.Clear();
-
-            CleanSetup();
-
-            if (!IsPossible(doorPositions[0], ref foundDoors))
-            {
-                for (int i = 0; i < doorPositions.Count; i++)
-                {
-                    if (!foundDoors.Contains(doorPositions[i]))
-                    {
-                        DigTo(GetRandomDiscoveredPositionFromDoor(doorPositions[0]), doorPositions[i]);
-                        if (IsPossible(doorPositions[0], ref foundDoors))
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            FillClosedAreas(GetRandomDiscoveredPositionFromDoor(doorPositions[0]));
-            
-            erosion = boardFinalErosion;
-            ApplyErosion(); // Apply final erosion
-
-        }
-
         static void FillClosedAreas(Vector3 startPosition)
         {
             MatrixMap observableMap = new MatrixMap(boardMap);
@@ -577,39 +613,6 @@ namespace Game.LevelManager.DungeonLoader
             _TryPath(map,ref foundDoors, y+1, x);
             _TryPath(map,ref foundDoors, y-1, x);
             
-        }
-
-        public  static  RoomData CreateNewRoom(RoomGeneratorInput roomGeneratorInput)
-        {
-            TranslateInput(roomGeneratorInput);
-            boardDensity = 2;
-            switch (boardDensity)
-            {
-                case 1: boardFinalErosion = 0f;
-                        rule = 3;
-                        break;
-                case 2: boardFinalErosion = 1f;
-                        rule = 1;
-                        break;
-                case 3: boardFinalErosion = 0.5f;
-                        rule = 1;
-                        break;
-            }
-
-            BoardSetup();
-            SetupWalls();
-            RoomData generatedRoom = PassToRoomData();
-            return generatedRoom;
-        }
-        
-        static void TranslateInput(RoomGeneratorInput input)
-        {
-            columns = (int)input.Size.y;
-            rows = (int)input.Size.x;
-            topDoor = input.DoorExists(input.DoorEast); //top
-            bottomDoor = input.DoorExists(input.DoorWest); //bottom
-            leftDoor = input.DoorExists(input.DoorSouth); //left
-            rightDoor = input.DoorExists(input.DoorNorth); //right
-        }
+        } 
     }
 }
