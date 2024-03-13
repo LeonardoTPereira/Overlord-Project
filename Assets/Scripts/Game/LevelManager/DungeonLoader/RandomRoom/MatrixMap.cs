@@ -16,6 +16,7 @@ namespace Game.LevelManager.DungeonLoader
             this.columns = columns;
             matrixMap = new int[rows + 2, columns + 2];
         }
+
         public MatrixMap(MatrixMap original)
         {
             rows = original.rows;

@@ -25,7 +25,6 @@ namespace Game.LevelManager.DungeonLoader
         private static int rule;
         private static float erosion;
         
-        private static int boardDensity;
         private static float boardFinalErosion;
         
         private static List<Vector3> gridPositions = new List<Vector3>();
@@ -33,8 +32,25 @@ namespace Game.LevelManager.DungeonLoader
         public static RoomData CreateNewRoom(RoomGeneratorInput roomGeneratorInput)
         {
             TranslateInput(roomGeneratorInput);
-            boardDensity = MEDIUM_BOARD_DENSITY;
+            SelectBoardDensity(MEDIUM_BOARD_DENSITY);
+            BoardSetup();
+            SetupWalls();
+            RoomData generatedRoom = PassToRoomData();
+            return generatedRoom;
+        }
 
+        static void TranslateInput(RoomGeneratorInput input)
+        {
+            columns = (int)input.Size.y;
+            rows = (int)input.Size.x;
+            topDoor = input.DoorExists(input.DoorEast); //top
+            bottomDoor = input.DoorExists(input.DoorWest); //bottom
+            leftDoor = input.DoorExists(input.DoorSouth); //left
+            rightDoor = input.DoorExists(input.DoorNorth); //right
+        }
+
+        static void SelectBoardDensity(int boardDensity)
+        {
             switch (boardDensity)
             {
                 case LOW_BOARD_DENSITY:
@@ -50,21 +66,6 @@ namespace Game.LevelManager.DungeonLoader
                     rule = 1;
                     break;
             }
-
-            BoardSetup();
-            SetupWalls();
-            RoomData generatedRoom = PassToRoomData();
-            return generatedRoom;
-        }
-
-        static void TranslateInput(RoomGeneratorInput input)
-        {
-            columns = (int)input.Size.y;
-            rows = (int)input.Size.x;
-            topDoor = input.DoorExists(input.DoorEast); //top
-            bottomDoor = input.DoorExists(input.DoorWest); //bottom
-            leftDoor = input.DoorExists(input.DoorSouth); //left
-            rightDoor = input.DoorExists(input.DoorNorth); //right
         }
 
         static void BoardSetup()
@@ -86,8 +87,8 @@ namespace Game.LevelManager.DungeonLoader
                     boardMap[y, x] = tile;
                 }
             }
-
             tile = 4;
+
             if (topDoor)
             {
                 int pos = columns / 2;
@@ -124,7 +125,6 @@ namespace Game.LevelManager.DungeonLoader
                     doorsNumber++;
                 }
             }
-
             InitialiseList();
 
             while (gridPositions.Count != 0)
@@ -157,9 +157,7 @@ namespace Game.LevelManager.DungeonLoader
                     }
                 }
             }
-
             FillClosedAreas(GetRandomDiscoveredPositionFromDoor(doorPositions[0]));
-
             erosion = boardFinalErosion;
             ApplyErosion(); // Apply final erosion
 
@@ -191,7 +189,6 @@ namespace Game.LevelManager.DungeonLoader
                     }
                 }
             }
-
             return roomData;
         }
 
@@ -217,7 +214,7 @@ namespace Game.LevelManager.DungeonLoader
                 int randomIndex = Random.Range(0, gridPositions.Count);
                 randomPosition = gridPositions[randomIndex];
                 gridPositions.RemoveAt(randomIndex);
-            } while (gridPositions.Count!=0&&(Random.Range(0f, 1f) < INITIAL_DENSITY));
+            } while (gridPositions.Count != 0 && (Random.Range(0f, 1f) < INITIAL_DENSITY));
             
             return randomPosition;
         }
@@ -238,7 +235,6 @@ namespace Game.LevelManager.DungeonLoader
                     }
                 }
             }
-
             return number;
         }
         
@@ -258,7 +254,6 @@ namespace Game.LevelManager.DungeonLoader
                     }
                 }
             }
-
             return number;
         }
 
@@ -297,10 +292,9 @@ namespace Game.LevelManager.DungeonLoader
                     }
                 }
             }
-
             return false;
-
         }
+
         static void CleanSetup()
         {
             int k = 0;
@@ -321,8 +315,7 @@ namespace Game.LevelManager.DungeonLoader
 
                         ApplyRules(y,x,boardMap[y, x], numberOfAdjacentWalls , ref nextGenMap, rule);
                     }
-                }
-                
+                }                
                 for (int y = 0; y < rows; y++)
                 {
                     for (int x = 0; x < columns; x++)
@@ -379,37 +372,35 @@ namespace Game.LevelManager.DungeonLoader
                         break;
 
                 }
-
                     break;
 
                 case 3: switch (value)
-                    {
-                        case 1:
-                            if (neighbors < 2)
-                            {
-                                nextGenMap[y, x] = 0;
-                            }
+                {
+                    case 1:
+                        if (neighbors < 2)
+                        {
+                            nextGenMap[y, x] = 0;
+                        }
 
-                            if (neighbors >= 2 && neighbors <= 3)
-                            {
-                                nextGenMap[y, x] = 1;
-                            }
+                        if (neighbors >= 2 && neighbors <= 3)
+                        {
+                            nextGenMap[y, x] = 1;
+                        }
 
-                            if (neighbors > 3)
-                            {
-                                nextGenMap[y, x] = 0;
-                            }
+                        if (neighbors > 3)
+                        {
+                            nextGenMap[y, x] = 0;
+                        }
                                 
-                            break;
-                        case 0:
-                            if ((neighbors >= 3 && neighbors <= 3))
-                            {
-                                nextGenMap[y, x] = 1;
-                            }
-                            break;
+                        break;
+                    case 0:
+                        if ((neighbors >= 3 && neighbors <= 3))
+                        {
+                            nextGenMap[y, x] = 1;
+                        }
+                        break;
 
-                    }
-
+                }
                     break;
             }
         }
@@ -473,7 +464,6 @@ namespace Game.LevelManager.DungeonLoader
             {
                 return;
             }
-
             map[y, x] = fillValue;
             
             _FloodFill(ref map, referencePosition+Vector3.up, fillValue, beforeValue);
@@ -484,13 +474,14 @@ namespace Game.LevelManager.DungeonLoader
 
         static Vector3 GetRandomDiscoveredPositionFromDoor(Vector3 doorPosition)
         {
-            Vector3 referencePosition = new Vector3();
-            
+            Vector3 referencePosition = new Vector3();            
             List<Vector3> possibleGround = new List<Vector3>();
+
             possibleGround.Add(doorPosition+Vector3.up);
             possibleGround.Add(doorPosition+Vector3.down);
             possibleGround.Add(doorPosition+Vector3.right);
             possibleGround.Add(doorPosition+Vector3.left);
+
             foreach (var position in possibleGround)
             {
                 int x = (int) position.x;
