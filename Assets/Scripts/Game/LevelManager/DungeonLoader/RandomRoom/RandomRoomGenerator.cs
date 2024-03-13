@@ -6,19 +6,7 @@ namespace Game.LevelManager.DungeonLoader
 {
     //Class for room generation using cellular automata
     public static class RandomRoomGenerator
-    {
-        public class Count
-        {
-            public int minimum;
-            public int maximum;
-
-            public Count(int min, int max)
-            {
-                minimum = min;
-                maximum = max;
-            }
-        }
-        
+    {        
         public class MatrixMap
         {
             
@@ -67,7 +55,6 @@ namespace Game.LevelManager.DungeonLoader
         private static int columns;
         private static int rows;
         private static int doorsNumber;
-        private static Count wallCount;
         private static MatrixMap boardMap;
 
         private static float initialDensity = 0.2f;
