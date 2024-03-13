@@ -6,7 +6,13 @@ namespace Game.LevelManager.DungeonLoader
 {
     // Room generation using cellular automata
     public static class RandomRoomGenerator
-    {        
+    {
+        private const int LOW_BOARD_DENSITY = 1;
+        private const int MEDIUM_BOARD_DENSITY = 2;
+        private const int HIGH_BOARD_DENSITY = 3;
+        private const int NUMBER_OF_GENERATIONS = 5;
+        private const float INITIAL_DENSITY = 0.2f;
+
         private static bool leftDoor;
         private static bool rightDoor;
         private static bool topDoor;
@@ -16,12 +22,10 @@ namespace Game.LevelManager.DungeonLoader
         private static int doorsNumber;
         private static MatrixMap boardMap;
 
-        private static float initialDensity = 0.2f;
         private static int rule;
-        private static int numberOfGens = 5;
         private static float erosion;
         
-        private static int boardDensity; //1 for low, 2 for medium, 3 for high
+        private static int boardDensity;
         private static float boardFinalErosion;
         
         private static List<Vector3> gridPositions = new List<Vector3>();
@@ -29,18 +33,19 @@ namespace Game.LevelManager.DungeonLoader
         public static RoomData CreateNewRoom(RoomGeneratorInput roomGeneratorInput)
         {
             TranslateInput(roomGeneratorInput);
-            boardDensity = 2;
+            boardDensity = MEDIUM_BOARD_DENSITY;
+
             switch (boardDensity)
             {
-                case 1:
+                case LOW_BOARD_DENSITY:
                     boardFinalErosion = 0f;
                     rule = 3;
                     break;
-                case 2:
+                case MEDIUM_BOARD_DENSITY:
                     boardFinalErosion = 1f;
                     rule = 1;
                     break;
-                case 3:
+                case HIGH_BOARD_DENSITY:
                     boardFinalErosion = 0.5f;
                     rule = 1;
                     break;
@@ -129,36 +134,6 @@ namespace Game.LevelManager.DungeonLoader
             }
         }
 
-        static RoomData PassToRoomData()
-        {
-            RoomData roomData = ScriptableObject.CreateInstance<RoomData>();
-            roomData.Init(rows, columns);
-
-            for (int x = 0; x < columns; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    switch (boardMap[y, x])
-                    {
-                        case 0:
-                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
-                            break;
-                        case 1:
-                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
-                            break;
-                        case 2:
-                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
-                            break;
-                        default:
-                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
-                            break;
-                    }
-                }
-            }
-
-            return roomData;
-        }
-
         static void SetupWalls()
         {
             List<Vector3> doorPositions = FindAllDoors();
@@ -190,6 +165,36 @@ namespace Game.LevelManager.DungeonLoader
 
         }
 
+        static RoomData PassToRoomData()
+        {
+            RoomData roomData = ScriptableObject.CreateInstance<RoomData>();
+            roomData.Init(rows, columns);
+
+            for (int x = 0; x < columns; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    switch (boardMap[y, x])
+                    {
+                        case 0:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
+                            break;
+                        case 1:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                            break;
+                        case 2:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Floor, new Vector2(x, y));
+                            break;
+                        default:
+                            roomData[y, x] = new Tile(Enums.TileTypes.Block, new Vector2(x, y));
+                            break;
+                    }
+                }
+            }
+
+            return roomData;
+        }
+
         static void InitialiseList()
         {
             gridPositions.Clear();
@@ -212,7 +217,7 @@ namespace Game.LevelManager.DungeonLoader
                 int randomIndex = Random.Range(0, gridPositions.Count);
                 randomPosition = gridPositions[randomIndex];
                 gridPositions.RemoveAt(randomIndex);
-            } while (gridPositions.Count!=0&&(Random.Range(0f, 1f) < initialDensity));
+            } while (gridPositions.Count!=0&&(Random.Range(0f, 1f) < INITIAL_DENSITY));
             
             return randomPosition;
         }
@@ -302,7 +307,7 @@ namespace Game.LevelManager.DungeonLoader
             erosion = 1f;
             ApplyErosion();
             
-            while (k<numberOfGens) 
+            while (k < NUMBER_OF_GENERATIONS) 
             {
                 k++;
                 MatrixMap nextGenMap = new MatrixMap(boardMap);
@@ -573,8 +578,6 @@ namespace Game.LevelManager.DungeonLoader
             {
                 _DigTo(ref map, position, finalPosition, ref flag);
             }
-            
-
         }
 
         static bool IsPossible(Vector3 initialPosition, ref List<Vector3> foundDoors)
@@ -611,8 +614,7 @@ namespace Game.LevelManager.DungeonLoader
             _TryPath(map,ref foundDoors, y, x+1);
             _TryPath(map,ref foundDoors, y, x-1);
             _TryPath(map,ref foundDoors, y+1, x);
-            _TryPath(map,ref foundDoors, y-1, x);
-            
+            _TryPath(map,ref foundDoors, y-1, x);            
         } 
     }
 }
