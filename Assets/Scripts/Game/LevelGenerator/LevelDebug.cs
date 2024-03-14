@@ -4,17 +4,12 @@ using System.Text;
 
 namespace Game.LevelGenerator
 {
-    /// This class holds level debug-purpose functions.
     public static class LevelDebug
     {
-        /// Indent of debugging functions and methods.
         public static readonly string INDENT = "  ";
 
-        /// Print the tree representation of the entered level.
-        public static void PrintTree(
-            Dungeon _dungeon,
-            string _indent
-        ) {
+        public static void PrintLevelRepresentationTree(Dungeon _dungeon, string _indent) 
+        {
             // Get tree root
             Room root = _dungeon.Rooms[0];
             // This list holds lists of nodes children
@@ -71,11 +66,8 @@ namespace Game.LevelGenerator
             }
         }
 
-        /// Print the map with missions.
-        public static void PrintMissionMap(
-            Dungeon _dungeon,
-            string _indent
-        ) {
+        public static void PrintMissionMap(Dungeon _dungeon, string _indent) 
+        {
             // Initialize the auxiliary map
             int sizeX = _dungeon.MaxX - _dungeon.MinX + 1;
             int sizeY = _dungeon.MaxY - _dungeon.MinY + 1;
@@ -194,11 +186,8 @@ namespace Game.LevelGenerator
             }
         }
 
-        /// Print the map with enemies.
-        public static void PrintEnemyMap(
-            Dungeon _dungeon,
-            string _indent
-        ) {
+        public static void PrintEnemyMap(Dungeon _dungeon, string _indent) 
+        {
             // Initialize the auxiliary map
             int sizeX = _dungeon.MaxX - _dungeon.MinX + 1;
             int sizeY = _dungeon.MaxY - _dungeon.MinY + 1;
@@ -292,10 +281,8 @@ namespace Game.LevelGenerator
             }
         }
 
-        /// Define the room color that will be printed on the console.
-        private static void SetRoomColor(
-            int _code
-        ) {
+        private static void SetRoomColor(int _code) 
+        {
             // If the room is a room
             if (_code == Common.RoomType.EMPTY)
             {
