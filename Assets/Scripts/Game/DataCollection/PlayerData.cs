@@ -146,8 +146,6 @@ namespace Game.DataCollection
             }
         }
 
-
-
         public void AddCollectedTreasure(int amount)
         {
             SerializedData.TreasuresCollected += amount;
