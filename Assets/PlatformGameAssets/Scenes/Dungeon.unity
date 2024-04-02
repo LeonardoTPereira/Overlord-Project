@@ -1463,22 +1463,37 @@ PrefabInstance:
     - target: {fileID: 251593565399073389, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 602.2619
+      value: 601.3605
       objectReference: {fileID: 0}
     - target: {fileID: 251593565399073389, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 115.24542
+      value: 120.05438
       objectReference: {fileID: 0}
     - target: {fileID: 251593565399073389, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 447.13095
+      value: 446.68024
       objectReference: {fileID: 0}
     - target: {fileID: 251593565399073389, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -77.62271
+      value: -80.02719
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056047405311822667, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593444060440711262, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227080904364636368, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3227080904364636368, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
@@ -1487,8 +1502,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063217149264964398, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063217149264964398, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140580483353834942, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4140580483353834943, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
@@ -1503,7 +1528,7 @@ PrefabInstance:
     - target: {fileID: 4140580483353834943, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 602.2619
+      value: 601.3605
       objectReference: {fileID: 0}
     - target: {fileID: 4140580483353834943, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
@@ -1513,12 +1538,17 @@ PrefabInstance:
     - target: {fileID: 4140580483353834943, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 301.13095
+      value: 300.68024
       objectReference: {fileID: 0}
     - target: {fileID: 4140580483702526835, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_Name
       value: DialogueCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140580483702526835, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4140580483702526836, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
@@ -1627,6 +1657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4140580484200364588, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140580484200364588, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1670,6 +1705,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -2.107605
       objectReference: {fileID: 0}
+    - target: {fileID: 4140580484275000752, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672728273635963170, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4822882867598132585, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1693,7 +1738,7 @@ PrefabInstance:
     - target: {fileID: 4822882867598132585, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 115.24542
+      value: 120.05438
       objectReference: {fileID: 0}
     - target: {fileID: 4822882867598132585, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
@@ -1703,12 +1748,27 @@ PrefabInstance:
     - target: {fileID: 4822882867598132585, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -77.62271
+      value: -80.02719
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049362023153987788, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5606108194740391441, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 31.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633985178096391551, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203097253683653316, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6276616723564650115, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
@@ -1717,13 +1777,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6312250646339488559, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312250646339488559, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6631540231776918577, guid: b9e38676673037f42a3f7e63103be6d7,
         type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631540231776918577, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787917238112043298, guid: b9e38676673037f42a3f7e63103be6d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9e38676673037f42a3f7e63103be6d7, type: 3}
@@ -3545,7 +3620,7 @@ GameObject:
   - component: {fileID: 986226212756628599}
   - component: {fileID: 986226212756629384}
   - component: {fileID: 7581917956541838976}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MinimapCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4278,7 +4353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1345975226081258208}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fullmap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4316,7 +4391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1345975226130600744}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Minimap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8972,7 +9047,7 @@ GameObject:
   - component: {fileID: 7581917956110803811}
   - component: {fileID: 7581917956110803808}
   - component: {fileID: 7581917956110803836}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8998,7 +9073,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -99
   m_TargetDisplay: 0
 --- !u!114 &7581917956110803811
 MonoBehaviour:
@@ -10247,7 +10322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7943855812951401550}
   - component: {fileID: 8489759201196845267}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CanvasMinimap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
