@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -304,9 +304,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.01091703
+    y: 0.0040983604
     width: 1
-    height: 0.9788483
+    height: 0.9912909
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -636,6 +636,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1516576439561316138, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1516576439594577735, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_IsActive
@@ -664,20 +669,19 @@ PrefabInstance:
     - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_text
-      value: "Este jogo \xE9 parte de um projeto de pesquisa de TCC com o objetivo
-        de fazer o jogador explorar diferentes n\xEDveis com inimigos diversificados,
-        a fim de coletar dados do jogador.\n\nUtilize \"WASD\" para movimentar-se,
-        ESPA\xC7O para pular e clique com o bot\xE3o esquerdo do mouse para atirar.
-        Use o bot\xE3o X e E para interagir com NPCs e certos itens e TAB para mudar
-        a visualiza\xE7\xE3o do minimapa.\n\nVoc\xEA precisa navegar pelo n\xEDvel,
-        encontrar chaves e abrir portas.\n\nH\xE1 miss\xF5es opcionais solicitadas
-        por tr\xEAs NPCs espalhados pelo calabou\xE7o.\n\nPara vencer, colete o item
-        abaixo:\n"
+      value: "Este jogo \xE9 parte de um projeto de pesquisa com o objetivo de fazer
+        o jogador explorar diferentes n\xEDveis com inimigos diversificados, a fim
+        de coletar dados do jogador.\n\nUtilize \"WASD\" para movimentar-se, ESPA\xC7O
+        para pular e clique com o bot\xE3o esquerdo do mouse para atirar. Use o bot\xE3o
+        X e E para interagir com NPCs e certos itens e TAB para mudar a visualiza\xE7\xE3o
+        do minimapa.\n\nVoc\xEA precisa navegar pelo n\xEDvel, encontrar chaves e
+        abrir portas.\n\nH\xE1 miss\xF5es opcionais solicitadas por tr\xEAs NPCs
+        espalhados pelo calabou\xE7o.\n\nPara vencer, colete o item abaixo:\n"
       objectReference: {fileID: 0}
     - target: {fileID: 1516576440621938556, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_fontSize
-      value: 19.75
+      value: 20.2
       objectReference: {fileID: 0}
     - target: {fileID: 1516576440918953186, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
