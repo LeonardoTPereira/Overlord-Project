@@ -180,7 +180,15 @@ namespace Game.NarrativeGenerator
             {
                 Directory.CreateDirectory(folder);
             }
-            var file = folder + Constants.SEPARATOR_CHARACTER + Time.realtimeSinceStartup;
+
+            var name = "";
+            foreach (ProfileScores score in questJson.profiles)
+            {
+                name += score.profile + score.score;
+            }
+            if ( name == "") name = "RandomGenerated";
+            
+            var file = folder + Constants.SEPARATOR_CHARACTER + name;
             var fileEnding = ".json";
             var fileCounter = 0;
             if (File.Exists(file))
