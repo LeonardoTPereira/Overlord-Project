@@ -20,7 +20,7 @@ namespace Game.NarrativeGenerator
     public class QuestsToJson
     {
         public static QuestJson questJson;
-        public static List<List<GeneratedQuests>> generatedQuests = new List<List<GeneratedQuests>>();
+        public static List<List<string>> generatedQuests = new List<List<string>>();
 
         [System.Serializable]
         public class QuestJson
@@ -33,10 +33,24 @@ namespace Game.NarrativeGenerator
                 profiles.AddRange( _profiles );
             }
 
-            public void AddGeneratedQuests ( List<GeneratedQuests> _generatedQuests )
+            public QuestJson (){}
+
+
+            public void AddGeneratedQuests ( List<NameByTotal> _generatedQuests,  Dictionary<string,int> sameQuestDistance, Dictionary<string,int> sameTypeDistance )
             {
                 GeneratedQuestList newQuestList = new GeneratedQuestList();
                 newQuestList.Quests =  _generatedQuests;
+
+                foreach (KeyValuePair<string,int> item in sameQuestDistance)
+                {
+                    newQuestList.sameQuestDistance.Add( new NameByTotal(item.Key, item.Value) );
+                }
+
+                foreach (KeyValuePair<string,int> item in sameTypeDistance)
+                {
+                    newQuestList.sameTypeDistance.Add( new NameByTotal(item.Key, item.Value) );
+                }
+
                 generatedQuestLists.Add(newQuestList);
             }
         }
@@ -48,14 +62,19 @@ namespace Game.NarrativeGenerator
             [SerializeField] public float score;
         }
 
+        [System.Serializable]
         public class GeneratedQuestList
         {
-            [SerializeField] public List<GeneratedQuests> genQuests;
+            [SerializeField] public List<NameByTotal> genQuests;
+            [SerializeField] public List<NameByTotal> sameQuestDistance;
+            [SerializeField] public List<NameByTotal> sameTypeDistance;
             public GeneratedQuestList()
             {
-                genQuests = new List<GeneratedQuests>();
+                genQuests = new List<NameByTotal>();
+                sameQuestDistance = new List<NameByTotal>();
+                sameTypeDistance = new List<NameByTotal>();
             }
-            [SerializeField]  public List<GeneratedQuests> Quests
+            [SerializeField]  public List<NameByTotal> Quests
             {
                 get => genQuests;
                 set => genQuests = value;
@@ -63,14 +82,24 @@ namespace Game.NarrativeGenerator
         }
 
         [System.Serializable]
-        public class GeneratedQuests
+        public class NameByTotal
         {
             [SerializeField] public string name;
             [SerializeField] public int total = 1;
+            public NameByTotal(string _name, int _total = 1)
+            {
+                name = _name;
+                total = _total;
+            }
         }
 
         public static void Init ( PlayerProfile profile )
         {
+            if ( profile == null )
+            {
+                questJson = new QuestJson();
+                return;
+            }
             List<ProfileScores> profiles = new List<ProfileScores>();
             ProfileScores mastery = new ProfileScores();
             mastery.profile = "Mastery";
@@ -91,9 +120,9 @@ namespace Game.NarrativeGenerator
             questJson = new QuestJson( profiles.ToArray());
         }
 
-        public static void AddGeneratedQuests( int index, List<QuestSO> questSos )
+        public static void AddGeneratedQuests( int index, List<QuestSO> questSos, Dictionary<string,int> questDistance, Dictionary<string,int> typeDistance )
         {
-            List<GeneratedQuests> genQuests = new List<GeneratedQuests>();
+            List<NameByTotal> genQuests = new List<NameByTotal>();
             foreach (QuestSO item in questSos)
             {
                 string symbol = item.symbolType.ToString();
@@ -103,55 +132,79 @@ namespace Game.NarrativeGenerator
                 }
                 else
                 {
-                    GeneratedQuests newQuest = new GeneratedQuests();
-                    newQuest.name = item.symbolType.ToString();
+                    NameByTotal newQuest = new NameByTotal(item.symbolType.ToString() );
                     genQuests.Add( newQuest );
                 }
             }
-            Debug.Log("adding generated quests");
-            questJson.AddGeneratedQuests( genQuests );
+            questJson.AddGeneratedQuests( genQuests, questDistance, typeDistance );
         }
+
+        public static void AddGeneratedQuests( int index, List<string> quests, Dictionary<string,int> questDistance, Dictionary<string,int> typeDistance )
+        {
+            List<NameByTotal> genQuests = new List<NameByTotal>();
+            foreach (string item in quests)
+            {
+                string symbol = item;
+                if ( genQuests.Find( x => x.name == symbol ) != null )
+                {
+                    genQuests.Find( x => x.name == symbol ).total += 1;
+                }
+                else
+                {
+                    NameByTotal newQuest = new NameByTotal(item.ToString());
+                    genQuests.Add( newQuest );
+                }
+            }
+            questJson.AddGeneratedQuests( genQuests, questDistance, typeDistance );
+        }
+
+
+        // public static void AddGeneratedQuests( int index, List<string> questNames )
+        // {
+        //     questJson.AddGeneratedQuests( questNames );
+        // }
 
         public static void CreateJson()
         {
-            // foreach( List<GeneratedQuests> genQ in questJson.generatedQuests )
+            //TODO: PRINT DISTANCES
+            // foreach( GeneratedQuestList genQ in questJson.generatedQuestLists )
             // {
-            //     foreach (GeneratedQuests g in genQ)
+            //     foreach (NameByTotal q in genQ.genQuests)
             //     {
-            //         Debug.Log(g.name);
+            //         Debug.Log(q.name);
             //     }
             // }
             Debug.Log(JsonUtility.ToJson(questJson));
-            // var folder = "folder"+ Constants.SEPARATOR_CHARACTER + QuestJson.selectedProfile;
-            // if (!Directory.Exists(folder))
-            // {
-            //     Directory.CreateDirectory(folder);
-            // }
-            // var file = folder + Constants.SEPARATOR_CHARACTER + QuestJson.selectedProfile;
-            // var fileEnding = ".json";
-            // var fileCounter = 0;
-            // if (File.Exists(file))
-            // {
-            //     fileCounter++;
-            //     while (File.Exists(file + fileCounter + fileEnding))
-            //     {
-            //         fileCounter++;
-            //     }
-            //     file += fileCounter + fileEnding;
-            // }
-            // else
-            // {
-            //     file += fileEnding;
-            // }
+            var folder = Application.persistentDataPath+ Constants.SEPARATOR_CHARACTER + "Results";
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            var file = folder + Constants.SEPARATOR_CHARACTER + Time.realtimeSinceStartup;
+            var fileEnding = ".json";
+            var fileCounter = 0;
+            if (File.Exists(file))
+            {
+                fileCounter++;
+                while (File.Exists(file + fileCounter + fileEnding))
+                {
+                    fileCounter++;
+                }
+                file += fileCounter + fileEnding;
+            }
+            else
+            {
+                file += fileEnding;
+            }
 
-            // using (var fileStream = new FileStream(file, FileMode.OpenOrCreate))
-            // {
-            //     using (var sw = new StreamWriter(fileStream))
-            //     {
-            //         sw.Write(JsonUtility.ToJson(questJson));
-            //     }
-            // }
-            // Debug.Log("Writing Json file..");
+            using (var fileStream = new FileStream(file, FileMode.OpenOrCreate))
+            {
+                using (var sw = new StreamWriter(fileStream))
+                {
+                    sw.Write(JsonUtility.ToJson(questJson));
+                }
+            }
+            Debug.Log("Writing Json file..");
         }
     }
 }

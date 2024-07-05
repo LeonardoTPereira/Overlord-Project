@@ -30,5 +30,10 @@ namespace Game.NarrativeGenerator
             };
             NarrativeCreatorEventHandler?.Invoke(this, new NarrativeCreatorEventArgs(questWeightsbyType));
         }
+
+        public void SelectQuestWeights(Dictionary<string, int> questWeightsbyType)
+        {
+            NarrativeCreatorEventHandler?.Invoke(this, new NarrativeCreatorEventArgs(questWeightsbyType));
+        }
     }
 }
