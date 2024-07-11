@@ -7,10 +7,10 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    class Listen : CreativityQuestSOs
+    class Goto : CreativityQuestSOs
     {
         public override string symbolType {
-            get { return Constants.LISTEN; }
+            get { return Constants.GOTO; }
         }
     }
 }

@@ -7,10 +7,10 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    class Spy : ImmersionQuestSOs
+    class Stealth : CreativityQuestSOs
     {
         public override string symbolType {
-            get { return Constants.SPY; }
+            get { return Constants.STEALTH; }
         }
     }
 }

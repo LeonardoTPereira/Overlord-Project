@@ -7,10 +7,10 @@ using Game.NPCs;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    class Exchange : CreativityQuestSOs
+    class Report : ImmersionQuestSOs
     {
         public override string symbolType {
-            get { return Constants.EXCHANGE; }
+            get { return Constants.REPORT; }
         }
     }
 }

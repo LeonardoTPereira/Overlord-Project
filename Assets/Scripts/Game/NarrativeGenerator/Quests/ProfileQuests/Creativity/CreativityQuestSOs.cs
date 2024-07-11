@@ -10,18 +10,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     class CreativityQuestSOs : QuestSO
     {
         public override string symbolType {
-            get { return Constants.TALK_QUEST; }
+            get { return Constants.EXPLORE_QUEST; }
         }
-
         public override Dictionary<string, Func<int,int>> nextSymbolChances
         {
+            
             get {
                 Dictionary<string, Func<int, int>> creativityQuestWeights = new Dictionary<string, Func<int, int>>();
-                creativityQuestWeights.Add( Constants.LISTEN, Constants.FiveOptionQuestLineWeight );
-                creativityQuestWeights.Add( Constants.READ, Constants.FiveOptionQuestLineWeight );
-                creativityQuestWeights.Add( Constants.EXCHANGE, Constants.FiveOptionQuestLineWeight );
-                creativityQuestWeights.Add( Constants.GIVE, Constants.FiveOptionQuestLineWeight );
-                creativityQuestWeights.Add( Constants.REPORT, Constants.FiveOptionQuestLineWeight );
+                creativityQuestWeights.Add( Constants.STEALTH, Constants.FourOptionQuestLineWeight );
+                creativityQuestWeights.Add( Constants.SPY, Constants.FourOptionQuestLineWeight );
+                creativityQuestWeights.Add( Constants.ESCORT, Constants.FourOptionQuestLineWeight );
+                creativityQuestWeights.Add( Constants.GOTO, Constants.FourOptionQuestLineWeight );
                 creativityQuestWeights.Add( Constants.EMPTY_TERMINAL, Constants.OneOptionQuestEmptyWeight );
                 return creativityQuestWeights;
             } 
