@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8fa552f7f24ee4ea0c29813d5f5756, type: 3}
+  m_Name: RealtimePreTestQuestionnaire
+  m_EditorClassIdentifier: 
+  questions:
+  - {fileID: 11400000, guid: fba9c4fe9dc44730a7a84851480ccd8b, type: 2}
+  - {fileID: 11400000, guid: 94d0c048817c41d5bf7da13d7f64d577, type: 2}
+  - {fileID: 11400000, guid: 5decff76aceb48a386e07d9020963b85, type: 2}
+  - {fileID: 11400000, guid: 658927cd57d940c0b8fefe823676c779, type: 2}

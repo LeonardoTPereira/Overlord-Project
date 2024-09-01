@@ -57,6 +57,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -376,6 +377,18 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      MageSpriteSheet_3: -3779218348937293656
+      MageSpriteSheet_10: -8550273365470191606
+      MageSpriteSheet_1: -5434629368432878890
+      MageSpriteSheet_5: 6519225846045719417
+      MageSpriteSheet_2: -5298819370399050267
+      MageSpriteSheet_6: -2332254044033850698
+      MageSpriteSheet_0: -2161728569512832201
+      MageSpriteSheet_4: -8531513467757050114
+      MageSpriteSheet_7: 7432205722425313948
+      MageSpriteSheet_8: -2839533820035865682
+      MageSpriteSheet_9: -1171933793611929972
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 //Thanks to https://bitbucket.org/dandago/experimental/src/7adeb5f8cdfb054b540887d53cabf27e22a10059/AStarPathfinding/?at=master
 namespace Game.LevelGenerator
@@ -70,25 +71,29 @@ namespace Game.LevelGenerator
                     if (current != null)
                     {
                         // 0 is a NORMAL ROOM
-                        if (current.Type1 == RoomType.Normal)
+                        if (current.Type == RoomType.Normal)
                         {
                             map[iPositive * 2, jPositive * 2] = 0;
                         }
                         // The sequential, positivie index of the key is its representation
-                        else if (current.Type1 == RoomType.Key)
+                        else if (current.Type == RoomType.Key)
                         {
                             map[iPositive * 2, jPositive * 2] = _dungeon.KeyIds.IndexOf(current.Key)+1;
                         }
                         // If the room is locked, the room is a normal room, only the corridor is locked. But is the lock is the last one in the sequential order, than the room is the objective
-                        else if (current.Type1 == RoomType.Locked)
+                        else if (current.Type == RoomType.Locked)
                         {
                             if (_dungeon.LockIds.IndexOf(current.Key) == _dungeon.LockIds.Count -1)
                             {
                                 map[iPositive * 2, jPositive * 2] = 102;
-                                target = new Location { X = iPositive * 2, Y = jPositive * 2 };
                             }
                             else
                                 map[iPositive * 2, jPositive * 2] = 0;
+                        }
+
+                        if (current.IsGoal)
+                        {
+                            target = new Location { X = iPositive * 2, Y = jPositive * 2 };
                         }
                         Room parent = current.Parent;
                         // If the current room is a locked room and has a parent, then the connection between then is locked and is represented by the negative value of the index of the key that opens the lock
@@ -97,7 +102,7 @@ namespace Game.LevelGenerator
 
                             int x = parent.X - current.X + iPositive * 2;
                             int y = parent.Y - current.Y + jPositive * 2;
-                            if (current.Type1 == RoomType.Locked)
+                            if (current.Type == RoomType.Locked)
                             {
                                 locksLocation.Add(new Location { X = x, Y = y, Parent = new Location {
                                     X = 2 * (parent.X - current.X) + iPositive * 2,
@@ -192,7 +197,16 @@ namespace Game.LevelGenerator
                 // If we added the destination to the closed list, we've found a path
                 if (closedList != null)
                 {
-                    if (closedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
+                    Location first = null;
+
+                    foreach (var l in closedList)
+                    {
+                        if (l.X != target.X || l.Y != target.Y) continue;
+                        first = l;
+                        break;
+                    }
+
+                    if (first != null)
                     {
                         break;
                     }

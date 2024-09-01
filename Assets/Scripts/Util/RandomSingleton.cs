@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = System.Random;
 
 namespace Util
@@ -11,9 +10,6 @@ namespace Util
         {
             var seed = (int) DateTime.Now.Ticks & 0x0000FFFF;
             Random = new Random(seed);
-            #if UNITY_EDITOR
-                Debug.Log("Random Seed: " + seed);
-            #endif
         }
 
         private static RandomSingleton _instance;
@@ -36,7 +32,7 @@ namespace Util
         }
 
         public int RandomPercent() {
-            return Random.Next(101);
+            return Random.Next(100);
         }
 
         /// Return a random element from the entered array.

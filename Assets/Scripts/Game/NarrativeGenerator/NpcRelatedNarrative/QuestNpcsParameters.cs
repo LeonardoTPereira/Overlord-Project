@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative
@@ -8,50 +12,67 @@ namespace Game.NarrativeGenerator.NpcRelatedNarrative
     [Serializable]
     public class QuestNpcsParameters
     {
-        [SerializeField] private int totalNpcs;
-        public int TotalNpcs => totalNpcs;
-
         [field: SerializeField]
-        private NpcAmountDictionary NpcsByType { get; }
+        public NpcAmountDictionary NpcsBySo { get; set; }
+        [field: SerializeField]
+        public int TotalNpcs { get; set; }
 
         public QuestNpcsParameters()
         {
-            totalNpcs = 0;
-            NpcsByType = new NpcAmountDictionary();
+            NpcsBySo = new NpcAmountDictionary();
         }
 
-        public void CalculateNpcsFromQuests(QuestLine quests)
+        
+        //TODO this must receive the next quest as well.
+        //Here we will need to change the talk quest to hold NPC data as well.
+        public void CalculateNpcsFromQuests(IEnumerable<QuestLine> questLines)
         {
-            for (var i = 0; i < quests.graph.Count; i++)
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
-                AddNpcWhenTalkQuests(quests.graph[i]);
+                AddNpcWhenTalkQuests(quest);
             }
         }
 
-        private void AddNpcWhenTalkQuests(QuestSO quest)
+        private void AddNpcWhenTalkQuests(QuestSo quest)
         {
             if (IsTalkQuest(quest))
             {
-                AddNpcs((TalkQuestSO) quest);
+                AddNpcs((ListenQuestSo) quest);
             }
         }
 
-        private void AddNpcs(TalkQuestSO quest)
+        private void AddNpcs(ListenQuestSo quest)
         {
-            Debug.Log("Quest: " + quest.name + " NPC: "+ quest.npc);
-            if (NpcsByType.TryGetValue(quest.npc, out var currentNpcCounter))
+            if (NpcsBySo.TryGetValue(quest.Npc, out var npcQuestList))
             {
-                NpcsByType[quest.npc] = currentNpcCounter+1;
+                npcQuestList.Quests.Add(quest);
             }
             else
             {
-                NpcsByType.Add(quest.npc, 1);
+                NpcsBySo.Add(quest.Npc, ScriptableObject.CreateInstance<QuestLine>());
+                NpcsBySo[quest.Npc].Quests.Add(quest);
             }
+            TotalNpcs++;
         }
 
-        private static bool IsTalkQuest(QuestSO quest)
+        private static bool IsTalkQuest(QuestSo quest)
         {
-            return quest.GetType() == typeof(TalkQuestSO);
+            return quest.GetType() == typeof(ListenQuestSo);
+        }
+        
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var kvp in NpcsBySo)
+            {
+                stringBuilder.Append($"Npc = {kvp.Key.NpcName}, total Quests = {kvp.Value.Quests.Count}\n");
+            }
+            return stringBuilder.ToString();
+        }
+
+        public List<NpcSo> GetNpcs()
+        {
+            return NpcsBySo.Select(kvp => kvp.Key).ToList();
         }
     }
 }

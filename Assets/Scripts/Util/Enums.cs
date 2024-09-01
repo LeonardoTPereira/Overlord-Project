@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-namespace Util
+﻿namespace Util
 {
-    public class Enums
+    public static class Enums
     {
+	    public enum RoomThemeEnum
+	    {
+		    Purple,
+		    Blue,
+		    Green,
+		    Yellow,
+		    Red,
+		    Count
+	    }
+	    
         public enum MovementEnum
         {
             None,
@@ -14,7 +21,7 @@ namespace Util
             Random1D,
             Follow1D,
             Flee1D,
-            COUNT
+            Count
         }
 
         public enum ProjectileEnum
@@ -22,14 +29,13 @@ namespace Util
             None,
             Arrow,
             Bomb,
-            COUNT
+            Count
         }
         
         public enum TileTypes
         {
             Floor,
-            Block,
-            COUNT
+            Block
         }
         
         public enum RoomPatterns
@@ -39,7 +45,7 @@ namespace Util
             HorizontalLines,
             VerticalLines,
             Cross,
-            COUNT
+            Count
         }
 
         public enum FormEnum
@@ -94,36 +100,23 @@ namespace Util
 
         public enum PlayerProjectileEnum
         {
-            STRAIGHT = 0,
-            SIN = 1,
-            TRIPLE = 2
+            Straight = 0,
+            Sin = 1,
+            Triple = 2
         }
 
         public enum EnemyTypeEnum
         {
-            EASY = 0,
-            MEDIUM = 1,
-            HARD = 2,
-            ARENA = 3
+            Easy = 0,
+            Medium = 1,
+            Hard = 2,
+            Arena = 3
         }
-    }
-
-    public static class DungeonLinearityConverter
-    {
-        public static readonly ReadOnlyDictionary<Enums.DungeonLinearity, float> DungeonLinearityEnumToFloat
-            = new ReadOnlyDictionary<Enums.DungeonLinearity, float>(new Dictionary<Enums.DungeonLinearity, float>
-            {
-                { Enums.DungeonLinearity.VeryLinear, 1.0f},
-                { Enums.DungeonLinearity.Linear, 1.2f},
-                { Enums.DungeonLinearity.Medium, 1.4f},
-                { Enums.DungeonLinearity.Branched, 1.6f},
-                { Enums.DungeonLinearity.VeryBranched, 1.8f},
-            });
-
-        public static float ToFloat(this Enums.DungeonLinearity dungeonLinearity)
+        
+        public enum GameType
         {
-            return DungeonLinearityEnumToFloat[dungeonLinearity];
+            TopDown,
+            Platformer
         }
-
     }
 }

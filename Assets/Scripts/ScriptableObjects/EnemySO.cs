@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
+using Util;
 
 namespace ScriptableObjects
 {
-    public class EnemySO : ScriptableObject
+    [CreateAssetMenu(fileName = "EnemySO", menuName = "Enemy/EnemySO")]
+    public class EnemySO : ScriptableObject, ISavableGeneratedContent
     {
         public int health;
         public int damage;
@@ -10,7 +13,7 @@ namespace ScriptableObjects
         public float activeTime;
         public float restTime;
         [SerializeField]
-        public WeaponTypeSO weapon;
+        public WeaponTypeSo weapon;
         [SerializeField]
         public MovementTypeSO movement;
         [SerializeField]
@@ -19,7 +22,7 @@ namespace ScriptableObjects
         public float attackSpeed;
         public float projectileSpeed;
 
-        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, WeaponTypeSO _weapon,
+        public void Init(int _health, int _damage, float _movementSpeed, float _activeTime, float _restTime, WeaponTypeSo _weapon,
             MovementTypeSO _movement, BehaviorTypeSO _behavior, float _fitness, float _attackSpeed, float _projectileSpeed)
         {
             health = _health;
@@ -33,6 +36,22 @@ namespace ScriptableObjects
             fitness = _fitness;
             attackSpeed = _attackSpeed;
             projectileSpeed = _projectileSpeed;
+        }
+        public void SaveAsset(string directory)
+        {
+#if UNITY_EDITOR
+            const string newFolder = "Enemies";
+            var fileName = directory;
+            if (!AssetDatabase.IsValidFolder(fileName + Constants.SeparatorCharacter + newFolder))
+            {
+                AssetDatabase.CreateFolder(fileName, newFolder);
+            }
+            fileName += Constants.SeparatorCharacter + newFolder;
+            fileName += Constants.SeparatorCharacter;
+            fileName += weapon+".asset";
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
+            AssetDatabase.CreateAsset(this, uniquePath);
+#endif
         }
     }
 }

@@ -1,0 +1,35 @@
+fileFormatVersion: 2
+guid: eebd30311a6e4ae4686e3bcf02963395
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - doorNorth: {instanceID: 0}
+  - doorSouth: {instanceID: 0}
+  - doorEast: {instanceID: 0}
+  - doorWest: {instanceID: 0}
+  - keyPrefab: {instanceID: 0}
+  - triPrefab: {instanceID: 0}
+  - treasurePrefab: {instanceID: 0}
+  - readableItemPrefab: {fileID: 9194557456358039778, guid: 5869aaeba87722b46b358f7877aff32b,
+      type: 3}
+  - colNorth: {instanceID: 0}
+  - colSouth: {instanceID: 0}
+  - colEast: {instanceID: 0}
+  - colWest: {instanceID: 0}
+  - tilePrefab: {instanceID: 0}
+  - blockPrefab: {instanceID: 0}
+  - northWall: {instanceID: 0}
+  - southWall: {instanceID: 0}
+  - eastWall: {instanceID: 0}
+  - westWall: {instanceID: 0}
+  - NWColumn: {instanceID: 0}
+  - NEColumn: {instanceID: 0}
+  - SEColumn: {instanceID: 0}
+  - SWColumn: {instanceID: 0}
+  - minimapIcon: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/EnemyComponents")]
+    [CreateAssetMenu(menuName = "ScriptableObjects/EnemyComponents"), Serializable]
     public class EnemyComponentsSO : ScriptableObject
     {
         public MovementTypeRuntimeSetSO movementSet;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
@@ -14,49 +14,70 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
         public ItemsAmount ItemsByType { get; set; }
         [field: SerializeField]
         public int TotalItems { get; set; }
+        public int TotalItemValue { get; set; }
 
         public QuestItemsParameters()
         {
             ItemsByType = new ItemsAmount();
             TotalItems = 0;
+            TotalItemValue = 0;
         }
 
-        public void CalculateItemsFromQuests(QuestLine quests)
+        public void CalculateItemsFromQuests(IEnumerable<QuestLine> questLines)
         {
-            foreach (var quest in quests.graph)
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
-                AddItemWhenItemQuest(quest);
+                AddItemWhenAchievementQuest(quest);
+                AddItemWhenImmersionQuest(quest);
             }
         }
 
-        private void AddItemWhenItemQuest(QuestSO quest)
+        private void AddItemWhenAchievementQuest(QuestSo quest)
         {
-            if (quest.IsItemQuest())
+            var achievementQuestSo = quest as AchievementQuestSo;
+            if (achievementQuestSo != null)
             {
-                AddItems((ItemQuestSo) quest);
+                AddAchievementItems(achievementQuestSo);
+            }
+        }
+        
+        private void AddItemWhenImmersionQuest(QuestSo quest)
+        {
+            var immersionQuestSo = quest as ImmersionQuestSo;
+            if (immersionQuestSo != null)
+            {
+                AddImmersionItems(immersionQuestSo);
             }
         }
 
-        private void AddItems(ItemQuestSo quest)
+        private void AddAchievementItems(AchievementQuestSo quest)
         {
-            foreach (var dropItemData in quest.ItemsToCollectByType)
+            var itemDictionary = quest.GetItemDictionary();
+            foreach (var itemData in itemDictionary)
             {
-                AddItemsFromPairToDictionary(dropItemData);
+                foreach (var questId in itemData.Value.QuestIds)
+                {
+                    ItemsByType.ItemAmountBySo.AddItemWithId(itemData.Key, questId);
+                    TotalItems++;
+                    TotalItemValue += itemData.Key.Value;
+                }            
             }
-
         }
-
-        private void AddItemsFromPairToDictionary(KeyValuePair<ItemSo, int> itemData)
+        
+        private void AddImmersionItems(ImmersionQuestSo quest)
         {
-            int newItems = itemData.Value;
-            TotalItems += newItems;
-            if (ItemsByType.ItemAmountBySo.TryGetValue(itemData.Key, out var enemiesForItem))
+            switch (quest)
             {
-                ItemsByType.ItemAmountBySo[itemData.Key] = enemiesForItem + newItems;
-            }
-            else
-            {
-                ItemsByType.ItemAmountBySo.Add(itemData.Key, newItems);
+                case GiveQuestSo giveQuestSo:
+                    ItemsByType.ItemAmountBySo.AddItemWithId(giveQuestSo.GiveQuestData.ItemToGive, giveQuestSo.Id);
+                    TotalItems++;
+                    TotalItemValue += giveQuestSo.GiveQuestData.ItemToGive.Value;
+                    break;
+                case ReadQuestSo readQuestSo:
+                    ItemsByType.ItemAmountBySo.AddItemWithId(readQuestSo.ItemToRead, readQuestSo.Id);
+                    TotalItems++;
+                    TotalItemValue += readQuestSo.ItemToRead.Value;
+                    break;
             }
         }
 
@@ -69,6 +90,4 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             }
         }
     }
-
-
 }

@@ -16,5 +16,18 @@ namespace ScriptableObjects
         public Enums.PlayerProjectileEnum projectileBehaviorIndex;
         public string projectileName, description;
         public Color color;
+
+        public void Copy(ProjectileTypeSO projectileTypeSo)
+        {
+            color = projectileTypeSo.color;
+            projectilePrefab = projectileTypeSo.projectilePrefab;
+            damage = projectileTypeSo.damage;
+            description = projectileTypeSo.description;
+            multiplier = projectileTypeSo.multiplier;
+            atkSpeed = projectileTypeSo.atkSpeed;
+            moveSpeed = projectileTypeSo.moveSpeed;
+            projectileBehaviorIndex = projectileTypeSo.projectileBehaviorIndex;
+            projectileName = projectileTypeSo.projectileName;
+        }
     }
 }

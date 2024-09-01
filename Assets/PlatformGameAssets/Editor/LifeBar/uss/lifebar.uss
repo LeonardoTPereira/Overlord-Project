@@ -1,0 +1,13 @@
+.line {
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.heart {
+    width: 10%;
+    height: 100%;
+}

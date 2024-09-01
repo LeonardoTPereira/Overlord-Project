@@ -1,119 +1,84 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 using Game.Events;
-using Game.GameManager;
+using Game.ExperimentControllers;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
-using MyBox;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.LevelGenerator
 {
     public class LevelGeneratorManager : MonoBehaviour
     {
-        /// The parameters of the evolutionary process
-        private static readonly int MAX_TIME = 60;
-        private static readonly int INITIAL_POPULATION_SIZE = 20;
-        private static readonly int MUATION_RATE = 5;
-        private static readonly int NUMBER_OF_COMPETITORS = 2;
-        private Parameters _parameters;
-
         /// Level generator
-        private LevelGenerator generator;
-        private Fitness fitness;
+        private LevelGenerator _generator;
+        private FitnessInput _fitnessInput;
 
         /// Attributes to communicate to Game Manager
-        // Flags if the dungeon has been gerated for Unity's Game Manager to handle things after
-        public bool hasFinished;
-        // The aux the Game Manager will access to load the created dungeon
-        public Dungeon aux;
-        // The event to handle the progress bar update
-        public static event NewEAGenerationEvent newEAGenerationEventHandler;
+        // Flags if the dungeon has been generated for Unity's Game Manager to handle things after
+        private FitnessPlot _fitnessPlot;
 
-        /// The external parameters of printing purposes
-        [MustBeAssigned]
-        public TreasureRuntimeSetSO treasureRuntimeSetSO;
-        [MustBeAssigned]
-        public WeaponTypeRuntimeSetSO weaponTypeRuntimeSetSO;
-        private QuestLine _questLine;
-        private List<DungeonFileSo> _dungeonFileSos;
-
-        /**
-         * The constructor of the "Main" behind the EA
-         */
-        public void Awake()
+        private void Start()
         {
-            hasFinished = false;
+            _fitnessPlot = GetComponent<FitnessPlot>();
         }
 
-        public void OnEnable()
+        private void OnEnable()
         {
-            LevelGeneratorController.createEADungeonEventHandler += EvolveDungeonPopulation;
-            QuestGeneratorManager.CreateEaDungeonEventHandler += EvolveDungeonPopulation;
+            DungeonMapEliteVisualizer.ContinueGenerationEventHandler += ContinueGenerationEvent;
         }
 
-        public void OnDisable()
+        private void ContinueGenerationEvent(object sender, EventArgs e)
         {
-            LevelGeneratorController.createEADungeonEventHandler -= EvolveDungeonPopulation;
-            QuestGeneratorManager.CreateEaDungeonEventHandler -= EvolveDungeonPopulation;
+            _generator.waitGeneration = false;
+        }
+
+        private void OnDisable()
+        {
+            DungeonMapEliteVisualizer.ContinueGenerationEventHandler -= ContinueGenerationEvent;
         }
 
         // The "Main" behind the Dungeon Generator
-        public void EvolveDungeonPopulation(object sender, CreateEADungeonEventArgs eventArgs)
+        public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
         {
-            fitness = eventArgs.Fitness;
-            _questLine = eventArgs.QuestLineForDungeon;
-            // Define the evolutionary parameters
-            _parameters = new Parameters(
-                MAX_TIME,                 // Maximum time
-                INITIAL_POPULATION_SIZE,  // Initial population size
-                MUATION_RATE,             // Mutation chance
-                NUMBER_OF_COMPETITORS,    // Number of tournament competitors
-                fitness.DesiredRooms,     // Number of rooms
-                fitness.DesiredKeys,      // Number of keys
-                fitness.DesiredLocks,     // Number of locks
-                fitness.DesiredEnemies,   // Number of enemies
-                fitness.DesiredLinearity, // Linear coefficient
-                fitness // Object that calculates the fitness of individuals
-            );
+            var parameters = eventArgs.Parameters;
+            Debug.Log("Parameters: "+parameters);
+            _fitnessInput = eventArgs.Fitness;
             // Start the generation process
-            Thread t = new Thread(Evolve);
-            t.Start();
-            StartCoroutine(PrintAndSaveDungeonWhenFinished(t));
+            _generator = new ClassicEvolutionaryAlgorithm(parameters, eventArgs.TimesToExecuteEA, 
+                eventArgs.IsVisualizingDungeon ,_fitnessInput,_fitnessPlot);
+            await _generator.Evolve();
+            return GetListOfGeneratedDungeons();
         }
 
-        private IEnumerator PrintAndSaveDungeonWhenFinished(Thread t)
+        private List<DungeonFileSo> GetListOfGeneratedDungeons()
         {
-            // Wait until the dungeons were generated
-            while (t.IsAlive)
-                yield return new WaitForSeconds(0.1f);
-            _dungeonFileSos = new List<DungeonFileSo>();
-            // Write all the generated dungeons in ScriptableObjects
-            var solution = generator.Solution;
-            for (var e = 0; e < solution.dimension.exp; e++)
+            List<Individual> solutions = new List<Individual>();
+            // Write all the generated dungeons in ScriptableObjects   
+            if (_generator is ClassicEvolutionaryAlgorithm)
             {
-                for (var l = 0; l < solution.dimension.len; l++)
-                {
-                    var individual = solution.map[e, l];
-                    if (individual != null)
-                    {
-                        Interface.PrintNumericalGridWithConnections(individual, fitness, _questLine);
-                    }
-                }
+                solutions.Add(_generator.Solution.EliteList[0]);
             }
-            // Set the first level as the option to be played in the scene
-            aux = solution.map[0, 0].dungeon;
-            hasFinished = true;
-        }
+            else
+            {
+                solutions = _generator.Solution.GetBestEliteForEachBiome();
+            }
+            List<DungeonFileSo> generatedDungeons = new ();
+            var totalEnemies = _fitnessInput.DesiredEnemies;
+            var totalItems = _fitnessInput.DesiredItems;
+            var totalNpcs = _fitnessInput.DesiredNpcs;
+            foreach (var individual in solutions)
+            {
+                var dungeon =
+                    Interface.CreateDungeonSoFromIndividual(individual, totalEnemies, totalItems, totalNpcs);
+                generatedDungeons.Add(dungeon);
+            }
+            
+            Debug.LogWarning($"Needed Enemies: {totalEnemies}, Generated Enemies: {generatedDungeons[0].TotalEnemies}");
 
-        public void Evolve()
-        {
-            hasFinished = false;
-            generator = new LevelGenerator(_parameters, newEAGenerationEventHandler);
-            generator.Evolve();
+            return generatedDungeons;
         }
     }
 }

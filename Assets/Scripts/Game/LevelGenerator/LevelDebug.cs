@@ -45,9 +45,9 @@ namespace Game.LevelGenerator
                 }
                 // Tag the nodes with the respective room type
                 string tag = "";
-                tag += node.Type1 == RoomType.Normal ? "N" : "";
-                tag += node.Type1 == RoomType.Key ? "K" : "";
-                tag += node.Type1 == RoomType.Locked ? "L" : "";
+                tag += node.Type == RoomType.Normal ? "N" : "";
+                tag += node.Type == RoomType.Key ? "K" : "";
+                tag += node.Type == RoomType.Locked ? "L" : "";
                 Console.WriteLine(indent + "+- " + node.RoomID + "-" + tag);
                 // Get non-null children nodes
                 List<Room> next = new List<Room>();
@@ -99,12 +99,12 @@ namespace Game.LevelGenerator
                     Room current = grid[i, j];
                     if (current != null)
                     {
-                        if (current.Type1 == RoomType.Normal)
+                        if (current.Type == RoomType.Normal)
                         {
                             map[iep, jep] = Common.RoomType.EMPTY;
                         }
                         // The key ID is the sequential positive index
-                        else if (current.Type1 == RoomType.Key)
+                        else if (current.Type == RoomType.Key)
                         {
                             int _key = _dungeon.KeyIds.IndexOf(current.Key);
                             map[iep, jep] = _key + 1;
@@ -113,7 +113,7 @@ namespace Game.LevelGenerator
                         // and the corridor is locked; but if the lock is the
                         // last one in the sequential order, then the room is
                         // the goal room
-                        else if (current.Type1 == RoomType.Locked)
+                        else if (current.Type == RoomType.Locked)
                         {
                             int _lock = _dungeon.LockIds.IndexOf(current.Key);
                             if (_lock == _dungeon.LockIds.Count - 1)
@@ -136,7 +136,7 @@ namespace Game.LevelGenerator
                             int x = parent.X - current.X + iep;
                             int y = parent.Y - current.Y + jep;
                             // If the current room is locked
-                            if (current.Type1 == RoomType.Locked)
+                            if (current.Type == RoomType.Locked)
                             {
                                 // Then, the corridor is locked
                                 int _key = _dungeon.KeyIds.IndexOf(current.Key);
@@ -234,7 +234,7 @@ namespace Game.LevelGenerator
                             int x = parent.X - current.X + iep;
                             int y = parent.Y - current.Y + jep;
                             // If the current room is locked
-                            if (current.Type1 == RoomType.Locked)
+                            if (current.Type == RoomType.Locked)
                             {
                                 // Then, the corridor is locked
                                 int _key = _dungeon.KeyIds.IndexOf(current.Key);

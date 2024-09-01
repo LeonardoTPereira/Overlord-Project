@@ -75,17 +75,17 @@ namespace Game.LevelGenerator
                     if (current != null)
                     {
                         // 0 is a NORMAL ROOM
-                        if (current.Type1 == RoomType.Normal)
+                        if (current.Type == RoomType.Normal)
                         {
                             map[iPositive * 2, jPositive * 2] = 0;
                         }
                         // The sequential, positivie index of the key is its representation
-                        else if (current.Type1 == RoomType.Key)
+                        else if (current.Type == RoomType.Key)
                         {
                             map[iPositive * 2, jPositive * 2] = dungeon.KeyIds.IndexOf(current.Key) + 1;
                         }
                         // If the room is locked, the room is a normal room, only the corridor is locked. But is the lock is the last one in the sequential order, than the room is the objective
-                        else if (current.Type1 == RoomType.Locked)
+                        else if (current.Type == RoomType.Locked)
                         {
                             if (dungeon.LockIds.IndexOf(current.Key) == dungeon.LockIds.Count - 1)
                             {
@@ -101,7 +101,7 @@ namespace Game.LevelGenerator
                         {
                             int x = parent.X - current.X + iPositive * 2;
                             int y = parent.Y - current.Y + jPositive * 2;
-                            if (current.Type1 == RoomType.Locked)
+                            if (current.Type == RoomType.Locked)
                             {
                                 locksLocation.Add(new Location { X = x, Y = y, Parent = new Location { X = 2 * (parent.X - current.X) + iPositive * 2, Y = 2 * (parent.Y - current.Y) + jPositive * 2 } });
                                 int test = dungeon.KeyIds.IndexOf(current.Key);

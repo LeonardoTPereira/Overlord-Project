@@ -1,79 +1,86 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Events;
+using Game.ExperimentControllers;
 using Game.LevelGenerator;
-using Game.Maestro;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Game.MenuManager;
 using Game.NarrativeGenerator;
 using MyBox;
-using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Game.GameManager
 {
-    [RequireComponent(typeof(LevelGeneratorManager), typeof(NarrativeConfigSO))]
+    [RequireComponent(typeof(LevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
-
-        [SerializeField, MustBeAssigned]
-        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
-
-        public static event CreateEADungeonEvent createEADungeonEventHandler;
+        public static event CreateEaDungeonEvent CreateEaDungeonEventHandler;
         private string playerProfile;
 
-        protected Dictionary<string, TMP_InputField> inputFields;
+        private Dictionary<string, TMP_InputField> inputFields;
         [SerializeField]
         protected GameObject progressCanvas, inputCanvas;
-        protected TextMeshProUGUI progressTextUI;
-        [SerializeField, Scene]
-        protected string levelToLoad;
-        protected string progressText;
+        [SerializeField] 
+        private SceneReference levelToLoad;
 
-        [Separator("Fitness Parameters to Create Dungeons")]
+        [Separator("Parameters to Create Dungeons")]
         [SerializeField]
-        protected Fitness fitness;
+        protected GeneratorSettings.Parameters parameters;
+        [SerializeField]
+        protected FitnessInput fitnessInput;
 
         public void Awake()
         {
-            inputCanvas.SetActive(true);
+            if (inputCanvas != null)
+            {
+                inputCanvas.SetActive(true);
+                inputFields = inputCanvas.GetComponentsInChildren<TMP_InputField>().ToDictionary(key => key.name, inputFieldObj => inputFieldObj);
+            }
+
+            if (progressCanvas == null) return;
             progressCanvas.SetActive(true);
-            Debug.LogWarning(progressCanvas.transform.Find("ProgressPanel/ProgressText"));
-            progressTextUI = progressCanvas.transform.Find("ProgressPanel/ProgressText").GetComponent<TextMeshProUGUI>();
-            inputFields = inputCanvas.GetComponentsInChildren<TMP_InputField>().ToDictionary(key => key.name, inputFieldObj => inputFieldObj);
             progressCanvas.SetActive(false);
+
         }
 
         public void OnEnable()
         {
-            LevelGeneratorManager.newEAGenerationEventHandler += UpdateProgressBar;
-            QuestGeneratorManager.ProfileSelectedEventHandler += CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            LevelGeneratorManager.newEAGenerationEventHandler -= UpdateProgressBar;
-            QuestGeneratorManager.ProfileSelectedEventHandler -= CreateLevelFromNarrative;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= CreateLevelFromNarrative;
         }
 
         public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            inputCanvas.SetActive(false);
-            progressCanvas.SetActive(true);
+            if (inputCanvas != null)
+            {
+                inputCanvas.SetActive(false);
+            }
+
+            if (progressCanvas != null)
+            {
+                progressCanvas.SetActive(true);
+            }
         }
 
         public void CreateLevelFromInput()
         {
-            int nRooms, nKeys, nLocks, nEnemies;
-            float linearity;
             try
             {
-                nRooms = int.Parse(inputFields["RoomsInputField"].text);
-                nKeys = int.Parse(inputFields["KeysInputField"].text);
-                nLocks = int.Parse(inputFields["LocksInputField"].text);
-                nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
-                linearity = float.Parse(inputFields["LinearityInputField"].text);
-                fitness = new Fitness(nRooms, nKeys, nLocks, nEnemies, linearity);
-                createEADungeonEventHandler?.Invoke(this, new CreateEADungeonEventArgs(fitness));
+                var nRooms = int.Parse(inputFields["RoomsInputField"].text);
+                var nKeys = int.Parse(inputFields["KeysInputField"].text);
+                var nLocks = int.Parse(inputFields["LocksInputField"].text);
+                var nEnemies = int.Parse(inputFields["EnemiesInputField"].text);
+                var nitems = int.Parse(inputFields["ItemsInputField"].text);
+                var nNpcs = int.Parse(inputFields["NpcsInputField"].text);
+                var linearity = float.Parse(inputFields["LinearityInputField"].text);
+                fitnessInput = new FitnessInput(nRooms, nKeys, nLocks, nEnemies, linearity, nitems, nNpcs, null, null);
+                CreateEaDungeonEventHandler?.Invoke(this, new CreateEaDungeonEventArgs(parameters, fitnessInput,
+                    false));
             }
             catch (KeyNotFoundException)
             {
@@ -83,15 +90,9 @@ namespace Game.GameManager
             progressCanvas.SetActive(true);
         }
 
-        public void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)
-        {
-            progressText = eventArgs.CompletionRate.ToString() + "%";
-            UnityMainThreadDispatcher.Instance().Enqueue(() => progressTextUI.text = progressText);
-        }
-
         public void GoToNext()
         {
-            SceneManager.LoadScene(levelToLoad);
+            SceneManager.LoadScene(levelToLoad.SceneName);
         }
 
         public void GoToPrevious()

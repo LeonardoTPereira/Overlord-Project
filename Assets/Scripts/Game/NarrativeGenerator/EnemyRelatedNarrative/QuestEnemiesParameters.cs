@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Game.EnemyGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.EnemyRelatedNarrative
@@ -40,96 +40,51 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 
         public void CalculateDifficultyFromProfile(PlayerProfile playerProfile)
         {
-            if (playerProfile.PlayerProfileEnum == PlayerProfile.PlayerProfileCategory.Mastery)
+            switch (playerProfile.MasteryPreference)
             {
-                Difficulty = DifficultyLevels.Hard;
-            }
-            else if (MasteryIsLessPreferred(playerProfile))
-            {
-                Difficulty = DifficultyLevels.Easy;
-            }
-            else
-            {
-                Difficulty = DifficultyLevels.Medium;
+                case < 15:
+                    Difficulty = DifficultyLevels.VeryEasy;
+                    break;
+                case < 35:
+                    Difficulty = DifficultyLevels.Easy;
+                    break;
+                case < 65:
+                    Difficulty = DifficultyLevels.Medium;
+                    break;
+                case < 85:
+                    Difficulty = DifficultyLevels.Hard;
+                    break;
+                default:
+                    Difficulty = DifficultyLevels.VeryHard;
+                    break;
             }
         }
 
-        private bool MasteryIsLessPreferred(PlayerProfile playerProfile)
+        public void CalculateMonsterFromQuests(IEnumerable<QuestLine> questLines)
         {
-            if (playerProfile.MasteryPreference > playerProfile.AchievementPreference)
-            {
-                return false;
-            }
-            if (playerProfile.MasteryPreference > playerProfile.CreativityPreference)
-            {
-                return false;
-            }
-            if (playerProfile.MasteryPreference > playerProfile.ImmersionPreference)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public void CalculateMonsterFromQuests(QuestLine quests)
-        {
-            foreach (var quest in quests.graph)
+            foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddEnemiesWhenEnemyQuest(quest);
             }
         }
         
-        private void AddEnemiesWhenEnemyQuest(QuestSO quest)
+        private void AddEnemiesWhenEnemyQuest(QuestSo quest)
         {
-            if (quest.IsKillQuest())
+            if (quest is KillQuestSo killQuestSo)
             {
-                AddEnemies((KillQuestSO) quest);
-            }
-            else if (quest.IsDropQuest())
-            {
-                AddEnemies((DropQuestSo) quest);
+                AddEnemies(killQuestSo);
             }
         }
 
-        private void AddEnemies(KillQuestSO quest)
+        private void AddEnemies(KillQuestSo quest)
         {
             foreach (var enemyAmountPair in quest.EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                AddEnemiesToDictionary(enemyAmountPair);
-            }
-        }
-        
-        /*
-         * TODO the enemies on drop quests could be the same from the killEnemies quest. We can try to check overlaps
-         * and avoid creating more from these quests if possible
-         */
-        private void AddEnemies(DropQuestSo quest)
-        {
-            foreach (var dropItemData in quest.ItemData)
-            {
-                AddEnemiesFromPairToDictionary(dropItemData);
-            }
-        }
-
-        private void AddEnemiesFromPairToDictionary(KeyValuePair<ItemSo, EnemiesByType> dropItemData)
-        {
-            foreach (var enemyData in dropItemData.Value.EnemiesByTypeDictionary)
-            {
-                AddEnemiesToDictionary(enemyData);
-            }
-        }
-
-        private void AddEnemiesToDictionary(KeyValuePair<WeaponTypeSO, int> enemyData)
-        {
-            int newEnemies = enemyData.Value;
-            NEnemies += newEnemies;
-            if (TotalByType.EnemiesByTypeDictionary.TryGetValue(enemyData.Key, out var enemiesForItem))
-            {
-                TotalByType.EnemiesByTypeDictionary[enemyData.Key] = enemiesForItem + newEnemies;
-            }
-            else
-            {
-                TotalByType.EnemiesByTypeDictionary.Add(enemyData.Key, newEnemies);
+                foreach (var questId in enemyAmountPair.Value.QuestIds)
+                {
+                    TotalByType.EnemiesByTypeDictionary.AddItemWithId(enemyAmountPair.Key, questId);
+                    NEnemies++;
+                }
             }
         }
     }

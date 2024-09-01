@@ -47,19 +47,19 @@ namespace Game.EnemyGenerator
         /// Print the individual attributes.
         public void Debug()
         {
-            Console.WriteLine("  G=" + Generation);
-            Console.WriteLine("  F=" + FitnessValue);
-            Console.WriteLine("  D=" + DifficultyLevel);
-            Console.WriteLine("  He=" + Enemy.Health);
-            Console.WriteLine("  St=" + Enemy.Strength);
-            Console.WriteLine("  AS=" + Enemy.AttackSpeed);
-            Console.WriteLine("  MT=" + Enemy.Movement);
-            Console.WriteLine("  MS=" + Enemy.MovementSpeed);
-            Console.WriteLine("  AT=" + Enemy.ActiveTime);
-            Console.WriteLine("  RT=" + Enemy.RestTime);
-            Console.WriteLine("  WT=" + Weapon.Weapon);
-            Console.WriteLine("  PS=" + Weapon.ProjectileSpeed);
-            Console.WriteLine();
+            UnityEngine.Debug.Log("  G=" + Generation);
+            UnityEngine.Debug.Log("  F=" + FitnessValue);
+            UnityEngine.Debug.Log("  D=" + DifficultyLevel);
+            UnityEngine.Debug.Log("  He=" + Enemy.Health);
+            UnityEngine.Debug.Log("  St=" + Enemy.Strength);
+            UnityEngine.Debug.Log("  AS=" + Enemy.AttackSpeed);
+            UnityEngine.Debug.Log("  MT=" + Enemy.Movement);
+            UnityEngine.Debug.Log("  MS=" + Enemy.MovementSpeed);
+            UnityEngine.Debug.Log("  AT=" + Enemy.ActiveTime);
+            UnityEngine.Debug.Log("  RT=" + Enemy.RestTime);
+            UnityEngine.Debug.Log("  WT=" + Weapon.Weapon);
+            UnityEngine.Debug.Log("  PS=" + Weapon.ProjectileSpeed);
+            UnityEngine.Debug.Log("");
         }
 
         /// Return a random individual.

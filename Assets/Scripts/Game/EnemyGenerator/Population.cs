@@ -93,7 +93,10 @@ namespace Game.EnemyGenerator
             {
                 for (int w = 0; w < dimension.weapon; w++)
                 {
-                    list.Add(map[m, w]);
+                    if (map[m, w] != null)
+                    {
+                        list.Add(map[m, w]);
+                    }
                 }
             }
             return list;
@@ -109,10 +112,10 @@ namespace Game.EnemyGenerator
                     string log = "Elite ";
                     log += ((MovementType) m) + "-";
                     log += ((WeaponType) w);
-                    Console.WriteLine(log);
+                    UnityEngine.Debug.Log(log);
                     if (map[m, w] is null)
                     {
-                        Console.WriteLine("  Empty");
+                        UnityEngine.Debug.Log("  Empty");
                     }
                     else
                     {
@@ -121,6 +124,49 @@ namespace Game.EnemyGenerator
                     Console.WriteLine();
                 }
             }
+        }
+        
+        public int NIndividualsBetterThan(int amount, float acceptableFitness)
+        {
+            var betterThanNCounter = 0;
+            for (var w = 0; w < dimension.weapon; w++)
+            {
+                var betterCounter = 0;
+                for (var m = 0; m < dimension.movement; m++)
+                {
+                    if ((map[m, w]?.FitnessValue ?? float.MaxValue) < acceptableFitness)
+                    {
+                        betterCounter++;
+                    }
+                }
+                if (betterCounter > amount)
+                {
+                    betterThanNCounter++;
+                }
+            }
+
+            return betterThanNCounter;
+        }
+        
+        public int MinimumElitesOfEachType()
+        {
+            var minimumOfEach = int.MaxValue;
+            for (var w = 0; w < dimension.weapon; w++)
+            {
+                var count = 0;
+                for (var m = 0; m < dimension.movement; m++)
+                {
+                    if (!(map[m, w] is null))
+                    {
+                        count++;
+                    }
+                }
+                if (count < minimumOfEach)
+                {
+                    minimumOfEach = count;
+                }
+            }
+            return minimumOfEach ;
         }
     }
 }

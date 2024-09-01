@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 
 namespace Game.LevelGenerator
 {
@@ -6,12 +7,11 @@ namespace Game.LevelGenerator
     class Metric
     {
         /// Calculate and return the leniency.
-        public static float Leniency(
-            Individual _individual
-        ) {
+        public static float Leniency( Individual _individual ) 
+        {
             Dungeon dungeon = _individual.dungeon;
             Queue<Room> unvisited = new Queue<Room>();
-            unvisited.Enqueue(dungeon.Rooms[0]);
+            unvisited.Enqueue(dungeon.GetStart());
             // Calculate the number of safe rooms
             int safe = 0;
             while (unvisited.Count > 0)
@@ -27,7 +27,7 @@ namespace Game.LevelGenerator
                 }
             }
             // Calculate and return the dungeon leniency
-            return (float) safe / dungeon.Rooms.Count;
+            return (float)safe / (float)dungeon.Rooms.Count;
         }
 
         /// Calculate and return the coefficient of exploration.
@@ -46,7 +46,7 @@ namespace Game.LevelGenerator
             foreach (Room room in dungeon.Rooms)
             {
                 // Place the key
-                if (room.Type1 == RoomType.Key)
+                if (room.Type == RoomType.Key)
                 {
                     int ki = dungeon.KeyIds.IndexOf(room.Key);
                     if (ki != -1)
@@ -55,7 +55,7 @@ namespace Game.LevelGenerator
                     }
                 }
                 // Place the lock at the same index as its the key
-                if (room.Type1 == RoomType.Locked)
+                if (room.Type == RoomType.Locked)
                 {
                     int li = dungeon.KeyIds.IndexOf(room.Key);
                     if (li != -1)

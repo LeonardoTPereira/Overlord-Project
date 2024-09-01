@@ -1,11 +1,23 @@
 ﻿using System;
 using ScriptableObjects;
-using ScriptableObjects.SerializableDictionaryLite;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
 {
     [Serializable]
-    public class ItemAmountDictionary : SerializableDictionaryBase<ItemSo, int>
+    public class ItemAmountDictionary : KeyByQuestIdsDictionary<ItemSo>
     {
+        public ItemAmountDictionary()
+        {
+        }
+
+        public ItemAmountDictionary(KeyByQuestIdsDictionary<ItemSo> keyByQuestIdsDictionary) : base(keyByQuestIdsDictionary)
+        {
+        }
+
+        public new object Clone()
+        {
+            return new ItemAmountDictionary(this);
+        }
+        
     }
 }

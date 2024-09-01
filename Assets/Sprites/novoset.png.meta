@@ -108,7 +108,7 @@ TextureImporter:
       213: 2931297729708614035
     second: novoset_34
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -128,6 +128,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -137,11 +139,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -159,11 +161,15 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -174,7 +180,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -185,7 +192,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -196,6 +204,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -944,6 +953,42 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      novoset_14: 7407669697792131152
+      novoset_1: 6071364268469277987
+      novoset_11: -8480971649765176343
+      novoset_15: 7082239252190497220
+      novoset_30: -7287433642091870983
+      novoset_5: 3536638148116466943
+      novoset_2: 7398020472909097734
+      novoset_16: 6262617695268976137
+      novoset_0: -301897599942455574
+      novoset_10: 4503846531779704138
+      novoset_3: -228357258890464381
+      novoset_6: -3045416613819417076
+      novoset_34: 2931297729708614035
+      novoset_7: 1321307024527087600
+      novoset_13: -2804735369662088147
+      novoset_22: -5096553909484895532
+      novoset_26: 5215002528964046393
+      novoset_12: -3956733982544259350
+      novoset_18: -1771735291089344687
+      novoset_9: 4297277159350352584
+      novoset_20: 6771403231246727389
+      novoset_8: 7145586667549055568
+      novoset_28: 8901462311923351186
+      novoset_25: -4940310332898405162
+      novoset_19: 6722244415781329205
+      novoset_23: 8199182400232491288
+      novoset_17: 8367304209772257282
+      novoset_29: -102757601732437239
+      novoset_33: 5130407640561383606
+      novoset_21: -7768618017026414430
+      novoset_4: 7783236989011935797
+      novoset_27: -7351680108055593526
+      novoset_24: -2453109895982487715
+      novoset_31: 5268931133456896453
+      novoset_32: -3266019774604471908
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -19,6 +19,6 @@ MonoBehaviour:
   atkSpeed: 2.3
   moveSpeed: 11
   projectileBehaviorIndex: 0
-  projectileName: Metralhadora
-  description: Atira rapidamente um tiro mais fraco
-  color: {r: 0, g: 0.8746934, b: 1, a: 1}
+  projectileName: Machine Gun
+  description: Rapidly fires a weaker shot
+  color: {r: 0, g: 0.874934, b: 1, a: 1}

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1717383a995614e85f0d5af73d904b, type: 3}
+  m_Name: CopperSword
+  m_EditorClassIdentifier: 
+  sprite: {fileID: -1373482908, guid: 3ba80475564ae3c499f1a82800198748, type: 3}
+  <ItemName>k__BackingField: Copper Sword
+  <Value>k__BackingField: 0

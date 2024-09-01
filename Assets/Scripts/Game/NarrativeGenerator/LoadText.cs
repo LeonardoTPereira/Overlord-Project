@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using TMPro;
-using Newtonsoft.Json;
 
 namespace Game.NarrativeGenerator
 {

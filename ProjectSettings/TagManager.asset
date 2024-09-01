@@ -15,6 +15,13 @@ TagManager:
   - Mission
   - Npc
   - Final
+  - PlayerTrigger
+  - Heal
+  - EnemyMelee
+  - PlayerProjectile
+  - EnemyProjectile
+  - PlayerMelee
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -27,10 +34,10 @@ TagManager:
   - Minimap
   - Bomb
   - 
+  - Unit
+  - Weapon
   - 
-  - 
-  - 
-  - 
+  - Ground
   - 
   - 
   - 
@@ -51,6 +58,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PlatformFloors
+    uniqueID: 1968741669
+    locked: 0
+  - name: PlatformBlocks
+    uniqueID: 4275585839
+    locked: 0
+  - name: Doors
+    uniqueID: 4045229337
     locked: 0
   - name: Characters
     uniqueID: 2603867999

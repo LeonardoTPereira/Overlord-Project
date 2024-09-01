@@ -1,33 +1,40 @@
 ﻿using System;
-using Game.LevelGenerator;
-using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using System.Threading.Tasks;
+using Game.ExperimentControllers;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.NarrativeGenerator.Quests;
 
 namespace Game.Events
 {
-    public delegate void CreateEADungeonEvent(object sender, CreateEADungeonEventArgs e);
-    public class CreateEADungeonEventArgs : EventArgs
+    public delegate Task CreateEaDungeonEvent(object sender, CreateEaDungeonEventArgs e);
+    public class CreateEaDungeonEventArgs : EventArgs
     {
-        private Fitness fitness;
-        public QuestLine QuestLineForDungeon { get; }
-        private string playerProfile;
+        public GeneratorSettings.Parameters Parameters { get ; set ; }
+        public FitnessInput Fitness{ get ; set ; }
+        public int TimesToExecuteEA { get; set; }
+        public bool IsVisualizingDungeon { get; set; }
 
-        public CreateEADungeonEventArgs(Fitness fitness)
+        public CreateEaDungeonEventArgs(GeneratorSettings.Parameters parameters, FitnessInput fitness, bool isVisualizingDungeon)
         {
+            Parameters = parameters;
             Fitness = fitness;
-            QuestLineForDungeon = null;
+            IsVisualizingDungeon = isVisualizingDungeon;
         }
-        //TODO refactor Fitness to accept only the parameter classes
-        public CreateEADungeonEventArgs(QuestLine questLine)
+        public CreateEaDungeonEventArgs(QuestLineList questLines, GeneratorSettings.Parameters dungeonParameters, 
+            int timesToExecuteEA = 1, bool isVisualizingDungeon = false)
         {
-            QuestLineForDungeon = questLine;
-            QuestDungeonsParameters questDungeonParameters = questLine.DungeonParametersForQuestLine;
-            QuestEnemiesParameters questEnemiesParameters = questLine.EnemyParametersForQuestLine;
-            Fitness = new Fitness(questDungeonParameters.Size, questDungeonParameters.NKeys, 
-                questDungeonParameters.NKeys, questEnemiesParameters.NEnemies, questDungeonParameters.GetLinearity());
+            var questDungeonParameters = questLines.DungeonParametersForQuestLines;
+            var questEnemies = questLines.EnemyParametersForQuestLines.NEnemies;
+            var questItems = questLines.ItemParametersForQuestLines.TotalItems;
+            var questNpcs = questLines.NpcSos.Count;
+            var rooms = questDungeonParameters.Size;
+            var keys = questDungeonParameters.NKeys;
+            var locks = keys;
+            var linearity = questDungeonParameters.GetLinearity();
+            Fitness = new FitnessInput(rooms, keys, locks, questEnemies, linearity, questItems, questNpcs, questLines.QuestLines, questLines.TargetProfile);
+            Parameters = dungeonParameters;
+            TimesToExecuteEA = timesToExecuteEA;
+            IsVisualizingDungeon = isVisualizingDungeon;
         }
-    
-        public Fitness Fitness { get => fitness; set => fitness = value; }
     }
 }

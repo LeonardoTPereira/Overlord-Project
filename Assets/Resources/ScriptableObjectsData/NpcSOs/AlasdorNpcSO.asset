@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33ab4be3aeb124478dbc61856c494c4, type: 3}
   m_Name: AlasdorNpcSO
   m_EditorClassIdentifier: 
-  npcSprite: {fileID: -7885467917876151547, guid: 82d8215451ad6684bae0746348e62e67,
-    type: 3}
   npcName: Alasdoor
+  age: 50
+  job: 5
+  race: 2
+  traumaFactor: 10
+  violenceFactor: 2
+  attainFactor: 8
+  explorationFactor: 2
+  socialFactor: 2
+  gameSprite: {fileID: -7885467917876151547, guid: 82d8215451ad6684bae0746348e62e67,
+    type: 3}
+  dialogueData: {fileID: 11400000, guid: b0035f4eadc10b445b45f99ce55979ec, type: 2}

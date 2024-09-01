@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "735756823191",
+    "firebase_url": "https://overlord-1b095-default-rtdb.firebaseio.com",
+    "project_id": "overlord-1b095",
+    "storage_bucket": "overlord-1b095.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735756823191:android:0d8f877c01c48ba45657d2",
+        "android_client_info": {
+          "package_name": "com.GR_ICMC.Overlord"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735756823191-sh53s777ktcd5k3hqfqf36io0l60ljin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNzQ4KIbw0gGHT4lsdps_mYag7--XHr5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735756823191-sh53s777ktcd5k3hqfqf36io0l60ljin.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

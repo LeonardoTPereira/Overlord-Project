@@ -1,4 +1,5 @@
 ﻿using System;
+using ScriptableObjects;
 
 namespace Game.Events
 {
@@ -6,12 +7,13 @@ namespace Game.Events
 
     public class TreasureCollectEventArgs : EventArgs
     {
-        private int amount;
+        public int QuestId { get; set; }
+        public ItemSo Item { get; set; }
 
-        public TreasureCollectEventArgs(int amount)
+        public TreasureCollectEventArgs(ItemSo item, int questId)
         {
-            Amount = amount;
+            Item = item;
+            QuestId = questId;
         }
-        public int Amount { get => amount; set => amount = value; }
     }
 }

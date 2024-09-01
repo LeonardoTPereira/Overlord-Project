@@ -1,6 +1,6 @@
-﻿using Game.NarrativeGenerator.Quests;
+﻿using System.Collections.Generic;
+using Game.NarrativeGenerator.Quests;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.Maestro
 {
@@ -13,13 +13,13 @@ namespace Game.Maestro
         
         public PlayerProfileToQuestLinesDictionary QuestLinesForProfile => questLinesForProfile;
 
-        public void Add(string profile,  QuestLine questLine)
+        public void Add(string profile,  QuestLineList questLine)
         {
             if (!QuestLinesForProfile.ContainsKey(profile))
             {
-                QuestLinesForProfile.Add(profile, CreateInstance<QuestLineList>());
+                QuestLinesForProfile.Add(profile, new List<QuestLineList>());
             }
-            QuestLinesForProfile[profile].QuestLinesList.Add(questLine);
+            QuestLinesForProfile[profile].Add(questLine);
         }
 
         public void Remove(string profile)

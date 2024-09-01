@@ -19,6 +19,6 @@ MonoBehaviour:
   atkSpeed: 1.1
   moveSpeed: 10
   projectileBehaviorIndex: 2
-  projectileName: Triplo
-  description: "Atira tr\xEAs poj\xE9teis de uma vez."
+  projectileName: Triple
+  description: Slowly fires three average projectiles ahead
   color: {r: 0, g: 1, b: 0.6619048, a: 1}

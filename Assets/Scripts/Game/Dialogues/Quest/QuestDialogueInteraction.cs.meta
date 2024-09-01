@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Game/Dialogues/Quest/QuestDialogueInteraction.cs.meta
+guid: 54e4b97fa432c254fa863702d25608d9
+========
+guid: 111ae4892e2be4b408e8ef1a7a2b8627
+>>>>>>>> 2d-game/feature/life-bar:Assets/Scripts/Game/PlatformGame/UI/Lifebar/Heart.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -14,7 +14,6 @@ namespace Game.GameManager
         }
         public void PlayGame()
         {
-            GameManagerSingleton.Instance.createMaps = true;
             SceneManager.LoadScene("LevelWithEnemies");
         }
         public void CreateLevels()
@@ -31,13 +30,11 @@ namespace Game.GameManager
         }
         public void PlayLoadedLevel()
         {
-            GameManagerSingleton.Instance.createMaps = false;
             SceneManager.LoadScene("LevelWithEnemies");
         }
 
         public void RetryLevel()
         {
-            GameManagerSingleton.Instance.createMaps = false;
             SceneManager.LoadScene("LevelWithEnemies");
         }
 
