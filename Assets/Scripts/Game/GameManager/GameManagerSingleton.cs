@@ -13,6 +13,7 @@ namespace Game.GameManager
 {
     public class GameManagerSingleton : MonoBehaviour, ISoundEmitter
     {
+        public bool IsInPortuguese = false;
         public static GameManagerSingleton Instance { get; private set; }
         [field: SerializeField] public ProjectileTypeSO playerProjectile { get; set; }
 
@@ -27,7 +28,7 @@ namespace Game.GameManager
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Main" || scene.name == "ContentGenerator")
+            if (scene.name == "Main" || scene.name == "ContentGenerator" || scene.name == "PlatformMain")
             {
                 ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.MainMenuTheme));
             }

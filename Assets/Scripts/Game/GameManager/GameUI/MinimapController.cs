@@ -28,6 +28,9 @@ namespace Game.GameManager
         [SerializeField] private InputActionReference interactAction;
         [field: SerializeField] private Camera MinimapCamera { get; set; }
 
+        [field: SerializeField] private float _fullScreenSize = 240f;
+        [field: SerializeField] private float _minimapSize = 120f;
+
         private void Awake()
         {
             _viewState = ViewStates.Small;
@@ -123,7 +126,7 @@ namespace Game.GameManager
 
         private void GoToMinimapMode()
         {
-            MinimapCamera.orthographicSize = 120;
+            MinimapCamera.orthographicSize = _minimapSize;
             MiniMap.SetActive(true);
         }
 
@@ -136,7 +139,7 @@ namespace Game.GameManager
         private void GoToFullScreenMode()
         {
             FullscreenUIEvent?.Invoke(null, EventArgs.Empty);
-            MinimapCamera.orthographicSize = 240;
+            MinimapCamera.orthographicSize = _fullScreenSize;
             FullMap.SetActive(true);
         }
     }

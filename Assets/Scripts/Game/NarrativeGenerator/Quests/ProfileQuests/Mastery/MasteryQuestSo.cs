@@ -6,6 +6,7 @@ using UnityEngine;
 using Game.NPCs;
 using System.Linq;
 using System.Text;
+using Game.GameManager;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using MyBox;
@@ -87,7 +88,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var damageQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var totalDamage = RandomSingleton.GetInstance().Random.Next(100) + 20;
-            damageQuest.Init(selectedEnemyType.EnemyTypeName, false, 
+            damageQuest.Init(selectedEnemyType.RealTypeName(), false, 
                 questSos.Count > 0 ? questSos[^1] : null, selectedEnemyType, totalDamage);
             
             if (questSos.Count > 0)
@@ -105,14 +106,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             for (var i = 0; i < selectedEnemyTypes.EnemiesByTypeDictionary.Count; i++)
             {
                 var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
-                stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
+
+                if (GameManagerSingleton.Instance.IsInPortuguese)
+                    stringBuilder.Append($"Derrote {typeAmountPair.Value} {typeAmountPair.Key}");
+                else
+                    stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
+
                 if (typeAmountPair.Value.QuestIds.Count > 1)
                 {
                     stringBuilder.Append("s");
                 }
                 if (i < (selectedEnemyTypes.EnemiesByTypeDictionary.Count - 1))
                 {
-                    stringBuilder.Append(" and ");
+                    if (GameManagerSingleton.Instance.IsInPortuguese)
+                        stringBuilder.Append(" e ");
+                    else
+                        stringBuilder.Append(" and ");
                 }
             }
             return stringBuilder.ToString();

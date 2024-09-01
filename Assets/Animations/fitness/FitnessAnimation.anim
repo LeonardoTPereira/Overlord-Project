@@ -23,15 +23,24 @@ AnimationClip:
       - serializedVersion: 3
         time: -1
         value: 0
+<<<<<<< HEAD
+        inSlope: 4.5243287
+        outSlope: 4.5243287
+=======
         inSlope: 0.32372805
         outSlope: 0.32372805
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0
+<<<<<<< HEAD
+        value: 4.5243287
+=======
         value: 0.32372805
+>>>>>>> Develop
         inSlope: 0.5
         outSlope: 0.5
         tangentMode: 0
@@ -41,14 +50,24 @@ AnimationClip:
       - serializedVersion: 3
         time: 1
         value: 1
+<<<<<<< HEAD
+        inSlope: -1.6243408
+        outSlope: -1.6243408
+=======
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
+<<<<<<< HEAD
+        value: 1.2756472
+        inSlope: 0.27564716
+        outSlope: 0.27564716
+=======
         value: 0.32372805
         inSlope: -0.37711877
         outSlope: -0.37711877
@@ -2702,13 +2721,29 @@ AnimationClip:
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: distanceCurve
+    path: 
+    classID: 114
+    script: {fileID: 11500000, guid: 37ab87ce3d4646a2acf848037c5236da, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: -1
+        value: 0
+=======
         time: 45
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2716,8 +2751,13 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 0
+        value: 0
+=======
         time: 46
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2725,8 +2765,13 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 1
+        value: 0
+=======
         time: 47
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2734,116 +2779,229 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 2
+        value: 0
+=======
         time: 48
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: usageCurve
+    path: 
+    classID: 114
+    script: {fileID: 11500000, guid: 37ab87ce3d4646a2acf848037c5236da, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: -1
+        value: 0
+        inSlope: 1.851249
+        outSlope: 1.851249
+=======
         time: 49
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 0
+        value: 1.851249
+        inSlope: 0.118540764
+        outSlope: 0.118540764
+=======
         time: 50
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 1
+        value: 0.2370815
+        inSlope: -0.8070837
+        outSlope: -0.8070837
+=======
         time: 51
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 2
+        value: 0.2370815
+=======
         time: 52
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: sparsityCurve
+    path: 
+    classID: 114
+    script: {fileID: 11500000, guid: 37ab87ce3d4646a2acf848037c5236da, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: -1
+        value: 0
+        inSlope: 0.396294
+        outSlope: 0.396294
+=======
         time: 53
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 0
+        value: 0.396294
+        inSlope: 0.40124807
+        outSlope: 0.40124807
+=======
         time: 54
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 1
+        value: 0.80249614
+        inSlope: 0.20310107
+        outSlope: 0.20310107
+=======
         time: 55
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 2
+        value: 0.80249614
+=======
         time: 56
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: enemyStandardDeviationCurve
+    path: 
+    classID: 114
+    script: {fileID: 11500000, guid: 37ab87ce3d4646a2acf848037c5236da, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: -1
+        value: 0
+        inSlope: 0.7589286
+        outSlope: 0.7589286
+=======
         time: 57
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 0
+        value: 0.7589286
+        inSlope: 0.039344937
+        outSlope: 0.039344937
+=======
         time: 58
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 1
+        value: 0.07868984
+        inSlope: -0.34011936
+        outSlope: -0.34011936
+=======
         time: 59
         value: 0.019055326
         inSlope: 0
         outSlope: 0
+>>>>>>> Develop
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+<<<<<<< HEAD
+        time: 2
+        value: 0.07868984
+=======
         time: 60
         value: 0.019055326
+>>>>>>> Develop
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2871,7 +3029,11 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
+<<<<<<< HEAD
+    m_StopTime: 2
+=======
     m_StopTime: 60
+>>>>>>> Develop
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

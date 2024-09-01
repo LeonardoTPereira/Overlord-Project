@@ -66,6 +66,7 @@ namespace Game.GameManager
         public static EnemySO GetRandomEnemyOfType(WeaponTypeSo enemyType)
         {
             List<EnemySO> currentEnemies = GetEnemiesFromType(enemyType);
+            Debug.Log("ENEMY COUNT: " + currentEnemies.Count);
             return currentEnemies[RandomSingleton.GetInstance().Next(0, currentEnemies.Count)];
         }
 
@@ -119,7 +120,7 @@ namespace Game.GameManager
                 enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
             else
-            {
+            {                
                 enemy = Instantiate(EnemyPrefab, position, rotation);
             }
             enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
@@ -128,6 +129,7 @@ namespace Game.GameManager
 
         private static List<EnemySO> GetEnemiesFromType(WeaponTypeSo weaponType)
         {
+            Debug.Log(weaponType.ToString());
             //TODO create these lists only once per type on dungeon load
             return _enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
         }

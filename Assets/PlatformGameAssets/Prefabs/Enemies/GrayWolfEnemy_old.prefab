@@ -290,6 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b57ce57e19b7ff4882767cfba3e15c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canAttack: 0
+  _minimumAttackSpeed: 0
+  _maximumAttackSpeed: 0
   attackCooldown: 1
   weapon: {fileID: 1199977136738382182}
   timeToAtack: 0.3
@@ -305,6 +308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1d8c048e7f9245bc20943ad935dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isThisATest: 0
+  _movementEnum: 0
 --- !u!114 &7157422072867052080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +325,8 @@ MonoBehaviour:
   maxHealth: 5
   invincibilityCooldown: 0.5
   hasDeathAnimation: 0
+  _minimumHealth: 1
+  _maximumHealth: 6
 --- !u!114 &5028500646750257523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +339,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a2a029306950142ab6642a5a8b5015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumSpeed: 0.8
+  _maximumSpeed: 3.2
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  moveManager: {fileID: 0}
 --- !u!114 &8314099738113335215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,7 +604,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3947093f11dbb924bb40b73f62870639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minimumDamage: 1
+  _maximumDamage: 4
   weaponDamage: 2
+  HasAttackJump: 0
   attackDuration: 2
   wolfTackleForce: 10
 --- !u!60 &2390731073739755481

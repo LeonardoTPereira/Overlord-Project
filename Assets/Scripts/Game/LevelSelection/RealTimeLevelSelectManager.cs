@@ -7,6 +7,7 @@ using Game.SaveLoadSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Util;
 
 namespace Game.LevelSelection
 {
@@ -33,7 +34,16 @@ namespace Game.LevelSelection
             if (AllLevelsCompleted())
             {
                 InvokeCompletedLevelsEvent();
-                SceneManager.LoadScene("ContentGenerator");
+
+                switch (settings.GameType)
+                {
+                    case Enums.GameType.TopDown:
+                        SceneManager.LoadScene("ContentGenerator");
+                        break;
+                    case Enums.GameType.Platformer:
+                        SceneManager.LoadScene("PlatformContentGenerator");
+                        break;
+                }
             }
             ((ISoundEmitter)this).OnSoundEmitted(this, new PlayBgmEventArgs(AudioManager.BgmTracks.LevelSelectTheme));
         }
@@ -57,7 +67,15 @@ namespace Game.LevelSelection
                     profileWeights.Add(realTimeLevelData.ImmersionWeight);
                     profileWeights.Add(realTimeLevelData.MasteryWeight);
                     PreTestFormQuestionAnsweredEventHandler?.Invoke(this, new FormAnsweredEventArgs(-1, profileWeights));
-                    SceneManager.LoadScene("ContentGenerator");
+                    switch (settings.GameType)
+                    {
+                        case Enums.GameType.TopDown:
+                            SceneManager.LoadScene("ContentGenerator");
+                            break;
+                        case Enums.GameType.Platformer:
+                            SceneManager.LoadScene("PlatformContentGenerator");
+                            break;
+                    }
                     return;
                 }
                 Debug.LogError("Level Data is not Real Time!");

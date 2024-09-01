@@ -75,7 +75,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
+            if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+                QuestText = $"Visite {NumOfRoomsToExplore} ou mais salas.\n";
+            else
+                QuestText = $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
         }
 
         public void ChangeRoomsPercentageToValue(int roomsCount)

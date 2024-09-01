@@ -56,6 +56,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: FarthestBg
+    uniqueID: 2070269455
+    locked: 0
+  - name: FarBg
+    uniqueID: 2579018723
+    locked: 0
+  - name: FarMidBg
+    uniqueID: 1070449977
+    locked: 0
+  - name: MidBg
+    uniqueID: 668378471
+    locked: 0
+  - name: NearMidBg
+    uniqueID: 4114495291
+    locked: 0
+  - name: NearBg
+    uniqueID: 2649961887
+    locked: 0
+  - name: NearlestBg
+    uniqueID: 1605537161
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

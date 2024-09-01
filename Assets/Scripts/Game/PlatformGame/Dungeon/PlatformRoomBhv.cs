@@ -4,6 +4,7 @@ using Game.LevelManager.DungeonManager;
 using PlatformGame.Enemy;
 using UnityEngine;
 using Util;
+using PlatformGame.Util;
 
 namespace PlatformGame.Dungeon
 {
@@ -12,7 +13,6 @@ namespace PlatformGame.Dungeon
         [Header("Plataform Game Related")]
         public CompositeCollider2D colRoomConfiner;
 
-        private bool[,] _backtrackingPath;
         private bool _isSpawnPointsGenerated = false;
         //Change enemy spawners later...
         //Do not forget EnemyKilledHandler event inside SpawnEnemies() to remove from enemy dictionary...
@@ -80,8 +80,6 @@ namespace PlatformGame.Dungeon
             base.SpawnEnemies();
         }
 
-        private int startX, startY;
-
         protected override void SetEnemySpawners()
         {
             var roomPosition = transform.position;
@@ -92,42 +90,14 @@ namespace PlatformGame.Dungeon
 
             // Need to have the roomModel matrix to work            
             char [,] roomModel = CreateRoomModel();
-            _backtrackingPath = new bool[roomModel.GetLength(0), roomModel.GetLength(1)];
 
-            for (int i = 0; i < roomModel.GetLength(0); i++)
-                for (int j = 0; j < roomModel.GetLength(1); j++)
-                    _backtrackingPath[i, j] = false;
+            CalculateSpawnPoints calcSP = new CalculateSpawnPoints(roomModel.GetLength(0), roomModel.GetLength(1), roomPosition.x, roomPosition.y, transform.lossyScale);
+            calcSP.SetStartPosition(roomModel, northDoor, eastDoor, southDoor);
+            spawnPoints = calcSP.GetSpawnPoints(roomModel);
 
-            SetBacktrackingStartPosition(roomModel);
-
-            SpawnBacktracking(startY, startX, roomModel.GetLength(0), roomModel.GetLength(1), xOffset, yOffset, roomModel);
             _isSpawnPointsGenerated = true;
         }
-
-        private void SetBacktrackingStartPosition(char[,] roomModel)
-        {
-            if (northDoor != null)
-            {
-                startX = (roomModel.GetLength(1) - 1) / 2;
-                startY = (roomModel.GetLength(0) - 1);
-            }
-            else if (eastDoor != null)
-            {
-                startX = (roomModel.GetLength(1) - 1);
-                startY = (roomModel.GetLength(0) - 1) / 2;
-            }
-            else if (southDoor != null)
-            {
-                startX = (roomModel.GetLength(1) - 1) / 2;
-                startY = 0;
-            }
-            else
-            {
-                startX = 0;
-                startY = (roomModel.GetLength(0) - 1) / 2;
-            }
-        }
-                
+                        
         private char[,] CreateRoomModel()
         {
             char[,] model = new char[24, 28];
@@ -146,16 +116,20 @@ namespace PlatformGame.Dungeon
             }
             return model;
         }
-
+        /*
         private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float xOffset, float yOffset, char[,] roomModel)
         {
+            // Check if it is a ground block
             if (roomModel[i, j] == '#')
             {
                 return;
             }
-            // Test if the block bellow is a walking block ( so it is a possible spawn point! )
+            // Check if the upper block is a ground block or upper wall limit
+            if (i - 1 == 0 || i - 1 >= 0 && )
+
+            // Test if the block bellow is a walking block
             if (i - 1 > 0 && roomModel[i - 1, j] == '#')
-            {
+            {                
                 _backtrackingPath[i + 1, j] = true;
                 spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + i * transform.lossyScale.y + 0.5f, 0));
             }
@@ -190,7 +164,7 @@ namespace PlatformGame.Dungeon
                 SpawnBacktracking(i, j - 1, lineNum, colNum, xOffset, yOffset, roomModel);
             }
         }
-
+        */
         protected override void CallStartRoomEvent()
         {
             _availablePosition -= transform.position - new Vector3(1.0f, 1.0f, 0);

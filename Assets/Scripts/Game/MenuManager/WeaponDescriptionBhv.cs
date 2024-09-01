@@ -33,11 +33,21 @@ namespace Game.MenuManager
 
         private string WeaponToString()
         {
-            var str = "";
-            str += "\"" + weaponSo.description + "\"\n";
-            str += "Damage: " + weaponSo.damage + "\n";
-            str += "Bullet Speed: " + weaponSo.moveSpeed + "\n";
-            str += "Attack Speed: " + weaponSo.atkSpeed + "\n";
+            string str = "";
+            if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                str += "\"" + weaponSo.description + "\"\n";
+                str += "Dano: " + weaponSo.damage + "\n";
+                str += "Velocidade do projétil: " + weaponSo.moveSpeed + "\n";
+                str += "Velocidade de ataque: " + weaponSo.atkSpeed + "\n";
+            }
+            else
+            {
+                str += "\"" + weaponSo.description + "\"\n";
+                str += "Damage: " + weaponSo.damage + "\n";
+                str += "Bullet Speed: " + weaponSo.moveSpeed + "\n";
+                str += "Attack Speed: " + weaponSo.atkSpeed + "\n";
+            }
             return str;
         }
     }

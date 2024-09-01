@@ -3,6 +3,8 @@ using System.Linq;
 using PlatformGame.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Game.MenuManager;
+using UnityEditor;
 
 namespace PlatformGame.Player
 {
@@ -48,10 +50,12 @@ namespace PlatformGame.Player
 
             if (_isDead) return;
 
-            //if (PauseMenu.Instance.IsPaused) return;
+            if (PauseMenu.isGamePaused) return;
             // Calculate velocity
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
+            //Velocity = (transform.position + _characterBounds.center - _lastPosition) / Time.deltaTime;
+            //_lastPosition = transform.position + _characterBounds.center;
 
             GatherInput();
             RunCollisionChecks();
@@ -193,12 +197,20 @@ namespace PlatformGame.Player
         private void CalculateRayRanged()
         {
             // This is crying out for some kind of refactor. 
-            var b = new Bounds(transform.position, _characterBounds.size);
+            Vector3 playerCenter = transform.position + _characterBounds.center;
+            var b = new Bounds(playerCenter, _characterBounds.size);
 
             _raysDown = new RayRange(b.min.x + _rayBuffer, b.min.y, b.max.x - _rayBuffer, b.min.y, Vector2.down);
             _raysUp = new RayRange(b.min.x + _rayBuffer, b.max.y, b.max.x - _rayBuffer, b.max.y, Vector2.up);
             _raysLeft = new RayRange(b.min.x, b.min.y + _rayBuffer, b.min.x, b.max.y - _rayBuffer, Vector2.left);
             _raysRight = new RayRange(b.max.x, b.min.y + _rayBuffer, b.max.x, b.max.y - _rayBuffer, Vector2.right);
+            
+            // Draw collision edges
+
+            Debug.DrawRay(new Vector3(b.min.x + _rayBuffer, b.min.y,0), new Vector3(b.max.x - _rayBuffer, b.min.y, 0), Color.blue);
+            Debug.DrawRay(new Vector3(b.min.x + _rayBuffer, b.max.y, 0), new Vector3(b.max.x - _rayBuffer, b.max.y, 0), Color.red);
+            Debug.DrawRay(new Vector3(b.min.x, b.min.y + _rayBuffer, 0), new Vector3(b.min.x, b.max.y - _rayBuffer, 0), Color.yellow);
+            Debug.DrawRay(new Vector3(b.max.x, b.min.y + _rayBuffer, 0), new Vector3(b.max.x, b.max.y - _rayBuffer, 0), Color.black);
         }
 
 
@@ -344,7 +356,8 @@ namespace PlatformGame.Player
         // We cast our bounds before moving to avoid future collisions
         private void MoveCharacter()
         {
-            var pos = transform.position;
+            //var pos = transform.position;
+            var pos = transform.position + _characterBounds.center;
             RawMovement = new Vector3(_currentHorizontalSpeed, _currentVerticalSpeed); // Used externally
             var move = RawMovement * Time.deltaTime;
             var furthestPoint = pos + move;
@@ -359,6 +372,7 @@ namespace PlatformGame.Player
 
             // otherwise increment away from current pos; see what closest position we can move to
             var positionToMoveTo = transform.position;
+            //var positionToMoveTo = transform.position + _characterBounds.center; 
             for (int i = 1; i < _freeColliderIterations; i++)
             {
                 // increment to check all but furthestPoint - we did that already
@@ -368,15 +382,16 @@ namespace PlatformGame.Player
                 if (Physics2D.OverlapBox(posToTry, _characterBounds.size, 0, _groundLayer))
                 {
                     transform.position = positionToMoveTo;
-
+                    
                     // We've landed on a corner or hit our head on a ledge. Nudge the player gently
                     if (i == 1)
                     {
                         if (_currentVerticalSpeed < 0) _currentVerticalSpeed = 0;
-                        var dir = transform.position - hit.transform.position;
+                        var dir = transform.position  - hit.transform.position;
+                        //var dir = transform.position + _characterBounds.center - hit.transform.position;
                         transform.position += dir.normalized * move.magnitude;
                     }
-
+                    
                     return;
                 }
 

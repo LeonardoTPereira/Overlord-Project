@@ -6,6 +6,7 @@ using Game.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
+using Game.GameManager;
 
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -115,10 +116,21 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 2, 2);
-            stringBuilder.Append($" with {Npc.NpcName}.\n");
+
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                stringBuilder.Append($" com {Npc.NpcName}.\n");
+
+                spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
+                stringBuilder.Append($"Você receberá dele o {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+            }
+            else
+            {
+                stringBuilder.Append($" with {Npc.NpcName}.\n");
             
-            spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
-            stringBuilder.Append($"They'll give you a {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+                spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
+                stringBuilder.Append($"They'll give you a {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+            }
             
             QuestText = stringBuilder.ToString();
         }

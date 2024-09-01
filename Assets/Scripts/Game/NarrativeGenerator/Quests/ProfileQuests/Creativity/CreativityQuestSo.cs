@@ -2,6 +2,7 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Collections.Generic;
+using Game.GameManager;
 using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
@@ -63,8 +64,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
             var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(roomsToExplore.Max - roomsToExplore.Min) + roomsToExplore.Min;
-            exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
-            
+
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+                exploreQuest.Init($"Explore {numOfRoomsToExplore} salas", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
+            else
+                exploreQuest.Init($"Explore {numOfRoomsToExplore} rooms", false, questSos.Count > 0 ? questSos[^1] : null, numOfRoomsToExplore);
+
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = exploreQuest;
@@ -78,7 +83,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
         {
             var gotoQuest = CreateInstance<GotoQuestSo>();
-            gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
+
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+                gotoQuest.Init("Vá para a sala marcada", false, questSos.Count > 0 ? questSos[^1] : null);
+            else
+                gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
+
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = gotoQuest;

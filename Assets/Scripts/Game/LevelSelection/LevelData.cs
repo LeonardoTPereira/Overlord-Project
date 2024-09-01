@@ -27,17 +27,17 @@ namespace Game.LevelSelection
             HasSurrendered = false;
         }
 
-        public void CompleteLevel()
+        public virtual void CompleteLevel()
         {
             IsCompleted = true;
         }
 
-        public void GiveUpLevel()
+        public virtual void GiveUpLevel()
         {
             HasSurrendered = true;
         }
 
-        public bool HasCompleted()
+        public virtual bool HasCompleted()
         {
             return IsCompleted || HasSurrendered;
         }
