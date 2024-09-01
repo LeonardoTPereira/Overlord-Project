@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -722,7 +722,7 @@ namespace Game.DataCollection
         {
             // PythonRunner.RunFile($"{Application.dataPath}/ensure_naming.py");
         }
-        
+
         public void SendProfileToServer(PlayerData playerData)
         {
 #if !UNITY_WEBGL || UNITY_EDITOR
