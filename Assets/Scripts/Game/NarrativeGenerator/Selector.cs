@@ -8,6 +8,7 @@ using Game.NPCs;
 using MyBox;
 using UnityEngine;
 using Util;
+using System.Net.NetworkInformation;
 
 namespace Game.NarrativeGenerator
 {
@@ -46,16 +47,7 @@ namespace Game.NarrativeGenerator
             {
                CreateQuestLineForNpc(npcInCharge, questLineList);
             }
-        }
-        
-        public PlayerProfile SelectProfile(Dictionary<string, int> answers)
-        {
-            CalculateProfileWeights(answers);
-
-            CreateProfileWithWeights();
-            
-            return playerProfile;
-        }        
+        }     
         
         private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
         {
@@ -94,12 +86,6 @@ namespace Game.NarrativeGenerator
         private static void CreateQuestDict ()
         {
             _wasQuestAdded.Add(nameof(KillQuestSo), false);
-        }
-
-        private void CalculateProfileWeights(Dictionary<string, int> answers)
-        {
-            //TODO implement logic
-            throw new NotImplementedException();
         }
         
         private static void UpdateListContents (QuestLine questLine)

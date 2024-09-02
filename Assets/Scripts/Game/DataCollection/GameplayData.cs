@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using Game.Events;
 using Game.GameManager;
-using Game.LevelManager;
+using Game.LevelManager.DungeonLoader;
+using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator;
 using Game.DataInterfaces;
 using ScriptableObjects;
@@ -15,15 +16,18 @@ using UnityEngine;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using FirebaseWebGLBridge = FirebaseWebGL.Scripts.FirebaseBridge;
+using Game.GameManager.Player;
+using Game.EnemyManager;
+using Game.Dialogues;
 
 namespace Game.DataCollection
 {
-    public class GameplayData
+    public class CombatRoomInfo
     {
         public int RoomId { get; set; }
         public bool HasEnemies { get; set; }
         public int NEnemies { get; set; }
-        public Dictionary<EnemySO, int> EnemiesDictionary { get; set; }
+        public EnemyByAmountDictionary EnemiesDictionary { get; set; }
         public int PlayerInitHealth { get; set; }
         public int PlayerFinalHealth { get; set; }
         public int TimeToExit { get; set; }
@@ -115,7 +119,6 @@ namespace Game.DataCollection
         System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
         public List<Vector2Int> visitedRooms = new List<Vector2Int>();
         public int actualCombo = 0;
-        private int curBatchId;
 
 
         // Player type classification
@@ -161,53 +164,53 @@ namespace Game.DataCollection
 
         protected void OnEnable()
         {
-            ProjectileController.enemyHitEventHandler += IncrementCombo;
-            ProjectileController.playerHitEventHandler += ResetCombo;
+            ProjectileController.EnemyHitEventHandler += IncrementCombo;
+            ProjectileController.PlayerHitEventHandler += ResetCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
-            EnemyController.playerHitEventHandler += ResetCombo;
-            TreasureController.treasureCollectEvent += GetTreasure;
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetMaxCombo;
-            GameManagerSingleton.NewLevelLoadedEventHandler += ResetTreasure;
+            EnemyController.PlayerHitEventHandler += ResetCombo;
+            TreasureController.TreasureCollectEventHandler += GetTreasure;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetMaxCombo;
+            DungeonSceneManager.NewLevelLoadedEventHandler += ResetTreasure;
             GameManagerSingleton.GameStartEventHandler += OnGameStart;
-            Player.EnterRoomEventHandler += OnRoomEnter;
-            KeyBHV.KeyCollectEventHandler += OnGetKey;
+            RoomBhv.EnterRoomEventHandler += OnRoomEnter;
+            KeyBhv.KeyCollectEventHandler += OnGetKey;
             HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
-            GameManagerSingleton.FinishMapEventHandler += OnMapComplete;
+            TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
-            FormBHV.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
-            Player.ExitRoomEventHandler += OnRoomExit;
+            FormBhv.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
+            FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
+            DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
-            GameManagerSingleton.StartMapEventHandler += OnMapStart;
+            DungeonLoader.StartMapEventHandler += OnMapStart;
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
-            NpcController.DialogueOpenEventHandler += OnInteractNPC;
+            DialogueController.DialogueOpenEventHandler += OnInteractNPC;
         }
 
         protected void OnDisable()
         {
-            ProjectileController.enemyHitEventHandler -= IncrementCombo;
-            ProjectileController.playerHitEventHandler -= ResetCombo;
+            ProjectileController.EnemyHitEventHandler -= IncrementCombo;
+            ProjectileController.PlayerHitEventHandler -= ResetCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
-            EnemyController.playerHitEventHandler -= ResetCombo;
-            TreasureController.treasureCollectEvent -= GetTreasure;
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetMaxCombo;
-            GameManagerSingleton.NewLevelLoadedEventHandler -= ResetTreasure;
+            EnemyController.PlayerHitEventHandler -= ResetCombo;
+            TreasureController.TreasureCollectEventHandler -= GetTreasure;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetMaxCombo;
+            DungeonSceneManager.NewLevelLoadedEventHandler -= ResetTreasure;
             GameManagerSingleton.GameStartEventHandler -= OnGameStart;
-            Player.EnterRoomEventHandler -= OnRoomEnter;
-            KeyBHV.KeyCollectEventHandler -= OnGetKey;
+            RoomBhv.EnterRoomEventHandler -= OnRoomEnter;
+            KeyBhv.KeyCollectEventHandler -= OnGetKey;
             HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
-            GameManagerSingleton.FinishMapEventHandler -= OnMapComplete;
+            TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
-            FormBHV.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
-            FormBHV.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
-            Player.ExitRoomEventHandler -= OnRoomExit;
+            FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
+            FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
+            DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
-            NpcController.DialogueOpenEventHandler -= OnInteractNPC;
+            DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
         }
 
         //From FormBHV
@@ -295,30 +298,30 @@ namespace Game.DataCollection
         {
             //Log
             //Mais métricas - organiza em TAD
-            visitedRooms.Add(new Vector2Int(eventArgs.RoomCoordinates.X, eventArgs.RoomCoordinates.Y));
+            visitedRooms.Add(new Vector2Int(eventArgs.RoomData.RoomCoordinates.X, eventArgs.RoomData.RoomCoordinates.Y));
 
             // Collect the player health for level data
             if (visitedRooms.Count == 1)
             {
-                playerInitialHealth = eventArgs.PlayerHealthWhenEntering;
+                playerInitialHealth = eventArgs.RoomData.PlayerHealthWhenEntering;
             }
-            playerFinalHealth = eventArgs.PlayerHealthWhenEntering;
+            playerFinalHealth = eventArgs.RoomData.PlayerHealthWhenEntering;
 
-            if (eventArgs.RoomHasEnemies)
+            if (eventArgs.RoomData.HasEnemies)
             {
-                actualRoomInfo.RoomId = 10 * eventArgs.RoomCoordinates.X + eventArgs.RoomCoordinates.Y;
-                actualRoomInfo.HasEnemies = eventArgs.RoomHasEnemies;
+                actualRoomInfo.RoomId = 10 * eventArgs.RoomData.RoomCoordinates.X + eventArgs.RoomData.RoomCoordinates.Y;
+                actualRoomInfo.HasEnemies = eventArgs.RoomData.HasEnemies;
                 actualRoomInfo.PlayerInitHealth = eventArgs.PlayerHealthWhenEntering;
-                actualRoomInfo.NEnemies = eventArgs.EnemiesInRoom.Count;
-                actualRoomInfo.EnemiesDictionary = eventArgs.EnemiesInRoom;
+                actualRoomInfo.NEnemies = eventArgs.RoomData.NEnemies;
+                actualRoomInfo.EnemiesDictionary = eventArgs.RoomData.EnemiesByAmount;
                 actualRoomInfo.TimeToExit = System.Convert.ToInt32(stopWatch.ElapsedMilliseconds);
             }
             else
                 actualRoomInfo.RoomId = -1;
 
             // Check the room coordinates to avoid division by zero
-            if (eventArgs.RoomCoordinates.X != 0 && eventArgs.RoomCoordinates.Y != 0) {
-                heatMap[eventArgs.RoomCoordinates.X / 2, eventArgs.RoomCoordinates.Y / 2]++;
+            if (eventArgs.RoomData.RoomCoordinates.X != 0 && eventArgs.RoomData.RoomCoordinates.Y != 0) {
+                heatMap[eventArgs.RoomData.RoomCoordinates.X / 2, eventArgs.RoomData.RoomCoordinates.Y / 2]++;
             }
         }
 
@@ -359,7 +362,6 @@ namespace Game.DataCollection
                 playedLevels.Add(eventArgs.MapName);
             }
             map = eventArgs.Map;
-            curBatchId = eventArgs.MapBatch;
 
             // Initialize data for level data collection
             levelID = eventArgs.MapName;
@@ -427,7 +429,7 @@ namespace Game.DataCollection
         }
 
         //From TriforceBHV
-        private void OnMapComplete(object sender, FinishMapEventArgs eventArgs)
+        private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             hasFinished = true;
             EndTheLevel();

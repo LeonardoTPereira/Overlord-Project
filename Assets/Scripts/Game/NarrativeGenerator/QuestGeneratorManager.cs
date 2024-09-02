@@ -96,14 +96,7 @@ namespace Game.NarrativeGenerator
             var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
 
             await CreateOrLoadNarrativeForProfile(playerProfile);
-        }
-        
-        private void SelectPlayerProfile(object sender, ProfileAnalystFinishedEventArgs e)
-        {
-            var answers = e.AnswerByQuestion;
-            var playerProfile = Selector.SelectProfile(answers);
-            CreateOrSelectNarrative(playerProfile);
-        }            
+        }     
 
         private async Task CreateOrLoadNarrativeForProfile(PlayerProfile playerProfile)
         {
