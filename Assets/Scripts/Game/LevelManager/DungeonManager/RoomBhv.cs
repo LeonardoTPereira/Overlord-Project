@@ -12,6 +12,7 @@ using UnityEngine;
 using Util;
 using Game.Quests;
 using UnityEngine.Tilemaps;
+using PlatformGame.Player;
 
 namespace Game.LevelManager.DungeonManager
 {

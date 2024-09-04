@@ -39,7 +39,6 @@ namespace Game.GameManager
         {
             gameObject.SetActive(false);
             SceneManager.LoadScene("Overworld");
-            GameManagerSingleton.Instance.StopMusic();
         }
 
         private void NewProfileSelected(object sender, EventArgs e)

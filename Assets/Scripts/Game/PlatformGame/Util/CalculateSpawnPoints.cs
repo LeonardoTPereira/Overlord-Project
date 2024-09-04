@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlatformGame.Util
 {
-    public class CalculateSpawnPoints : MonoBehaviour
+    public class CalculateSpawnPoints
     {
         private int _startPosX, _startPosY;
         private Vector3 _roomLossyScale;

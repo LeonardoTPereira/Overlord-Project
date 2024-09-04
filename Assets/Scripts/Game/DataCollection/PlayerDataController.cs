@@ -74,7 +74,7 @@ namespace Game.DataCollection
 
         private void Awake()
         {
-            _gameplayData = new GameplayData();
+            _gameplayData = gameObject.AddComponent<GameplayData>();
         }
 
         private void Start()

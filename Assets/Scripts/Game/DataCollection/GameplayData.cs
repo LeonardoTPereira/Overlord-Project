@@ -64,8 +64,6 @@ namespace Game.DataCollection
         [SerializeField]
         private string levelID = null;
         [SerializeField]
-        private int chosenWeapon = -1;
-        [SerializeField]
         private int elapsedTime = 0;
         // 0 if the player gave up or died, 1 if the player completed the level
         [SerializeField]
@@ -131,7 +129,7 @@ namespace Game.DataCollection
         protected int difficultyLevel; // TODO SET IT WITH THE NARRATIVE JSON
         protected List<int> damageDoneByEnemy;
         protected int timesPlayerDied;
-        public CombatRoomInfo actualRoomInfo;
+        public CombatRoomInfo actualRoomInfo = new CombatRoomInfo();
 
 
         void Awake()
@@ -303,9 +301,9 @@ namespace Game.DataCollection
             // Collect the player health for level data
             if (visitedRooms.Count == 1)
             {
-                playerInitialHealth = eventArgs.RoomData.PlayerHealthWhenEntering;
+                playerInitialHealth = eventArgs.PlayerHealthWhenEntering;
             }
-            playerFinalHealth = eventArgs.RoomData.PlayerHealthWhenEntering;
+            playerFinalHealth = eventArgs.PlayerHealthWhenEntering;
 
             if (eventArgs.RoomData.HasEnemies)
             {
@@ -347,7 +345,6 @@ namespace Game.DataCollection
             difficultyLevel = -1;
             timesPlayerDied = 0;
             hasFinished = false; //0 if player gave up, 1 if he completed the stage
-            chosenWeapon = -1;
         }
 
         //From GameManager
@@ -365,7 +362,6 @@ namespace Game.DataCollection
 
             // Initialize data for level data collection
             levelID = eventArgs.MapName;
-            chosenWeapon = eventArgs.PlayerProjectileIndex;
             TotalTreasures = eventArgs.TotalTreasure;
             elapsedTime = 0;
             hasFinished = false;
@@ -552,7 +548,6 @@ namespace Game.DataCollection
             levelProfileString +=
                 sessionUID + "," +
                 levelID + "," +
-                chosenWeapon + "," +
                 elapsedTime + "," +
                 hasFinished + "," +
                 hasDied + "," +
