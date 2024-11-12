@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
 using Game.GameManager;
+using System.Linq;
 
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -106,6 +107,29 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
+        public string GetTargetNpc()
+        {
+            return Npc.NpcName;
+        }
+
+        public string GetItemString()
+        {
+            string itemsToTrade = "";
+            foreach (var itemsCopy in ExchangeData.CopyOfItemsToTrade)
+            {
+                itemsToTrade += itemsCopy.Key.ItemName;
+                if ( !itemsCopy.Equals( ExchangeData.CopyOfItemsToTrade.LastOrDefault() ) &&  ExchangeData.CopyOfItemsToTrade.Count > 2 )
+                {
+                    itemsToTrade += ", ";
+                }
+                else if ( !itemsCopy.Equals( ExchangeData.CopyOfItemsToTrade.LastOrDefault() ) )
+                {
+                    itemsToTrade += " and ";
+                }
+            }
+            return itemsToTrade;
+        }
+
         public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
@@ -122,7 +146,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 stringBuilder.Append($" com {Npc.NpcName}.\n");
 
                 spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
-                stringBuilder.Append($"Você receberá dele o {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+                stringBuilder.Append($"Vocï¿½ receberï¿½ dele o {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
             }
             else
             {
