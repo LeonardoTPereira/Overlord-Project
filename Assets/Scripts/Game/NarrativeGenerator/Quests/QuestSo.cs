@@ -4,6 +4,8 @@ using Game.ExperimentControllers;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Game.NPCs;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -41,7 +43,7 @@ namespace Game.NarrativeGenerator.Quests
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
         public int Id { get; set; }
 
-        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
         {
             return null;
         }
@@ -117,6 +119,49 @@ namespace Game.NarrativeGenerator.Quests
             AssetDatabase.CreateAsset(this, uniquePath);
             #endif
         }
+
+        public virtual string GetTargetNpc()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get target npc");
+            return "";
+        }
+
+        public virtual string GetItemString()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get item string");
+            return "";
+        }
+
+        public virtual string GetItemAmountString()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get item amount string");
+            return "";
+        }
+
+        public virtual string GetRoomCoordinates()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get room coordinates");
+            return "";
+        }
+
+        public virtual string GetRoomAmount()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get room amount");
+            return "";
+        }
+
+        public virtual string GetEnemyAmountString()
+        {
+            Debug.LogError(" Called base quest so, this should never happen! _ get enemy amount string");
+            return "";
+        }
+
+        public virtual string GetEnemyString()
+        {
+            Debug.LogError(" Called base quest so, this should never happen! _ get enemy string");
+            return "";
+        }
+        
 
         public override string ToString()
         {

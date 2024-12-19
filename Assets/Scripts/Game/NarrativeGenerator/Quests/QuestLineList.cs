@@ -57,6 +57,7 @@ namespace Game.NarrativeGenerator.Quests
                 AddQuestLine(copyQuestLine);
             }
         }
+
         public void AddQuestLine(QuestLine questLine)
         {
             QuestLines.Add(questLine);
@@ -127,6 +128,20 @@ namespace Game.NarrativeGenerator.Quests
         {
             DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines
                 , explorationPreference/100f, achievementPreference/100f);
+        }
+
+        public void SetRandomMainQuest(List<int> rewardedKeys)
+        {
+            List<QuestLine> mainQuestLines = QuestLines.FindAll( x => x.IsMainQuest );
+            foreach (QuestLine questLine in mainQuestLines)
+            {
+                questLine.IsMainQuest = false;
+            }
+
+            QuestLine mainQuestLine = GetRandomQuestLine();
+            mainQuestLine.IsMainQuest = true;
+            mainQuestLine.RewardKeys = rewardedKeys;
+            mainQuestLine.OpenMainQuestLine();
         }
 
         public void OpenStartingQuests()

@@ -50,6 +50,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             cloneQuest.Init(this);
             return cloneQuest;
         }
+        
+        public override string GetTargetNpc()
+        {
+            return Npc.NpcName;
+        }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {

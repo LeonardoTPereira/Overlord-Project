@@ -20,8 +20,14 @@ namespace Game.NarrativeGenerator.Quests
     public class QuestLine : ScriptableObject, ISavableGeneratedContent
     {
         [field: SerializeReference] public List<QuestSo> Quests {get; set; }
+        [field: SerializeReference] public bool IsMainQuest {get; set; }
+        [field: SerializeReference] public List<int> RewardKeys {get; set; }
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
+
+        public static event QuestLineCompletedEvent QuestLineCompletedEventHandler;
+        public static event QuestLineOpenedEvent QuestLineOpenedEventHandler;
+
         public static event QuestCompletedEvent QuestCompletedEventHandler;
         public static event QuestOpenedEvent QuestOpenedEventHandler;
         public static event QuestElementEvent AllowExchangeEventHandler;
@@ -111,8 +117,22 @@ namespace Game.NarrativeGenerator.Quests
         {
             GetCurrentQuest().IsClosed = true;
             CurrentQuestIndex++;
-            if (GetCurrentQuest() == null) return;
-            OpenCurrentQuest();
+            if (GetCurrentQuest() == null)
+            {
+                QuestLineCompletedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
+            }
+            else
+            {
+                OpenCurrentQuest();
+            }
+        }
+
+        public void OpenMainQuestLine()
+        {
+            if ( CurrentQuestIndex == 0 )
+            {
+                QuestLineOpenedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
+            }
         }
 
         public void OpenCurrentQuest()
@@ -138,7 +158,7 @@ namespace Game.NarrativeGenerator.Quests
             return completedQuests; 
         }
 
-        public void PopulateQuestLine(in GeneratorSettings generatorSettings )
+        public void PopulateQuestLine(in GeneratorSettings generatorSettings, NpcSo npcInCharge )
         {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
@@ -149,11 +169,11 @@ namespace Game.NarrativeGenerator.Quests
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 nonTerminalSymbol.SetNextSymbol(questChain);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings);
             }
         }
 
-        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, Dictionary<string,bool> addedQuests )
+        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, NpcSo npcInCharge, Dictionary<string,bool> addedQuests )
         {
             List<string> missingQuests = new List<string>();
             foreach (KeyValuePair<string,bool> quest in addedQuests)
@@ -166,7 +186,7 @@ namespace Game.NarrativeGenerator.Quests
             foreach ( string missingQuest in missingQuests)
             {
                 questChain.SetSymbol(missingQuest);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings);
             }
         }
 

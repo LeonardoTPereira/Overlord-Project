@@ -58,6 +58,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
+        public override string GetRoomAmount()
+        {
+            return NumOfRoomsToExplore.ToString();
+        }
+
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
             return !IsCompleted

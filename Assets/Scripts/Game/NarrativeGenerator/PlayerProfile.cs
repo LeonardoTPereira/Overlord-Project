@@ -76,5 +76,10 @@ namespace Game.NarrativeGenerator
 	        AchievementPreference *= 2;
 	        CreativityPreference *= 2;
         }
+
+        public void SetAsComplementaryProfile ()
+        {
+            
+        }
     }
 }

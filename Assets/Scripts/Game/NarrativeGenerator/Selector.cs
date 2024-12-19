@@ -52,7 +52,7 @@ namespace Game.NarrativeGenerator
         private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
         {
             var questLine = CreateQuestLine();
-            questLine.PopulateQuestLine(_generatorSettings);
+            questLine.PopulateQuestLine(_generatorSettings, npcInCharge);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
             questLine.NpcInCharge = npcInCharge;
@@ -65,7 +65,7 @@ namespace Game.NarrativeGenerator
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                questLine.CompleteMissingQuests(_generatorSettings, _wasQuestAdded );
+                questLine.CompleteMissingQuests(_generatorSettings, npcInCharge, _wasQuestAdded );
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
             }

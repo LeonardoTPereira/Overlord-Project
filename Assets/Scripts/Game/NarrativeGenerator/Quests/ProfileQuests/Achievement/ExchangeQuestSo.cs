@@ -107,12 +107,25 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public string GetTargetNpc()
+        public override string GetTargetNpc()
         {
             return Npc.NpcName;
         }
 
-        public string GetItemString()
+        public override string GetItemAmountString()
+        {
+            var stringBuilder = new StringBuilder();
+            string spriteString;
+            foreach (var itemByAmount in ItemsToExchangeByType)
+            {                
+                spriteString = itemByAmount.Key.GetGemstoneSpriteString();
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            return stringBuilder.ToString();
+        }
+
+        public override string GetItemString()
         {
             string itemsToTrade = "";
             foreach (var itemsCopy in ExchangeData.CopyOfItemsToTrade)
