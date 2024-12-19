@@ -103,7 +103,6 @@ namespace Game.NPCs
 
         public static string CreateGreeting(NpcSo speaker)
         {
-            var greeting = new StringBuilder();
             switch (speaker.SocialFactor)
             {
                 case < 3:

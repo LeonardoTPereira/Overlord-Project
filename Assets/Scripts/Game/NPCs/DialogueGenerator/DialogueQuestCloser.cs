@@ -10,39 +10,40 @@ namespace Game.NPCs
     {
         public static string CreateQuestCloser(QuestSo closedQuest, NpcSo speaker)
         {
-            var questCloser = new StringBuilder();
-            questCloser.Append("Oh my! ");
+            var questCloserString = new StringBuilder();
+            QuestCloser questCloser;
+
             switch (closedQuest)
             {
                 case ExchangeQuestSo:
-                    questCloser.Append("You traded them all!\n");
+                    questCloser = new ExchangeQuestCloser();
                     break;
                 case GatherQuestSo:
-                    questCloser.Append("You got them all!\n");
+                    questCloser = new GatherQuestCloser();
                     break;
                 case KillQuestSo:
-                    questCloser.Append("You got rid of all of them!\n");
+                    questCloser = new KillQuestCloser();
                     break;
                 case DamageQuestSo:
-                    questCloser.Append("You did pretty good damage to it!\n");
+                    questCloser = new DamageQuestCloser();
                     break;
                 case GiveQuestSo:
-                    questCloser.Append("You gave them everything they needed!\n");
+                    questCloser = new GiveQuestCloser();
                     break;
                 case ListenQuestSo:
-                    questCloser.Append("Thanks for listening to their message!\n");
+                    questCloser = new ListenQuestCloser();
                     break;
                 case ReadQuestSo:
-                    questCloser.Append("You read the message!\n");
+                    questCloser = new ReadQuestCloser();
                     break;
                 case ReportQuestSo:
-                    questCloser.Append("You reported the info!\n");
+                    questCloser = new ReportQuestCloser();
                     break;
                 case ExploreQuestSo:
-                    questCloser.Append("You explored enough of the dungeon!\n");
+                    questCloser = new ExploreQuestCloser();
                     break;
                 case GotoQuestSo:
-                    questCloser.Append("You went to the needed room!\n");
+                    questCloser = new GoToQuestCloser();
                     break;
                 default:
                     Debug.LogError($"No quest type for this quest {closedQuest.GetType()} " +
@@ -50,9 +51,10 @@ namespace Game.NPCs
                     return null;
             }
 
-            questCloser.Append("Thank you very much!");
-            questCloser.Append($"<complete={closedQuest.Id}>");
-            return questCloser.ToString();
+            questCloserString.Append( questCloser.CreateQuestCloser(closedQuest, speaker) );
+            questCloserString.Append($"<complete={closedQuest.Id}>");
+
+            return questCloserString.ToString();
         }
     }
 }

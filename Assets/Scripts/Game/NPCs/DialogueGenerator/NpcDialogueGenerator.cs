@@ -13,6 +13,16 @@ namespace Game.NPCs
             return DialogueGreetings.CreateGreeting( speaker );
         }
 
+        public static string CreateMainQuestLineOpener( NpcSo speaker )
+        {
+            return "I have a key that you might be interested in, but I'll only give it to you if you help me out with a couple of things";
+        }
+
+        public static string CreateMainQuestLineCloser( NpcSo speaker )
+        {
+            return "Okay, you've earned it. Here is the key I told you about...";
+        }
+
         public static string CreateQuestOpener(QuestSo openedQuest, NpcSo speaker)
         {
             return DialogueQuestOpener.CreateQuestOpener( openedQuest, speaker );

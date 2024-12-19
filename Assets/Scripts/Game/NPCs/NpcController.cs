@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
@@ -35,14 +36,21 @@ namespace Game.NPCs
         protected override void OnEnable()
         {
             base.OnEnable();
+            QuestLine.QuestLineOpenedEventHandler += CreateQuestLineOpenedDialogue;
+            QuestLine.QuestLineCompletedEventHandler += CreateQuestLineCompltedDialogue;
+
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
             QuestLine.AllowExchangeEventHandler += CreateExchangeDialogue;
             QuestLine.AllowGiveEventHandler += CreateGiveDialogue;
+
             TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler += GiveItems;
         }
         protected override void OnDisable()
         {
+            QuestLine.QuestLineOpenedEventHandler -= CreateQuestLineOpenedDialogue;
+            QuestLine.QuestLineCompletedEventHandler -= CreateQuestLineCompltedDialogue;
+
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
             QuestLine.AllowExchangeEventHandler -= CreateExchangeDialogue;
             TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
@@ -99,6 +107,26 @@ namespace Game.NPCs
             return questNpc;
         }
 
+        private void CreateQuestLineCompltedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != Npc ) return;
+            if (!eventArgs.IsMainQuestLine) return;
+
+            string closerLine;
+            if (isInPortuguese)
+                closerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineCloser(Npc);
+            else
+                closerLine = NpcDialogueGenerator.CreateMainQuestLineCloser(Npc);
+
+            dialogue.AddDialogue(Npc.DialogueData, closerLine, false, -1, true);
+            DialogueController.DialogueCloseEventHandler += GiveQuestLineReward;
+        }
+
+        private void GiveQuestLineReward(object sender, EventArgs e )
+        {
+
+        }
+
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != Npc) return;
@@ -112,6 +140,20 @@ namespace Game.NPCs
                 closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
 
             dialogue.AddDialogue(Npc.DialogueData, closerLine, false, questId, true);
+        }
+
+        private void CreateQuestLineOpenedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != Npc ) return;
+            if (!eventArgs.IsMainQuestLine) return;
+
+            string openerLine;
+            if (isInPortuguese)
+                openerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineOpener(Npc);
+            else
+                openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(Npc);
+
+            dialogue.AddDialogue(Npc.DialogueData, openerLine, true, -1);
         }
         
         private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
@@ -224,6 +266,11 @@ namespace Game.NPCs
             _assignedQuestsQueue = incompleteQuestQueue;
 
             DialogueHandler.instance.StartDialogue(dialogue);
+        }
+
+        private void GiveKeys(object sender, StartGiveKeyEventArgs eventArgs)
+        {
+
         }
         
         private void TradeItems(object sender, StartExchangeEventArgs eventArgs)
