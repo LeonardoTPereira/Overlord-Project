@@ -23,7 +23,7 @@ namespace Game.LevelManager.DungeonLoader
 	        }
             var roomPosition = new Vector2(roomSpacingX * dungeonRoom.Coordinates.X, -roomSpacingY * dungeonRoom.Coordinates.Y);
             var newRoom = Instantiate(roomPrefab, roomPosition, roomPrefab.transform.rotation);
-            newRoom.roomData = dungeonRoom;
+            newRoom.dungeonRoom = dungeonRoom;
             newRoom.westDoor = null;
             newRoom.eastDoor = null;
             newRoom.northDoor = null;

@@ -41,6 +41,9 @@ namespace Game.LevelManager.DungeonLoader
             PlayBackgroundMusic();
             SetGameOverCurrentLevel();
             LoadSecondaryScenes();
+
+            currentQuestLines.SetRandomMainQuest( _dungeonLoader.GetFinalRoomKeys() );
+
             StartCoroutine(_dungeonLoader.OnStartMap(_currentDungeonSo.BiomeName));
         }
 

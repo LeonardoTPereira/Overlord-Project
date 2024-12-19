@@ -14,6 +14,42 @@ using Util;
 
 namespace Game.GameManager
 {
+    // TODO: Setup do experimento - 50% de chance aleatório e 50% de chance do perfil complemento
+    // TODO: Pula tela de level selection e carrega o nível gerado -> ao inves de carregar tela de level select,
+    // carrega tela de weapon select -> pode carregar direto a cena sem weapon select
+
+
+    // TODO: PERFIS
+    // Perfil recomendado = pré-teste
+    // Outro = complemento do pré-teste
+
+
+    // TODO: 
+    // Questão do loop -> chamar o profileselectedevent 
+    // baseado na % de quests completas
+    // importante -> vida perdida, quantos inimigos matou, (olhar artigo que o leo mandar)
+    // quest de imersão, uso de fechadura, uso de chave, compleção do mapa
+
+    // geração do novo perfil após o pos-teste
+    // ponderação em inputs da sala + dados do jogador -> rebalancear para 1, 2, 3, 4
+
+    // fator da perfil -> 1 = .25, 2 = ..., 4 = 1.00
+    // fator do perfil - dados do jogador > 0.2 muda, senão mantem
+    // clamp no 1 e no 4
+
+    // combinação/ponderação entre (1 - %vida perdida, quantos inimigos matou) => mastery
+    // valor de imersão => % de compleção de quests de imerção
+    // compleção do mapa, lock used => explorer
+    // todos os dados juntos/ponderação ( enemy kill rate+ revist rate+ %items coletados + completude do mapa) => achiever
+    // setar limite para taxa de revisitação para 100 (2 -> 100)
+
+
+    // TODO: testar coleta de tesouro/itens (pode não estar funcionando)
+
+
+    // TODO: verificar se estão sendo salvos e atualizados os given profiles
+    // O given profile vai ser pro nível e não pro jogador
+
     public class ExperimentController : MonoBehaviour
     {
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
@@ -93,7 +129,10 @@ namespace Game.GameManager
         {
 
             PlayerProfile selectedProfile;
-            // if (UseTrueProfile())
+            if ( !UseTrueProfile() )
+            {
+                selectedProfile = 
+            }
             if (sender.GetType() == typeof(RealTimeLevelSelectManager))
             {
                 selectedProfile = profileSelectedEventArgs.PlayerProfile;
@@ -121,7 +160,7 @@ namespace Game.GameManager
 
         private static bool UseTrueProfile()
         {
-            return RandomSingleton.GetInstance().Random.Next(0, 100) < 100;
+            return RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
         }
     }
 }

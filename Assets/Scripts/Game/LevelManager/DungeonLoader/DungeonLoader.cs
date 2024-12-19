@@ -166,14 +166,21 @@ namespace Game.LevelManager.DungeonLoader
             Coordinates targetCoordinates;
             if (currentRoom.westDoor != null)
             { // west
-                targetCoordinates = new Coordinates(currentRoom.roomData.Coordinates.X - 2, currentRoom.roomData.Coordinates.Y);
-                SetDestinations(targetCoordinates, currentRoom.roomData.Coordinates, 1);
+                targetCoordinates = new Coordinates(currentRoom.dungeonRoom.Coordinates.X - 2, currentRoom.dungeonRoom.Coordinates.Y);
+                SetDestinations(targetCoordinates, currentRoom.dungeonRoom.Coordinates, 1);
             }
             if (currentRoom.northDoor != null)
             { // west
-                targetCoordinates = new Coordinates(currentRoom.roomData.Coordinates.X, currentRoom.roomData.Coordinates.Y - 2);
-                SetDestinations(targetCoordinates, currentRoom.roomData.Coordinates, 2);
+                targetCoordinates = new Coordinates(currentRoom.dungeonRoom.Coordinates.X, currentRoom.dungeonRoom.Coordinates.Y - 2);
+                SetDestinations(targetCoordinates, currentRoom.dungeonRoom.Coordinates, 2);
             }
+        }
+
+        public List<int> GetFinalRoomKeys()
+        {
+            DungeonPart finalDungeonPart;
+            _dungeonMap.DungeonPartByCoordinates.TryGetValue( _dungeonMap.FinalRoomCoordinates, out finalDungeonPart );
+            return (finalDungeonPart as DungeonRoom).KeyIDs;
         }
     }
 }
