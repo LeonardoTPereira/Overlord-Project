@@ -20,4 +20,4 @@ MonoBehaviour:
   <EnemyTypeName>k__BackingField: Slime
   HasSprite: 0
   IsInPortuguese: 1
-  IsPlatformGame: 1
+  IsPlatformGame: 0

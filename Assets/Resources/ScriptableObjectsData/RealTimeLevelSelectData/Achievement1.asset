@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439916e8aecfeb34fb2672df782b905c, type: 3}
   m_Name: Achievement1
   m_EditorClassIdentifier: 
-  <QuestLines>k__BackingField: {fileID: 0}
+  <QuestLines>k__BackingField: {fileID: 11400000, guid: e4288343c2df42945936b99b358513a7,
+    type: 2}
   <Dungeon>k__BackingField: {fileID: 0}
+  <IsCompleted>k__BackingField: 0
+  <HasSurrendered>k__BackingField: 0
   <AchievementWeight>k__BackingField: 4
   <CreativityWeight>k__BackingField: 3
   <ImmersionWeight>k__BackingField: 2

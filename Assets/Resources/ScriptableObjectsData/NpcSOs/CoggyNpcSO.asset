@@ -20,7 +20,7 @@ MonoBehaviour:
   violenceFactor: 2
   attainFactor: 6
   explorationFactor: 8
-  socialFactor: 6
+  socialFactor: 4
   gameSprite: {fileID: 1217950955772457077, guid: 82d8215451ad6684bae0746348e62e67,
     type: 3}
   dialogueData: {fileID: 11400000, guid: 3495fa02f2d81fb44a4a55b32f618680, type: 2}
