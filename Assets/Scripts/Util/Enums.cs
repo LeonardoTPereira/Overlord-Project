@@ -57,9 +57,9 @@
         public enum QuestWeights
         {
             Hated = 1,
-            Disliked = 3,
-            Liked = 5,
-            Loved = 7
+            Disliked = 2,
+            Liked = 3,
+            Loved = 4
         }
 
         public enum EnemyDifficultyInDungeon

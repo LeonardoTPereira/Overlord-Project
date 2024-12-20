@@ -100,6 +100,7 @@ namespace Game.DataCollection
         
         public void IncrementDeaths()
         {
+			//TODO: não deveria incrementar a qtd de rooms também ao ganhar?
             SerializedData.TotalDeaths++;
             SerializedData.RoomsEntered += CurrentDungeon.RoomsEntered;
             SerializedData.UniqueRoomsEntered += CurrentDungeon.UniqueRoomsEntered;
@@ -167,6 +168,11 @@ namespace Game.DataCollection
 	        SerializedData.TreasuresCollected += amount;
         }
 
+		public void InitializeHealth(int health)
+		{
+			SerializedData.InitialHealth = health;
+		}
+
         public void AddLostHealth(int amount)
         {
 	        SerializedData.TotalLostHealth += amount;
@@ -208,6 +214,7 @@ namespace Game.DataCollection
 	        SerializedData.TotalTreasure = saveData.TotalTreasure;
 	        SerializedData.TreasuresCollected = saveData.TreasuresCollected;
 	        SerializedData.TotalLostHealth = saveData.TotalLostHealth;
+			SerializedData.InitialHealth = saveData.InitialHealth;
 	        SerializedData.MaxCombo = saveData.MaxCombo;
 	        SerializedData.KeysCollected = saveData.KeysCollected;
 	        SerializedData.TotalKeys = saveData.TotalKeys;
@@ -304,6 +311,10 @@ namespace Game.DataCollection
 			        [FirestoreProperty]
 			#endif
 			        [field: SerializeField] public int TotalLostHealth { get; set; }
+			#if !UNITY_WEBGL || UNITY_EDITOR
+			        [FirestoreProperty]
+			#endif
+					[field: SerializeField] public int InitialHealth { get; set; }
 			#if !UNITY_WEBGL || UNITY_EDITOR
 			        [FirestoreProperty]
 			#endif

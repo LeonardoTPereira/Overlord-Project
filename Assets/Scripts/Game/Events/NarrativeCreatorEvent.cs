@@ -7,13 +7,13 @@ namespace Game.Events
 
     public class NarrativeCreatorEventArgs : EventArgs
     {
-        private Dictionary<string, int> questWeightsbyType;
+        private Dictionary<string, float> questWeightsbyType;
 
-        public NarrativeCreatorEventArgs(Dictionary<string, int> questWeightsbyType)
+        public NarrativeCreatorEventArgs(Dictionary<string, float> questWeightsbyType)
         {
             QuestWeightsbyType = questWeightsbyType;
         }
 
-        public Dictionary<string, int> QuestWeightsbyType { get => questWeightsbyType; set => questWeightsbyType = value; }
+        public Dictionary<string, float> QuestWeightsbyType { get => questWeightsbyType; set => questWeightsbyType = value; }
     }
 }

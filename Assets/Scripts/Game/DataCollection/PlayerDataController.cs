@@ -27,6 +27,7 @@ namespace Game.DataCollection
             DungeonLoader.StartMapEventHandler += OnMapStart;
             GameManagerSingleton.GameStartEventHandler += OnGameStart;
             HealthController.PlayerIsDamagedEventHandler += OnPlayerDamage;
+            // PlayerHealth.InitializePlayerHealthEvent += OnPlayerHealthInitialize;
             ProjectileController.EnemyHitEventHandler += IncrementCombo;
             ProjectileController.PlayerHitEventHandler += ResetCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
@@ -53,6 +54,7 @@ namespace Game.DataCollection
             DungeonLoader.StartMapEventHandler -= OnMapStart;
             GameManagerSingleton.GameStartEventHandler -= OnGameStart;
             HealthController.PlayerIsDamagedEventHandler -= OnPlayerDamage;
+            // PlayerHealth.InitializePlayerHealthEvent -= OnPlayerHealthInitialize;
             ProjectileController.EnemyHitEventHandler -= IncrementCombo;
             ProjectileController.PlayerHitEventHandler -= ResetCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
@@ -140,6 +142,11 @@ namespace Game.DataCollection
         private void OnMapComplete(object sender, EventArgs eventArgs)
         {
             CurrentPlayer.IncrementWins();
+        }
+
+        private void OnPlayerHealthInitialize(int initialHealth )
+        {
+            CurrentPlayer.InitializeHealth(initialHealth);
         }
 
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
