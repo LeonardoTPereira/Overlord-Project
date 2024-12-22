@@ -100,7 +100,6 @@ namespace Game.DataCollection
         
         public void IncrementDeaths()
         {
-			//TODO: não deveria incrementar a qtd de rooms também ao ganhar?
             SerializedData.TotalDeaths++;
             SerializedData.RoomsEntered += CurrentDungeon.RoomsEntered;
             SerializedData.UniqueRoomsEntered += CurrentDungeon.UniqueRoomsEntered;
@@ -110,6 +109,8 @@ namespace Game.DataCollection
         public void IncrementWins()
         {
 	        SerializedData.TotalWins++;
+            SerializedData.RoomsEntered += CurrentDungeon.RoomsEntered;
+            SerializedData.UniqueRoomsEntered += CurrentDungeon.UniqueRoomsEntered;
             CurrentDungeon.IncrementWins();
         }
 
