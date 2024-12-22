@@ -5,6 +5,7 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using UnityEngine;
 using Util;
+using Game.NPCs;
 
 namespace Game.GameManager
 {
@@ -25,12 +26,14 @@ namespace Game.GameManager
         {
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetKeyGUI;
             KeyBhv.KeyCollectEventHandler += CreateKeyImage;
+            NpcController.KeyCollectEventHandler += CreateKeyImage;
         }
 
         private void OnDisable()
         {
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetKeyGUI;
             KeyBhv.KeyCollectEventHandler -= CreateKeyImage;
+            NpcController.KeyCollectEventHandler -= CreateKeyImage;
         }
 
 

@@ -19,6 +19,7 @@ using FirebaseWebGLBridge = FirebaseWebGL.Scripts.FirebaseBridge;
 using Game.GameManager.Player;
 using Game.EnemyManager;
 using Game.Dialogues;
+using Game.NPCs;
 
 namespace Game.DataCollection
 {
@@ -174,6 +175,7 @@ namespace Game.DataCollection
             GameManagerSingleton.GameStartEventHandler += OnGameStart;
             RoomBhv.EnterRoomEventHandler += OnRoomEnter;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
+            NpcController.KeyCollectEventHandler += OnGetKey;
             HealthController.PlayerIsDamagedEventHandler += OnEnemyDoesDamage;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
@@ -200,6 +202,7 @@ namespace Game.DataCollection
             GameManagerSingleton.GameStartEventHandler -= OnGameStart;
             RoomBhv.EnterRoomEventHandler -= OnRoomEnter;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
+            NpcController.KeyCollectEventHandler += OnGetKey;
             HealthController.PlayerIsDamagedEventHandler -= OnEnemyDoesDamage;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;

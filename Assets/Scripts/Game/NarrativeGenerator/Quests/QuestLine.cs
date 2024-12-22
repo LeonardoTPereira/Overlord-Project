@@ -127,8 +127,11 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-        public void OpenMainQuestLine()
+        public void SetAsMainQuestLine( List<int> rewardedKeys )
         {
+            IsMainQuest = true;
+            RewardKeys = rewardedKeys;
+
             if ( CurrentQuestIndex == 0 )
             {
                 QuestLineOpenedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));

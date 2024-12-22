@@ -352,8 +352,8 @@ namespace Game.LevelManager.DungeonManager
             {
                 // TODO: 
                 // Essa chave é dada ao npc da main quest
-                //if ( id da última chave -> não coloca )
-                PlaceKeyInRoom(actualKey);
+                if ( !dungeonRoom.IsFinalRoom() )
+                    PlaceKeyInRoom(actualKey);
             }
         }
 

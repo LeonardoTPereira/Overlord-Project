@@ -31,14 +31,20 @@ namespace Game.NPCs
             return greeting.ToString();
         }
 
-        public static string CreateMainQuestLineOpener( NpcSo speaker )
+        public static string CreateMainQuestLineOpener( QuestLine openedQuestLine, NpcSo speaker )
         {
-            return "I have a key that you might be interested in, but I'll only give it to you if you help me out with a couple of things";
+            return "Eu tenho uma chave que pode te interessar. Mas só te darei se você me ajudar com algumas coisas...";
         }
 
-        public static string CreateMainQuestLineCloser( NpcSo speaker )
+        public static string CreateMainQuestLineCloser( QuestLine closedQuestLine, NpcSo speaker )
         {
-            return "Okay, you've earned it. Here is the key I told you about...";
+            var questCloserDialogue = new StringBuilder();
+            questCloserDialogue.Append( "Okay, você merece. Aqui está a chave que eu te falei..." );
+            if ( closedQuestLine.IsMainQuest )
+            {
+                questCloserDialogue.Append($"<completequestline={closedQuestLine.RewardKeys[0]}>");
+            }
+            return questCloserDialogue.ToString();
         }
 
         public static string CreateQuestOpener(QuestSo openedQuest, NpcSo speaker)

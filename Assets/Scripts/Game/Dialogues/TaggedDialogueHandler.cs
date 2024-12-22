@@ -16,6 +16,7 @@ namespace Game.Dialogues
         public static event MarkRoomOnMiniMapEvent MarkRoomOnMiniMapEventHandler;
         public static event StartExchangeEvent StartExchangeEventHandler;
         public static event StartGiveEvent StartGiveEventHandler;
+        public static event StartGiveKeyEvent StartGiveKeyEventHandler;
         
         private string[] _tags;
 
@@ -98,7 +99,7 @@ namespace Game.Dialogues
 
         private static bool IsCustomTag(string tag)
         {
-            return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("trade=") || tag.StartsWith("give=");
+            return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("trade=") || tag.StartsWith("give=") || tag.StartsWith("completequestline=");
         }
         
         private void EvaluateTag(string textTag)
@@ -114,6 +115,11 @@ namespace Game.Dialogues
             {
                 var questId = int.Parse(textTag.Split('=')[1]);
                 ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questId));
+            }
+            else if (textTag.StartsWith("completequestline="))
+            {
+                int key= int.Parse(textTag.Split('=')[1]);
+                StartGiveKeyEventHandler?.Invoke(this, new StartGiveKeyEventArgs(key));
             }
             else if (textTag.StartsWith("trade="))
             {

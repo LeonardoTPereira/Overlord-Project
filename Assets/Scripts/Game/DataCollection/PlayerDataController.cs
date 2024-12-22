@@ -12,6 +12,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using Game.SaveLoadSystem;
+using Game.NPCs;
 using UnityEngine;
 
 namespace Game.DataCollection
@@ -34,6 +35,7 @@ namespace Game.DataCollection
             EnemyController.PlayerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
+            NpcController.KeyCollectEventHandler += OnGetKey;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             DialogueController.DialogueOpenEventHandler += OnInteractNPC;
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
@@ -61,6 +63,7 @@ namespace Game.DataCollection
             EnemyController.PlayerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
+            NpcController.KeyCollectEventHandler += OnGetKey;
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;

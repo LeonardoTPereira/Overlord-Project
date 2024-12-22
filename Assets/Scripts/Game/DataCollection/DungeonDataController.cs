@@ -7,6 +7,7 @@ using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using Game.Quests;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ namespace Game.DataCollection
             EnemyController.PlayerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
+            NpcController.KeyCollectEventHandler += OnGetKey;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             DialogueController.DialogueOpenEventHandler += OnInteractNPC;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
@@ -46,6 +48,7 @@ namespace Game.DataCollection
             EnemyController.PlayerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
+            NpcController.KeyCollectEventHandler -= OnGetKey;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             DialogueController.DialogueOpenEventHandler -= OnInteractNPC;

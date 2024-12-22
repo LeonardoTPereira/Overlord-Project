@@ -6,6 +6,7 @@ using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using UnityEngine;
+using Game.NPCs;
 
 namespace Game.GameManager.Player
 {
@@ -40,6 +41,7 @@ namespace Game.GameManager.Player
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetValues;
             RoomBhv.StartRoomEventHandler += PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler += GetKey;
+            NpcController.KeyCollectEventHandler += GetKey;
             DoorBhv.ExitRoomEventHandler += ExitRoom;
         }
 
@@ -48,6 +50,7 @@ namespace Game.GameManager.Player
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetValues;
             RoomBhv.StartRoomEventHandler -= PlacePlayerInStartRoom;
             KeyBhv.KeyCollectEventHandler -= GetKey;
+            NpcController.KeyCollectEventHandler -= GetKey;
             DoorBhv.ExitRoomEventHandler -= ExitRoom;
         }
 

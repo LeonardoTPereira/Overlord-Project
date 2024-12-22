@@ -26,6 +26,7 @@ namespace Game.NPCs
         public List<GiveQuestData> GiveDataList { get; set; }
         public static event ItemTradeEvent ItemTradeEventHandler;
         public static event ItemGiveEvent ItemGiveEventHandler;
+        public static event KeyCollectEvent KeyCollectEventHandler;
 
         protected override void Awake()
         {
@@ -45,6 +46,7 @@ namespace Game.NPCs
 
             TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler += GiveItems;
+            TaggedDialogueHandler.StartGiveKeyEventHandler += GiveKeys;
         }
         protected override void OnDisable()
         {
@@ -55,6 +57,7 @@ namespace Game.NPCs
             QuestLine.AllowExchangeEventHandler -= CreateExchangeDialogue;
             TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler -= GiveItems;
+            TaggedDialogueHandler.StartGiveKeyEventHandler -= GiveKeys;
             QuestLine.AllowGiveEventHandler -= CreateGiveDialogue;
             base.OnDisable();
         }
@@ -114,18 +117,13 @@ namespace Game.NPCs
 
             string closerLine;
             if (isInPortuguese)
-                closerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineCloser(Npc);
+                closerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
             else
-                closerLine = NpcDialogueGenerator.CreateMainQuestLineCloser(Npc);
+                closerLine = NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
 
             dialogue.AddDialogue(Npc.DialogueData, closerLine, false, -1, true);
-            DialogueController.DialogueCloseEventHandler += GiveQuestLineReward;
         }
 
-        private void GiveQuestLineReward(object sender, EventArgs e )
-        {
-
-        }
 
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
@@ -149,9 +147,9 @@ namespace Game.NPCs
 
             string openerLine;
             if (isInPortuguese)
-                openerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineOpener(Npc);
+                openerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
             else
-                openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(Npc);
+                openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
 
             dialogue.AddDialogue(Npc.DialogueData, openerLine, true, -1);
         }
@@ -270,7 +268,7 @@ namespace Game.NPCs
 
         private void GiveKeys(object sender, StartGiveKeyEventArgs eventArgs)
         {
-
+            KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(eventArgs.GivedKey));
         }
         
         private void TradeItems(object sender, StartExchangeEventArgs eventArgs)

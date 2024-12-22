@@ -139,9 +139,7 @@ namespace Game.NarrativeGenerator.Quests
             }
 
             QuestLine mainQuestLine = GetRandomQuestLine();
-            mainQuestLine.IsMainQuest = true;
-            mainQuestLine.RewardKeys = rewardedKeys;
-            mainQuestLine.OpenMainQuestLine();
+            mainQuestLine.SetAsMainQuestLine(rewardedKeys);
         }
 
         public void OpenStartingQuests()
