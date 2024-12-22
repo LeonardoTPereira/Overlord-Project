@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
+using static Util.Enums;
 
 namespace ScriptableObjects
 {
@@ -13,6 +14,8 @@ namespace ScriptableObjects
 
         [field: SerializeField] public GameObject WeaponPrefab { get; set; }
         [field: SerializeField] public string EnemyTypeName { get; set; }
+        [field: SerializeField] public WeaponTypeEnum Type { get; set; }
+
 
         [field: SerializeField] public bool HasSprite = true;
         [field: SerializeField] public bool IsInPortuguese = false;

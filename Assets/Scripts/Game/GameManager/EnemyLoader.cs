@@ -74,20 +74,19 @@ namespace Game.GameManager
         {
             EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
             GameObject enemy;
-            //TODO change to use weaponType in comparison
-            if (currentEnemy.weapon.name == "None")
+            if (currentEnemy.weapon.Type == WeaponTypeEnum.BareHand)
             {
                 enemy = Instantiate(BareHandEnemyPrefab, position, rotation);
             }
-            else if (currentEnemy.weapon.name == "Bow")
+            else if (currentEnemy.weapon.Type == WeaponTypeEnum.Shooter)
             {
                 enemy = Instantiate(ShooterEnemyPrefab, position, rotation);
             }
-            else if (currentEnemy.weapon.name == "BombThrower")
+            else if (currentEnemy.weapon.Type == WeaponTypeEnum.Bomber)
             {
                 enemy = Instantiate(BomberEnemyPrefab, position, rotation);
             }
-            else if (currentEnemy.weapon.name == "Cure")
+            else if (currentEnemy.weapon.Type == WeaponTypeEnum.Healer)
             {
                 enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
@@ -102,20 +101,19 @@ namespace Game.GameManager
         public virtual GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
-            //TODO change to use weaponType in comparison
-            if (enemySo.weapon.name == "None")
+            if (enemySo.weapon.Type == WeaponTypeEnum.BareHand)
             {
                 enemy = Instantiate(BareHandEnemyPrefab, position, rotation);
             }
-            else if (enemySo.weapon.name == "Bow")
+            else if (enemySo.weapon.Type == WeaponTypeEnum.Shooter)
             {
                 enemy = Instantiate(ShooterEnemyPrefab, position, rotation);
             }
-            else if (enemySo.weapon.name == "BombThrower")
+            else if (enemySo.weapon.Type == WeaponTypeEnum.Bomber)
             {
                 enemy = Instantiate(BomberEnemyPrefab, position, rotation);
             }
-            else if (enemySo.weapon.name == "Cure")
+            else if (enemySo.weapon.Type == WeaponTypeEnum.Healer)
             {
                 enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }

@@ -14,7 +14,6 @@ using Util;
 
 namespace Game.GameManager
 {
-    // TODO: Setup do experimento - 50% de chance aleatório e 50% de chance do perfil complemento
     // TODO: Pula tela de level selection e carrega o nível gerado -> ao inves de carregar tela de level select,
     // carrega tela de weapon select -> pode carregar direto a cena sem weapon select
 

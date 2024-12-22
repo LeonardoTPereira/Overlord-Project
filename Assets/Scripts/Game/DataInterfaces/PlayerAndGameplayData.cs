@@ -7,7 +7,7 @@ namespace Game.DataInterfaces
     {
         public PlayerAndGameplayData(List<int> preTestAnswers, List<int> postTestAnswers,
             bool hasDied, bool hasFinished, int totalVisits, int totalRooms, 
-            int numberOfVisitedRooms, int collectedKeys, int totalKeys, int openedLocks, 
+            int numberOfVisitedRooms, int collectedKeys, List<int> collectedKeyIndexes, int totalKeys, int openedLocks, 
             int totalLocks, int collectedTreasures, int totalTreasures, int enemiesDefeated,
             int totalEnemies)
         {
@@ -17,6 +17,7 @@ namespace Game.DataInterfaces
             _totalRooms = totalRooms;
             _numberOfVisitedRooms = numberOfVisitedRooms;
             _collectedKeys = collectedKeys;
+            _collectedKeyIndexes = collectedKeyIndexes;
             _totalKeys = totalKeys;
             _openedLocks = openedLocks;
             _totalLocks = totalLocks;
@@ -35,6 +36,7 @@ namespace Game.DataInterfaces
         private int _totalRooms;
         private int _numberOfVisitedRooms;
         private int _collectedKeys;
+        private List<int> _collectedKeyIndexes;
         private int _totalKeys;
         private int _openedLocks;
         private int _totalLocks;
@@ -68,6 +70,10 @@ namespace Game.DataInterfaces
         public int CollectedKeys
         {
             get => _collectedKeys;
+        }
+        public List<int> CollectedKeyIndexes
+        {
+            get => _collectedKeyIndexes;
         }
         public int TotalKeys
         {

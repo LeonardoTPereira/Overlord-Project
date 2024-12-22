@@ -76,6 +76,8 @@ namespace Game.DataCollection
         [SerializeField]
         private int collectedKeys = 0;
         [SerializeField]
+        private List<int> collectedKeyIndexes = new List<int>();
+        [SerializeField]
         private int totalLocks = 0;
         [SerializeField]
         private int openedLocks = 0;
@@ -265,7 +267,7 @@ namespace Game.DataCollection
         {
             //Log
             collectedKeys++;
-            //TODO also save key Index
+            collectedKeyIndexes.Add( eventArgs.KeyIndex );
         }
 
         //From DoorBHV
@@ -368,6 +370,7 @@ namespace Game.DataCollection
             hasDied = false;
             totalKeys = map.NKeys;
             collectedKeys = 0;
+            collectedKeyIndexes.Clear();
             totalLocks = map.NLocks;
             openedLocks = 0;
             totalRooms = map.NRooms;
@@ -414,7 +417,7 @@ namespace Game.DataCollection
             //TODO create data class to pass to ML profiler
             var playerAndGameplayData = new PlayerAndGameplayData( 
                 preFormAnswers, PostFormAnswers, hasDied, hasFinished, totalVisits, totalRooms, numberOfVisitedRooms, 
-                collectedKeys, totalKeys, openedLocks, totalLocks, TreasureCollected, TotalTreasures, numberOfKilledEnemies, numberOfEnemies 
+                collectedKeys, collectedKeyIndexes, totalKeys, openedLocks, totalLocks, TreasureCollected, TotalTreasures, numberOfKilledEnemies, numberOfEnemies 
                 );
             SendGameAndPlayerDataEventHandler?.Invoke( this, new SendGameAndPlayerDataArgs( playerAndGameplayData) );
 
@@ -506,6 +509,7 @@ namespace Game.DataCollection
                     "has_died" + "," +
                     "total_keys" + "," +
                     "collected_keys" + "," +
+                    "collected_keys_indexes" + "," +
                     "total_locks" + "," +
                     "opened_locks" + "," +
                     "total_rooms" + "," +
@@ -553,6 +557,7 @@ namespace Game.DataCollection
                 hasDied + "," +
                 totalKeys + "," +
                 collectedKeys + "," +
+                GetCollectedKeysIndexesString() + "," +
                 totalLocks + "," +
                 openedLocks + "," +
                 totalRooms + "," +
@@ -588,6 +593,21 @@ namespace Game.DataCollection
                 }
             }
             levelProfileString += "\n";
+        }
+
+        private string GetCollectedKeysIndexesString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var keyIndex in collectedKeyIndexes)
+            {
+                stringBuilder.Append($"{keyIndex}-");
+            }
+            if (stringBuilder.Length == 0)
+            {
+                return "";
+            }
+            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+            return stringBuilder.ToString();
         }
 
         private void WrapLevelDetailedCombatProfileToString()

@@ -105,6 +105,15 @@
             Triple = 2
         }
 
+        public enum WeaponTypeEnum
+        {
+            BareHand,
+            Shooter,
+            Bomber,
+            Healer,
+            Generic
+        }
+
         public enum EnemyTypeEnum
         {
             Easy = 0,
