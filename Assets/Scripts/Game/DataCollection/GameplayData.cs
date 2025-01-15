@@ -185,6 +185,7 @@ namespace Game.DataCollection
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             DungeonLoader.StartMapEventHandler += OnMapStart;
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             DialogueController.DialogueOpenEventHandler += OnInteractNPC;
@@ -211,6 +212,7 @@ namespace Game.DataCollection
             DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             DialogueController.DialogueOpenEventHandler -= OnInteractNPC;

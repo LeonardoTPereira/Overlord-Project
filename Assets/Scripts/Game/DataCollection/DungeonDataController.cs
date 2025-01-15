@@ -26,10 +26,11 @@ namespace Game.DataCollection
             BombController.PlayerHitEventHandler += ResetCombo;
             EnemyController.PlayerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
+            ReadableItemController.ReadableItemInteraction += ReadItem;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
             NpcController.KeyCollectEventHandler += OnGetKey;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
-            DialogueController.DialogueOpenEventHandler += OnInteractNPC;
+            NpcController.NpcInteraction += OnInteractNPC;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             RoomBhv.EnterRoomEventHandler += OnRoomEnter;            
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
@@ -47,11 +48,12 @@ namespace Game.DataCollection
             BombController.PlayerHitEventHandler -= ResetCombo;
             EnemyController.PlayerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
+            ReadableItemController.ReadableItemInteraction -= ReadItem;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
             NpcController.KeyCollectEventHandler -= OnGetKey;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
-            DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
+            NpcController.NpcInteraction -= OnInteractNPC;
             RoomBhv.EnterRoomEventHandler -= OnRoomEnter;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
@@ -84,8 +86,13 @@ namespace Game.DataCollection
 
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            CurrentDungeon.AddCollectedTreasure(eventArgs.QuestId);
+            CurrentDungeon.AddCollectedItem(eventArgs.Amount);
 
+        }
+
+        private void ReadItem(object sender, EventArgs eventArgs)
+        {
+            CurrentDungeon.AddReadItem(1);
         }
 
         private void OnGetKey(object sender, KeyCollectEventArgs eventArgs)
@@ -100,9 +107,9 @@ namespace Game.DataCollection
 
         }
         
-        private void OnKillEnemy(object sender, EventArgs eventArgs)
+        private void OnKillEnemy(object sender, KillEnemyEventArgs eventArgs)
         {
-            CurrentDungeon.IncrementKills();
+            CurrentDungeon.IncrementKills(eventArgs.EnemyTypeString);
         }
 
         private void OnInteractNPC(object sender, EventArgs eventArgs)

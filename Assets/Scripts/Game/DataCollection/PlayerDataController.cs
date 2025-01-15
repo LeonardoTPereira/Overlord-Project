@@ -28,16 +28,17 @@ namespace Game.DataCollection
             DungeonLoader.StartMapEventHandler += OnMapStart;
             GameManagerSingleton.GameStartEventHandler += OnGameStart;
             HealthController.PlayerIsDamagedEventHandler += OnPlayerDamage;
-            // PlayerHealth.InitializePlayerHealthEvent += OnPlayerHealthInitialize;
+            PlayerController.InitializePlayerHealthEventHandler += OnPlayerHealthInitialize;
             ProjectileController.EnemyHitEventHandler += IncrementCombo;
             ProjectileController.PlayerHitEventHandler += ResetCombo;
             BombController.PlayerHitEventHandler += ResetCombo;
             EnemyController.PlayerHitEventHandler += ResetCombo;
-            TreasureController.TreasureCollectEventHandler += GetTreasure;
+            TreasureController.TreasureCollectEventHandler += CollectItem;
+            ReadableItemController.ReadableItemInteraction += ReadItem;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
             NpcController.KeyCollectEventHandler += OnGetKey;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
-            DialogueController.DialogueOpenEventHandler += OnInteractNPC;
+            NpcController.NpcInteraction += OnInteractNPC;
             QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
@@ -56,12 +57,13 @@ namespace Game.DataCollection
             DungeonLoader.StartMapEventHandler -= OnMapStart;
             GameManagerSingleton.GameStartEventHandler -= OnGameStart;
             HealthController.PlayerIsDamagedEventHandler -= OnPlayerDamage;
-            // PlayerHealth.InitializePlayerHealthEvent -= OnPlayerHealthInitialize;
+            PlayerController.InitializePlayerHealthEventHandler -= OnPlayerHealthInitialize;
             ProjectileController.EnemyHitEventHandler -= IncrementCombo;
             ProjectileController.PlayerHitEventHandler -= ResetCombo;
             BombController.PlayerHitEventHandler -= ResetCombo;
             EnemyController.PlayerHitEventHandler -= ResetCombo;
-            TreasureController.TreasureCollectEventHandler -= GetTreasure;
+            TreasureController.TreasureCollectEventHandler -= CollectItem;
+            ReadableItemController.ReadableItemInteraction -= ReadItem;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
             NpcController.KeyCollectEventHandler += OnGetKey;
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
@@ -70,7 +72,7 @@ namespace Game.DataCollection
             QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
-            DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
+            NpcController.NpcInteraction -= OnInteractNPC;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
@@ -127,14 +129,14 @@ namespace Game.DataCollection
             CurrentPlayer.SerializedData.PreFormAnswers = eventArgs.AnswerValue;
         }
 
-        private void OnKillEnemy(object sender, EventArgs eventArgs)
+        private void OnKillEnemy(object sender, KillEnemyEventArgs eventArgs)
         {
-            CurrentPlayer.IncrementKills();
+            CurrentPlayer.IncrementKills(eventArgs.EnemyTypeString);
         }
 
         private void OnInteractNPC(object sender, EventArgs eventArgs)
         {
-            CurrentPlayer.IncrementInteractionsWithNpcs();
+            CurrentPlayer.IncrementNpcInteractions();
         }
 
         private void OnDeath(object sender, EventArgs eventArgs)
@@ -147,9 +149,9 @@ namespace Game.DataCollection
             CurrentPlayer.IncrementWins();
         }
 
-        private void OnPlayerHealthInitialize(int initialHealth )
+        private void OnPlayerHealthInitialize(object sender, InitializePlayerHealthEventArgs eventArgs )
         {
-            CurrentPlayer.InitializeHealth(initialHealth);
+            CurrentPlayer.InitializeHealth(eventArgs.PlayerHealth);
         }
 
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
@@ -157,9 +159,14 @@ namespace Game.DataCollection
             CurrentPlayer.AddLostHealth(eventArgs.DamageDone);
         }
 
-        private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
+        private void CollectItem(object sender, TreasureCollectEventArgs eventArgs)
         {
-            CurrentPlayer.AddCollectedTreasure(eventArgs.QuestId);
+            CurrentPlayer.AddCollectedItem(eventArgs.Amount);
+        }
+
+        private void ReadItem(object sender, EventArgs eventArgs)
+        {
+            CurrentPlayer.AddReadItem(1);
         }
 
         private void OnGetKey(object sender, KeyCollectEventArgs eventArgs)
