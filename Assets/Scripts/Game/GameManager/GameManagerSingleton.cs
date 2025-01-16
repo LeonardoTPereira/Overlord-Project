@@ -22,6 +22,7 @@ namespace Game.GameManager
 
         public static event EventHandler GameStartEventHandler;
         public static event Action LoadStateHandler;
+        public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
         private bool _hasLoaded;
 
         public bool arenaMode;

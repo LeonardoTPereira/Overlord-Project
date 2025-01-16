@@ -75,8 +75,8 @@ namespace Game.NarrativeGenerator
                     playerData.SerializedData.PlayerProfile.AchievementPreference,
                     playerData.SerializedData.EnemiesKilled,
                     playerData.SerializedData.TotalEnemies,
-                    playerData.SerializedData.TreasuresCollected,
-                    playerData.SerializedData.TotalTreasure,
+                    playerData.SerializedData.ItemsCollected,
+                    playerData.SerializedData.TotalCollectableItems,
                     playerData.SerializedData.UniqueRoomsEntered,
                     playerData.SerializedData.TotalRooms
                 );

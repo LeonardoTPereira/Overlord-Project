@@ -424,6 +424,8 @@ namespace Game.DataCollection
                 preFormAnswers, PostFormAnswers, hasDied, hasFinished, totalVisits, totalRooms, numberOfVisitedRooms, 
                 collectedKeys, collectedKeyIndexes, totalKeys, openedLocks, totalLocks, TreasureCollected, TotalTreasures, numberOfKilledEnemies, numberOfEnemies 
                 );
+                
+            SendProfileToServer(playerAndGameplayData);
             SendGameAndPlayerDataEventHandler?.Invoke( this, new SendGameAndPlayerDataArgs( playerAndGameplayData) );
 
             // Reset all values
@@ -746,6 +748,7 @@ namespace Game.DataCollection
         {
             
 #if !UNITY_WEBGL || UNITY_EDITOR
+            Debug.Log("SEND PROFILE TO SERVER");
             var db = FirebaseFirestore.DefaultInstance;
             var docRef = db.Collection("users").Document(playerData.SerializedData.PlayerId.ToString());
             docRef.SetAsync(playerData.SerializedData).ContinueWithOnMainThread(_ => {

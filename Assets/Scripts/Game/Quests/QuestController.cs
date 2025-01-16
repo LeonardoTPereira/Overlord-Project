@@ -49,7 +49,9 @@ namespace Game.Quests
         
         private void OnDungeonLoaded(object sender, EventArgs eventArgs)
         {
-            StartCoroutine(InitializeQuests(selectedLevels.GetCurrentLevel().QuestLines));
+            QuestLineList originalQuestLines = (sender as DungeonSceneManager).currentQuestLines;
+            Debug.Log("Does questline have main quest? "+ (originalQuestLines.QuestLines.Find( x => x.IsMainQuest == true) != null) );
+            StartCoroutine(InitializeQuests(originalQuestLines));
         }
 
         private IEnumerator<WaitForEndOfFrame> InitializeQuests(QuestLineList originalQuestLines)

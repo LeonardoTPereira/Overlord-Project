@@ -15,7 +15,7 @@ namespace Game.LevelManager.DungeonLoader
 {
     public class DungeonLoader : MonoBehaviour
     {
-
+        public static List<int> finalRoomKeyIds = new List<int>();
         protected static Map _dungeonMap;
         public List<RoomBhv> roomPrefabs;
         public Dictionary<Coordinates, RoomBhv> RoomBhvMap; //2D array for easy room indexing
@@ -178,9 +178,9 @@ namespace Game.LevelManager.DungeonLoader
 
         public List<int> GetFinalRoomKeys()
         {
-            DungeonPart finalDungeonPart;
-            _dungeonMap.DungeonPartByCoordinates.TryGetValue( _dungeonMap.FinalRoomCoordinates, out finalDungeonPart );
-            return (finalDungeonPart as DungeonRoom).KeyIDs;
+            RoomBhv finalRoomBhv = RoomBhvMap[_dungeonMap.FinalRoomCoordinates];
+            finalRoomKeyIds = finalRoomBhv.Doors;
+            return finalRoomKeyIds;
         }
     }
 }

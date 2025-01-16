@@ -8,6 +8,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
+using Game.NPCs.PTBR;
 
 #if UNITY_EDITOR
 using MyBox;
@@ -20,6 +21,7 @@ namespace Game.NPCs
 
     public class NpcController : QuestDialogueInteraction
     {
+        public static event EventHandler NpcInteraction;
         [field: SerializeField] private bool isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
         public List<ExchangeQuestData> ExchangeDataList { get; set; }
@@ -151,7 +153,7 @@ namespace Game.NPCs
             else
                 openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
 
-            dialogue.AddDialogue(Npc.DialogueData, openerLine, true, -1);
+            dialogue.InsertDialogue(Npc.DialogueData, openerLine, false, -1, 0);
         }
         
         private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
@@ -263,6 +265,8 @@ namespace Game.NPCs
             }
             _assignedQuestsQueue = incompleteQuestQueue;
 
+            
+            NpcInteraction?.Invoke(this, EventArgs.Empty);
             DialogueHandler.instance.StartDialogue(dialogue);
         }
 

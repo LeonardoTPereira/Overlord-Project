@@ -15,30 +15,16 @@ using Util;
 namespace Game.GameManager
 {
     // TODO: Pula tela de level selection e carrega o nível gerado -> ao inves de carregar tela de level select,
-    // carrega tela de weapon select -> pode carregar direto a cena sem weapon select
-
-
-    // TODO: PERFIS
-    // Perfil recomendado = pré-teste
-    // Outro = complemento do pré-teste
-
 
     // TODO: 
-    // Questão do loop -> chamar o profileselectedevent 
-
-
-    // TODO: testar coleta de tesouro/itens (pode não estar funcionando)
-
-
-    // TODO: verificar se estão sendo salvos e atualizados os given profiles
-    // O given profile vai ser pro nível e não pro jogador
+    // Questão do loop -> Testar
 
     public class ExperimentController : MonoBehaviour
     {
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
-        [SerializeField, MustBeAssigned]
-        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
+        // [SerializeField, MustBeAssigned]
+        // private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         private List<QuestLineList> _questLinesListForProfile;
 
         [SerializeField]
@@ -53,6 +39,7 @@ namespace Game.GameManager
         {
             QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
             QuestGeneratorManager.FixedLevelProfileEventHandler += LoadDataForExperiment;
+            QuestGeneratorManager.QuestLineCreatedEventHandler += SetQuestLinesForProfile;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
@@ -60,6 +47,7 @@ namespace Game.GameManager
         {
             QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
+            QuestGeneratorManager.QuestLineCreatedEventHandler -= SetQuestLinesForProfile;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 
@@ -81,6 +69,7 @@ namespace Game.GameManager
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
+            Debug.Log("select narratives and dungeon entrances");
             QuestLineList selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
@@ -102,10 +91,10 @@ namespace Game.GameManager
             return questLines;
         }
 
-        private void SetQuestLinesForProfile(PlayerProfile playerProfile)
+        private void SetQuestLinesForProfile(object sender, QuestLineCreatedEventArgs eventArgs)
         {
-            _questLinesListForProfile = new List<QuestLineList>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
-                playerProfile.PlayerProfileEnum.ToString()]);
+            Debug.Log("set questlines for profile");
+            _questLinesListForProfile = new List<QuestLineList> {eventArgs.QuestLines} ;
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
@@ -113,34 +102,18 @@ namespace Game.GameManager
 
             PlayerProfile selectedProfile;
 
-            if ( !UseTrueProfile() )
+            // if (sender.GetType() != typeof(RealTimeLevelSelectManager))
             {
-                profileSelectedEventArgs.PlayerProfile.SetAsComplementaryProfile(); 
+                if ( !UseTrueProfile() )
+                {
+                    profileSelectedEventArgs.PlayerProfile.SetAsComplementaryProfile(); 
+                }
             }
+            selectedProfile = profileSelectedEventArgs.PlayerProfile;
 
-            if (sender.GetType() == typeof(RealTimeLevelSelectManager))
-            {
-                selectedProfile = profileSelectedEventArgs.PlayerProfile;
-                SetQuestLinesForProfile(selectedProfile);
-            }
-            else
-            {
-                if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
-                {
-                    selectedProfile = profileSelectedEventArgs.PlayerProfile;
-                }
-                else
-                {
-                    selectedProfile = new PlayerProfile();
-                    do
-                    {
-                        selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
-                    } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
-                }
-                ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
-            }
-            SetQuestLinesForProfile(selectedProfile);
+            // SetQuestLinesForProfile(selectedProfile);
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
+            Debug.Log("select experiment profile");
         }
 
         private static bool UseTrueProfile()

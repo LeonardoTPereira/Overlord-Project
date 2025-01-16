@@ -21,7 +21,7 @@ namespace Game.NarrativeGenerator.Quests
     {
         [field: SerializeReference] public List<QuestSo> Quests {get; set; }
         [field: SerializeReference] public bool IsMainQuest {get; set; }
-        [field: SerializeReference] public List<int> RewardKeys {get; set; }
+        [field: SerializeReference] public List<int> RewardKeys = new List<int>();
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
 
@@ -51,6 +51,11 @@ namespace Game.NarrativeGenerator.Quests
                 }
                 Quests.Add(copyQuest);
             }
+            IsMainQuest = questLine.IsMainQuest;
+
+            RewardKeys = new List<int>();
+            RewardKeys.AddRange(questLine.RewardKeys);
+
             NpcInCharge = questLine.NpcInCharge;
             CurrentQuestIndex = 0;
         }
@@ -92,11 +97,11 @@ namespace Game.NarrativeGenerator.Quests
 
                 switch (questSo)
                 {
-                    case ExchangeQuestSo {HasItems: true, IsCompleted: false, HasCreatedDialogue: false} exchangeQuestSo:
+                    case ExchangeQuestSo {HasItems: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false} exchangeQuestSo:
                         exchangeQuestSo.HasCreatedDialogue = true;
                         AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                         break;
-                    case GiveQuestSo {HasItem: true, IsCompleted: false, HasCreatedDialogue: false} giveQuestSo:
+                    case GiveQuestSo {HasItem: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false} giveQuestSo:
                         giveQuestSo.HasCreatedDialogue = true;
                         AllowGiveEventHandler?.Invoke(null, new QuestGiveEventArgs(giveQuestSo));
                         break;
@@ -109,19 +114,21 @@ namespace Game.NarrativeGenerator.Quests
 
         private void CompleteCurrentQuest()
         {
+            Debug.Log("complete current quest");
             var currentQuest = GetCurrentQuest();
             QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
+            if ( CurrentQuestIndex == 0 )
+            {
+                Debug.Log("invoke questline completion");                    
+                QuestLineCompletedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
+            }
         }
         
         public void CloseCurrentQuest()
         {
             GetCurrentQuest().IsClosed = true;
             CurrentQuestIndex++;
-            if (GetCurrentQuest() == null)
-            {
-                QuestLineCompletedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
-            }
-            else
+            if (GetCurrentQuest() != null)
             {
                 OpenCurrentQuest();
             }
@@ -130,18 +137,24 @@ namespace Game.NarrativeGenerator.Quests
         public void SetAsMainQuestLine( List<int> rewardedKeys )
         {
             IsMainQuest = true;
-            RewardKeys = rewardedKeys;
-
-            if ( CurrentQuestIndex == 0 )
+            RewardKeys = new List<int>();
+            RewardKeys.AddRange( rewardedKeys );
+            Debug.Log("reward keys");
+            foreach (var key in rewardedKeys)
             {
-                QuestLineOpenedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
+                Debug.Log(key);
             }
         }
 
         public void OpenCurrentQuest()
         {
             var quest = GetCurrentQuest();
+            if ( CurrentQuestIndex == 0 && IsMainQuest)
+            {
+                QuestLineOpenedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
+            }
             QuestOpenedEventHandler?.Invoke(null, new NewQuestEventArgs(quest, NpcInCharge));
+            quest.IsOpened = true;
             if (!quest.IsCompleted) return;
             CompleteCurrentQuest();
         }

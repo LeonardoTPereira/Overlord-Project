@@ -35,6 +35,7 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private bool endsStoryLine;
         [field: SerializeField] public bool IsCompleted { get; set; }
         [field: SerializeField] public bool IsClosed { get; set; }
+        [field: SerializeField] public bool IsOpened { get; set; }
         [field: SerializeField] public string QuestText { get; set; }
         private bool _canDrawNext;
         public QuestSo Next { get => next; set => next = value; }
@@ -57,6 +58,7 @@ namespace Game.NarrativeGenerator.Quests
             Id = GetInstanceID();
             IsCompleted = false;
             IsClosed = false;
+            IsOpened = false;
         }
 
         public void Init(string questTitle, bool endsLine, QuestSo previousQuest)
@@ -68,6 +70,7 @@ namespace Game.NarrativeGenerator.Quests
             Id = GetInstanceID();
             IsCompleted = false;
             IsClosed = false;
+            IsOpened = false;
         }
         
         public virtual void Init(QuestSo copiedQuest)
@@ -80,6 +83,7 @@ namespace Game.NarrativeGenerator.Quests
             QuestText = copiedQuest.QuestText;
             IsCompleted = copiedQuest.IsCompleted;
             IsClosed = copiedQuest.IsCompleted;
+            IsOpened = copiedQuest.IsOpened;
         }
 
         public virtual QuestSo Clone()
@@ -152,13 +156,13 @@ namespace Game.NarrativeGenerator.Quests
 
         public virtual string GetEnemyAmountString()
         {
-            Debug.LogError(" Called base quest so, this should never happen! _ get enemy amount string");
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy amount string");
             return "";
         }
 
         public virtual string GetEnemyString()
         {
-            Debug.LogError(" Called base quest so, this should never happen! _ get enemy string");
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy string");
             return "";
         }
         

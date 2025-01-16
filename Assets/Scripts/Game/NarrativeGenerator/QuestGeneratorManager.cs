@@ -67,7 +67,7 @@ namespace Game.NarrativeGenerator
 
         private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
-            _fixedProfileFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
+            _fixedProfileFromExperiment = true;//sender.GetType() == typeof(RealTimeLevelSelectManager);
             var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
                 CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
             if (_fixedProfileFromExperiment)

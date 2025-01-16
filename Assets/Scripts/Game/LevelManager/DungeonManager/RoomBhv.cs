@@ -24,10 +24,25 @@ namespace Game.LevelManager.DungeonManager
 
         protected Enums.RoomThemeEnum _theme;
         public DungeonRoom dungeonRoom;
-        public List<int> northDoor;
-        public List<int> southDoor;
-        public List<int> eastDoor;
-        public List<int> westDoor;
+        public List<int> northDoor = new List<int>();
+        public List<int> southDoor = new List<int>();
+        public List<int> eastDoor = new List<int>();
+        public List<int> westDoor = new List<int>();
+
+        public List<int> Doors  {
+            get {
+                List<int> _doors = new List<int>();
+                if ( northDoor!= null )
+                    _doors.AddRange(northDoor);
+                if ( southDoor != null )
+                    _doors.AddRange(southDoor);
+                if ( eastDoor != null )
+                    _doors.AddRange(eastDoor);
+                if ( westDoor != null )
+                    _doors.AddRange(westDoor);
+                return _doors;
+            }
+        }
 
         public bool hasEnemies;
         public EnemyByAmountDictionary enemiesDictionary;
@@ -352,7 +367,7 @@ namespace Game.LevelManager.DungeonManager
             {
                 // TODO: 
                 // Essa chave é dada ao npc da main quest
-                if ( !dungeonRoom.IsFinalRoom() )
+                if ( !DungeonLoader.DungeonLoader.finalRoomKeyIds.Contains(actualKey) )
                     PlaceKeyInRoom(actualKey);
             }
         }

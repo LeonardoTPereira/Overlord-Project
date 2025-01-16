@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel;
 using Game.Audio;
+using Game.Events;
 using Game.GameManager.Player;
 using Game.Quests;
 using ScriptableObjects;
@@ -48,7 +49,7 @@ namespace Game.GameManager
         private bool _isRandomMovement;
 
         public static event EventHandler PlayerHitEventHandler;
-        public static event EventHandler KillEnemyEventHandler;
+        public static event KillEnemyEvent KillEnemyEventHandler;
 
         private bool _hasGotComponents;
 
@@ -219,7 +220,7 @@ namespace Game.GameManager
         {
             EnemyKilledHandler?.Invoke(this, EnemyData);
             ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
-            KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
+            KillEnemyEventHandler?.Invoke(this, new KillEnemyEventArgs( EnemyData.movement.enemyMovementIndex, EnemyData.weapon.Type));
         }
 
         public void Die()

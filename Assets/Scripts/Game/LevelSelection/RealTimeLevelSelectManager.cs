@@ -24,7 +24,6 @@ namespace Game.LevelSelection
 
         private void Start()
         {
-
             SaveStateHandler?.Invoke();
         }
 

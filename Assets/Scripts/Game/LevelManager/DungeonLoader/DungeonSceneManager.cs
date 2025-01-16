@@ -26,6 +26,12 @@ namespace Game.LevelManager.DungeonLoader
         private DungeonFileSo _currentDungeonSo;
         [field: SerializeReference] protected SelectedLevels selectedLevels;
         private DungeonLoader _dungeonLoader;
+
+        private void Awake()
+        {
+            _dungeonLoader = GetComponent<DungeonLoader>();
+        }
+
         protected void OnEnable()
         {
             PlayerController.PlayerDeathEventHandler += GameOver;
@@ -35,14 +41,10 @@ namespace Game.LevelManager.DungeonLoader
 
         protected void Start()
         {
-            _dungeonLoader = GetComponent<DungeonLoader>();
-            EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
-            _dungeonLoader.LoadNewLevel(_currentDungeonSo, currentQuestLines);
             PlayBackgroundMusic();
             SetGameOverCurrentLevel();
             LoadSecondaryScenes();
 
-            currentQuestLines.SetRandomMainQuest( _dungeonLoader.GetFinalRoomKeys() );
 
             StartCoroutine(_dungeonLoader.OnStartMap(_currentDungeonSo.BiomeName));
         }
@@ -75,6 +77,12 @@ namespace Game.LevelManager.DungeonLoader
             if (VerifySceneName(scene)) return;
             _currentDungeonSo = selectedLevels.GetCurrentLevel().Dungeon;
             currentQuestLines = selectedLevels.GetCurrentLevel().QuestLines;
+            
+            EnemyLoader.LoadEnemies(currentQuestLines.EnemySos);
+
+            _dungeonLoader.LoadNewLevel(_currentDungeonSo, currentQuestLines);
+            currentQuestLines.SetRandomMainQuest( _dungeonLoader.GetFinalRoomKeys() );
+
             maxTreasure = currentQuestLines.ItemParametersForQuestLines.TotalItems;
             OnLevelLoadedEvents();
         }
@@ -114,7 +122,7 @@ namespace Game.LevelManager.DungeonLoader
         
         public void OnLevelLoadedEvents()
         {
-            NewLevelLoadedEventHandler?.Invoke(null, EventArgs.Empty);
+            NewLevelLoadedEventHandler?.Invoke(this, EventArgs.Empty);
         }
 
         public void SetCurrentLevelQuestLine(object sender, LevelLoadEventArgs args)
