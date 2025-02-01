@@ -67,7 +67,7 @@ namespace Game.NarrativeGenerator
 
         private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
-            _fixedProfileFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
+            _fixedProfileFromExperiment = true;//sender.GetType() == typeof(RealTimeLevelSelectManager);
             var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
                 CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
             if (_fixedProfileFromExperiment)
@@ -93,10 +93,10 @@ namespace Game.NarrativeGenerator
 
         private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
         {
-            
             var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
+
             await CreateOrLoadNarrativeForProfile(playerProfile);
-        }
+        }     
 
         private async Task CreateOrLoadNarrativeForProfile(PlayerProfile playerProfile)
         {
@@ -110,7 +110,7 @@ namespace Game.NarrativeGenerator
                 ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             }
         }
-
+        
         private void Start()
         {
             _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();

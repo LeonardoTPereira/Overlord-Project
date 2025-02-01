@@ -52,6 +52,23 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
+        public override string GetItemAmountString()
+        {
+            CreateQuestString();
+            return QuestText;
+        }
+
+        public override string GetItemString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var itemByAmount in ItemsToGatherByType)
+            {
+                var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
+                stringBuilder.Append($"{itemByAmount.Key.ItemName}s {spriteString}, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            return stringBuilder.ToString();
+        }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {

@@ -36,15 +36,15 @@ namespace PlatformGame.Dungeon
         {
             base.InstantiateTileMap();
 
-            for (var ix = -1; ix < roomData.Dimensions.Width + 1; ix++)
+            for (var ix = -1; ix < dungeonRoom.Dimensions.Width + 1; ix++)
             {
                 blockTilemap.SetTile(new Vector3Int(ix, -1), _blockTile);
-                blockTilemap.SetTile(new Vector3Int(ix, roomData.Dimensions.Height), _blockTile);
+                blockTilemap.SetTile(new Vector3Int(ix, dungeonRoom.Dimensions.Height), _blockTile);
             }
-            for (var iy = -1; iy < roomData.Dimensions.Height + 1; iy++)
+            for (var iy = -1; iy < dungeonRoom.Dimensions.Height + 1; iy++)
             {
                 blockTilemap.SetTile(new Vector3Int(-1, iy), _blockTile);
-                blockTilemap.SetTile(new Vector3Int(roomData.Dimensions.Width, iy), _blockTile);
+                blockTilemap.SetTile(new Vector3Int(dungeonRoom.Dimensions.Width, iy), _blockTile);
             }
         }
 
@@ -105,7 +105,7 @@ namespace PlatformGame.Dungeon
             {
                 for (int j = 0; j < 28; j++)
                 {
-                    switch (roomData.Tiles[j,i].TileType)
+                    switch (dungeonRoom.Tiles[j,i].TileType)
                     {
                         case Enums.TileTypes.Block: model[i, j] = '#';
                             break;
@@ -174,8 +174,8 @@ namespace PlatformGame.Dungeon
         protected override void SetCollidersOnRoom()
         {
             base.SetCollidersOnRoom();
-            colRoomConfiner.gameObject.transform.localPosition = new Vector2(roomData.Dimensions.Width / 2f , roomData.Dimensions.Height / 2f );
-            colRoomConfiner.gameObject.GetComponent<BoxCollider2D>().size = new Vector2((roomData.Dimensions.Width + 2)*3, (roomData.Dimensions.Height + 2)*3);
+            colRoomConfiner.gameObject.transform.localPosition = new Vector2(dungeonRoom.Dimensions.Width / 2f , dungeonRoom.Dimensions.Height / 2f );
+            colRoomConfiner.gameObject.GetComponent<BoxCollider2D>().size = new Vector2((dungeonRoom.Dimensions.Width + 2)*3, (dungeonRoom.Dimensions.Height + 2)*3);
         }
     }
 }

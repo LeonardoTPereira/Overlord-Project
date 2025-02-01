@@ -44,6 +44,13 @@ namespace Game.Dialogues
                 id, isQuestCloser));
         }
 
+        public void InsertDialogue(NpcDialogueData dialogueData, string dialogueLine, bool keepDialogueAfterSpoken, int id, 
+            int position, bool isQuestCloser = false)
+        {
+            QuestDialogues.Insert( position, new QuestDialogueLine(dialogueData, dialogueLine,keepDialogueAfterSpoken, 
+                id, isQuestCloser));
+        }
+
         private void RecreateDialogueLines()
         {
             lines.Clear();

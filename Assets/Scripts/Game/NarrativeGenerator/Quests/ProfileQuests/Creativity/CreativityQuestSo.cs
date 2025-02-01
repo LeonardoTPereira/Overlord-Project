@@ -28,7 +28,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo (List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {
@@ -85,7 +85,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var gotoQuest = CreateInstance<GotoQuestSo>();
 
             if (GameManagerSingleton.Instance.IsInPortuguese)
-                gotoQuest.Init("Vá para a sala marcada", false, questSos.Count > 0 ? questSos[^1] : null);
+                gotoQuest.Init("Vï¿½ para a sala marcada", false, questSos.Count > 0 ? questSos[^1] : null);
             else
                 gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
@@ -20,6 +21,7 @@ namespace Game
 
     public class QuestDialogueInteraction : MonoBehaviour, IInteractable, IQuestElement
     {
+        public EventHandler OnQuestDialogueInteractionEventHandler;
         [field: SerializeField] public IDialogueObjSo DialogueObj { get; set; }
 
         [SerializeField] protected DialogueController dialogue;
@@ -104,6 +106,7 @@ namespace Game
                 _wasTaskResolved = true;
             }
 
+            OnQuestDialogueInteractionEventHandler?.Invoke(this, new EventArgs());
             DialogueHandler.instance.StartDialogue(dialogue);
         }
 
@@ -113,18 +116,6 @@ namespace Game
             if (agent) {
                 agent.collidingInteractables.Add(this);
             }
-        }
-
-        public void OnTriggerExit2D(Collider2D col)
-        {
-            var agent = col.GetComponent<Agent>();
-            if (agent) {
-                agent.collidingInteractables.Remove(this);
-                if ( _wasTaskResolved )
-                {
-                    Destroy(this.gameObject);
-                }
-            }
-        }        
+        }   
     }
 }

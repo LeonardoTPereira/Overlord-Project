@@ -15,7 +15,7 @@ namespace Game.LevelManager.DungeonLoader
         [SerializeField]
         private List<int> keyIDs;
         [SerializeField]
-        protected ItemsAmount items;
+        protected ItemsAmount items = new ItemsAmount();
         [SerializeField]
         private List<NpcSo> npcs;
         [SerializeField]

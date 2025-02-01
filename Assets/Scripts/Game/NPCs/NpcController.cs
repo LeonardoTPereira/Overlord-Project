@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
@@ -7,6 +8,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
+using Game.NPCs.PTBR;
 
 #if UNITY_EDITOR
 using MyBox;
@@ -19,12 +21,14 @@ namespace Game.NPCs
 
     public class NpcController : QuestDialogueInteraction
     {
+        public static event EventHandler NpcInteraction;
         [field: SerializeField] private bool isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
         public List<ExchangeQuestData> ExchangeDataList { get; set; }
         public List<GiveQuestData> GiveDataList { get; set; }
         public static event ItemTradeEvent ItemTradeEventHandler;
         public static event ItemGiveEvent ItemGiveEventHandler;
+        public static event KeyCollectEvent KeyCollectEventHandler;
 
         protected override void Awake()
         {
@@ -35,18 +39,27 @@ namespace Game.NPCs
         protected override void OnEnable()
         {
             base.OnEnable();
+            QuestLine.QuestLineOpenedEventHandler += CreateQuestLineOpenedDialogue;
+            QuestLine.QuestLineCompletedEventHandler += CreateQuestLineCompltedDialogue;
+
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
             QuestLine.AllowExchangeEventHandler += CreateExchangeDialogue;
             QuestLine.AllowGiveEventHandler += CreateGiveDialogue;
+
             TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler += GiveItems;
+            TaggedDialogueHandler.StartGiveKeyEventHandler += GiveKeys;
         }
         protected override void OnDisable()
         {
+            QuestLine.QuestLineOpenedEventHandler -= CreateQuestLineOpenedDialogue;
+            QuestLine.QuestLineCompletedEventHandler -= CreateQuestLineCompltedDialogue;
+
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
             QuestLine.AllowExchangeEventHandler -= CreateExchangeDialogue;
             TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler -= GiveItems;
+            TaggedDialogueHandler.StartGiveKeyEventHandler -= GiveKeys;
             QuestLine.AllowGiveEventHandler -= CreateGiveDialogue;
             base.OnDisable();
         }
@@ -99,6 +112,21 @@ namespace Game.NPCs
             return questNpc;
         }
 
+        private void CreateQuestLineCompltedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != Npc ) return;
+            if (!eventArgs.IsMainQuestLine) return;
+
+            string closerLine;
+            if (isInPortuguese)
+                closerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
+            else
+                closerLine = NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
+
+            dialogue.AddDialogue(Npc.DialogueData, closerLine, false, -1, true);
+        }
+
+
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != Npc) return;
@@ -112,6 +140,20 @@ namespace Game.NPCs
                 closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
 
             dialogue.AddDialogue(Npc.DialogueData, closerLine, false, questId, true);
+        }
+
+        private void CreateQuestLineOpenedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != Npc ) return;
+            if (!eventArgs.IsMainQuestLine) return;
+
+            string openerLine;
+            if (isInPortuguese)
+                openerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
+            else
+                openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
+
+            dialogue.InsertDialogue(Npc.DialogueData, openerLine, false, -1, 0);
         }
         
         private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
@@ -223,7 +265,14 @@ namespace Game.NPCs
             }
             _assignedQuestsQueue = incompleteQuestQueue;
 
+            
+            NpcInteraction?.Invoke(this, EventArgs.Empty);
             DialogueHandler.instance.StartDialogue(dialogue);
+        }
+
+        private void GiveKeys(object sender, StartGiveKeyEventArgs eventArgs)
+        {
+            KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(eventArgs.GivedKey));
         }
         
         private void TradeItems(object sender, StartExchangeEventArgs eventArgs)

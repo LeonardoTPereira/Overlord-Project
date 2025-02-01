@@ -63,6 +63,29 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
+        public override string GetEnemyAmountString()
+        {
+            CreateQuestString();
+            return QuestText;
+        }
+
+        public override string GetEnemyString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
+            {
+                var spriteString = enemyByAmount.Key.GetEnemySpriteString();
+                stringBuilder.Append($"{enemyByAmount.Key.RealTypeName()}s {spriteString}, ");
+            }
+
+            if (stringBuilder.Length == 0)
+            {
+                QuestText = stringBuilder.ToString();
+            }
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            return stringBuilder.ToString();
+        }
+
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
             if (questId != Id) return false;

@@ -76,5 +76,14 @@ namespace Game.NarrativeGenerator
 	        AchievementPreference *= 2;
 	        CreativityPreference *= 2;
         }
+
+        public void SetAsComplementaryProfile ()
+        {
+            float summedPreference = MasteryPreference + ImmersionPreference + AchievementPreference + CreativityPreference;
+            MasteryPreference = summedPreference - MasteryPreference;
+            ImmersionPreference = summedPreference - ImmersionPreference;
+            AchievementPreference = summedPreference - AchievementPreference;
+            CreativityPreference = summedPreference - CreativityPreference;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {

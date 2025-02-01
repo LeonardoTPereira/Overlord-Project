@@ -166,7 +166,7 @@ namespace Game.LevelManager.DungeonManager
         private void MovePlayerToNextRoom()
         {
             _currentRoom.KillEnemies();
-            ExitRoomEventHandler?.Invoke(this, new ExitRoomEventArgs(destination._currentRoom.roomData.Coordinates, -1, destination.teleportTransform.position));
+            ExitRoomEventHandler?.Invoke(this, new ExitRoomEventArgs(destination._currentRoom.dungeonRoom.Coordinates, -1, destination.teleportTransform.position));
             destination.transform.parent.GetComponent<RoomBhv>().OnRoomEnter();
         }
 

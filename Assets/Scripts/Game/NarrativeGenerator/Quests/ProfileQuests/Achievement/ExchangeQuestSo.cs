@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
 using Game.GameManager;
+using System.Linq;
 
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
@@ -106,6 +107,42 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
+        public override string GetTargetNpc()
+        {
+            return Npc.NpcName;
+        }
+
+        public override string GetItemAmountString()
+        {
+            var stringBuilder = new StringBuilder();
+            string spriteString;
+            foreach (var itemByAmount in ItemsToExchangeByType)
+            {                
+                spriteString = itemByAmount.Key.GetGemstoneSpriteString();
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
+            }
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            return stringBuilder.ToString();
+        }
+
+        public override string GetItemString()
+        {
+            string itemsToTrade = "";
+            foreach (var itemsCopy in ExchangeData.CopyOfItemsToTrade)
+            {
+                itemsToTrade += itemsCopy.Key.ItemName;
+                if ( !itemsCopy.Equals( ExchangeData.CopyOfItemsToTrade.LastOrDefault() ) &&  ExchangeData.CopyOfItemsToTrade.Count > 2 )
+                {
+                    itemsToTrade += ", ";
+                }
+                else if ( !itemsCopy.Equals( ExchangeData.CopyOfItemsToTrade.LastOrDefault() ) )
+                {
+                    itemsToTrade += " and ";
+                }
+            }
+            return itemsToTrade;
+        }
+
         public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
@@ -122,7 +159,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 stringBuilder.Append($" com {Npc.NpcName}.\n");
 
                 spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
-                stringBuilder.Append($"Você receberá dele o {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+                stringBuilder.Append($"Vocï¿½ receberï¿½ dele o {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
             }
             else
             {
