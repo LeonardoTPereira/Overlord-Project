@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using Game.Events;
 using Game.LevelGenerator.LevelSOs;
@@ -21,8 +22,9 @@ namespace Game.GameManager
 
     public class ExperimentController : MonoBehaviour
     {
+        public static event EventHandler StartExperimentGeneratorEventHandler;
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-
+        
         // [SerializeField, MustBeAssigned]
         // private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         private List<QuestLineList> _questLinesListForProfile;
@@ -59,6 +61,11 @@ namespace Game.GameManager
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
+            if (scene.name == "ContentGenerator")
+            {
+                StartExperimentGeneratorEventHandler?.Invoke(null, EventArgs.Empty);
+            }
+
             StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
         }
 

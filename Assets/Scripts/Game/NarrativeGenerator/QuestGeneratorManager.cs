@@ -9,6 +9,7 @@ using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
+using Game.GameManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
@@ -48,6 +49,7 @@ namespace Game.NarrativeGenerator
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
             ProfileTester.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler += SelectPlayerProfile;
+            ExperimentController.StartExperimentGeneratorEventHandler += SelectPlayerProfile;
         }
 
         public void OnDisable()
@@ -57,6 +59,7 @@ namespace Game.NarrativeGenerator
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
             ProfileTester.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
+            ExperimentController.StartExperimentGeneratorEventHandler -= SelectPlayerProfile;
         }
 
         private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)

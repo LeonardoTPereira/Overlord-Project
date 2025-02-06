@@ -122,8 +122,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6532527830744515871}
   m_HandleRect: {fileID: 6350166710846283185}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.567296
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -959,9 +959,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cf8a638b6d72c443a7886424516ecc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hasCheckbox: 0
   questionsData: {fileID: 11400000, guid: 58fe81fb1cc5ae146abaebca85520005, type: 2}
   questionPrefab: {fileID: 1682351134811150, guid: af976e41556f4834fb617eed26a59437,
     type: 3}
+  checkboxPrefab: {fileID: 0}
   questionsPanel: {fileID: 6350096954075720451}
   submitButton: {fileID: 6350151957134109389}
   extraQuestionsPanelHeight: 100

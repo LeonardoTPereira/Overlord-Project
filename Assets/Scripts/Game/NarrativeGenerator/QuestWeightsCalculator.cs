@@ -74,7 +74,11 @@ namespace Game.NarrativeGenerator
             float initialWeight = ( 1/(float)Enums.QuestWeights.Loved) * previousMasteryWeight;
 
             float enemyKillRatio = enemiesKilled / (float) totalEnemies;
-            float invertedHealthLostRatio = 1 - (totalLostHealth / totalHealth);
+            
+            float invertedHealthLostRatio = 1;
+            if ( totalHealth != 0 )
+                invertedHealthLostRatio -= (totalLostHealth / totalHealth);
+
 
             float dataAverage = (enemyKillRatio + invertedHealthLostRatio) / 2;
 

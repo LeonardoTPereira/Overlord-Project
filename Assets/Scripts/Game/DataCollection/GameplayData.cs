@@ -20,6 +20,7 @@ namespace Game.DataCollection
             
 #if !UNITY_WEBGL || UNITY_EDITOR
             var db = FirebaseFirestore.DefaultInstance;
+            Debug.Log( db.Collection("users").Document("1") );
             var docRef = db.Collection("users").Document(playerData.SerializedData.PlayerId.ToString());
             docRef.SetAsync(playerData.SerializedData).ContinueWithOnMainThread(_ => {
                 Debug.Log($"Added data to the {playerData.SerializedData.PlayerId.ToString()} document in the users collection.");

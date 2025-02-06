@@ -87,12 +87,15 @@ namespace Game.DataCollection
         private void Start()
         {
             _dungeonDataController = GetComponent<DungeonDataController>();
+            
+            //TESTS
         }
 
         private void OnGameStart(object sender, EventArgs eventArgs)
         {
             CurrentPlayer = ScriptableObject.CreateInstance<PlayerData>();
             CurrentPlayer.Init();
+            _gameplayData.SendProfileToServer(CurrentPlayer);
         }
 
         private void OnMapStart(object sender, StartMapEventArgs eventArgs)
@@ -101,6 +104,7 @@ namespace Game.DataCollection
             CurrentPlayer.StartDungeon(eventArgs.MapName, eventArgs.Map);
             _dungeonDataController.CurrentDungeon = CurrentPlayer.CurrentDungeon;
             _dungeonDataController.SetDungeonParameters();
+
         }
 
 
