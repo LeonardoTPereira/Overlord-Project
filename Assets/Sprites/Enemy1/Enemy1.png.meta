@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 0565027b5ce89ba49a46e8560ac274bd
+=======
+guid: d240c8e732fc41f449022a65a6dd9640
+>>>>>>> jogo-de-ritmo
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

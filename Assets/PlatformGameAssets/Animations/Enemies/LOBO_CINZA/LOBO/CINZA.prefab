@@ -449,7 +449,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1396613382785282981}
   - component: {fileID: 9169498343847043456}
+<<<<<<< HEAD
   - component: {fileID: 5332643159272731082}
+=======
+  - component: {fileID: 5070864811740500659}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: "CABE\xC7A"
   m_TagString: Untagged
@@ -524,7 +528,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+<<<<<<< HEAD
 --- !u!114 &5332643159272731082
+=======
+--- !u!114 &5070864811740500659
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
