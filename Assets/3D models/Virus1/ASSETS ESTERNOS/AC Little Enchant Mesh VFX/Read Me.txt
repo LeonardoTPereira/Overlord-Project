@@ -1,0 +1,18 @@
+Little Enchant Mesh VFX
+
+Just drag and drop the prefab to use it (:
+You just have to assign foreach particle system the mesh (in the shape section).
+This pack contains 5 VFX with 3 levels (3 x 5 = 15).
+
+For the demo scene, use 1920 x 1080 screen resolution.
+
+To use this pack with URP, just double click on URPMaterials in the materials folder and export the new materials. 
+You can also Upgrade the materials. 
+To use this pack with HDRP, just double click on HDRPMaterials in the materials folder and export the new materials. 
+You can also Upgrade the materials. 
+
+Let me know if you have questions.
+
+contact@alphaime-corporation.com
+or
+https://alphaime-corporation.com/contact

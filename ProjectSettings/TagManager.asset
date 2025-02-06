@@ -3,25 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Bullet
-  - Enemy
-  - EnemyBullet
-  - Bomb
-  - Sword
-  - Shield
-  - Collectible
-  - Block
-  - Mission
-  - Npc
-  - Final
-  - PlayerTrigger
-  - Heal
-  - EnemyMelee
-  - PlayerProjectile
-  - EnemyProjectile
-  - PlayerMelee
-  - Floor
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -29,15 +11,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - Minimap
-  - Bomb
-  - 
-  - Unit
-  - Weapon
-  - 
   - Ground
+  - Shootable
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -56,42 +38,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: FarthestBg
-    uniqueID: 2070269455
-    locked: 0
-  - name: FarBg
-    uniqueID: 2579018723
-    locked: 0
-  - name: FarMidBg
-    uniqueID: 1070449977
-    locked: 0
-  - name: MidBg
-    uniqueID: 668378471
-    locked: 0
-  - name: NearMidBg
-    uniqueID: 4114495291
-    locked: 0
-  - name: NearBg
-    uniqueID: 2649961887
-    locked: 0
-  - name: NearlestBg
-    uniqueID: 1605537161
-    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: PlatformFloors
-    uniqueID: 1968741669
-    locked: 0
-  - name: PlatformBlocks
-    uniqueID: 4275585839
-    locked: 0
-  - name: Doors
-    uniqueID: 4045229337
-    locked: 0
-  - name: Characters
-    uniqueID: 2603867999
-    locked: 0
-  - name: Bullets
-    uniqueID: 3097021071
     locked: 0
