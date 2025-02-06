@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bdcb7684eeecac1478f0b9f080c66f1b
+guid: d240c8e732fc41f449022a65a6dd9640
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StageSelectBorder0
+      name: Enemy10
       rect:
         serializedVersion: 2
         x: 1
         y: 1
-        width: 128
-        height: 128
+        width: 544
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3de43edbf6ec45200800000000000000
-      internalID: 167986065442033363
+      spriteID: cd2e1a437c211fac0800000000000000
+      internalID: -3823253961870023972
       vertices: []
       indices: 
       edges: []
@@ -128,7 +128,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -136,7 +136,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      StageSelectBorder0: 167986065442033363
+      Enemy10: -3823253961870023972
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
