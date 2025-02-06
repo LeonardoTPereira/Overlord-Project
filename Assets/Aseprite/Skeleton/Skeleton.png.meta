@@ -69,7 +69,7 @@ TextureImporter:
       213: -8493229030787974561
     second: Skeleton21
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -86,11 +86,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -129,6 +130,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
@@ -141,6 +143,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -153,6 +156,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -165,6 +169,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -177,6 +182,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -189,6 +195,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -667,31 +674,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Skeleton00: 30946568209373115
+      Skeleton01: 5793147805567708053
+      Skeleton02: -6285549674725527854
+      Skeleton03: -4228227655837155825
+      Skeleton04: 7554906496662291048
+      Skeleton05: 5705170845270990526
+      Skeleton06: 8242062982735208566
+      Skeleton07: -3193616662919732388
+      Skeleton08: -3798737568718065996
+      Skeleton09: -5649394555048326583
+      Skeleton10: 4515341364708005750
+      Skeleton11: -6562430856662789298
+      Skeleton12: -7280408409526427171
+      Skeleton13: -4862910006064141063
+      Skeleton14: -2065304075834877401
       Skeleton15: 4626502179654644363
       Skeleton16: 6157399742933506557
-      Skeleton05: 5705170845270990526
-      Skeleton10: 4515341364708005750
-      Skeleton13: -4862910006064141063
-      Skeleton21: -8493229030787974561
-      Skeleton07: -3193616662919732388
-      Skeleton00: 30946568209373115
-      Skeleton04: 7554906496662291048
-      Skeleton02: -6285549674725527854
-      Skeleton06: 8242062982735208566
       Skeleton17: 6445041480938553337
-      Skeleton09: -5649394555048326583
-      Skeleton19: 7796192768002413762
-      Skeleton03: -4228227655837155825
-      Skeleton01: 5793147805567708053
-      Skeleton08: -3798737568718065996
-      Skeleton11: -6562430856662789298
-      Skeleton14: -2065304075834877401
-      Skeleton12: -7280408409526427171
       Skeleton18: 6467695856145293944
+      Skeleton19: 7796192768002413762
       Skeleton20: -2321942182699263040
-  spritePackingTag: 
+      Skeleton21: -8493229030787974561
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

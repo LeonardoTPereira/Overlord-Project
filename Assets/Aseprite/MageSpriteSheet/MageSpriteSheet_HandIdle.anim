@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MageSpriteSheet_HandIdle
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,7 +18,8 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: -7849607148942479888, guid: 8c3d6701abec8af45a6c1ec53f288c16,
         type: 3}
@@ -29,7 +30,9 @@ AnimationClip:
     path: EnemyArms
     classID: 212
     script: {fileID: 0}
-  - curve:
+    flags: 2
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 41507940631917330, guid: 8c3d6701abec8af45a6c1ec53f288c16, type: 3}
     - time: 0.1
@@ -42,6 +45,7 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 25
   m_WrapMode: 2
   m_Bounds:
@@ -56,6 +60,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 0
       attribute: 0
@@ -63,6 +69,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -7849607148942479888, guid: 8c3d6701abec8af45a6c1ec53f288c16, type: 3}
     - {fileID: -7849607148942479888, guid: 8c3d6701abec8af45a6c1ec53f288c16, type: 3}

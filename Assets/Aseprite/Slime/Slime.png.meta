@@ -51,7 +51,7 @@ TextureImporter:
       213: 2977202510729099099
     second: Slime15
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -68,11 +68,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -111,6 +112,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
@@ -123,6 +125,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -135,6 +138,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -147,6 +151,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -159,6 +164,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -171,6 +177,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -524,24 +531,23 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Slime00: 5430848238237617746
-      Slime14: 965609358019747105
-      Slime08: 8685151294977785660
-      Slime07: -2405773364747019505
-      Slime06: -6642000973692084562
-      Slime13: 5932317042304627709
-      Slime09: -7013005102008246597
-      Slime04: 4846448332910884033
       Slime01: 3962011398623342580
-      Slime15: 2977202510729099099
-      Slime10: -353113558094625468
-      Slime05: 5517348523514063102
-      Slime11: -63704536754614072
       Slime02: -1408308628862243217
       Slime03: -6026270536103026742
+      Slime04: 4846448332910884033
+      Slime05: 5517348523514063102
+      Slime06: -6642000973692084562
+      Slime07: -2405773364747019505
+      Slime08: 8685151294977785660
+      Slime09: -7013005102008246597
+      Slime10: -353113558094625468
+      Slime11: -63704536754614072
       Slime12: 6006904957175232583
-  spritePackingTag: 
+      Slime13: 5932317042304627709
+      Slime14: 965609358019747105
+      Slime15: 2977202510729099099
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

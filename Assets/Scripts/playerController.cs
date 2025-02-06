@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float decelerationTime = 0.2f;
     public float postRotationAccelerationTime = 0.1f;
     private float lastDirection = 0f;
-    private float currentSpeed = 0f;
+    public float currentSpeed = 0f;
     private bool isRotating = false;
     public float maxRunSpeed = 5.5f;
 
@@ -51,17 +51,8 @@ public class PlayerController : MonoBehaviour
         
         if (Mathf.Abs(move.x) > 0.01f) // Quando há movimento
         {
-            // Se o personagem está mudando de direção, faz uma desaceleração rápida
-            if ((Mathf.Sign(move.x) != Mathf.Sign(lastDirection)) && Mathf.Abs(currentSpeed) > 2)
-            {
-                // Desaceleração mais rápida ao mudar de direção
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime / postRotationAccelerationTime);
-            }
-            else
-            {
-                // Suaviza a velocidade atual em direção à velocidade alvo normalmente
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime / accelerationTime);
-            }
+            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime / accelerationTime);
+            
         }
         else // Quando não há movimento
         {

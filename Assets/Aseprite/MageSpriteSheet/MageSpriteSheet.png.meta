@@ -72,7 +72,7 @@ TextureImporter:
       213: 5395570634108508445
     second: MageSpriteSheet22
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,11 +89,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -132,6 +133,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
@@ -144,6 +146,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -156,6 +159,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -168,6 +172,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -180,6 +185,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -192,6 +198,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -691,32 +698,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MageSpriteSheet18: -4776275779160173837
-      MageSpriteSheet13: -2311641218373359753
-      MageSpriteSheet15: -672074089349613198
-      MageSpriteSheet08: -7849607148942479888
-      MageSpriteSheet14: -7920661830776276200
-      MageSpriteSheet02: -32068721860260801
-      MageSpriteSheet19: -8854945409236308078
-      MageSpriteSheet01: 5666923218600594171
       MageSpriteSheet00: 1273820153862948882
-      MageSpriteSheet16: -7245408637894540320
-      MageSpriteSheet22: 5395570634108508445
-      MageSpriteSheet10: 6724523263913439211
-      MageSpriteSheet20: -8260768600688987546
-      MageSpriteSheet11: -5733023225408698299
-      MageSpriteSheet04: 7928678453365467286
+      MageSpriteSheet01: 5666923218600594171
+      MageSpriteSheet02: -32068721860260801
       MageSpriteSheet03: -6036413925959472685
-      MageSpriteSheet17: 8153460015150315704
-      MageSpriteSheet12: -1102320227980896672
-      MageSpriteSheet06: -2801771331361499041
+      MageSpriteSheet04: 7928678453365467286
       MageSpriteSheet05: 6120760852035738074
-      MageSpriteSheet09: 2083388773898109442
-      MageSpriteSheet21: 2430174998606674399
+      MageSpriteSheet06: -2801771331361499041
       MageSpriteSheet07: 41507940631917330
-  spritePackingTag: 
+      MageSpriteSheet08: -7849607148942479888
+      MageSpriteSheet09: 2083388773898109442
+      MageSpriteSheet10: 6724523263913439211
+      MageSpriteSheet11: -5733023225408698299
+      MageSpriteSheet12: -1102320227980896672
+      MageSpriteSheet13: -2311641218373359753
+      MageSpriteSheet14: -7920661830776276200
+      MageSpriteSheet15: -672074089349613198
+      MageSpriteSheet16: -7245408637894540320
+      MageSpriteSheet17: 8153460015150315704
+      MageSpriteSheet18: -4776275779160173837
+      MageSpriteSheet19: -8854945409236308078
+      MageSpriteSheet20: -8260768600688987546
+      MageSpriteSheet21: 2430174998606674399
+      MageSpriteSheet22: 5395570634108508445
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

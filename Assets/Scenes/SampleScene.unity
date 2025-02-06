@@ -1643,7 +1643,7 @@ CapsuleCollider:
   m_Radius: 2.62388
   m_Height: 9.433954
   m_Direction: 1
-  m_Center: {x: -0, y: 4.637662, z: 0}
+  m_Center: {x: -0, y: 4.67, z: 0}
 --- !u!54 &1784526264
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1652,7 +1652,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1784526259}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1.2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1710,11 +1710,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5191369d066582548ac8459973e1e10d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 4.5
-  rotationSpeed: 10
-  accelerationTime: 1.8
-  decelerationTime: 0.2
-  postRotationAccelerationTime: 0.01
+  runSpeed: 3
+  rotationSpeed: 7
+  accelerationTime: 0.8
+  decelerationTime: 0.12
+  postRotationAccelerationTime: 0.02
+  currentSpeed: 0
   maxRunSpeed: 6
   grounded: 0
   groundCheckRadius: 0.1
@@ -1722,7 +1723,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 1784526265}
-  jumpSpeed: 16
+  jumpSpeed: 15
   move: {x: 0, y: 0}
   jump: 0
   switchMode: 0

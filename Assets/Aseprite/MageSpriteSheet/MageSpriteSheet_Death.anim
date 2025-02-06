@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MageSpriteSheet_Death
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,7 +18,8 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: -32068721860260801, guid: 8c3d6701abec8af45a6c1ec53f288c16,
         type: 3}
@@ -41,6 +42,7 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 25
   m_WrapMode: 1
   m_Bounds:
@@ -55,6 +57,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -32068721860260801, guid: 8c3d6701abec8af45a6c1ec53f288c16, type: 3}
     - {fileID: -6036413925959472685, guid: 8c3d6701abec8af45a6c1ec53f288c16, type: 3}

@@ -23,6 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53529511095428410}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.9994121, w: -0.034284472}
   m_LocalPosition: {x: 2.2312179, y: -1.0612365, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,7 +32,6 @@ Transform:
   - {fileID: 2126838226073360233}
   - {fileID: 3334150210558496339}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &242956696183518904
 GameObject:
@@ -57,13 +57,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 242956696183518904}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7924169, w: 0.6099799}
   m_LocalPosition: {x: -0.10741604, y: 0.04763471, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8505107087414388757}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8059711611001914807
 SpriteRenderer:
@@ -141,13 +141,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165120432901464606}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.6277535, w: 0.7784123}
   m_LocalPosition: {x: -0.00797341, y: -0.01896509, z: -0.011000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2623115111526114701}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6554205570662091439
 SpriteRenderer:
@@ -224,6 +224,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2186690770826982924}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.04461444, w: 0.9990043}
   m_LocalPosition: {x: 1.1808358, y: 0.02960802, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -232,7 +233,6 @@ Transform:
   - {fileID: 427076015840267245}
   - {fileID: 1472599534066068786}
   m_Father: {fileID: 6880760030161079543}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2377830075650884141
 GameObject:
@@ -258,13 +258,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2377830075650884141}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.75190586, w: 0.6592705}
   m_LocalPosition: {x: -0.17561, y: -0.53283095, z: -0.012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2126838226073360233}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7206643319558008173
 SpriteRenderer:
@@ -341,6 +341,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2446720267849166948}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.9998967, w: -0.014372613}
   m_LocalPosition: {x: 1.3235561, y: -0.059686918, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -348,7 +349,6 @@ Transform:
   m_Children:
   - {fileID: 7562740571065563084}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2625280905403583489
 GameObject:
@@ -374,13 +374,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2625280905403583489}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.69297445, w: 0.7209622}
   m_LocalPosition: {x: -0.1869089, y: -0.32920092, z: -0.008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6880760030161079543}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5920017168255298623
 SpriteRenderer:
@@ -457,6 +457,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2810353889989602376}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.011023449, w: -0.99993926}
   m_LocalPosition: {x: 2.2460017, y: -0.5313531, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -465,7 +466,6 @@ Transform:
   - {fileID: 8267353766300459835}
   - {fileID: 882286140473332474}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3228511959919704537
 GameObject:
@@ -490,6 +490,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3228511959919704537}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.004963417, w: 0.9999877}
   m_LocalPosition: {x: 2.1827533, y: 0.5597658, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -498,7 +499,6 @@ Transform:
   - {fileID: 2427348276031627369}
   - {fileID: 821888565684181185}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3269930856930104399
 GameObject:
@@ -510,7 +510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3986109955623337831}
   - component: {fileID: 58753846356691510}
-  - component: {fileID: 5896860005240156503}
+  - component: {fileID: 7237647537718562218}
   m_Layer: 0
   m_Name: cabeca
   m_TagString: Untagged
@@ -525,13 +525,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3269930856930104399}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7157688, w: -0.6983373}
   m_LocalPosition: {x: 3.4038348, y: 1.881267, z: -0.015000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4919681250705924548}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &58753846356691510
 SpriteRenderer:
@@ -585,7 +585,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5896860005240156503
+--- !u!114 &7237647537718562218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -626,13 +626,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3327076250634818005}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.71483296, w: -0.6992952}
   m_LocalPosition: {x: 0.39714584, y: 0.87178004, z: -0.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6855252383790198977}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3807605294773096225
 SpriteRenderer:
@@ -709,13 +709,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3546699198405368214}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.0777455, w: -0.9969732}
   m_LocalPosition: {x: 1.9618907, y: -0.011006581, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2013744428866263914}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3669252259527486868
 GameObject:
@@ -741,13 +741,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3669252259527486868}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.69253796, w: 0.7213814}
   m_LocalPosition: {x: -0.7538198, y: 0.03052612, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1856675910030543072}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2206918630405849408
 SpriteRenderer:
@@ -824,13 +824,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4073539860524060043}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.027410327, w: -0.9996243}
   m_LocalPosition: {x: 2.1604571, y: 0.07905374, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1295602174141023020}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4141828762219388223
 GameObject:
@@ -856,13 +856,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4141828762219388223}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7035625, w: -0.7106334}
   m_LocalPosition: {x: 0.3836843, y: 0.2851245, z: -0.015000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5041197643381493003}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1577762578269855186
 SpriteRenderer:
@@ -939,6 +939,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4202061243522249781}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.00398793, w: -0.9999921}
   m_LocalPosition: {x: 1.2470274, y: 0.016379239, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -946,7 +947,6 @@ Transform:
   m_Children:
   - {fileID: 4517218855812027005}
   m_Father: {fileID: 2623115111526114701}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4387042951336855146
 GameObject:
@@ -972,13 +972,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4387042951336855146}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7035625, w: -0.7106334}
   m_LocalPosition: {x: 0.2701254, y: 0.07214917, z: -0.013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5041197643381493003}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &847643250456812495
 SpriteRenderer:
@@ -1055,6 +1055,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4431720912978607248}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.99938333, w: 0.035114657}
   m_LocalPosition: {x: 0.29421273, y: -0.3656678, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1063,7 +1064,6 @@ Transform:
   - {fileID: 1295602174141023020}
   - {fileID: 1441018081805396351}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4906832925152765973
 GameObject:
@@ -1075,7 +1075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 427076015840267245}
   - component: {fileID: 2932934711628275415}
-  - component: {fileID: 6264627766916413635}
+  - component: {fileID: 3064587372717379165}
   m_Layer: 0
   m_Name: perna esq2
   m_TagString: Untagged
@@ -1090,13 +1090,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4906832925152765973}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.6925955, w: 0.72132623}
   m_LocalPosition: {x: -0.27512076, y: -0.08211739, z: -0.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1295602174141023020}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2932934711628275415
 SpriteRenderer:
@@ -1150,7 +1150,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6264627766916413635
+--- !u!114 &3064587372717379165
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1190,13 +1190,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4913910089694785572}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.910608, y: 3.3697915, z: -0.006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3626988683899568205}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1276455379637831013
 SpriteRenderer:
@@ -1273,6 +1273,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4962687779564731762}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.71135336, w: 0.70283455}
   m_LocalPosition: {x: -0.24731182, y: 2.483871, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1289,7 +1290,6 @@ Transform:
   - {fileID: 5843953947669557659}
   - {fileID: 5305903866635892612}
   m_Father: {fileID: 3626988683899568205}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5024632899126483429
 GameObject:
@@ -1314,6 +1314,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5024632899126483429}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.029986806, w: -0.99955034}
   m_LocalPosition: {x: 0.02681784, y: -0.11159438, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1321,7 +1322,6 @@ Transform:
   m_Children:
   - {fileID: 5576102322669465742}
   m_Father: {fileID: 3225908037580968585}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5031118175503073174
 GameObject:
@@ -1347,13 +1347,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5031118175503073174}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7379036, w: 0.67490613}
   m_LocalPosition: {x: -0.3610333, y: -0.3833693, z: -0.0050000004}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2398821756339150959}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6823332351413776208
 SpriteRenderer:
@@ -1417,7 +1417,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5576102322669465742}
   - component: {fileID: 2372060236599365691}
-  - component: {fileID: 570486742466161013}
+  - component: {fileID: 1917232786165961063}
   m_Layer: 0
   m_Name: FLECHA VERDE
   m_TagString: Untagged
@@ -1432,13 +1432,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5136166309058666231}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.8692951, w: 0.49429345}
   m_LocalPosition: {x: -0.14654198, y: -1.6360884, z: -0.004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8116469383909951831}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2372060236599365691
 SpriteRenderer:
@@ -1492,7 +1492,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &570486742466161013
+--- !u!114 &1917232786165961063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1532,13 +1532,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5937751033818068704}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.71213096, w: 0.70204663}
   m_LocalPosition: {x: -0.41254383, y: -0.00038502002, z: -0.004}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2013744428866263914}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2110681614796478657
 SpriteRenderer:
@@ -1616,13 +1616,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6001211685851390675}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7063116, w: -0.70790106}
   m_LocalPosition: {x: 0.36921483, y: 0.6199837, z: -0.016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6855252383790198977}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6188288820000704880
 SpriteRenderer:
@@ -1699,6 +1699,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6174444762245932052}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.9997826, w: 0.02085101}
   m_LocalPosition: {x: 0.2206154, y: 0.24125959, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1707,7 +1708,6 @@ Transform:
   - {fileID: 2013744428866263914}
   - {fileID: 8389500831557019186}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6277514068472726134
 GameObject:
@@ -1732,6 +1732,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6277514068472726134}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.27490896, w: -0.9614703}
   m_LocalPosition: {x: 1.1351506, y: 0.014180191, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1741,7 +1742,6 @@ Transform:
   - {fileID: 8116469383909951831}
   - {fileID: 916051295030503399}
   m_Father: {fileID: 8505107087414388757}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6449574524568861336
 GameObject:
@@ -1753,7 +1753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 916051295030503399}
   - component: {fileID: 8568583257306565740}
-  - component: {fileID: 1343103078620192720}
+  - component: {fileID: 6052400980561356053}
   m_Layer: 0
   m_Name: ARCO5
   m_TagString: Untagged
@@ -1768,13 +1768,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6449574524568861336}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.9998967, w: -0.014375951}
   m_LocalPosition: {x: -0.28327605, y: -0.29105794, z: -0.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3225908037580968585}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8568583257306565740
 SpriteRenderer:
@@ -1828,7 +1828,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1343103078620192720
+--- !u!114 &6052400980561356053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1871,13 +1871,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6485158709083655867}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7113535, w: -0.7028345}
   m_LocalPosition: {x: 4.107464, y: -0.08868108, z: -0.002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4037282713908567313
 SpriteRenderer:
@@ -1941,7 +1941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5697849046959088139}
   - component: {fileID: 8463462435459622671}
-  - component: {fileID: 2149942959847358630}
+  - component: {fileID: 4979089850784832143}
   m_Layer: 0
   m_Name: FELIZ1
   m_TagString: Untagged
@@ -1956,13 +1956,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6540494038245926712}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7157688, w: -0.6983373}
   m_LocalPosition: {x: 3.3943212, y: 1.879607, z: -0.011000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4919681250705924548}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8463462435459622671
 SpriteRenderer:
@@ -2016,7 +2016,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2149942959847358630
+--- !u!114 &4979089850784832143
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2056,6 +2056,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6895415140441038959}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.00035944182, w: 0.99999994}
   m_LocalPosition: {x: 1.1137888, y: -0.04599484, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -2064,7 +2065,6 @@ Transform:
   - {fileID: 476136601799245189}
   - {fileID: 9129480058373210361}
   m_Father: {fileID: 2398821756339150959}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7206189861847465915
 GameObject:
@@ -2076,7 +2076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6552712216873040837}
   - component: {fileID: 5352029559117781459}
-  - component: {fileID: 1544415413614491481}
+  - component: {fileID: 783431455522251060}
   m_Layer: 0
   m_Name: mao dir1
   m_TagString: Untagged
@@ -2091,13 +2091,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7206189861847465915}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.8651762, w: 0.501468}
   m_LocalPosition: {x: -0.1290286, y: 0.01183699, z: -0.003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3225908037580968585}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5352029559117781459
 SpriteRenderer:
@@ -2151,7 +2151,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1544415413614491481
+--- !u!114 &783431455522251060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2192,13 +2192,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7636927530222421176}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7157688, w: -0.6983373}
   m_LocalPosition: {x: 0.54205835, y: -0.6365037, z: -0.009000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4919681250705924548}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5183079702962198790
 SpriteRenderer:
@@ -2262,7 +2262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 981807345727451646}
   - component: {fileID: 768300090042008067}
-  - component: {fileID: 1796258788782329328}
+  - component: {fileID: 3839162075653104375}
   m_Layer: 0
   m_Name: zpack_0
   m_TagString: Untagged
@@ -2277,13 +2277,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8104405710779741639}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.25921047, w: 0.9658209}
   m_LocalPosition: {x: -5.302469, y: 5.1724534, z: -0.014}
   m_LocalScale: {x: 1.345356, y: 2.051354, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3626988683899568205}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &768300090042008067
 SpriteRenderer:
@@ -2337,7 +2337,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1796258788782329328
+--- !u!114 &3839162075653104375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2380,6 +2380,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8129153396277092608}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -2390,11 +2391,10 @@ Transform:
   - {fileID: 4437242958298133004}
   - {fileID: 981807345727451646}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3770364286654936096
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2411,7 +2411,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3854784934335140038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2449,6 +2450,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8689618624813552468}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.0063024205, w: 0.99998015}
   m_LocalPosition: {x: 2.655462, y: -0.053500462, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -2458,7 +2460,6 @@ Transform:
   - {fileID: 3986109955623337831}
   - {fileID: 5697849046959088139}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8787016577805399865
 GameObject:
@@ -2483,13 +2484,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8787016577805399865}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.71135336, w: 0.70283455}
   m_LocalPosition: {x: 0.15988116, y: 2.9908655, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3626988683899568205}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8824430049468777372
 GameObject:
@@ -2515,13 +2516,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8824430049468777372}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7113535, w: -0.7028345}
   m_LocalPosition: {x: 2.9436905, y: 0.75184137, z: -0.010000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2336950042668246620
 SpriteRenderer:
@@ -2598,6 +2599,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9166267920892037734}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.9995325, w: 0.03057428}
   m_LocalPosition: {x: 2.1321752, y: 0.6550487, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -2606,7 +2608,6 @@ Transform:
   - {fileID: 3225908037580968585}
   - {fileID: 293067976414991814}
   m_Father: {fileID: 4183691452647573074}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!74 &-8940203545251789031
 AnimationClip:
@@ -2615,7 +2616,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ATACK_001
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -4373,7 +4374,8 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4401,7 +4403,9 @@ AnimationClip:
     path: bone_000/bone_002/bone_003/perna esq2
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4456,7 +4460,9 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4475,7 +4481,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4494,7 +4502,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4567,7 +4577,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4595,7 +4607,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4614,7 +4628,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -4633,6 +4649,7 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -4674,7 +4691,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ATACK CERTO
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -5886,7 +5903,8 @@ AnimationClip:
     path: bone_000/bone_015/bone_016/mao esq1
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -5941,7 +5959,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -5960,7 +5980,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -5979,7 +6001,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -5998,7 +6022,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6080,7 +6106,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6099,7 +6127,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6136,7 +6166,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6164,7 +6196,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6183,7 +6217,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6202,7 +6238,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6221,7 +6259,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -6240,6 +6280,7 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -6281,7 +6322,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BACKUP2
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -7116,7 +7157,8 @@ AnimationClip:
     path: bone_000/bone_002/perna esq1
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -7135,7 +7177,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -7154,7 +7198,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -7173,7 +7219,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -7192,7 +7240,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -7211,6 +7261,7 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -7252,7 +7303,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ATACK CERTO_000
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -8852,7 +8903,8 @@ AnimationClip:
     path: bone_000/bone_015/bone_016/mao esq1
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -8907,7 +8959,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -8926,7 +8980,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -8945,7 +9001,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -8964,7 +9022,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9046,7 +9106,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9065,7 +9127,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9102,7 +9166,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9130,7 +9196,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9149,7 +9217,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9168,7 +9238,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9187,7 +9259,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9206,7 +9280,9 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9261,7 +9337,9 @@ AnimationClip:
     path: zpack_0
     classID: 212
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9316,7 +9394,9 @@ AnimationClip:
     path: zpack_0
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -9353,6 +9433,7 @@ AnimationClip:
     path: zpack_0
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -9394,7 +9475,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: IDLE CERTO
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -10805,7 +10886,8 @@ AnimationClip:
       m_RotationOrder: 4
     path: bone_000/bone_001/FELIZ1
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10833,7 +10915,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10852,7 +10936,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10907,7 +10993,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10926,7 +11014,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10945,7 +11035,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10964,7 +11056,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -10983,7 +11077,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -11002,7 +11098,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -11021,7 +11119,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -11040,6 +11140,7 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -11081,7 +11182,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ATACK
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -12469,7 +12570,8 @@ AnimationClip:
     path: bone_000/bone_015/bone_016/mao esq1
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12524,7 +12626,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12543,7 +12647,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12562,7 +12668,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12581,7 +12689,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12681,7 +12791,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12700,7 +12812,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12755,7 +12869,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12783,7 +12899,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12802,7 +12920,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12821,7 +12941,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12840,7 +12962,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -12859,6 +12983,7 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -12900,7 +13025,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ATACK_000
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -14189,7 +14314,8 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14217,7 +14343,9 @@ AnimationClip:
     path: bone_000/bone_002/bone_003/perna esq2
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14272,7 +14400,9 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14291,7 +14421,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14310,7 +14442,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14365,7 +14499,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14393,7 +14529,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14412,7 +14550,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -14431,6 +14571,7 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -14472,7 +14613,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BACKUP2_CERTO_000
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -15407,7 +15548,8 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15426,7 +15568,9 @@ AnimationClip:
     path: bone_000/bone_001/FELIZ1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15445,7 +15589,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15464,7 +15610,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15492,7 +15640,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15511,7 +15661,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/ARCO5
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15539,7 +15691,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 114
     script: {fileID: 11500000, guid: 87d8dc87df01e4958ab48153b19f0ccd, type: 3}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15558,7 +15712,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/bone_006/FLECHA VERDE
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15577,7 +15733,9 @@ AnimationClip:
     path: bone_000/bone_013/bone_014/mao dir1
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15596,7 +15754,9 @@ AnimationClip:
     path: bone_000/bone_018/pelelobo1_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15615,7 +15775,9 @@ AnimationClip:
     path: bone_000/bone_017/pelelobo2_000
     classID: 1
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -15634,6 +15796,7 @@ AnimationClip:
     path: bone_000/bone_001/cabeca
     classID: 1
     script: {fileID: 0}
+    flags: 0
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 2
@@ -15675,7 +15838,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NewAnimation
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
