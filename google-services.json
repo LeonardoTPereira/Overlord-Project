@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "541245457349",
+    "project_id": "quest-generation-loop",
+    "storage_bucket": "quest-generation-loop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541245457349:android:4230f58a3c6b2fb33601ac",
+        "android_client_info": {
+          "package_name": "com.GR_ICMC.Overlord"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnewVS6nPdsSFTGSH1RRIS0wCUkWkn4mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
