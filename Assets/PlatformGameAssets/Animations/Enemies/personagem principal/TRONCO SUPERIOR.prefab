@@ -527,7 +527,11 @@ GameObject:
   m_Component:
   - component: {fileID: 728631115461247179}
   - component: {fileID: 5471704108503255149}
-  - component: {fileID: 3616219000451027649}
+<<<<<<< HEAD
+  - component: {fileID: 4298974551673344459}
+=======
+  - component: {fileID: 8252252224543762551}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: ARCO5
   m_TagString: Untagged
@@ -602,7 +606,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3616219000451027649
+<<<<<<< HEAD
+--- !u!114 &4298974551673344459
+=======
+--- !u!114 &8252252224543762551
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1153,7 +1161,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8142947861206590272}
   - component: {fileID: 7075078360891368231}
-  - component: {fileID: 2279145374628142998}
+<<<<<<< HEAD
+  - component: {fileID: 6783258129070887387}
+=======
+  - component: {fileID: 731707179216034955}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: zpack_0
   m_TagString: Untagged
@@ -1228,7 +1240,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2279145374628142998
+<<<<<<< HEAD
+--- !u!114 &6783258129070887387
+=======
+--- !u!114 &731707179216034955
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1456,7 +1472,11 @@ GameObject:
   m_Component:
   - component: {fileID: 303878707544057345}
   - component: {fileID: 2576539519352397117}
-  - component: {fileID: 5009609498591133091}
+<<<<<<< HEAD
+  - component: {fileID: 5701412878775095562}
+=======
+  - component: {fileID: 7736397449459549631}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: FELIZ1
   m_TagString: Untagged
@@ -1531,7 +1551,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5009609498591133091
+<<<<<<< HEAD
+--- !u!114 &5701412878775095562
+=======
+--- !u!114 &7736397449459549631
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

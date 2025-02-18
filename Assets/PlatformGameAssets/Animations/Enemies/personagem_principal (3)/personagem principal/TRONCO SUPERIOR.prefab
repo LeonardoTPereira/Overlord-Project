@@ -249,7 +249,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2221852777071484948}
   - component: {fileID: 7009612492438467056}
-  - component: {fileID: 4998866093688068186}
+<<<<<<< HEAD
+  - component: {fileID: 8944656780134826807}
+=======
+  - component: {fileID: 177941393704274916}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: ARCO5
   m_TagString: Untagged
@@ -324,7 +328,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4998866093688068186
+<<<<<<< HEAD
+--- !u!114 &8944656780134826807
+=======
+--- !u!114 &177941393704274916
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1259,7 +1267,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1171959732527579853}
   - component: {fileID: 1241442600828592407}
-  - component: {fileID: 2120251631622093178}
+<<<<<<< HEAD
+  - component: {fileID: 3389862389864311138}
+=======
+  - component: {fileID: 4997710371609360677}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: zpack_0
   m_TagString: Untagged
@@ -1334,7 +1346,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2120251631622093178
+<<<<<<< HEAD
+--- !u!114 &3389862389864311138
+=======
+--- !u!114 &4997710371609360677
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1362,7 +1378,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3763055092143151804}
   - component: {fileID: 6456379434643206328}
-  - component: {fileID: 6767862772947636630}
+<<<<<<< HEAD
+  - component: {fileID: 3697356769186397500}
+=======
+  - component: {fileID: 1219890283152505285}
+>>>>>>> jogo-de-ritmo
   m_Layer: 0
   m_Name: FELIZ1
   m_TagString: Untagged
@@ -1437,7 +1457,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6767862772947636630
+<<<<<<< HEAD
+--- !u!114 &3697356769186397500
+=======
+--- !u!114 &1219890283152505285
+>>>>>>> jogo-de-ritmo
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
