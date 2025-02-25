@@ -1,0 +1,34 @@
+{
+    "name": "Corda_Input",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "9449f0c4-a203-4e62-ad6f-bf935845e5ee",
+            "actions": [
+                {
+                    "name": "Hit",
+                    "type": "Button",
+                    "id": "ce8dd22a-0b94-47e1-812d-62c2b646637b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e9448e17-b315-40be-996c-7c84542cdc6d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
