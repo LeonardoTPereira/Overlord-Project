@@ -185,7 +185,7 @@ namespace Game.NarrativeGenerator
             questLines.EnemyParametersForQuestLines = new QuestEnemiesParameters();
             //questLines.NpcParametersForQuestLines = new QuestNpcsParameters();
             questLines.ItemParametersForQuestLines = new QuestItemsParameters();
-            questLines.CalculateDifficultyFromProfile(playerProfile);
+            questLines.CalculateDifficultyFromProfile(playerProfile.MasteryPreference);
 #if UNITY_EDITOR
             Debug.Log("Profile: " + playerProfile);
 #endif

@@ -108,9 +108,9 @@ namespace Game.NarrativeGenerator.Quests
         }
 
 
-        public void CalculateDifficultyFromProfile(PlayerProfile playerProfile)
+        public void CalculateDifficultyFromProfile(float masteryPreference)
         {
-            EnemyParametersForQuestLines.CalculateDifficultyFromProfile(playerProfile);
+            EnemyParametersForQuestLines.CalculateDifficultyFromProfile(masteryPreference/100f);
         }
 
         public void CalculateMonsterFromQuests()
