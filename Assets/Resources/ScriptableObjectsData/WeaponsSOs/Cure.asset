@@ -19,6 +19,7 @@ MonoBehaviour:
   <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: c3884e6181e6ac045befb816f6917a13,
     type: 3}
   <EnemyTypeName>k__BackingField: Blue Mage
+  <Type>k__BackingField: 0
   HasSprite: 0
-  IsInPortuguese: 1
-  IsPlatformGame: 1
+  IsInPortuguese: 0
+  IsPlatformGame: 0

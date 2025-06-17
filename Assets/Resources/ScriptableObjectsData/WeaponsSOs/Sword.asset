@@ -19,6 +19,7 @@ MonoBehaviour:
   <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: f5d0fbde0c47de34b9281aad66fb01b0,
     type: 3}
   <EnemyTypeName>k__BackingField: Skeleton Sword
+  <Type>k__BackingField: 0
   HasSprite: 0
-  IsInPortuguese: 1
-  IsPlatformGame: 1
+  IsInPortuguese: 0
+  IsPlatformGame: 0
