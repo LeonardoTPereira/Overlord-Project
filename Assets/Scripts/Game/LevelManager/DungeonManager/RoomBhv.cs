@@ -367,8 +367,15 @@ namespace Game.LevelManager.DungeonManager
             {
                 // TODO: 
                 // Essa chave é dada ao npc da main quest
-                if ( !DungeonLoader.DungeonLoader.finalRoomKeyIds.Contains(actualKey) )
+                if (!DungeonLoader.DungeonLoader.finalRoomKeyIds.Contains(actualKey))
+                {
+                    Debug.Log($"Placing key {actualKey} in room");
                     PlaceKeyInRoom(actualKey);
+                }
+                else
+                {
+                    Debug.Log("Main quest key found! Don't place it in a room");
+                }
             }
         }
 

@@ -118,8 +118,9 @@ namespace Game.Dialogues
             }
             else if (textTag.StartsWith("completequestline="))
             {
-                int key= int.Parse(textTag.Split('=')[1]);
-                StartGiveKeyEventHandler?.Invoke(this, new StartGiveKeyEventArgs(key));
+                var npcName = textTag.Split('=')[1];
+                var key = int.Parse(textTag.Split(',')[1]);
+                StartGiveKeyEventHandler?.Invoke(this, new StartGiveKeyEventArgs(key, npcName));
             }
             else if (textTag.StartsWith("trade="))
             {

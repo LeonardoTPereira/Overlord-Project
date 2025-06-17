@@ -116,6 +116,7 @@ namespace Game.NPCs
         {
             if (eventArgs.NpcInCharge != Npc ) return;
             if (!eventArgs.IsMainQuestLine) return;
+            dialogue.StopDialogueFromQuest(-1);
 
             string closerLine;
             if (isInPortuguese)

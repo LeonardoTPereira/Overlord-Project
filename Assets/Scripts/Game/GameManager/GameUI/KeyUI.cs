@@ -39,6 +39,8 @@ namespace Game.GameManager
 
         private void CreateKeyImage(object sender, KeyCollectEventArgs eventArgs)
         {
+            if (_playerKeys.Contains(eventArgs.KeyIndex))
+                return;
             _playerKeys.Add(eventArgs.KeyIndex);
             
             var currentKeys = _playerKeys.Count;

@@ -9,10 +9,12 @@ namespace Game.Quests
     public class StartGiveKeyEventArgs : EventArgs
     {
         public int GivedKey {get; set; }
+        public string Npc { get; set; }
 
-        public StartGiveKeyEventArgs(int givedKey)
+        public StartGiveKeyEventArgs(int givedKey, string npcName)
         {
             GivedKey = givedKey;
+            Npc = npcName;
         }
     }
 }

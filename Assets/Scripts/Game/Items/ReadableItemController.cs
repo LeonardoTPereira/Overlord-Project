@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
 using System;
+using Fog.Dialogue;
 
 namespace Game
 {
@@ -23,8 +24,8 @@ namespace Game
         {
             _questDialogue.OnQuestDialogueInteractionEventHandler -= InvokeReadableItemInteraction;    
         }
-        
-        public void SetItemInfo ( ReadableItemSo item, int questId )
+
+        public void SetItemInfo(ReadableItemSo item, int questId)
         {
             _questDialogue.DialogueObj = item;
             _questDialogue.DialogueLine = item.SetRandomText();
@@ -35,8 +36,15 @@ namespace Game
 
         public void InvokeReadableItemInteraction(object sender, EventArgs eventArgs)
         {
+            _questDialogue.OnQuestDialogueInteractionEventHandler -= InvokeReadableItemInteraction;   
+            ReadableItemInteraction?.Invoke(this, eventArgs);
+            DialogueHandler.instance.OnDialogueEnd += DestroyOnDialogueEnd;
+        }
+
+        public void DestroyOnDialogueEnd()
+        {
+            DialogueHandler.instance.OnDialogueEnd -= DestroyOnDialogueEnd;
             Destroy(this.gameObject);
-            ReadableItemInteraction?.Invoke( this, eventArgs);
         }
     }
 }

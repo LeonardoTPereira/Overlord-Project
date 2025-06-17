@@ -50,6 +50,8 @@ namespace Game.DataCollection
             GameOverPanelBhv.RestartLevelEventHandler += OnFormNotAnswered;
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
+            QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
+            QuestGeneratorManager.FixedLevelProfileEventHandler += OnPlayerProfileUpdated;
         }
 
         private void OnDisable()
@@ -77,6 +79,8 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
+            QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
+            QuestGeneratorManager.FixedLevelProfileEventHandler -= OnPlayerProfileUpdated;
         }
 
         private void Awake()
@@ -87,29 +91,30 @@ namespace Game.DataCollection
         private void Start()
         {
             _dungeonDataController = GetComponent<DungeonDataController>();
-            
-            //TESTS
         }
 
         private void OnGameStart(object sender, EventArgs eventArgs)
         {
             CurrentPlayer = ScriptableObject.CreateInstance<PlayerData>();
             CurrentPlayer.Init();
-            _gameplayData.SendProfileToServer(CurrentPlayer);
         }
 
         private void OnMapStart(object sender, StartMapEventArgs eventArgs)
         {
-            Debug.Log("Map Started");
             CurrentPlayer.StartDungeon(eventArgs.MapName, eventArgs.Map);
             _dungeonDataController.CurrentDungeon = CurrentPlayer.CurrentDungeon;
             _dungeonDataController.SetDungeonParameters();
-
         }
 
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
+            CurrentPlayer.SerializedData.PlayerProfile = eventArgs.PlayerProfile;
+        }
+
+        private void OnPlayerProfileUpdated(object sender, ProfileSelectedEventArgs eventArgs)
+        {
+            CurrentPlayer.SerializedData.PreviousPlayerProfiles.Add( CurrentPlayer.SerializedData.PlayerProfile );
             CurrentPlayer.SerializedData.PlayerProfile = eventArgs.PlayerProfile;
         }
 
@@ -197,6 +202,106 @@ namespace Game.DataCollection
         {
             CurrentPlayer.AddPostTestDataToDungeon(eventArgs.AnswerValue);
             _gameplayData.SendProfileToServer(CurrentPlayer);
+        }
+
+        private void OnQuestlineOpenedEvent(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            foreach (QuestSo quest in eventArgs.QuestLine.Quests)
+            {
+                switch (quest)
+                {
+                    case AchievementQuestSo achievementQuest:
+                        CurrentPlayer.SerializedData.TotalAchievementQuests++;
+                        GetAchievementTerminalAndUpdateTotal(achievementQuest);
+                        break;
+                    case CreativityQuestSo creativityQuest:
+                        CurrentPlayer.SerializedData.TotalCreativityQuests++;
+                        GetCreativityTerminalAndUpdateTotal(creativityQuest);
+                        break;
+                    case ImmersionQuestSo immersionQuest:
+                        CurrentPlayer.SerializedData.TotalImmersionQuests++;
+                        GetImmersionTerminalAndUpdateTotal(immersionQuest);
+                        break;
+                    case MasteryQuestSo masteryQuest:
+                        CurrentPlayer.SerializedData.TotalMasteryQuests++;
+                        GetMasteryTerminalAndUpdateTotal(masteryQuest);
+                        break;
+                    default:
+                        Debug.LogError("This Quest non-terminal is non-existent!");
+                        break;
+                }
+            }
+        }
+
+
+        private void GetAchievementTerminalAndUpdateTotal(AchievementQuestSo achievementQuest)
+        {
+            switch (achievementQuest)
+            {
+                case ExchangeQuestSo:
+                    CurrentPlayer.SerializedData.TotalExchangeQuests++;
+                    break;
+                case GatherQuestSo:
+                    CurrentPlayer.SerializedData.TotalGatherQuests++;
+                    break;
+                default:
+                    Debug.LogError("This achievement quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetCreativityTerminalAndUpdateTotal(CreativityQuestSo creativityQuest)
+        {
+            switch (creativityQuest)
+            {
+                case ExploreQuestSo:
+                    CurrentPlayer.SerializedData.TotalExploreQuests++;
+                    break;
+                case GotoQuestSo:
+                    CurrentPlayer.SerializedData.TotalGoToQuests++;
+                    break;
+                default:
+                    Debug.LogError("This creativity quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetImmersionTerminalAndUpdateTotal(ImmersionQuestSo immersionQuest)
+        {
+            switch (immersionQuest)
+            {
+                case GiveQuestSo:
+                    CurrentPlayer.SerializedData.TotalGiveQuests++;
+                    break;
+                case ListenQuestSo:
+                    CurrentPlayer.SerializedData.TotalListenQuests++;
+                    break;
+                case ReadQuestSo:
+                    CurrentPlayer.SerializedData.TotalReadQuests++;
+                    break;
+                case ReportQuestSo:
+                    CurrentPlayer.SerializedData.TotalReportQuests++;
+                    break;
+                default:
+                    Debug.LogError("This immersion quest type does not exist!");
+                    break;
+            }
+        }
+        
+        private void GetMasteryTerminalAndUpdateTotal(MasteryQuestSo masteryQuest)
+        {
+            switch (masteryQuest)
+            {
+                case DamageQuestSo:
+                    CurrentPlayer.SerializedData.TotalDamageQuests++;
+                    break;
+                case KillQuestSo:
+                    CurrentPlayer.SerializedData.TotalKillQuests++;
+                    break;
+                default:
+                    Debug.LogError("This mastery quest type does not exist!");
+                    break;
+            }        
         }
 
         private void OnQuestEvent(object sender, NewQuestEventArgs eventArgs)

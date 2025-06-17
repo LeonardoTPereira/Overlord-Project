@@ -15,7 +15,7 @@ namespace Game.DataCollection
 {
     public class DungeonDataController : MonoBehaviour
     {
-        public DungeonData CurrentDungeon { get; set; }
+        public DungeonData CurrentDungeon = new DungeonData();
         private PlayerProfile _inputProfile;
 
         private void OnEnable()
@@ -37,6 +37,7 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler += OnDeath;
             DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
+            // QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler += OnLevelWithFixedProfileCreated;
         }
 
@@ -59,6 +60,7 @@ namespace Game.DataCollection
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
+            // QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
         }
         

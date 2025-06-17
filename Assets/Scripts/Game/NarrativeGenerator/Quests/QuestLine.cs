@@ -139,7 +139,6 @@ namespace Game.NarrativeGenerator.Quests
             IsMainQuest = true;
             RewardKeys = new List<int>();
             RewardKeys.AddRange( rewardedKeys );
-            Debug.Log("reward keys");
             foreach (var key in rewardedKeys)
             {
                 Debug.Log(key);

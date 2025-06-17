@@ -29,11 +29,16 @@ namespace Game.GameManager
         // private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
         private List<QuestLineList> _questLinesListForProfile;
 
+        public static bool UseRealProfile => _useRealProfile;
+        private static bool _useRealProfile;
+        private static bool _hasSetProfileUse = false;
+
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
 
         private void Awake()
         {
+            SetUseTrueProfile();
             _questLinesListForProfile = null;
         }
 
@@ -76,7 +81,6 @@ namespace Game.GameManager
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
         {
-            Debug.Log("select narratives and dungeon entrances");
             QuestLineList selectedQuestLine = GetAndRemoveRandomQuestLine();
             List<DungeonFileSo> dungeonFileSos = new List<DungeonFileSo>(selectedQuestLine.DungeonFileSos);
             dungeonEntrances = FindObjectsOfType<DungeonSceneLoader>();
@@ -100,32 +104,32 @@ namespace Game.GameManager
 
         private void SetQuestLinesForProfile(object sender, QuestLineCreatedEventArgs eventArgs)
         {
-            Debug.Log("set questlines for profile");
             _questLinesListForProfile = new List<QuestLineList> {eventArgs.QuestLines} ;
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
-
             PlayerProfile selectedProfile;
 
             // if (sender.GetType() != typeof(RealTimeLevelSelectManager))
             {
-                if ( !UseTrueProfile() )
+                if ( !_useRealProfile )
                 {
                     profileSelectedEventArgs.PlayerProfile.SetAsComplementaryProfile(); 
                 }
             }
-            selectedProfile = profileSelectedEventArgs.PlayerProfile;
 
-            // SetQuestLinesForProfile(selectedProfile);
+            selectedProfile = profileSelectedEventArgs.PlayerProfile;
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
-            Debug.Log("select experiment profile");
         }
 
-        private static bool UseTrueProfile()
+        private static void SetUseTrueProfile()
         {
-            return RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
+            if ( _hasSetProfileUse )
+                return;
+
+            _useRealProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
+            _hasSetProfileUse = true;
         }
     }
 }

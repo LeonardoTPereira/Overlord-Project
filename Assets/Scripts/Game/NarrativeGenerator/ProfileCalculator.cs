@@ -6,6 +6,8 @@ using Game.Events;
 using Util;
 using static Util.Enums;
 
+using UnityEngine;
+
 namespace Game.NarrativeGenerator
 {
     public static class ProfileCalculator
@@ -38,7 +40,6 @@ namespace Game.NarrativeGenerator
         {
             _questWeightsByType = eventArgs.QuestWeightsbyType;
             return CreateProfileWithWeights();
-
         }
         
         public static PlayerProfile CreateProfile(PlayerData playerData, DungeonData dungeonData)
@@ -69,7 +70,6 @@ namespace Game.NarrativeGenerator
                     playerData.SerializedData.InitialHealth
                 );
 
-
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()] = 
                 QuestWeightsCalculator.GetAchievementWeight(
                     playerData.SerializedData.PlayerProfile.AchievementPreference,
@@ -88,7 +88,6 @@ namespace Game.NarrativeGenerator
                     playerData.SerializedData.CompletedImmersionQuests,
                     playerData.SerializedData.TotalImmersionQuests
                 );
-
 
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()] = 
                 QuestWeightsCalculator.GetCreativityWeight(

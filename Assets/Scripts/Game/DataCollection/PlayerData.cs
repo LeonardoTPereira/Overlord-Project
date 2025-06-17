@@ -29,6 +29,7 @@ namespace Game.DataCollection
 		        PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue) + (int) Time.realtimeSinceStartup,
 		        PlayerProfile = new PlayerProfile(),
 		        GivenPlayerProfile = new PlayerProfile(),
+				PreviousPlayerProfiles = new List<PlayerProfile>(),
 				EnemiesKilledByType = new Dictionary<string, int>()
 	        };
 	        DungeonByAttempt = new DungeonDataByAttempt();
@@ -76,6 +77,11 @@ namespace Game.DataCollection
             SerializedData.TotalCollectableItems += map.TotalCollectableItems;
             SerializedData.TotalReadableItems += map.TotalReadableItems;
             SerializedData.TotalAttempts++;
+
+			if ( SerializedData.TotalEnemiesByType == null )
+			{
+				SerializedData.TotalEnemiesByType = new Dictionary<string, int>();
+			}
 
 			foreach (KeyValuePair<string,int> NEnemyOfType in map.NEnemiesByType)
 			{
@@ -246,6 +252,7 @@ namespace Game.DataCollection
 	        SerializedData.UniqueRoomsEntered = saveData.UniqueRoomsEntered;
 	        SerializedData.RoomsEntered = saveData.RoomsEntered;
 	        SerializedData.PlayerProfile = saveData.PlayerProfile;
+			SerializedData.PreviousPlayerProfiles = saveData.PreviousPlayerProfiles;
 	        SerializedData.GivenPlayerProfile = saveData.GivenPlayerProfile;
 	        SerializedData.TotalQuests = saveData.TotalQuests;
 	        SerializedData.CompletedQuests = saveData.CompletedQuests;
@@ -389,6 +396,10 @@ namespace Game.DataCollection
 			        [FirestoreProperty]
 			#endif
 			        [field: SerializeField] public PlayerProfile PlayerProfile { get; set; }
+			#if !UNITY_WEBGL || UNITY_EDITOR
+			        [FirestoreProperty]
+			#endif
+					[field: SerializeField] public List<PlayerProfile> PreviousPlayerProfiles { get; set; }
 			#if !UNITY_WEBGL || UNITY_EDITOR
 			        [FirestoreProperty]
 			#endif

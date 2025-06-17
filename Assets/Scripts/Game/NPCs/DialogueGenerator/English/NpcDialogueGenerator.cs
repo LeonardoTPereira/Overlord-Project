@@ -24,7 +24,7 @@ namespace Game.NPCs
             questCloserDialogue.Append( "Okay, you've earned it. Here is the key I told you about..." );
             if ( closedQuestLine.IsMainQuest )
             {
-                questCloserDialogue.Append($"<completequestline={closedQuestLine.RewardKeys[0]}>");
+                questCloserDialogue.Append($"<completequestline={speaker.NpcName}, {closedQuestLine.RewardKeys[0]}>");
             }
             return questCloserDialogue.ToString();
         }

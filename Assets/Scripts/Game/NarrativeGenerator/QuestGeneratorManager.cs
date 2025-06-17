@@ -65,6 +65,10 @@ namespace Game.NarrativeGenerator
         private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
             var playerProfile = ProfileCalculator.CreateProfile(e);
+            if (!ExperimentController.UseRealProfile)
+            {
+                playerProfile.SetAsComplementaryProfile();
+            }
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
 
@@ -73,6 +77,10 @@ namespace Game.NarrativeGenerator
             _fixedProfileFromExperiment = true;//sender.GetType() == typeof(RealTimeLevelSelectManager);
             var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
                 CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
+            if (!ExperimentController.UseRealProfile)
+            {
+                playerProfile.SetAsComplementaryProfile();
+            }
             if (_fixedProfileFromExperiment)
             {
                 await CreateOrLoadNarrativeForProfile(playerProfile);
@@ -90,14 +98,17 @@ namespace Game.NarrativeGenerator
                 var playerProfile = ProfileCalculator.CreateProfile(formAnsweredArgs.AnswerValue,
                     CurrentGeneratorSettings.EnableRandomProfileToPlayer,
                     CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
+                if (!ExperimentController.UseRealProfile)
+                {
+                    playerProfile.SetAsComplementaryProfile();
+                }
                 await CreateOrLoadNarrativeForProfile(playerProfile);
             }
         }
 
         private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
         {
-            var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
-
+            var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentPlayerDataController.CurrentPlayer.CurrentDungeon);
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }     
 

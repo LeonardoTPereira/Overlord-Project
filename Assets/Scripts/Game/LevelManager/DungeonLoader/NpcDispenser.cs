@@ -17,7 +17,7 @@ namespace Game.LevelManager.DungeonLoader
         {
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
-                if (dungeonPart.Value is not DungeonRoom dungeonRoom || dungeonRoom.IsStartRoom()) continue;
+                if (dungeonPart.Value is not DungeonRoom dungeonRoom || dungeonRoom.IsStartRoom() || dungeonRoom.IsFinalRoom()) continue;
                 dungeonRoom.Npcs = new List<NpcSo> {npcQueue.Dequeue()};
                 if (npcQueue.Count > 0) continue;
                 break;
@@ -29,7 +29,7 @@ namespace Game.LevelManager.DungeonLoader
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
                 if (dungeonPart.Value is not DungeonRoom dungeonRoom || dungeonRoom.IsStartRoom() ||
-                    !dungeonRoom.HasItemPreference) continue;
+                    !dungeonRoom.HasItemPreference || dungeonRoom.IsFinalRoom() ) continue;
                 dungeonRoom.Npcs = new List<NpcSo> {npcQueue.Dequeue()};
                 if (npcQueue.Count > 0) continue;
                 break;

@@ -24,7 +24,7 @@ namespace Game.NPCs.PTBR
             questCloserDialogue.Append( "Okay, você mereceu, aqui está a chave que te falei..." );
             if ( closedQuestLine.IsMainQuest )
             {
-                questCloserDialogue.Append($"<completequestline={closedQuestLine.RewardKeys[0]}>");
+                questCloserDialogue.Append($"<completequestline={speaker.NpcName}, {closedQuestLine.RewardKeys[0]}>");
             }
             return questCloserDialogue.ToString();
         }

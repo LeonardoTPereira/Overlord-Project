@@ -41,6 +41,16 @@ namespace Game.LevelManager.DungeonLoader
             BuildRooms(roomSize);
         }
 
+        public void PostProcessMapData()
+        {
+            foreach (KeyValuePair<Coordinates, DungeonPart> partByCoordinates in DungeonPartByCoordinates)
+            {
+                DungeonPart currentPart = partByCoordinates.Value;
+                if (currentPart is not DungeonRoom room) continue;
+                AddDungeonRoomData(room);
+            }
+        }
+
         private void ReadMapFile(DungeonFileSo dungeonFileSo)
         {
             Dimensions = dungeonFileSo.DungeonSizes;
@@ -107,7 +117,6 @@ namespace Game.LevelManager.DungeonLoader
                     roomGeneratorInput.Init(roomDimensions, doorList[0], doorList[1], doorList[2], doorList[3]);
                 }
                 room.CreateRoom(roomDimensions, roomGeneratorInput);
-                AddDungeonRoomData(room);
             }
         }
         

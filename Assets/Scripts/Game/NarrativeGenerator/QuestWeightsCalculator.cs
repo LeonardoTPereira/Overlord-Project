@@ -29,7 +29,8 @@ namespace Game.NarrativeGenerator
     // compleção do mapa, lock used => explorer
         public static float GetCreativityWeight(float previousCreativityWeight, int roomsEntered, int totalRooms, int locksOpened, int totalLocks)
         {
-            float initialWeight = (1/(float)Enums.QuestWeights.Loved) * previousCreativityWeight;
+            float initialWeight = previousCreativityWeight > 0? previousCreativityWeight : 1;
+            initialWeight *= 1/(float)Enums.QuestWeights.Loved;
 
             var roomVisitedRatio = roomsEntered / (float) totalRooms;
             var locksOpenedRatio = locksOpened / (float) totalLocks;
@@ -44,10 +45,11 @@ namespace Game.NarrativeGenerator
         // valor de imersão => % de compleção de quests de imerção
         public static float GetImmersionWeight(float previousImmersionWeight, int completedImmersionQuests, int totalImmersionQuests)
         {
-            //TODO: Make sure the previous weight is in terms of 1, 2, 3, 4
+            // Make sure the previous weight is in terms of 1, 2, 3, 4
 
             float immersionQuestCompletionRatio = completedImmersionQuests / (float) totalImmersionQuests;
-            float initialWeight = (1/(float)Enums.QuestWeights.Loved) * previousImmersionWeight;
+            float initialWeight = previousImmersionWeight > 0 ? previousImmersionWeight : (float)Enums.QuestWeights.Hated;
+            initialWeight *= 1/(float)Enums.QuestWeights.Loved;
 
             float newWeight = GetAdjustedValue( initialWeight, immersionQuestCompletionRatio );
             return GetClampedValue(newWeight);
@@ -56,7 +58,8 @@ namespace Game.NarrativeGenerator
         // todos os dados juntos/ponderação ( enemy kill rate+ revist rate+ %items coletados + completude do mapa) => achiever
         public static float GetAchievementWeight( float previousAchievementWeight, int enemiesKilled, int totalEnemies, int treasuresCollected, int totalTreasure, int roomsEntered, int totalRooms )
         {
-            float initialWeight = ( 1/(float)Enums.QuestWeights.Loved) * previousAchievementWeight;
+            float initialWeight = previousAchievementWeight > 0 ? previousAchievementWeight :1;
+            initialWeight *= 1/(float)Enums.QuestWeights.Loved;
 
             float enemyKillRatio = enemiesKilled / (float) totalEnemies;
             float treasureCollectedRatio = treasuresCollected / (float) totalTreasure;
@@ -71,7 +74,8 @@ namespace Game.NarrativeGenerator
         // combinação/ponderação entre (1 - %vida perdida, quantos inimigos matou) => mastery
         public static float GetMasteryWeight(float previousMasteryWeight, int enemiesKilled, int totalEnemies, int totalLostHealth, int totalHealth)
         {
-            float initialWeight = ( 1/(float)Enums.QuestWeights.Loved) * previousMasteryWeight;
+            float initialWeight = previousMasteryWeight > 0 ? previousMasteryWeight : 1;
+            initialWeight *= 1/(float)Enums.QuestWeights.Loved;
 
             float enemyKillRatio = enemiesKilled / (float) totalEnemies;
             
@@ -102,8 +106,8 @@ namespace Game.NarrativeGenerator
 
         private static float GetClampedValue( float unclampedValue )
         {
-            float clampedValue = Mathf.Min( unclampedValue, (float)Enums.QuestWeights.Loved );
-            clampedValue = Mathf.Max( clampedValue, (float)Enums.QuestWeights.Hated );
+            float clampedValue = Mathf.Min( unclampedValue, 1/(float)Enums.QuestWeights.Loved );
+            clampedValue = Mathf.Max( clampedValue, 1/(float)Enums.QuestWeights.Hated );
             return clampedValue;
         }
     }
