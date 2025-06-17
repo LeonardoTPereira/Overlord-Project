@@ -134,7 +134,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 11
   m_Sprite: {fileID: -4972751862925979688, guid: 0cc1dadde9bc340478e2552f13190f8b,
     type: 3}
@@ -220,7 +220,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 12
   m_Sprite: {fileID: 1723005811108047852, guid: 0cc1dadde9bc340478e2552f13190f8b,
     type: 3}
@@ -318,7 +318,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 5830694933855508796, guid: 0cc1dadde9bc340478e2552f13190f8b,
     type: 3}
@@ -411,22 +411,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e566eb9cb903c064aa74a9a523e3ff74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restTime: 0
-  activeTime: 0
-  movementSpeed: 0
-  <AttackSpeed>k__BackingField: 0
-  <Damage>k__BackingField: 0
   <IndexOnEnemyList>k__BackingField: 0
   <PlayerObj>k__BackingField: {fileID: 0}
   bloodParticle: {fileID: 4373359728856262127}
   <CureParticle>k__BackingField: {fileID: 4077262268631171857}
-  <Movement>k__BackingField: {fileID: 0}
-  walkUntil: 0
-  waitUntil: 0
-  hasMoveDirBeenChosen: 0
-  hasFixedMoveDir: 0
-  dataHasBeenLoaded: 0
-  targetMoveDir: {x: 0, y: 0, z: 0}
+  enemyColorPalette: {fileID: 0}
 --- !u!114 &4148722967960832049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +692,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 9
   m_Sprite: {fileID: 3714404729091230022, guid: 0cc1dadde9bc340478e2552f13190f8b,
     type: 3}

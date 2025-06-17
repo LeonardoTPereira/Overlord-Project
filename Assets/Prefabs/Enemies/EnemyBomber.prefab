@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -187,7 +187,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -272,7 +272,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 13
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -316,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 8771052608593400771}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8771052607850431429}
@@ -366,7 +366,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1691099297
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 1273820153862948882, guid: 8c3d6701abec8af45a6c1ec53f288c16,
     type: 3}
@@ -438,7 +438,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 2, y: 4}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -472,23 +472,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde680a8184144f18fd12f6b28aa7934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restTime: 0
-  activeTime: 0
-  movementSpeed: 0
-  <AttackSpeed>k__BackingField: 0
-  <Damage>k__BackingField: 0
   <IndexOnEnemyList>k__BackingField: 0
   <PlayerObj>k__BackingField: {fileID: 0}
   bloodParticle: {fileID: 6122986778396126422}
   <CureParticle>k__BackingField: {fileID: 3397575686458796893}
-  <Movement>k__BackingField: {fileID: 0}
-  walkUntil: 0
-  waitUntil: 0
-  hasMoveDirBeenChosen: 0
-  hasFixedMoveDir: 0
-  dataHasBeenLoaded: 0
   enemyColorPalette: {fileID: 11400000, guid: 04d92d8f0fd61d84b955af52faf59fe0, type: 2}
-  targetMoveDir: {x: 0, y: 0, z: 0}
   <ProjectileType>k__BackingField: {fileID: 0}
   <ProjectileSpeed>k__BackingField: 0
   <ProjectilePrefab>k__BackingField: {fileID: 0}
