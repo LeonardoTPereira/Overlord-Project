@@ -40,6 +40,7 @@ namespace Game.NarrativeGenerator
         [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
+        public static event ProfileSelectedEvent GameplayProfileSelectedEventHandler;
 
 
         public void OnEnable()
@@ -110,10 +111,16 @@ namespace Game.NarrativeGenerator
         {
             var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentPlayerDataController.CurrentPlayer.CurrentDungeon);
             await CreateOrLoadNarrativeForProfile(playerProfile);
+            GameplayProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }     
 
         private async Task CreateOrLoadNarrativeForProfile(PlayerProfile playerProfile)
         {
+            if ( !ExperimentController.UseRealProfile )
+            {
+                playerProfile.SetAsComplementaryProfile(); 
+            }
+
             if (MustCreateNarrative)
             {
                 questLines = Selector.CreateMissions(CurrentGeneratorSettings);

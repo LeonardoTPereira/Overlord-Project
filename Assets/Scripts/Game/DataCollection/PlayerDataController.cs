@@ -51,7 +51,7 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
             QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
-            QuestGeneratorManager.FixedLevelProfileEventHandler += OnPlayerProfileUpdated;
+            QuestGeneratorManager.GameplayProfileSelectedEventHandler += OnPlayerProfileUpdated;
         }
 
         private void OnDisable()
@@ -80,7 +80,7 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
             QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
-            QuestGeneratorManager.FixedLevelProfileEventHandler -= OnPlayerProfileUpdated;
+            QuestGeneratorManager.GameplayProfileSelectedEventHandler -= OnPlayerProfileUpdated;
         }
 
         private void Awake()
@@ -109,18 +109,18 @@ namespace Game.DataCollection
 
         private void OnProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            CurrentPlayer.SerializedData.PlayerProfile = eventArgs.PlayerProfile;
+            CurrentPlayer.SerializedData.GivenPlayerProfile = eventArgs.PlayerProfile;
         }
 
         private void OnPlayerProfileUpdated(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            CurrentPlayer.SerializedData.PreviousPlayerProfiles.Add( CurrentPlayer.SerializedData.PlayerProfile );
+            CurrentPlayer.SerializedData.PreviousPlayerProfiles.Add( CurrentPlayer.SerializedData.GivenPlayerProfile );
             CurrentPlayer.SerializedData.PlayerProfile = eventArgs.PlayerProfile;
         }
 
         private void OnExperimentProfileSelected(object sender, ProfileSelectedEventArgs eventArgs)
         {
-            CurrentPlayer.SerializedData.GivenPlayerProfile = eventArgs.PlayerProfile;
+            CurrentPlayer.SerializedData.PlayerProfile = eventArgs.PlayerProfile;
         }
 
         private void ResetCombo(object sender, EventArgs eventArgs)

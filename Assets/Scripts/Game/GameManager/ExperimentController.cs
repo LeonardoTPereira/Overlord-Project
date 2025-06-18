@@ -31,7 +31,7 @@ namespace Game.GameManager
 
         public static bool UseRealProfile => _useRealProfile;
         private static bool _useRealProfile;
-        private static bool _hasSetProfileUse = false;
+        private static bool _updatedProfile = false;
 
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
@@ -56,6 +56,8 @@ namespace Game.GameManager
             QuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
             QuestGeneratorManager.QuestLineCreatedEventHandler -= SetQuestLinesForProfile;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+
+            _questLinesListForProfile.Clear();
         }
 
         IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
@@ -76,7 +78,7 @@ namespace Game.GameManager
 
         private bool CanLoadNarrativesToDungeonEntrances(Scene scene)
         {
-            return scene.name == "Overworld";
+            return scene.name == "Overworld" && _questLinesListForProfile.Count > 0;    
         }
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
@@ -104,32 +106,24 @@ namespace Game.GameManager
 
         private void SetQuestLinesForProfile(object sender, QuestLineCreatedEventArgs eventArgs)
         {
-            _questLinesListForProfile = new List<QuestLineList> {eventArgs.QuestLines} ;
+            _questLinesListForProfile = new List<QuestLineList> {eventArgs.QuestLines};
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
-            PlayerProfile selectedProfile;
-
-            // if (sender.GetType() != typeof(RealTimeLevelSelectManager))
+            PlayerProfile selectedProfile = profileSelectedEventArgs.PlayerProfile;
+            if ( !_useRealProfile && !_updatedProfile)
             {
-                if ( !_useRealProfile )
-                {
-                    profileSelectedEventArgs.PlayerProfile.SetAsComplementaryProfile(); 
-                }
+                _updatedProfile = true;
+                selectedProfile.SetAsComplementaryProfile(); 
             }
 
-            selectedProfile = profileSelectedEventArgs.PlayerProfile;
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
         }
 
         private static void SetUseTrueProfile()
         {
-            if ( _hasSetProfileUse )
-                return;
-
             _useRealProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
-            _hasSetProfileUse = true;
         }
     }
 }
