@@ -13,6 +13,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
 
+using Game.GameManager.Player;
+using Game.LevelManager.DungeonManager;
+
 namespace Game.GameManager
 {
     // TODO: Pula tela de level selection e carrega o nível gerado -> ao inves de carregar tela de level select,
@@ -24,14 +27,17 @@ namespace Game.GameManager
     {
         public static event EventHandler StartExperimentGeneratorEventHandler;
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-        
+
         // [SerializeField, MustBeAssigned]
         // private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
+
+        private PlayerProfile selectedProfile;
         private List<QuestLineList> _questLinesListForProfile;
 
         public static bool UseRealProfile => _useRealProfile;
         private static bool _useRealProfile;
         private static bool _updatedProfile = false;
+        private static bool _firstRunCompleted = false;
 
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
@@ -44,20 +50,33 @@ namespace Game.GameManager
 
         private void OnEnable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
             QuestGeneratorManager.FixedLevelProfileEventHandler += LoadDataForExperiment;
             QuestGeneratorManager.QuestLineCreatedEventHandler += SetQuestLinesForProfile;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
+
+            PlayerController.PlayerDeathEventHandler += OnRunComplete;
+            TriforceBhv.GotTriforceEventHandler += OnRunComplete;
         }
 
         private void OnDisable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
             QuestGeneratorManager.QuestLineCreatedEventHandler -= SetQuestLinesForProfile;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 
+            PlayerController.PlayerDeathEventHandler -= OnRunComplete;
+            TriforceBhv.GotTriforceEventHandler -= OnRunComplete;
+
             _questLinesListForProfile.Clear();
+        }
+
+        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "ContentGenerator" && _firstRunCompleted)
+            {
+                StartExperimentGeneratorEventHandler?.Invoke(null, EventArgs.Empty);
+            }
+            StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
         }
 
         IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
@@ -66,19 +85,9 @@ namespace Game.GameManager
             SelectNarrativeAndSetDungeonsToEntrances();
         }
 
-        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-        {
-            if (scene.name == "ContentGenerator")
-            {
-                StartExperimentGeneratorEventHandler?.Invoke(null, EventArgs.Empty);
-            }
-
-            StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
-        }
-
         private bool CanLoadNarrativesToDungeonEntrances(Scene scene)
         {
-            return scene.name == "Overworld" && _questLinesListForProfile.Count > 0;    
+            return scene.name == "Overworld" && _questLinesListForProfile.Count > 0;
         }
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
@@ -106,16 +115,16 @@ namespace Game.GameManager
 
         private void SetQuestLinesForProfile(object sender, QuestLineCreatedEventArgs eventArgs)
         {
-            _questLinesListForProfile = new List<QuestLineList> {eventArgs.QuestLines};
+            _questLinesListForProfile = new List<QuestLineList> { eventArgs.QuestLines };
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
-            PlayerProfile selectedProfile = profileSelectedEventArgs.PlayerProfile;
-            if ( !_useRealProfile && !_updatedProfile)
+            selectedProfile = profileSelectedEventArgs.PlayerProfile;
+            if (!_useRealProfile && !_updatedProfile)
             {
                 _updatedProfile = true;
-                selectedProfile.SetAsComplementaryProfile(); 
+                selectedProfile.SetAsComplementaryProfile();
             }
 
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
@@ -124,6 +133,11 @@ namespace Game.GameManager
         private static void SetUseTrueProfile()
         {
             _useRealProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
+        }
+
+        private void OnRunComplete(object sender, EventArgs eventArgs)
+        {
+            _firstRunCompleted = true;
         }
     }
 }

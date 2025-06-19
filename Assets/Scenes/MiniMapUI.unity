@@ -313,7 +313,7 @@ PrefabInstance:
     - target: {fileID: 8905234274131978997, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.074783325
+      value: 0.07476807
       objectReference: {fileID: 0}
     - target: {fileID: 8905234274131978997, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
@@ -333,7 +333,7 @@ PrefabInstance:
     - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
@@ -342,23 +342,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
+        type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 626.011
       objectReference: {fileID: 0}
     - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 157.6169
+      value: 327.2487
       objectReference: {fileID: 0}
     - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1727
+      value: 1582.0054
       objectReference: {fileID: 0}
     - target: {fileID: 8905234274367241433, guid: a8fcd33f1b0da884ca290fdce3726911,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 113.80844
+      value: 198.62436
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8fcd33f1b0da884ca290fdce3726911, type: 3}
@@ -770,12 +780,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438f2b384b96489ea3d41a60c154b164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 770109cbba2bb474da09f4d3062a9aab, type: 3}
   <FullMap>k__BackingField: {fileID: 106779699}
   <MiniMap>k__BackingField: {fileID: 11300348}
   interactAction: {fileID: 4647015306999821288, guid: 770109cbba2bb474da09f4d3062a9aab,
     type: 3}
   <MinimapCamera>k__BackingField: {fileID: 1413558422}
+  _fullScreenSize: 240
+  _minimapSize: 120
 --- !u!1001 &1413558421
 PrefabInstance:
   m_ObjectHideFlags: 0
