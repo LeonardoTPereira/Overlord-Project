@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.LevelManager.DungeonLoader;
+using Game.GameManager;
 using ScriptableObjects;
 using Util;
 using UnityEngine;
@@ -61,7 +62,7 @@ namespace Game.Maestro
             // The melees with swords that flee from the player are bad enemies
             var fleeMovement = movement == Enums.MovementEnum.Flee;
             var flee1dMovement = movement == Enums.MovementEnum.Flee1D;
-            var b = enemy.weapon.IsSword() && (fleeMovement || flee1dMovement);
+            var b = enemy.weapon.IsSword(GameManagerSingleton.Instance.IsInPortuguese) && (fleeMovement || flee1dMovement);
             return a || b;
         }
 

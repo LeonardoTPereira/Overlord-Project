@@ -9,6 +9,7 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
 using Game.NPCs.PTBR;
+using Game.GameManager;
 
 #if UNITY_EDITOR
 using MyBox;
@@ -22,7 +23,7 @@ namespace Game.NPCs
     public class NpcController : QuestDialogueInteraction
     {
         public static event EventHandler NpcInteraction;
-        [field: SerializeField] private bool isInPortuguese = false;
+        private bool isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
         public List<ExchangeQuestData> ExchangeDataList { get; set; }
         public List<GiveQuestData> GiveDataList { get; set; }
@@ -32,6 +33,7 @@ namespace Game.NPCs
 
         protected override void Awake()
         {
+            isInPortuguese = GameManagerSingleton.Instance.IsInPortuguese;
             base.Awake();
             ExchangeDataList = new List<ExchangeQuestData>();
             GiveDataList = new List<GiveQuestData>();

@@ -4,6 +4,7 @@ using UnityEngine;
 using ScriptableObjects;
 using System;
 using Fog.Dialogue;
+using Game.GameManager;
 
 namespace Game
 {
@@ -28,7 +29,7 @@ namespace Game
         public void SetItemInfo(ReadableItemSo item, int questId)
         {
             _questDialogue.DialogueObj = item;
-            _questDialogue.DialogueLine = item.SetRandomText();
+            _questDialogue.DialogueLine = item.SetRandomText(GameManagerSingleton.Instance.IsInPortuguese);
             _questDialogue.QuestId = questId;
 
             itemSprite.sprite = item.sprite;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Game.GameManager;
 using ScriptableObjects;
 using System;
 using System.Text;
@@ -74,8 +75,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                var spriteString = enemyByAmount.Key.GetEnemySpriteString();
-                stringBuilder.Append($"{enemyByAmount.Key.RealTypeName()}s {spriteString}, ");
+                var spriteString = enemyByAmount.Key.GetEnemySpriteString( GameManagerSingleton.Instance.IsInPortuguese );
+                stringBuilder.Append($"{enemyByAmount.Key.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )}s {spriteString}, ");
             }
 
             if (stringBuilder.Length == 0)
@@ -109,8 +110,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                var spriteString = enemyByAmount.Key.GetEnemySpriteString();
-                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.RealTypeName()}s {spriteString}, ");
+                var spriteString = enemyByAmount.Key.GetEnemySpriteString( GameManagerSingleton.Instance.IsInPortuguese );
+                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )}s {spriteString}, ");
             }
 
             if (stringBuilder.Length == 0)

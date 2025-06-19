@@ -7,7 +7,6 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "ItemSO", menuName = "Items/Item"), Serializable]
     public class ItemSo : ScriptableObject
     {
-        [SerializeField] protected bool _isInPortuguese = false;
         [SerializeField]
         public Sprite sprite;
         [field: SerializeField] public String ItemName { get; set; }
