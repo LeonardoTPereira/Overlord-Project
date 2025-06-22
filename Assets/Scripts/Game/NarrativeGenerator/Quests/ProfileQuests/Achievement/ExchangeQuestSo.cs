@@ -149,24 +149,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             string spriteString;
             foreach (var itemByAmount in ItemsToExchangeByType)
             {                
-                spriteString = itemByAmount.Key.GetGemstoneSpriteString();
-                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
+                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
             stringBuilder.Remove(stringBuilder.Length - 2, 2);
 
             if (GameManagerSingleton.Instance.IsInPortuguese)
             {
                 stringBuilder.Append($" com {Npc.NpcName}.\n");
-
-                spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
-                stringBuilder.Append($"Voc� receber� dele o {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+                stringBuilder.Append($"Voc� receber� dele o {ExchangeData.ReceivedItem.ItemName}");
             }
             else
             {
                 stringBuilder.Append($" with {Npc.NpcName}.\n");
-            
-                spriteString = ExchangeData.ReceivedItem.GetToolSpriteString();
-                stringBuilder.Append($"They'll give you a {ExchangeData.ReceivedItem.ItemName} {spriteString}!");
+                stringBuilder.Append($"They'll give you a {ExchangeData.ReceivedItem.ItemName}!");
             }
             
             QuestText = stringBuilder.ToString();

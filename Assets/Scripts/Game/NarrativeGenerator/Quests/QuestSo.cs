@@ -38,6 +38,9 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeField] public bool IsOpened { get; set; }
         [field: SerializeField] public string QuestText { get; set; }
         private bool _canDrawNext;
+
+        // TODO: make all quest Sos have this info; right now only a few have it
+        public NpcSo NpcInCharge { get; set; }
         public QuestSo Next { get => next; set => next = value; }
         public QuestSo Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }

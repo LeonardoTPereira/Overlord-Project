@@ -187,17 +187,18 @@ namespace Game.NarrativeGenerator
 
         private void SetQuestLineListForProfile(PlayerProfile playerProfile)
         {
-            if (playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
-                    playerProfile.PlayerProfileEnum.ToString(), out var questLinesForProfile))
-            {
-                _questLineListsForProfile = questLinesForProfile;
-            }
-            else
-            {
-                _questLineListsForProfile = new List<QuestLineList>();
-                _questLineListsForProfile.Add(questLines);
-                playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLineListsForProfile);
-            }
+            _questLineListsForProfile = new List<QuestLineList> { Selector.CreateMissions(CurrentGeneratorSettings) };
+            // if (playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
+            //         playerProfile.PlayerProfileEnum.ToString(), out var questLinesForProfile))
+            // {
+            //     _questLineListsForProfile = questLinesForProfile;
+            // }
+            // else
+            // {
+            //     _questLineListsForProfile = new List<QuestLineList>();
+            //     _questLineListsForProfile.Add(questLines);
+            //     playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLineListsForProfile);
+            // }
         }
 
         private void CreateGeneratorParametersForQuestLine(PlayerProfile playerProfile)

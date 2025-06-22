@@ -77,7 +77,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 listenQuest.Init("Fale com "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             else
                 listenQuest.Init("Talk to " + selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-
+            listenQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = listenQuest;
@@ -139,7 +139,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 reportQuest.Init("Retorne e reporte para "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             else
                 reportQuest.Init("Report back to " + selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-
+            reportQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = reportQuest;

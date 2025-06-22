@@ -117,7 +117,7 @@ namespace Game.NarrativeGenerator.Quests
             Debug.Log("complete current quest");
             var currentQuest = GetCurrentQuest();
             QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
-            if ( CurrentQuestIndex == 0 )
+            if ( currentQuest == null )
             {
                 Debug.Log("invoke questline completion");                    
                 QuestLineCompletedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
