@@ -42,9 +42,10 @@ namespace Game.NPCs
         public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)
         {
             var questExchangeDialogue = new StringBuilder();
-            questExchangeDialogue.Append("You really got all the items.");
+
+            questExchangeDialogue.Append($"{quest.NpcInCharge} sent you to deliver me this {quest.GetItemString()}? ");
             var spriteString = quest.ExchangeData.ReceivedItem.GetToolSpriteString();
-            questExchangeDialogue.Append($"Take this {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} as a reward!");
+            questExchangeDialogue.Append($"Take this {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} for your troubles.");
             questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
             return questExchangeDialogue.ToString();
         }

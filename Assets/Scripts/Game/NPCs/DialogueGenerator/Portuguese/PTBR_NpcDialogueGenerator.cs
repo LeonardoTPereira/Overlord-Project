@@ -42,9 +42,10 @@ namespace Game.NPCs.PTBR
         public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)
         {
             var questExchangeDialogue = new StringBuilder();
-            questExchangeDialogue.Append("Você pegou tudo que eu precisava.");
+
+            questExchangeDialogue.Append($"{quest.NpcInCharge} te enviou para me entregar esse/a(s) {quest.GetItemString()}? ");
             var spriteString = quest.ExchangeData.ReceivedItem.GetToolSpriteString();
-            questExchangeDialogue.Append($"Pegue isso {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} como recompensa!");
+            questExchangeDialogue.Append($"Pegue esse/a {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} como recompensa do seu trabalho.");
             questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");
             return questExchangeDialogue.ToString();
         }
