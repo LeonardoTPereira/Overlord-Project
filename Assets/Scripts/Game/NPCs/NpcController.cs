@@ -72,6 +72,7 @@ namespace Game.NPCs
             var quest = eventArgs.Quest;
             var npcInCharge = eventArgs.NpcInCharge;
             CreateQuestOpenedDialogue(quest, npcInCharge);
+            CreateQuestTargetDialogueCheckPoint(quest, npcInCharge);
         }
 
         protected override bool IsTarget(QuestSo questSo)
@@ -114,9 +115,17 @@ namespace Game.NPCs
             return questNpc;
         }
 
+        private void CreateQuestTargetDialogueCheckPoint(QuestSo quest, NpcSo npcInCharge)
+        {
+            if (!IsTarget(quest))
+                return;
+            string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest, npcInCharge);
+            dialogue.AddDialogue(Npc.DialogueData, checkPointLine, false, -1, true);
+        }
+
         private void CreateQuestLineCompltedDialogue(object sender, NewQuestLineEventArgs eventArgs)
         {
-            if (eventArgs.NpcInCharge != Npc ) return;
+            if (eventArgs.NpcInCharge != Npc) return;
             if (!eventArgs.IsMainQuestLine) return;
             dialogue.StopDialogueFromQuest(-1);
 
@@ -136,12 +145,7 @@ namespace Game.NPCs
             var questId = eventArgs.Quest.Id;
             dialogue.StopDialogueFromQuest(questId);
 
-            string closerLine;
-            if (isInPortuguese)
-                closerLine = PTBR_NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
-            else
-                closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
-
+            string closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
             dialogue.AddDialogue(Npc.DialogueData, closerLine, false, questId, true);
         }
 
@@ -163,12 +167,7 @@ namespace Game.NPCs
         {
             if (npcInCharge != Npc) return;
 
-            string openerLine;
-            if (isInPortuguese)
-                openerLine = PTBR_NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
-            else
-                openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
-
+            string openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
             var questId = quest.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, true, questId);
         }
