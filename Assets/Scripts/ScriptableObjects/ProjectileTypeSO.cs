@@ -14,7 +14,10 @@ namespace ScriptableObjects
         public int damage;
         public float atkSpeed, moveSpeed;
         public Enums.PlayerProjectileEnum projectileBehaviorIndex;
-        public string projectileName, description;
+        public string ProjectileName (bool IsInPortuguese)=> IsInPortuguese ? ptProjectileName : enProjectileName;
+        public string Description (bool IsInPortuguese) => IsInPortuguese ? ptDescription : enDescription;
+        public string ptProjectileName, ptDescription;
+        public string enProjectileName, enDescription;
         public Color color;
 
         public void Copy(ProjectileTypeSO projectileTypeSo)
@@ -22,12 +25,14 @@ namespace ScriptableObjects
             color = projectileTypeSo.color;
             projectilePrefab = projectileTypeSo.projectilePrefab;
             damage = projectileTypeSo.damage;
-            description = projectileTypeSo.description;
             multiplier = projectileTypeSo.multiplier;
             atkSpeed = projectileTypeSo.atkSpeed;
             moveSpeed = projectileTypeSo.moveSpeed;
             projectileBehaviorIndex = projectileTypeSo.projectileBehaviorIndex;
-            projectileName = projectileTypeSo.projectileName;
+            enDescription = projectileTypeSo.enDescription;
+            enProjectileName = projectileTypeSo.enProjectileName;
+            ptDescription = projectileTypeSo.ptDescription;
+            ptProjectileName = projectileTypeSo.ptProjectileName;
         }
     }
 }

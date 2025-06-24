@@ -3186,11 +3186,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1516576439373387157}
     m_Modifications:
+    - target: {fileID: 1538520585472313924, guid: 78d694590dacf1a40be3e9c877756b38,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538520585579376296, guid: 78d694590dacf1a40be3e9c877756b38,
+        type: 3}
+      propertyPath: m_Name
+      value: Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538520585579376302, guid: 78d694590dacf1a40be3e9c877756b38,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538520586375513747, guid: 78d694590dacf1a40be3e9c877756b38,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 1538520586512305620, guid: 78d694590dacf1a40be3e9c877756b38,
         type: 3}
       propertyPath: nextPanel
       value: 
-      objectReference: {fileID: 1516576439594577735}
+      objectReference: {fileID: 1517411849573018956}
     - target: {fileID: 1538520586512305620, guid: 78d694590dacf1a40be3e9c877756b38,
         type: 3}
       propertyPath: previousPanel
@@ -3200,6 +3220,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PanelIntro2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538520586512305621, guid: 78d694590dacf1a40be3e9c877756b38,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1538520586512305625, guid: 78d694590dacf1a40be3e9c877756b38,
         type: 3}
@@ -3320,6 +3345,59 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 23110011072561579}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1516576441253883651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1538520585579376296, guid: 78d694590dacf1a40be3e9c877756b38,
+    type: 3}
+  m_PrefabInstance: {fileID: 23110011072561579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6971985194132124458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516576441253883651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1516576441253883653}
+  _enText: This game's goal is to evaluate the software. Any and all action taken
+    by you, the player, is important and valid. By no means your personal performance
+    will be evaluated, only the game and its mechanics and contents.  We will show
+    you a questionnaire before the game begins and after each level, or when you
+    decide to give up a given dungeon. Please, answer with sincerity. And, if you
+    want to collaborate with our research, do not forget to answer before leaving
+    the game, be it after completing a level or after giving up.  We will collect
+    some informations about the game when you play. But no personal data will be
+    collected. All data is anonymous and randomized.  By clicking "Next" you agree
+    that we may collect these anonymous data about the game, by means of aiding our
+    research, as well as collecting and using your answers from the questionnaires.
+  _ptText: "Este jogo tem como objetivo avaliar o projeto de software desenvolvido.
+    Toda e qualquer a\xE7\xE3o que voc\xEA, jogador, realizar \xE9 importante e v\xE1lida.
+    Em nenhum momento o seu desempenho pessoal estar\xE1 sendo avaliado, apenas o
+    jogo e suas mec\xE2nicas.  Um formul\xE1rio ser\xE1 apresentado para voc\xEA
+    antes de iniciar o jogo e ao final de cada n\xEDvel ou quando desejar parar ao
+    morrer no jogo. Responda com sinceridade. E n\xE3o deixe de responder antes de
+    sair do jogo, seja vitorioso ou n\xE3o, caso queira colaborar com a pesquisa. 
+    N\xF3s iremos coletar algumas informa\xE7\xF5es sobre o jogo enquanto voc\xEA
+    joga. Mas nada pessoal. Tudo anonimamente!  Clicando em Continuar voc\xEA concorda
+    que dados an\xF4nimos sobre o jogo sejam coletados para fins dessa pesquisa,
+    assim como suas respostas."
+--- !u!114 &1516576441253883653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1538520585579376302, guid: 78d694590dacf1a40be3e9c877756b38,
+    type: 3}
+  m_PrefabInstance: {fileID: 23110011072561579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516576441253883651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &617120605460695318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3487,6 +3565,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PanelIntro3
       objectReference: {fileID: 0}
+    - target: {fileID: 2133446008511522385, guid: b88e29bedfa60264a86bf4d44e18877a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2133446008856835499, guid: b88e29bedfa60264a86bf4d44e18877a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3600,6 +3683,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c0518853ef13f80479bbb62fda7ae4d4,
         type: 2}
+    - target: {fileID: 114178724596801218, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: checkboxPrefab
+      value: 
+      objectReference: {fileID: 1682351134811150, guid: e568e9770b129f645a7613baee9c23a1,
+        type: 3}
+    - target: {fileID: 114178724596801218, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: enQuestionsData
+      value: 
+      objectReference: {fileID: 11400000, guid: c0518853ef13f80479bbb62fda7ae4d4,
+        type: 2}
+    - target: {fileID: 114178724596801218, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: ptQuestionsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 87e2b39734d847449676485068bcf58a,
+        type: 2}
     - target: {fileID: 114370578966670140, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_Color.b
@@ -3681,6 +3782,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.28635636
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847156852292238, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114865303592098710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -3780,22 +3891,22 @@ PrefabInstance:
     - target: {fileID: 224068914108243086, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224068914108243086, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 224157419813732954, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224157419813732954, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224157419813732954, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
@@ -3940,72 +4051,77 @@ PrefabInstance:
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 565
+      value: 3525
       objectReference: {fileID: 0}
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 287.5
+      value: 1767.5
       objectReference: {fileID: 0}
     - target: {fileID: 224658346757309678, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 224672997396575122, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224672997396575122, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224672997396575122, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.53825897
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224726318706616710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224726318706616710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224726318706616710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 224726318706616710, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224744115538494752, guid: e46c17472ef960548873b1a29ce0671a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000018626884
       objectReference: {fileID: 0}
     - target: {fileID: 224814376313921434, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224814376313921434, guid: e46c17472ef960548873b1a29ce0671a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46c17472ef960548873b1a29ce0671a, type: 3}
@@ -4039,7 +4155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7bfb0321c02b8d4c9c86722921b997e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPanel: {fileID: 0}
+  previousPanel: {fileID: 1516576440018881662}
   nextPanel:
     Scene: {fileID: 102900000, guid: 212556bf9107fd24fadd1adee7955969, type: 3}
     SceneName: ContentGenerator
@@ -4176,7 +4292,7 @@ PrefabInstance:
     - target: {fileID: 7515122774438070003, guid: 56ff30c74af515243bed16cefadfde0c,
         type: 3}
       propertyPath: m_text
-      value: 'This game is a part of a doctorate research project which has the objective
+      value: 'This game is a part of a masters research project which has the objective
         of making the player explore different levels, with different enemies and
         collect gameplay data.
 
@@ -4185,16 +4301,16 @@ PrefabInstance:
         keys which open locked doors.
 
 
-        Use "WASD" to move, the "keys" to
-        shoot and "X" to interact with NPCs and objects.
+        Use "WASD" to move, the arrow keys
+        to shoot and "X" to interact with NPCs and objects.
 
 
-        Don''t worry about
-        going the wrong way, the time or the amount of deaths :)
+        Don''t worry
+        about going the wrong way, the time or the amount of deaths :)
 
 
-        To win
-        the game, you must find the item below:'
+        To
+        win the game, you must find the item below:'
       objectReference: {fileID: 0}
     - target: {fileID: 7515122774438070003, guid: 56ff30c74af515243bed16cefadfde0c,
         type: 3}
@@ -4215,6 +4331,83 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56ff30c74af515243bed16cefadfde0c, type: 3}
+--- !u!1 &1516576439931873962 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7515122774826212133, guid: 56ff30c74af515243bed16cefadfde0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 9025462574055649679}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &165402661570912371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516576439931873962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1516576439931873964}
+  _enText: Next
+  _ptText: Continuar
+--- !u!114 &1516576439931873964 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7515122774826212131, guid: 56ff30c74af515243bed16cefadfde0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 9025462574055649679}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516576439931873962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1516576440621938554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7515122774438070005, guid: 56ff30c74af515243bed16cefadfde0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 9025462574055649679}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1198226129210581854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516576440621938554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1516576440621938556}
+  _enText: 'This game is a part of a masters research project which has the objective
+    of making the player explore different levels, with different enemies and collect
+    gameplay data.  You must navigate through the level, finding keys which open
+    locked doors.  Use "WASD" to move, the arrow keys to shoot and "X" to interact
+    with NPCs and objects.  Don''t worry about going the wrong way, the time or the
+    amount of deaths :)  To win the game, you must find the item below:'
+  _ptText: "Este jogo faz parte de um projeto de pesquisa de mestrado cujo objetivo
+    \xE9 levar o jogador a explorar diferentes n\xEDveis, com diferentes inimigos,
+    e coletar dados de jogabilidade.  Voc\xEA deve navegar pelo n\xEDvel, encontrando
+    chaves que abrem portas trancadas.  Use as teclas WASD para se mover, as setas
+    do teclado para atirar e o X para interagir com NPCs e objetos.  N\xE3o se preocupe
+    em ir pelo caminho errado, com o tempo ou com a quantidade de mortes :)  Para
+    vencer o jogo, voc\xEA deve encontrar o item abaixo:"
+--- !u!114 &1516576440621938556 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7515122774438070003, guid: 56ff30c74af515243bed16cefadfde0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 9025462574055649679}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516576440621938554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1516576440918953186 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7515122773662383469, guid: 56ff30c74af515243bed16cefadfde0c,

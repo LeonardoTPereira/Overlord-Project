@@ -1,9 +1,11 @@
 namespace Game.NPCs
 {
+    //TODO
     public class ReportQuestCheckPoint : QuestDialogue
     {
-        protected override string [] lowSocialDialogues {
-            get => new string [] {
+        protected override string[] lowSocialDialogues
+        {
+            get => new string[] {
             "Ugh, so you actually did it... Well, I guess the other NPC knows now. Don’t expect me to be all grateful, but... fine, thanks.",
             "Took you long enough, huh? At least the info’s with them now. I didn’t think you'd follow through, but here we are.",
             "Well, it’s done. You passed the message. I’ll give you credit where it’s due... just don’t expect me to cheer for you.",
@@ -17,8 +19,9 @@ namespace Game.NPCs
             };
         }
 
-        protected override string [] averageSocialDialogues {
-            get => new string [] {
+        protected override string[] averageSocialDialogues
+        {
+            get => new string[] {
             "Thanks for passing that along to them. I’m sure it’ll make things easier for everyone. Nice work!",
             "Good job! They’ve got the info now. I appreciate you taking the time to report it back.",
             "Thanks for handling that. I’m sure they’ll appreciate the details. You've been a real help.",
@@ -32,8 +35,9 @@ namespace Game.NPCs
             };
         }
 
-        protected override string [] highSocialDialogues {
-            get => new string [] {
+        protected override string[] highSocialDialogues
+        {
+            get => new string[] {
             "Oh, fantastic! You’ve really done us a solid, getting that info to them. I’m sure they’ll be thrilled to know what you’ve uncovered. Great job!",
             "Well, look at you! Passing along important info like that—now they can get to work on it. I’m sure it’ll help a ton. Thanks a million!",
             "You didn’t waste any time, did you? I’m sure they’ll be so relieved to have all the details. You’re really making a difference around here!",

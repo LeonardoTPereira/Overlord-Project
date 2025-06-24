@@ -19,6 +19,10 @@ MonoBehaviour:
   atkSpeed: 8
   moveSpeed: 16
   projectileBehaviorIndex: 0
-  projectileName: Metralhadora
-  description: Atira rapidamente um tiro mais fraco
+  projectileName: 
+  description: 
+  ptProjectileName: Metralhadora
+  ptDescription: Atira rapidamente um tiro mais fraco
+  enProjectileName: 
+  enDescription: 
   color: {r: 0, g: 0.8746934, b: 1, a: 1}

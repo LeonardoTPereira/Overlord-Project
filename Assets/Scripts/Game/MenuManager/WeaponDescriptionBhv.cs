@@ -36,14 +36,14 @@ namespace Game.MenuManager
             string str = "";
             if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
             {
-                str += "\"" + weaponSo.description + "\"\n";
+                str += "\"" + weaponSo.Description(true) + "\"\n";
                 str += "Dano: " + weaponSo.damage + "\n";
                 str += "Velocidade do projétil: " + weaponSo.moveSpeed + "\n";
                 str += "Velocidade de ataque: " + weaponSo.atkSpeed + "\n";
             }
             else
             {
-                str += "\"" + weaponSo.description + "\"\n";
+                str += "\"" + weaponSo.Description(false) + "\"\n";
                 str += "Damage: " + weaponSo.damage + "\n";
                 str += "Bullet Speed: " + weaponSo.moveSpeed + "\n";
                 str += "Attack Speed: " + weaponSo.atkSpeed + "\n";

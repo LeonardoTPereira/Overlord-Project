@@ -1,9 +1,11 @@
 namespace Game.NPCs
 {
+    //TODO
     public class ListenQuestCheckPoint : QuestDialogue
     {
-        protected override string [] lowSocialDialogues {
-            get => new string [] {
+        protected override string[] lowSocialDialogues
+        {
+            get => new string[] {
             "Alright, fine… thanks for listening to {questSo.GetTargetNpc()}. Saves me the trouble, I guess.",
             "Hmph. I suppose I should thank you for dealing with {questSo.GetTargetNpc()}. They do go on, don't they?",
             "Well, you actually listened to [NPC Name?] Guess I owe you a thanks for that.",
@@ -15,8 +17,9 @@ namespace Game.NPCs
             };
         }
 
-        protected override string [] averageSocialDialogues {
-            get => new string [] {
+        protected override string[] averageSocialDialogues
+        {
+            get => new string[] {
             "Thanks for listening to {questSo.GetTargetNpc()}. They needed that, and I know it made a difference.",
             "It means a great deal that you listened to {questSo.GetTargetNpc()}. Not many would take the time.",
             "Thank you for showing {questSo.GetTargetNpc()} such patience. They needed someone like you to hear them.",
@@ -27,8 +30,9 @@ namespace Game.NPCs
             };
         }
 
-        protected override string [] highSocialDialogues {
-            get => new string [] {
+        protected override string[] highSocialDialogues
+        {
+            get => new string[] {
             "Oh, thank you so much for listening to {questSo.GetTargetNpc()}! They have the most fascinating stories, don’t they?",
             "You listened to {questSo.GetTargetNpc()}? Wonderful! Aren’t they just a treasure trove of information?",
             "Thank you, thank you! {questSo.GetTargetNpc()} has such interesting things to say, and I knew you’d appreciate it!",
