@@ -18,21 +18,21 @@ namespace Game.NarrativeGenerator
 
         public static PlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
         {
-            if (enableRandomProfileToPlayer)
-            {
-                if (RandomSingleton.GetInstance().Random.Next(100) < probabilityToGetTrueProfile)
-                {
+            // if (enableRandomProfileToPlayer)
+            // {
+            //     if (RandomSingleton.GetInstance().Random.Next(100) < probabilityToGetTrueProfile)
+            //     {
                     CalculateProfileWeights(answers);
-                }
-                else
-                {
-                    CalculateFakeProfile(answers);
-                }
-            }
-            else
-            {
-                CalculateProfileWeights(answers);
-            }
+            //     }
+            //     else
+            //     {
+            //         CalculateFakeProfile(answers);
+            //     }
+            // }
+            // else
+            // {
+            //     CalculateProfileWeights(answers);
+            // }
             return CreateProfileWithWeights();
         }
         
@@ -66,7 +66,6 @@ namespace Game.NarrativeGenerator
                     playerData.SerializedData.EnemiesKilled,
                     playerData.SerializedData.TotalEnemies,
                     playerData.SerializedData.TotalLostHealth,
-                    //TODO: COLLECT INITIAL HEALTH
                     playerData.SerializedData.InitialHealth
                 );
 

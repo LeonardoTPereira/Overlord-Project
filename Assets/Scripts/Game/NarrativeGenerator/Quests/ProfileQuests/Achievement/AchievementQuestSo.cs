@@ -95,8 +95,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var selectedItem = itemsToGive.GetRandomItem();
             exchangedItems.AddItemWithId(selectedItem, questId);
             var receivedItem = itemsToReceive.GetRandomItem();
-            possibleNpcSos.Remove(npcInCharge);
-            var selectedNpc = possibleNpcSos.GetRandom();
+
+            var npcCopy = new List<NpcSo>();
+            npcCopy.AddRange( possibleNpcSos );
+            npcCopy.Remove(npcInCharge);
+
+            var selectedNpc = npcCopy.GetRandom();
 
             if (GameManagerSingleton.Instance.IsInPortuguese)
                 exchangeQuest.Init($"Troque o item {selectedItem} com {selectedNpc} para receber uma recompensa!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);

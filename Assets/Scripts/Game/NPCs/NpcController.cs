@@ -72,7 +72,6 @@ namespace Game.NPCs
             var quest = eventArgs.Quest;
             var npcInCharge = eventArgs.NpcInCharge;
             CreateQuestOpenedDialogue(quest, npcInCharge);
-            CreateQuestTargetDialogueCheckPoint(quest, npcInCharge);
         }
 
         protected override bool IsTarget(QuestSo questSo)
@@ -115,12 +114,10 @@ namespace Game.NPCs
             return questNpc;
         }
 
-        private void CreateQuestTargetDialogueCheckPoint(QuestSo quest, NpcSo npcInCharge)
+        private void CreateQuestTargetDialogueCheckPoint(QuestSo quest)
         {
-            if (!IsTarget(quest))
-                return;
-            string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest, npcInCharge);
-            dialogue.AddDialogue(Npc.DialogueData, checkPointLine, false, -1, true);
+            string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest);
+            dialogue.AddDialogue(Npc.DialogueData, checkPointLine, false, quest.Id);
         }
 
         private void CreateQuestLineCompltedDialogue(object sender, NewQuestLineEventArgs eventArgs)
@@ -248,6 +245,11 @@ namespace Game.NPCs
                 var quest = _assignedQuestsQueue.Dequeue();
                 switch (quest)
                 {
+                    case ReportQuestSo reportQuestSo:
+                    case ListenQuestSo listenQuestSo:
+                        CreateQuestTargetDialogueCheckPoint(quest);
+                        incompleteQuestQueue.Enqueue(quest);
+                        continue;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {

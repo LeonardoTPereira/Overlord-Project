@@ -58,7 +58,7 @@ namespace Game.NPCs
                     .Replace("{questSo.GetRoomCoordinates()}", quest.GetRoomCoordinates())
                     .Replace("{questSo.GetEnemyAmountString()}", quest.GetEnemyAmountString())
                     .Replace("{questSo.GetEnemyString()}", quest.GetEnemyString())
-                    
+                    .Replace("{questSo.GetOwnerNpc}",quest.GetOwnerNpc())
                 );
             return createdDialogue.ToString();
         }

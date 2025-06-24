@@ -168,6 +168,11 @@ namespace Game.NarrativeGenerator.Quests
             Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy string");
             return "";
         }
+
+        public string GetOwnerNpc()
+        {
+            return NpcInCharge.NpcName;
+        }
         
 
         public override string ToString()
