@@ -15,5 +15,6 @@ namespace Game.EnemyGenerator
         public int numberOfCompetitors = 2;
         public int numberOfDesiredElitesPerEnemy = 3;
         public float minimumAcceptableFitnessPerEnemy = 0.5f;
+        public float difficulty;
     }
 }
