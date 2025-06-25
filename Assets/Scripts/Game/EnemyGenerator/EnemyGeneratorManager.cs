@@ -15,6 +15,8 @@ namespace Game.EnemyGenerator
 
         [field: SerializeField] public bool IsEnable { get; set; } = false;
 
+        [SerializeField]
+        private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
         /// Evolutionary parameters
         [SerializeField] private int maxGenerations = 500;
         [SerializeField] private int initialPopulationSize = 35;
