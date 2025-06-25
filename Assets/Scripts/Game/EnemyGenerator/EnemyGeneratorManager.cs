@@ -15,6 +15,8 @@ namespace Game.EnemyGenerator
 
         [field: SerializeField] public bool IsEnable { get; set; } = false;
 
+        [SerializeField]
+        private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
         /// Evolutionary parameters
         [SerializeField] private int maxGenerations = 500;
         [SerializeField] private int initialPopulationSize = 35;
@@ -71,23 +73,14 @@ namespace Game.EnemyGenerator
                     return EnemyUtil.mediumDifficulty;
             }
         }
-
+        
         public List<EnemySO> EvolveEnemies(DifficultyLevels difficultyLevels)
         {
             difficulty = difficultyLevels;
             var goal = GetDesiredDifficulty();
-            var prs = new Parameters(
-                maxGenerations, // Number of generations
-                initialPopulationSize, // Initial population size
-                intermediatePopulationSize, // Intermediate population size
-                mutationRate, // Mutation chance
-                geneMutationRate, // Mutation chance of a single gene
-                numberOfCompetitors, // Number of tournament competitors
-                numberOfDesiredElitesPerEnemy,
-                minimumAcceptableFitnessPerEnemy,
-                goal // Aimed difficulty of enemies
-            );
-            generator = new EnemyGenerator(prs);
+            geneticAlgorithmSettings.difficulty = goal;
+
+            generator = new EnemyGenerator(geneticAlgorithmSettings);
             generator.Evolve();
             return CreateSoBestEnemies();
         }

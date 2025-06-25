@@ -7,7 +7,7 @@ namespace Game.EnemyGenerator
     [Serializable]
     public struct Data
     {
-        public Parameters parameters { get; set; }
+        public EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings { get; set; }
         public double duration { get; set; }
         public List<Individual> initial { get; set; }
         public List<Individual> intermediate { get; set; }

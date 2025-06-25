@@ -12,6 +12,8 @@ namespace Game.EnemyGenerator
         VeryHard
     }
 
+    // TODO: Retirar esses valores e torná-los editavel no Inspector
+    // TODO: Tornar esses valores específicos para o jogo top-down e criar um para o jogo de plataforma
     public static class EnemyUtil
     {
         //The population size of the EA
@@ -35,7 +37,5 @@ namespace Game.EnemyGenerator
         public const float maxRestTime = 1.5f;
         public const float minProjectileSpeed = 1;
         public const float maxProjectileSpeed = 4;
-
-
     }
 }
