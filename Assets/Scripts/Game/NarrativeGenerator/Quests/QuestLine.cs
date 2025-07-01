@@ -31,6 +31,8 @@ namespace Game.NarrativeGenerator.Quests
         public static event QuestCompletedEvent QuestCompletedEventHandler;
         public static event QuestOpenedEvent QuestOpenedEventHandler;
         public static event QuestElementEvent AllowExchangeEventHandler;
+        // Check point dialogue, might not be the best name but I'm sleepy
+        public static event QuestElementEvent AllowCheckPointEventHandler;
         public static event QuestElementEvent AllowGiveEventHandler;
 
         public void Init()
@@ -97,7 +99,15 @@ namespace Game.NarrativeGenerator.Quests
 
                 switch (questSo)
                 {
-                    case ExchangeQuestSo {HasItems: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false} exchangeQuestSo:
+                    case ListenQuestSo { HasCreatedDialogue: false } listenQuestSo:
+                        listenQuestSo.HasCreatedDialogue = true;
+                        AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs( listenQuestSo ));
+                        break;
+                    case ReportQuestSo { HasCreatedDialogue: false } reportQuestSo:
+                        reportQuestSo.HasCreatedDialogue = true;
+                        AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs(reportQuestSo));
+                        break;
+                    case ExchangeQuestSo { HasItems: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } exchangeQuestSo:
                         exchangeQuestSo.HasCreatedDialogue = true;
                         AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                         break;

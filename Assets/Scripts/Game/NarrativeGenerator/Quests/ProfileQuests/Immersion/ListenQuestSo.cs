@@ -17,17 +17,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         //No NPCSo directly. It must be only the job/race, defined using some method based on the next quest
         public NpcSo Npc { get; set; }
+        public bool HasCreatedDialogue { get; set; }
 
         public override void Init()
         {
             base.Init();
             Npc = null;
+            HasCreatedDialogue = false;
         }
 
         public void Init(string questName, bool endsStoryLine, QuestSo previous, NpcSo npc)
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
+            HasCreatedDialogue = false;
         }
 
         public override void Init(QuestSo copiedQuest)
@@ -37,6 +40,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (listenQuest != null)
             {
                 Npc = listenQuest.Npc;
+                HasCreatedDialogue = listenQuest.HasCreatedDialogue;
             }
             else
             {

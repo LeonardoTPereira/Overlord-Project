@@ -45,6 +45,7 @@ namespace Game.NPCs
             QuestLine.QuestLineCompletedEventHandler += CreateQuestLineCompltedDialogue;
 
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+            QuestLine.AllowCheckPointEventHandler += CreateQuestTargetDialogueCheckPoint;
             QuestLine.AllowExchangeEventHandler += CreateExchangeDialogue;
             QuestLine.AllowGiveEventHandler += CreateGiveDialogue;
 
@@ -58,6 +59,7 @@ namespace Game.NPCs
             QuestLine.QuestLineCompletedEventHandler -= CreateQuestLineCompltedDialogue;
 
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+            QuestLine.AllowCheckPointEventHandler -= CreateQuestTargetDialogueCheckPoint;
             QuestLine.AllowExchangeEventHandler -= CreateExchangeDialogue;
             TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler -= GiveItems;
@@ -114,8 +116,10 @@ namespace Game.NPCs
             return questNpc;
         }
 
-        private void CreateQuestTargetDialogueCheckPoint(QuestSo quest)
+        private void CreateQuestTargetDialogueCheckPoint(object sender, QuestElementEventArgs eventArgs)
         {
+            if (eventArgs is not QuestCheckPointEventArgs checkPointEventArgs) return;
+            var quest = checkPointEventArgs.QuestData;
             string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest);
             dialogue.AddDialogue(Npc.DialogueData, checkPointLine, false, quest.Id);
         }
@@ -247,7 +251,6 @@ namespace Game.NPCs
                 {
                     case ReportQuestSo reportQuestSo:
                     case ListenQuestSo listenQuestSo:
-                        CreateQuestTargetDialogueCheckPoint(quest);
                         incompleteQuestQueue.Enqueue(quest);
                         continue;
                     case ExchangeQuestSo exchangeQuest:
