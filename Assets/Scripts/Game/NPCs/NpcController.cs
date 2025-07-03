@@ -249,10 +249,10 @@ namespace Game.NPCs
                 var quest = _assignedQuestsQueue.Dequeue();
                 switch (quest)
                 {
-                    case ReportQuestSo reportQuestSo:
-                    case ListenQuestSo listenQuestSo:
-                        incompleteQuestQueue.Enqueue(quest);
-                        continue;
+                    // case ReportQuestSo reportQuestSo:
+                    // case ListenQuestSo listenQuestSo:
+                    //     incompleteQuestQueue.Enqueue(quest);
+                    //     continue;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {
