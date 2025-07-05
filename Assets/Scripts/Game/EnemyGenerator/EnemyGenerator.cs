@@ -10,15 +10,15 @@ namespace Game.EnemyGenerator
 
         private EnemyGeneratorGeneticAlgorithmSettings _parameters;
         private Population _solution;
-        private Data _data;
+        private GeneticAlgorithmData _data;
 
         public Population Solution { get => _solution; }
-        public Data Data { get => _data; }
+        public GeneticAlgorithmData Data { get => _data; }
 
         public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters)
         {
             _parameters = parameters;
-            _data = new Data
+            _data = new GeneticAlgorithmData
             {
                 geneticAlgorithmSettings = _parameters
             };
@@ -48,7 +48,7 @@ namespace Game.EnemyGenerator
                 pop.PlaceIndividual(ind);
             }
 
-            _data.initial = new List<Individual>(pop.ToList());
+            _data.initialPopulation = new List<Individual>(pop.ToList());
 
             var g = 0;
             while (!HasReachedStopCriteria(g, pop.MinimumElitesOfEachType(), pop.NIndividualsBetterThan(_parameters.numberOfDesiredElitesPerEnemy, _parameters.minimumAcceptableFitnessPerEnemy)))
@@ -83,13 +83,13 @@ namespace Game.EnemyGenerator
 
                 if (g == _parameters.maxGenerations / 2)
                 {
-                    _data.intermediate = new List<Individual>(pop.ToList());
+                    _data.intermediatePopulation = new List<Individual>(pop.ToList());
                 }
                 g++;
             }
 
             _solution = pop;
-            _data.final = new List<Individual>(_solution.ToList());
+            _data.finalPopulation = new List<Individual>(_solution.ToList());
         }
 
         private bool HasReachedStopCriteria(int generation, int totalElitesPerType, float elitesWithAcceptableFitnessPerType)
