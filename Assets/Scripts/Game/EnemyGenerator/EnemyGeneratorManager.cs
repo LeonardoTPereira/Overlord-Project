@@ -17,22 +17,12 @@ namespace Game.EnemyGenerator
 
         [SerializeField]
         private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
-        /// Evolutionary parameters
-        [SerializeField] private int maxGenerations = 500;
-        [SerializeField] private int initialPopulationSize = 35;
-        [SerializeField] private int intermediatePopulationSize = 100;
-        [SerializeField] private int mutationRate = 20;
-        [SerializeField] private int geneMutationRate = 30;
-        [SerializeField] private int numberOfCompetitors = 2;
-        [SerializeField] private int numberOfDesiredElitesPerEnemy = 3;
-        [SerializeField] private float minimumAcceptableFitnessPerEnemy = 0.5f;
-
-        /// Singleton
-        public static EnemyGeneratorManager Instance { get; set; } = null;
 
         private EnemyGenerator generator;
 
         private DifficultyLevels difficulty;
+        
+        public static EnemyGeneratorManager Instance { get; set; } = null;
 
         private void Awake()
         {
@@ -51,7 +41,7 @@ namespace Game.EnemyGenerator
         {
             if (IsEnable)
             {
-                EvolveEnemies(DifficultyLevels.Easy);
+                GetEnemyList(DifficultyLevels.Easy);
             }
         }
 
@@ -73,16 +63,19 @@ namespace Game.EnemyGenerator
                     return EnemyUtil.mediumDifficulty;
             }
         }
-        
-        public List<EnemySO> EvolveEnemies(DifficultyLevels difficultyLevels)
+
+        public List<EnemySO> GetEnemyList(DifficultyLevels difficultyLevels)
         {
             difficulty = difficultyLevels;
-            var goal = GetDesiredDifficulty();
-            geneticAlgorithmSettings.difficulty = goal;
-
+            geneticAlgorithmSettings.difficulty = GetDesiredDifficulty();
+            EvolveEnemies();
+            return CreateSoBestEnemies();
+        }
+        
+        private void EvolveEnemies()
+        {
             generator = new EnemyGenerator(geneticAlgorithmSettings);
             generator.Evolve();
-            return CreateSoBestEnemies();
         }
 
         private List<EnemySO> CreateSoBestEnemies()

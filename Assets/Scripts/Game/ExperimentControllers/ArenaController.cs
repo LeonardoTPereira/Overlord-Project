@@ -50,7 +50,7 @@ namespace Game.ExperimentControllers
         private void Start()
         {
             var enemyGenerator = GetComponent<EnemyGeneratorManager>();
-            var enemies = enemyGenerator.EvolveEnemies(Difficulty);
+            var enemies = enemyGenerator.GetEnemyList(Difficulty);
             EnemyLoader.LoadEnemies(enemies);
 
             var dungeonRoom = new DungeonRoom(new Coordinates(0, 0), Constants.RoomTypeString.Start, Keys, 0, TotalEnemies, 0)
