@@ -18,7 +18,7 @@ MonoBehaviour:
   audioMode: 0
   spatialBlend: 0
   pitch: 1
-  volume: 0.5
+  volume: 0.142
   playOnAwake: 0
   loop: 1
   output: {fileID: 24300002, guid: ffc9a7e31a1200541a49f4470f700bd1, type: 2}

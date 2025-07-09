@@ -59,6 +59,11 @@ namespace Game.GameManager
         private void Start()
         {
             GameStartEventHandler?.Invoke(null, EventArgs.Empty);
+            //TestSaveFileAndJumpForExperimentSelectorScene();
+        }
+
+        private void TestSaveFileAndJumpForExperimentSelectorScene()
+        {
             if (SaveLoadManager.HasSaveFile())
             {
                 SceneManager.LoadScene(experimentSelectorScreen.SceneName);
