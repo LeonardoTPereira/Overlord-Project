@@ -18,9 +18,9 @@ namespace Game.EnemyGenerator
         [SerializeField]
         private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
 
-        private EnemyGenerator generator;
+        private EnemyGenerator _generator;
 
-        private DifficultyLevels difficulty;
+        private DifficultyLevels _difficulty;
         
         public static EnemyGeneratorManager Instance { get; set; } = null;
 
@@ -47,7 +47,7 @@ namespace Game.EnemyGenerator
 
         private float GetDesiredDifficulty()
         {
-            switch (difficulty)
+            switch (_difficulty)
             {
                 case DifficultyLevels.VeryEasy:
                     return EnemyUtil.veryEasyDifficulty;
@@ -66,7 +66,7 @@ namespace Game.EnemyGenerator
 
         public List<EnemySO> GetEnemyList(DifficultyLevels difficultyLevels)
         {
-            difficulty = difficultyLevels;
+            _difficulty = difficultyLevels;
             geneticAlgorithmSettings.difficulty = GetDesiredDifficulty();
             EvolveEnemies();
             return CreateSoBestEnemies();
@@ -74,14 +74,14 @@ namespace Game.EnemyGenerator
         
         private void EvolveEnemies()
         {
-            generator = new EnemyGenerator(geneticAlgorithmSettings);
-            generator.Evolve();
+            _generator = new EnemyGenerator(geneticAlgorithmSettings);
+            _generator.Evolve();
         }
 
         private List<EnemySO> CreateSoBestEnemies()
         {
             var enemyList = new List<EnemySO>();
-            foreach (var individual in generator.Solution.ToList())
+            foreach (var individual in _generator.Solution.ToList())
             {
                 var weaponIndex = (int)individual.Weapon.Weapon;
                 var movementIndex = (int)individual.Enemy.Movement;
