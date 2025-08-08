@@ -4,6 +4,7 @@ using Util;
 
 namespace Game.EnemyGenerator
 {
+    //EnemyGeneticAlgorithm
     public class EnemyGenerator
     {
         private static readonly int CROSSOVER_PARENTS = 2;
@@ -36,8 +37,8 @@ namespace Game.EnemyGenerator
         private void Evolution()
         {
             Population pop = new Population(
-                SearchSpace.AllMovementTypes().Length,
-                SearchSpace.AllWeaponTypes().Length
+                _parameters.numberOfMovements,
+                _parameters.numberOfWeapons
             );
 
             while (pop.Count() < _parameters.initialPopulationSize)

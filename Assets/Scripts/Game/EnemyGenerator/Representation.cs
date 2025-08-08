@@ -1,5 +1,6 @@
 using System;
 using Util;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.EnemyGenerator
 {

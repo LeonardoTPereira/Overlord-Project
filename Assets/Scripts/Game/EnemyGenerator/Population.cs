@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.EnemyGenerator
 {
@@ -112,7 +113,7 @@ namespace Game.EnemyGenerator
                 for (int w = 0; w < dimension.weapon; w++)
                 {
                     string log = "Elite ";
-                    log += ((MovementType)m) + "-";
+                    log += ((EnemyMovementType.MovementTypeEnums)m) + "-";
                     log += ((WeaponType)w);
                     UnityEngine.Debug.Log(log);
                     if (map[m, w] is null)

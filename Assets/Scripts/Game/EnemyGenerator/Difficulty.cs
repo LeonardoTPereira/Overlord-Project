@@ -1,3 +1,5 @@
+using Overlord.RulesGenerator.EnemyGeneration;
+
 namespace Game.EnemyGenerator
 {
     /// This class holds the enemy difficulty function.

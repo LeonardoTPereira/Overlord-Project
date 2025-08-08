@@ -2,6 +2,8 @@
 using ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Overlord.GenerationController.Facade;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.EnemyGenerator
 {
@@ -11,9 +13,11 @@ namespace Game.EnemyGenerator
         [field: Foldout("Scriptable Objects")]
         [field: Header("Enemy Components")]
 #endif
-        [field: SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
+        [SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
 
-        [field: SerializeField] public bool IsEnable { get; set; } = false;
+        [SerializeField] private int _numberOfEnemyMovementTypes = 7;
+        [SerializeField] private int _numberOfEnemyWeaponTypes = 6;
+        [SerializeField] public bool IsEnable { get; set; } = false;
 
         [SerializeField]
         private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
@@ -21,12 +25,13 @@ namespace Game.EnemyGenerator
         private EnemyGenerator _generator;
 
         private DifficultyLevels _difficulty;
+
+        private RulesGeneratorFacade _rulesFacade;
         
         public static EnemyGeneratorManager Instance { get; set; } = null;
 
         private void Awake()
         {
-            //Singleton
             if (Instance == null)
             {
                 Instance = this;
@@ -43,6 +48,8 @@ namespace Game.EnemyGenerator
             {
                 GetEnemyList(DifficultyLevels.Easy);
             }
+            SetNumberOfMovementsAndWeapons();
+            _rulesFacade = new RulesGeneratorFacade();
         }
 
         private float GetDesiredDifficulty()
@@ -66,8 +73,7 @@ namespace Game.EnemyGenerator
 
         public List<EnemySO> GetEnemyList(DifficultyLevels difficultyLevels)
         {
-            _difficulty = difficultyLevels;
-            geneticAlgorithmSettings.difficulty = GetDesiredDifficulty();
+            SetGeneticAlgorithmSettings(difficultyLevels);
             EvolveEnemies();
             return CreateSoBestEnemies();
         }
@@ -104,6 +110,20 @@ namespace Game.EnemyGenerator
                 enemyList.Add(enemySo);
             }
             return enemyList;
+        }
+
+        private void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
+        {
+            _difficulty = difficultyLevels;
+            //TODO Mudar depois para tipo genérico, ou criar uma classe EnemyGeneratorManager para cada tipo de jogo
+            geneticAlgorithmSettings.movementType = new TopdownMovementType();
+            geneticAlgorithmSettings.difficulty = GetDesiredDifficulty();
+        }
+        
+        private void SetNumberOfMovementsAndWeapons()
+        {
+            geneticAlgorithmSettings.numberOfMovements = _numberOfEnemyMovementTypes;
+            geneticAlgorithmSettings.numberOfWeapons = _numberOfEnemyMovementTypes;
         }
     }
 }

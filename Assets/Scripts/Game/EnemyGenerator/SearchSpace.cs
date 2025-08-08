@@ -1,21 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.EnemyGenerator
 {
-    /// This enum defines the movement types of enemies.
-    [Serializable]
-    public enum MovementType
-    {
-        None,     // Enemy stays still.
-        Random,   // Enemy performs random 2D movements.
-        Follow,   // Enemy follows the player.
-        Flee,     // Enemy flees from the player.
-        Random1D, // Enemy performs random horizontal or vertical movements.
-        Follow1D, // Enemy follows the player horizontally or vertically.
-        Flee1D,   // Enemy flees from the player horizontally or vertically.
-    }
-
     /// This enum defines the types of weapons an enemy may have.
     [Serializable()]
     public enum WeaponType
@@ -41,7 +29,7 @@ namespace Game.EnemyGenerator
         public (int, int) rHealth { get; }
         public (int, int) rStrength { get; }
         public (float, float) rAttackSpeed { get; }
-        public MovementType[] rMovementType { get; }
+        public List<EnemyMovementType> rMovementType { get; }
         public (float, float) rMovementSpeed { get; }
         public (float, float) rActiveTime { get; }
         public (float, float) rRestTime { get; }
@@ -53,7 +41,7 @@ namespace Game.EnemyGenerator
             (int, int) _rHealth,
             (int, int) _rStrength,
             (float, float) _rAttackSpeed,
-            MovementType[] _rMovementType,
+            List<EnemyMovementType> _rMovementType,
             (float, float) _rMovementSpeed,
             (float, float) _rActiveTime,
             (float, float) _rRestTime,
@@ -86,7 +74,7 @@ namespace Game.EnemyGenerator
                         (1, 6),                         // Health
                         (1, 4),                         // Strength
                         (0.75f, 4f),                    // Attack Speed
-                        SearchSpace.AllMovementTypes(), // Movement Types
+                        SearchSpace.GetAllMovementTypes(), // Movement Types
                         (0.8f, 3.2f),                   // Movement Speed
                         (1.5f, 10f),                    // Active Time
                         (0.3f, 1.5f),                   // Rest Time
@@ -100,9 +88,10 @@ namespace Game.EnemyGenerator
 
 
         /// Return the array of all movement types.
-        public static MovementType[] AllMovementTypes()
+        public static List<EnemyMovementType> GetAllMovementTypes()
         {
-            return (MovementType[])Enum.GetValues(typeof(MovementType));
+            return Enum.GetValues(typeof(MovementType)).Cast<MovementType>().ToList();
+            //return (MovementType[])Enum.GetValues(typeof(MovementType));
         }
 
         /// Return the list of all movement types.
