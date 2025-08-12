@@ -1,5 +1,5 @@
-﻿using System;
-using Game.Events;
+﻿using Game.Events;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -49,7 +49,7 @@ namespace Game.GameManager.Player
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if(scene.name == "Overworld" || scene.name == "LevelWithEnemies")
+            if (scene.name == "Overworld" || scene.name == "LevelWithEnemies")
             {
                 playerCollider.enabled = true;
             }
@@ -57,7 +57,7 @@ namespace Game.GameManager.Player
 
         private void CheckDeath(object sender, PlayerIsDamagedEventArgs eventArgs)
         {
-            var mainParticle= bloodParticle.main;
+            var mainParticle = bloodParticle.main;
             mainParticle.startSpeed = 0;
             var forceOverLifetime = bloodParticle.forceOverLifetime;
             forceOverLifetime.enabled = true;

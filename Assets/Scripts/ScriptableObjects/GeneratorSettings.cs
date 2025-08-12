@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.NPCs;
+﻿using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
@@ -39,7 +39,7 @@ namespace Game.ExperimentControllers
 
         [field: MinMaxRange(1, 10), SerializeField] public RangedInt EnemiesToKill { get; set; }
         [field: MinMaxRange(1, 10), SerializeField] public RangedInt ItemsToGather { get; set; }
-        [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }            
+        [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
         [field: Foldout("EA Parameters", true)]
 
         [field: SerializeField] public Parameters DungeonParameters { get; set; }

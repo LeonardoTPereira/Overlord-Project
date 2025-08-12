@@ -26,7 +26,8 @@ namespace Game.EnemyGenerator
         public Population(
             int _movement,
             int _weapons
-        ) {
+        )
+        {
             dimension = (_movement, _weapons);
             map = new Individual[dimension.movement, dimension.weapon];
         }
@@ -73,10 +74,11 @@ namespace Game.EnemyGenerator
         /// the best individual is placed in the corresponding Elite.
         public void PlaceIndividual(
             Individual _individual
-        ) {
+        )
+        {
             // Calculate the individual slot (Elite)
-            int m = (int) _individual.Enemy.Movement;
-            int w = (int) _individual.Weapon.Weapon;
+            int m = (int)_individual.Enemy.Movement;
+            int w = (int)_individual.Weapon.Weapon;
             // If the new individual deserves to survive
             if (Fitness.IsBest(_individual, map[m, w]))
             {
@@ -110,8 +112,8 @@ namespace Game.EnemyGenerator
                 for (int w = 0; w < dimension.weapon; w++)
                 {
                     string log = "Elite ";
-                    log += ((MovementType) m) + "-";
-                    log += ((WeaponType) w);
+                    log += ((MovementType)m) + "-";
+                    log += ((WeaponType)w);
                     UnityEngine.Debug.Log(log);
                     if (map[m, w] is null)
                     {
@@ -125,7 +127,7 @@ namespace Game.EnemyGenerator
                 }
             }
         }
-        
+
         public int NIndividualsBetterThan(int amount, float acceptableFitness)
         {
             var betterThanNCounter = 0;
@@ -147,7 +149,7 @@ namespace Game.EnemyGenerator
 
             return betterThanNCounter;
         }
-        
+
         public int MinimumElitesOfEachType()
         {
             var minimumOfEach = int.MaxValue;
@@ -166,7 +168,7 @@ namespace Game.EnemyGenerator
                     minimumOfEach = count;
                 }
             }
-            return minimumOfEach ;
+            return minimumOfEach;
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Game.EnemyManager;
+﻿using Game.EnemyManager;
 using Game.LevelManager.DungeonLoader;
 using Game.Maestro;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using Util;
@@ -25,11 +25,11 @@ namespace Game.GameManager
         [field: SerializeField] public GameObject BomberEnemyPrefab { get; set; }
         [field: SerializeField] public GameObject HealerEnemyPrefab { get; set; }
 
-        
+
         public static void DistributeEnemiesInDungeon(Map map, QuestLineList questLines)
         {
             var enemiesInQuestByType = new EnemiesByType(questLines.EnemyParametersForQuestLines.TotalByType);
-            
+
             foreach (var dungeonPart in map.DungeonPartByCoordinates)
             {
                 if (dungeonPart.Value is DungeonRoom dungeonRoom && !dungeonRoom.IsStartRoom())
@@ -52,7 +52,7 @@ namespace Game.GameManager
                 enemiesByType.AddNEnemiesFromType(selectedType, newEnemiesCount);
                 enemiesInQuestByType.RemoveCurrentTypeIfEmpty(selectedType.Key);
                 selectedEnemies += newEnemiesCount;
-            } 
+            }
 
             return enemiesByType;
         }
@@ -98,7 +98,7 @@ namespace Game.GameManager
             enemy.GetComponent<EnemyController>().LoadEnemyData(currentEnemy, questId);
             return enemy;
         }
-    
+
         public virtual GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
@@ -120,7 +120,7 @@ namespace Game.GameManager
                 enemy = Instantiate(HealerEnemyPrefab, position, rotation);
             }
             else
-            {                
+            {
                 enemy = Instantiate(EnemyPrefab, position, rotation);
             }
             enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);

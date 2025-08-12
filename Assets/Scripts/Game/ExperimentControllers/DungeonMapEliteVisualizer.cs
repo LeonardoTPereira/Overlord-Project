@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Game.Events;
+using Game.LevelGenerator;
+using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Game.LevelGenerator.LevelSOs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Game.Events;
-using Game.LevelGenerator;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelGenerator.LevelSOs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -80,7 +80,7 @@ namespace Game.ExperimentControllers
                 ContinueGenerationEventHandler?.Invoke(this, EventArgs.Empty);
             }
         }
-        
+
         public void PrintScreen(InputAction.CallbackContext context)
         {
 #if UNITY_EDITOR
@@ -90,7 +90,7 @@ namespace Game.ExperimentControllers
             }
 #endif
         }
-        
+
         public void VisualizeNext(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
@@ -98,7 +98,7 @@ namespace Game.ExperimentControllers
             _dungeonSoTester.DrawDungeonSprites(_generatedDungeons[_currentDungeon++], _maxEnemies, center);
             _currentDungeon %= _generatedDungeons.Count;
         }
-        
+
         private async Task CreateDungeonsForQuestLine()
         {
             _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(
@@ -107,7 +107,7 @@ namespace Game.ExperimentControllers
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);
             _dungeonSoTester.DrawDungeonSprites(_generatedDungeons[_currentDungeon++], _maxEnemies, center);
-            
+
         }
 
         private static Vector3 GetDungeonCenter(DungeonFileSo generatedDungeon)
@@ -138,7 +138,7 @@ namespace Game.ExperimentControllers
                     max.Y = y;
                 }
             }
-            return new Vector3((max.X + min.X)/2f, (max.Y + min.Y)/2f, -15);
+            return new Vector3((max.X + min.X) / 2f, (max.Y + min.Y) / 2f, -15);
         }
 
         private static int GetMaxEnemies(IEnumerable<DungeonFileSo> generatedDungeons)
@@ -150,7 +150,7 @@ namespace Game.ExperimentControllers
         {
             var activeRenderTexture = RenderTexture.active;
             RenderTexture.active = textureCamera.targetTexture;
- 
+
             textureCamera.Render();
 
             var targetTexture = textureCamera.targetTexture;
@@ -158,7 +158,7 @@ namespace Game.ExperimentControllers
             image.ReadPixels(new Rect(0, 0, targetTexture.width, targetTexture.height), 0, 0);
             image.Apply();
             RenderTexture.active = activeRenderTexture;
- 
+
             var bytes = image.EncodeToPNG();
             Destroy(image);
             var assetPath = GetDungeonPrintAssetPath(_generatedDungeons[_currentDungeon]);
@@ -167,13 +167,13 @@ namespace Game.ExperimentControllers
 
         private string GetDungeonPrintAssetPath(DungeonFileSo dungeon)
         {
-            
-            var parentDirectory = "Assets"+ Constants.SeparatorCharacter + "Resources" + Constants.SeparatorCharacter + "DungeonPrints";
-            var directoryPath = "R_"+dungeon.FitnessFromEa.DesiredInput.DesiredRooms
-                                      +"_K_" +dungeon.FitnessFromEa.DesiredInput.DesiredKeys
-                                      +"_L_" +dungeon.FitnessFromEa.DesiredInput.DesiredLocks
-                                      +"_Lin_" +dungeon.FitnessFromEa.DesiredInput.DesiredLinearity
-                                      +"_E_" +dungeon.FitnessFromEa.DesiredInput.DesiredEnemies;
+
+            var parentDirectory = "Assets" + Constants.SeparatorCharacter + "Resources" + Constants.SeparatorCharacter + "DungeonPrints";
+            var directoryPath = "R_" + dungeon.FitnessFromEa.DesiredInput.DesiredRooms
+                                      + "_K_" + dungeon.FitnessFromEa.DesiredInput.DesiredKeys
+                                      + "_L_" + dungeon.FitnessFromEa.DesiredInput.DesiredLocks
+                                      + "_Lin_" + dungeon.FitnessFromEa.DesiredInput.DesiredLinearity
+                                      + "_E_" + dungeon.FitnessFromEa.DesiredInput.DesiredEnemies;
             if (!AssetDatabase.IsValidFolder(parentDirectory + Constants.SeparatorCharacter + directoryPath))
             {
                 AssetDatabase.CreateFolder(parentDirectory, directoryPath);

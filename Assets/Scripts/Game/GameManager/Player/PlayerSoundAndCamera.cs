@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
 using Game.Audio;
 using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
+using System;
 using UnityEngine;
 
 namespace Game.GameManager.Player
@@ -12,7 +11,7 @@ namespace Game.GameManager.Player
     {
         private Camera _camera;
         private PlayerController _playerController;
-        
+
         public void Awake()
         {
             _camera = Camera.main;
@@ -50,8 +49,8 @@ namespace Game.GameManager.Player
 
         private void AdjustCamera(object sender, EnterRoomEventArgs eventArgs)
         {
-            var cameraXPosition = eventArgs.PositionInScene.x+eventArgs.RoomData.RoomDimensions.Width/2f;
-            var cameraYPosition = eventArgs.PositionInScene.y+eventArgs.RoomData.RoomDimensions.Height/2f;
+            var cameraXPosition = eventArgs.PositionInScene.x + eventArgs.RoomData.RoomDimensions.Width / 2f;
+            var cameraYPosition = eventArgs.PositionInScene.y + eventArgs.RoomData.RoomDimensions.Height / 2f;
             const float cameraZPosition = -5f;
             _camera.transform.position = new Vector3(cameraXPosition, cameraYPosition, cameraZPosition);
         }

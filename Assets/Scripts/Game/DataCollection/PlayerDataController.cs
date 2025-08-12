@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Dialogues;
+﻿using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
@@ -12,6 +11,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using Game.SaveLoadSystem;
+using System;
 using UnityEngine;
 
 namespace Game.DataCollection
@@ -220,7 +220,7 @@ namespace Game.DataCollection
                     break;
             }
         }
-        
+
         private void GetCreativityTerminalAndUpdate(CreativityQuestSo creativityQuest)
         {
             switch (creativityQuest)
@@ -236,7 +236,7 @@ namespace Game.DataCollection
                     break;
             }
         }
-        
+
         private void GetImmersionTerminalAndUpdate(ImmersionQuestSo immersionQuest)
         {
             switch (immersionQuest)
@@ -258,7 +258,7 @@ namespace Game.DataCollection
                     break;
             }
         }
-        
+
         private void GetMasteryTerminalAndUpdate(MasteryQuestSo masteryQuest)
         {
             switch (masteryQuest)
@@ -272,17 +272,17 @@ namespace Game.DataCollection
                 default:
                     Debug.LogError("This mastery quest type does not exist!");
                     break;
-            }        
+            }
         }
 
         public object SaveState()
         {
-	        return CurrentPlayer.SaveState();
+            return CurrentPlayer.SaveState();
         }
 
         public void LoadState(object state)
         {
-	        CurrentPlayer.LoadState(state);
+            CurrentPlayer.LoadState(state);
         }
     }
 }

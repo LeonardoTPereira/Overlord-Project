@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.ExperimentControllers;
-using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using Game.Quests;
 #if UNITY_EDITOR
-    using UnityEditor;
+using UnityEditor;
 #endif
 using UnityEngine;
 using Util;
@@ -19,7 +18,7 @@ namespace Game.NarrativeGenerator.Quests
     [Serializable]
     public class QuestLine : ScriptableObject, ISavableGeneratedContent
     {
-        [field: SerializeReference] public List<QuestSo> Quests {get; set; }
+        [field: SerializeReference] public List<QuestSo> Quests { get; set; }
         [field: SerializeField] public NpcSo NpcInCharge { get; set; }
         [field: SerializeField] public int CurrentQuestIndex { get; set; }
         public static event QuestCompletedEvent QuestCompletedEventHandler;
@@ -48,7 +47,7 @@ namespace Game.NarrativeGenerator.Quests
             NpcInCharge = questLine.NpcInCharge;
             CurrentQuestIndex = 0;
         }
-        
+
         public void SaveAsset(string directory)
         {
 #if UNITY_EDITOR
@@ -57,13 +56,13 @@ namespace Game.NarrativeGenerator.Quests
             newDirectory = AssetDatabase.GUIDToAssetPath(guid);
             CreateAssetsForQuests(newDirectory);
             const string extension = ".asset";
-            var fileName = newDirectory+ Constants.SeparatorCharacter +"Narrative_" + Quests[0] + extension;
+            var fileName = newDirectory + Constants.SeparatorCharacter + "Narrative_" + Quests[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             AssetDatabase.Refresh();
 #endif
         }
-        
+
         public void CreateAssetsForQuests(string directory)
         {
             foreach (var quest in Quests)
@@ -86,17 +85,17 @@ namespace Game.NarrativeGenerator.Quests
 
                 switch (questSo)
                 {
-                    case ExchangeQuestSo {HasItems: true, IsCompleted: false, HasCreatedDialogue: false} exchangeQuestSo:
+                    case ExchangeQuestSo { HasItems: true, IsCompleted: false, HasCreatedDialogue: false } exchangeQuestSo:
                         exchangeQuestSo.HasCreatedDialogue = true;
                         AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                         break;
-                    case GiveQuestSo {HasItem: true, IsCompleted: false, HasCreatedDialogue: false} giveQuestSo:
+                    case GiveQuestSo { HasItem: true, IsCompleted: false, HasCreatedDialogue: false } giveQuestSo:
                         giveQuestSo.HasCreatedDialogue = true;
                         AllowGiveEventHandler?.Invoke(null, new QuestGiveEventArgs(giveQuestSo));
                         break;
                 }
 
-                if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
+                if (quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
             }
             return false;
         }
@@ -106,7 +105,7 @@ namespace Game.NarrativeGenerator.Quests
             var currentQuest = GetCurrentQuest();
             QuestCompletedEventHandler?.Invoke(null, new NewQuestEventArgs(currentQuest, NpcInCharge));
         }
-        
+
         public void CloseCurrentQuest()
         {
             GetCurrentQuest().IsClosed = true;
@@ -133,12 +132,12 @@ namespace Game.NarrativeGenerator.Quests
             List<QuestSo> completedQuests = new List<QuestSo>();
             for (int i = 0; i < CurrentQuestIndex; i++)
             {
-                completedQuests.Add( Quests[i] );
+                completedQuests.Add(Quests[i]);
             }
-            return completedQuests; 
+            return completedQuests;
         }
 
-        public void PopulateQuestLine(in GeneratorSettings generatorSettings )
+        public void PopulateQuestLine(in GeneratorSettings generatorSettings)
         {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
@@ -153,17 +152,17 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, Dictionary<string,bool> addedQuests )
+        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, Dictionary<string, bool> addedQuests)
         {
             List<string> missingQuests = new List<string>();
-            foreach (KeyValuePair<string,bool> quest in addedQuests)
+            foreach (KeyValuePair<string, bool> quest in addedQuests)
             {
-                if ( !quest.Value )
+                if (!quest.Value)
                     missingQuests.Add(quest.Key);
             }
-            
+
             var questChain = new MarkovChain();
-            foreach ( string missingQuest in missingQuests)
+            foreach (string missingQuest in missingQuests)
             {
                 questChain.SetSymbol(missingQuest);
                 questChain.GetLastSymbol().DefineQuestSo(Quests, in generatorSettings);

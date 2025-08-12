@@ -1,5 +1,5 @@
-using System;
 using Game.EnemyGenerator;
+using System;
 
 namespace Game.Events
 {

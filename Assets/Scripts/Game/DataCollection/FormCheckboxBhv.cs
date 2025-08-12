@@ -9,10 +9,10 @@ namespace Game.DataCollection
         public Toggle[] toggles;
         public Text questionText;
         public Text descriptionText;
-               
+
         void Awake()
         {
             toggles = GetComponentsInChildren<Toggle>().ToArray<Toggle>();
-        }        
+        }
     }
 }

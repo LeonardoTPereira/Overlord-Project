@@ -1,6 +1,6 @@
 ﻿using Game.Events;
-using UnityEngine;
 using Game.Quests;
+using UnityEngine;
 
 namespace Game.GameManager
 {
@@ -59,11 +59,11 @@ namespace Game.GameManager
             }
             else if (gameObject.CompareTag("Enemy"))
             {
-                ((IQuestElement) this._enemyController).OnQuestTaskResolved( this, new QuestDamageEnemyEventArgs(_enemyController.EnemyData.weapon, damage, _enemyController.QuestId));
+                ((IQuestElement)this._enemyController).OnQuestTaskResolved(this, new QuestDamageEnemyEventArgs(_enemyController.EnemyData.weapon, damage, _enemyController.QuestId));
                 _enemyController.CheckDeath();
             }
         }
-        
+
         public bool ApplyHeal(int healing)
         {
             if (GetMaxHealth() <= GetHealth()) return false;

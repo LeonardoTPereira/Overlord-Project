@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Game.Events;
+﻿using Game.Events;
 using Game.ExperimentControllers;
 using Game.LevelGenerator;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.MenuManager;
 using Game.NarrativeGenerator;
 using MyBox;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +22,7 @@ namespace Game.GameManager
         private Dictionary<string, TMP_InputField> inputFields;
         [SerializeField]
         protected GameObject progressCanvas, inputCanvas;
-        [SerializeField] 
+        [SerializeField]
         private SceneReference levelToLoad;
 
         [Separator("Parameters to Create Dungeons")]

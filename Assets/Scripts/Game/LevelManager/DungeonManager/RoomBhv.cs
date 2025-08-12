@@ -17,7 +17,6 @@ namespace Game.LevelManager.DungeonManager
 {
     public class RoomBhv : MonoBehaviour, ISoundEmitter, IQuestElement
     {
-
         public static event StartRoomEvent StartRoomEventHandler;
         public static event ShowRoomOnMiniMapEvent ShowRoomOnMiniMapEventHandler;
 
@@ -120,15 +119,10 @@ namespace Game.LevelManager.DungeonManager
         private void SetLayout()
         {
             SetKeysToDoors();
-
             SetDoorsTransform();
-
             SetCollidersOnRoom();
-
             InstantiateTileMap();
-
-            InstantiateCornerProps();
-        
+            InstantiateCornerProps();        
             SetEnemySpawners();
         }
 

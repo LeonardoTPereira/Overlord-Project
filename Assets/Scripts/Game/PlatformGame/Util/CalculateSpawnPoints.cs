@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -97,7 +96,7 @@ namespace PlatformGame.Util
             if (j + 1 < _colNum && !_backtrackingPath[i, j + 1])
             {
                 _backtrackingPath[i, j + 1] = true;
-                SpawnBacktracking(i, j + 1,  roomModel);
+                SpawnBacktracking(i, j + 1, roomModel);
             }
             // go DOWN
             if (i - 1 >= 0 && !_backtrackingPath[i - 1, j])

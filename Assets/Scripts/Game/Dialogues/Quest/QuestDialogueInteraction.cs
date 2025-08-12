@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
 using ScriptableObjects;
@@ -24,13 +22,13 @@ namespace Game
 
         [SerializeField] protected DialogueController dialogue;
         public string DialogueLine;
-        
+
         protected bool _isDialogueNull;
         protected bool _wasTaskResolved = false;
 
         protected Queue<QuestSo> _assignedQuestsQueue;
         public int QuestId { get; set; }
-        
+
         protected virtual void Awake()
         {
             _assignedQuestsQueue = new Queue<QuestSo>();
@@ -59,32 +57,37 @@ namespace Game
 
         protected void AddQuestToQueueIfIsTarget(QuestSo questSo)
         {
-            if ( IsTarget(questSo) )
+            if (IsTarget(questSo))
                 _assignedQuestsQueue.Enqueue(questSo);
         }
 
-        protected virtual bool IsTarget (QuestSo questSo)
+        protected virtual bool IsTarget(QuestSo questSo)
         {
             return true;
         }
 
-        public void Reset() {
+        public void Reset()
+        {
             var nColliders = GetComponents<Collider2D>().Length;
-            if (nColliders == 1) {
+            if (nColliders == 1)
+            {
                 GetComponent<Collider2D>().isTrigger = true;
-            } else if (nColliders > 0) {
+            }
+            else if (nColliders > 0)
+            {
                 var hasTrigger = HasAtLeastOneTrigger();
-                if (!hasTrigger) {
+                if (!hasTrigger)
+                {
                     GetComponent<Collider2D>().isTrigger = true;
                 }
             }
         }
-        
+
         protected virtual void CreateIntroDialogue()
         {
             dialogue = ScriptableObject.CreateInstance<DialogueController>();
             _isDialogueNull = dialogue == null;
-            dialogue.AddDialogue( DialogueObj.DialogueData, DialogueLine, true, 0);
+            dialogue.AddDialogue(DialogueObj.DialogueData, DialogueLine, true, 0);
         }
 
         protected bool HasAtLeastOneTrigger()
@@ -97,7 +100,7 @@ namespace Game
             if (_isDialogueNull)
                 return;
 
-            if ( !_wasTaskResolved )
+            if (!_wasTaskResolved)
             {
                 ((IQuestElement)this).OnQuestTaskResolved(this, new QuestReadEventArgs(DialogueObj as ItemSo, QuestId));
                 ((IQuestElement)this).OnQuestCompleted(this, new QuestReadEventArgs(DialogueObj as ItemSo, QuestId));
@@ -110,7 +113,8 @@ namespace Game
         public void OnTriggerEnter2D(Collider2D col)
         {
             var agent = col.GetComponent<Agent>();
-            if (agent) {
+            if (agent)
+            {
                 agent.collidingInteractables.Add(this);
             }
         }
@@ -118,13 +122,14 @@ namespace Game
         public void OnTriggerExit2D(Collider2D col)
         {
             var agent = col.GetComponent<Agent>();
-            if (agent) {
+            if (agent)
+            {
                 agent.collidingInteractables.Remove(this);
-                if ( _wasTaskResolved )
+                if (_wasTaskResolved)
                 {
                     Destroy(this.gameObject);
                 }
             }
-        }        
+        }
     }
 }
