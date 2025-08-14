@@ -1,5 +1,4 @@
 using Overlord.RulesGenerator.EnemyGeneration;
-using Overlord.GenerationController.Facade;
 
 namespace Game.EnemyGenerator
 {

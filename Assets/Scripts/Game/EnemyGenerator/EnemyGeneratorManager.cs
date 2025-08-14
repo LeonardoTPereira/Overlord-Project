@@ -16,7 +16,6 @@ namespace Game.EnemyGenerator
 #endif
         [field: SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
         [field: SerializeField] public bool IsEnable { get; set; } = false;
-
         [SerializeField] private int _numberOfEnemyMovementTypes = 7;
         [SerializeField] private int _numberOfEnemyWeaponTypes = 6;
 
@@ -54,7 +53,12 @@ namespace Game.EnemyGenerator
             {
                 GetEnemyList(DifficultyLevels.Easy);
             }
+<<<<<<< HEAD
             Debug.Log("EnemyGeneratorManager Start3");
+=======
+            SetNumberOfMovementsAndWeapons();
+            _rulesFacade = new RulesGeneratorFacade();
+>>>>>>> 3883f79485a8155c10f7a06d8784f6972ae23e80
         }
 
         private float GetDesiredDifficulty()
@@ -92,8 +96,11 @@ namespace Game.EnemyGenerator
         private List<EnemySO> CreateSoBestEnemies()
         {
             var enemyList = new List<EnemySO>();
+<<<<<<< HEAD
             Debug.Log(enemyList);
 
+=======
+>>>>>>> 3883f79485a8155c10f7a06d8784f6972ae23e80
             foreach (var individual in _generator.Solution.ToList())
             {
                 var weaponIndex = Convert.ToInt32(individual.Weapon.Weapon);
@@ -133,7 +140,11 @@ namespace Game.EnemyGenerator
         private void SetNumberOfMovementsAndWeapons()
         {
             geneticAlgorithmSettings.numberOfMovements = _numberOfEnemyMovementTypes;
+<<<<<<< HEAD
             geneticAlgorithmSettings.numberOfWeapons = _numberOfEnemyWeaponTypes;
+=======
+            geneticAlgorithmSettings.numberOfWeapons = _numberOfEnemyMovementTypes;
+>>>>>>> 3883f79485a8155c10f7a06d8784f6972ae23e80
         }
     }
 }
