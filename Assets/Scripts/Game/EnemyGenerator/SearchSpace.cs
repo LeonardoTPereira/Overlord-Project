@@ -94,10 +94,6 @@ namespace Game.EnemyGenerator
                 return instance;
             }
         }
-            // Join all enum names into one string separated by commas
-            string joined = string.Join(", ", enumList.Select(e => e.ToString()));
-            UnityEngine.Debug.Log("Enum list contents: " + joined);
-        }
 
         /// Return the array of all weapon types.
         public static WeaponType[] AllWeaponTypes()
