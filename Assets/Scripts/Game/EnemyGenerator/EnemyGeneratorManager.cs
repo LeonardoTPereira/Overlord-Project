@@ -1,7 +1,10 @@
 ﻿using MyBox;
+using System;
 using ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Overlord.GenerationController.Facade;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.EnemyGenerator
 {
@@ -12,31 +15,24 @@ namespace Game.EnemyGenerator
         [field: Header("Enemy Components")]
 #endif
         [field: SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
-
         [field: SerializeField] public bool IsEnable { get; set; } = false;
+
+        [SerializeField] private int _numberOfEnemyMovementTypes = 7;
+        [SerializeField] private int _numberOfEnemyWeaponTypes = 6;
 
         [SerializeField]
         private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
-        /// Evolutionary parameters
-        [SerializeField] private int maxGenerations = 500;
-        [SerializeField] private int initialPopulationSize = 35;
-        [SerializeField] private int intermediatePopulationSize = 100;
-        [SerializeField] private int mutationRate = 20;
-        [SerializeField] private int geneMutationRate = 30;
-        [SerializeField] private int numberOfCompetitors = 2;
-        [SerializeField] private int numberOfDesiredElitesPerEnemy = 3;
-        [SerializeField] private float minimumAcceptableFitnessPerEnemy = 0.5f;
 
-        /// Singleton
+        private EnemyGenerator _generator;
+
+        private DifficultyLevels _difficulty;
+
+        private RulesGeneratorFacade _rulesFacade;
+        
         public static EnemyGeneratorManager Instance { get; set; } = null;
-
-        private EnemyGenerator generator;
-
-        private DifficultyLevels difficulty;
 
         private void Awake()
         {
-            //Singleton
             if (Instance == null)
             {
                 Instance = this;
@@ -49,15 +45,21 @@ namespace Game.EnemyGenerator
 
         public void Start()
         {
+            Debug.Log("EnemyGeneratorManager Start");
+            _rulesFacade = RulesGeneratorFacade.Instance;
+            _rulesFacade.SetEnemyMovementType(new TopdownMovementType());
+            SetNumberOfMovementsAndWeapons();
+            Debug.Log("EnemyGeneratorManager Start2");
             if (IsEnable)
             {
-                EvolveEnemies(DifficultyLevels.Easy);
+                GetEnemyList(DifficultyLevels.Easy);
             }
+            Debug.Log("EnemyGeneratorManager Start3");
         }
 
         private float GetDesiredDifficulty()
         {
-            switch (difficulty)
+            switch (_difficulty)
             {
                 case DifficultyLevels.VeryEasy:
                     return EnemyUtil.veryEasyDifficulty;
@@ -73,28 +75,35 @@ namespace Game.EnemyGenerator
                     return EnemyUtil.mediumDifficulty;
             }
         }
-        
-        public List<EnemySO> EvolveEnemies(DifficultyLevels difficultyLevels)
-        {
-            difficulty = difficultyLevels;
-            var goal = GetDesiredDifficulty();
-            geneticAlgorithmSettings.difficulty = goal;
 
-            generator = new EnemyGenerator(geneticAlgorithmSettings);
-            generator.Evolve();
+        public List<EnemySO> GetEnemyList(DifficultyLevels difficultyLevels)
+        {
+            SetGeneticAlgorithmSettings(difficultyLevels);
+            EvolveEnemies();
             return CreateSoBestEnemies();
+        }
+        
+        private void EvolveEnemies()
+        {
+            _generator = new EnemyGenerator(geneticAlgorithmSettings);
+            _generator.Evolve();
         }
 
         private List<EnemySO> CreateSoBestEnemies()
         {
             var enemyList = new List<EnemySO>();
-            foreach (var individual in generator.Solution.ToList())
+            Debug.Log(enemyList);
+
+            foreach (var individual in _generator.Solution.ToList())
             {
-                var weaponIndex = (int)individual.Weapon.Weapon;
-                var movementIndex = (int)individual.Enemy.Movement;
+                var weaponIndex = Convert.ToInt32(individual.Weapon.Weapon);
+                var movementIndex = Convert.ToInt32(individual.Enemy.Movement);
                 var behaviorIndex = 0; // Behaviors are not implemented yet
 
+                var test1 = EnemyComponents;
+
                 EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
+                
                 enemySo.Init(
                     individual.Enemy.Health,
                     individual.Enemy.Strength,
@@ -111,6 +120,20 @@ namespace Game.EnemyGenerator
                 enemyList.Add(enemySo);
             }
             return enemyList;
+        }
+
+        private void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
+        {
+            _difficulty = difficultyLevels;
+            //TODO Mudar depois para tipo genérico, ou criar uma classe EnemyGeneratorManager para cada tipo de jogo
+            geneticAlgorithmSettings.movementType = new TopdownMovementType();
+            geneticAlgorithmSettings.difficulty = GetDesiredDifficulty();
+        }
+        
+        private void SetNumberOfMovementsAndWeapons()
+        {
+            geneticAlgorithmSettings.numberOfMovements = _numberOfEnemyMovementTypes;
+            geneticAlgorithmSettings.numberOfWeapons = _numberOfEnemyWeaponTypes;
         }
     }
 }

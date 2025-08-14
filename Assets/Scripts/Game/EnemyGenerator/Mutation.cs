@@ -28,7 +28,7 @@ namespace Game.EnemyGenerator
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                enemy.Movement = RandomSingleton.GetInstance().RandomElementFromArray(SearchSpace.Instance.rMovementType);
+                enemy.Movement = RandomSingleton.GetInstance().RandomElementFromList(SearchSpace.Instance.rMovementType);
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {

@@ -4,6 +4,7 @@ using Util;
 
 namespace Game.EnemyGenerator
 {
+    //EnemyGeneticAlgorithm
     public class EnemyGenerator
     {
         private static readonly int CROSSOVER_PARENTS = 2;
@@ -35,11 +36,12 @@ namespace Game.EnemyGenerator
 
         private void Evolution()
         {
+            
             Population pop = new Population(
-                SearchSpace.AllMovementTypes().Length,
-                SearchSpace.AllWeaponTypes().Length
+                _parameters.numberOfMovements,
+                _parameters.numberOfWeapons
             );
-
+            UnityEngine.Debug.Log("Fez o pop no evolution");
             while (pop.Count() < _parameters.initialPopulationSize)
             {
                 Individual ind = Individual.GetRandom();
@@ -47,7 +49,7 @@ namespace Game.EnemyGenerator
                 Fitness.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }
-
+            UnityEngine.Debug.Log("Criou população inicial");
             _data.initialPopulation = new List<Individual>(pop.ToList());
 
             var g = 0;

@@ -134,7 +134,7 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateContentsForQuestLine()
         {
-            questLines.EnemySos = _enemyGeneratorManager.EvolveEnemies(questLines.EnemyParametersForQuestLines.Difficulty);
+            questLines.EnemySos = _enemyGeneratorManager.GetEnemyList(questLines.EnemyParametersForQuestLines.Difficulty);
             questLines.NpcSos = CurrentGeneratorSettings.PlaceholderNpcs;
             questLines.ItemSos = new List<ItemSo>(CurrentGeneratorSettings.PlaceholderItems.Items);
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();

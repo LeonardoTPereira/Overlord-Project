@@ -491,8 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
-    type: 2}
+  <EnemyComponents>k__BackingField: {fileID: 0}
   <IsEnable>k__BackingField: 0
   maxGenerations: 500
   initialPopulationSize: 35
@@ -843,6 +842,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4593138444518420330, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364038198673818798, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364038198673818798, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.5749512
+      objectReference: {fileID: 0}
     - target: {fileID: 6364038200235750146, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
         type: 3}
       propertyPath: m_Name

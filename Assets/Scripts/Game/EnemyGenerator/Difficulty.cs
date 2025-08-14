@@ -1,3 +1,6 @@
+using Overlord.RulesGenerator.EnemyGeneration;
+using Overlord.GenerationController.Facade;
+
 namespace Game.EnemyGenerator
 {
     /// This class holds the enemy difficulty function.
@@ -100,10 +103,8 @@ namespace Game.EnemyGenerator
 
         private static float CalculateHealerGameplayFactor(EnemyData e, float fG)
         {
-            if (!SearchSpace.HealerMovementList().Contains(e.Movement))
-            {
+            if (!RulesGeneratorFacade.Instance.GetEnemyMovementType().GetHealerMovementList().Contains(e.Movement))
                 fG *= HighPenalty;
-            }
 
             fG *= e.MovementSpeed * 1.15f;
             return fG;
@@ -113,16 +114,16 @@ namespace Game.EnemyGenerator
         {
             switch (e.Movement)
             {
-                case MovementType.Flee1D:
+                case TopdownMovementType.MovementTypeEnums.Flee1D:
                     fG *= LowBonus;
                     break;
-                case MovementType.Flee:
+                case TopdownMovementType.MovementTypeEnums.Flee:
                     fG *= HighBonus;
                     break;
-                case MovementType.None:
+                case TopdownMovementType.MovementTypeEnums.None:
                     fG *= HighPenalty;
                     break;
-                case MovementType.Follow:
+                case TopdownMovementType.MovementTypeEnums.Follow:
                     fG *= HighPenalty / (e.MovementSpeed * 2);
                     break;
             }
@@ -134,12 +135,12 @@ namespace Game.EnemyGenerator
         {
             switch (e.Movement)
             {
-                case MovementType.Follow:
+                case TopdownMovementType.MovementTypeEnums.Follow:
                     fG *= HighBonus;
                     break;
-                case MovementType.None:
-                case MovementType.Flee1D:
-                case MovementType.Flee:
+                case TopdownMovementType.MovementTypeEnums.None:
+                case TopdownMovementType.MovementTypeEnums.Flee1D:
+                case TopdownMovementType.MovementTypeEnums.Flee:
                     fG *= HighPenalty;
                     break;
             }

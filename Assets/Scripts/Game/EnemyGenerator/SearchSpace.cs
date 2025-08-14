@@ -1,21 +1,12 @@
+using Overlord.GenerationController.Facade;
+using Overlord.RulesGenerator.EnemyGeneration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Game.EnemyGenerator
 {
-    /// This enum defines the movement types of enemies.
-    [Serializable]
-    public enum MovementType
-    {
-        None,     // Enemy stays still.
-        Random,   // Enemy performs random 2D movements.
-        Follow,   // Enemy follows the player.
-        Flee,     // Enemy flees from the player.
-        Random1D, // Enemy performs random horizontal or vertical movements.
-        Follow1D, // Enemy follows the player horizontally or vertically.
-        Flee1D,   // Enemy flees from the player horizontally or vertically.
-    }
-
     /// This enum defines the types of weapons an enemy may have.
     [Serializable()]
     public enum WeaponType
@@ -41,19 +32,21 @@ namespace Game.EnemyGenerator
         public (int, int) rHealth { get; }
         public (int, int) rStrength { get; }
         public (float, float) rAttackSpeed { get; }
-        public MovementType[] rMovementType { get; }
+        public List<Enum> rMovementType { get; }
         public (float, float) rMovementSpeed { get; }
         public (float, float) rActiveTime { get; }
         public (float, float) rRestTime { get; }
         public WeaponType[] rWeaponType { get; }
         public (float, float) rProjectileSpeed { get; }
 
+        private EnemyMovementType _movementType;
+
         /// Search Space constructor.
         private SearchSpace(
             (int, int) _rHealth,
             (int, int) _rStrength,
             (float, float) _rAttackSpeed,
-            MovementType[] _rMovementType,
+            List<Enum> _rMovementType,
             (float, float) _rMovementSpeed,
             (float, float) _rActiveTime,
             (float, float) _rRestTime,
@@ -72,8 +65,8 @@ namespace Game.EnemyGenerator
             rProjectileSpeed = _rProjectileSpeed;
         }
 
-        /// This variable holds the single instance of the Search Space.
         private static SearchSpace instance = null;
+        private RulesGeneratorFacade _rulesFacade = RulesGeneratorFacade.Instance;
 
         /// Return the single instance of the Search Space.
         public static SearchSpace Instance
@@ -82,44 +75,38 @@ namespace Game.EnemyGenerator
             {
                 if (instance is null)
                 {
+                    List<Enum> listOfMovementsEnum = RulesGeneratorFacade.Instance.GetEnemyMovementType().GetAllMovementTypes();
+                    //SearchSpace.PrintEnumList(listOfMovementsEnum);
+                    
                     instance = new SearchSpace(
                         (1, 6),                         // Health
                         (1, 4),                         // Strength
                         (0.75f, 4f),                    // Attack Speed
-                        SearchSpace.AllMovementTypes(), // Movement Types
+                        listOfMovementsEnum,            // Movement Types
                         (0.8f, 3.2f),                   // Movement Speed
                         (1.5f, 10f),                    // Active Time
                         (0.3f, 1.5f),                   // Rest Time
                         SearchSpace.AllWeaponTypes(),   // Weapon Types
                         (1f, 4f)                        // Projectile Speed
                     );
+                    
                 }
                 return instance;
             }
         }
 
-
-        /// Return the array of all movement types.
-        public static MovementType[] AllMovementTypes()
+        public static void PrintEnumList(List<Enum> enumList)
         {
-            return (MovementType[])Enum.GetValues(typeof(MovementType));
-        }
+            if (enumList == null || enumList.Count == 0)
+            {
+                UnityEngine.Debug.Log("Enum list is empty.");
+                return;
+            }
 
-        /// Return the list of all movement types.
-        ///
-        /// The healer ideally searches for other enemies and avoids the
-        /// player, besides these movements in melee enemies do not present
-        /// a clear risk to the player.
-        public static List<MovementType> HealerMovementList()
-        {
-            return new List<MovementType> {
-                MovementType.Random,
-                MovementType.Random1D,
-                MovementType.Flee,
-                MovementType.Flee1D,
-            };
+            // Join all enum names into one string separated by commas
+            string joined = string.Join(", ", enumList.Select(e => e.ToString()));
+            UnityEngine.Debug.Log("Enum list contents: " + joined);
         }
-
 
         /// Return the array of all weapon types.
         public static WeaponType[] AllWeaponTypes()
@@ -145,5 +132,6 @@ namespace Game.EnemyGenerator
                 WeaponType.Shield,
             };
         }
+
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using Util;
+using Overlord.RulesGenerator.EnemyGeneration;
+using Overlord.GenerationController.Facade;
 
 namespace Game.EnemyGenerator
 {
@@ -74,7 +76,7 @@ namespace Game.EnemyGenerator
             var strength = RandomSingleton.GetInstance().Next(min, max + 1);
             var (minFloat, maxFloat) = ss.rAttackSpeed;
             var attackSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
-            var movementType = RandomSingleton.GetInstance().RandomElementFromArray(ss.rMovementType);
+            var movementType = RandomSingleton.GetInstance().RandomElementFromList(ss.rMovementType);
             (minFloat, maxFloat) = ss.rMovementSpeed;
             var movementSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             (minFloat, maxFloat) = ss.rActiveTime;
@@ -103,7 +105,7 @@ namespace Game.EnemyGenerator
         public int Health { get; set; }
         public int Strength { get; set; }
         public float AttackSpeed { get; set; }
-        public MovementType Movement { get; set; }
+        public Enum Movement { get; set; }
         public float MovementSpeed { get; set; }
         public float ActiveTime { get; set; }
         public float RestTime { get; set; }
@@ -113,7 +115,7 @@ namespace Game.EnemyGenerator
             int health,
             int strength,
             float attackSpeed,
-            MovementType movement,
+            Enum movement,
             float movementSpeed,
             float activeTime,
             float restTime

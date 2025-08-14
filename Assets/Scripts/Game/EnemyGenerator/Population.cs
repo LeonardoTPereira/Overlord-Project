@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Overlord.RulesGenerator.EnemyGeneration;
+using Overlord.GenerationController.Facade;
 
 namespace Game.EnemyGenerator
 {
@@ -77,8 +79,8 @@ namespace Game.EnemyGenerator
         )
         {
             // Calculate the individual slot (Elite)
-            int m = (int)_individual.Enemy.Movement;
-            int w = (int)_individual.Weapon.Weapon;
+            int m = Convert.ToInt32(_individual.Enemy.Movement);
+            int w = Convert.ToInt32(_individual.Weapon.Weapon);
             // If the new individual deserves to survive
             if (Fitness.IsBest(_individual, map[m, w]))
             {
@@ -112,7 +114,7 @@ namespace Game.EnemyGenerator
                 for (int w = 0; w < dimension.weapon; w++)
                 {
                     string log = "Elite ";
-                    log += ((MovementType)m) + "-";
+                    log += RulesGeneratorFacade.Instance.GetEnemyMovementType().GetMovementName(m) + "-";
                     log += ((WeaponType)w);
                     UnityEngine.Debug.Log(log);
                     if (map[m, w] is null)
