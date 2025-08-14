@@ -28,33 +28,27 @@ namespace Game.EnemyGenerator
 
         private RulesGeneratorFacade _rulesFacade;
         
-        public static EnemyGeneratorManager Instance { get; set; } = null;
+        public static EnemyGeneratorManager Instance { get; private set; } = null;
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else if (Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
+            Instance = this;
         }
 
         public void Start()
         {
-            Debug.Log("EnemyGeneratorManager Start");
             _rulesFacade = RulesGeneratorFacade.Instance;
             _rulesFacade.SetEnemyMovementType(new TopdownMovementType());
             SetNumberOfMovementsAndWeapons();
-            Debug.Log("EnemyGeneratorManager Start2");
             if (IsEnable)
             {
                 GetEnemyList(DifficultyLevels.Easy);
             }
-            Debug.Log("EnemyGeneratorManager Start3");
-            SetNumberOfMovementsAndWeapons();
             _rulesFacade = new RulesGeneratorFacade();
         }
 
