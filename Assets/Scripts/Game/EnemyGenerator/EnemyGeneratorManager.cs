@@ -10,17 +10,16 @@ namespace Game.EnemyGenerator
 {
     public class EnemyGeneratorManager : MonoBehaviour
     {
-#if UNITY_EDITOR
-        [field: Foldout("Scriptable Objects")]
-        [field: Header("Enemy Components")]
-#endif
-        [field: SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
+        [field: Foldout("Enemy Components")]
+        [SerializeField] private MovementTypeRuntimeSetSO _movementSet;
+        [field: Foldout("Enemy Components")]
+        [SerializeField] private WeaponTypeRuntimeSetSO _weaponSet;
+        //[SerializeField] private BehaviorTypeRuntimeSetSO BehaviorSet;
+
         [field: SerializeField] public bool IsEnable { get; set; } = false;
-        [SerializeField] private int _numberOfEnemyMovementTypes = 7;
-        [SerializeField] private int _numberOfEnemyWeaponTypes = 6;
 
         [SerializeField]
-        private EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
+        private EnemyGeneratorGeneticAlgorithmSettings geneticSettings;
 
         private EnemyGenerator _generator;
 
@@ -44,12 +43,10 @@ namespace Game.EnemyGenerator
         {
             _rulesFacade = RulesGeneratorFacade.Instance;
             _rulesFacade.SetEnemyMovementType(new TopdownMovementType());
-            SetNumberOfMovementsAndWeapons();
             if (IsEnable)
             {
                 GetEnemyList(DifficultyLevels.Easy);
             }
-            _rulesFacade = new RulesGeneratorFacade();
         }
 
         private float GetDesiredDifficulty()
@@ -80,7 +77,7 @@ namespace Game.EnemyGenerator
         
         private void EvolveEnemies()
         {
-            _generator = new EnemyGenerator(geneticAlgorithmSettings);
+            _generator = new EnemyGenerator(geneticSettings);
             _generator.Evolve();
         }
 
@@ -91,9 +88,7 @@ namespace Game.EnemyGenerator
             {
                 var weaponIndex = Convert.ToInt32(individual.Weapon.Weapon);
                 var movementIndex = Convert.ToInt32(individual.Enemy.Movement);
-                var behaviorIndex = 0; // Behaviors are not implemented yet
-
-                var test1 = EnemyComponents;
+                //var behaviorIndex = 0; // Behaviors are not implemented yet
 
                 EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
                 
@@ -103,9 +98,9 @@ namespace Game.EnemyGenerator
                     individual.Enemy.MovementSpeed,
                     individual.Enemy.ActiveTime,
                     individual.Enemy.RestTime,
-                    EnemyComponents.weaponSet.Items[weaponIndex],
-                    EnemyComponents.movementSet.Items[movementIndex],
-                    EnemyComponents.behaviorSet.Items[behaviorIndex],
+                    _weaponSet.Items[weaponIndex],
+                    _movementSet.Items[movementIndex],
+                    null,                                               // NOT IMPLEMENTED YET
                     individual.FitnessValue,
                     individual.Enemy.AttackSpeed,
                     individual.Weapon.ProjectileSpeed
@@ -118,15 +113,16 @@ namespace Game.EnemyGenerator
         private void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
         {
             _difficulty = difficultyLevels;
+            SetNumberOfMovementsAndWeapons();
             //TODO Mudar depois para tipo genérico, ou criar uma classe EnemyGeneratorManager para cada tipo de jogo
-            geneticAlgorithmSettings.movementType = new TopdownMovementType();
-            geneticAlgorithmSettings.difficulty = GetDesiredDifficulty();
+            geneticSettings.movementType = new TopdownMovementType();
+            geneticSettings.difficulty = GetDesiredDifficulty();
         }
         
         private void SetNumberOfMovementsAndWeapons()
         {
-            geneticAlgorithmSettings.numberOfMovements = _numberOfEnemyMovementTypes;
-            geneticAlgorithmSettings.numberOfWeapons = _numberOfEnemyWeaponTypes;
+            geneticSettings.numberOfMovements = _movementSet.Items.Count;
+            geneticSettings.numberOfWeapons = _weaponSet.Items.Count;
         }
     }
 }
