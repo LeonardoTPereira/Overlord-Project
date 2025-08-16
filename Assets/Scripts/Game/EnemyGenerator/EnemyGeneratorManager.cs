@@ -16,10 +16,10 @@ namespace Game.EnemyGenerator
         [SerializeField] private WeaponTypeRuntimeSetSO _weaponSet;
         //[SerializeField] private BehaviorTypeRuntimeSetSO BehaviorSet;
 
-        [field: SerializeField] public bool IsEnable { get; set; } = false;
-
-        [SerializeField]
-        private EnemyGeneratorGeneticAlgorithmSettings geneticSettings;
+        public bool ActivateManualDifficulty;
+        [ConditionalField(nameof(ActivateManualDifficulty))] public DifficultyLevels difficulties;
+        
+        [SerializeField] private EnemyGeneratorGeneticAlgorithmSettings geneticSettings;
 
         private EnemyGenerator _generator;
 
@@ -43,9 +43,9 @@ namespace Game.EnemyGenerator
         {
             _rulesFacade = RulesGeneratorFacade.Instance;
             _rulesFacade.SetEnemyMovementType(new TopdownMovementType());
-            if (IsEnable)
+            if (ActivateManualDifficulty)
             {
-                GetEnemyList(DifficultyLevels.Easy);
+                GetEnemyList(difficulties);
             }
         }
 
@@ -64,6 +64,7 @@ namespace Game.EnemyGenerator
                 case DifficultyLevels.VeryHard:
                     return EnemyUtil.veryHardDifficulty;
                 default:
+                    Debug.LogWarning("Difficulty not set, defaulting to Medium.");
                     return EnemyUtil.mediumDifficulty;
             }
         }
