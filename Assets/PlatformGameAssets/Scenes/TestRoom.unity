@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8e26000d23cca45a736fae52594025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTestActive: 1
+  IsTestActive: 0
   Health: 6
   Damage: 4
   MovementSpeed: 3.2
@@ -491,16 +491,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemyComponents>k__BackingField: {fileID: 0}
+  _movementSet: {fileID: 0}
+  _weaponSet: {fileID: 0}
   <IsEnable>k__BackingField: 0
-  maxGenerations: 500
-  initialPopulationSize: 35
-  intermediatePopulationSize: 100
-  mutationRate: 20
-  geneMutationRate: 30
-  numberOfCompetitors: 2
-  numberOfDesiredElitesPerEnemy: 3
-  minimumAcceptableFitnessPerEnemy: 0.5
+  geneticSettings:
+    numberOfMovements: 7
+    numberOfWeapons: 6
+    maxGenerations: 500
+    initialPopulationSize: 35
+    intermediatePopulationSize: 100
+    mutationRate: 20
+    geneMutationRate: 30
+    numberOfCompetitors: 2
+    numberOfDesiredElitesPerEnemy: 3
+    minimumAcceptableFitnessPerEnemy: 0.5
+    difficulty: 0
 --- !u!4 &1134739708
 Transform:
   m_ObjectHideFlags: 0
@@ -616,17 +621,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
-    type: 2}
+  _movementSet: {fileID: 11400000, guid: 41a11a660db4ab245943b826556cf0af, type: 2}
+  _weaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
   <IsEnable>k__BackingField: 0
-  maxGenerations: 500
-  initialPopulationSize: 35
-  intermediatePopulationSize: 100
-  mutationRate: 20
-  geneMutationRate: 30
-  numberOfCompetitors: 2
-  numberOfDesiredElitesPerEnemy: 3
-  minimumAcceptableFitnessPerEnemy: 0.5
+  geneticSettings:
+    numberOfMovements: 7
+    numberOfWeapons: 6
+    maxGenerations: 500
+    initialPopulationSize: 35
+    intermediatePopulationSize: 100
+    mutationRate: 20
+    geneMutationRate: 30
+    numberOfCompetitors: 2
+    numberOfDesiredElitesPerEnemy: 3
+    minimumAcceptableFitnessPerEnemy: 0.5
+    difficulty: 0
 --- !u!114 &1379288479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,7 +649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
-  <TotalEnemies>k__BackingField: 20
+  <TotalEnemies>k__BackingField: 90
   <RoomPrefab>k__BackingField: {fileID: 556261465001929205, guid: 44eec1c14eb48ee4884e20a5aa556596,
     type: 3}
   <RoomSize>k__BackingField:

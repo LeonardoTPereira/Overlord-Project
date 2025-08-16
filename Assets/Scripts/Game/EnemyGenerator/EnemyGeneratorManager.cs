@@ -72,42 +72,14 @@ namespace Game.EnemyGenerator
         {
             SetGeneticAlgorithmSettings(difficultyLevels);
             EvolveEnemies();
-            return CreateSoBestEnemies();
+            EnemySOFactory enemyFactory = new EnemySOFactory(_movementSet, _weaponSet);
+            return enemyFactory.GetEnemiesSOFromSolution(_generator.Solution.ToList());
         }
         
         private void EvolveEnemies()
         {
             _generator = new EnemyGenerator(geneticSettings);
             _generator.Evolve();
-        }
-
-        private List<EnemySO> CreateSoBestEnemies()
-        {
-            var enemyList = new List<EnemySO>();
-            foreach (var individual in _generator.Solution.ToList())
-            {
-                var weaponIndex = Convert.ToInt32(individual.Weapon.Weapon);
-                var movementIndex = Convert.ToInt32(individual.Enemy.Movement);
-                //var behaviorIndex = 0; // Behaviors are not implemented yet
-
-                EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
-                
-                enemySo.Init(
-                    individual.Enemy.Health,
-                    individual.Enemy.Strength,
-                    individual.Enemy.MovementSpeed,
-                    individual.Enemy.ActiveTime,
-                    individual.Enemy.RestTime,
-                    _weaponSet.Items[weaponIndex],
-                    _movementSet.Items[movementIndex],
-                    null,                                               // NOT IMPLEMENTED YET
-                    individual.FitnessValue,
-                    individual.Enemy.AttackSpeed,
-                    individual.Weapon.ProjectileSpeed
-                );
-                enemyList.Add(enemySo);
-            }
-            return enemyList;
         }
 
         private void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
