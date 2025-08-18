@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Overlord.RulesGenerator.EnemyGeneration;
 
@@ -23,8 +23,8 @@ namespace Overlord.GenerationController.Facade
         private RulesGeneratorFacade _rulesGeneratorFacade = RulesGeneratorFacade.Instance;
         //private NarrativeGeneratorFacade _narrativeGeneratorFacade = NarrativeGeneratorFacade.Instance;
         // private LevelsGeneratorFacade _levelsGeneratorFacade = LevelsGeneratorFacade.Instance;
-
-        public void SetEnemyMovements(EnemyMovementType movementType)
+        /*
+        public void SetEnemyMovements(EnemyMovementsSO<Enum> movementType)
         {
             //var movementType = new TopdownMovementType();
             _rulesGeneratorFacade.SetEnemyMovementType(movementType);
@@ -35,6 +35,6 @@ namespace Overlord.GenerationController.Facade
             // _rulesGeneratorFacade.SetEnemyWeaponType(weaponType);
         }
 
-
+        */
     }
 }

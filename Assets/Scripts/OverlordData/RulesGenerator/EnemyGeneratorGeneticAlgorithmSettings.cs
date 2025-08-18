@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Overlord.RulesGenerator.EnemyGeneration;
 
@@ -10,7 +9,6 @@ namespace Game.EnemyGenerator
     {
         [HideInInspector] public int numberOfMovements = 7;
         [HideInInspector] public int numberOfWeapons = 6;
-        [HideInInspector] public EnemyMovementType movementType;
         public int maxGenerations = 500;
         public int initialPopulationSize = 35;
         public int intermediatePopulationSize = 100;

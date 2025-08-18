@@ -66,27 +66,26 @@ namespace Game.EnemyGenerator
         }
 
         /// Return a random individual.
-        public static Individual GetRandom()
+        public static Individual GetRandom(SearchSpaceConfig searchSpace)
         {
-            SearchSpace ss = SearchSpace.Instance;
             // Create a random enemy
-            var (min, max) = ss.rHealth;
+            var (min, max) = (searchSpace.Status1.Min, searchSpace.Status1.Max);
             var health = RandomSingleton.GetInstance().Next(min, max + 1);
-            (min, max) = ss.rStrength;
+            (min, max) = (searchSpace.Status2.Min, searchSpace.Status2.Max);
             var strength = RandomSingleton.GetInstance().Next(min, max + 1);
-            var (minFloat, maxFloat) = ss.rAttackSpeed;
+            var (minFloat, maxFloat) = (searchSpace.Status3.Min, searchSpace.Status3.Max);
             var attackSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
-            var movementType = RandomSingleton.GetInstance().RandomElementFromList(ss.rMovementType);
-            (minFloat, maxFloat) = ss.rMovementSpeed;
+            var movementType = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.MovementSet.GetAllMovementTypes()); //List<Enum>
+            (minFloat, maxFloat) = (searchSpace.Status4.Min, searchSpace.Status4.Max);
             var movementSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
-            (minFloat, maxFloat) = ss.rActiveTime;
+            (minFloat, maxFloat) = (searchSpace.Status5.Min, searchSpace.Status5.Max);
             var activeTime = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
-            (minFloat, maxFloat) = ss.rRestTime;
+            (minFloat, maxFloat) = (searchSpace.Status6.Min, searchSpace.Status6.Max);
             var restTime = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             EnemyData e = new EnemyData(health, strength, attackSpeed, movementType, movementSpeed, activeTime, restTime);
             // Create a random weapon
-            var weaponType = RandomSingleton.GetInstance().RandomElementFromArray(ss.rWeaponType);
-            (minFloat, maxFloat) = ss.rProjectileSpeed;
+            var weaponType = RandomSingleton.GetInstance().RandomElementFromArray(SearchSpace.Instance.rWeaponType);
+            (minFloat, maxFloat) = (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max);
             var projectileSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             WeaponData w = new WeaponData(weaponType, projectileSpeed);
             // Combine the genes to create a new individual
@@ -102,8 +101,8 @@ namespace Game.EnemyGenerator
     [Serializable]
     public struct EnemyData
     {
-        public int Health { get; set; }
-        public int Strength { get; set; }
+        public float Health { get; set; }
+        public float Strength { get; set; }
         public float AttackSpeed { get; set; }
         public Enum Movement { get; set; }
         public float MovementSpeed { get; set; }
@@ -112,8 +111,8 @@ namespace Game.EnemyGenerator
 
         /// Enemy contructor.
         public EnemyData(
-            int health,
-            int strength,
+            float health,
+            float strength,
             float attackSpeed,
             Enum movement,
             float movementSpeed,

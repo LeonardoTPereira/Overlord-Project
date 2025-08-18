@@ -10,21 +10,15 @@ namespace Game.EnemyGenerator
 {
     public class EnemyGeneratorManager : MonoBehaviour
     {
-        [field: Foldout("Enemy Components")]
-        [SerializeField] private MovementTypeRuntimeSetSO _movementSet;
-        [field: Foldout("Enemy Components")]
-        [SerializeField] private WeaponTypeRuntimeSetSO _weaponSet;
-        //[SerializeField] private BehaviorTypeRuntimeSetSO BehaviorSet;
+        [SerializeField] private SearchSpaceConfig _searchSpaceConfig;
 
         public bool ActivateManualDifficulty;
         [ConditionalField(nameof(ActivateManualDifficulty))] public DifficultyLevels difficulties;
-        
-        [SerializeField] private EnemyGeneratorGeneticAlgorithmSettings geneticSettings;
-
-        private EnemyGenerator _generator;
-
         private DifficultyLevels _difficulty;
 
+        [SerializeField] private EnemyGeneratorGeneticAlgorithmSettings _geneticSettings;
+
+        private EnemyGenerator _generator;
         private RulesGeneratorFacade _rulesFacade;
         
         public static EnemyGeneratorManager Instance { get; private set; } = null;
@@ -42,7 +36,7 @@ namespace Game.EnemyGenerator
         public void Start()
         {
             _rulesFacade = RulesGeneratorFacade.Instance;
-            _rulesFacade.SetEnemyMovementType(new TopdownMovementType());
+            _rulesFacade.SetEnemyMovementType(_searchSpaceConfig.MovementSet);
             if (ActivateManualDifficulty)
             {
                 GetEnemyList(difficulties);
@@ -73,13 +67,13 @@ namespace Game.EnemyGenerator
         {
             SetGeneticAlgorithmSettings(difficultyLevels);
             EvolveEnemies();
-            EnemySOFactory enemyFactory = new EnemySOFactory(_movementSet, _weaponSet);
+            EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
             return enemyFactory.GetEnemiesSOFromSolution(_generator.Solution.ToList());
         }
         
         private void EvolveEnemies()
         {
-            _generator = new EnemyGenerator(geneticSettings);
+            _generator = new EnemyGenerator(_geneticSettings, _searchSpaceConfig);
             _generator.Evolve();
         }
 
@@ -88,14 +82,13 @@ namespace Game.EnemyGenerator
             _difficulty = difficultyLevels;
             SetNumberOfMovementsAndWeapons();
             //TODO Mudar depois para tipo genérico, ou criar uma classe EnemyGeneratorManager para cada tipo de jogo
-            geneticSettings.movementType = new TopdownMovementType();
-            geneticSettings.difficulty = GetDesiredDifficulty();
+            _geneticSettings.difficulty = GetDesiredDifficulty();
         }
         
         private void SetNumberOfMovementsAndWeapons()
         {
-            geneticSettings.numberOfMovements = _movementSet.Items.Count;
-            geneticSettings.numberOfWeapons = _weaponSet.Items.Count;
+            _geneticSettings.numberOfMovements = _searchSpaceConfig.MovementSet.GetEnemyMovementCount();
+            _geneticSettings.numberOfWeapons = _searchSpaceConfig.WeaponSet.Items.Count;
         }
     }
 }

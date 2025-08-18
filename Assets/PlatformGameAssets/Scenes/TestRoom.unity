@@ -491,11 +491,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSet: {fileID: 0}
-  _weaponSet: {fileID: 0}
+  _searchSpaceConfig:
+    Status1:
+      Min: 1
+      Max: 6
+    Status2:
+      Min: 1
+      Max: 4
+    Status3:
+      Min: 0.75
+      Max: 4
+    Status4:
+      Min: 0.8
+      Max: 3.2
+    Status5:
+      Min: 1.5
+      Max: 10
+    Status6:
+      Min: 0.3
+      Max: 1.5
+    WeaponStatus1:
+      Min: 1
+      Max: 4
+    MovementSet: {fileID: 0}
+    WeaponSet: {fileID: 0}
   ActivateManualDifficulty: 0
   difficulties: 0
-  geneticSettings:
+  _geneticSettings:
     numberOfMovements: 7
     numberOfWeapons: 6
     maxGenerations: 500
@@ -622,11 +644,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSet: {fileID: 11400000, guid: 41a11a660db4ab245943b826556cf0af, type: 2}
-  _weaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
+  _searchSpaceConfig:
+    Status1:
+      Min: 1
+      Max: 6
+    Status2:
+      Min: 1
+      Max: 4
+    Status3:
+      Min: 0.75
+      Max: 4
+    Status4:
+      Min: 0.8
+      Max: 3.2
+    Status5:
+      Min: 1.5
+      Max: 10
+    Status6:
+      Min: 0.3
+      Max: 1.5
+    WeaponStatus1:
+      Min: 1
+      Max: 4
+    MovementSet: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22, type: 2}
+    WeaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
   ActivateManualDifficulty: 0
   difficulties: 1
-  geneticSettings:
+  _geneticSettings:
     numberOfMovements: 7
     numberOfWeapons: 6
     maxGenerations: 500

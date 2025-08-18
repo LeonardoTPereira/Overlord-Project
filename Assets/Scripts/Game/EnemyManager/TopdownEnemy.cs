@@ -13,11 +13,11 @@ public class TopdownEnemy : IEnemy
     public float activeTime;
     public float restTime;
     [SerializeField]
-    public WeaponTypeSo weapon;
-    [SerializeField]
-    public MovementTypeSO movement;
-    [SerializeField]
-    public BehaviorTypeSO behavior;
+    //public WeaponTypeSo weapon;
+    //[SerializeField]
+    //public MovementTypeSO movement;
+    //[SerializeField]
+    //public BehaviorTypeSO behavior;
     public float fitness;
     public float attackSpeed;
     public float projectileSpeed;

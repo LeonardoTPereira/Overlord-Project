@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Overlord.RulesGenerator;
 using Overlord.RulesGenerator.EnemyGeneration;
+using Game.EnemyGenerator;
 
 namespace Overlord.GenerationController.Facade
 {    
@@ -22,19 +23,39 @@ namespace Overlord.GenerationController.Facade
             }
         }
 
-        private EnemyMovementType _movementType;
-        public void SetEnemyMovementType(EnemyMovementType movementType)
+        private EnemyMovementsSOInterface _movementType;
+        private SearchSpaceConfig _searchSpaceConfig;
+        private EnemyGeneratorGeneticAlgorithmSettings _geneticSettings;
+
+        public void SetEnemyMovementType(EnemyMovementsSOInterface movementType)
         {
             _movementType = movementType;
         }
 
-        public EnemyMovementType GetEnemyMovementType()
+        public EnemyMovementsSOInterface GetEnemyMovementType()
         {
             return _movementType;
         }
 
-        
+        public void SetGeneticSettings(EnemyGeneratorGeneticAlgorithmSettings geneticSettings)
+        {
+            _geneticSettings = geneticSettings;
+        }
 
+        public EnemyGeneratorGeneticAlgorithmSettings GetGeneticSettings()
+        {
+            return _geneticSettings;
+        }
+
+        public void SetSearchSpaceConfig(SearchSpaceConfig searchSpaceConfig)
+        {
+            _searchSpaceConfig = searchSpaceConfig;
+        }
+
+        public SearchSpaceConfig GetSearchSpaceConfig()
+        {
+            return _searchSpaceConfig;
+        }
 
         /*
         public List<IEnemy> GetEnemies()
@@ -45,9 +66,6 @@ namespace Overlord.GenerationController.Facade
             return enemies;
         }
         */
-
-
-
     }
 
     public class TopdownEnemy : IEnemy

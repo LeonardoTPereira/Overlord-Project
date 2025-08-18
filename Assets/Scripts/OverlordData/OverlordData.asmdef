@@ -1,8 +1,9 @@
 {
-    "name": "Overlord",
+    "name": "OverlordData",
     "rootNamespace": "",
     "references": [
-        "GUID:2715b4b7e32907244ae6b3c27a78ae85"
+        "GUID:48c9f6afdac61634db0e0f241c7d4d51",
+        "GUID:e889290e6f4967a4ba72b88171c97a6d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

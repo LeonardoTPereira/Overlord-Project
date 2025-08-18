@@ -16,7 +16,7 @@ namespace Game.EnemyGenerator
         /// is not performed.
         public static Individual[] Apply(
             Individual parent1,
-            Individual parent2
+            Individual parent2, SearchSpaceConfig searchSpace
         )
         {
             // Create aliases for the parents' genes
@@ -38,14 +38,14 @@ namespace Game.EnemyGenerator
                 BLXAlpha(
                     enemy1.Health,
                     enemy2.Health,
-                    SearchSpace.Instance.rHealth,
+                    (searchSpace.Status1.Min, searchSpace.Status1.Max),
                     alpha
                     );
             (enemy1.Strength,
              enemy2.Strength) =
                 BLXAlpha(enemy1.Strength,
                     enemy2.Strength,
-                    SearchSpace.Instance.rStrength,
+                    (searchSpace.Status2.Min, searchSpace.Status2.Max),
                     alpha
                     );
             (enemy1.AttackSpeed,
@@ -53,7 +53,7 @@ namespace Game.EnemyGenerator
                 BLXAlpha(
                     enemy1.AttackSpeed,
                     enemy2.AttackSpeed,
-                    SearchSpace.Instance.rAttackSpeed,
+                    (searchSpace.Status3.Min, searchSpace.Status3.Max),
                     alpha
                     );
             (enemy1.MovementSpeed,
@@ -61,7 +61,7 @@ namespace Game.EnemyGenerator
                 BLXAlpha(
                     enemy1.MovementSpeed,
                     enemy2.MovementSpeed,
-                    SearchSpace.Instance.rMovementSpeed,
+                    (searchSpace.Status4.Min, searchSpace.Status4.Max),
                     alpha
                     );
             (enemy1.ActiveTime,
@@ -69,7 +69,7 @@ namespace Game.EnemyGenerator
                 BLXAlpha(
                     enemy1.ActiveTime,
                     enemy2.ActiveTime,
-                    SearchSpace.Instance.rActiveTime,
+                    (searchSpace.Status5.Min, searchSpace.Status5.Max),
                     alpha
                     );
             (enemy1.RestTime,
@@ -77,7 +77,7 @@ namespace Game.EnemyGenerator
                 BLXAlpha(
                     enemy1.RestTime,
                     enemy2.RestTime,
-                    SearchSpace.Instance.rRestTime,
+                    (searchSpace.Status6.Min, searchSpace.Status6.Max),
                     alpha
                     );
             // If both weapons are of the same type, then apply BLX-alpha on
@@ -91,7 +91,7 @@ namespace Game.EnemyGenerator
                     BLXAlpha(
                         weapon1.ProjectileSpeed,
                         weapon2.ProjectileSpeed,
-                        SearchSpace.Instance.rProjectileSpeed,
+                        (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max),
                         alpha
                         );
             }

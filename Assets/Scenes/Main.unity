@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -303,10 +303,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.25706214
     y: 0
-    width: 1
-    height: 1
+    width: 0.8185813
+    height: 1.0723684
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -632,6 +632,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd,
         type: 2}
+    - target: {fileID: 3829912035921256731, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _searchSpaceConfig.WeaponSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+        type: 2}
+    - target: {fileID: 3829912035921256731, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _searchSpaceConfig.MovementSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22,
+        type: 2}
     - target: {fileID: 3829912036086566211, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: m_RootOrder
@@ -701,7 +713,7 @@ PrefabInstance:
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: experimentSelectorScreen.sceneIndex
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}

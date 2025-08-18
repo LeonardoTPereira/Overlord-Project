@@ -114,16 +114,16 @@ namespace Game.EnemyGenerator
         {
             switch (e.Movement)
             {
-                case TopdownMovementType.MovementTypeEnums.Flee1D:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.Flee1D:
                     fG *= LowBonus;
                     break;
-                case TopdownMovementType.MovementTypeEnums.Flee:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.Flee:
                     fG *= HighBonus;
                     break;
-                case TopdownMovementType.MovementTypeEnums.None:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.None:
                     fG *= HighPenalty;
                     break;
-                case TopdownMovementType.MovementTypeEnums.Follow:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.Follow:
                     fG *= HighPenalty / (e.MovementSpeed * 2);
                     break;
             }
@@ -135,12 +135,12 @@ namespace Game.EnemyGenerator
         {
             switch (e.Movement)
             {
-                case TopdownMovementType.MovementTypeEnums.Follow:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.Follow:
                     fG *= HighBonus;
                     break;
-                case TopdownMovementType.MovementTypeEnums.None:
-                case TopdownMovementType.MovementTypeEnums.Flee1D:
-                case TopdownMovementType.MovementTypeEnums.Flee:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.None:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.Flee1D:
+                case TopdownEnemyMovementsSO.MovementTypeEnums.Flee:
                     fG *= HighPenalty;
                     break;
             }

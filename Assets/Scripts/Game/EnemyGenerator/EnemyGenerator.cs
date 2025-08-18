@@ -10,15 +10,17 @@ namespace Game.EnemyGenerator
         private static readonly int CROSSOVER_PARENTS = 2;
 
         private EnemyGeneratorGeneticAlgorithmSettings _parameters;
+        private SearchSpaceConfig _searchSpace;
         private Population _solution;
         private GeneticAlgorithmData _data;
 
         public Population Solution { get => _solution; }
         public GeneticAlgorithmData Data { get => _data; }
 
-        public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters)
+        public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters, SearchSpaceConfig searchSpace)
         {
             _parameters = parameters;
+            _searchSpace = searchSpace;
             _data = new GeneticAlgorithmData
             {
                 geneticAlgorithmSettings = _parameters
@@ -41,15 +43,13 @@ namespace Game.EnemyGenerator
                 _parameters.numberOfMovements,
                 _parameters.numberOfWeapons
             );
-            UnityEngine.Debug.Log("Fez o pop no evolution");
             while (pop.Count() < _parameters.initialPopulationSize)
             {
-                Individual ind = Individual.GetRandom();
+                Individual ind = Individual.GetRandom(_searchSpace);
                 Difficulty.Calculate(ref ind);
                 Fitness.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }
-            UnityEngine.Debug.Log("Criou população inicial");
             _data.initialPopulation = new List<Individual>(pop.ToList());
 
             var g = 0;
@@ -59,14 +59,14 @@ namespace Game.EnemyGenerator
                 while (intermediate.Count < _parameters.intermediatePopulationSize)
                 {
                     Individual[] parents = Selection.Select(CROSSOVER_PARENTS, _parameters.numberOfCompetitors, pop);
-                    Individual[] offspring = Crossover.Apply(parents[0], parents[1]);
+                    Individual[] offspring = Crossover.Apply(parents[0], parents[1], _searchSpace);
 
                     if (_parameters.mutationRate > RandomSingleton.GetInstance().RandomPercent())
                     {
                         parents[0] = offspring[0];
-                        offspring[0] = Mutation.Apply(parents[0], _parameters.geneMutationRate);
+                        offspring[0] = Mutation.Apply(parents[0], _parameters.geneMutationRate, _searchSpace);
                         parents[1] = offspring[1];
-                        offspring[1] = Mutation.Apply(parents[1], _parameters.geneMutationRate);
+                        offspring[1] = Mutation.Apply(parents[1], _parameters.geneMutationRate, _searchSpace);
                     }
 
                     for (int i = 0; i < offspring.Length; i++)

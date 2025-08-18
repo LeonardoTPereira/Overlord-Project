@@ -29,17 +29,15 @@ namespace Game.EnemyGenerator
     /// Because the search space must be a singleton.
     public class SearchSpace
     {
-        public (int, int) rHealth { get; }
-        public (int, int) rStrength { get; }
-        public (float, float) rAttackSpeed { get; }
+        public (float, float) rStat1 { get; }
+        public (float, float) rStat2 { get; }
+        public (float, float) rStat3 { get; }
+        public (float, float) rStat4 { get; }
+        public (float, float) rStat5 { get; }
+        public (float, float) rStat6 { get; }
+        public (float, float) rWeaponStat1 { get; }
         public List<Enum> rMovementType { get; }
-        public (float, float) rMovementSpeed { get; }
-        public (float, float) rActiveTime { get; }
-        public (float, float) rRestTime { get; }
         public WeaponType[] rWeaponType { get; }
-        public (float, float) rProjectileSpeed { get; }
-
-        private EnemyMovementType _movementType;
 
         /// Search Space constructor.
         private SearchSpace(
@@ -54,15 +52,15 @@ namespace Game.EnemyGenerator
             (float, float) _rProjectileSpeed
         )
         {
-            rHealth = _rHealth;
-            rStrength = _rStrength;
-            rAttackSpeed = _rAttackSpeed;
+            rStat1 = _rHealth;
+            rStat2 = _rStrength;
+            rStat3 = _rAttackSpeed;
             rMovementType = _rMovementType;
-            rMovementSpeed = _rMovementSpeed;
-            rActiveTime = _rActiveTime;
-            rRestTime = _rRestTime;
+            rStat4 = _rMovementSpeed;
+            rStat5 = _rActiveTime;
+            rStat6 = _rRestTime;
             rWeaponType = _rWeaponType;
-            rProjectileSpeed = _rProjectileSpeed;
+            rWeaponStat1 = _rProjectileSpeed;
         }
 
         private static SearchSpace instance = null;
@@ -75,7 +73,7 @@ namespace Game.EnemyGenerator
             {
                 if (instance is null)
                 {
-                    List<Enum> listOfMovementsEnum = RulesGeneratorFacade.Instance.GetEnemyMovementType().GetAllMovementTypes();
+                    List<Enum> listOfMovementsEnum = null;
                     //SearchSpace.PrintEnumList(listOfMovementsEnum);
                     
                     instance = new SearchSpace(
