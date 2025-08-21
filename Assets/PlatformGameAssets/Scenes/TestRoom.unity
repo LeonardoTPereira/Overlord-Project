@@ -625,6 +625,7 @@ GameObject:
   - component: {fileID: 1379288480}
   - component: {fileID: 1379288479}
   - component: {fileID: 1379288478}
+  - component: {fileID: 1379288481}
   m_Layer: 0
   m_Name: EnemyLoader (1)
   m_TagString: Untagged
@@ -667,7 +668,7 @@ MonoBehaviour:
       Min: 1
       Max: 4
     MovementSet: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22, type: 2}
-    WeaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
+    WeaponSet: {fileID: 11400000, guid: d3e1c5a83d33b964a93da76f9ee88c7e, type: 2}
   ActivateManualDifficulty: 0
   difficulties: 1
   _geneticSettings:
@@ -745,6 +746,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1379288481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379288477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef265ce7e4dbd84bbe17dd95e0cf9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!1 &1620907213
 GameObject:
   m_ObjectHideFlags: 0

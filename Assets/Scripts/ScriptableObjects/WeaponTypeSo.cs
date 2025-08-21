@@ -19,7 +19,7 @@ namespace ScriptableObjects
         [field: SerializeField] public bool IsInPortuguese = false;
         [field: SerializeField] public bool IsPlatformGame = false;
 
-
+        // TODO: Destruir essa gambiarra aqui
         public string RealTypeName()
         {
             if (IsPlatformGame)

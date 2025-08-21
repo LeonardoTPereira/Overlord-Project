@@ -303,10 +303,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.25706214
+    x: 0.41048035
     y: 0
-    width: 0.8185813
-    height: 1.0723684
+    width: 0.72392046
+    height: 0.6520979
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -636,7 +636,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _searchSpaceConfig.WeaponSet
       value: 
-      objectReference: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+      objectReference: {fileID: 11400000, guid: d3e1c5a83d33b964a93da76f9ee88c7e,
         type: 2}
     - target: {fileID: 3829912035921256731, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -747,3 +747,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 6fc744b0-8ce3-48b1-8c9b-484fe5df9d1f
+--- !u!1 &3829912036038089746 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3829912035921256704, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3829912036038089743}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3829912036038089747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829912036038089746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef265ce7e4dbd84bbe17dd95e0cf9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}

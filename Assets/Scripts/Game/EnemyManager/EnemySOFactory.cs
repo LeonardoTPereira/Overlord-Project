@@ -5,23 +5,24 @@ using System.Text;
 using UnityEngine;
 using Util;
 using System.IO;
-using System.Text;
 
 namespace Game.EnemyGenerator
 {
-    public class EnemySOFactory
+    public class EnemySOFactory: MonoBehaviour
     {
         private readonly EnemyMovementsSOInterface _movementSet;
-        private readonly WeaponTypeRuntimeSetSO _weaponSet;
+        private readonly EnemyWeaponsSOInterface _weaponSet;
         // TODO: Remover totalmente MovementTypeSO e utilizar apenas EnemyMovementsSOInterface _movementSet
-        private readonly List<MovementTypeSO> _movementTypeSOList;          
+        private readonly List<MovementTypeSO> _movementTypeSOList;
+        private readonly WeaponTypeRuntimeSetSO _weaponTypeSO;
 
-        public EnemySOFactory(EnemyMovementsSOInterface movementSet, WeaponTypeRuntimeSetSO weaponSet)
+        public EnemySOFactory(EnemyMovementsSOInterface movementSet, EnemyWeaponsSOInterface weaponSet)
         {
             _movementSet = movementSet ?? throw new ArgumentNullException(nameof(movementSet));
             _weaponSet = weaponSet ?? throw new ArgumentNullException(nameof(weaponSet));
 
-            _movementTypeSOList = ToMovementTypeSOList(_movementSet);
+            _movementTypeSOList = OverlordDataToGameDataConverter.ToMovementTypeSOList(_movementSet);
+            _weaponTypeSO = FindObjectOfType<OverlordDataToGameDataConverter>().WeaponSet;
         }
 
         public List<EnemySO> GetEnemiesSOFromSolution(IEnumerable<Individual> solution)
@@ -43,7 +44,7 @@ namespace Game.EnemyGenerator
 
         private void ValidateIndices(int weaponIndex, int movementIndex)
         {
-            if (weaponIndex < 0 || weaponIndex >= _weaponSet.Items.Count)
+            if (weaponIndex < 0 || weaponIndex >= _weaponSet.GetAllWeaponTypes().Count)
             {
                 throw new IndexOutOfRangeException($"Weapon index {weaponIndex} is out of range.");
             }
@@ -63,7 +64,7 @@ namespace Game.EnemyGenerator
                 individual.Enemy.MovementSpeed,
                 individual.Enemy.ActiveTime,
                 individual.Enemy.RestTime,
-                _weaponSet.Items[Convert.ToInt32(individual.Weapon.Weapon)],
+                _weaponTypeSO.Items[Convert.ToInt32(individual.Weapon.Weapon)],
                 _movementTypeSOList[Convert.ToInt32(individual.Enemy.Movement)],
                 null, // Behavior not implemented yet
                 individual.FitnessValue,
@@ -94,8 +95,8 @@ namespace Game.EnemyGenerator
                 sb.AppendLine($"  Movement Speed: {enemy.movementSpeed}");
                 sb.AppendLine($"  Active Time: {enemy.activeTime}");
                 sb.AppendLine($"  Rest Time: {enemy.restTime}");
-                sb.AppendLine($"  Weapon: {(enemy.weapon != null ? enemy.weapon.RealTypeName() : "None")}");
-                sb.AppendLine($"  Movement: {(enemy.movement != null ? enemy.movement.enemyMovementIndex.ToString() : "None")}");
+                sb.AppendLine($"  Weapon: {(enemy.weapon != null ? enemy.weapon.EnemyTypeName : "NULL")}");
+                sb.AppendLine($"  Movement: {(enemy.movement != null ? enemy.movement.enemyMovementIndex.ToString() : "NULL")}");
                 sb.AppendLine($"  Fitness: {enemy.fitness}");
                 sb.AppendLine($"  Attack Speed: {enemy.attackSpeed}");
                 sb.AppendLine($"  Projectile Speed: {enemy.projectileSpeed}");
@@ -127,38 +128,6 @@ namespace Game.EnemyGenerator
 
             // Final path
             return Path.Combine(exportFolder, fileName);
-        }
-
-        public List<MovementTypeSO> ToMovementTypeSOList(EnemyMovementsSOInterface movementSet)
-        {
-            var result = new List<MovementTypeSO>();
-
-            if (movementSet == null)
-                return result;
-
-            var allMovements = movementSet.GetAllMovementTypes();
-
-            foreach (var movement in allMovements)
-            {
-                MovementTypeSO so = ScriptableObject.CreateInstance<MovementTypeSO>();
-                so.enemyMovementIndex = ConvertToMovementEnum(movement);
-                result.Add(so);
-            }
-
-            return result;
-        }
-
-        private static Enums.MovementEnum ConvertToMovementEnum(Enum movement)
-        {
-            try
-            {
-                return (Enums.MovementEnum)Enum.Parse(typeof(Enums.MovementEnum), movement.ToString());
-            }
-            catch
-            {
-                Debug.LogWarning($"[EnemyMovementConverter] Enum {movement} não pôde ser convertido para Enums.MovementEnum.");
-                return default;
-            }
         }
     }
 }

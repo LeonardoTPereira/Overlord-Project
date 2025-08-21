@@ -28,9 +28,9 @@ public class SearchSpaceConfig
     //[field: Foldout("Enemy Components")]
     [DisplayInspector]
     public EnemyMovementsSOInterface MovementSet;
+    [DisplayInspector]
+    public EnemyWeaponsSOInterface WeaponSet;
     //[field: Foldout("Enemy Components")]
-    public WeaponTypeRuntimeSetSO WeaponSet;
-    //[SerializeField] private BehaviorTypeRuntimeSetSO BehaviorSet;
-    
-    
+    //public WeaponTypeRuntimeSetSO WeaponSet;
+    //[SerializeField] private BehaviorTypeRuntimeSetSO BehaviorSet;    
 }

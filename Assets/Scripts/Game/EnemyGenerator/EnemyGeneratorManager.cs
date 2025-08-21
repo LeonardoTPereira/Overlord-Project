@@ -88,7 +88,7 @@ namespace Game.EnemyGenerator
         private void SetNumberOfMovementsAndWeapons()
         {
             _geneticSettings.numberOfMovements = _searchSpaceConfig.MovementSet.GetEnemyMovementCount();
-            _geneticSettings.numberOfWeapons = _searchSpaceConfig.WeaponSet.Items.Count;
+            _geneticSettings.numberOfWeapons = _searchSpaceConfig.WeaponSet.GetEnemyWeaponCount();
         }
     }
 }

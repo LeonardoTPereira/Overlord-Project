@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Overlord.RulesGenerator.EnemyGeneration;
 
-[CreateAssetMenu(fileName = "Topdown List of Movements", menuName = "Overlord-Project/Enemy/TopdownEnemyMovementListSO")]
+[CreateAssetMenu(fileName = "Topdown List of Movements", menuName = "Overlord-Project/Rules-Generator/TopdownEnemyMovementListSO")]
 public class TopdownEnemyMovementsSO : EnemyMovementsSO<TopdownEnemyMovementsSO.MovementTypeEnums>
 {
     public enum MovementTypeEnums
