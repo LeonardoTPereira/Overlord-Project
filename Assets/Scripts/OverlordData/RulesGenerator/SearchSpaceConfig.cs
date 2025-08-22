@@ -1,8 +1,4 @@
 using MyBox;
-using ScriptableObjects;
-using UnityEngine;
-using Overlord.RulesGenerator.EnemyGeneration;
-using System;
 
 //namespace Overlord.RulesGenerator.EnemyGeneration { } trazer depois para a pasta correta (Overlord/RulesGenerator)
 [System.Serializable]
@@ -23,14 +19,8 @@ public class SearchSpaceConfig
     [MinMaxRange(.1f, 10f)]
     public RangedFloat WeaponStatus1 = new RangedFloat(1f, 4f);
 
-    //[DisplayInspector]
-    //public EnemyWeaponType WeaponType;
-    //[field: Foldout("Enemy Components")]
     [DisplayInspector]
     public EnemyMovementsSOInterface MovementSet;
     [DisplayInspector]
     public EnemyWeaponsSOInterface WeaponSet;
-    //[field: Foldout("Enemy Components")]
-    //public WeaponTypeRuntimeSetSO WeaponSet;
-    //[SerializeField] private BehaviorTypeRuntimeSetSO BehaviorSet;    
 }

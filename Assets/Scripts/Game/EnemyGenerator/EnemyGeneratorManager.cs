@@ -4,7 +4,6 @@ using ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
 using Overlord.GenerationController.Facade;
-using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.EnemyGenerator
 {
@@ -43,23 +42,23 @@ namespace Game.EnemyGenerator
             }
         }
 
-        private float GetDesiredDifficulty()
+        private float GetDifficultyFactor()
         {
             switch (_difficulty)
             {
                 case DifficultyLevels.VeryEasy:
-                    return EnemyUtil.veryEasyDifficulty;
+                    return EnemyUtil.veryEasyDifficultyFactor;
                 case DifficultyLevels.Easy:
-                    return EnemyUtil.easyDifficulty;
+                    return EnemyUtil.easyDifficultyFactor;
                 case DifficultyLevels.Medium:
-                    return EnemyUtil.mediumDifficulty;
+                    return EnemyUtil.mediumDifficultyFactor;
                 case DifficultyLevels.Hard:
-                    return EnemyUtil.hardDifficulty;
+                    return EnemyUtil.hardDifficultyFactor;
                 case DifficultyLevels.VeryHard:
-                    return EnemyUtil.veryHardDifficulty;
+                    return EnemyUtil.veryHardDifficultyFactor;
                 default:
                     Debug.LogWarning("Difficulty not set, defaulting to Medium.");
-                    return EnemyUtil.mediumDifficulty;
+                    return EnemyUtil.mediumDifficultyFactor;
             }
         }
 
@@ -82,7 +81,7 @@ namespace Game.EnemyGenerator
             _difficulty = difficultyLevels;
             SetNumberOfMovementsAndWeapons();
             //TODO Mudar depois para tipo genérico, ou criar uma classe EnemyGeneratorManager para cada tipo de jogo
-            _geneticSettings.difficulty = GetDesiredDifficulty();
+            _geneticSettings.difficulty = GetDifficultyFactor();
         }
         
         private void SetNumberOfMovementsAndWeapons()

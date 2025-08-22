@@ -14,10 +14,10 @@ namespace Game.EnemyGenerator
 
     public static class EnemyUtil
     {
-        public const float veryEasyDifficulty = 11.0f;
-        public const float easyDifficulty = 13.0f;
-        public const float mediumDifficulty = 15.0f;
-        public const float hardDifficulty = 17f;
-        public const float veryHardDifficulty = 19f;
+        public const float veryEasyDifficultyFactor = 11.0f;
+        public const float easyDifficultyFactor = 13.0f;
+        public const float mediumDifficultyFactor = 15.0f;
+        public const float hardDifficultyFactor = 17f;
+        public const float veryHardDifficultyFactor = 19f;
     }
 }
