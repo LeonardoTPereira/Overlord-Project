@@ -39,9 +39,12 @@ namespace Game.NPCs
             return DialogueQuestCloser.CreateQuestCloser( closedQuest, speaker );
         }
 
-        public static string CreateQuestTargetDialogueCheckPoint(QuestSo checkPointQuest)
+        public static string CreateQuestTargetDialogueCheckPoint(QuestSo checkPointQuest, NpcSo speaker)
         {
-            return DialogueQuestCheckPoint.CreateQuestCheckPoint(checkPointQuest);
+            var questDialogue = new StringBuilder();
+            questDialogue.Append(DialogueQuestCheckPoint.CreateQuestCheckPoint(checkPointQuest, speaker));
+            questDialogue.Append($"<checkpoint={checkPointQuest.NpcInCharge}, {checkPointQuest.Id}>");
+            return questDialogue.ToString();
         }
         
         public static string CreateExchangeDialogue(ExchangeQuestSo quest, NpcSo npc)

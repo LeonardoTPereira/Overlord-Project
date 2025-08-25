@@ -99,11 +99,11 @@ namespace Game.NarrativeGenerator.Quests
 
                 switch (questSo)
                 {
-                    case ListenQuestSo { HasCreatedDialogue: false } listenQuestSo:
+                    case ListenQuestSo { IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } listenQuestSo:
                         listenQuestSo.HasCreatedDialogue = true;
-                        AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs( listenQuestSo ));
+                        AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs(listenQuestSo));
                         break;
-                    case ReportQuestSo { HasCreatedDialogue: false } reportQuestSo:
+                    case ReportQuestSo { IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } reportQuestSo:
                         reportQuestSo.HasCreatedDialogue = true;
                         AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs(reportQuestSo));
                         break;
@@ -111,13 +111,13 @@ namespace Game.NarrativeGenerator.Quests
                         exchangeQuestSo.HasCreatedDialogue = true;
                         AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                         break;
-                    case GiveQuestSo {HasItem: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false} giveQuestSo:
+                    case GiveQuestSo { HasItem: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } giveQuestSo:
                         giveQuestSo.HasCreatedDialogue = true;
                         AllowGiveEventHandler?.Invoke(null, new QuestGiveEventArgs(giveQuestSo));
                         break;
                 }
 
-                if(quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
+                if (quest is not ExploreQuestSo && quest is not GotoQuestSo) return true;
             }
             return false;
         }

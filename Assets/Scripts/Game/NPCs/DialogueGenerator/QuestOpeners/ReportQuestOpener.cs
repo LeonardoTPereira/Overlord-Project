@@ -14,7 +14,7 @@ namespace Game.NPCs
                     "Ugh, não estou fazendo recados hoje. Vá contar para {questSo.GetTargetNpc()} o que aconteceu e me deixe fora disso.",
                     "Tá bom. Se você está tão ansioso para ajudar, vá entregar esta notícia para {questSo.GetTargetNpc()}. E não estrague tudo.",
                     "Olha, estou ocupado demais para isso. Vai encontrar {questSo.GetTargetNpc()} e dar a atualização. Entendeu?",
-                    "Por que eu tenho que fazer tudo por aqui? Vá contar para {questSo.GetTargetNpc()} o que eles precisam saber.",
+                    "Por que eu tenho que fazer tudo por aqui? Vá contar para {questSo.GetTargetNpc()} o que ele precisa saber.",
                     "Esta notícia é importante, mas não vou perder meu tempo entregando ela. Você cuida disso—{questSo.GetTargetNpc()} está esperando.",
                     "Aqui está o acordo: você leva essa mensagem para {questSo.GetTargetNpc()}, e eu finalmente consigo um pouco de paz e sossego.",
                     "Quer ser útil? Vá contar para {questSo.GetTargetNpc()} o que está acontecendo. E não espere que eu te agradeça.",
@@ -42,18 +42,18 @@ namespace Game.NPCs
             get {
                 if (GameManagerSingleton.Instance.IsInPortuguese) 
                     return new string [] {
-                    "Preciso que alguém avise {questSo.GetTargetNpc()} que não vou conseguir devolver o livro deles tão cedo. Você pode fazer esse favor e contar para eles?",
+                    "Preciso que alguém avise {questSo.GetTargetNpc()} que não vou conseguir devolver o livro dele tão cedo. Você pode fazer esse favor e contar para ele?",
                     "{questSo.GetTargetNpc()} me emprestou um livro mágico, mas acho que vou precisar de mais algumas semanas para aprender os feitiços. Se os ver por aí, você pode perguntar se está tudo bem?",
-                    "Preciso que você leve essa mensagem até {questSo.GetTargetNpc()}. Eles precisam saber disso o quanto antes.",
-                    "Você pode entregar essa notícia para {questSo.GetTargetNpc()}? Eles são quem precisa saber agora.",
+                    "Preciso que você leve essa mensagem até {questSo.GetTargetNpc()}. Ele precisa saber disso o quanto antes.",
+                    "Você pode entregar essa notícia para {questSo.GetTargetNpc()}? Ele precisa saber disso agora.",
                     "Tenho uma informação crítica que precisa chegar até {questSo.GetTargetNpc()}. Você pode cuidar disso para mim?",
                     "Essa notícia é importante demais para esperar. Por favor, reporte para {questSo.GetTargetNpc()} imediatamente.",
                     "Você se importaria de encontrar {questSo.GetTargetNpc()} e passar essa informação? É urgente.",
                     "Alguém precisa informar {questSo.GetTargetNpc()} sobre isso. Posso confiar em você para fazer isso?",
-                    "Isso é grande. Vá até {questSo.GetTargetNpc()} e tenha certeza de que estão atualizados.",
+                    "Isso é grande. Vá até {questSo.GetTargetNpc()} e tenha certeza de que ele esteja atualizados.",
                     "Eu iria eu mesmo, mas estou ocupado aqui. Você pode entregar essa atualização para {questSo.GetTargetNpc()} por mim?",
-                    "Você pode reportar isso para {questSo.GetTargetNpc()}? É crucial que eles saibam sobre isso.",
-                    "Precisamos garantir que {questSo.GetTargetNpc()} esteja informado. Você vai levar a notícia até eles?"
+                    "Você pode reportar isso para {questSo.GetTargetNpc()}? É crucial que ele saiba sobre isso.",
+                    "Precisamos garantir que {questSo.GetTargetNpc()} esteja informado. Você vai levar a notícia até ele?"
                     };
                 return new string [] {
                 "I need someone to tell {questSo.GetTargetNpc()} that I won't be able to get their book back as soon as I thought. Could you do me a favor and tell them?",

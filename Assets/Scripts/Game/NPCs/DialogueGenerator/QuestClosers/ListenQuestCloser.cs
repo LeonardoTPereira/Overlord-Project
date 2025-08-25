@@ -10,13 +10,13 @@ namespace Game.NPCs
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string[] {
                     "Certo, tudo bem... obrigado por ouvir {questSo.GetTargetNpc()}. Isso me economiza o trabalho, eu acho.",
-                    "Hmph. Acho que devo te agradecer por lidar com {questSo.GetTargetNpc()}. Eles realmente falam demais, não?",
+                    "Hmph. Acho que devo te agradecer por lidar com {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} realmente fala demais, não?",
                     "Bom, você realmente ouviu [Nome do NPC]? Acho que devo te agradecer por isso.",
                     "Você realmente ficou e ouviu {questSo.GetTargetNpc()}? Você tem mais paciência do que eu. Obrigado, eu acho.",
                     "Certo, obrigado por dedicar seu tempo a {questSo.GetTargetNpc()}. Você me fez um favor, quer saiba disso ou não.",
-                    "Acho que devo te agradecer por ouvir {questSo.GetTargetNpc()}. Eles teriam continuado me incomodando até alguém fazer isso.",
+                    "Acho que devo te agradecer por ouvir {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} teria continuado me incomodando até alguém fazer isso.",
                     "Não costumo dizer isso, mas... obrigado. Ouvir {questSo.GetTargetNpc()} deve ter exigido paciência.",
-                    "Estou feliz que alguém finalmente tenha dado atenção a {questSo.GetTargetNpc()}. Agora talvez eles parem de me incomodar..."
+                    "Estou feliz que alguém finalmente tenha dado atenção a {questSo.GetTargetNpc()}. Agora talvez eu finalmente tenha algum sossego..."
                     };
                 return new string[] {
                 "Alright, fine… thanks for listening to {questSo.GetTargetNpc()}. Saves me the trouble, I guess.",
@@ -37,13 +37,13 @@ namespace Game.NPCs
             {
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string[] {
-                    "Obrigado por ouvir {questSo.GetTargetNpc()}. Eles precisavam disso, e eu sei que fez a diferença.",
+                    "Obrigado por ouvir {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} precisavam disso, e eu sei que fez a diferença.",
                     "Significa muito que você tenha ouvido {questSo.GetTargetNpc()}. Não muitos teriam dedicado seu tempo.",
-                    "Obrigado por mostrar tanta paciência a {questSo.GetTargetNpc()}. Eles precisavam de alguém como você para ouvi-los.",
-                    "Estou realmente grato por você ter conversado com {questSo.GetTargetNpc()}. Eles tinham tanto a compartilhar, e você ouviu.",
-                    "Obrigado por prestar atenção em {questSo.GetTargetNpc()}. Eu sei que eles se sentiram ouvidos por sua causa.",
-                    "Eu realmente aprecio você ter dedicado seu tempo a {questSo.GetTargetNpc()}. Você elevou o espírito deles.",
-                    "Obrigado. Ouvir {questSo.GetTargetNpc()} não foi apenas gentil—foi exatamente o que eles precisavam."
+                    "Obrigado por mostrar tanta paciência a {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} precisava de alguém como você para ouvi-lo.",
+                    "Estou realmente grato por você ter conversado com {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} tem tanto a compartilhar, e você ouviu.",
+                    "Obrigado por prestar atenção em {questSo.GetTargetNpc()}. Eu sei que {questSo.GetTargetNpc()} se sentiu ouvido por sua causa.",
+                    "Eu realmente aprecio você ter dedicado seu tempo a {questSo.GetTargetNpc()}. Você elevou o espírito dele.",
+                    "Obrigado. Ouvir {questSo.GetTargetNpc()} não foi apenas gentil—foi exatamente o que ele precisava."
                     };
                 return new string[] {
                 "Thanks for listening to {questSo.GetTargetNpc()}. They needed that, and I know it made a difference.",

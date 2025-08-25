@@ -121,7 +121,8 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 spriteString = itemByAmount.Key.GetGemstoneSpriteString();
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
             }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            if ( stringBuilder.Length > 2 )
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
             return stringBuilder.ToString();
         }
 

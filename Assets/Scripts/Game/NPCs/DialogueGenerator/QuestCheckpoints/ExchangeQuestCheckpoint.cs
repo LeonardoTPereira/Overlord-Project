@@ -23,7 +23,7 @@ namespace Game.NPCs
             {
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string[] {
-                    "{questSo.GetOwnerNpc()} te enviou aqui pra trocar alguns itens?"
+                    "{questSo.GetOwnerNpc()} te enviou aqui pra trocar alguns itens comigo?"
                     };
                 return new string[] {
                 "{questSo.GetOwnerNpc()} sent you here to trade a few items?"

@@ -76,13 +76,13 @@ namespace Game.NPCs
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string[] {
                     "Você é incrível! Obrigado por ajudar com essa troca. {questSo.GetTargetNpc()} tem as melhores recompensas, não é? Espero que você tenha conseguido algo incrível!",
-                    "Não sei como te agradecer o suficiente por isso! {questSo.GetTargetNpc()} realmente sabe fazer um bom negócio, e tenho certeza de que eles te deram algo que vale seu tempo!",
+                    "Não sei como te agradecer o suficiente por isso! {questSo.GetTargetNpc()} realmente sabe fazer um bom negócio, e tenho certeza de que te deram algo que valeu seu tempo!",
                     "Uau, você realmente fez isso! Obrigado por levar isso para {questSo.GetTargetNpc()}. Aposto que a recompensa foi tão incrível quanto eu disse, né?",
                     "Ah, muito obrigado por lidar com essa troca! Eu sabia que {questSo.GetTargetNpc()} te daria algo ótimo em troca! Você é realmente um salvador!",
-                    "Você conseguiu! Você fez a troca com {questSo.GetTargetNpc()}! Obrigado, obrigado! Espero que a recompensa deles tenha sido tudo o que você esperava e mais!",
-                    "Você fez isso por mim! Muito obrigado por lidar com a troca com {questSo.GetTargetNpc()}. Tenho certeza de que eles te deram uma recompensa que valeu a pena!",
+                    "Você conseguiu! Você fez a troca com {questSo.GetTargetNpc()}! Obrigado, obrigado! Espero que a recompensa tenha sido tudo o que você esperava e mais!",
+                    "Você fez isso por mim! Muito obrigado por lidar com a troca com {questSo.GetTargetNpc()}. Tenho certeza de que a recompensa a pena!",
                     "Eu sabia que podia contar com você! Obrigado por tirar um tempo para trocar com {questSo.GetTargetNpc()}. Tenho certeza de que a recompensa foi tão boa quanto ouro, não foi?",
-                    "Você é muito gentil! Obrigado por lidar com {questSo.GetTargetNpc()}. Eles sempre têm as melhores recompensas, e aposto que você conseguiu algo realmente especial!",
+                    "Você é muito gentil! Obrigado por lidar com {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} sempre têm as melhores recompensas, e aposto que você conseguiu algo realmente especial!",
                     "Obrigado por fazer essa tarefa para mim! Espero que a recompensa de {questSo.GetTargetNpc()} tenha sido tão incrível quanto prometi. Você faz essas coisas parecerem fáceis!",
                     "Agradeço muito por lidar com a troca com {questSo.GetTargetNpc()}! Tenho certeza de que a recompensa valeu totalmente a pena—você tem um bom olho para essas coisas!"
                     };

@@ -8,7 +8,7 @@ namespace Game.NPCs
 {
     public static class DialogueQuestCheckPoint
     {
-        public static string CreateQuestCheckPoint(QuestSo quest)
+        public static string CreateQuestCheckPoint(QuestSo quest, NpcSo speaker)
         {
             QuestDialogue questCheckPoint;
             switch (quest)
@@ -48,7 +48,7 @@ namespace Game.NPCs
                                    "was found to create dialogue");
                     return null;
             }
-            return questCheckPoint.CreateQuestDialogue( quest, quest.NpcInCharge );
+            return questCheckPoint.CreateQuestDialogue( quest, speaker );
         }
     }
 }

@@ -33,9 +33,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             switch ( SymbolType )
             {
                 case Constants.ExploreQuest:
-                    return CreateAndSaveExploreQuestSo(questSos, generatorSettings.RoomsToExplore);
+                    return CreateAndSaveExploreQuestSo(questSos, npcInCharge, generatorSettings.RoomsToExplore);
                 case Constants.GotoQuest:
-                    return CreateAndSaveGotoQuestSo(questSos);
+                    return CreateAndSaveGotoQuestSo(questSos, npcInCharge);
                 default:
                     Debug.LogError("help something went wrong! - Creativity doesn't contain symbol: "+SymbolType);
                 break;
@@ -60,7 +60,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
 
-        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos, RangedInt roomsToExplore)
+        private static ExploreQuestSo CreateAndSaveExploreQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, RangedInt roomsToExplore)
         {
             var exploreQuest = CreateInstance<ExploreQuestSo>();
             var numOfRoomsToExplore = RandomSingleton.GetInstance().Random.Next(roomsToExplore.Max - roomsToExplore.Min) + roomsToExplore.Min;
@@ -74,13 +74,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 questSos[^1].Next = exploreQuest;
             }
+            exploreQuest.NpcInCharge = npcInCharge;
 
             questSos.Add(exploreQuest);
 
             return exploreQuest;
         }
 
-        private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos )
+        private static GotoQuestSo CreateAndSaveGotoQuestSo( List<QuestSo> questSos, NpcSo npcInCharge )
         {
             var gotoQuest = CreateInstance<GotoQuestSo>();
 
@@ -93,6 +94,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 questSos[^1].Next = gotoQuest;
             }
+            gotoQuest.NpcInCharge = npcInCharge;
 
             questSos.Add(gotoQuest);
             return gotoQuest;

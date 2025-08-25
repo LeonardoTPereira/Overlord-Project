@@ -26,7 +26,7 @@ namespace Game.DataCollection
         private void OnEnable()
         {
             DungeonLoader.StartMapEventHandler += OnMapStart;
-            GameManagerSingleton.GameStartEventHandler += OnGameStart;
+            // GameManagerSingleton.GameStartEventHandler += OnGameStart;
             HealthController.PlayerIsDamagedEventHandler += OnPlayerDamage;
             PlayerController.InitializePlayerHealthEventHandler += OnPlayerHealthInitialize;
             ProjectileController.EnemyHitEventHandler += IncrementCombo;
@@ -57,7 +57,7 @@ namespace Game.DataCollection
         private void OnDisable()
         {
             DungeonLoader.StartMapEventHandler -= OnMapStart;
-            GameManagerSingleton.GameStartEventHandler -= OnGameStart;
+            // GameManagerSingleton.GameStartEventHandler -= OnGameStart;
             HealthController.PlayerIsDamagedEventHandler -= OnPlayerDamage;
             PlayerController.InitializePlayerHealthEventHandler -= OnPlayerHealthInitialize;
             ProjectileController.EnemyHitEventHandler -= IncrementCombo;
@@ -91,6 +91,7 @@ namespace Game.DataCollection
         private void Start()
         {
             _dungeonDataController = GetComponent<DungeonDataController>();
+            OnGameStart(null, null);
         }
 
         private void OnGameStart(object sender, EventArgs eventArgs)

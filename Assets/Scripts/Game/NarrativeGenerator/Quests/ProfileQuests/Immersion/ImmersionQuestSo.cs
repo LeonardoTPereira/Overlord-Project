@@ -36,9 +36,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 case Constants.ListenQuest:
                     return CreateAndSaveListenQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs);
                 case Constants.ReadQuest:
-                    return CreateAndSaveReadQuestSo(questSos, generatorSettings.ReadableItems);
+                    return CreateAndSaveReadQuestSo(questSos, npcInCharge, generatorSettings.ReadableItems);
                 case Constants.GiveQuest:
-                    return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
+                    return CreateAndSaveGiveQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
                 case Constants.ReportQuest:
                     return CreateAndSaveReportQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs);
                 default:
@@ -87,7 +87,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return listenQuest;
         }
 
-        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
+        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, TreasureRuntimeSetSo possibleItems)
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
@@ -101,12 +101,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 questSos[^1].Next = readQuest;
             }
+            readQuest.NpcInCharge = npcInCharge;
             
             questSos.Add(readQuest);
             return readQuest;
         }
 
-        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
+        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
         {
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
@@ -117,6 +118,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             else
                 giveQuest.Init($"Give {selectedItem} to {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
 
+            giveQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = giveQuest;

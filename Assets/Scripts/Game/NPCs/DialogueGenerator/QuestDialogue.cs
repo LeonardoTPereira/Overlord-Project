@@ -50,15 +50,13 @@ namespace Game.NPCs
                     .Replace("{speaker.NpcName}", speaker.NpcName)
                     .Replace("{speaker.Job}", speaker.Job.ToString())
                     .Replace("{questSo.GetTargetNpc()}", quest.GetTargetNpc())
-                    .Replace("{speaker.Job}", speaker.Job.ToString())
-                    .Replace("{questSo.GetTargetNpc()}", quest.GetTargetNpc())
                     .Replace("{questSo.GetItemAmountString()}", quest.GetItemAmountString())
                     .Replace("{questSo.GetItemString()}", quest.GetItemString())
                     .Replace("{questSo.GetRoomAmount()}", quest.GetRoomAmount())
                     .Replace("{questSo.GetRoomCoordinates()}", quest.GetRoomCoordinates())
                     .Replace("{questSo.GetEnemyAmountString()}", quest.GetEnemyAmountString())
                     .Replace("{questSo.GetEnemyString()}", quest.GetEnemyString())
-                    .Replace("{questSo.GetOwnerNpc}",quest.GetOwnerNpc())
+                    .Replace("{questSo.GetOwnerNpc()}",quest.GetOwnerNpc())
                 );
             return createdDialogue.ToString();
         }

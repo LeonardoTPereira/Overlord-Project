@@ -714,6 +714,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1517411849573018956, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1591254216384127294, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -784,6 +789,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1591412590784607368, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -40.200012
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591844551985803728, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.22998047
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591844551985803728, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.35998535
+      objectReference: {fileID: 0}
     - target: {fileID: 1591929837905820926, guid: 018140db0d3665645b9b0bdaf219c6ec,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -804,6 +824,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7512353996633328049, guid: 018140db0d3665645b9b0bdaf219c6ec,
+        type: 3}
+      propertyPath: playerDataController
+      value: 
+      objectReference: {fileID: 3829912036038089748}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 018140db0d3665645b9b0bdaf219c6ec, type: 3}
 --- !u!1001 &3829912036038089743
@@ -875,7 +900,7 @@ PrefabInstance:
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: IsInPortuguese
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -934,3 +959,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 6fc744b0-8ce3-48b1-8c9b-484fe5df9d1f
+--- !u!114 &3829912036038089748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 699963818, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3829912036038089743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829912036038089744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a1c8aa1e2143129117ee40fd3b2216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

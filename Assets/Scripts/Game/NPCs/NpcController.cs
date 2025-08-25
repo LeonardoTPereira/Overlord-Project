@@ -51,6 +51,7 @@ namespace Game.NPCs
 
             TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler += GiveItems;
+            TaggedDialogueHandler.StartCheckpointEventHandler += QuestCheckpoint;
             TaggedDialogueHandler.StartGiveKeyEventHandler += GiveKeys;
         }
         protected override void OnDisable()
@@ -120,8 +121,8 @@ namespace Game.NPCs
         {
             if (eventArgs is not QuestCheckPointEventArgs checkPointEventArgs) return;
             var quest = checkPointEventArgs.QuestData;
-            string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest);
-            dialogue.AddDialogue(Npc.DialogueData, checkPointLine, false, quest.Id);
+            string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest, Npc);
+            dialogue.InsertDialogue(Npc.DialogueData, checkPointLine, false, quest.Id, 0);
         }
 
         private void CreateQuestLineCompltedDialogue(object sender, NewQuestLineEventArgs eventArgs)
@@ -251,8 +252,10 @@ namespace Game.NPCs
                 {
                     // case ReportQuestSo reportQuestSo:
                     // case ListenQuestSo listenQuestSo:
-                    //     incompleteQuestQueue.Enqueue(quest);
+                    //     // incompleteQuestQueue.Enqueue(quest);
                     //     continue;
+                        // CreateQuestTargetDialogueCheckPoint(this, new QuestElementEventArgs(quest.Id));
+                        // continue;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {
@@ -281,13 +284,18 @@ namespace Game.NPCs
         {
             KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(eventArgs.GivedKey));
         }
+
+        private void QuestCheckpoint(object sender, StartCheckpointEventArgs eventArgs)
+        {
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(Npc, eventArgs.QuestId));
+        }
         
         private void TradeItems(object sender, StartExchangeEventArgs eventArgs)
         {
-            foreach (var exchangeQuestData in ExchangeDataList.Where(exchangeQuestData 
+            foreach (var exchangeQuestData in ExchangeDataList.Where(exchangeQuestData
                          => eventArgs.ExchangeQuestId == exchangeQuestData.QuestId))
             {
-                ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(exchangeQuestData.CopyOfItemsToTrade, 
+                ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(exchangeQuestData.CopyOfItemsToTrade,
                     exchangeQuestData.ReceivedItem, exchangeQuestData.QuestId));
             }
         }

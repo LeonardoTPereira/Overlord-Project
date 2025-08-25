@@ -16,6 +16,7 @@ namespace Game.Dialogues
         public static event MarkRoomOnMiniMapEvent MarkRoomOnMiniMapEventHandler;
         public static event StartExchangeEvent StartExchangeEventHandler;
         public static event StartGiveEvent StartGiveEventHandler;
+        public static event StartCheckpointEvent StartCheckpointEventHandler;
         public static event StartGiveKeyEvent StartGiveKeyEventHandler;
         
         private string[] _tags;
@@ -101,7 +102,7 @@ namespace Game.Dialogues
         {
             return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("trade=") || tag.StartsWith("give=") || tag.StartsWith("completequestline=");
         }
-        
+
         private void EvaluateTag(string textTag)
         {
             if (textTag.Length <= 0) return;
@@ -127,14 +128,20 @@ namespace Game.Dialogues
                 var npcName = textTag.Split('=')[1];
                 var questId = int.Parse(textTag.Split(',')[1]);
                 StartExchangeEventHandler?.Invoke(this, new StartExchangeEventArgs(questId));
-                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestExchangeDialogueEventArgs(npcName, questId)); 
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestExchangeDialogueEventArgs(npcName, questId));
             }
             else if (textTag.StartsWith("give="))
             {
                 var npcName = textTag.Split('=')[1];
                 var questId = int.Parse(textTag.Split(',')[1]);
                 StartGiveEventHandler?.Invoke(this, new StartGiveEventArgs(questId));
-                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGiveDialogueEventArgs(npcName, questId)); 
+                ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGiveDialogueEventArgs(npcName, questId));
+            }
+            else if (textTag.StartsWith("checkpoint="))
+            {
+                var npcName = textTag.Split('=')[1];
+                var questId = int.Parse(textTag.Split(',')[1]);
+                StartCheckpointEventHandler?.Invoke(this, new StartCheckpointEventArgs(questId));
             }
         }
     }

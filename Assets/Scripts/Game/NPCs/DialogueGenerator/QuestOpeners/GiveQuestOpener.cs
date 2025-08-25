@@ -17,7 +17,7 @@ namespace Game.NPCs
                     "Leve um {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. E não me pergunte por quê—não é da sua conta.",
                     "Olha, eu não confio em mais ninguém para isso, então você vai fazer. Dê {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. Tente não estragar tudo.",
                     "Você vai para lá de qualquer forma, certo? Ótimo. Entregue {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()} enquanto estiver indo.",
-                    "Eu não aguento mais lidar com {questSo.GetTargetNpc()} hoje. Leve {questSo.GetItemAmountString()} para eles por mim, e não me faça me arrepender de ter pedido."
+                    "Eu não aguento mais lidar com {questSo.GetTargetNpc()} hoje. Leve {questSo.GetItemAmountString()} para ele por mim, e não me faça me arrepender de ter pedido."
                     };
                 return new string [] {
                 "Take {questSo.GetItemAmountString()} to {questSo.GetTargetNpc()}. I’d do it myself, but I’ve got better things to do.",
@@ -38,12 +38,12 @@ namespace Game.NPCs
             get {
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string [] {
-                    "Você poderia levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()} para mim? Eles estão esperando isso, e eu ficaria grato pela ajuda!",
-                    "Aqui está um item que {questSo.GetTargetNpc()} precisa. Você pode entregá-lo para eles? Eu confio que você vai fazer isso com segurança.",
-                    "Eu estava querendo entregar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}, mas estou atolado. Você se importaria de levar para eles?",
+                    "Você poderia levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()} para mim? Ele está esperando isso, e eu ficaria grato pela ajuda!",
+                    "Aqui está um item que {questSo.GetTargetNpc()} precisa. Você pode entregá-lo para ele? Eu confio que você vai fazer isso com segurança.",
+                    "Eu estava querendo entregar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}, mas estou atolado. Você se importaria de levar para ele?",
                     "Oh, que coincidência! Eu preciso de alguém para entregar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. Você acha que consegue fazer isso?",
-                    "Eu realmente ficaria grato se você pudesse levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. É algo que eles estão pedindo.",
-                    "Você poderia correr até {questSo.GetTargetNpc()} e entregar {questSo.GetItemAmountString()}? É importante que eles recebam isso logo, e eu sei que posso contar com você."
+                    "Eu realmente ficaria grato se você pudesse levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. É algo que ele está pedindo.",
+                    "Você poderia correr até {questSo.GetTargetNpc()} e entregar {questSo.GetItemAmountString()}? É importante que ele recebam isso logo, e eu sei que posso contar com você."
                     };
                 return new string [] {
                 "Could you take {questSo.GetItemAmountString()} to {questSo.GetTargetNpc()} for me? They’ve been waiting for it, and I’d appreciate the help!",
@@ -60,12 +60,12 @@ namespace Game.NPCs
             get {
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string [] {
-                    "Oh, oi! Justo a pessoa que eu esperava ver! Então, {questSo.GetTargetNpc()} me disse um tempo atrás que eles precisam de {questSo.GetItemAmountString()}. Mas, você sabe como é, eu sempre me distraio e esqueço no meio do caminho. Você pode entregar para eles por mim? Por favor?",
+                    "Oh, oi! Justo a pessoa que eu esperava ver! Então, {questSo.GetTargetNpc()} me disse um tempo atrás que ele precisa de {questSo.GetItemAmountString()}. Mas, você sabe como é, eu sempre me distraio e esqueço no meio do caminho. Você pode entregar para ele por mim? Por favor?",
                     "Ai meu Deus, eu estava querendo levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()} há séculos! Bem, ok, talvez não séculos, mas parece que foi. Enfim, você pode entregar? Você é muito melhor nisso!",
-                    "Então, engraçado, eu prometi a {questSo.GetTargetNpc()} que eu entregaria {questSo.GetItemAmountString()}, mas, bem, sempre acontece alguma coisa! Você pode me ajudar e levar para eles? Você é um salva-vidas!",
+                    "Então, engraçado, eu prometi a {questSo.GetTargetNpc()} que eu entregaria {questSo.GetItemAmountString()}, mas, bem, sempre acontece alguma coisa! Você pode me ajudar e levar para ele? Você é um salva-vidas!",
                     "Oh, isso é perfeito! {questSo.GetTargetNpc()} precisa de {questSo.GetItemAmountString()}, e você é a pessoa perfeita para entregar! Não se importa, né? Quero dizer, você já está indo para lá, certo?",
                     "Ok, então aqui vai o trato—eu preciso levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}, mas sejamos sinceros, eu provavelmente ia deixar cair ou perder ou fazer algo bobo assim. Mas você? Você vai dar conta de tudo!",
-                    "Então, eu estava querendo deixar {questSo.GetItemAmountString()} com {questSo.GetTargetNpc()}, mas, você sabe como é, a vida acaba atrapalhando! Você se importaria de levar para eles? Eu vou te dever um favor. Ou dois!"
+                    "Então, eu estava querendo deixar {questSo.GetItemAmountString()} com {questSo.GetTargetNpc()}, mas, você sabe como é, a vida acaba atrapalhando! Você se importaria de levar para ele? Eu vou te dever um favor. Ou dois!"
                     };
                 return new string [] {
                 "Oh, hey! Just the person I was hoping to see! So, {questSo.GetTargetNpc()} told me a while back that they need {questSo.GetItemAmountString()}. But, you know me—I’d get distracted and forget halfway there. Can you give them it for me? Pretty please?",
