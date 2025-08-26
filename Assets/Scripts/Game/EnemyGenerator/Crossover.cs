@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Util;
+using static Codice.Client.Common.Connection.AskCredentialsToUser;
 
 namespace Game.EnemyGenerator
 {
@@ -19,83 +20,42 @@ namespace Game.EnemyGenerator
             Individual parent2, SearchSpaceConfig searchSpace
         )
         {
-            // Create aliases for the parents' genes
-            var parent1Enemy = parent1.Enemy;
-            var parent1Weapon = parent1.Weapon;
-            var parent2Enemy = parent2.Enemy;
-            var parent2Weapon = parent2.Weapon;
             // Initialize the two new individuals performing a fixed 1-point
             // crossover (crossing enemy and weapon genes)
             Individual[] children = new Individual[2];
-            children[0] = new Individual(parent1Enemy, parent2Weapon);
-            children[1] = new Individual(parent2Enemy, parent1Weapon);
-            // Apply BLX-alpha on enemy attributes
+            children[0] = new Individual(parent1.Enemy, parent2.Weapon);
+            children[1] = new Individual(parent2.Enemy, parent1.Weapon);
+            
             float alpha = (float)RandomSingleton.GetInstance().Random.NextDouble();
-            var enemy1 = children[0].Enemy;
-            var enemy2 = children[1].Enemy;
-            (enemy1.Health,
-             enemy2.Health) =
-                BLXAlpha(
-                    enemy1.Health,
-                    enemy2.Health,
-                    (searchSpace.Status1.Min, searchSpace.Status1.Max),
-                    alpha
-                    );
-            (enemy1.Strength,
-             enemy2.Strength) =
-                BLXAlpha(enemy1.Strength,
-                    enemy2.Strength,
-                    (searchSpace.Status2.Min, searchSpace.Status2.Max),
-                    alpha
-                    );
-            (enemy1.AttackSpeed,
-             enemy2.AttackSpeed) =
-                BLXAlpha(
-                    enemy1.AttackSpeed,
-                    enemy2.AttackSpeed,
-                    (searchSpace.Status3.Min, searchSpace.Status3.Max),
-                    alpha
-                    );
-            (enemy1.MovementSpeed,
-             enemy2.MovementSpeed) =
-                BLXAlpha(
-                    enemy1.MovementSpeed,
-                    enemy2.MovementSpeed,
-                    (searchSpace.Status4.Min, searchSpace.Status4.Max),
-                    alpha
-                    );
-            (enemy1.ActiveTime,
-             enemy2.ActiveTime) =
-                BLXAlpha(
-                    enemy1.ActiveTime,
-                    enemy2.ActiveTime,
-                    (searchSpace.Status5.Min, searchSpace.Status5.Max),
-                    alpha
-                    );
-            (enemy1.RestTime,
-             enemy2.RestTime) =
-                BLXAlpha(
-                    enemy1.RestTime,
-                    enemy2.RestTime,
-                    (searchSpace.Status6.Min, searchSpace.Status6.Max),
-                    alpha
-                    );
-            // If both weapons are of the same type, then apply BLX-alpha on
-            // weapon attributes, otherwise, skip it
-            if (parent1Weapon.Weapon == parent2Weapon.Weapon)
+
+            // Apply BLX-alpha to enemy attributes
+            ApplyBLXAlphaToEnemy(children[0].Enemy, children[1].Enemy, searchSpace, alpha);
+
+            // Apply BLX-alpha to weapon attributes only if both weapons are of same type
+            if (parent1.Weapon.Weapon == parent2.Weapon.Weapon)
             {
-                var weapon1 = children[0].Weapon;
-                var weapon2 = children[1].Weapon;
-                (weapon1.ProjectileSpeed,
-                        weapon2.ProjectileSpeed) =
-                    BLXAlpha(
-                        weapon1.ProjectileSpeed,
-                        weapon2.ProjectileSpeed,
-                        (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max),
-                        alpha
-                        );
+                ApplyBLXAlphaToWeapons(children[0].Weapon, children[1].Weapon, searchSpace, alpha);
             }
+
             return children;
+        }
+
+        private static void ApplyBLXAlphaToEnemy(EnemyData enemy1, EnemyData enemy2, SearchSpaceConfig searchSpace, float alpha)
+        {
+            (enemy1.Status1, enemy2.Status1) = BLXAlpha(enemy1.Status1, enemy2.Status1, (searchSpace.Status1.Min, searchSpace.Status1.Max), alpha);
+            (enemy1.Strength, enemy2.Strength) = BLXAlpha(enemy1.Strength, enemy2.Strength, (searchSpace.Status2.Min, searchSpace.Status2.Max), alpha);
+            (enemy1.AttackSpeed, enemy2.AttackSpeed) = BLXAlpha(enemy1.AttackSpeed, enemy2.AttackSpeed, (searchSpace.Status3.Min, searchSpace.Status3.Max), alpha);
+            (enemy1.MovementSpeed, enemy2.MovementSpeed) = BLXAlpha(enemy1.MovementSpeed, enemy2.MovementSpeed, (searchSpace.Status4.Min, searchSpace.Status4.Max), alpha);
+            (enemy1.ActiveTime, enemy2.ActiveTime) = BLXAlpha(enemy1.ActiveTime, enemy2.ActiveTime, (searchSpace.Status5.Min, searchSpace.Status5.Max), alpha);
+            (enemy1.RestTime, enemy2.RestTime) = BLXAlpha(enemy1.RestTime, enemy2.RestTime, (searchSpace.Status6.Min, searchSpace.Status6.Max), alpha);
+        }
+
+        private static void ApplyBLXAlphaToWeapons(WeaponData weapon1, WeaponData weapon2, SearchSpaceConfig searchSpace, float alpha)
+        {
+            (weapon1.ProjectileSpeed, weapon2.ProjectileSpeed) =
+                BLXAlpha(weapon1.ProjectileSpeed, weapon2.ProjectileSpeed,
+                         (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max),
+                         alpha);
         }
 
         /// Return a tuple of two values calculated by the BLX-alpha.
