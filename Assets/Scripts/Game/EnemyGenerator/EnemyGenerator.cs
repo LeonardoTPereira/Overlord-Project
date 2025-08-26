@@ -52,8 +52,8 @@ namespace Game.EnemyGenerator
             }
             _data.initialPopulation = new List<Individual>(pop.ToList());
 
-            var g = 0;
-            while (!HasReachedStopCriteria(g, pop.MinimumElitesOfEachType(), pop.NIndividualsBetterThan(_parameters.numberOfDesiredElitesPerEnemy, _parameters.minimumAcceptableFitnessPerEnemy)))
+            var currentGeneration = 0;
+            while (!HasReachedStopCriteria(currentGeneration, pop.MinimumElitesOfEachType(), pop.NIndividualsBetterThan(_parameters.numberOfDesiredElitesPerEnemy, _parameters.minimumAcceptableFitnessPerEnemy)))
             {
                 List<Individual> intermediate = new List<Individual>();
                 while (intermediate.Count < _parameters.intermediatePopulationSize)
@@ -79,15 +79,15 @@ namespace Game.EnemyGenerator
 
                 foreach (Individual individual in intermediate)
                 {
-                    individual.Generation = g;
+                    individual.Generation = currentGeneration;
                     pop.PlaceIndividual(individual);
                 }
 
-                if (g == _parameters.maxGenerations / 2)
+                if (currentGeneration == _parameters.maxGenerations / 2)
                 {
                     _data.intermediatePopulation = new List<Individual>(pop.ToList());
                 }
-                g++;
+                currentGeneration++;
             }
 
             _solution = pop;
