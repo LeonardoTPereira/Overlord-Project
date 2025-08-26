@@ -53,15 +53,15 @@ namespace Game.EnemyGenerator
             UnityEngine.Debug.Log("  G=" + Generation);
             UnityEngine.Debug.Log("  F=" + FitnessValue);
             UnityEngine.Debug.Log("  D=" + DifficultyLevel);
-            UnityEngine.Debug.Log("  He=" + Enemy.Health);
-            UnityEngine.Debug.Log("  St=" + Enemy.Strength);
-            UnityEngine.Debug.Log("  AS=" + Enemy.AttackSpeed);
+            UnityEngine.Debug.Log("  He=" + Enemy.Status1);
+            UnityEngine.Debug.Log("  St=" + Enemy.Status2);
+            UnityEngine.Debug.Log("  AS=" + Enemy.Status3);
             UnityEngine.Debug.Log("  MT=" + Enemy.Movement);
-            UnityEngine.Debug.Log("  MS=" + Enemy.MovementSpeed);
-            UnityEngine.Debug.Log("  AT=" + Enemy.ActiveTime);
-            UnityEngine.Debug.Log("  RT=" + Enemy.RestTime);
+            UnityEngine.Debug.Log("  MS=" + Enemy.Status4);
+            UnityEngine.Debug.Log("  AT=" + Enemy.Status5);
+            UnityEngine.Debug.Log("  RT=" + Enemy.Status6);
             UnityEngine.Debug.Log("  WT=" + Weapon.Weapon);
-            UnityEngine.Debug.Log("  PS=" + Weapon.ProjectileSpeed);
+            UnityEngine.Debug.Log("  PS=" + Weapon.WeaponStatus1);
             UnityEngine.Debug.Log("");
         }
 
@@ -70,9 +70,9 @@ namespace Game.EnemyGenerator
         {
             // Create a random enemy
             var (min, max) = (searchSpace.Status1.Min, searchSpace.Status1.Max);
-            var health = RandomSingleton.GetInstance().Next(min, max + 1);
+            var health = RandomSingleton.GetInstance().Next(min, max);
             (min, max) = (searchSpace.Status2.Min, searchSpace.Status2.Max);
-            var strength = RandomSingleton.GetInstance().Next(min, max + 1);
+            var strength = RandomSingleton.GetInstance().Next(min, max);
             var (minFloat, maxFloat) = (searchSpace.Status3.Min, searchSpace.Status3.Max);
             var attackSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             var movementType = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.MovementSet.GetAllMovementTypes()); //List<Enum>
@@ -101,13 +101,13 @@ namespace Game.EnemyGenerator
     [Serializable]
     public struct EnemyData
     {
-        public float Health { get; set; }
-        public float Strength { get; set; }
-        public float AttackSpeed { get; set; }
-        public Enum Movement { get; set; }
-        public float MovementSpeed { get; set; }
-        public float ActiveTime { get; set; }
-        public float RestTime { get; set; }
+        public float Status1 { get; set; }      // Old name: Health
+        public float Status2 { get; set; }      // Old name: Strength
+        public float Status3 { get; set; }      // Old name: AttackSpeed
+        public Enum Movement { get; set; }      // Old name: MovementType
+        public float Status4 { get; set; }      // Old name: MovementSpeed
+        public float Status5 { get; set; }      // Old name: ActiveTime
+        public float Status6 { get; set; }      // Old name: RestTime
 
         /// Enemy contructor.
         public EnemyData(
@@ -120,13 +120,13 @@ namespace Game.EnemyGenerator
             float restTime
         )
         {
-            Health = health;
-            Strength = strength;
-            AttackSpeed = attackSpeed;
+            Status1 = health;
+            Status2 = strength;
+            Status3 = attackSpeed;
             Movement = movement;
-            MovementSpeed = movementSpeed;
-            ActiveTime = activeTime;
-            RestTime = restTime;
+            Status4 = movementSpeed;
+            Status5 = activeTime;
+            Status6 = restTime;
         }
     }
 
@@ -135,7 +135,7 @@ namespace Game.EnemyGenerator
     public struct WeaponData
     {
         public WeaponType Weapon { get; set; }
-        public float ProjectileSpeed { get; set; }
+        public float WeaponStatus1 { get; set; }    // Old name: ProjectileSpeed
 
         /// Weapon constructor.
         public WeaponData(
@@ -144,7 +144,7 @@ namespace Game.EnemyGenerator
         )
         {
             Weapon = weapon;
-            ProjectileSpeed = projectileSpeed;
+            WeaponStatus1 = projectileSpeed;
         }
     }
 }

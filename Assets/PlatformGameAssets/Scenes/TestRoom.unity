@@ -647,11 +647,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _searchSpaceConfig:
     Status1:
-      Min: 1
-      Max: 6
+      Min: 2.0315485
+      Max: 7.0315485
     Status2:
-      Min: 1
-      Max: 4
+      Min: 2.0315485
+      Max: 5.0315475
     Status3:
       Min: 0.75
       Max: 4

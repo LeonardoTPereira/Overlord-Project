@@ -59,17 +59,17 @@ namespace Game.EnemyGenerator
             EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
 
             enemySo.Init(
-                (int)individual.Enemy.Health,
-                (int)individual.Enemy.Strength,
-                individual.Enemy.MovementSpeed,
-                individual.Enemy.ActiveTime,
-                individual.Enemy.RestTime,
+                (int)individual.Enemy.Status1,
+                (int)individual.Enemy.Status2,
+                individual.Enemy.Status4,
+                individual.Enemy.Status5,
+                individual.Enemy.Status6,
                 _weaponTypeSO.Items[Convert.ToInt32(individual.Weapon.Weapon)],
                 _movementTypeSOList[Convert.ToInt32(individual.Enemy.Movement)],
                 null, // Behavior not implemented yet
                 individual.FitnessValue,
-                individual.Enemy.AttackSpeed,
-                individual.Weapon.ProjectileSpeed
+                individual.Enemy.Status3,
+                individual.Weapon.WeaponStatus1
             );
 
             return enemySo;

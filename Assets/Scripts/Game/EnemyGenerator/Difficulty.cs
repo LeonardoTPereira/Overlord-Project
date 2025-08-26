@@ -34,7 +34,7 @@ namespace Game.EnemyGenerator
             Individual _individual
         )
         {
-            return _individual.Enemy.Health * 2;
+            return _individual.Enemy.Status1 * 2;   // Status1 is the enemy health
         }
 
         /// Calculate and return the movement factor.
@@ -45,10 +45,10 @@ namespace Game.EnemyGenerator
             // Create an alias for the enemy gene of the individual
             EnemyData e = _individual.Enemy;
             // Calculate movement factor
-            float fM = e.MovementSpeed;
+            float fM = e.Status4;
             // Both active time and rest time affect the behavior regarding
             // the enemies' movements, not the enemies' battles
-            fM += e.ActiveTime / 3 + 1 / e.RestTime;
+            fM += e.Status5 / 3 + 1 / e.Status6;
             return fM;
         }
 
@@ -65,15 +65,15 @@ namespace Game.EnemyGenerator
             // Melee enemies attack by touching the player, therefore, the
             // movement speed increase their strenght
             fS *= SearchSpace.MeleeWeaponList().Contains(w.Weapon) ?
-                e.Strength * e.MovementSpeed : 1;
+                e.Status2 * e.Status4 : 1;
             // Shooter enemies attack by throwing projectiles, then we count
             // both attack speed (shooting frequency) and projectile speed
             // Besides, the projectiles have the same damage
             fS *= SearchSpace.RangedWeaponList().Contains(w.Weapon) ?
-                (e.AttackSpeed * w.ProjectileSpeed) * 3 : 1;
+                (e.Status3 * w.WeaponStatus1) * 3 : 1;
             // The cooldown of healer enemies follows the attack speed
             fS *= w.Weapon == WeaponType.CureSpell ?
-                e.AttackSpeed * 2 : 1;
+                e.Status3 * 2 : 1;
             return fS;
         }
 
@@ -106,7 +106,7 @@ namespace Game.EnemyGenerator
             if (!RulesGeneratorFacade.Instance.GetEnemyMovementType().GetHealerMovementList().Contains(e.Movement))
                 fG *= HighPenalty;
 
-            fG *= e.MovementSpeed * 1.15f;
+            fG *= e.Status4 * 1.15f;
             return fG;
         }
 
@@ -124,7 +124,7 @@ namespace Game.EnemyGenerator
                     fG *= HighPenalty;
                     break;
                 case TopdownEnemyMovementsSO.MovementTypeEnums.Follow:
-                    fG *= HighPenalty / (e.MovementSpeed * 2);
+                    fG *= HighPenalty / (e.Status4 * 2);
                     break;
             }
 

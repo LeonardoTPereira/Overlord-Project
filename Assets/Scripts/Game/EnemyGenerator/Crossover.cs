@@ -43,17 +43,17 @@ namespace Game.EnemyGenerator
         private static void ApplyBLXAlphaToEnemy(EnemyData enemy1, EnemyData enemy2, SearchSpaceConfig searchSpace, float alpha)
         {
             (enemy1.Status1, enemy2.Status1) = BLXAlpha(enemy1.Status1, enemy2.Status1, (searchSpace.Status1.Min, searchSpace.Status1.Max), alpha);
-            (enemy1.Strength, enemy2.Strength) = BLXAlpha(enemy1.Strength, enemy2.Strength, (searchSpace.Status2.Min, searchSpace.Status2.Max), alpha);
-            (enemy1.AttackSpeed, enemy2.AttackSpeed) = BLXAlpha(enemy1.AttackSpeed, enemy2.AttackSpeed, (searchSpace.Status3.Min, searchSpace.Status3.Max), alpha);
-            (enemy1.MovementSpeed, enemy2.MovementSpeed) = BLXAlpha(enemy1.MovementSpeed, enemy2.MovementSpeed, (searchSpace.Status4.Min, searchSpace.Status4.Max), alpha);
-            (enemy1.ActiveTime, enemy2.ActiveTime) = BLXAlpha(enemy1.ActiveTime, enemy2.ActiveTime, (searchSpace.Status5.Min, searchSpace.Status5.Max), alpha);
-            (enemy1.RestTime, enemy2.RestTime) = BLXAlpha(enemy1.RestTime, enemy2.RestTime, (searchSpace.Status6.Min, searchSpace.Status6.Max), alpha);
+            (enemy1.Status2, enemy2.Status2) = BLXAlpha(enemy1.Status2, enemy2.Status2, (searchSpace.Status2.Min, searchSpace.Status2.Max), alpha);
+            (enemy1.Status3, enemy2.Status3) = BLXAlpha(enemy1.Status3, enemy2.Status3, (searchSpace.Status3.Min, searchSpace.Status3.Max), alpha);
+            (enemy1.Status4, enemy2.Status4) = BLXAlpha(enemy1.Status4, enemy2.Status4, (searchSpace.Status4.Min, searchSpace.Status4.Max), alpha);
+            (enemy1.Status5, enemy2.Status5) = BLXAlpha(enemy1.Status5, enemy2.Status5, (searchSpace.Status5.Min, searchSpace.Status5.Max), alpha);
+            (enemy1.Status6, enemy2.Status6) = BLXAlpha(enemy1.Status6, enemy2.Status6, (searchSpace.Status6.Min, searchSpace.Status6.Max), alpha);
         }
 
         private static void ApplyBLXAlphaToWeapons(WeaponData weapon1, WeaponData weapon2, SearchSpaceConfig searchSpace, float alpha)
         {
-            (weapon1.ProjectileSpeed, weapon2.ProjectileSpeed) =
-                BLXAlpha(weapon1.ProjectileSpeed, weapon2.ProjectileSpeed,
+            (weapon1.WeaponStatus1, weapon2.WeaponStatus1) =
+                BLXAlpha(weapon1.WeaponStatus1, weapon2.WeaponStatus1,
                          (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max),
                          alpha);
         }
