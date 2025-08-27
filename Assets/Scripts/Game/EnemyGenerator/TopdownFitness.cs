@@ -1,24 +1,25 @@
+using Game.EnemyGenerator;
 using Overlord.GenerationController.Facade;
 using System;
-using System.Diagnostics;
+using UnityEngine;
 
-namespace Game.EnemyGenerator
+namespace TopdownGame.Overlord.Inheritance.RulesGenerator
 {
     /// This class holds all the fitness-related functions.
-    public static class Fitness
+    public class TopdownFitness: IEnemyFitness
     {
         /// The error message of cannot compare individuals.
-        public static readonly string CANNOT_COMPARE_INDIVIDUALS =
+        public readonly string CANNOT_COMPARE_INDIVIDUALS =
             "There is no way of comparing two null individuals.";
 
         /// Calculate the fitness value of the entered individual.
         ///
         /// An individual's fitness is defined by the distance of the
         /// individual's difficulty and the difficulty goal.
-        public static void Calculate(ref Individual _individual, float goal)
+        public void Calculate(ref Individual individual, float goal)
         {
-            float fitnessFactor = Fitness.CalculateFitnessFactor(_individual);
-            _individual.FitnessValue = Math.Abs(goal - fitnessFactor);
+            float fitnessFactor = CalculateFitnessFactor(individual);
+            individual.FitnessValue = Math.Abs(goal - fitnessFactor);
         }
 
         /// Return true if the first individual (`_i1`) is best than the second
@@ -29,7 +30,7 @@ namespace Game.EnemyGenerator
         /// has the lesser value. If `_i1` is null, then `_i2` is the best
         /// individual. If `_i2` is null, then `_i1` is the best individual. If
         /// both individuals are null, then the comparison cannot be performed.
-        public static bool IsBest(Individual _i1, Individual _i2)
+        public bool IsBest(Individual _i1, Individual _i2)
         {
             Debug.Assert(
                 _i1 != null || _i2 != null,
@@ -38,21 +39,21 @@ namespace Game.EnemyGenerator
             if (_i1 is null) { return false; }
             if (_i2 is null) { return true; }
             return _i2.FitnessValue > _i1.FitnessValue;
-        }    
+        }
 
-    /// This class holds the enemy difficulty function.
-    ///
-    /// This difficulty function calculates four factors: health, strength,
-    /// movement, and gameplay. Since one of the factors is the gameplay, this
-    /// function depends on the in-game behavior of the enemies. This version
-    /// handles only the gameplay of the game prototype mentioned in Program.cs.
+        /// This class holds the enemy difficulty function.
+        ///
+        /// This difficulty function calculates four factors: health, strength,
+        /// movement, and gameplay. Since one of the factors is the gameplay, this
+        /// function depends on the in-game behavior of the enemies. This version
+        /// handles only the gameplay of the game prototype mentioned in Program.cs.
 
         private const float HighBonus = 1.25f;
         private const float HighPenalty = 0.5f;
         private const float LowBonus = 1.15f;
 
         /// Calculate the difficulty of the entered individual.
-        private static float CalculateFitnessFactor(Individual individual)
+        private float CalculateFitnessFactor(Individual individual)
         {
             // Calculate all the difficulty factors
             float fH = CalculateHealthFactor(individual);
@@ -64,13 +65,13 @@ namespace Game.EnemyGenerator
         }
 
         /// Return the health factor.
-        private static float CalculateHealthFactor(Individual _individual)
+        private float CalculateHealthFactor(Individual _individual)
         {
             return _individual.Enemy.Status1 * 2;   // Status1 is the enemy health
         }
 
         /// Calculate and return the movement factor.
-        private static float CalculateMovementFactor(Individual _individual)
+        private float CalculateMovementFactor(Individual _individual)
         {
             // Create an alias for the enemy gene of the individual
             EnemyData e = _individual.Enemy;
@@ -83,7 +84,7 @@ namespace Game.EnemyGenerator
         }
 
         /// Calculate and return the strength factor.
-        private static float CalculateStrengthFactor(Individual _individual)
+        private float CalculateStrengthFactor(Individual _individual)
         {
             // Create aliases for the genes of the individual
             EnemyData e = _individual.Enemy;
@@ -109,7 +110,7 @@ namespace Game.EnemyGenerator
         ///
         /// The gameplay weights were empirically chosen based on the gameplay
         /// of the game prototype mentioned in Program.cs
-        private static float CalculateGameplayFactor(Individual individual)
+        private float CalculateGameplayFactor(Individual individual)
         {
             var enemy = individual.Enemy;
             var weapon = individual.Weapon;
@@ -129,7 +130,7 @@ namespace Game.EnemyGenerator
             return gameplayFactor;
         }
 
-        private static float CalculateHealerGameplayFactor(EnemyData e, float fG)
+        private float CalculateHealerGameplayFactor(EnemyData e, float fG)
         {
             if (!RulesGeneratorFacade.Instance.GetEnemyMovementType().GetHealerMovementList().Contains(e.Movement))
                 fG *= HighPenalty;
@@ -138,7 +139,7 @@ namespace Game.EnemyGenerator
             return fG;
         }
 
-        private static float CalculateRangedWeaponGameplayFactor(EnemyData e, float fG)
+        private float CalculateRangedWeaponGameplayFactor(EnemyData e, float fG)
         {
             switch (e.Movement)
             {
@@ -159,7 +160,7 @@ namespace Game.EnemyGenerator
             return fG;
         }
 
-        private static float CalculateMeleeWeaponGameplayFactor(EnemyData e, float fG)
+        private float CalculateMeleeWeaponGameplayFactor(EnemyData e, float fG)
         {
             switch (e.Movement)
             {

@@ -13,18 +13,20 @@ namespace Game.EnemyGenerator
         private SearchSpaceConfig _searchSpace;
         private Population _solution;
         private GeneticAlgorithmData _data;
-
         public Population Solution { get => _solution; }
         public GeneticAlgorithmData Data { get => _data; }
+        private readonly IEnemyFitness _fitnessFunction;
 
-        public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters, SearchSpaceConfig searchSpace)
+        public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters, SearchSpaceConfig searchSpace, IEnemyFitness fitnessFunction)
         {
             _parameters = parameters;
             _searchSpace = searchSpace;
+            _fitnessFunction = fitnessFunction;
             _data = new GeneticAlgorithmData
             {
                 geneticAlgorithmSettings = _parameters
             };
+            _fitnessFunction = fitnessFunction;
         }
 
         public Population Evolve()
@@ -47,6 +49,7 @@ namespace Game.EnemyGenerator
             {
                 Individual ind = Individual.GetRandom(_searchSpace);
                 //Difficulty.Calculate(ref ind);
+                _fitnessFunction.Calculate(ref ind, _parameters.difficulty);
                 Fitness.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }

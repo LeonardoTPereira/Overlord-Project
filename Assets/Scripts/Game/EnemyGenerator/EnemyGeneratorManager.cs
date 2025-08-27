@@ -18,7 +18,8 @@ namespace Game.EnemyGenerator
 
         private EnemyGenerator _generator;
         private RulesGeneratorFacade _rulesFacade;
-        
+        private IEnemyFitness _fitnessFunction;
+
         public static EnemyGeneratorManager Instance { get; private set; } = null;
 
         private void Awake()
@@ -54,11 +55,13 @@ namespace Game.EnemyGenerator
             _geneticSettings.numberOfMovements = _searchSpaceConfig.MovementSet.GetEnemyMovementCount();
             _geneticSettings.numberOfWeapons = _searchSpaceConfig.WeaponSet.GetEnemyWeaponCount();
             _geneticSettings.difficulty = EnemyDifficultyFactor.GetDifficultyFactor(difficultyLevels);
+            _fitnessFunction = new TopdownGame.Overlord.Inheritance.RulesGenerator.TopdownFitness();
+
         }
         
         private void EvolveEnemies()
         {
-            _generator = new EnemyGenerator(_geneticSettings, _searchSpaceConfig);
+            _generator = new EnemyGenerator(_geneticSettings, _searchSpaceConfig, _fitnessFunction);
             _generator.Evolve();
         }
     }
