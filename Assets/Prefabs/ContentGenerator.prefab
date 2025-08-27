@@ -48,30 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _searchSpaceConfig:
-    Status1:
-      Min: 1
-      Max: 6
-    Status2:
-      Min: 1
-      Max: 4
-    Status3:
-      Min: 0.75
-      Max: 4
-    Status4:
-      Min: 0.8
-      Max: 3.2
-    Status5:
-      Min: 1.5
-      Max: 10
-    Status6:
-      Min: 0.3
-      Max: 1.5
-    WeaponStatus1:
-      Min: 1
-      Max: 4
-    MovementSet: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22, type: 2}
-    WeaponSet: {fileID: 11400000, guid: f7837c202c5349b42879b78afca7a448, type: 2}
+  _searchSpaceConfig: {fileID: 11400000, guid: 003dd600a079de24dbca892d23726e76, type: 2}
   ActivateManualDifficulty: 0
   difficulties: 0
   _geneticSettings:

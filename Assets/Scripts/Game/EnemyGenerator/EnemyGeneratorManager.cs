@@ -8,7 +8,8 @@ namespace Game.EnemyGenerator
 {
     public class EnemyGeneratorManager : MonoBehaviour
     {
-        [SerializeField] private SearchSpaceConfig _searchSpaceConfig;
+        [DisplayInspector]
+        public SearchSpaceConfig _searchSpaceConfig;
 
         public bool ActivateManualDifficulty;
         [ConditionalField(nameof(ActivateManualDifficulty))] public DifficultyLevels difficulties;
