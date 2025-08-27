@@ -24,14 +24,14 @@ namespace Game.EnemyGenerator
         /// The MAP-Elites map (a matrix of individuals).
         public Individual[,] map { get; }
 
+        private IEnemyFitness _fitnessFunction;
+
         /// MAP-Elites Population constructor.
-        public Population(
-            int _movement,
-            int _weapons
-        )
+        public Population(int _movement, int _weapons, IEnemyFitness fitnessFunction)
         {
             dimension = (_movement, _weapons);
             map = new Individual[dimension.movement, dimension.weapon];
+            _fitnessFunction = fitnessFunction;
         }
 
         /// Return the number of Elites of the population.
@@ -82,7 +82,7 @@ namespace Game.EnemyGenerator
             int m = Convert.ToInt32(_individual.Enemy.Movement);
             int w = Convert.ToInt32(_individual.Weapon.Weapon);
             // If the new individual deserves to survive
-            if (Fitness.IsBest(_individual, map[m, w]))
+            if (_fitnessFunction.IsBest(_individual, map[m, w]))
             {
                 // Then, place the individual in the MAP-Elites population
                 map[m, w] = _individual;

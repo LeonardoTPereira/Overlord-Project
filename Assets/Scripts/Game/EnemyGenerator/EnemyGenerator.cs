@@ -13,9 +13,9 @@ namespace Game.EnemyGenerator
         private SearchSpaceConfig _searchSpace;
         private Population _solution;
         private GeneticAlgorithmData _data;
+        private readonly IEnemyFitness _fitnessFunction;
         public Population Solution { get => _solution; }
         public GeneticAlgorithmData Data { get => _data; }
-        private readonly IEnemyFitness _fitnessFunction;
 
         public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters, SearchSpaceConfig searchSpace, IEnemyFitness fitnessFunction)
         {
@@ -43,14 +43,14 @@ namespace Game.EnemyGenerator
             
             Population pop = new Population(
                 _parameters.numberOfMovements,
-                _parameters.numberOfWeapons
+                _parameters.numberOfWeapons,
+                _fitnessFunction
             );
             while (pop.Count() < _parameters.initialPopulationSize)
             {
                 Individual ind = Individual.GetRandom(_searchSpace);
                 //Difficulty.Calculate(ref ind);
                 _fitnessFunction.Calculate(ref ind, _parameters.difficulty);
-                Fitness.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }
             _data.initialPopulation = new List<Individual>(pop.ToList());
@@ -61,7 +61,7 @@ namespace Game.EnemyGenerator
                 List<Individual> intermediate = new List<Individual>();
                 while (intermediate.Count < _parameters.intermediatePopulationSize)
                 {
-                    Individual[] parents = Selection.Select(CROSSOVER_PARENTS, _parameters.numberOfCompetitors, pop);
+                    Individual[] parents = Selection.Select(CROSSOVER_PARENTS, _parameters.numberOfCompetitors, pop, _fitnessFunction);
                     Individual[] offspring = Crossover.Apply(parents[0], parents[1], _searchSpace);
 
                     if (_parameters.mutationRate > RandomSingleton.GetInstance().RandomPercent())
@@ -75,7 +75,7 @@ namespace Game.EnemyGenerator
                     for (int i = 0; i < offspring.Length; i++)
                     {
                         //Difficulty.Calculate(ref offspring[i]);
-                        Fitness.Calculate(ref offspring[i], _parameters.difficulty);
+                        _fitnessFunction.Calculate(ref offspring[i], _parameters.difficulty);
                         intermediate.Add(offspring[i]);
                     }
                 }
