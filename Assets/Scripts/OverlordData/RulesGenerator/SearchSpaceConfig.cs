@@ -1,11 +1,12 @@
 using MyBox;
 using UnityEditor;
 using UnityEngine;
+using Overlord.UI;
 
 [CreateAssetMenu(fileName = "SearchSpaceSO", menuName = "Overlord-Project/Rules-Generator/SearchSpaceConfigSO")]
-public class SearchSpaceConfig: ScriptableObject
+public class SearchSpaceConfig : ScriptableObject
 {
-    public MinMaxSliderRange Status1 = new MinMaxSliderRange(.1f,10f,2,7, "Status1");
+    public MinMaxSliderRange Status1 = new MinMaxSliderRange(.1f, 10f, 2, 7, "Status1");
     public MinMaxSliderRange Status2 = new MinMaxSliderRange(.1f, 10f, 2f, 5f, "Status2");
     public MinMaxSliderRange Status3 = new MinMaxSliderRange(.1f, 10f, 0.75f, 4f, "Status3");
     public MinMaxSliderRange Status4 = new MinMaxSliderRange(.1f, 10f, 0.8f, 3.2f, "Status4");
@@ -18,7 +19,6 @@ public class SearchSpaceConfig: ScriptableObject
     [DisplayInspector]
     public EnemyWeaponsSOInterface WeaponSet;
 }
-
 
 [CustomEditor(typeof(SearchSpaceConfig))]
 public class SearchSpaceConfigEditor : Editor

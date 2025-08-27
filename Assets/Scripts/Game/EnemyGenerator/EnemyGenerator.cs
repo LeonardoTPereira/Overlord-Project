@@ -46,7 +46,7 @@ namespace Game.EnemyGenerator
             while (pop.Count() < _parameters.initialPopulationSize)
             {
                 Individual ind = Individual.GetRandom(_searchSpace);
-                Difficulty.Calculate(ref ind);
+                //Difficulty.Calculate(ref ind);
                 Fitness.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }
@@ -71,7 +71,7 @@ namespace Game.EnemyGenerator
 
                     for (int i = 0; i < offspring.Length; i++)
                     {
-                        Difficulty.Calculate(ref offspring[i]);
+                        //Difficulty.Calculate(ref offspring[i]);
                         Fitness.Calculate(ref offspring[i], _parameters.difficulty);
                         intermediate.Add(offspring[i]);
                     }
