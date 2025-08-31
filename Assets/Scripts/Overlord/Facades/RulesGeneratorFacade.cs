@@ -8,7 +8,7 @@ using Game.EnemyGenerator;
 
 namespace Overlord.GenerationController.Facade
 {    
-    public sealed class RulesGeneratorFacade//<IEnemy>
+    public sealed class RulesGeneratorFacade
     {
         private static RulesGeneratorFacade _instance;
         public static RulesGeneratorFacade Instance
@@ -67,29 +67,4 @@ namespace Overlord.GenerationController.Facade
         }
         */
     }
-
-    public class TopdownEnemy : IEnemy
-    {
-        public int health;
-        public int damage;
-        public float movementSpeed;
-        public float activeTime;
-        public float restTime;
-        //[SerializeField]
-        //public WeaponTypeSo weapon;
-        //[SerializeField]
-        //public MovementTypeSO movement;
-        //[SerializeField]
-        //public BehaviorTypeSO behavior;
-        public float fitness;
-        public float attackSpeed;
-        public float projectileSpeed;
-        
-        
-        
-        // Transform in EnemySO
-    }
 }
-
-
-
