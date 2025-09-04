@@ -13,6 +13,8 @@ namespace Game.NarrativeGenerator
     [Serializable]
     public class PlayerProfile
     {
+        public bool IsFixedFromExperiment { get; set; }
+
         [Serializable]
         public enum PlayerProfileCategory
         {

@@ -1,4 +1,4 @@
-using System;
+//TODO: Organizar os scripts relacionados abaixo em um numero menor de namespaces
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.DataCollection;
@@ -17,97 +17,50 @@ using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 using Util;
+using Overlord.ProfileAnalyst;
 
 namespace Game.NarrativeGenerator
 {
-    [RequireComponent(typeof(EnemyGeneratorManager), typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(PlayerProfileManager), typeof(EnemyGeneratorManager), typeof(LevelGeneratorManager))]
     public class QuestGeneratorManager : MonoBehaviour
     {
         [MustBeAssigned, SerializeReference, SerializeField]
         private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines;
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
         public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
+
         [SerializeReference, SerializeField] private QuestLineList questLines;
-        private List<QuestLineList> _questLineListsForProfile;
+        private List<QuestLineList> _questLinesForProfile;
+
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
-        private bool _fixedProfileFromExperiment;
 
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
-        [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
-        [field: SerializeField, MustBeAssigned] public DungeonDataController CurrentDungeonDataController {get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
-        public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
 
+        public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
 
         public void OnEnable()
         {
-            NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
-            FormBhv.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
-            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
-            ProfileTester.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
-            LevelSelectManager.CompletedAllLevelsEventHandler += SelectPlayerProfile;
+            PlayerProfileManager.ProfileSelected += HandleProfileSelected;
         }
 
         public void OnDisable()
         {
-            NarrativeGenerator.NarrativeCreatorEventHandler -= SelectPlayerProfile;
-            FormBhv.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
-            RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
-            ProfileTester.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
-            LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
+            PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
-        private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
+        private async void HandleProfileSelected(PlayerProfile profile)
         {
-            var playerProfile = ProfileCalculator.CreateProfile(e);
-            await CreateOrLoadNarrativeForProfile(playerProfile);
-        }
-
-        private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
-        {
-            _fixedProfileFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
-            var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
-                CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
-            if (_fixedProfileFromExperiment)
-            {
-                await CreateOrLoadNarrativeForProfile(playerProfile);
-            }
-            else
-            {
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            }
-        }
-
-        private async void SelectPlayerProfile(object sender, ProfileTesterEventArgs e)
-        {
-            foreach (var formAnsweredArgs in e.Answers)
-            {
-                var playerProfile = ProfileCalculator.CreateProfile(formAnsweredArgs.AnswerValue,
-                    CurrentGeneratorSettings.EnableRandomProfileToPlayer,
-                    CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
-                await CreateOrLoadNarrativeForProfile(playerProfile);
-            }
-        }
-
-        private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
-        {
-            
-            var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentDungeonDataController.CurrentDungeon);
-            await CreateOrLoadNarrativeForProfile(playerProfile);
-        }
-
-        private async Task CreateOrLoadNarrativeForProfile(PlayerProfile playerProfile)
-        {
-            if (MustCreateNarrative)
+            if (profile.IsFixedFromExperiment || MustCreateNarrative)
             {
                 questLines = Selector.CreateMissions(CurrentGeneratorSettings);
-                await CreateNarrative(playerProfile);
+                await CreateNarrative(profile);
             }
             else
             {
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(profile));
             }
         }
 
@@ -169,13 +122,13 @@ namespace Game.NarrativeGenerator
             if (playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
                     playerProfile.PlayerProfileEnum.ToString(), out var questLinesForProfile))
             {
-                _questLineListsForProfile = questLinesForProfile;
+                _questLinesForProfile = questLinesForProfile;
             }
             else
             {
-                _questLineListsForProfile = new List<QuestLineList>();
-                _questLineListsForProfile.Add(questLines);
-                playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLineListsForProfile);
+                _questLinesForProfile = new List<QuestLineList>();
+                _questLinesForProfile.Add(questLines);
+                playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLinesForProfile);
             }
         }
 
