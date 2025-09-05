@@ -4,15 +4,15 @@ using System.Linq;
 using Game.DataCollection;
 using Game.Events;
 using Util;
+using Game.NarrativeGenerator;
 using static Util.Enums;
 
-namespace Game.NarrativeGenerator
+namespace Overlord.ProfileAnalyst
 {
     public static class ProfileCalculator
     {
         private static Dictionary<string, int> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
-
 
         public static PlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
         {
@@ -38,7 +38,6 @@ namespace Game.NarrativeGenerator
         {
             _questWeightsByType = eventArgs.QuestWeightsbyType;
             return CreateProfileWithWeights();
-
         }
         
         public static PlayerProfile CreateProfile(PlayerData playerData, DungeonData dungeonData)

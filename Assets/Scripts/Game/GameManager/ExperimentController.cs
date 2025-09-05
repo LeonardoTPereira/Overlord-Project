@@ -1,4 +1,5 @@
-﻿using Game.Events;
+﻿using Overlord.ProfileAnalyst;
+using Game.Events;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;

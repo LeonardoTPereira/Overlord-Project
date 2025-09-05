@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.LevelGenerator.LevelSOs;
+using Overlord.ProfileAnalyst;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NPCs;

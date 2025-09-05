@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.LevelManager.DungeonLoader;
-using Game.NarrativeGenerator;
+using Overlord.ProfileAnalyst;
 using UnityEngine;
 using Util;
 #if !UNITY_WEBGL || UNITY_EDITOR

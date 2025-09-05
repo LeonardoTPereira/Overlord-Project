@@ -5,7 +5,7 @@ using UnityEngine;
 using Firebase.Firestore;
 #endif
 
-namespace Game.NarrativeGenerator
+namespace Overlord.ProfileAnalyst
 {
     #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreData]

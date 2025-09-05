@@ -1,4 +1,4 @@
-﻿using Game.NarrativeGenerator;
+﻿using Overlord.ProfileAnalyst;
 using System;
 
 namespace Game.Events

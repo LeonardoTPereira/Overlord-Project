@@ -9,6 +9,7 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using System;
 using UnityEngine;
+using Overlord.ProfileAnalyst;
 
 namespace Game.DataCollection
 {
