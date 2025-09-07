@@ -27,7 +27,7 @@ namespace Game.NarrativeGenerator.Quests
         [field: SerializeField] public QuestItemsParameters ItemParametersForQuestLines { get; set; }
         [field: SerializeField] public QuestDungeonsParameters DungeonParametersForQuestLines { get; set; }
         [field: SerializeField] public QuestEnemiesParameters EnemyParametersForQuestLines { get; set; }
-        [field: SerializeField] public PlayerProfile TargetProfile { get; set; }
+        [field: SerializeField] public YeePlayerProfile TargetProfile { get; set; }
 
         public void Init()
         {

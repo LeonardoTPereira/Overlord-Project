@@ -1,7 +1,6 @@
 //TODO: Organizar os scripts relacionados abaixo em um numero menor de namespaces
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.DataCollection;
 using Game.EnemyGenerator;
 using Game.Events;
 using Game.ExperimentControllers;
@@ -51,7 +50,7 @@ namespace Game.NarrativeGenerator
             PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
-        private async void HandleProfileSelected(PlayerProfile profile)
+        private async void HandleProfileSelected(YeePlayerProfile profile)
         {
             if (profile.IsFixedFromExperiment || MustCreateNarrative)
             {
@@ -70,7 +69,7 @@ namespace Game.NarrativeGenerator
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
-        private async Task CreateNarrative(PlayerProfile playerProfile)
+        private async Task CreateNarrative(YeePlayerProfile playerProfile)
         {
             SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestLine(playerProfile);
@@ -117,7 +116,7 @@ namespace Game.NarrativeGenerator
 #endif
         }
 
-        private void SetQuestLineListForProfile(PlayerProfile playerProfile)
+        private void SetQuestLineListForProfile(YeePlayerProfile playerProfile)
         {
             if (playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
                     playerProfile.PlayerProfileEnum.ToString(), out var questLinesForProfile))
@@ -132,7 +131,7 @@ namespace Game.NarrativeGenerator
             }
         }
 
-        private void CreateGeneratorParametersForQuestLine(PlayerProfile playerProfile)
+        private void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)
         {
             questLines.DungeonParametersForQuestLines = new QuestDungeonsParameters();
             questLines.EnemyParametersForQuestLines = new QuestEnemiesParameters();

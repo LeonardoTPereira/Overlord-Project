@@ -84,7 +84,7 @@ namespace Game.GameManager
             return questLines;
         }
 
-        private void SetQuestLinesForProfile(PlayerProfile playerProfile)
+        private void SetQuestLinesForProfile(YeePlayerProfile playerProfile)
         {
             _questLinesListForProfile = new List<QuestLineList>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
                 playerProfile.PlayerProfileEnum.ToString()]);
@@ -93,7 +93,7 @@ namespace Game.GameManager
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
 
-            PlayerProfile selectedProfile;
+            YeePlayerProfile selectedProfile;
             if (sender.GetType() == typeof(RealTimeLevelSelectManager))
             {
                 selectedProfile = profileSelectedEventArgs.PlayerProfile;
@@ -107,10 +107,10 @@ namespace Game.GameManager
                 }
                 else
                 {
-                    selectedProfile = new PlayerProfile();
+                    selectedProfile = new YeePlayerProfile();
                     do
                     {
-                        selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
+                        selectedProfile.PlayerProfileEnum = (YeePlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
                     } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
                 }
                 ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));

@@ -16,7 +16,7 @@ namespace Game.DataCollection
     public class DungeonDataController : MonoBehaviour
     {
         public DungeonData CurrentDungeon { get; set; }
-        private PlayerProfile _inputProfile;
+        private YeePlayerProfile _inputProfile;
 
         private void OnEnable()
         {

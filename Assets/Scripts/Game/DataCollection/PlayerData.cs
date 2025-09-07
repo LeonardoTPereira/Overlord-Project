@@ -27,8 +27,8 @@ namespace Game.DataCollection
             {
                 PreFormAnswers = new List<int>(),
                 PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue) + (int)Time.realtimeSinceStartup,
-                PlayerProfile = new PlayerProfile(),
-                GivenPlayerProfile = new PlayerProfile()
+                PlayerProfile = new YeePlayerProfile(),
+                GivenPlayerProfile = new YeePlayerProfile()
             };
             DungeonByAttempt = new DungeonDataByAttempt();
         }
@@ -323,11 +323,11 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
-            [field: SerializeField] public PlayerProfile PlayerProfile { get; set; }
+            [field: SerializeField] public YeePlayerProfile PlayerProfile { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
-            [field: SerializeField] public PlayerProfile GivenPlayerProfile { get; set; }
+            [field: SerializeField] public YeePlayerProfile GivenPlayerProfile { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif

@@ -11,10 +11,8 @@ namespace Overlord.ProfileAnalyst
         [FirestoreData]
     #endif
     [Serializable]
-    public class PlayerProfile
+    public class YeePlayerProfile: PlayerProfile
     {
-        public bool IsFixedFromExperiment { get; set; }
-
         [Serializable]
         public enum PlayerProfileCategory
         {
@@ -46,7 +44,7 @@ namespace Overlord.ProfileAnalyst
         #endif 
         [field: SerializeField] public float AchievementPreference { get; set; }
         
-        public PlayerProfile()
+        public YeePlayerProfile()
         {
             PlayerProfileEnum = PlayerProfileCategory.Null;
             AchievementPreference = -1;

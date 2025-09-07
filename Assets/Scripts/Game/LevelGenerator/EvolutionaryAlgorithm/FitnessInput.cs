@@ -19,10 +19,10 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
         [SerializeField, Range(0, 200)] private int desiredNpcs = 3;
         [SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
         public IEnumerable<QuestLine> QuestLines { get; private set; }
-        public PlayerProfile PlayerProfile { get; private set; }
+        public YeePlayerProfile PlayerProfile { get; private set; }
 
         public FitnessInput(int rooms, int keys, int locks, int enemies, float linearCoefficient, int items, int npcs,
-            IEnumerable<QuestLine> questLines, PlayerProfile playerProfile)
+            IEnumerable<QuestLine> questLines, YeePlayerProfile playerProfile)
         {
             DesiredRooms = rooms;
             DesiredKeys = keys;

@@ -9,12 +9,12 @@ using static Util.Enums;
 
 namespace Overlord.ProfileAnalyst
 {
-    public static class ProfileCalculator
+    public static class YeeProfileCalculator
     {
         private static Dictionary<string, int> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
 
-        public static PlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
+        public static YeePlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
         {
             if (enableRandomProfileToPlayer)
             {
@@ -34,13 +34,13 @@ namespace Overlord.ProfileAnalyst
             return CreateProfileWithWeights();
         }
         
-        public static PlayerProfile CreateProfile(NarrativeCreatorEventArgs eventArgs)
+        public static YeePlayerProfile CreateProfile(NarrativeCreatorEventArgs eventArgs)
         {
             _questWeightsByType = eventArgs.QuestWeightsbyType;
             return CreateProfileWithWeights();
         }
         
-        public static PlayerProfile CreateProfile(PlayerData playerData, DungeonData dungeonData)
+        public static YeePlayerProfile CreateProfile(PlayerData playerData, DungeonData dungeonData)
         {
             CalculateProfileFromGameplayData(playerData, dungeonData);
             return CreateProfileWithWeights();
@@ -52,19 +52,19 @@ namespace Overlord.ProfileAnalyst
 
             _questWeightsByType = new Dictionary<string, int>
             {
-                {PlayerProfile.PlayerProfileCategory.Immersion.ToString(), 0},
-                {PlayerProfile.PlayerProfileCategory.Achievement.ToString(), 0},
-                {PlayerProfile.PlayerProfileCategory.Mastery.ToString(), 0},
-                {PlayerProfile.PlayerProfileCategory.Creativity.ToString(), 0}
+                {YeePlayerProfile.PlayerProfileCategory.Immersion.ToString(), 0},
+                {YeePlayerProfile.PlayerProfileCategory.Achievement.ToString(), 0},
+                {YeePlayerProfile.PlayerProfileCategory.Mastery.ToString(), 0},
+                {YeePlayerProfile.PlayerProfileCategory.Creativity.ToString(), 0}
             };
 
-            _questWeightsByType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()] =
+            _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Mastery.ToString()] =
                 QuestWeightsCalculator.GetMasteryWeight(playerData.SerializedData.TotalDeaths, playerData.SerializedData.TotalAttempts, playerData.SerializedData.TotalLostHealth);
-            _questWeightsByType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()] = 
+            _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Achievement.ToString()] = 
                 QuestWeightsCalculator.GetAchievementWeight(playerData.SerializedData.EnemiesKilled, playerData.SerializedData.TotalEnemies, playerData.SerializedData.TreasuresCollected, playerData.SerializedData.TotalTreasure);
-            _questWeightsByType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()] = 
+            _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Immersion.ToString()] = 
                 QuestWeightsCalculator.GetImmersionWeight(playerData.SerializedData.NpcsInteracted, playerData.SerializedData.TotalNpcs);
-            _questWeightsByType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()] = 
+            _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Creativity.ToString()] = 
                 QuestWeightsCalculator.GetCreativityWeight(playerData.SerializedData.UniqueRoomsEntered, playerData.SerializedData.TotalRooms, playerData.SerializedData.LocksOpened, playerData.SerializedData.TotalLocks);
         }
         
@@ -72,10 +72,10 @@ namespace Overlord.ProfileAnalyst
         {
             _questWeightsByType = new Dictionary<string, int>();
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[0]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[1]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[2]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[3]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[0]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[1]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[2]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[3]);
         }
         
         private static void CalculateFakeProfile(List<int> answers)
@@ -83,10 +83,10 @@ namespace Overlord.ProfileAnalyst
             _questWeightsByType = new Dictionary<string, int>();
             //TODO make logic circle at every new dungeon
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[3]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[2]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[1]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[0]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[3]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[2]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[1]);
+            _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[0]);
         }
 
         private static float[] CalculateStartSymbolWeights ( List<int> answers )
@@ -108,7 +108,7 @@ namespace Overlord.ProfileAnalyst
             return startSymbolWeights;
         }
 
-        private static void CalculateStartSymbolWeights ( PlayerProfile playerProfile )
+        private static void CalculateStartSymbolWeights ( YeePlayerProfile playerProfile )
         {
             float creativityPreference = RemoveZeros( playerProfile.CreativityPreference );
             float achievementPreference = RemoveZeros( playerProfile.AchievementPreference );
@@ -141,14 +141,14 @@ namespace Overlord.ProfileAnalyst
             return (float) QuestWeights.Hated;
         }
         
-        private static PlayerProfile CreateProfileWithWeights()
+        private static YeePlayerProfile CreateProfileWithWeights()
         {
-            var playerProfile = new PlayerProfile
+            var playerProfile = new YeePlayerProfile
             {
-                AchievementPreference = _questWeightsByType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()],
-                MasteryPreference = _questWeightsByType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()],
-                CreativityPreference = _questWeightsByType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()],
-                ImmersionPreference = _questWeightsByType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()]
+                AchievementPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Achievement.ToString()],
+                MasteryPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Mastery.ToString()],
+                CreativityPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Creativity.ToString()],
+                ImmersionPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Immersion.ToString()]
             };
 
             CalculateStartSymbolWeights ( playerProfile );

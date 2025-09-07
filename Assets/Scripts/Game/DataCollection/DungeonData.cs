@@ -241,7 +241,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public PlayerProfile InputProfile { get; set; }
+        [field: SerializeField] public YeePlayerProfile InputProfile { get; set; }
 
         private float _startTime;
         private int _currentCombo;

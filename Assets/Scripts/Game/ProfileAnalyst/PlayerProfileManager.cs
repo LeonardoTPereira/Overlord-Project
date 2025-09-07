@@ -11,7 +11,7 @@ namespace Overlord.ProfileAnalyst
 {
     public class PlayerProfileManager : MonoBehaviour
     {
-        public static event Action<PlayerProfile> ProfileSelected;
+        public static event Action<YeePlayerProfile> ProfileSelected;
 
         [field: SerializeField, MustBeAssigned] private PlayerDataController playerDataController;
         [field: SerializeField, MustBeAssigned] private DungeonDataController dungeonDataController;
@@ -37,13 +37,13 @@ namespace Overlord.ProfileAnalyst
 
         private void OnNarrativeCreated(object sender, NarrativeCreatorEventArgs e)
         {
-            var profile = ProfileCalculator.CreateProfile(e);
+            var profile = YeeProfileCalculator.CreateProfile(e);
             ProfileSelected?.Invoke(profile);
         }
 
         private void OnFormAnswered(object sender, FormAnsweredEventArgs e)
         {            
-            var profile = ProfileCalculator.CreateProfile(
+            var profile = YeeProfileCalculator.CreateProfile(
                 e.AnswerValue,
                 generatorSettings.EnableRandomProfileToPlayer,
                 generatorSettings.ProbabilityToGetTrueProfile);
@@ -56,7 +56,7 @@ namespace Overlord.ProfileAnalyst
         {
             foreach (var formAnsweredArgs in e.Answers)
             {
-                var profile = ProfileCalculator.CreateProfile(
+                var profile = YeeProfileCalculator.CreateProfile(
                     formAnsweredArgs.AnswerValue,
                     generatorSettings.EnableRandomProfileToPlayer,
                     generatorSettings.ProbabilityToGetTrueProfile);
@@ -67,7 +67,7 @@ namespace Overlord.ProfileAnalyst
 
         private void OnAllLevelsCompleted(object sender, EventArgs e)
         {
-            var profile = ProfileCalculator.CreateProfile(
+            var profile = YeeProfileCalculator.CreateProfile(
                 playerDataController.CurrentPlayer,
                 dungeonDataController.CurrentDungeon);
 
