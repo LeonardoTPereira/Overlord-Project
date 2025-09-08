@@ -98,6 +98,14 @@ namespace Game.NarrativeGenerator.Quests
 
                 switch (questSo)
                 {
+                    case ListenQuestSo { IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } listenQuestSo:
+                        listenQuestSo.HasCreatedDialogue = true;
+                        AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs(listenQuestSo));
+                        break;
+                    case ReportQuestSo { IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } reportQuestSo:
+                        reportQuestSo.HasCreatedDialogue = true;
+                        AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs(reportQuestSo));
+                        break;
                     case ExchangeQuestSo { HasItems: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } exchangeQuestSo:
                         exchangeQuestSo.HasCreatedDialogue = true;
                         AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));

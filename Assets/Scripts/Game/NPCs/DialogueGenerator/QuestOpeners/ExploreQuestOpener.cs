@@ -7,14 +7,14 @@ namespace Game.NPCs
             get {
                 if (GameManagerSingleton.Instance.IsInPortuguese)
                     return new string [] {
-                    "Já faz um tempo desde que deixei minhas funções aqui como {questSo.Npc.Job}. Nem sei se essa masmorra tem {questSo.GetRoomAmount()} cômodos. ... Você pode confirmar isso?",
+                    "Já faz um tempo desde que deixei minhas funções aqui como {speaker.Job}. Nem sei se essa masmorra tem {questSo.GetRoomAmount()} cômodos. ... Você pode confirmar isso?",
                     "Ótimo, outra coisa que eu não posso fazer. Vá procurar {questSo.GetRoomAmount()} cômodos nesta masmorra e me avise o que encontrou.",
                     "Eu preciso de alguém para investigar {questSo.GetRoomAmount()} cômodos, e você, por sorte, é o único disponível. Vai lá.",
                     "Tem {questSo.GetRoomAmount()} cômodos que precisam ser investigados, e eu estou ocupado demais. Adivinha? Agora é seu problema.",
                     "Eu não estou afim de lidar com isso, então você ficou com a tarefa. Vá verificar {questSo.GetRoomAmount()} cômodos e me diga o que encontrou. Dizem que essa masmorra muda cada vez que você entra..."
                     };
                 return new string [] {
-                "It's been a while since I left my duties here as a {questSo.Npc.Job}. I don't even know if this dungeon even has {questSo.GetRoomAmount()} rooms. ... Could you confirm that?",
+                "It's been a while since I left my duties here as a {speaker.Job}. I don't even know if this dungeon even has {questSo.GetRoomAmount()} rooms. ... Could you confirm that?",
                 "Great, another thing I can’t do myself. Go search {questSo.GetRoomAmount()} rooms in this dungeon and let me know what’s there.",
                 "I need someone to investigate {questSo.GetRoomAmount()} rooms, and lucky you, you’re the only one available. Get to it.",
                 "There are {questSo.GetRoomAmount()} rooms that need looking into, and I’m too busy for it. So guess what? It’s your problem now.",

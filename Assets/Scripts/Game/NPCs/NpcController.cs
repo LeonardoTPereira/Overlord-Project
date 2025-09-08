@@ -263,6 +263,11 @@ namespace Game.NPCs
                 var quest = _assignedQuestsQueue.Dequeue();
                 switch (quest)
                 {
+                    case ReportQuestSo reportQuestSo:
+                    case ListenQuestSo listenQuestSo:
+                        // incompleteQuestQueue.Enqueue(quest);
+                        CreateQuestTargetDialogueCheckPoint(this, new QuestElementEventArgs(quest.Id));
+                        continue;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {

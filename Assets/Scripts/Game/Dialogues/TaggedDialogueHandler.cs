@@ -100,7 +100,12 @@ namespace Game.Dialogues
 
         private static bool IsCustomTag(string tag)
         {
-            return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("trade=") || tag.StartsWith("give=") || tag.StartsWith("completequestline=");
+            return tag.StartsWith("goto=") ||
+                    tag.StartsWith("complete=") ||
+                    tag.StartsWith("trade=") ||
+                    tag.StartsWith("give=") ||
+                    tag.StartsWith("completequestline=") ||
+                    tag.StartsWith("checkpoint=");
         }
 
         private void EvaluateTag(string textTag)
