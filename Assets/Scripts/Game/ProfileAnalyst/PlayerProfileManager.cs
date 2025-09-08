@@ -11,11 +11,13 @@ namespace Overlord.ProfileAnalyst
 {
     public class PlayerProfileManager : MonoBehaviour
     {
-        public static event Action<YeePlayerProfile> ProfileSelected;
+        public static event Action<IPlayerProfile> ProfileSelected;
 
         [field: SerializeField, MustBeAssigned] private PlayerDataController playerDataController;
         [field: SerializeField, MustBeAssigned] private DungeonDataController dungeonDataController;
         [field: SerializeField, MustBeAssigned] private GeneratorSettings generatorSettings;
+
+        private IPlayerProfileCalculator _profileCalculator = new YeeProfileCalculator();        // Change it with another player profile calculator if needed
 
         private void OnEnable()
         {
@@ -37,16 +39,15 @@ namespace Overlord.ProfileAnalyst
 
         private void OnNarrativeCreated(object sender, NarrativeCreatorEventArgs e)
         {
-            var profile = YeeProfileCalculator.CreateProfile(e);
+            var profile = _profileCalculator.CreateProfileFromNarrative(e);
             ProfileSelected?.Invoke(profile);
         }
 
         private void OnFormAnswered(object sender, FormAnsweredEventArgs e)
         {            
-            var profile = YeeProfileCalculator.CreateProfile(
+            var profile = _profileCalculator.CreateProfileFromFormAnswers(
                 e.AnswerValue,
-                generatorSettings.EnableRandomProfileToPlayer,
-                generatorSettings.ProbabilityToGetTrueProfile);
+                generatorSettings);
 
             profile.IsFixedFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
             ProfileSelected?.Invoke(profile);
@@ -56,10 +57,9 @@ namespace Overlord.ProfileAnalyst
         {
             foreach (var formAnsweredArgs in e.Answers)
             {
-                var profile = YeeProfileCalculator.CreateProfile(
+                var profile = _profileCalculator.CreateProfileFromFormAnswers(
                     formAnsweredArgs.AnswerValue,
-                    generatorSettings.EnableRandomProfileToPlayer,
-                    generatorSettings.ProbabilityToGetTrueProfile);
+                    generatorSettings);
 
                 ProfileSelected?.Invoke(profile);
             }
@@ -67,7 +67,7 @@ namespace Overlord.ProfileAnalyst
 
         private void OnAllLevelsCompleted(object sender, EventArgs e)
         {
-            var profile = YeeProfileCalculator.CreateProfile(
+            var profile = _profileCalculator.CreateProfileFromGameplay(
                 playerDataController.CurrentPlayer,
                 dungeonDataController.CurrentDungeon);
 

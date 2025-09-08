@@ -303,10 +303,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.41048035
-    y: 0
-    width: 0.72392046
-    height: 0.6520979
+    x: 0
+    y: 0.04020979
+    width: 1
+    height: 0.92045456
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -725,6 +725,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 6110972009190716361, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 6110972009190716361, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: playerDataController
+      value: 
+      objectReference: {fileID: 3829912036038089750}
+    - target: {fileID: 6110972009190716361, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: dungeonDataController
+      value: 
+      objectReference: {fileID: 3829912036038089749}
     m_RemovedComponents:
     - {fileID: 3829912036086566238, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
@@ -766,3 +782,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
+--- !u!114 &3829912036038089749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 699963817, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3829912036038089743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829912036038089744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853568197a854080bcc7901b42468a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3829912036038089750 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 699963818, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3829912036038089743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829912036038089744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a1c8aa1e2143129117ee40fd3b2216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

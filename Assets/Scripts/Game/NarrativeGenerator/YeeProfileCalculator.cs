@@ -1,24 +1,25 @@
-﻿using System;
+﻿using Game.DataCollection;
+using Game.Events;
+using Game.ExperimentControllers;
+using Game.NarrativeGenerator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.DataCollection;
-using Game.Events;
 using Util;
-using Game.NarrativeGenerator;
 using static Util.Enums;
 
 namespace Overlord.ProfileAnalyst
 {
-    public static class YeeProfileCalculator
+    public class YeeProfileCalculator: IPlayerProfileCalculator
     {
         private static Dictionary<string, int> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
 
-        public static YeePlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
+        public IPlayerProfile CreateProfileFromFormAnswers(List<int> answers, GeneratorSettings settings)
         {
-            if (enableRandomProfileToPlayer)
+            if (settings.EnableRandomProfileToPlayer)
             {
-                if (RandomSingleton.GetInstance().Random.Next(100) < probabilityToGetTrueProfile)
+                if (RandomSingleton.GetInstance().Random.Next(100) < settings.ProbabilityToGetTrueProfile)
                 {
                     CalculateProfileWeights(answers);
                 }
@@ -34,13 +35,13 @@ namespace Overlord.ProfileAnalyst
             return CreateProfileWithWeights();
         }
         
-        public static YeePlayerProfile CreateProfile(NarrativeCreatorEventArgs eventArgs)
+        public IPlayerProfile CreateProfileFromNarrative(NarrativeCreatorEventArgs eventArgs)
         {
             _questWeightsByType = eventArgs.QuestWeightsbyType;
             return CreateProfileWithWeights();
         }
         
-        public static YeePlayerProfile CreateProfile(PlayerData playerData, DungeonData dungeonData)
+        public IPlayerProfile CreateProfileFromGameplay(PlayerData playerData, DungeonData dungeonData)
         {
             CalculateProfileFromGameplayData(playerData, dungeonData);
             return CreateProfileWithWeights();

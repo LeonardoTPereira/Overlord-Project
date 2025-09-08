@@ -11,8 +11,10 @@ namespace Overlord.ProfileAnalyst
         [FirestoreData]
     #endif
     [Serializable]
-    public class YeePlayerProfile: PlayerProfile
+    public class YeePlayerProfile: IPlayerProfile
     {
+        public string PlayerProfilingType => "Yee";
+        public bool IsFixedFromExperiment { get; set; }
         [Serializable]
         public enum PlayerProfileCategory
         {

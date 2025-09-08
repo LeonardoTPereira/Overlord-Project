@@ -50,16 +50,19 @@ namespace Game.NarrativeGenerator
             PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
-        private async void HandleProfileSelected(YeePlayerProfile profile)
+        private async void HandleProfileSelected(IPlayerProfile profile)
         {
-            if (profile.IsFixedFromExperiment || MustCreateNarrative)
+            if (profile is YeePlayerProfile yeeProfile)
             {
-                questLines = Selector.CreateMissions(CurrentGeneratorSettings);
-                await CreateNarrative(profile);
-            }
-            else
-            {
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(profile));
+                if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
+                {
+                    questLines = Selector.CreateMissions(CurrentGeneratorSettings);
+                    await CreateNarrative(yeeProfile);
+                }
+                else
+                {
+                    ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(yeeProfile));
+                }
             }
         }
 
