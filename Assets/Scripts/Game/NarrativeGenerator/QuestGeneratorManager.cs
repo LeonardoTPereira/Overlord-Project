@@ -33,7 +33,6 @@ namespace Game.NarrativeGenerator
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
         private EnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
-        private bool _fixedProfileFromExperiment;
 
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public PlayerDataController CurrentPlayerDataController {get; set; }
@@ -66,30 +65,16 @@ namespace Game.NarrativeGenerator
         private async void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
             var playerProfile = ProfileCalculator.CreateProfile(e);
-            if (!ExperimentController.UseRealProfile)
-            {
-                playerProfile.SetAsComplementaryProfile();
-            }
             await CreateOrLoadNarrativeForProfile(playerProfile);
         }
 
         private async void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
-            _fixedProfileFromExperiment = true;//sender.GetType() == typeof(RealTimeLevelSelectManager);
             var playerProfile = ProfileCalculator.CreateProfile(e.AnswerValue, 
                 CurrentGeneratorSettings.EnableRandomProfileToPlayer, CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
-            if (!ExperimentController.UseRealProfile)
-            {
-                playerProfile.SetAsComplementaryProfile();
-            }
-            if (_fixedProfileFromExperiment)
-            {
-                await CreateOrLoadNarrativeForProfile(playerProfile);
-            }
-            else
-            {
-                ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            }
+
+            await CreateOrLoadNarrativeForProfile(playerProfile);
+            ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
 
         private async void SelectPlayerProfile(object sender, ProfileTesterEventArgs e)
@@ -99,28 +84,23 @@ namespace Game.NarrativeGenerator
                 var playerProfile = ProfileCalculator.CreateProfile(formAnsweredArgs.AnswerValue,
                     CurrentGeneratorSettings.EnableRandomProfileToPlayer,
                     CurrentGeneratorSettings.ProbabilityToGetTrueProfile);
-                if (!ExperimentController.UseRealProfile)
-                {
-                    playerProfile.SetAsComplementaryProfile();
-                }
                 await CreateOrLoadNarrativeForProfile(playerProfile);
             }
         }
 
         private async void SelectPlayerProfile(object sender, EventArgs eventArgs)
         {
-            var playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentPlayerDataController.CurrentPlayer.CurrentDungeon);
+            PlayerProfile playerProfile = CurrentPlayerDataController.CurrentPlayer.SerializedData.PlayerProfile;
+            if ( !ExperimentController.UseFixedProfile )
+            {
+                playerProfile = ProfileCalculator.CreateProfile(CurrentPlayerDataController.CurrentPlayer, CurrentPlayerDataController.CurrentPlayer.CurrentDungeon);
+            }
             await CreateOrLoadNarrativeForProfile(playerProfile);
             GameplayProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }     
 
         private async Task CreateOrLoadNarrativeForProfile(PlayerProfile playerProfile)
         {
-            if ( !ExperimentController.UseRealProfile )
-            {
-                playerProfile.SetAsComplementaryProfile(); 
-            }
-
             if (MustCreateNarrative)
             {
                 questLines = Selector.CreateMissions(CurrentGeneratorSettings);

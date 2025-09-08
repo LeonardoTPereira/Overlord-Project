@@ -76,13 +76,13 @@ namespace Game.Quests
                     UpdateGetItemQuest(getItemEventArgs);
                     break;
                 case QuestDamageEnemyEventArgs damageQuestArgs:
-                    UpdateDamageQuest( damageQuestArgs );
+                    UpdateDamageQuest(damageQuestArgs);
                     break;
                 case QuestExploreRoomEventArgs exploreQuestArgs:
-                    UpdateExploreQuest( exploreQuestArgs );
+                    UpdateExploreQuest(exploreQuestArgs);
                     break;
                 case QuestReadEventArgs readQuestArgs:
-                    UpdateReadQuest( readQuestArgs );
+                    UpdateReadQuest(readQuestArgs);
                     break;
                 case QuestExchangeDialogueEventArgs exchangeDialogueEventArgs:
                     var npc = questLines.NpcSos.Find(_ => _.NpcName == exchangeDialogueEventArgs.NpcName);

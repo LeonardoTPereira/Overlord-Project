@@ -34,8 +34,8 @@ namespace Game.GameManager
         private PlayerProfile selectedProfile;
         private List<QuestLineList> _questLinesListForProfile;
 
-        public static bool UseRealProfile => _useRealProfile;
-        private static bool _useRealProfile;
+        public static bool UseFixedProfile => _useFixedProfile;
+        private static bool _useFixedProfile;
         private static bool _updatedProfile = false;
         private static bool _firstRunCompleted = false;
 
@@ -44,7 +44,7 @@ namespace Game.GameManager
 
         private void Awake()
         {
-            SetUseTrueProfile();
+            SetUseFixedProfile();
             _questLinesListForProfile = null;
         }
 
@@ -121,18 +121,12 @@ namespace Game.GameManager
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
             selectedProfile = profileSelectedEventArgs.PlayerProfile;
-            if (!_useRealProfile && !_updatedProfile)
-            {
-                _updatedProfile = true;
-                selectedProfile.SetAsComplementaryProfile();
-            }
-
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
         }
 
-        private static void SetUseTrueProfile()
+        private static void SetUseFixedProfile()
         {
-            _useRealProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
+            _useFixedProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
         }
 
         private void OnRunComplete(object sender, EventArgs eventArgs)

@@ -22,6 +22,10 @@ namespace Game.NPCs
 
     public class NpcController : QuestDialogueInteraction
     {
+        // Just for debuging and easy seeing in inspector
+        private QuestLine questLine = null;
+        public bool IsMainQuestNpc = false;
+
         public static event EventHandler NpcInteraction;
         private bool isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
@@ -42,7 +46,7 @@ namespace Game.NPCs
         {
             base.OnEnable();
             QuestLine.QuestLineOpenedEventHandler += CreateQuestLineOpenedDialogue;
-            QuestLine.QuestLineCompletedEventHandler += CreateQuestLineCompltedDialogue;
+            QuestLine.QuestLineCompletedEventHandler += CreateQuestLineCompletedDialogue;
 
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
             QuestLine.AllowCheckPointEventHandler += CreateQuestTargetDialogueCheckPoint;
@@ -57,7 +61,7 @@ namespace Game.NPCs
         protected override void OnDisable()
         {
             QuestLine.QuestLineOpenedEventHandler -= CreateQuestLineOpenedDialogue;
-            QuestLine.QuestLineCompletedEventHandler -= CreateQuestLineCompltedDialogue;
+            QuestLine.QuestLineCompletedEventHandler -= CreateQuestLineCompletedDialogue;
 
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
             QuestLine.AllowCheckPointEventHandler -= CreateQuestTargetDialogueCheckPoint;
@@ -125,7 +129,7 @@ namespace Game.NPCs
             dialogue.InsertDialogue(Npc.DialogueData, checkPointLine, false, quest.Id, 0);
         }
 
-        private void CreateQuestLineCompltedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        private void CreateQuestLineCompletedDialogue(object sender, NewQuestLineEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != Npc) return;
             if (!eventArgs.IsMainQuestLine) return;
@@ -153,8 +157,10 @@ namespace Game.NPCs
 
         private void CreateQuestLineOpenedDialogue(object sender, NewQuestLineEventArgs eventArgs)
         {
-            if (eventArgs.NpcInCharge != Npc ) return;
+            questLine = eventArgs.QuestLine;
+            if (eventArgs.NpcInCharge != Npc) return;
             if (!eventArgs.IsMainQuestLine) return;
+            IsMainQuestNpc = true;
 
             string openerLine;
             if (isInPortuguese)
@@ -162,7 +168,7 @@ namespace Game.NPCs
             else
                 openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
 
-            dialogue.InsertDialogue(Npc.DialogueData, openerLine, false, -1, 0);
+            dialogue.InsertDialogue(Npc.DialogueData, openerLine, true, -1, 0);
         }
         
         private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
@@ -229,6 +235,13 @@ namespace Game.NPCs
             AssetDatabase.SaveAssetIfDirty(this);
             AssetDatabase.Refresh();
         }
+
+        [ButtonMethod]
+        public void Dev_CompleteQuest()
+        {
+            questLine.CompleteCurrentQuest();
+            questLine.CloseCurrentQuest();
+        }
 #endif
         
         protected override void CreateIntroDialogue()
@@ -250,12 +263,6 @@ namespace Game.NPCs
                 var quest = _assignedQuestsQueue.Dequeue();
                 switch (quest)
                 {
-                    // case ReportQuestSo reportQuestSo:
-                    // case ListenQuestSo listenQuestSo:
-                    //     // incompleteQuestQueue.Enqueue(quest);
-                    //     continue;
-                        // CreateQuestTargetDialogueCheckPoint(this, new QuestElementEventArgs(quest.Id));
-                        // continue;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {

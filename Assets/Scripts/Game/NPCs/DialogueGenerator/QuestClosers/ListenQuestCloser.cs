@@ -11,7 +11,7 @@ namespace Game.NPCs
                     return new string[] {
                     "Certo, tudo bem... obrigado por ouvir {questSo.GetTargetNpc()}. Isso me economiza o trabalho, eu acho.",
                     "Hmph. Acho que devo te agradecer por lidar com {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} realmente fala demais, não?",
-                    "Bom, você realmente ouviu [Nome do NPC]? Acho que devo te agradecer por isso.",
+                    "Bom, você realmente ouviu {questSo.GetTargetNpc()}? Acho que devo te agradecer por isso.",
                     "Você realmente ficou e ouviu {questSo.GetTargetNpc()}? Você tem mais paciência do que eu. Obrigado, eu acho.",
                     "Certo, obrigado por dedicar seu tempo a {questSo.GetTargetNpc()}. Você me fez um favor, quer saiba disso ou não.",
                     "Acho que devo te agradecer por ouvir {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} teria continuado me incomodando até alguém fazer isso.",

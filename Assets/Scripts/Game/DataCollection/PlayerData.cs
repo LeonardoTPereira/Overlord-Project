@@ -21,7 +21,7 @@ namespace Game.DataCollection
         private int _currentCombo;
         [field: SerializeField] public PlayerSerializedData SerializedData { get; set; }
 
-        public void Init()
+        public void Init(bool useFixedProfile)
         {
 	        SerializedData ??= new PlayerSerializedData
 	        {
@@ -30,7 +30,8 @@ namespace Game.DataCollection
 		        PlayerProfile = new PlayerProfile(),
 		        GivenPlayerProfile = new PlayerProfile(),
 				PreviousPlayerProfiles = new List<PlayerProfile>(),
-				EnemiesKilledByType = new Dictionary<string, int>()
+				EnemiesKilledByType = new Dictionary<string, int>(),
+				UseFixedProfile = useFixedProfile
 	        };
 	        DungeonByAttempt = new DungeonDataByAttempt();
 
@@ -292,6 +293,10 @@ namespace Game.DataCollection
         [Serializable]
         public class PlayerSerializedData
         {
+			#if !UNITY_WEBGL || UNITY_EDITOR
+				    [FirestoreProperty]
+			#endif
+				    [field: SerializeField] public bool UseFixedProfile { get; set; }
 			#if !UNITY_WEBGL || UNITY_EDITOR
 				    [FirestoreProperty]
 			#endif

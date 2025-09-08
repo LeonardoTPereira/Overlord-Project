@@ -19,6 +19,7 @@ namespace Game.DataCollection
 {
     public class PlayerDataController : MonoBehaviour, ISaveable
     {
+        public ExperimentController ExperimentController;
         public PlayerData CurrentPlayer { get; private set; }
         private DungeonDataController _dungeonDataController;
         private GameplayData _gameplayData;
@@ -97,7 +98,7 @@ namespace Game.DataCollection
         private void OnGameStart(object sender, EventArgs eventArgs)
         {
             CurrentPlayer = ScriptableObject.CreateInstance<PlayerData>();
-            CurrentPlayer.Init();
+            CurrentPlayer.Init( ExperimentController.UseFixedProfile );
         }
 
         private void OnMapStart(object sender, StartMapEventArgs eventArgs)

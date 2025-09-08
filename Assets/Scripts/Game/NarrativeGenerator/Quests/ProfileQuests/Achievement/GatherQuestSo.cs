@@ -54,8 +54,17 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override string GetItemAmountString()
         {
-            CreateQuestString();
-            return QuestText;
+            var stringBuilder = new StringBuilder();
+            foreach (var itemByAmount in ItemsToGatherByType)
+            {
+                var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
+                stringBuilder.Append($"{itemByAmount.Key.Value} {itemByAmount.Key.ItemName}s {spriteString}, ");
+            }
+            if ( stringBuilder.Length > 2)
+            {
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
+            return stringBuilder.ToString();
         }
 
         public override string GetItemString()
@@ -66,7 +75,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
                 stringBuilder.Append($"{itemByAmount.Key.ItemName}s {spriteString}, ");
             }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            if ( stringBuilder.Length > 2 )
+            {
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
             return stringBuilder.ToString();
         }
 
@@ -88,19 +100,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            var stringBuilder = new StringBuilder();
-            foreach (var itemByAmount in ItemsToGatherByType)
-            {
-                var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
-                stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
-            }
-            if (stringBuilder.Length == 0)
-            {
-                Debug.LogError("No Items to Collect");
-                QuestText = stringBuilder.ToString();
-            }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
-            QuestText = stringBuilder.ToString();
+            QuestText = this.GetItemAmountString();
         }
     }
 }
