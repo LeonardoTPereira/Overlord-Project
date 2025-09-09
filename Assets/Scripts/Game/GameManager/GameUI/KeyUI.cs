@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.Events;
+﻿using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
 using Game.NPCs;
@@ -11,7 +11,7 @@ namespace Game.GameManager
 {
     public class KeyUI : GridOfElementsUI
     {
-        
+
         [SerializeField]
         protected Sprite keySprite;
         private List<int> _playerKeys;
@@ -42,7 +42,7 @@ namespace Game.GameManager
             if (_playerKeys.Contains(eventArgs.KeyIndex))
                 return;
             _playerKeys.Add(eventArgs.KeyIndex);
-            
+
             var currentKeys = _playerKeys.Count;
             var spriteWidth = keySprite.rect.size.x;
 

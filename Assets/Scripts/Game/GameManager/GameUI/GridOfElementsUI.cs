@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,7 +53,7 @@ namespace Game.GameManager
             var itemImageUI = itemGameObject.GetComponent<Image>();
             return itemImageUI;
         }
-        
+
         protected void ClearImages()
         {
             if (ImageList == null) return;

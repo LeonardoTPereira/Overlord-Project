@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using UnityEngine;
-using Fog.Dialogue;
 
 namespace ScriptableObjects
 {

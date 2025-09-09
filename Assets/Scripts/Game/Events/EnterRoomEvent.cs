@@ -1,7 +1,7 @@
-﻿using System;
-using Game.DataCollection;
+﻿using Game.DataCollection;
 using Game.EnemyManager;
 using Game.LevelManager;
+using System;
 using UnityEngine;
 using Util;
 using Game.GameManager.Player;
@@ -13,8 +13,8 @@ namespace Game.Events
     {
         public RoomData RoomData { get; set; }
         public Vector3 PositionInScene { get; set; }
-        public int PlayerHealthWhenEntering { get; set; }
-        
+        public int PlayerHealthWhenEntering { get; set; }        
+
         public EnterRoomEventArgs(Coordinates roomCoordinates, Dimensions roomDimensions, EnemyByAmountDictionary enemiesInRoom, Vector3 roomPosition)
         {
             PositionInScene = roomPosition;

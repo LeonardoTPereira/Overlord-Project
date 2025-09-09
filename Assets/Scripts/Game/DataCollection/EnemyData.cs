@@ -14,12 +14,12 @@ namespace Game.DataCollection
         {
             HealthController.PlayerIsDamagedEventHandler += OnPlayerDamage;
         }
-        
+
         private void OnDisable()
         {
             HealthController.PlayerIsDamagedEventHandler -= OnPlayerDamage;
         }
-        
+
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
         {
             //TODO get enemySO

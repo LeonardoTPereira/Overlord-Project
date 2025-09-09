@@ -12,10 +12,7 @@ namespace PlatformGame.Dungeon
     {        
         [Header("Plataform Game Related")]
         public CompositeCollider2D colRoomConfiner;
-
         private bool _isSpawnPointsGenerated = false;
-        //Change enemy spawners later...
-        //Do not forget EnemyKilledHandler event inside SpawnEnemies() to remove from enemy dictionary...
 
         protected override void RemoveFromDictionaryWhenEnemyDied(GameObject enemy)
         {
@@ -63,15 +60,9 @@ namespace PlatformGame.Dungeon
             return instance;
         }
 
-        protected override void InstantiateCornerProps()
-        {
-            //Do not instantiate anything
-        }
+        protected override void InstantiateCornerProps() { }
         
-        protected override void SetSpritesToWalls()
-        {
-            //Do nothing
-        }
+        protected override void SetSpritesToWalls() { }
                 
         public override void SpawnEnemies()
         {
@@ -116,55 +107,7 @@ namespace PlatformGame.Dungeon
             }
             return model;
         }
-        /*
-        private void SpawnBacktracking(int i, int j, int lineNum, int colNum, float xOffset, float yOffset, char[,] roomModel)
-        {
-            // Check if it is a ground block
-            if (roomModel[i, j] == '#')
-            {
-                return;
-            }
-            // Check if the upper block is a ground block or upper wall limit
-            if (i - 1 == 0 || i - 1 >= 0 && )
 
-            // Test if the block bellow is a walking block
-            if (i - 1 > 0 && roomModel[i - 1, j] == '#')
-            {                
-                _backtrackingPath[i + 1, j] = true;
-                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + i * transform.lossyScale.y + 0.5f, 0));
-            }
-            // Test the default ground block around the map
-            if (i - 1 == 0 && roomModel[i - 1, j] != '#')
-            {
-                spawnPoints.Add(new Vector3(xOffset + j * transform.lossyScale.x + 0.5f, yOffset + (i - 1)* transform.lossyScale.y + 0.5f, 0));
-            }
-
-            // go UP
-            if (i - 1 >= 0 && !_backtrackingPath[i - 1, j])
-            {
-                _backtrackingPath[i - 1, j] = true;
-                SpawnBacktracking(i - 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
-            }
-            // go RIGHT
-            if (j + 1 < colNum && !_backtrackingPath[i, j + 1])
-            {
-                _backtrackingPath[i, j + 1] = true;
-                SpawnBacktracking(i, j + 1, lineNum, colNum, xOffset, yOffset, roomModel);
-            }
-            // go DOWN
-            if (i + 1 < lineNum && !_backtrackingPath[i + 1, j])
-            {
-                _backtrackingPath[i + 1, j] = true;
-                SpawnBacktracking(i + 1, j, lineNum, colNum, xOffset, yOffset, roomModel);
-            }
-            // go LEFT
-            if (j - 1 >= 0 && !_backtrackingPath[i, j - 1])
-            {
-                _backtrackingPath[i, j - 1] = true;
-                SpawnBacktracking(i, j - 1, lineNum, colNum, xOffset, yOffset, roomModel);
-            }
-        }
-        */
         protected override void CallStartRoomEvent()
         {
             _availablePosition -= transform.position - new Vector3(1.0f, 1.0f, 0);

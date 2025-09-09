@@ -50,8 +50,6 @@ namespace Game.LevelGenerator
 
         public int TotalEnemies { get; set; }
 
-        /// Dungeon constructor.
-        ///
         /// Create and return a new dungeon with the starting room.
         public Dungeon()
         {

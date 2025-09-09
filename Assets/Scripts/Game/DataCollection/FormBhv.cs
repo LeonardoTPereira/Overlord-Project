@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Game.Events;
+﻿using Game.Events;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,12 +22,28 @@ namespace Game.DataCollection
         public int formID; //0 for pretest, 1 for posttest
 
         private FormQuestionsData questionsData => GameManagerSingleton.Instance.IsInPortuguese ? ptQuestionsData : enQuestionsData;
+        private List<int> answers;
 
         public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
         public static event FormAnsweredEvent PostTestFormQuestionAnsweredEventHandler;
 
-        // Use this for initialization
         void Start()
+        {
+            InstantiateForms();
+            ResizeFormsHeight();
+        }
+                
+        public void Submit()
+        {
+#if UNITY_EDITOR
+            AssetDatabase.SaveAssetIfDirty(questionsData);
+#endif
+            answers = GetIntListFromFormQuestionBhvList(questions);
+            GetToggleAnswersFromFormCheckboxBhv(checkboxForm);
+            SendFormToRightEventHandler(formID);
+        }
+
+        private void InstantiateForms()
         {
             foreach (FormQuestionData q in questionsData.questions)
             {
@@ -36,9 +52,12 @@ namespace Game.DataCollection
                 g.transform.SetParent(questionsPanel);
                 questions.Add(g.GetComponent<FormQuestionBhv>());
             }
+        }
 
+        private void ResizeFormsHeight()
+        {
             float panelHeight = questionsData.questions.Count
-                                * questionPrefab.GetComponent<RectTransform>().rect.height;
+                        * questionPrefab.GetComponent<RectTransform>().rect.height;
             panelHeight += extraQuestionsPanelHeight;
 
             if (_hasCheckbox)
@@ -54,29 +73,35 @@ namespace Game.DataCollection
             submitButton.SetAsLastSibling();
         }
 
-        public void Submit()
+        private List<int> GetIntListFromFormQuestionBhvList(List<FormQuestionBhv> questions)
         {
-            #if UNITY_EDITOR
-            AssetDatabase.SaveAssetIfDirty(questionsData);
-            #endif
             List<int> answers = new List<int>();
+
             foreach (FormQuestionBhv q in questions)
             {
                 answers.Add(q.questionData.answer);
                 q.ResetToggles();
             }
 
+            return answers;
+        }
+
+        private void GetToggleAnswersFromFormCheckboxBhv(FormCheckboxBhv checkboxForm)
+        {
             if (_hasCheckbox)
             {
                 foreach (Toggle t in checkboxForm.toggles)
                 {
                     if (t.isOn)
                         answers.Add(-1);
-                    else 
+                    else
                         answers.Add(-2);
                 }
             }
+        }
 
+        private void SendFormToRightEventHandler(int formID)
+        {
             if (formID == 1)
                 PostTestFormQuestionAnsweredEventHandler?.Invoke(null, new FormAnsweredEventArgs(formID, answers));
             else

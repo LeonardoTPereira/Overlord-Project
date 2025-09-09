@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ScriptableObjects;
+using System;
 using System.Collections;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +8,7 @@ namespace Game.GameManager.Player
 {
     public class PlayerShot : PlayerInputHandler
     {
-        
+
         private struct BulletForceAndRotation
         {
             public Vector2 Force;
@@ -26,7 +26,7 @@ namespace Game.GameManager.Player
         private static readonly int LastDirX = Animator.StringToHash("LastDirX");
         private static readonly int LastDirY = Animator.StringToHash("LastDirY");
         private static readonly int IsShooting = Animator.StringToHash("IsShooting");
-        
+
         private const float _minShootMagnitude = 0.01f;
         private const float _maxShootDir = 0.125f;
 
@@ -133,7 +133,7 @@ namespace Game.GameManager.Player
             yield return new WaitForSeconds(bulletCooldown);
             _canShoot = true;
         }
-        
+
         private void UpdateShotAnimation(Vector2 shotDirection)
         {
             PlayerAnimator.SetFloat(LastDirX, shotDirection.x);
@@ -149,7 +149,7 @@ namespace Game.GameManager.Player
         {
             _canShoot = false;
         }
-        
+
         private void SetProjectileSo()
         {
             bulletPrefab = ProjectileType.projectilePrefab;
@@ -157,7 +157,7 @@ namespace Game.GameManager.Player
             atkSpeed = ProjectileType.atkSpeed;
             bulletPrefab.GetComponent<SpriteRenderer>().color = ProjectileType.color;
         }
-        
+
         private void NextProjectileSo()
         {
             var currentIndex = projectilesAvailable.Items.IndexOf(ProjectileType);

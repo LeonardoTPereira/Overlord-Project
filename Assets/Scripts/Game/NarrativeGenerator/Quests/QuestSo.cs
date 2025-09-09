@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Game.ExperimentControllers;
+using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
-using ScriptableObjects;
 using UnityEngine;
 using Util;
 using Game.NPCs;
@@ -13,19 +12,20 @@ using UnityEditor;
 
 namespace Game.NarrativeGenerator.Quests
 {
-    
+
     [CreateAssetMenu(fileName = "QuestSo", menuName = "Overlord-Project/QuestSo", order = 0)]
     [Serializable]
     public abstract class QuestSo : ScriptableObject, ISavableGeneratedContent, ISymbol
     {
-        public virtual string SymbolType {get; set;}
-        public virtual Dictionary<string, Func<int,float>> NextSymbolChances
+        public virtual string SymbolType { get; set; }
+        public virtual Dictionary<string, Func<int, float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
         }
-        protected Dictionary<string, Func<int,float>> _nextSymbolChances;
-        public virtual bool CanDrawNext {
+        protected Dictionary<string, Func<int, float>> _nextSymbolChances;
+        public virtual bool CanDrawNext
+        {
             get => true;
         }
 
@@ -100,19 +100,19 @@ namespace Game.NarrativeGenerator.Quests
         {
             var chance = RandomSingleton.GetInstance().Next(0, 99);
             float cumulativeProbability = 0;
-            foreach ( var nextSymbolChance in NextSymbolChances )
+            foreach (var nextSymbolChance in NextSymbolChances)
             {
-                cumulativeProbability += nextSymbolChance.Value( chain.symbolNumber );
+                cumulativeProbability += nextSymbolChance.Value(chain.symbolNumber);
                 if (cumulativeProbability < chance) continue;
                 var nextSymbol = nextSymbolChance.Key;
-                chain.SetSymbol( nextSymbol );
+                chain.SetSymbol(nextSymbol);
                 break;
             }
         }
 
         public void SaveAsset(string directory)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             const string newFolder = "Quests";
             var fileName = directory;
             if (!AssetDatabase.IsValidFolder(fileName + Constants.SeparatorCharacter + newFolder))
@@ -121,10 +121,10 @@ namespace Game.NarrativeGenerator.Quests
             }
             fileName += Constants.SeparatorCharacter + newFolder;
             fileName += Constants.SeparatorCharacter;
-            fileName += QuestName+".asset";
+            fileName += QuestName + ".asset";
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
-            #endif
+#endif
         }
 
         public virtual string GetTargetNpc()

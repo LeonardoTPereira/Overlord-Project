@@ -5,7 +5,6 @@ using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
 using ScriptableObjects;

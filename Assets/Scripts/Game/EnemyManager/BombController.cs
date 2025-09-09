@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Threading.Tasks;
-using Game.Audio;
+﻿using Game.Audio;
 using Game.GameManager.Player;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Game.GameManager
@@ -65,7 +64,7 @@ namespace Game.GameManager
 
         private IEnumerator ExplodeAfterLifetime()
         {
-            yield return new WaitForSeconds(bombLifetime/100);
+            yield return new WaitForSeconds(bombLifetime / 100);
             _bombCollider.enabled = true;
             yield return new WaitForSeconds((int)bombLifetime);
             ExplodeBomb();
@@ -85,7 +84,7 @@ namespace Game.GameManager
             transform1.localScale = new Vector3(currScale.x * 4, currScale.y * 4, currScale.z * 1);
             var position = _bombRigidBody.position;
             var size = Physics2D.OverlapCircleNonAlloc(new Vector2(position.x, position.y), 1.8f, _objectsInRange);
-            for(var i=0; i < size; ++i)
+            for (var i = 0; i < size; ++i)
             {
                 if (!_objectsInRange[i].gameObject.CompareTag("Player")) continue;
                 var collisionDirection =
