@@ -11,6 +11,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     public class GatherQuestSo : AchievementQuestSo
     {
         [field: SerializeField] public ItemAmountDictionary ItemsToGatherByType { get; set; }
+        private ItemAmountDictionary OriginalItemsToGatherByType;
         public override string SymbolType => Constants.GatherQuest;
 
         public override ItemAmountDictionary GetItemDictionary()
@@ -22,6 +23,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init();
             ItemsToGatherByType = new ItemAmountDictionary();
+            OriginalItemsToGatherByType = ItemsToGatherByType.Clone();
         }
         
         public override void Init(QuestSo copiedQuest)
@@ -31,6 +33,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (getQuest != null)
             {
                 ItemsToGatherByType = (ItemAmountDictionary) getQuest.ItemsToGatherByType.Clone();
+                OriginalItemsToGatherByType = ItemsToGatherByType.Clone();
             }
             else
             {
@@ -43,6 +46,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(questName, endsStoryLine, previous);
             ItemsToGatherByType = itemsByType;
+            OriginalItemsToGatherByType = ItemsToGatherByType.Clone();
         }
         
         public override QuestSo Clone()
@@ -55,10 +59,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string GetItemAmountString()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var itemByAmount in ItemsToGatherByType)
+            foreach (var itemByAmount in OriginalItemsToGatherByType)
             {
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
-                stringBuilder.Append($"{itemByAmount.Key.Value} {itemByAmount.Key.ItemName}s {spriteString}, ");
+                stringBuilder.Append($"{itemByAmount.Value} {itemByAmount.Key.ItemName}s {spriteString}, ");
             }
             if ( stringBuilder.Length > 2)
             {
@@ -70,7 +74,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string GetItemString()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var itemByAmount in ItemsToGatherByType)
+            foreach (var itemByAmount in OriginalItemsToGatherByType)
             {
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
                 stringBuilder.Append($"{itemByAmount.Key.ItemName}s {spriteString}, ");

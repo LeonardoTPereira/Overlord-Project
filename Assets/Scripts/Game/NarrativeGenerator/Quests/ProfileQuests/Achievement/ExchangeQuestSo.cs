@@ -30,6 +30,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public ExchangeQuestData ExchangeData { get; set; }
         [field: SerializeField] public ItemAmountDictionary ItemsToExchangeByType { get; set; }
+        private ItemAmountDictionary OriginalItemsToExchangeByType;
         
         public NpcSo Npc { get; set; }
         public bool HasItems { get; private set; }
@@ -39,6 +40,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init();
             ItemsToExchangeByType = new ItemAmountDictionary();
+            OriginalItemsToExchangeByType = ItemsToExchangeByType.Clone();
             Npc = null;
             HasItems = false;
             HasCreatedDialogue = false;
@@ -53,6 +55,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 Npc = exchangeQuest.Npc;
                 ItemsToExchangeByType = (ItemAmountDictionary) exchangeQuest.ItemsToExchangeByType.Clone();
+                OriginalItemsToExchangeByType = ItemsToExchangeByType.Clone();
                 ExchangeData = exchangeQuest.ExchangeData;
                 HasItems = exchangeQuest.HasItems;
                 HasCreatedDialogue = exchangeQuest.HasCreatedDialogue;
@@ -69,6 +72,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
             ItemsToExchangeByType = exchangedItems;
+            OriginalItemsToExchangeByType = ItemsToExchangeByType.Clone();
             ExchangeData =
                 new ExchangeQuestData((ItemAmountDictionary) ItemsToExchangeByType.Clone(), receivedItem, Id);
             HasItems = false;
@@ -116,7 +120,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var stringBuilder = new StringBuilder();
             string spriteString;
-            foreach (var itemByAmount in ItemsToExchangeByType)
+            foreach (var itemByAmount in OriginalItemsToExchangeByType)
             {                
                 spriteString = itemByAmount.Key.GetGemstoneSpriteString();
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s {spriteString}, ");
@@ -148,16 +152,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var stringBuilder = new StringBuilder();
             string spriteString;
-            foreach (var itemByAmount in ItemsToExchangeByType)
+            foreach (var itemByAmount in OriginalItemsToExchangeByType)
             {                
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
             }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            if (stringBuilder.Length > 2)
+            {
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
 
             if (GameManagerSingleton.Instance.IsInPortuguese)
             {
                 stringBuilder.Append($" com {Npc.NpcName}.\n");
-                stringBuilder.Append($"Voc� receber� dele o {ExchangeData.ReceivedItem.ItemName}");
+                stringBuilder.Append($"Você receberá dele o {ExchangeData.ReceivedItem.ItemName}");
             }
             else
             {

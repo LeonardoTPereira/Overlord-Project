@@ -126,7 +126,7 @@ namespace Game.NPCs
             if (eventArgs is not QuestCheckPointEventArgs checkPointEventArgs) return;
             var quest = checkPointEventArgs.QuestData;
             string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest, Npc);
-            dialogue.InsertDialogue(Npc.DialogueData, checkPointLine, false, quest.Id, 0);
+            dialogue.InsertDialogue(Npc.DialogueData, checkPointLine, true, quest.Id, 0);
         }
 
         private void CreateQuestLineCompletedDialogue(object sender, NewQuestLineEventArgs eventArgs)
@@ -267,7 +267,7 @@ namespace Game.NPCs
                     case ListenQuestSo listenQuestSo:
                         // incompleteQuestQueue.Enqueue(quest);
                         CreateQuestTargetDialogueCheckPoint(this, new QuestElementEventArgs(quest.Id));
-                        continue;
+                        break;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {

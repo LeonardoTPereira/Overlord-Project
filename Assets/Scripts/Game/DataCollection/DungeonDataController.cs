@@ -15,8 +15,13 @@ namespace Game.DataCollection
 {
     public class DungeonDataController : MonoBehaviour
     {
-        public DungeonData CurrentDungeon = new DungeonData();
+        public DungeonData CurrentDungeon;
         private PlayerProfile _inputProfile;
+        
+        private void Awake()
+        {
+            CurrentDungeon = new();
+        }
 
         private void OnEnable()
         {
@@ -32,7 +37,7 @@ namespace Game.DataCollection
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             NpcController.NpcInteraction += OnInteractNPC;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
-            RoomBhv.EnterRoomEventHandler += OnRoomEnter;            
+            RoomBhv.EnterRoomEventHandler += OnRoomEnter;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             DungeonPlayer.ExitRoomEventHandler += OnRoomExit;

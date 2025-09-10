@@ -14,6 +14,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
     {
         [field: SerializeField]
         public EnemiesByType EnemiesToKillByType { get; set; }
+        private EnemiesByType OriginalEnemiesToKillByType { get; set; }
         public Dictionary<float, int> EnemiesToKillByFitness { get; set; }
         public override string SymbolType => Constants.KillQuest;
 
@@ -26,14 +27,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void Init()
         {
             base.Init();
-            EnemiesToKillByType = new EnemiesByType ();
+            EnemiesToKillByType = new EnemiesByType();
             EnemiesToKillByFitness = new Dictionary<float, int>();
+            OriginalEnemiesToKillByType = EnemiesToKillByType.Clone();
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSo previous, EnemiesByType  enemiesByType)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, EnemiesByType enemiesByType)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByType = enemiesByType;
+            OriginalEnemiesToKillByType = EnemiesToKillByType.Clone();
         }
         public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<float, int> enemiesByFitness)
         {
@@ -49,6 +52,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (killQuest != null)
             {
                 EnemiesToKillByType.EnemiesByTypeDictionary = (WeaponTypeAmountDictionary) killQuest.EnemiesToKillByType.EnemiesByTypeDictionary.Clone();
+                OriginalEnemiesToKillByType = EnemiesToKillByType.Clone();
             }
             else
             {
@@ -83,7 +87,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 QuestText = stringBuilder.ToString();
             }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            
+            if (stringBuilder.Length > 2)
+            {
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
             return stringBuilder.ToString();
         }
 
@@ -108,7 +116,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
+            foreach (var enemyByAmount in OriginalEnemiesToKillByType.EnemiesByTypeDictionary)
             {
                 var spriteString = enemyByAmount.Key.GetEnemySpriteString( GameManagerSingleton.Instance.IsInPortuguese );
                 stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )}s {spriteString}, ");
@@ -118,7 +126,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 QuestText = stringBuilder.ToString();
             }
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            
+            if (stringBuilder.Length > 2)
+            {
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
             QuestText = stringBuilder.ToString();
         }
     }
