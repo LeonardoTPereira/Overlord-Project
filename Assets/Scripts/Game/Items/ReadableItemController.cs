@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using ScriptableObjects;
 using System;
 using Fog.Dialogue;
 using Game.GameManager;
+using UnityEngine;
 
 namespace Game
 {

@@ -1,5 +1,5 @@
-﻿using System;
-using ScriptableObjects;
+﻿using ScriptableObjects;
+using System;
 
 namespace Game.Events
 {

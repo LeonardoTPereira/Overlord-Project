@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Game.Events
 {
     public delegate void PlayerIsDamagedEvent(object sender, PlayerIsDamagedEventArgs e);
-    public class  PlayerIsDamagedEventArgs : EventArgs
+    public class PlayerIsDamagedEventArgs : EventArgs
     {
         private int _enemyIndex;
         private int _damageDone;

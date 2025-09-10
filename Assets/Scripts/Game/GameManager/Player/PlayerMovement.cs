@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 namespace Game.GameManager.Player
 {
@@ -22,22 +21,22 @@ namespace Game.GameManager.Player
 
         public void Move(InputAction.CallbackContext context)
         {
-	        if (context.canceled)
-	        {
-		        _lastSpeed = Vector2.zero;
-		        return;
-	        }
-	        if (!_canMove) return;
-	        if (!context.performed) return;
-	        var movement = context.ReadValue<Vector2>();
-	        movement.Normalize();
-	        _lastSpeed = new Vector2(movement.x * speed, movement.y * speed);
-	        UpdateMoveAnimation(movement);
+            if (context.canceled)
+            {
+                _lastSpeed = Vector2.zero;
+                return;
+            }
+            if (!_canMove) return;
+            if (!context.performed) return;
+            var movement = context.ReadValue<Vector2>();
+            movement.Normalize();
+            _lastSpeed = new Vector2(movement.x * speed, movement.y * speed);
+            UpdateMoveAnimation(movement);
         }
 
         private void FixedUpdate()
         {
-	        _rigidbody2D.velocity = _lastSpeed;
+            _rigidbody2D.velocity = _lastSpeed;
         }
 
         private void Awake()

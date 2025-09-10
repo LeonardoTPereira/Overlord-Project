@@ -68,7 +68,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
 
             if (list == null)
                 return 0;
-            
+
             //Default header height
             float height = EditorGUIUtility.singleLineHeight;
             //Default space between entires
@@ -360,7 +360,6 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
         private void List_onElementsReorder(int startIndex, int newIndex)
         {
             KeysValues.MoveArrayElement(startIndex, newIndex);
-            //KeysProp.MoveArrayElement(startIndex, newIndex);
             ValuesProp.MoveArrayElement(startIndex, newIndex);
         }
 
@@ -466,7 +465,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
                     string[] names = keyToUse.enumDisplayNames;
                     if (names.Length <= keyToUse.enumValueIndex || keyToUse.enumValueIndex < 0)
                     {
-                        list.Selected = new[] {index};
+                        list.Selected = new[] { index };
                         List_onRemoveCallback(list);
                         return;
                     }
@@ -656,12 +655,10 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
 
             SetPropertyDefault(KeysValues.GetArrayElementAtIndex(KeysValues.arraySize - 1), KeysValues);
             SetPropertyDefault(KeysProp.GetArrayElementAtIndex(KeysProp.arraySize - 1), KeysProp);
-            
+
             KeysValues.serializedObject.ApplyModifiedProperties();
             ValuesProp.serializedObject.ApplyModifiedProperties();
             KeysProp.serializedObject.ApplyModifiedProperties();
-
-            //SetPropertyDefault(ValuesProp.GetArrayElementAtIndex(ValuesProp.arraySize - 1), null);
         }
 
         private void List_onRemoveCallback(ReorderableList.ReorderableList list)
@@ -1025,5 +1022,5 @@ namespace ScriptableObjects.SerializableDictionaryLite.Editor
             }
         }
     }
-    #endif
+#endif
 }

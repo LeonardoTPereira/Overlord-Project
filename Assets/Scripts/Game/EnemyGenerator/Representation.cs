@@ -25,7 +25,8 @@ namespace Game.EnemyGenerator
         public Individual(
             EnemyData enemy,
             WeaponData weapon
-        ) {
+        )
+        {
             Enemy = enemy;
             Weapon = weapon;
         }
@@ -63,7 +64,8 @@ namespace Game.EnemyGenerator
         }
 
         /// Return a random individual.
-        public static Individual GetRandom() {
+        public static Individual GetRandom()
+        {
             SearchSpace ss = SearchSpace.Instance;
             // Create a random enemy
             var (min, max) = ss.rHealth;
@@ -115,7 +117,8 @@ namespace Game.EnemyGenerator
             float movementSpeed,
             float activeTime,
             float restTime
-        ) {
+        )
+        {
             Health = health;
             Strength = strength;
             AttackSpeed = attackSpeed;
@@ -137,7 +140,8 @@ namespace Game.EnemyGenerator
         public WeaponData(
             WeaponType weapon,
             float projectileSpeed
-        ) {
+        )
+        {
             Weapon = weapon;
             ProjectileSpeed = projectileSpeed;
         }

@@ -1,13 +1,12 @@
-﻿using System;
-using Game.Audio;
-using Game.Events;
-using Game.LevelManager.DungeonLoader;
+﻿using Game.Audio;
 using Game.SaveLoadSystem;
 using MyBox;
 using ScriptableObjects;
+using System;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using Game.Events;
 
 namespace Game.GameManager
 {
@@ -65,12 +64,12 @@ namespace Game.GameManager
                 // SceneManager.LoadScene(experimentSelectorScreen.SceneName);
             }
         }
-        
+
         private void OnApplicationQuit()
         {
             AnalyticsEvent.GameOver();
         }
-        
+
         void OnEnable()
         {
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -79,7 +78,7 @@ namespace Game.GameManager
         {
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
-        
+
         public void MainMenu()
         {
             GameStartEventHandler?.Invoke(null, EventArgs.Empty);

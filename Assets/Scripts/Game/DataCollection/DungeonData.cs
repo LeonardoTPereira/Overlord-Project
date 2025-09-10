@@ -13,13 +13,13 @@ using Firebase.Firestore;
 namespace Game.DataCollection
 {
 #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreData]
+    [FirestoreData]
 #endif
     [Serializable]
     public class DungeonData : ScriptableObject
     {
 #if !UNITY_WEBGL || UNITY_EDITOR
-            [FirestoreProperty]
+        [FirestoreProperty]
 #endif
         [field: SerializeField] public int TotalAttempts { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
@@ -135,20 +135,20 @@ namespace Game.DataCollection
         [FirestoreProperty]
 #endif
         [field: SerializeField] public float TimeToFinish { get; private set; }
-        
+
         #region //Quest related data
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalQuests { get; set; }        
+        [field: SerializeField] public int TotalQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int CompletedQuests { get; set; }        
+        [field: SerializeField] public int CompletedQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalAchievementQuests { get; set; }        
+        [field: SerializeField] public int TotalAchievementQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -156,15 +156,15 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalCreativityQuests { get; set; }        
+        [field: SerializeField] public int TotalCreativityQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int CompletedCreativityQuests { get; set; } 
+        [field: SerializeField] public int CompletedCreativityQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalImmersionQuests { get; set; }        
+        [field: SerializeField] public int TotalImmersionQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -172,7 +172,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalMasteryQuests { get; set; }        
+        [field: SerializeField] public int TotalMasteryQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -180,7 +180,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalExchangeQuests { get; set; }        
+        [field: SerializeField] public int TotalExchangeQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -188,7 +188,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalGatherQuests { get; set; }        
+        [field: SerializeField] public int TotalGatherQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -196,7 +196,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalExploreQuests { get; set; }        
+        [field: SerializeField] public int TotalExploreQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -204,7 +204,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalGoToQuests { get; set; }        
+        [field: SerializeField] public int TotalGoToQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -212,7 +212,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalGiveQuests { get; set; }        
+        [field: SerializeField] public int TotalGiveQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -220,7 +220,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalListenQuests { get; set; }        
+        [field: SerializeField] public int TotalListenQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -228,7 +228,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalReadQuests { get; set; }        
+        [field: SerializeField] public int TotalReadQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -236,7 +236,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalReportQuests { get; set; }        
+        [field: SerializeField] public int TotalReportQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -244,7 +244,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalDamageQuests { get; set; }        
+        [field: SerializeField] public int TotalDamageQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -252,7 +252,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public int TotalKillQuests { get; set; }        
+        [field: SerializeField] public int TotalKillQuests { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -299,7 +299,7 @@ namespace Game.DataCollection
             TotalDeaths++;
             EndTheLevel();
         }
-        
+
         public void OnPlayerVictory()
         {
             TotalWins++;
@@ -339,12 +339,12 @@ namespace Game.DataCollection
         {
             NpcsInteracted++;
         }
-        
+
         public void IncrementDeaths()
         {
             TotalDeaths++;
         }
-        
+
         public void IncrementWins()
         {
             TotalWins++;
@@ -364,12 +364,12 @@ namespace Game.DataCollection
         {
             TotalEnemies += amount;
         }
-        
+
         public void AddTotalNpcs(int amount)
         {
             TotalNpcs += amount;
         }
-        
+
         public void AddTotalTreasures(int amount)
         {
             TotalTreasure += amount;
@@ -379,12 +379,12 @@ namespace Game.DataCollection
         {
             TotalLostHealth += amount;
         }
-        
+
         public void IncrementCollectedKeys()
         {
             KeysCollected++;
         }
-        
+
         public void IncrementOpenedLocks()
         {
             LocksOpened++;
@@ -396,13 +396,13 @@ namespace Game.DataCollection
             _currentRoom = roomData;
             var roomId = roomData.GetRoomIdFromCoordinates(_currentRoom.RoomCoordinates);
             var roomAlreadyVisited = VisitedRooms.TryGetValue(roomId, out var currentRoomDataList);
-            if(roomAlreadyVisited)
+            if (roomAlreadyVisited)
             {
                 currentRoomDataList.Add(_currentRoom);
             }
             else
             {
-                currentRoomDataList = new List<RoomData> {_currentRoom};
+                currentRoomDataList = new List<RoomData> { _currentRoom };
                 VisitedRooms.Add(roomId, currentRoomDataList);
                 UniqueRoomsEntered++;
             }
@@ -413,7 +413,7 @@ namespace Game.DataCollection
         {
             _currentRoom.ExitRoom();
         }
-        
+
         private int[,] CreateHeatMap(Map currentMap)
         {
             var heatMap = new int[(currentMap.Dimensions.Width + 1) / 2, (currentMap.Dimensions.Height + 1) / 2];
@@ -433,7 +433,7 @@ namespace Game.DataCollection
             }
             return heatMap;
         }
-        
+
         public void CreateJson()
         {
             var dungeonFolder = _jsonPath + Constants.SeparatorCharacter + LevelName;
@@ -446,7 +446,7 @@ namespace Game.DataCollection
             var roomFile = dungeonFolder + Constants.SeparatorCharacter;
             const string roomFileEnding = "RoomData.json";
             var roomFileCounter = 0;
-            if (File.Exists(roomFile+roomFileEnding))
+            if (File.Exists(roomFile + roomFileEnding))
             {
                 roomFileCounter++;
                 while (File.Exists(roomFile + roomFileCounter + roomFileEnding))
@@ -459,7 +459,7 @@ namespace Game.DataCollection
             {
                 roomFile += roomFileEnding;
             }
-            
+
             string lines;
             using (var fileStream = new FileStream(dungeonFile, FileMode.OpenOrCreate))
             {
@@ -468,16 +468,16 @@ namespace Game.DataCollection
                     lines = sr.ReadToEnd();
                 }
             }
-            
+
             var dungeonData = JsonUtility.ToJson(lines);
-            dungeonData+=JsonUtility.ToJson(this);
+            dungeonData += JsonUtility.ToJson(this);
             var dungeonString = JsonUtility.ToJson(dungeonData);
-            
+
             using (var fileStream = new FileStream(dungeonFile, FileMode.OpenOrCreate))
             {
-                using (var sw = new StreamWriter(fileStream)) 
+                using (var sw = new StreamWriter(fileStream))
                 {
-                    sw.Write(dungeonString); 
+                    sw.Write(dungeonString);
                 }
             }
 
@@ -485,10 +485,10 @@ namespace Game.DataCollection
             var roomString = JsonUtility.ToJson(roomData);
             using (var fileStream = new FileStream(roomFile, FileMode.OpenOrCreate))
             {
-                    using (var sw = new StreamWriter(fileStream)) 
-                    {
-                            sw.Write(roomString); 
-                    }
+                using (var sw = new StreamWriter(fileStream))
+                {
+                    sw.Write(roomString);
+                }
             }
         }
     }

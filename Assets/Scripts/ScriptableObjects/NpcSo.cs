@@ -1,5 +1,5 @@
-﻿using System;
-using ScriptableObjects;
+﻿using ScriptableObjects;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Util;
@@ -10,7 +10,7 @@ namespace Game.NPCs
     [Serializable]
     public class NpcSo : ScriptableObject, IDialogueObjSo
     {
-        
+
         [FormerlySerializedAs("_npcName")] [SerializeField] private string npcName;
         [SerializeField] private int age;
         [SerializeField] private Jobs job;
@@ -75,7 +75,7 @@ namespace Game.NPCs
             get => socialFactor;
             set => socialFactor = value;
         }
-        
+
         public Sprite GameSprite
         {
             get => gameSprite;

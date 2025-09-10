@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Game.Audio;
-using Game.Events;
+﻿using Game.Events;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
 
@@ -23,7 +22,7 @@ namespace Game.GameManager.Player
 
         public void Awake()
         {
-           
+
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -83,6 +82,6 @@ namespace Game.GameManager.Player
             Keys.Clear();
             UsedKeys.Clear();
         }
-        
+
     }
 }

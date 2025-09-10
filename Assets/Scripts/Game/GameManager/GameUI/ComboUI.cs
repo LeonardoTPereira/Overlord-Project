@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Game.LevelManager.DungeonLoader;
+using System;
 using System.Collections.Generic;
-using Game.LevelManager.DungeonLoader;
 using TMPro;
 using UnityEngine;
 

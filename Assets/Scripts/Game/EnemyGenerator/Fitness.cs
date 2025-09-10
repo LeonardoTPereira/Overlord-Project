@@ -17,7 +17,8 @@ namespace Game.EnemyGenerator
         public static void Calculate(
             ref Individual _individual,
             float goal
-        ) {
+        )
+        {
             _individual.FitnessValue = Math.Abs(goal - _individual.DifficultyLevel);
         }
 
@@ -32,7 +33,8 @@ namespace Game.EnemyGenerator
         public static bool IsBest(
             Individual _i1,
             Individual _i2
-        ) {
+        )
+        {
             Debug.Assert(
                 _i1 != null || _i2 != null,
                 CANNOT_COMPARE_INDIVIDUALS

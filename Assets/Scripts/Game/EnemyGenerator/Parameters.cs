@@ -31,13 +31,14 @@ namespace Game.EnemyGenerator
             int minimumElite,
             float acceptableFitness,
             float difficulty
-        ) {
+        )
+        {
             Generations = generations;
             Population = population;
             Intermediate = intermediate;
             Mutation = mutation;
             GeneMutation = geneMutation;
-            Competitors = competitors;            
+            Competitors = competitors;
             MinimumElite = minimumElite;
             AcceptableFitness = acceptableFitness;
             Difficulty = difficulty;

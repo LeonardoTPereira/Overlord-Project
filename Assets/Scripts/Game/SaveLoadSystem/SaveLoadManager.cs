@@ -66,33 +66,6 @@ namespace Game.SaveLoadSystem
             File.WriteAllText(_keyPath, _key);
         }
 
-        
-        /*
-         *         private void SaveFile(object state)
-        {
-            using var stream = File.Open(_savePath, FileMode.Create);
-            using var cleanStream = new MemoryStream();
-            var formatter = new BinaryFormatter();
-            formatter.Serialize(cleanStream, state);
-            var encryptedStream = EncryptionManager.EncryptString(_key, cleanStream.ToString());
-            File.WriteAllText(_savePath, encryptedStream);
-        }
-
-        private Dictionary<string, object> LoadFile()
-        {
-            if (!File.Exists(_savePath))
-            {
-                Debug.LogWarning("No save file found");
-                return null;
-            }
-
-            using var stream = File.Open(_savePath, FileMode.Open);
-            var encryptedData = File.ReadAllText(_savePath);
-            var cleanData = EncryptionManager.DecryptString(_key, encryptedData);
-            var formatter = new BinaryFormatter();
-            return (Dictionary<string, object>) formatter.Deserialize(cleanData);
-        }
-         */
         public void Load()
         {
             var state = LoadFile();

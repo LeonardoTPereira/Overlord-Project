@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Fog.Dialogue;
+﻿using Fog.Dialogue;
 using Game.Events;
 using Game.GameManager;
 using Game.Quests;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Game.Dialogues
@@ -36,13 +35,15 @@ namespace Game.Dialogues
             IsActive = true;
         }
 
-        protected override IEnumerator TypeDialogueTextCoroutine() {
+        protected override IEnumerator TypeDialogueTextCoroutine()
+        {
             stringBuilder.Clear();
             stringBuilder.Append(dialogueText.text);
             stringBuilder.Append(ExtractAndSaveTags());
             var finalText = stringBuilder.ToString();
             stringBuilder.Clear();
-            foreach (var character in finalText) {
+            foreach (var character in finalText)
+            {
                 stringBuilder.Append(character);
                 dialogueText.text = stringBuilder.ToString();
                 dialogueBox.ScrollToEnd();
@@ -51,7 +52,8 @@ namespace Game.Dialogues
             ProcessTags();
         }
 
-        protected override void FillDialogueText() {
+        protected override void FillDialogueText()
+        {
             stringBuilder.Clear();
             stringBuilder.Append((dialogueText == titleText) ? currentTitle : "");
             stringBuilder.Append(ExtractAndSaveTags());
@@ -63,7 +65,7 @@ namespace Game.Dialogues
         {
             foreach (var textTag in _tags)
             {
-                Debug.Log("Process Tag: "+textTag);
+                Debug.Log("Process Tag: " + textTag);
                 EvaluateTag(textTag);
             }
         }
@@ -74,12 +76,12 @@ namespace Game.Dialogues
             // even numbers in the array are text, odd numbers are tags
             var oldText = currentLine.Text;
             var newTextBuilder = new StringBuilder();
-            char[] separators = {'<', '>'};
+            char[] separators = { '<', '>' };
             var subTexts = oldText.Split(separators);
             var customTags = new List<string>();
             for (var i = 0; i < subTexts.Length; i++)
             {
-                Debug.Log("SubText: "+subTexts[i]);
+                Debug.Log("SubText: " + subTexts[i]);
                 if (i % 2 != 1)
                 {
                     newTextBuilder.Append(subTexts[i]);
@@ -88,7 +90,7 @@ namespace Game.Dialogues
 
                 if (!IsCustomTag(subTexts[i].Replace(" ", "")))
                 {
-                    newTextBuilder.Append("<"+subTexts[i]+">");
+                    newTextBuilder.Append("<" + subTexts[i] + ">");
                     continue;
                 }
                 customTags.Add($"{subTexts[i]}");

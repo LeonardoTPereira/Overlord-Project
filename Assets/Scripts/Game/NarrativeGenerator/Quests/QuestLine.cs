@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.ExperimentControllers;
-using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using Game.Quests;
 #if UNITY_EDITOR
-    using UnityEditor;
+using UnityEditor;
 #endif
 using UnityEngine;
 using Util;
@@ -61,7 +60,7 @@ namespace Game.NarrativeGenerator.Quests
             NpcInCharge = questLine.NpcInCharge;
             CurrentQuestIndex = 0;
         }
-        
+
         public void SaveAsset(string directory)
         {
 #if UNITY_EDITOR
@@ -70,12 +69,13 @@ namespace Game.NarrativeGenerator.Quests
             newDirectory = AssetDatabase.GUIDToAssetPath(guid);
             CreateAssetsForQuests(newDirectory);
             const string extension = ".asset";
-            var fileName = newDirectory+ Constants.SeparatorCharacter +"Narrative_" + Quests[0] + extension;
+            var fileName = newDirectory + Constants.SeparatorCharacter + "Narrative_" + Quests[0] + extension;
             var uniquePath = AssetDatabase.GenerateUniqueAssetPath(fileName);
             AssetDatabase.CreateAsset(this, uniquePath);
             AssetDatabase.Refresh();
 #endif
         }
+
         public void CreateAssetsForQuests(string directory)
         {
             foreach (var quest in Quests)
@@ -98,6 +98,7 @@ namespace Game.NarrativeGenerator.Quests
 
                 switch (questSo)
                 {
+/*  BEFORE CONFLICT
                     case ListenQuestSo { IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } listenQuestSo:
                         listenQuestSo.HasCreatedDialogue = true;
                         AllowCheckPointEventHandler?.Invoke(null, new QuestCheckPointEventArgs(listenQuestSo));
@@ -111,6 +112,12 @@ namespace Game.NarrativeGenerator.Quests
                         AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
                         break;
                     case GiveQuestSo { HasItem: true, IsCompleted: false, IsOpened: true, HasCreatedDialogue: false } giveQuestSo:
+*/
+                    case ExchangeQuestSo { HasItems: true, IsCompleted: false, HasCreatedDialogue: false } exchangeQuestSo:
+                        exchangeQuestSo.HasCreatedDialogue = true;
+                        AllowExchangeEventHandler?.Invoke(null, new QuestExchangeEventArgs(exchangeQuestSo));
+                        break;
+                    case GiveQuestSo { HasItem: true, IsCompleted: false, HasCreatedDialogue: false } giveQuestSo:
                         giveQuestSo.HasCreatedDialogue = true;
                         AllowGiveEventHandler?.Invoke(null, new QuestGiveEventArgs(giveQuestSo));
                         break;
@@ -131,7 +138,7 @@ namespace Game.NarrativeGenerator.Quests
                 QuestLineCompletedEventHandler?.Invoke(null, new NewQuestLineEventArgs(this));
             }
         }
-        
+
         public void CloseCurrentQuest()
         {
             GetCurrentQuest().IsClosed = true;
@@ -176,9 +183,9 @@ namespace Game.NarrativeGenerator.Quests
             List<QuestSo> completedQuests = new List<QuestSo>();
             for (int i = 0; i < CurrentQuestIndex; i++)
             {
-                completedQuests.Add( Quests[i] );
+                completedQuests.Add(Quests[i]);
             }
-            return completedQuests; 
+            return completedQuests;
         }
 
         public void PopulateQuestLine(in GeneratorSettings generatorSettings, NpcSo npcInCharge )
@@ -199,14 +206,14 @@ namespace Game.NarrativeGenerator.Quests
         public void CompleteMissingQuests(in GeneratorSettings generatorSettings, NpcSo npcInCharge, Dictionary<string,bool> addedQuests )
         {
             List<string> missingQuests = new List<string>();
-            foreach (KeyValuePair<string,bool> quest in addedQuests)
+            foreach (KeyValuePair<string, bool> quest in addedQuests)
             {
-                if ( !quest.Value )
+                if (!quest.Value)
                     missingQuests.Add(quest.Key);
             }
-            
+
             var questChain = new MarkovChain();
-            foreach ( string missingQuest in missingQuests)
+            foreach (string missingQuest in missingQuests)
             {
                 questChain.SetSymbol(missingQuest);
                 questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings);
