@@ -15,13 +15,9 @@ namespace Game.Dialogues
         public static event MarkRoomOnMiniMapEvent MarkRoomOnMiniMapEventHandler;
         public static event StartExchangeEvent StartExchangeEventHandler;
         public static event StartGiveEvent StartGiveEventHandler;
-<<<<<<< HEAD
         public static event StartCheckpointEvent StartCheckpointEventHandler;
         public static event StartGiveKeyEvent StartGiveKeyEventHandler;
         
-=======
-
->>>>>>> Develop
         private string[] _tags;
 
         private void OnEnable()
@@ -147,15 +143,12 @@ namespace Game.Dialogues
                 var questId = int.Parse(textTag.Split(',')[1]);
                 StartGiveEventHandler?.Invoke(this, new StartGiveEventArgs(questId));
                 ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGiveDialogueEventArgs(npcName, questId));
-<<<<<<< HEAD
             }
             else if (textTag.StartsWith("checkpoint="))
             {
                 var npcName = textTag.Split('=')[1];
                 var questId = int.Parse(textTag.Split(',')[1]);
                 StartCheckpointEventHandler?.Invoke(this, new StartCheckpointEventArgs(questId));
-=======
->>>>>>> Develop
             }
         }
     }

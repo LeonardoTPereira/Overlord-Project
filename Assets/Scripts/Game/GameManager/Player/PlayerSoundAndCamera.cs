@@ -4,6 +4,7 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using System;
 using UnityEngine;
+using Game.NPCs;
 
 namespace Game.GameManager.Player
 {
