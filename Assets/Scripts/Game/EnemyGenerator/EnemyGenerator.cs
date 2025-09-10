@@ -49,7 +49,7 @@ namespace Game.EnemyGenerator
             while (pop.Count() < _parameters.initialPopulationSize)
             {
                 Individual ind = Individual.GetRandom(_searchSpace);
-                //Difficulty.Calculate(ref ind);
+                _fitnessFunction.SetSearchSpace(_searchSpace);
                 _fitnessFunction.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }

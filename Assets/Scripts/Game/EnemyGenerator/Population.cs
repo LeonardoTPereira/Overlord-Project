@@ -107,6 +107,16 @@ namespace Game.EnemyGenerator
         }
 
         /// Print all the individuals of the MAP-Elites population.
+        /*
+        public enum WeaponType
+        {
+            Barehand,    // Enemy attacks the player with barehands (Melee).
+            Sword,       // Enemy uses a short sword to damage the player (Melee).
+            Bow,         // Enemy shots projectiles towards the player (Range).
+            BombThrower, // Enemy shots bombs towards the player (Range).
+            Shield,      // Enemy uses a shield to defend itself (Defense).
+            CureSpell,   // Enemy uses magic to cure other enemies (Defense).
+        }
         public void Debug()
         {
             for (int m = 0; m < dimension.movement; m++)
@@ -129,7 +139,7 @@ namespace Game.EnemyGenerator
                 }
             }
         }
-
+        */
         public int NIndividualsBetterThan(int amount, float acceptableFitness)
         {
             var betterThanNCounter = 0;

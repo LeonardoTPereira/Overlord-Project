@@ -1,5 +1,6 @@
 using Util;
 using System;
+using Codice.Client.Common;
 
 namespace Game.EnemyGenerator
 {
@@ -48,9 +49,13 @@ namespace Game.EnemyGenerator
             }
             // Apply mutation on weapon attributes
             var weapon = individual.Weapon;
-            if (chance > RandomSingleton.GetInstance().RandomPercent())
+            var test = RandomSingleton.GetInstance().RandomPercent();
+            if (chance > test)
+            {                
+            }
+            if (chance > test)
             {
-                weapon.Weapon = RandomSingleton.GetInstance().RandomElementFromArray(SearchSpace.Instance.rWeaponType);
+                weapon.Weapon = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.WeaponSet.GetAllWeaponTypes());
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
