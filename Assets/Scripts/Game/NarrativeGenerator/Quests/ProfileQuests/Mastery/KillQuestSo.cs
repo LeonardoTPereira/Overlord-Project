@@ -29,14 +29,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             base.Init();
             EnemiesToKillByType = new EnemiesByType();
             EnemiesToKillByFitness = new Dictionary<float, int>();
-            OriginalEnemiesToKillByType = EnemiesToKillByType.Clone();
+            OriginalEnemiesToKillByType = new EnemiesByType();
         }
 
         public void Init(string questName, bool endsStoryLine, QuestSo previous, EnemiesByType enemiesByType)
         {
             base.Init(questName, endsStoryLine, previous);
             EnemiesToKillByType = enemiesByType;
-            OriginalEnemiesToKillByType = EnemiesToKillByType.Clone();
+            OriginalEnemiesToKillByType = enemiesByType;
         }
         public void Init(string questName, bool endsStoryLine, QuestSo previous, Dictionary<float, int> enemiesByFitness)
         {
@@ -52,7 +52,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (killQuest != null)
             {
                 EnemiesToKillByType.EnemiesByTypeDictionary = (WeaponTypeAmountDictionary) killQuest.EnemiesToKillByType.EnemiesByTypeDictionary.Clone();
-                OriginalEnemiesToKillByType = EnemiesToKillByType.Clone();
+                OriginalEnemiesToKillByType.EnemiesByTypeDictionary = (WeaponTypeAmountDictionary) killQuest.EnemiesToKillByType.EnemiesByTypeDictionary.Clone();
             }
             else
             {

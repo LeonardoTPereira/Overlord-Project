@@ -23,7 +23,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init();
             ItemsToGatherByType = new ItemAmountDictionary();
-            OriginalItemsToGatherByType = ItemsToGatherByType.Clone();
+            OriginalItemsToGatherByType = (ItemAmountDictionary)ItemsToGatherByType.Clone();
         }
         
         public override void Init(QuestSo copiedQuest)
@@ -33,7 +33,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (getQuest != null)
             {
                 ItemsToGatherByType = (ItemAmountDictionary) getQuest.ItemsToGatherByType.Clone();
-                OriginalItemsToGatherByType = ItemsToGatherByType.Clone();
+                OriginalItemsToGatherByType = (ItemAmountDictionary)ItemsToGatherByType.Clone();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(questName, endsStoryLine, previous);
             ItemsToGatherByType = itemsByType;
-            OriginalItemsToGatherByType = ItemsToGatherByType.Clone();
+            OriginalItemsToGatherByType = (ItemAmountDictionary)ItemsToGatherByType.Clone();
         }
         
         public override QuestSo Clone()

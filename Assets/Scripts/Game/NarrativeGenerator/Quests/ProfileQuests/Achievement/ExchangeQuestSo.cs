@@ -40,7 +40,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init();
             ItemsToExchangeByType = new ItemAmountDictionary();
-            OriginalItemsToExchangeByType = ItemsToExchangeByType.Clone();
+            OriginalItemsToExchangeByType = (ItemAmountDictionary)ItemsToExchangeByType.Clone();
             Npc = null;
             HasItems = false;
             HasCreatedDialogue = false;
@@ -55,7 +55,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 Npc = exchangeQuest.Npc;
                 ItemsToExchangeByType = (ItemAmountDictionary) exchangeQuest.ItemsToExchangeByType.Clone();
-                OriginalItemsToExchangeByType = ItemsToExchangeByType.Clone();
+                OriginalItemsToExchangeByType = (ItemAmountDictionary)ItemsToExchangeByType.Clone();
                 ExchangeData = exchangeQuest.ExchangeData;
                 HasItems = exchangeQuest.HasItems;
                 HasCreatedDialogue = exchangeQuest.HasCreatedDialogue;
@@ -72,7 +72,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
             ItemsToExchangeByType = exchangedItems;
-            OriginalItemsToExchangeByType = ItemsToExchangeByType.Clone();
+            OriginalItemsToExchangeByType = (ItemAmountDictionary)ItemsToExchangeByType.Clone();
             ExchangeData =
                 new ExchangeQuestData((ItemAmountDictionary) ItemsToExchangeByType.Clone(), receivedItem, Id);
             HasItems = false;
