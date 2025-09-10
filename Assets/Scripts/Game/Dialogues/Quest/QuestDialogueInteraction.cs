@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 using System.Collections;
 using System;
+=======
+>>>>>>> Develop
 using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;

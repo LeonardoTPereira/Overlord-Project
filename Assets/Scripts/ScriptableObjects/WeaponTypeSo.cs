@@ -22,6 +22,7 @@ namespace ScriptableObjects
         [field: SerializeField] public bool IsPlatformGame = false;
 
 
+
         public string RealTypeName(bool isInPortuguese)
         {
             if (IsPlatformGame)

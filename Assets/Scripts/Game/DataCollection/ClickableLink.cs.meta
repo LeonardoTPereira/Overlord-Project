@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Game/DataCollection/ClickableLink.cs.meta
 guid: eb65d24576557c24aa7c866a4dd4b3a0
+========
+guid: f9aeb1425e83aca4a885f2c15d598bdb
+>>>>>>>> Develop:Assets/Scripts/Game/LevelManager/DungeonLoader/RandomRoom/MatrixMap.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

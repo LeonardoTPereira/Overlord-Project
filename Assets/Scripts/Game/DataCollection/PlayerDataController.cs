@@ -11,7 +11,10 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using Game.SaveLoadSystem;
+<<<<<<< HEAD
 using Game.NPCs;
+=======
+>>>>>>> Develop
 using System;
 using UnityEngine;
 

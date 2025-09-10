@@ -219,9 +219,12 @@ namespace Game.GameManager
         private void InvokeEnemyKilledEvents()
         {
             EnemyKilledHandler?.Invoke(this, EnemyData);
+<<<<<<< HEAD
             ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
             KillEnemyEventHandler?.Invoke(this, new KillEnemyEventArgs( EnemyData.movement.enemyMovementIndex, EnemyData.weapon.Type));
             /*  BEFORE CONFLICT
+=======
+>>>>>>> Develop
             ((IQuestElement)this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
             KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
             */

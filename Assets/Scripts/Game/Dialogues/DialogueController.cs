@@ -43,6 +43,7 @@ namespace Game.Dialogues
             bool isQuestCloser = false)
         {
             NewQuestDialogues.Add(new QuestDialogueLine(dialogueData, dialogueLine, keepDialogueAfterSpoken,
+<<<<<<< HEAD
                 id, isQuestCloser));
         }
 
@@ -50,6 +51,8 @@ namespace Game.Dialogues
             int position, bool isQuestCloser = false)
         {
             QuestDialogues.Insert( position, new QuestDialogueLine(dialogueData, dialogueLine,keepDialogueAfterSpoken, 
+=======
+>>>>>>> Develop
                 id, isQuestCloser));
         }
 
