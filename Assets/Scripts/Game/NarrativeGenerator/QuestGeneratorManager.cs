@@ -17,6 +17,7 @@ using UnityEditor;
 using UnityEngine;
 using Util;
 using Overlord.ProfileAnalyst;
+using Overlord.NarrativeGenerator;
 
 namespace Game.NarrativeGenerator
 {
@@ -24,12 +25,11 @@ namespace Game.NarrativeGenerator
     public class QuestGeneratorManager : MonoBehaviour
     {
         [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines;
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
         public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
 
-        [SerializeReference, SerializeField] private QuestLineList questLines;
-        private List<QuestLineList> _questLinesForProfile;
+        [SerializeReference, SerializeField] private QuestLineList questLines;        
 
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
         private EnemyGeneratorManager _enemyGeneratorManager;
@@ -74,14 +74,17 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateNarrative(YeePlayerProfile playerProfile)
         {
-            SetQuestLineListForProfile(playerProfile);
+            //SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestLine(playerProfile);
             questLines.TargetProfile = playerProfile;
             await CreateContentsForQuestLine();
+#if UNITY_EDITOR
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
-                SaveSOs(playerProfile.PlayerProfileEnum.ToString());
+                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines);
+                narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
             }
+#endif
             SelectedLevels.Init(questLines);
             FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));
@@ -99,39 +102,6 @@ namespace Game.NarrativeGenerator
         {
             return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines, 
                 CurrentGeneratorSettings.DungeonParameters, CurrentGeneratorSettings.TotalRunsOfEA));
-        }
-
-        private void SaveSOs(string profileName)
-        {
-#if UNITY_EDITOR
-            // TODO check if still works
-            var target = "Assets";
-            target += Constants.SeparatorCharacter + "Resources";
-            target += Constants.SeparatorCharacter + "Experiment";
-            var questLineFile = target + Constants.SeparatorCharacter + profileName;
-            questLines.SaveAsset(questLineFile);
-
-            EditorUtility.SetDirty(questLines);
-            AssetDatabase.SaveAssetIfDirty(questLines);
-
-            EditorUtility.SetDirty(playerProfileToQuestLines);
-            AssetDatabase.SaveAssetIfDirty(playerProfileToQuestLines);
-#endif
-        }
-
-        private void SetQuestLineListForProfile(YeePlayerProfile playerProfile)
-        {
-            if (playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
-                    playerProfile.PlayerProfileEnum.ToString(), out var questLinesForProfile))
-            {
-                _questLinesForProfile = questLinesForProfile;
-            }
-            else
-            {
-                _questLinesForProfile = new List<QuestLineList>();
-                _questLinesForProfile.Add(questLines);
-                playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLinesForProfile);
-            }
         }
 
         private void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)

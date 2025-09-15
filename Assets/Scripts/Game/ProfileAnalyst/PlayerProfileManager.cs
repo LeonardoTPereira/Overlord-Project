@@ -21,7 +21,7 @@ namespace Overlord.ProfileAnalyst
 
         private void OnEnable()
         {
-            NarrativeGenerator.NarrativeCreatorEventHandler += OnNarrativeCreated;
+            Game.NarrativeGenerator.NarrativeGenerator.NarrativeCreatorEventHandler += OnNarrativeCreated;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += OnFormAnswered;
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += OnFormAnswered;
             ProfileTester.PreTestFormQuestionAnsweredEventHandler += OnProfileTested;
@@ -30,7 +30,7 @@ namespace Overlord.ProfileAnalyst
 
         private void OnDisable()
         {
-            NarrativeGenerator.NarrativeCreatorEventHandler -= OnNarrativeCreated;
+            Game.NarrativeGenerator.NarrativeGenerator.NarrativeCreatorEventHandler -= OnNarrativeCreated;
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnFormAnswered;
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= OnFormAnswered;
             ProfileTester.PreTestFormQuestionAnsweredEventHandler -= OnProfileTested;

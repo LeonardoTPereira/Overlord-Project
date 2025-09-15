@@ -38,7 +38,7 @@ namespace Game.EnemyGenerator
                 enemyList.Add(IndividualEnemySO(individual));
             }
 
-            ExportEnemiesToTextFile(enemyList, GetDocumentsFolderPath("EnemiesExport.txt"));    // DESATIVAR DEPOIS DE TESTES
+            //ExportEnemiesToTextFile(enemyList, GetDocumentsFolderPath("EnemiesExport.txt"));    // DESATIVAR DEPOIS DE TESTES
             return enemyList;
         }
 

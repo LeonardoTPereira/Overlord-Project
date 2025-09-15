@@ -1,9 +1,7 @@
 using Game.DataCollection;
 using Game.Events;
 using Game.ExperimentControllers;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Overlord.ProfileAnalyst
 {
