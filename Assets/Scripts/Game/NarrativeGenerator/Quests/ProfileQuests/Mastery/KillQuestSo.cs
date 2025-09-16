@@ -48,6 +48,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(copiedQuest);
             EnemiesToKillByType = new EnemiesByType ();
+            OriginalEnemiesToKillByType = new EnemiesByType();
             var killQuest = copiedQuest as KillQuestSo;
             if (killQuest != null)
             {
