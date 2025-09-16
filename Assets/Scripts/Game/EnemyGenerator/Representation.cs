@@ -84,7 +84,7 @@ namespace Game.EnemyGenerator
             var restTime = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             EnemyData e = new EnemyData(health, strength, attackSpeed, movementType, movementSpeed, activeTime, restTime);
             // Create a random weapon
-            var weaponType = RandomSingleton.GetInstance().RandomElementFromArray(SearchSpace.Instance.rWeaponType);
+            var weaponType = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.WeaponSet.GetAllWeaponTypes());
             (minFloat, maxFloat) = (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max);
             var projectileSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             WeaponData w = new WeaponData(weaponType, projectileSpeed);
@@ -134,12 +134,12 @@ namespace Game.EnemyGenerator
     [Serializable]
     public struct WeaponData
     {
-        public WeaponType Weapon { get; set; }
+        public Enum Weapon { get; set; }
         public float WeaponStatus1 { get; set; }    // Old name: ProjectileSpeed
 
         /// Weapon constructor.
         public WeaponData(
-            WeaponType weapon,
+            Enum weapon,
             float projectileSpeed
         )
         {

@@ -1,7 +1,9 @@
 using Game.EnemyGenerator;
 using Overlord.GenerationController.Facade;
 using System;
+using System.Linq;
 using UnityEngine;
+using static Codice.Client.Common.Connection.AskCredentialsToUser;
 
 namespace TopdownGame.Overlord.Inheritance.RulesGenerator
 {
@@ -11,6 +13,13 @@ namespace TopdownGame.Overlord.Inheritance.RulesGenerator
         /// The error message of cannot compare individuals.
         public readonly string CANNOT_COMPARE_INDIVIDUALS =
             "There is no way of comparing two null individuals.";
+
+        private SearchSpaceConfig _searchSpace;
+
+        public void SetSearchSpace(SearchSpaceConfig searchSpace)
+        {
+            _searchSpace = searchSpace;
+        }
 
         /// Calculate the fitness value of the entered individual.
         ///
@@ -93,16 +102,19 @@ namespace TopdownGame.Overlord.Inheritance.RulesGenerator
             float fS = 1;
             // Melee enemies attack by touching the player, therefore, the
             // movement speed increase their strenght
-            fS *= SearchSpace.MeleeWeaponList().Contains(w.Weapon) ?
+            fS *= _searchSpace.WeaponSet.GetMeleeWeaponTypes().Contains(w.Weapon) ?
                 e.Status2 * e.Status4 : 1;
             // Shooter enemies attack by throwing projectiles, then we count
             // both attack speed (shooting frequency) and projectile speed
             // Besides, the projectiles have the same damage
-            fS *= SearchSpace.RangedWeaponList().Contains(w.Weapon) ?
-                (e.Status3 * w.WeaponStatus1) * 3 : 1;
+            fS *= _searchSpace.WeaponSet.GetRangedWeaponTypes().Contains(w.Weapon) ?
+                (e.Status2 * e.Status3) * w.WeaponStatus1 : 1;
             // The cooldown of healer enemies follows the attack speed
-            fS *= w.Weapon == WeaponType.CureSpell ?
+            if (_searchSpace.WeaponSet is TopdownEnemyWeaponsSO topdownWeaponsSO)
+                fS *= topdownWeaponsSO.IsHealerWeapon(w.Weapon) ?
                 e.Status3 * 2 : 1;
+            //fS *= w.Weapon == WeaponType.CureSpell ?
+            //    e.Status3 * 2 : 1;
             return fS;
         }
 
@@ -115,15 +127,16 @@ namespace TopdownGame.Overlord.Inheritance.RulesGenerator
             var enemy = individual.Enemy;
             var weapon = individual.Weapon;
             var gameplayFactor = 1f;
-            if (SearchSpace.MeleeWeaponList().Contains(weapon.Weapon))
+            if (_searchSpace.WeaponSet.GetMeleeWeaponTypes().Contains(weapon.Weapon))
             {
                 gameplayFactor = CalculateMeleeWeaponGameplayFactor(enemy, gameplayFactor);
             }
-            else if (SearchSpace.RangedWeaponList().Contains(weapon.Weapon))
+            else if (_searchSpace.WeaponSet.GetRangedWeaponTypes().Contains(weapon.Weapon))
             {
                 gameplayFactor = CalculateRangedWeaponGameplayFactor(enemy, gameplayFactor);
             }
-            if (weapon.Weapon == WeaponType.CureSpell)
+            if (_searchSpace.WeaponSet is TopdownEnemyWeaponsSO topdownWeaponsSO &&
+                topdownWeaponsSO.IsHealerWeapon(weapon.Weapon))
             {
                 gameplayFactor = CalculateHealerGameplayFactor(enemy, gameplayFactor);
             }

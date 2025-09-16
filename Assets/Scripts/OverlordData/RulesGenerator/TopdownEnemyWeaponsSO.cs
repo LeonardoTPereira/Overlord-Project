@@ -8,12 +8,12 @@ public class TopdownEnemyWeaponsSO : EnemyWeaponsSO<TopdownEnemyWeaponsSO.Weapon
 {
     public enum WeaponTypeEnums
     {
-        None,       // No weapon
-        Bow,        // Ranged weapon
-        BombThrower,// Ranged weapon
-        Barehand,   // Melee weapon
-        Sword,      // Melee weapon
-        Shield      // Melee weapon
+        Barehand,    // Enemy attacks the player with barehands (Melee).
+        Sword,       // Enemy uses a short sword to damage the player (Melee).
+        Bow,         // Enemy shots projectiles towards the player (Range).
+        BombThrower, // Enemy shots bombs towards the player (Range).
+        Shield,      // Enemy uses a shield to defend itself (Defense).
+        CureSpell,   // Enemy uses magic to cure other enemies (Defense).
     }
     public override List<Enum> GetRangedWeaponTypes()
     {
@@ -31,5 +31,18 @@ public class TopdownEnemyWeaponsSO : EnemyWeaponsSO<TopdownEnemyWeaponsSO.Weapon
             WeaponTypeEnums.Sword,
             WeaponTypeEnums.Shield,
         };
+    }
+
+    public List<Enum> GetHealerWeaponTypes()
+    {
+        return new List<Enum>
+        {
+            WeaponTypeEnums.CureSpell,
+        };
+    }
+
+    public bool IsHealerWeapon(Enum weapon)
+    {
+        return weapon.Equals(WeaponTypeEnums.CureSpell);
     }
 }
