@@ -18,6 +18,7 @@ MonoBehaviour:
     type: 2}
   <WeaponPrefab>k__BackingField: {fileID: 0}
   <EnemyTypeName>k__BackingField: Slime
+  <Type>k__BackingField: 0
   HasSprite: 0
-  IsInPortuguese: 1
-  IsPlatformGame: 1
+  IsInPortuguese: 0
+  IsPlatformGame: 0

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.GameManager;
 
 namespace Game.DataCollection
 {
     public class FormBhv : MonoBehaviour
     {
         [SerializeField] private bool _hasCheckbox = false;
-        public FormQuestionsData questionsData;
+        public FormQuestionsData enQuestionsData;
+        public FormQuestionsData ptQuestionsData;
         public GameObject questionPrefab;
         public GameObject checkboxPrefab;
         public RectTransform questionsPanel;
@@ -19,6 +21,7 @@ namespace Game.DataCollection
         private FormCheckboxBhv checkboxForm;
         public int formID; //0 for pretest, 1 for posttest
 
+        private FormQuestionsData questionsData => GameManagerSingleton.Instance.IsInPortuguese ? ptQuestionsData : enQuestionsData;
         private List<int> answers;
 
         public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;

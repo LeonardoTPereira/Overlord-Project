@@ -7,6 +7,7 @@ using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
 using Util;
+using Game.Events;
 
 namespace Game.GameManager
 {
@@ -48,7 +49,7 @@ namespace Game.GameManager
         private bool _isRandomMovement;
 
         public static event EventHandler PlayerHitEventHandler;
-        public static event EventHandler KillEnemyEventHandler;
+        public static event KillEnemyEvent KillEnemyEventHandler;
 
         private bool _hasGotComponents;
 
@@ -218,8 +219,8 @@ namespace Game.GameManager
         private void InvokeEnemyKilledEvents()
         {
             EnemyKilledHandler?.Invoke(this, EnemyData);
-            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
-            KillEnemyEventHandler?.Invoke(null, EventArgs.Empty);
+            ((IQuestElement) this).OnQuestTaskResolved(this, new QuestKillEnemyEventArgs(EnemyData.weapon, QuestId));
+            KillEnemyEventHandler?.Invoke(this, new KillEnemyEventArgs( EnemyData.movement.enemyMovementIndex, EnemyData.weapon.Type));
         }
 
         public void Die()

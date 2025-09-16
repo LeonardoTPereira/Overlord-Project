@@ -23,38 +23,38 @@ namespace ScriptableObjects
             return stringBuilder.ToString();
         }
 
-        public string SetRandomText()
+        public string SetRandomText(bool isInPortuguese)
         {
             int text = UnityEngine.Random.Range(0, 11);
 
-            if (_isInPortuguese)
+            if (isInPortuguese)
             {
                 switch (text)
                 {
                     case 0:
-                        return "Ninguém sabe por que Valentine está tão mal-humorado, mas alguns dizem foi por causa do que aconteceu no último Dia dos Namorados.";
+                        return "Ninguï¿½m sabe por que Valentine estï¿½ tï¿½o mal-humorado, mas alguns dizem foi por causa do que aconteceu no ï¿½ltimo Dia dos Namorados.";
                     case 1:
-                        return "[...] Dizem que ainda estão procurando uma cura para a maldição que tirou seus dias de calma [...]";
+                        return "[...] Dizem que ainda estï¿½o procurando uma cura para a maldiï¿½ï¿½o que tirou seus dias de calma [...]";
                     case 2:
-                        return "A Porta Perdida de Alas - Uma História Completa";
+                        return "A Porta Perdida de Alas - Uma Histï¿½ria Completa";
                     case 3:
-                        return "As lendas dizem que Alasdoor já foi apenas uma porta muito grande.";
+                        return "As lendas dizem que Alasdoor jï¿½ foi apenas uma porta muito grande.";
                     case 4:
-                        return "Você achou que isso seria uma parte importante da história? Achou errado, ordinário!"; // Culture shock's reference
+                        return "Vocï¿½ achou que isso seria uma parte importante da histï¿½ria? Achou errado, ordinï¿½rio!"; // Culture shock's reference
                     case 5:
-                        return "O triângulo que você procura, você sabe o que ele significa?";
+                        return "O triï¿½ngulo que vocï¿½ procura, vocï¿½ sabe o que ele significa?";
                     case 6:
-                        return "A feiticeira responsável pelo feitiço está escondida em algum lugar da floresta.";
+                        return "A feiticeira responsï¿½vel pelo feitiï¿½o estï¿½ escondida em algum lugar da floresta.";
                     case 7:
-                        return "Ninguém conhece seu nome real, apenas que ela é uma bruxa poderosa.";
+                        return "Ninguï¿½m conhece seu nome real, apenas que ela ï¿½ uma bruxa poderosa.";
                     case 8:
-                        return "INGREDIENTES: FARINHA ENRIQUECIDA, ÓLEO DE PALMA, SAL, FLOCOS DE CENOURA DESIDRATADA, CONTÉM MENOS DE 2% DE EXTRATO DE LEVEDURA AUTOLISADO, ÁCIDO CÍTRICO, SUCO CONCENTRADO DE REPOLHO VERDE E LÁTEX NATURAL.";
+                        return "INGREDIENTES: FARINHA ENRIQUECIDA, ï¿½LEO DE PALMA, SAL, FLOCOS DE CENOURA DESIDRATADA, CONTï¿½M MENOS DE 2% DE EXTRATO DE LEVEDURA AUTOLISADO, ï¿½CIDO Cï¿½TRICO, SUCO CONCENTRADO DE REPOLHO VERDE E Lï¿½TEX NATURAL.";
                     case 9:
-                        return "As paredes parecem ter se fechado atrás de mim. Como entrei neste lugar?";
+                        return "As paredes parecem ter se fechado atrï¿½s de mim. Como entrei neste lugar?";
                     case 10:
-                        return "A receita secreta pode estar escondida em algum lugar deste calabouço. Eu prometi ao meu pai que a encontraria... mas nem consigo ver a saída.";
+                        return "A receita secreta pode estar escondida em algum lugar deste calabouï¿½o. Eu prometi ao meu pai que a encontraria... mas nem consigo ver a saï¿½da.";
                     default:
-                        return "Acho que você não deveria estar lendo isso.";
+                        return "Acho que vocï¿½ nï¿½o deveria estar lendo isso.";
                 }
             }
             else

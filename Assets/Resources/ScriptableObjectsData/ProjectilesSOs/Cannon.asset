@@ -19,6 +19,8 @@ MonoBehaviour:
   atkSpeed: 0.8
   moveSpeed: 8
   projectileBehaviorIndex: 0
-  projectileName: Canon
-  description: Slowly fires a strong projectile
+  ptProjectileName: "Canh\xE3o"
+  ptDescription: "Dispara lentamente um proj\xE9til forte"
+  enProjectileName: Canon
+  enDescription: Slowly fires a strong projectile
   color: {r: 0, g: 0.43268538, b: 1, a: 1}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
@@ -7,6 +8,8 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
+using Game.NPCs.PTBR;
+using Game.GameManager;
 
 #if UNITY_EDITOR
 using MyBox;
@@ -19,15 +22,22 @@ namespace Game.NPCs
 
     public class NpcController : QuestDialogueInteraction
     {
-        [field: SerializeField] private bool isInPortuguese = false;
+        // Just for debuging and easy seeing in inspector
+        private QuestLine questLine = null;
+        public bool IsMainQuestNpc = false;
+
+        public static event EventHandler NpcInteraction;
+        private bool isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
         public List<ExchangeQuestData> ExchangeDataList { get; set; }
         public List<GiveQuestData> GiveDataList { get; set; }
         public static event ItemTradeEvent ItemTradeEventHandler;
         public static event ItemGiveEvent ItemGiveEventHandler;
+        public static event KeyCollectEvent KeyCollectEventHandler;
 
         protected override void Awake()
         {
+            isInPortuguese = GameManagerSingleton.Instance.IsInPortuguese;
             base.Awake();
             ExchangeDataList = new List<ExchangeQuestData>();
             GiveDataList = new List<GiveQuestData>();
@@ -35,18 +45,30 @@ namespace Game.NPCs
         protected override void OnEnable()
         {
             base.OnEnable();
+            QuestLine.QuestLineOpenedEventHandler += CreateQuestLineOpenedDialogue;
+            QuestLine.QuestLineCompletedEventHandler += CreateQuestLineCompletedDialogue;
+
             QuestLine.QuestCompletedEventHandler += CreateQuestCompletedDialogue;
+            QuestLine.AllowCheckPointEventHandler += CreateQuestTargetDialogueCheckPoint;
             QuestLine.AllowExchangeEventHandler += CreateExchangeDialogue;
             QuestLine.AllowGiveEventHandler += CreateGiveDialogue;
+
             TaggedDialogueHandler.StartExchangeEventHandler += TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler += GiveItems;
+            TaggedDialogueHandler.StartCheckpointEventHandler += QuestCheckpoint;
+            TaggedDialogueHandler.StartGiveKeyEventHandler += GiveKeys;
         }
         protected override void OnDisable()
         {
+            QuestLine.QuestLineOpenedEventHandler -= CreateQuestLineOpenedDialogue;
+            QuestLine.QuestLineCompletedEventHandler -= CreateQuestLineCompletedDialogue;
+
             QuestLine.QuestCompletedEventHandler -= CreateQuestCompletedDialogue;
+            QuestLine.AllowCheckPointEventHandler -= CreateQuestTargetDialogueCheckPoint;
             QuestLine.AllowExchangeEventHandler -= CreateExchangeDialogue;
             TaggedDialogueHandler.StartExchangeEventHandler -= TradeItems;
             TaggedDialogueHandler.StartGiveEventHandler -= GiveItems;
+            TaggedDialogueHandler.StartGiveKeyEventHandler -= GiveKeys;
             QuestLine.AllowGiveEventHandler -= CreateGiveDialogue;
             base.OnDisable();
         }
@@ -99,31 +121,61 @@ namespace Game.NPCs
             return questNpc;
         }
 
+        private void CreateQuestTargetDialogueCheckPoint(object sender, QuestElementEventArgs eventArgs)
+        {
+            if (eventArgs is not QuestCheckPointEventArgs checkPointEventArgs) return;
+            var quest = checkPointEventArgs.QuestData;
+            string checkPointLine = NpcDialogueGenerator.CreateQuestTargetDialogueCheckPoint(quest, Npc);
+            dialogue.InsertDialogue(Npc.DialogueData, checkPointLine, true, quest.Id, 0);
+        }
+
+        private void CreateQuestLineCompletedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            if (eventArgs.NpcInCharge != Npc) return;
+            if (!eventArgs.IsMainQuestLine) return;
+            dialogue.StopDialogueFromQuest(-1);
+
+            string closerLine;
+            if (isInPortuguese)
+                closerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
+            else
+                closerLine = NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
+
+            dialogue.AddDialogue(Npc.DialogueData, closerLine, false, -1, true);
+        }
+
+
         private void CreateQuestCompletedDialogue(object sender, NewQuestEventArgs eventArgs)
         {
             if (eventArgs.NpcInCharge != Npc) return;
             var questId = eventArgs.Quest.Id;
             dialogue.StopDialogueFromQuest(questId);
 
-            string closerLine;
-            if (isInPortuguese)
-                closerLine = PTBR_NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
-            else
-                closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
-
+            string closerLine = NpcDialogueGenerator.CreateQuestCloser(eventArgs.Quest, Npc);
             dialogue.AddDialogue(Npc.DialogueData, closerLine, false, questId, true);
+        }
+
+        private void CreateQuestLineOpenedDialogue(object sender, NewQuestLineEventArgs eventArgs)
+        {
+            questLine = eventArgs.QuestLine;
+            if (eventArgs.NpcInCharge != Npc) return;
+            if (!eventArgs.IsMainQuestLine) return;
+            IsMainQuestNpc = true;
+
+            string openerLine;
+            if (isInPortuguese)
+                openerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
+            else
+                openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
+
+            dialogue.InsertDialogue(Npc.DialogueData, openerLine, true, -1, 0);
         }
         
         private void CreateQuestOpenedDialogue(QuestSo quest, NpcSo npcInCharge)
         {
             if (npcInCharge != Npc) return;
 
-            string openerLine;
-            if (isInPortuguese)
-                openerLine = PTBR_NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
-            else
-                openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
-
+            string openerLine = NpcDialogueGenerator.CreateQuestOpener(quest, Npc);
             var questId = quest.Id;
             dialogue.AddDialogue(Npc.DialogueData, openerLine, true, questId);
         }
@@ -183,6 +235,13 @@ namespace Game.NPCs
             AssetDatabase.SaveAssetIfDirty(this);
             AssetDatabase.Refresh();
         }
+
+        [ButtonMethod]
+        public void Dev_CompleteQuest()
+        {
+            questLine.CompleteCurrentQuest();
+            questLine.CloseCurrentQuest();
+        }
 #endif
         
         protected override void CreateIntroDialogue()
@@ -204,6 +263,11 @@ namespace Game.NPCs
                 var quest = _assignedQuestsQueue.Dequeue();
                 switch (quest)
                 {
+                    case ReportQuestSo reportQuestSo:
+                    case ListenQuestSo listenQuestSo:
+                        // incompleteQuestQueue.Enqueue(quest);
+                        CreateQuestTargetDialogueCheckPoint(this, new QuestElementEventArgs(quest.Id));
+                        break;
                     case ExchangeQuestSo exchangeQuest:
                         if (!exchangeQuest.HasItems)
                         {
@@ -223,15 +287,27 @@ namespace Game.NPCs
             }
             _assignedQuestsQueue = incompleteQuestQueue;
 
+            
+            NpcInteraction?.Invoke(this, EventArgs.Empty);
             DialogueHandler.instance.StartDialogue(dialogue);
+        }
+
+        private void GiveKeys(object sender, StartGiveKeyEventArgs eventArgs)
+        {
+            KeyCollectEventHandler?.Invoke(this, new KeyCollectEventArgs(eventArgs.GivedKey));
+        }
+
+        private void QuestCheckpoint(object sender, StartCheckpointEventArgs eventArgs)
+        {
+            ((IQuestElement)this).OnQuestTaskResolved(this, new QuestTalkEventArgs(Npc, eventArgs.QuestId));
         }
         
         private void TradeItems(object sender, StartExchangeEventArgs eventArgs)
         {
-            foreach (var exchangeQuestData in ExchangeDataList.Where(exchangeQuestData 
+            foreach (var exchangeQuestData in ExchangeDataList.Where(exchangeQuestData
                          => eventArgs.ExchangeQuestId == exchangeQuestData.QuestId))
             {
-                ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(exchangeQuestData.CopyOfItemsToTrade, 
+                ItemTradeEventHandler?.Invoke(this, new ItemTradeEventArgs(exchangeQuestData.CopyOfItemsToTrade,
                     exchangeQuestData.ReceivedItem, exchangeQuestData.QuestId));
             }
         }

@@ -46,6 +46,7 @@ namespace Game.ExperimentControllers
                 dungeonEntrance.SelectedDungeon = dungeonFileSos[selectedIndex];
                 dungeonEntrance.LevelQuestLines = _questLines;
                 dungeonEntrance.IsLastQuestLine = false;
+
                 dungeonFileSos.RemoveAt(selectedIndex);
             }
         }

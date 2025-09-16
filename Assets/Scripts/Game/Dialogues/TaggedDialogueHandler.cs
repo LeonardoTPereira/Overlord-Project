@@ -15,7 +15,9 @@ namespace Game.Dialogues
         public static event MarkRoomOnMiniMapEvent MarkRoomOnMiniMapEventHandler;
         public static event StartExchangeEvent StartExchangeEventHandler;
         public static event StartGiveEvent StartGiveEventHandler;
-
+        public static event StartCheckpointEvent StartCheckpointEventHandler;
+        public static event StartGiveKeyEvent StartGiveKeyEventHandler;
+        
         private string[] _tags;
 
         private void OnEnable()
@@ -100,7 +102,12 @@ namespace Game.Dialogues
 
         private static bool IsCustomTag(string tag)
         {
-            return tag.StartsWith("goto=") || tag.StartsWith("complete=") || tag.StartsWith("trade=") || tag.StartsWith("give=");
+            return tag.StartsWith("goto=") ||
+                    tag.StartsWith("complete=") ||
+                    tag.StartsWith("trade=") ||
+                    tag.StartsWith("give=") ||
+                    tag.StartsWith("completequestline=") ||
+                    tag.StartsWith("checkpoint=");
         }
 
         private void EvaluateTag(string textTag)
@@ -117,6 +124,12 @@ namespace Game.Dialogues
                 var questId = int.Parse(textTag.Split('=')[1]);
                 ((IQuestElement)this).OnQuestCompleted(this, new QuestElementEventArgs(questId));
             }
+            else if (textTag.StartsWith("completequestline="))
+            {
+                var npcName = textTag.Split('=')[1];
+                var key = int.Parse(textTag.Split(',')[1]);
+                StartGiveKeyEventHandler?.Invoke(this, new StartGiveKeyEventArgs(key, npcName));
+            }
             else if (textTag.StartsWith("trade="))
             {
                 var npcName = textTag.Split('=')[1];
@@ -130,6 +143,12 @@ namespace Game.Dialogues
                 var questId = int.Parse(textTag.Split(',')[1]);
                 StartGiveEventHandler?.Invoke(this, new StartGiveEventArgs(questId));
                 ((IQuestElement)this).OnQuestTaskResolved(this, new QuestGiveDialogueEventArgs(npcName, questId));
+            }
+            else if (textTag.StartsWith("checkpoint="))
+            {
+                var npcName = textTag.Split('=')[1];
+                var questId = int.Parse(textTag.Split(',')[1]);
+                StartCheckpointEventHandler?.Invoke(this, new StartCheckpointEventArgs(questId));
             }
         }
     }

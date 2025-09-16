@@ -29,18 +29,18 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
         {
             switch ( SymbolType )
             {
                 case Constants.ListenQuest:
-                    return CreateAndSaveListenQuestSo(questSos, generatorSettings.PlaceholderNpcs);
+                    return CreateAndSaveListenQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs);
                 case Constants.ReadQuest:
-                    return CreateAndSaveReadQuestSo(questSos, generatorSettings.ReadableItems);
+                    return CreateAndSaveReadQuestSo(questSos, npcInCharge, generatorSettings.ReadableItems);
                 case Constants.GiveQuest:
-                    return CreateAndSaveGiveQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
+                    return CreateAndSaveGiveQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs, generatorSettings.Tools);
                 case Constants.ReportQuest:
-                    return CreateAndSaveReportQuestSo(questSos, generatorSettings.PlaceholderNpcs);
+                    return CreateAndSaveReportQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs);
                 default:
                     Debug.LogError("help something went wrong! - Immersion doesn't contain symbol: "+SymbolType);
                 break;
@@ -64,16 +64,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        private static ListenQuestSo CreateAndSaveListenQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
+        private static ListenQuestSo CreateAndSaveListenQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, List<NpcSo> possibleNpcSos)
         {
             var listenQuest = CreateInstance<ListenQuestSo>();
-            var selectedNpc = possibleNpcSos.GetRandom();
+            NpcSo selectedNpc;
+            do{
+                selectedNpc = possibleNpcSos.GetRandom();
+
+            } while ( selectedNpc == npcInCharge && possibleNpcSos.Count != 1);
 
             if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
                 listenQuest.Init("Fale com "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             else
                 listenQuest.Init("Talk to " + selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-
+            listenQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = listenQuest;
@@ -83,13 +87,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return listenQuest;
         }
 
-        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems)
+        private static ReadQuestSo CreateAndSaveReadQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, TreasureRuntimeSetSo possibleItems)
         {
             var readQuest = CreateInstance<ReadQuestSo>();
             var selectedItem = possibleItems.GetRandomItem();
 
             if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
-                readQuest.Init("Leia o conteúdo do artefato "+selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
+                readQuest.Init("Leia o conteï¿½do do artefato "+selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
             else
                 readQuest.Init("Read " + selectedItem.ItemName, false, questSos.Count > 0 ? questSos[^1] : null, selectedItem);
 
@@ -97,22 +101,24 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 questSos[^1].Next = readQuest;
             }
+            readQuest.NpcInCharge = npcInCharge;
             
             questSos.Add(readQuest);
             return readQuest;
         }
 
-        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
+        private static GiveQuestSo CreateAndSaveGiveQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, List<NpcSo> possibleNpcSos, TreasureRuntimeSetSo possibleItems)
         {
             var giveQuest = CreateInstance<GiveQuestSo>();
             var selectedNpc = possibleNpcSos.GetRandom();
             var selectedItem = possibleItems.GetRandomItem();
 
             if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
-                giveQuest.Init($"Dê o item {selectedItem} para {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
+                giveQuest.Init($"Dï¿½ o item {selectedItem} para {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
             else
                 giveQuest.Init($"Give {selectedItem} to {selectedNpc.NpcName}", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, selectedItem);
 
+            giveQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = giveQuest;
@@ -122,16 +128,20 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return giveQuest;
         }
 
-        private static ReportQuestSo CreateAndSaveReportQuestSo(List<QuestSo> questSos, List<NpcSo> possibleNpcSos)
+        private static ReportQuestSo CreateAndSaveReportQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, List<NpcSo> possibleNpcSos)
         {
             var reportQuest = CreateInstance<ReportQuestSo>();
-            var selectedNpc = possibleNpcSos.GetRandom();
+            NpcSo selectedNpc;
+            do{
+                selectedNpc = possibleNpcSos.GetRandom();
+
+            } while ( selectedNpc == npcInCharge && possibleNpcSos.Count != 1);
 
             if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
                 reportQuest.Init("Retorne e reporte para "+selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
             else
                 reportQuest.Init("Report back to " + selectedNpc.NpcName, false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc);
-
+            reportQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
             {
                 questSos[^1].Next = reportQuest;

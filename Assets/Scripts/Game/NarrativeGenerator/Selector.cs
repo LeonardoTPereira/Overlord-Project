@@ -8,6 +8,7 @@ using Game.NPCs;
 using MyBox;
 using UnityEngine;
 using Util;
+using System.Net.NetworkInformation;
 
 namespace Game.NarrativeGenerator
 {
@@ -46,12 +47,12 @@ namespace Game.NarrativeGenerator
             {
                CreateQuestLineForNpc(npcInCharge, questLineList);
             }
-        }
-
+        }     
+        
         private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
         {
             var questLine = CreateQuestLine();
-            questLine.PopulateQuestLine(_generatorSettings);
+            questLine.PopulateQuestLine(_generatorSettings, npcInCharge);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
             questLine.NpcInCharge = npcInCharge;
@@ -64,7 +65,7 @@ namespace Game.NarrativeGenerator
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                questLine.CompleteMissingQuests(_generatorSettings, _wasQuestAdded );
+                questLine.CompleteMissingQuests(_generatorSettings, npcInCharge, _wasQuestAdded );
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
             }
@@ -86,7 +87,7 @@ namespace Game.NarrativeGenerator
         {
             _wasQuestAdded.Add(nameof(KillQuestSo), false);
         }
-
+        
         private static void UpdateListContents (QuestLine questLine)
         {
             foreach (var quest in questLine.Quests.Where(quest => quest != null))

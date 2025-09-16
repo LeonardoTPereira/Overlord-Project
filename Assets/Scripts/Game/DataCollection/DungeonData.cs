@@ -81,6 +81,14 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
+        [field: SerializeField] public Dictionary<string,int> TotalEnemiesByType { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public Dictionary<string,int> EnemiesKilledByType { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
         [field: SerializeField] public int TotalNpcs { get; private set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
@@ -94,6 +102,22 @@ namespace Game.DataCollection
         [FirestoreProperty]
 #endif
         [field: SerializeField] public int TreasuresCollected { get; private set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalCollectableItems { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int ItemsCollected { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int TotalReadableItems { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public int ItemsRead { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -256,13 +280,18 @@ namespace Game.DataCollection
             TotalLocks = map.NLocks;
             TotalRooms = map.NRooms;
             TotalEnemies = map.NEnemies;
+            TotalEnemiesByType = map.NEnemiesByType;
             TotalNpcs = map.NNPCs;
             TotalTreasure = map.TotalTreasure;
+            TotalCollectableItems += map.TotalCollectableItems;
+            TotalReadableItems += map.TotalReadableItems;
             HeatMap = CreateHeatMap(map);
             TotalAttempts++;
             _startTime = Time.realtimeSinceStartup;
             _jsonPath = jsonPath;
             PlayerId = playerId;
+
+            EnemiesKilledByType = new Dictionary<string, int>();
         }
 
         public void OnPlayerDeath()
@@ -298,9 +327,12 @@ namespace Game.DataCollection
             _currentCombo++;
         }
 
-        public void IncrementKills()
+        public void IncrementKills(string enemyTypeString)
         {
-            EnemiesKilled++;
+                if ( !EnemiesKilledByType.ContainsKey(enemyTypeString) )
+                        EnemiesKilledByType.Add(enemyTypeString, 0);
+                EnemiesKilledByType[enemyTypeString]++;
+                EnemiesKilled++;
         }
 
         public void IncrementInteractionsWithNpcs()
@@ -318,9 +350,14 @@ namespace Game.DataCollection
             TotalWins++;
         }
 
-        public void AddCollectedTreasure(int amount)
+        public void AddCollectedItem(int amount)
         {
-            TreasuresCollected += amount;
+	        ItemsCollected += amount;
+        }
+
+	public void AddReadItem(int amount)
+        {
+	        ItemsRead += amount;
         }
 
         public void AddTotalEnemies(int amount)

@@ -6,31 +6,33 @@ using Game.Events;
 using Util;
 using static Util.Enums;
 
+using UnityEngine;
+
 namespace Game.NarrativeGenerator
 {
     public static class ProfileCalculator
     {
-        private static Dictionary<string, int> _questWeightsByType;
+        private static Dictionary<string, float> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
 
 
         public static PlayerProfile CreateProfile(List<int> answers, bool enableRandomProfileToPlayer, int probabilityToGetTrueProfile)
         {
-            if (enableRandomProfileToPlayer)
-            {
-                if (RandomSingleton.GetInstance().Random.Next(100) < probabilityToGetTrueProfile)
-                {
+            // if (enableRandomProfileToPlayer)
+            // {
+            //     if (RandomSingleton.GetInstance().Random.Next(100) < probabilityToGetTrueProfile)
+            //     {
                     CalculateProfileWeights(answers);
-                }
-                else
-                {
-                    CalculateFakeProfile(answers);
-                }
-            }
-            else
-            {
-                CalculateProfileWeights(answers);
-            }
+            //     }
+            //     else
+            //     {
+            //         CalculateFakeProfile(answers);
+            //     }
+            // }
+            // else
+            // {
+            //     CalculateProfileWeights(answers);
+            // }
             return CreateProfileWithWeights();
         }
         
@@ -38,7 +40,6 @@ namespace Game.NarrativeGenerator
         {
             _questWeightsByType = eventArgs.QuestWeightsbyType;
             return CreateProfileWithWeights();
-
         }
         
         public static PlayerProfile CreateProfile(PlayerData playerData, DungeonData dungeonData)
@@ -51,7 +52,7 @@ namespace Game.NarrativeGenerator
         {
             StartSymbolWeights = new Dictionary<string, Func<int, float>>();
 
-            _questWeightsByType = new Dictionary<string, int>
+            _questWeightsByType = new Dictionary<string, float>
             {
                 {PlayerProfile.PlayerProfileCategory.Immersion.ToString(), 0},
                 {PlayerProfile.PlayerProfileCategory.Achievement.ToString(), 0},
@@ -60,34 +61,62 @@ namespace Game.NarrativeGenerator
             };
 
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Mastery.ToString()] =
-                QuestWeightsCalculator.GetMasteryWeight(playerData.SerializedData.TotalDeaths, playerData.SerializedData.TotalAttempts, playerData.SerializedData.TotalLostHealth);
+                QuestWeightsCalculator.GetMasteryWeight(
+                    playerData.SerializedData.PlayerProfile.MasteryPreference,
+                    playerData.SerializedData.EnemiesKilled,
+                    playerData.SerializedData.TotalEnemies,
+                    playerData.SerializedData.TotalLostHealth,
+                    playerData.SerializedData.InitialHealth
+                );
+
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Achievement.ToString()] = 
-                QuestWeightsCalculator.GetAchievementWeight(playerData.SerializedData.EnemiesKilled, playerData.SerializedData.TotalEnemies, playerData.SerializedData.TreasuresCollected, playerData.SerializedData.TotalTreasure);
+                QuestWeightsCalculator.GetAchievementWeight(
+                    playerData.SerializedData.PlayerProfile.AchievementPreference,
+                    playerData.SerializedData.EnemiesKilled,
+                    playerData.SerializedData.TotalEnemies,
+                    playerData.SerializedData.TreasuresCollected,
+                    playerData.SerializedData.TotalCollectableItems,
+                    playerData.SerializedData.UniqueRoomsEntered,
+                    playerData.SerializedData.TotalRooms
+                );
+
+
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Immersion.ToString()] = 
-                QuestWeightsCalculator.GetImmersionWeight(playerData.SerializedData.NpcsInteracted, playerData.SerializedData.TotalNpcs);
+                QuestWeightsCalculator.GetImmersionWeight(
+                    playerData.SerializedData.PlayerProfile.ImmersionPreference,
+                    playerData.SerializedData.CompletedImmersionQuests,
+                    playerData.SerializedData.TotalImmersionQuests
+                );
+
             _questWeightsByType[PlayerProfile.PlayerProfileCategory.Creativity.ToString()] = 
-                QuestWeightsCalculator.GetCreativityWeight(playerData.SerializedData.UniqueRoomsEntered, playerData.SerializedData.TotalRooms, playerData.SerializedData.LocksOpened, playerData.SerializedData.TotalLocks);
+                QuestWeightsCalculator.GetCreativityWeight(
+                    playerData.SerializedData.PlayerProfile.CreativityPreference,
+                    playerData.SerializedData.UniqueRoomsEntered,
+                    playerData.SerializedData.TotalRooms,
+                    playerData.SerializedData.LocksOpened,
+                    playerData.SerializedData.TotalLocks
+                );
         }
         
         private static void CalculateProfileWeights(List<int> answers)
         {
-            _questWeightsByType = new Dictionary<string, int>();
+            _questWeightsByType = new Dictionary<string, float>();
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[0]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[1]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[2]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[3]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), weightsFromAnswers[0]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), weightsFromAnswers[1]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), weightsFromAnswers[2]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), weightsFromAnswers[3]);
         }
         
         private static void CalculateFakeProfile(List<int> answers)
         {
-            _questWeightsByType = new Dictionary<string, int>();
+            _questWeightsByType = new Dictionary<string, float>();
             //TODO make logic circle at every new dungeon
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[3]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[2]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), (int) weightsFromAnswers[1]);
-            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[0]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Immersion.ToString(), weightsFromAnswers[3]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Achievement.ToString(), weightsFromAnswers[2]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Mastery.ToString(), weightsFromAnswers[1]);
+            _questWeightsByType.Add(PlayerProfile.PlayerProfileCategory.Creativity.ToString(), weightsFromAnswers[0]);
         }
 
         private static float[] CalculateStartSymbolWeights ( List<int> answers )

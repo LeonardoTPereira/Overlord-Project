@@ -19,6 +19,8 @@ MonoBehaviour:
   atkSpeed: 1.5
   moveSpeed: 10
   projectileBehaviorIndex: 0
-  projectileName: Bullet
-  description: Fires an average projectile straight ahead
+  ptProjectileName: Bala
+  ptDescription: "Dispara um proj\xE9til m\xE9dio direto para a frente"
+  enProjectileName: Bullet
+  enDescription: Fires an average projectile straight ahead
   color: {r: 0, g: 1, b: 0.02520442, a: 1}
