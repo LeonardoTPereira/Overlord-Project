@@ -89,7 +89,12 @@ namespace Game.DataCollection
 
         public void IncrementKills(string enemyTypeString)
         {
-			if ( !SerializedData.EnemiesKilledByType.ContainsKey(enemyTypeString) )
+            if(SerializedData.EnemiesKilledByType == null)
+            {
+                SerializedData.EnemiesKilledByType = new Dictionary<string, int>();
+            }
+
+            if ( !SerializedData.EnemiesKilledByType.ContainsKey(enemyTypeString) )
 				SerializedData.EnemiesKilledByType.Add(enemyTypeString, 0);
 	        SerializedData.EnemiesKilledByType[enemyTypeString]++;
             SerializedData.EnemiesKilled++;
