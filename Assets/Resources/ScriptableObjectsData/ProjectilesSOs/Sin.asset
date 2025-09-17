@@ -19,6 +19,10 @@ MonoBehaviour:
   atkSpeed: 1.7
   moveSpeed: 10
   projectileBehaviorIndex: 1
-  projectileName: Senoidal
-  description: "Atira um proj\xE9til comum em trajet\xF3ria senoidal"
+  projectileName: 
+  description: 
+  ptProjectileName: Senoidal
+  ptDescription: "Atira um proj\xE9til comum em trajet\xF3ria senoidal"
+  enProjectileName: 
+  enDescription: 
   color: {r: 0.49475312, g: 1, b: 0, a: 1}

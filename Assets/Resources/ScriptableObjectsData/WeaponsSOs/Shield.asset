@@ -19,6 +19,7 @@ MonoBehaviour:
   <WeaponPrefab>k__BackingField: {fileID: 1699235863348634, guid: e8a7393e255af194fa11fab6a52f658f,
     type: 3}
   <EnemyTypeName>k__BackingField: Skeleton Shield
+  <Type>k__BackingField: 4
   HasSprite: 0
-  IsInPortuguese: 1
-  IsPlatformGame: 1
+  IsInPortuguese: 0
+  IsPlatformGame: 0

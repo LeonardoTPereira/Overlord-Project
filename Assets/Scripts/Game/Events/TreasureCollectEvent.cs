@@ -9,6 +9,7 @@ namespace Game.Events
     {
         public int QuestId { get; set; }
         public ItemSo Item { get; set; }
+        public int Amount = 1;
 
         public TreasureCollectEventArgs(ItemSo item, int questId)
         {

@@ -5,43 +5,78 @@ using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
+using System;
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
+using Game.GameManager.Player;
+using Game.LevelManager.DungeonManager;
+
 
 namespace Game.GameManager
 {
+    // TODO: Pula tela de level selection e carrega o nível gerado -> ao inves de carregar tela de level select,
+
+    // TODO: 
+    // Questão do loop -> Testar
+
     public class ExperimentController : MonoBehaviour
     {
+        public static event EventHandler StartExperimentGeneratorEventHandler;
         public static event ProfileSelectedEvent ProfileSelectedEventHandler;
 
-        [SerializeField, MustBeAssigned]
-        private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
+        // [SerializeField, MustBeAssigned]
+        // private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
+
+        private PlayerProfile selectedProfile;
         private List<QuestLineList> _questLinesListForProfile;
+
+        public static bool UseFixedProfile => _useFixedProfile;
+        private static bool _useFixedProfile;
+        private static bool _updatedProfile = false;
+        private static bool _firstRunCompleted = false;
 
         [SerializeField]
         private DungeonSceneLoader[] dungeonEntrances;
 
         private void Awake()
         {
+            SetUseFixedProfile();
             _questLinesListForProfile = null;
         }
 
         private void OnEnable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler += LoadDataForExperiment;
             QuestGeneratorManager.FixedLevelProfileEventHandler += LoadDataForExperiment;
+            QuestGeneratorManager.QuestLineCreatedEventHandler += SetQuestLinesForProfile;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
+
+            PlayerController.PlayerDeathEventHandler += OnRunComplete;
+            TriforceBhv.GotTriforceEventHandler += OnRunComplete;
         }
 
         private void OnDisable()
         {
-            QuestGeneratorManager.ProfileSelectedEventHandler -= LoadDataForExperiment;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
+            QuestGeneratorManager.QuestLineCreatedEventHandler -= SetQuestLinesForProfile;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+
+            PlayerController.PlayerDeathEventHandler -= OnRunComplete;
+            TriforceBhv.GotTriforceEventHandler -= OnRunComplete;
+
+            _questLinesListForProfile.Clear();
+        }
+
+        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "ContentGenerator" && _firstRunCompleted)
+            {
+                StartExperimentGeneratorEventHandler?.Invoke(null, EventArgs.Empty);
+            }
+            StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
         }
 
         IEnumerator WaitForProfileToBeLoadedAndSelectNarratives(Scene scene)
@@ -50,14 +85,9 @@ namespace Game.GameManager
             SelectNarrativeAndSetDungeonsToEntrances();
         }
 
-        private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-        {
-            StartCoroutine(WaitForProfileToBeLoadedAndSelectNarratives(scene));
-        }
-
         private bool CanLoadNarrativesToDungeonEntrances(Scene scene)
         {
-            return scene.name == "Overworld";
+            return scene.name == "Overworld" && _questLinesListForProfile.Count > 0;
         }
 
         private void SelectNarrativeAndSetDungeonsToEntrances()
@@ -83,37 +113,25 @@ namespace Game.GameManager
             return questLines;
         }
 
-        private void SetQuestLinesForProfile(PlayerProfile playerProfile)
+        private void SetQuestLinesForProfile(object sender, QuestLineCreatedEventArgs eventArgs)
         {
-            _questLinesListForProfile = new List<QuestLineList>(playerProfileToQuestLinesDictionarySo.QuestLinesForProfile[
-                playerProfile.PlayerProfileEnum.ToString()]);
+            _questLinesListForProfile = new List<QuestLineList> { eventArgs.QuestLines };
         }
 
         private void LoadDataForExperiment(object sender, ProfileSelectedEventArgs profileSelectedEventArgs)
         {
+            selectedProfile = profileSelectedEventArgs.PlayerProfile;
+            ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
+        }
 
-            PlayerProfile selectedProfile;
-            if (sender.GetType() == typeof(RealTimeLevelSelectManager))
-            {
-                selectedProfile = profileSelectedEventArgs.PlayerProfile;
-                SetQuestLinesForProfile(selectedProfile);
-            }
-            else
-            {
-                if (RandomSingleton.GetInstance().Random.Next(0, 100) < 50)
-                {
-                    selectedProfile = profileSelectedEventArgs.PlayerProfile;
-                }
-                else
-                {
-                    selectedProfile = new PlayerProfile();
-                    do
-                    {
-                        selectedProfile.PlayerProfileEnum = (PlayerProfile.PlayerProfileCategory)RandomSingleton.GetInstance().Random.Next(0, 4);
-                    } while (selectedProfile.PlayerProfileEnum == profileSelectedEventArgs.PlayerProfile.PlayerProfileEnum);
-                }
-                ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
-            }
+        private static void SetUseFixedProfile()
+        {
+            _useFixedProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
+        }
+
+        private void OnRunComplete(object sender, EventArgs eventArgs)
+        {
+            _firstRunCompleted = true;
         }
     }
 }

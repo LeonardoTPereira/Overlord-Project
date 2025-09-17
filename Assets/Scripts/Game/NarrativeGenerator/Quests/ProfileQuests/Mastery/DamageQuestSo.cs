@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ScriptableObjects;
 using Util;
 using UnityEngine;
+using Game.GameManager;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -71,9 +72,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void CreateQuestString()
         {
             if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
-                QuestText = $"{DamageData.Enemy.RealTypeName()} e cause {DamageData.Damage} de dano nele.\n";
+                QuestText = $"{DamageData.Enemy.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )} e cause {DamageData.Damage} de dano nele.\n";
             else
-                QuestText = $"{DamageData.Enemy.RealTypeName()} and give {DamageData.Damage} damage to it.\n";
+                QuestText = $"{DamageData.Enemy.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )} and give {DamageData.Damage} damage to it.\n";
         }
     }
 }

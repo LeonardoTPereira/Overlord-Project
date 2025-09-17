@@ -11,6 +11,7 @@ namespace Game.MenuManager
         public void GoToNext()
         {
             gameObject.SetActive(false);
+            Debug.Log(" GO TO SCENE "+levelSelector.SceneName);
             SceneManager.LoadScene(levelSelector.SceneName);
         }
 

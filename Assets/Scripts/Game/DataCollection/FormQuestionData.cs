@@ -9,5 +9,6 @@ namespace Game.DataCollection
         public string question;
         public string description;
         public int answer;
+        public int totalAnswers = 5;
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
+using Game.NPCs;
 
 namespace Game.GameManager
 {
@@ -25,17 +26,21 @@ namespace Game.GameManager
         {
             DungeonSceneManager.NewLevelLoadedEventHandler += ResetKeyGUI;
             KeyBhv.KeyCollectEventHandler += CreateKeyImage;
+            NpcController.KeyCollectEventHandler += CreateKeyImage;
         }
 
         private void OnDisable()
         {
             DungeonSceneManager.NewLevelLoadedEventHandler -= ResetKeyGUI;
             KeyBhv.KeyCollectEventHandler -= CreateKeyImage;
+            NpcController.KeyCollectEventHandler -= CreateKeyImage;
         }
 
 
         private void CreateKeyImage(object sender, KeyCollectEventArgs eventArgs)
         {
+            if (_playerKeys.Contains(eventArgs.KeyIndex))
+                return;
             _playerKeys.Add(eventArgs.KeyIndex);
 
             var currentKeys = _playerKeys.Count;

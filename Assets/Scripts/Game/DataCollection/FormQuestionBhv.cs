@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,16 +6,13 @@ namespace Game.DataCollection
 {
     public class FormQuestionBhv : MonoBehaviour
     {
-        public Toggle[] toggles;
+        public List<FormQuestionAnswer> answers;
         public Text questionText;
         public Text descriptionText;
 
         public FormQuestionData questionData;
-
-        void Awake()
-        {
-            toggles = GetComponentsInChildren<Toggle>().ToArray<Toggle>();
-        }
+        public FormQuestionAnswer questionAnswerPrefab;
+        public Transform answerParent;
 
         // Use this for initialization
         void Start()
@@ -38,15 +35,14 @@ namespace Game.DataCollection
             }
             else
             {
-                foreach (Toggle t in toggles)
+                foreach (FormQuestionAnswer answr in answers)
                 {
-                    if (t != selected)
+                    if (answr.toggle != selected)
                     {
                         //Debug.Log("NotSelected:"+ int.Parse(t.GetComponentInChildren<Text>().text));
-                        t.isOn = false;
+                        answr.toggle.isOn = false;
                         //Debug.Log("After Falsing");
                     }
-
                 }
 
                 questionData.answer = int.Parse(selected.GetComponentInChildren<Text>().text);
@@ -56,9 +52,9 @@ namespace Game.DataCollection
 
         public void ResetToggles()
         {
-            foreach (Toggle t in toggles)
+            foreach (FormQuestionAnswer answr in answers)
             {
-                t.isOn = false;
+                answr.toggle.isOn = false;
             }
         }
 
@@ -67,7 +63,13 @@ namespace Game.DataCollection
             questionData = q;
             questionText.text = q.question;
             descriptionText.text = q.description;
+            
+            for (int i = 0; i < questionData.totalAnswers; i++)
+            {
+                FormQuestionAnswer answer = Instantiate(questionAnswerPrefab, answerParent);
+                answer.SetAnswer(i + 1, this);
+                answers.Add(answer);
+            }
         }
-
     }
 }

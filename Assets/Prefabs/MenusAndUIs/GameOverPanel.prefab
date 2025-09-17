@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 5869413474357707199}
   - component: {fileID: 7460529878077256649}
   - component: {fileID: 8196520620172731874}
+  - component: {fileID: 4666439292121313448}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -269,6 +270,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4666439292121313448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990069261132476613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 8196520620172731874}
+  _enText: Give up level
+  _ptText: "Desistir deste n\xEDvel"
 --- !u!1 &8522026028749849391
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8522026028749849390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -364,11 +380,11 @@ MonoBehaviour:
     Scene: {fileID: 102900000, guid: 6ab9f7015ab81b644a9b23f3eb5d80e2, type: 3}
     SceneName: LevelSelector
     sceneIndex: 8
-    sceneEnabled: 1
+    sceneEnabled: 0
   levelWithEnemies:
     Scene: {fileID: 102900000, guid: 01db2214e2b7fd9428a4bfa5e4cf8c66, type: 3}
     SceneName: LevelWithEnemies
-    sceneIndex: 3
+    sceneIndex: 5
     sceneEnabled: 1
 --- !u!1 &8522026030083511819
 GameObject:
@@ -515,6 +531,7 @@ GameObject:
   - component: {fileID: 8522026030195813643}
   - component: {fileID: 8522026030195813645}
   - component: {fileID: 8522026030195813642}
+  - component: {fileID: 7200503214084182091}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -639,6 +656,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7200503214084182091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522026030195813640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 8522026030195813642}
+  _enText: Generate another level
+  _ptText: "Gerar outro n\xEDvel"
 --- !u!1 &8522026030223680624
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,6 +682,7 @@ GameObject:
   - component: {fileID: 8522026030223680627}
   - component: {fileID: 8522026030223680629}
   - component: {fileID: 8522026030223680626}
+  - component: {fileID: 6208917809459990823}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -774,6 +807,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6208917809459990823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522026030223680624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 8522026030223680626}
+  _enText: Try again
+  _ptText: Tentar novamente
 --- !u!1 &8522026030279856421
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +833,7 @@ GameObject:
   - component: {fileID: 8522026030279856420}
   - component: {fileID: 8522026030279856422}
   - component: {fileID: 8522026030279856423}
+  - component: {fileID: 7559143099327749195}
   m_Layer: 5
   m_Name: GameOverTextExplanation
   m_TagString: Untagged
@@ -909,6 +958,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7559143099327749195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522026030279856421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 8522026030279856423}
+  _enText: You died :( Click the button below to try again!
+  _ptText: "Voc\xEA morreu :( Clique no bot\xE3o abaixo para tentar novamente!"
 --- !u!1 &8522026030488171131
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +1025,7 @@ GameObject:
   - component: {fileID: 8522026030548586965}
   - component: {fileID: 8522026030548586967}
   - component: {fileID: 8522026030548586964}
+  - component: {fileID: 3878961937163139086}
   m_Layer: 5
   m_Name: GiveUpText
   m_TagString: Untagged
@@ -1087,6 +1152,25 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3878961937163139086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522026030548586962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 8522026030548586964}
+  _enText: If you want to give up on completing this level and mark it as "finished",
+    click the button below, answer the quiz that appears (or skip it) and you will
+    return to the level selection :)
+  _ptText: "Se quiser desistir de completar este n\xEDvel e marc\xE1-lo como \"terminado\",
+    clique no bot\xE3o abaixo, responda o question\xE1rio que aparecer\xE1 (ou pule-o)
+    e voltar\xE1 \xE0 sele\xE7\xE3o de n\xEDveis :)"
 --- !u!1 &8522026030730068007
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using Game.LevelManager.DungeonManager;
 using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Game.NPCs;
 using Game.Quests;
 using System;
 using UnityEngine;
@@ -14,8 +15,13 @@ namespace Game.DataCollection
 {
     public class DungeonDataController : MonoBehaviour
     {
-        public DungeonData CurrentDungeon { get; set; }
+        public DungeonData CurrentDungeon;
         private PlayerProfile _inputProfile;
+        
+        private void Awake()
+        {
+            CurrentDungeon = new();
+        }
 
         private void OnEnable()
         {
@@ -25,15 +31,18 @@ namespace Game.DataCollection
             BombController.PlayerHitEventHandler += ResetCombo;
             EnemyController.PlayerHitEventHandler += ResetCombo;
             TreasureController.TreasureCollectEventHandler += GetTreasure;
+            ReadableItemController.ReadableItemInteraction += ReadItem;
             KeyBhv.KeyCollectEventHandler += OnGetKey;
+            NpcController.KeyCollectEventHandler += OnGetKey;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
-            DialogueController.DialogueOpenEventHandler += OnInteractNPC;
+            NpcController.NpcInteraction += OnInteractNPC;
             DoorBhv.KeyUsedEventHandler += OnKeyUsed;
             RoomBhv.EnterRoomEventHandler += OnRoomEnter;
             TriforceBhv.GotTriforceEventHandler += OnMapComplete;
             PlayerController.PlayerDeathEventHandler += OnDeath;
             DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
+            // QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler += OnLevelWithFixedProfileCreated;
         }
 
@@ -45,19 +54,20 @@ namespace Game.DataCollection
             BombController.PlayerHitEventHandler -= ResetCombo;
             EnemyController.PlayerHitEventHandler -= ResetCombo;
             TreasureController.TreasureCollectEventHandler -= GetTreasure;
+            ReadableItemController.ReadableItemInteraction -= ReadItem;
             KeyBhv.KeyCollectEventHandler -= OnGetKey;
+            NpcController.KeyCollectEventHandler -= OnGetKey;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
-            DialogueController.DialogueOpenEventHandler -= OnInteractNPC;
+            NpcController.NpcInteraction -= OnInteractNPC;
             RoomBhv.EnterRoomEventHandler -= OnRoomEnter;
             TriforceBhv.GotTriforceEventHandler -= OnMapComplete;
             PlayerController.PlayerDeathEventHandler -= OnDeath;
             DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
+            // QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
             QuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
         }
-
-
 
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
         {
@@ -81,8 +91,13 @@ namespace Game.DataCollection
 
         private void GetTreasure(object sender, TreasureCollectEventArgs eventArgs)
         {
-            CurrentDungeon.AddCollectedTreasure(eventArgs.QuestId);
+            CurrentDungeon.AddCollectedItem(eventArgs.Amount);
 
+        }
+
+        private void ReadItem(object sender, EventArgs eventArgs)
+        {
+            CurrentDungeon.AddReadItem(1);
         }
 
         private void OnGetKey(object sender, KeyCollectEventArgs eventArgs)
@@ -97,9 +112,9 @@ namespace Game.DataCollection
 
         }
 
-        private void OnKillEnemy(object sender, EventArgs eventArgs)
+        private void OnKillEnemy(object sender, KillEnemyEventArgs eventArgs)
         {
-            CurrentDungeon.IncrementKills();
+            CurrentDungeon.IncrementKills(eventArgs.EnemyTypeString);
         }
 
         private void OnInteractNPC(object sender, EventArgs eventArgs)
