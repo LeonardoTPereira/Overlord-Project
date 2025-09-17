@@ -15,7 +15,7 @@ namespace Game.LevelManager.DungeonLoader
         [SerializeField]
         private List<int> keyIDs;
         [SerializeField]
-        protected ItemsAmount items;
+        protected ItemsAmount items = new ItemsAmount();
         [SerializeField]
         private List<NpcSo> npcs;
         [SerializeField]
@@ -57,7 +57,7 @@ namespace Game.LevelManager.DungeonLoader
                 var x = candidateTile.Position.x;
                 var y = candidateTile.Position.y;
                 PushNewTiles(x, y);
-            } while (_floodFillState.Count > 0 && TileIsOccupied(candidateTile));
+            } while (_floodFillState.Count > 0 && TileIsOccupied(candidateTile) && NeighborTileOccupied(candidateTile));
             _currentFreeTilePosition = new Vector3(candidateTile.Position.x + 0.5f,  candidateTile.Position.y + 0.5f, 0);
 
             return _currentFreeTilePosition;
@@ -84,6 +84,24 @@ namespace Game.LevelManager.DungeonLoader
             {
                 _floodFillState.Enqueue(Tiles[(int) x, (int) y - 1]);
             }
+        }
+
+        private bool NeighborTileOccupied(Tile candidateTile)
+        {
+            bool neighborOccupied = false;
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    neighborOccupied |= TileIsOccupied((int)candidateTile.Position.x + x, (int)candidateTile.Position.y + y);
+                }
+            }
+            return neighborOccupied;
+        }
+
+        private bool TileIsOccupied(int x, int y)
+        {
+            return Tiles[x, y].TileType != Enums.TileTypes.Floor;
         }
 
         private bool TileIsOccupied(Tile candidateTile)

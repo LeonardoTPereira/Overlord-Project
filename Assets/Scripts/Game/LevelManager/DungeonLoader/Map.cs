@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
+using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using ScriptableObjects;
 using UnityEngine;
 using Util;
 
@@ -13,8 +16,11 @@ namespace Game.LevelManager.DungeonLoader
         public int NKeys { get; set; }
         public int NLocks { get; set; }
         public int NEnemies { get; set; }
+        public Dictionary<string,int> NEnemiesByType { get; set; }
         public int NNPCs { get; set; }
         public int TotalTreasure { get; set; }
+        public int TotalCollectableItems { get; set; }
+        public int TotalReadableItems { get; set; }
 
         public Dictionary<Coordinates, DungeonPart> DungeonPartByCoordinates { get; set; }
         public Coordinates StartRoomCoordinates { get; set; }
@@ -30,8 +36,19 @@ namespace Game.LevelManager.DungeonLoader
             _createRooms = createRooms;
             _gameType = gameType;
             DungeonPartByCoordinates = new Dictionary<Coordinates, DungeonPart>();
+            NEnemiesByType = new Dictionary<string, int>();
             ReadMapFile(dungeonFileSo);
             BuildRooms(roomSize);
+        }
+
+        public void PostProcessMapData()
+        {
+            foreach (KeyValuePair<Coordinates, DungeonPart> partByCoordinates in DungeonPartByCoordinates)
+            {
+                DungeonPart currentPart = partByCoordinates.Value;
+                if (currentPart is not DungeonRoom room) continue;
+                AddDungeonRoomData(room);
+            }
         }
 
         private void ReadMapFile(DungeonFileSo dungeonFileSo)
@@ -62,7 +79,7 @@ namespace Game.LevelManager.DungeonLoader
         {
             if (currentDungeonPart.IsRoom())
             {
-                AddRoomData(currentDungeonPart);
+                AddDungeonPartData(currentDungeonPart);
             }
 
             if (currentDungeonPart.IsStartRoom())
@@ -77,7 +94,7 @@ namespace Game.LevelManager.DungeonLoader
             DungeonPartByCoordinates.Add(currentDungeonPart.Coordinates, currentDungeonPart);
         }
 
-        private void AddRoomData(DungeonPart currentDungeonPart)
+        private void AddDungeonPartData(DungeonPart currentDungeonPart)
         {
             NRooms++;
             if (currentDungeonPart.IsLeafNode() || currentDungeonPart.IsLockedNode())
@@ -118,6 +135,41 @@ namespace Game.LevelManager.DungeonLoader
         private int IsCorridor(Coordinates coordinates)
         {
             return DungeonPartByCoordinates.ContainsKey(coordinates) ? 1 : 0;
+        }
+
+        private void AddDungeonRoomData(DungeonRoom currentDungeonRoom)
+        {
+            if (currentDungeonRoom.Items != null )
+                AddDungeonRoomItemsData(currentDungeonRoom.Items);
+
+            if ( currentDungeonRoom.EnemiesByType != null )
+                AddDungeonRoomEnemyData(currentDungeonRoom.EnemiesByType);
+        }
+
+        private void AddDungeonRoomItemsData( ItemsAmount itemsAmount)
+        {
+            foreach (var itemAmountPair in itemsAmount.ItemAmountBySo)
+            {
+                if ( itemAmountPair.Key as ReadableItemSo != null )
+                {
+                    TotalReadableItems += 1;
+                }
+                else
+                {
+                    TotalCollectableItems += 1;
+                }
+            }
+        }
+
+        private void AddDungeonRoomEnemyData(EnemiesByType enemiesByType)
+        {
+            foreach (var enemyAmountPair in enemiesByType.GetEnemiesForRoom())
+            {
+                string enemyTypeString = enemyAmountPair.Key.movement.enemyMovementIndex.ToString()+ enemyAmountPair.Key.weapon.Type.ToString();
+                if ( !NEnemiesByType.ContainsKey(enemyTypeString))
+                    NEnemiesByType.Add( enemyTypeString, 0 );
+                NEnemiesByType[enemyTypeString]++;
+            }
         }
     }
 }

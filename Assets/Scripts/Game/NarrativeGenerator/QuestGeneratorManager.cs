@@ -8,6 +8,7 @@ using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
+using Game.GameManager;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
@@ -37,9 +38,8 @@ namespace Game.NarrativeGenerator
 
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
-
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
-
+        
         public void OnEnable()
         {
             PlayerProfileManager.ProfileSelected += HandleProfileSelected;
@@ -65,7 +65,7 @@ namespace Game.NarrativeGenerator
                 }
             }
         }
-
+        
         private void Start()
         {
             _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
@@ -81,7 +81,7 @@ namespace Game.NarrativeGenerator
 #if UNITY_EDITOR
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
-                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines);
+                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings);
                 narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
             }
 #endif

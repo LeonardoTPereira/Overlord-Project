@@ -6,6 +6,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using Game.Events;
 
 namespace Game.GameManager
 {
@@ -21,6 +22,7 @@ namespace Game.GameManager
 
         public static event EventHandler GameStartEventHandler;
         public static event Action LoadStateHandler;
+        public static event FormAnsweredEvent PreTestFormQuestionAnsweredEventHandler;
         private bool _hasLoaded;
 
         public bool arenaMode;
@@ -36,7 +38,7 @@ namespace Game.GameManager
             {
                 if (!_hasLoaded)
                 {
-                    //LoadStateHandler?.Invoke();
+                    // LoadStateHandler?.Invoke();
                     _hasLoaded = true;
                 }
             }
@@ -58,9 +60,9 @@ namespace Game.GameManager
         private void Start()
         {
             GameStartEventHandler?.Invoke(null, EventArgs.Empty);
-            if (SaveLoadManager.HasSaveFile())
+            // if (SaveLoadManager.HasSaveFile())
             {
-                SceneManager.LoadScene(experimentSelectorScreen.SceneName);
+                // SceneManager.LoadScene(experimentSelectorScreen.SceneName);
             }
         }
 
@@ -85,4 +87,3 @@ namespace Game.GameManager
         }
     }
 }
-

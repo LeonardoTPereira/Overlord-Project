@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
+using static Util.Enums;
 
 namespace ScriptableObjects
 {
@@ -14,17 +15,19 @@ namespace ScriptableObjects
 
         [field: SerializeField] public GameObject WeaponPrefab { get; set; }
         [field: SerializeField] public string EnemyTypeName { get; set; }
+        [field: SerializeField] public WeaponTypeEnum Type { get; set; }
+
 
         [field: SerializeField] public bool HasSprite = true;
-        [field: SerializeField] public bool IsInPortuguese = false;
         [field: SerializeField] public bool IsPlatformGame = false;
 
-        // TODO: Destruir essa gambiarra aqui
-        public string RealTypeName()
+
+
+        public string RealTypeName(bool isInPortuguese)
         {
             if (IsPlatformGame)
             {
-                if (IsInPortuguese)
+                if (isInPortuguese)
                 {
                     switch (EnemyTypeName)
                     {
@@ -78,25 +81,25 @@ namespace ScriptableObjects
             return !IsRanger() && !IsHealer();
         }
 
-        public bool IsSword()
+        public bool IsSword(bool isInPortuguese)
         {
             if (IsPlatformGame)
             {
-                if (IsInPortuguese)
-                    return (RealTypeName() == "Formiga Infectada" || RealTypeName() == "Formiga Furiosa");
-                return (RealTypeName() == "Infected Ant" || RealTypeName() == "Furious Ant");
+                if (isInPortuguese)
+                    return (RealTypeName(isInPortuguese) == "Formiga Infectada" || RealTypeName(isInPortuguese) == "Formiga Furiosa");
+                return (RealTypeName(isInPortuguese) == "Infected Ant" || RealTypeName(isInPortuguese) == "Furious Ant");
             }
 
             return EnemyTypeName == "Sword";
         }
 
-        public object GetEnemySpriteString()
+        public object GetEnemySpriteString(bool isInPortuguese)
         {
             if (!HasSprite)
                 return "";
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"<sprite=\"Enemies\" name=\"{RealTypeName()}\">");
+            stringBuilder.Append($"<sprite=\"Enemies\" name=\"{RealTypeName(isInPortuguese)}\">");
             Debug.Log(stringBuilder.ToString());
             return stringBuilder.ToString();
         }

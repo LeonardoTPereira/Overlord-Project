@@ -16,6 +16,7 @@ namespace Game.GameManager.Player
         private SpriteRenderer spriteRenderer;
         private HealthController healthController;
 
+        public static InitializePlayerHealthEvent InitializePlayerHealthEventHandler;
         public static event EventHandler PlayerDeathEventHandler;
         public static event EventHandler ResetHealthEventHandler;
         public static event EventHandler SceneLoaded;
@@ -31,6 +32,7 @@ namespace Game.GameManager.Player
         private void Start()
         {
             healthController.SetHealth(maxHealth);
+            InitializePlayerHealthEventHandler?.Invoke( this, new InitializePlayerHealthEventArgs(maxHealth));
             var originalColor = spriteRenderer.color;
             healthController.SetOriginalColor(originalColor);
         }

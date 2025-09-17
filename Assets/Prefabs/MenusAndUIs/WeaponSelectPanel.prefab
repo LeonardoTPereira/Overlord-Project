@@ -170,11 +170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   button: {fileID: 5677077939159287740}
-  levelToLoad:
-    Scene: {fileID: 102900000, guid: 6ab9f7015ab81b644a9b23f3eb5d80e2, type: 3}
-    SceneName: LevelSelector
-    sceneIndex: 8
-    sceneEnabled: 1
+  settings: {fileID: 0}
+  <Selected>k__BackingField: {fileID: 0}
   <chosenProjectile>k__BackingField: {fileID: 11400000, guid: adc39a0d43679ab4584a553a907ec5c1,
     type: 2}
 --- !u!114 &6275584105015532755
@@ -202,6 +199,7 @@ GameObject:
   - component: {fileID: 5677077938744676107}
   - component: {fileID: 5677077938744676101}
   - component: {fileID: 5677077938744676100}
+  - component: {fileID: 8270117702031920856}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -326,6 +324,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8270117702031920856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5677077938744676106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 5677077938744676100}
+  _enText: Select Weapon
+  _ptText: Selecionar Arma
 --- !u!1 &5677077938815151868
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2423226, y: 0.62700003}
   m_AnchorMax: {x: 0.47374997, y: 0.73}
-  m_AnchoredPosition: {x: 2, y: -9.7}
+  m_AnchoredPosition: {x: 2, y: -9.700012}
   m_SizeDelta: {x: -46.200024, y: -19.400005}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5677077938815151866
@@ -641,6 +654,7 @@ GameObject:
   - component: {fileID: 5677077939224943541}
   - component: {fileID: 5677077939224943540}
   - component: {fileID: 5677077939224943542}
+  - component: {fileID: 2758487839432550714}
   m_Layer: 5
   m_Name: WeaponDescriptionTMP
   m_TagString: Untagged
@@ -724,7 +738,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 63.9
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -778,6 +792,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1138606b96c118b458f78d3d4d9f76d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2758487839432550714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5677077939224943546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 5677077939224943540}
+  _enText: '- Weapon Information - Select any weapon to display details Click the
+    confirm button to go to start playing!'
+  _ptText: "- Informa\xE7\xF5es sobre a arma - Selecione alguma arma para exibir
+    detalhes Clique no bot\xE3o confirmar para ir para come\xE7ar a jogar!"
 --- !u!1 &5677077939362925814
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +902,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70.1
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -952,7 +983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5253388, y: 0.767}
   m_AnchorMax: {x: 0.766, y: 0.897}
-  m_AnchoredPosition: {x: 0, y: -17.699982}
+  m_AnchoredPosition: {x: 0, y: -17.699951}
   m_SizeDelta: {x: -52.2, y: -35.399994}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5677077939386560240
@@ -1181,7 +1212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2423226, y: 0.767}
   m_AnchorMax: {x: 0.48, y: 0.897}
-  m_AnchoredPosition: {x: 0, y: -16.199982}
+  m_AnchoredPosition: {x: 0, y: -16.199951}
   m_SizeDelta: {x: -50.200024, y: -32.40001}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5677077939740139082
@@ -1468,7 +1499,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.4
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1603,7 +1634,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70.05
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
+using Game.NPCs;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,15 +35,18 @@ namespace Game.NarrativeGenerator.Quests
         [SerializeField] private bool endsStoryLine;
         [field: SerializeField] public bool IsCompleted { get; set; }
         [field: SerializeField] public bool IsClosed { get; set; }
+        [field: SerializeField] public bool IsOpened { get; set; }
         [field: SerializeField] public string QuestText { get; set; }
         private bool _canDrawNext;
+
+        public NpcSo NpcInCharge { get; set; }
         public QuestSo Next { get => next; set => next = value; }
         public QuestSo Previous { get => previous; set => previous = value; }
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
         public int Id { get; set; }
 
-        public virtual QuestSo DefineQuestSo(List<QuestSo> questSos, in GeneratorSettings generatorSettings)
+        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
         {
             return null;
         }
@@ -55,6 +60,7 @@ namespace Game.NarrativeGenerator.Quests
             Id = GetInstanceID();
             IsCompleted = false;
             IsClosed = false;
+            IsOpened = false;
         }
 
         public void Init(string questTitle, bool endsLine, QuestSo previousQuest)
@@ -66,6 +72,7 @@ namespace Game.NarrativeGenerator.Quests
             Id = GetInstanceID();
             IsCompleted = false;
             IsClosed = false;
+            IsOpened = false;
         }
 
         public virtual void Init(QuestSo copiedQuest)
@@ -78,6 +85,8 @@ namespace Game.NarrativeGenerator.Quests
             QuestText = copiedQuest.QuestText;
             IsCompleted = copiedQuest.IsCompleted;
             IsClosed = copiedQuest.IsCompleted;
+            IsOpened = copiedQuest.IsOpened;
+            NpcInCharge = copiedQuest.NpcInCharge;
         }
 
         public virtual QuestSo Clone()
@@ -117,6 +126,54 @@ namespace Game.NarrativeGenerator.Quests
             AssetDatabase.CreateAsset(this, uniquePath);
 #endif
         }
+
+        public virtual string GetTargetNpc()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get target npc");
+            return "";
+        }
+
+        public virtual string GetItemString()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get item string");
+            return "";
+        }
+
+        public virtual string GetItemAmountString()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get item amount string");
+            return "";
+        }
+
+        public virtual string GetRoomCoordinates()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get room coordinates");
+            return "";
+        }
+
+        public virtual string GetRoomAmount()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get room amount");
+            return "";
+        }
+
+        public virtual string GetEnemyAmountString()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy amount string");
+            return "";
+        }
+
+        public virtual string GetEnemyString()
+        {
+            Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy string");
+            return "";
+        }
+
+        public string GetOwnerNpc()
+        {
+            return NpcInCharge?.NpcName;
+        }
+        
 
         public override string ToString()
         {

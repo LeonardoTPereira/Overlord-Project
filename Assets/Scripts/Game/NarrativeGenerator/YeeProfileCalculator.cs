@@ -12,26 +12,26 @@ namespace Overlord.ProfileAnalyst
 {
     public class YeeProfileCalculator: IPlayerProfileCalculator
     {
-        private static Dictionary<string, int> _questWeightsByType;
+        private static Dictionary<string, float> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
 
         public IPlayerProfile CreateProfileFromFormAnswers(List<int> answers, GeneratorSettings settings)
         {
-            if (settings.EnableRandomProfileToPlayer)
-            {
-                if (RandomSingleton.GetInstance().Random.Next(100) < settings.ProbabilityToGetTrueProfile)
-                {
+            // if (settings.EnableRandomProfileToPlayer)
+            // {
+            //     if (RandomSingleton.GetInstance().Random.Next(100) < settings.ProbabilityToGetTrueProfile)
+            //     {
                     CalculateProfileWeights(answers);
-                }
-                else
-                {
-                    CalculateFakeProfile(answers);
-                }
-            }
-            else
-            {
-                CalculateProfileWeights(answers);
-            }
+            //     }
+            //     else
+            //     {
+            //         CalculateFakeProfile(answers);
+            //     }
+            // }
+            // else
+            // {
+            //     CalculateProfileWeights(answers);
+            // }
             return CreateProfileWithWeights();
         }
         
@@ -51,7 +51,7 @@ namespace Overlord.ProfileAnalyst
         {
             StartSymbolWeights = new Dictionary<string, Func<int, float>>();
 
-            _questWeightsByType = new Dictionary<string, int>
+            _questWeightsByType = new Dictionary<string, float>
             {
                 {YeePlayerProfile.PlayerProfileCategory.Immersion.ToString(), 0},
                 {YeePlayerProfile.PlayerProfileCategory.Achievement.ToString(), 0},
@@ -60,18 +60,46 @@ namespace Overlord.ProfileAnalyst
             };
 
             _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Mastery.ToString()] =
-                QuestWeightsCalculator.GetMasteryWeight(playerData.SerializedData.TotalDeaths, playerData.SerializedData.TotalAttempts, playerData.SerializedData.TotalLostHealth);
+                QuestWeightsCalculator.GetMasteryWeight(
+                    playerData.SerializedData.PlayerProfile.MasteryPreference,
+                    playerData.SerializedData.EnemiesKilled,
+                    playerData.SerializedData.TotalEnemies,
+                    playerData.SerializedData.TotalLostHealth,
+                    playerData.SerializedData.InitialHealth
+                );
+
             _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Achievement.ToString()] = 
-                QuestWeightsCalculator.GetAchievementWeight(playerData.SerializedData.EnemiesKilled, playerData.SerializedData.TotalEnemies, playerData.SerializedData.TreasuresCollected, playerData.SerializedData.TotalTreasure);
+                QuestWeightsCalculator.GetAchievementWeight(
+                    playerData.SerializedData.PlayerProfile.AchievementPreference,
+                    playerData.SerializedData.EnemiesKilled,
+                    playerData.SerializedData.TotalEnemies,
+                    playerData.SerializedData.TreasuresCollected,
+                    playerData.SerializedData.TotalCollectableItems,
+                    playerData.SerializedData.UniqueRoomsEntered,
+                    playerData.SerializedData.TotalRooms
+                );
+
+
             _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Immersion.ToString()] = 
-                QuestWeightsCalculator.GetImmersionWeight(playerData.SerializedData.NpcsInteracted, playerData.SerializedData.TotalNpcs);
+                QuestWeightsCalculator.GetImmersionWeight(
+                    playerData.SerializedData.PlayerProfile.ImmersionPreference,
+                    playerData.SerializedData.CompletedImmersionQuests,
+                    playerData.SerializedData.TotalImmersionQuests
+                );
+
             _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Creativity.ToString()] = 
-                QuestWeightsCalculator.GetCreativityWeight(playerData.SerializedData.UniqueRoomsEntered, playerData.SerializedData.TotalRooms, playerData.SerializedData.LocksOpened, playerData.SerializedData.TotalLocks);
+                QuestWeightsCalculator.GetCreativityWeight(
+                    playerData.SerializedData.PlayerProfile.CreativityPreference,
+                    playerData.SerializedData.UniqueRoomsEntered,
+                    playerData.SerializedData.TotalRooms,
+                    playerData.SerializedData.LocksOpened,
+                    playerData.SerializedData.TotalLocks
+                );
         }
         
         private static void CalculateProfileWeights(List<int> answers)
         {
-            _questWeightsByType = new Dictionary<string, int>();
+            _questWeightsByType = new Dictionary<string, float>();
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
             _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[0]);
             _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Achievement.ToString(), (int) weightsFromAnswers[1]);
@@ -81,7 +109,7 @@ namespace Overlord.ProfileAnalyst
         
         private static void CalculateFakeProfile(List<int> answers)
         {
-            _questWeightsByType = new Dictionary<string, int>();
+            _questWeightsByType = new Dictionary<string, float>();
             //TODO make logic circle at every new dungeon
             var weightsFromAnswers = CalculateStartSymbolWeights( answers );
             _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Immersion.ToString(), (int) weightsFromAnswers[3]);

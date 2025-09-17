@@ -21,12 +21,12 @@ namespace Game.NarrativeGenerator
 
         public void SelectQuestWeights()
         {
-            Dictionary<string, int> questWeightsbyType = new Dictionary<string, int>
+            Dictionary<string, float> questWeightsbyType = new Dictionary<string, float>
             {
-                {profileDropdowns["Dropdown1"].captionText.text, (int) QuestWeights.Loved},
-                {profileDropdowns["Dropdown2"].captionText.text, (int) QuestWeights.Liked},
-                {profileDropdowns["Dropdown3"].captionText.text, (int) QuestWeights.Disliked},
-                {profileDropdowns["Dropdown4"].captionText.text, (int) QuestWeights.Hated}
+                {profileDropdowns["Dropdown1"].captionText.text, (float) QuestWeights.Loved},
+                {profileDropdowns["Dropdown2"].captionText.text, (float) QuestWeights.Liked},
+                {profileDropdowns["Dropdown3"].captionText.text, (float) QuestWeights.Disliked},
+                {profileDropdowns["Dropdown4"].captionText.text, (float) QuestWeights.Hated}
             };
             NarrativeCreatorEventHandler?.Invoke(this, new NarrativeCreatorEventArgs(questWeightsbyType));
         }

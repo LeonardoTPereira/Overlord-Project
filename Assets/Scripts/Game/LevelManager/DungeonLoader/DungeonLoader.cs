@@ -15,7 +15,8 @@ namespace Game.LevelManager.DungeonLoader
 {
     public class DungeonLoader : MonoBehaviour
     {
-
+        // public static EventHandler OnDungeonLoaded;
+        public static List<int> finalRoomKeyIds = new List<int>();
         protected static Map _dungeonMap;
         public List<RoomBhv> roomPrefabs;
         public Dictionary<Coordinates, RoomBhv> RoomBhvMap; //2D array for easy room indexing
@@ -33,7 +34,8 @@ namespace Game.LevelManager.DungeonLoader
 
         private void FindRoomAndMarkToVisit(object sender, MarkRoomOnMinimapEventArgs e)
         {
-            RoomBhvMap[e.RoomCoordinates].MarkToVisit();
+            if ( RoomBhvMap.ContainsKey(e.RoomCoordinates))
+                RoomBhvMap[e.RoomCoordinates].MarkToVisit();
         }
 
         private void OnDisable()
@@ -58,6 +60,7 @@ namespace Game.LevelManager.DungeonLoader
             _selectedTheme = (Enums.RoomThemeEnum) RandomSingleton.GetInstance().Random.Next((int) Enums.RoomThemeEnum.Count);
             InstantiateRooms();
             ConnectRoooms();
+            _dungeonMap.PostProcessMapData();
         }
         
         public IEnumerator OnStartMap(string mapName)
@@ -100,12 +103,16 @@ namespace Game.LevelManager.DungeonLoader
         {
             foreach (var currentPart in _dungeonMap.DungeonPartByCoordinates.Values.OfType<DungeonRoom>())
             {
-
                 var newRoom = RoomLoader.InstantiateRoom(currentPart, roomBehavior, CurrentGeneratorSettings.GameType);
                 CheckConnections(currentPart, newRoom, _dungeonMap.Dimensions);
-                newRoom.SetTheme(_selectedTheme);
                 RoomBhvMap.Add(currentPart.Coordinates, newRoom); 
+            }
 
+            GetFinalRoomKeys();
+
+            foreach (var room in RoomBhvMap)
+            {
+                room.Value.SetTheme(_selectedTheme);
             }
         }
 
@@ -166,14 +173,21 @@ namespace Game.LevelManager.DungeonLoader
             Coordinates targetCoordinates;
             if (currentRoom.westDoor != null)
             { // west
-                targetCoordinates = new Coordinates(currentRoom.roomData.Coordinates.X - 2, currentRoom.roomData.Coordinates.Y);
-                SetDestinations(targetCoordinates, currentRoom.roomData.Coordinates, 1);
+                targetCoordinates = new Coordinates(currentRoom.dungeonRoom.Coordinates.X - 2, currentRoom.dungeonRoom.Coordinates.Y);
+                SetDestinations(targetCoordinates, currentRoom.dungeonRoom.Coordinates, 1);
             }
             if (currentRoom.northDoor != null)
             { // west
-                targetCoordinates = new Coordinates(currentRoom.roomData.Coordinates.X, currentRoom.roomData.Coordinates.Y - 2);
-                SetDestinations(targetCoordinates, currentRoom.roomData.Coordinates, 2);
+                targetCoordinates = new Coordinates(currentRoom.dungeonRoom.Coordinates.X, currentRoom.dungeonRoom.Coordinates.Y - 2);
+                SetDestinations(targetCoordinates, currentRoom.dungeonRoom.Coordinates, 2);
             }
+        }
+
+        public List<int> GetFinalRoomKeys()
+        {
+            RoomBhv finalRoomBhv = RoomBhvMap[_dungeonMap.FinalRoomCoordinates];
+            finalRoomKeyIds = finalRoomBhv.Doors;
+            return finalRoomKeyIds;
         }
     }
 }

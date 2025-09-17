@@ -15,7 +15,7 @@ namespace Game.MenuManager
     {
         [SerializeField] private GameObject previousPanel;
         [SerializeField] private Button button;
-        [SerializeField] private SceneReference levelToLoad;
+        // [SerializeField] private SceneReference levelToLoad;
         [SerializeField] private GeneratorSettings settings;
         [field: SerializeField] public SelectedLevels Selected { get; set; }
 

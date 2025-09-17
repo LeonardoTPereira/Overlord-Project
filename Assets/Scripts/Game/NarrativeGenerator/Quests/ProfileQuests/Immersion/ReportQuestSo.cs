@@ -16,6 +16,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
         
         public NpcSo Npc { get; set; }
+        public bool HasCreatedDialogue { get; set; }
 
         public override void Init()
         {
@@ -27,6 +28,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             base.Init(questName, endsStoryLine, previous);
             Npc = npc;
+            HasCreatedDialogue = false;
         }
 
         public override void Init(QuestSo copiedQuest)
@@ -36,6 +38,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             if (reportQuest != null)
             {
                 Npc = reportQuest.Npc;
+                HasCreatedDialogue = reportQuest.HasCreatedDialogue;
             }
             else
             {
@@ -49,6 +52,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var cloneQuest = CreateInstance<ReportQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
+        }
+        
+        public override string GetTargetNpc()
+        {
+            return Npc.NpcName;
         }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)

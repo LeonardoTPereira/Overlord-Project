@@ -3,6 +3,7 @@ using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.GameManager;
 
 namespace Game.MenuManager
 {
@@ -23,7 +24,7 @@ namespace Game.MenuManager
             outline = GetComponent<Outline>();
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(OnSelectWeapon);
-            buttonName.text = projectileSo.projectileName;
+            buttonName.text = projectileSo.ProjectileName(GameManagerSingleton.Instance.IsInPortuguese);
             buttonName.color = projectileSo.color;
             outline.enabled = false;
         }

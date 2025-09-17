@@ -73,10 +73,21 @@ namespace Overlord.ProfileAnalyst
         //TODO FIX THIS FOR NON-PRETEST DATA AND CREATE UNIT TEST!
         public void Normalize()
         {
-	        MasteryPreference *= 2;
-	        ImmersionPreference *= 2;
-	        AchievementPreference *= 2;
-	        CreativityPreference *= 2;
+            float summedPreference = MasteryPreference + ImmersionPreference + AchievementPreference + CreativityPreference;
+	        MasteryPreference /= summedPreference;
+	        ImmersionPreference /= summedPreference;
+	        AchievementPreference /= summedPreference;
+	        CreativityPreference /= summedPreference;
+        }
+
+        public void SetAsComplementaryProfile()
+        {
+            float summedPreference = MasteryPreference + ImmersionPreference + AchievementPreference + CreativityPreference;
+            MasteryPreference = summedPreference - MasteryPreference;
+            ImmersionPreference = summedPreference - ImmersionPreference;
+            AchievementPreference = summedPreference - AchievementPreference;
+            CreativityPreference = summedPreference - CreativityPreference;
+            Normalize();
         }
     }
 }

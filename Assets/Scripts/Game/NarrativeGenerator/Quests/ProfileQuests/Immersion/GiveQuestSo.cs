@@ -63,6 +63,22 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
+        public override string GetTargetNpc()
+        {
+            return GiveQuestData.NpcToReceive.NpcName;
+        }
+
+        public override string GetItemAmountString()
+        {
+            return " 1 "+GetItemString();
+        }
+
+        public override string GetItemString()
+        {
+            var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
+            return $"{GiveQuestData.ItemToGive.ItemName} {spriteString}";
+        }
+
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
             if (questId != Id) return false;

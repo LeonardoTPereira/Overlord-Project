@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Game.EnemyGenerator;
 using Game.Events;
 using Game.ExperimentControllers;
@@ -7,15 +5,18 @@ using Game.LevelGenerator;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
+using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
+using Overlord.ProfileAnalyst;
 using ScriptableObjects;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Util;
-using Overlord.ProfileAnalyst;
 
 namespace Overlord.NarrativeGenerator
 {
@@ -24,11 +25,14 @@ namespace Overlord.NarrativeGenerator
         private readonly PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
         private List<QuestLineList> _questLinesForProfile;
         private IPlayerProfile _playerProfile;
+        private GeneratorSettings _generatorSettings;
 
-        public NarrativeExperimentRepository(IPlayerProfile playerProfile, PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines)
+        public NarrativeExperimentRepository(IPlayerProfile playerProfile, 
+            PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines, GeneratorSettings generatorSettings)
         {
             _playerProfile = playerProfile;
             _playerProfileToQuestLines = playerProfileToQuestLines;
+            _generatorSettings = generatorSettings;
         }
 
         public void Save(QuestLineList questLines, string profileName)
@@ -47,8 +51,10 @@ namespace Overlord.NarrativeGenerator
             AssetDatabase.SaveAssetIfDirty(_playerProfileToQuestLines);
         }
 
-        public void SetQuestLineListForProfile(QuestLineList questLines)
+        private void SetQuestLineListForProfile(QuestLineList questLines)
         {
+            _questLinesForProfile = new List<QuestLineList> { Selector.CreateMissions(_generatorSettings) };
+            /*
             if (_playerProfile is YeePlayerProfile playerProfile)
             {
                 if (_playerProfileToQuestLines.QuestLinesForProfile.TryGetValue(
@@ -63,6 +69,7 @@ namespace Overlord.NarrativeGenerator
                     _playerProfileToQuestLines.QuestLinesForProfile.Add(playerProfile.PlayerProfileEnum.ToString(), _questLinesForProfile);
                 }
             }
+            */
         }
     }
 }

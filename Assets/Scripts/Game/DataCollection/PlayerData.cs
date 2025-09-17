@@ -21,7 +21,7 @@ namespace Game.DataCollection
         private int _currentCombo;
         [field: SerializeField] public PlayerSerializedData SerializedData { get; set; }
 
-        public void Init()
+        public void Init(bool useFixedProfile)
         {
             SerializedData ??= new PlayerSerializedData
             {
@@ -58,8 +58,21 @@ namespace Game.DataCollection
             SerializedData.TotalRooms += map.NRooms;
             SerializedData.TotalEnemies += map.NEnemies;
             SerializedData.TotalNpcs += map.NNPCs;
-            SerializedData.TotalTreasure += map.TotalTreasure;
+            SerializedData.TotalCollectableItems += map.TotalCollectableItems;
+            SerializedData.TotalReadableItems += map.TotalReadableItems;
             SerializedData.TotalAttempts++;
+
+			if ( SerializedData.TotalEnemiesByType == null )
+			{
+				SerializedData.TotalEnemiesByType = new Dictionary<string, int>();
+			}
+
+			foreach (KeyValuePair<string,int> NEnemyOfType in map.NEnemiesByType)
+			{
+				if ( !SerializedData.TotalEnemiesByType.ContainsKey(NEnemyOfType.Key))
+					SerializedData.TotalEnemiesByType.Add( NEnemyOfType.Key, 0 );
+				SerializedData.TotalEnemiesByType[NEnemyOfType.Key] += NEnemyOfType.Value;
+			}
         }
 
         public void ResetCombo()
@@ -74,12 +87,20 @@ namespace Game.DataCollection
             _currentCombo++;
         }
 
-        public void IncrementKills()
+        public void IncrementKills(string enemyTypeString)
         {
+            if(SerializedData.EnemiesKilledByType == null)
+            {
+                SerializedData.EnemiesKilledByType = new Dictionary<string, int>();
+            }
+
+            if ( !SerializedData.EnemiesKilledByType.ContainsKey(enemyTypeString) )
+				SerializedData.EnemiesKilledByType.Add(enemyTypeString, 0);
+	        SerializedData.EnemiesKilledByType[enemyTypeString]++;
             SerializedData.EnemiesKilled++;
         }
 
-        public void IncrementInteractionsWithNpcs()
+        public void IncrementNpcInteractions()
         {
             SerializedData.NpcsInteracted++;
         }
@@ -94,7 +115,9 @@ namespace Game.DataCollection
 
         public void IncrementWins()
         {
-            SerializedData.TotalWins++;
+	        SerializedData.TotalWins++;
+            SerializedData.RoomsEntered += CurrentDungeon.RoomsEntered;
+            SerializedData.UniqueRoomsEntered += CurrentDungeon.UniqueRoomsEntered;
             CurrentDungeon.IncrementWins();
         }
 
@@ -146,10 +169,20 @@ namespace Game.DataCollection
             }
         }
 
-        public void AddCollectedTreasure(int amount)
+        public void AddCollectedItem(int amount)
         {
             SerializedData.TreasuresCollected += amount;
         }
+
+		public void AddReadItem(int amount)
+        {
+	        SerializedData.ItemsRead += amount;
+        }
+
+		public void InitializeHealth(int health)
+		{
+			SerializedData.InitialHealth = health;
+		}
 
         public void AddLostHealth(int amount)
         {
@@ -189,9 +222,14 @@ namespace Game.DataCollection
             SerializedData.TotalNpcs = saveData.TotalNpcs;
             SerializedData.TotalEnemies = saveData.TotalEnemies;
             SerializedData.EnemiesKilled = saveData.EnemiesKilled;
-            SerializedData.TotalTreasure = saveData.TotalTreasure;
+            SerializedData.TotalEnemiesByType = saveData.TotalEnemiesByType;
+            SerializedData.EnemiesKilledByType = saveData.EnemiesKilledByType;
+            SerializedData.TotalCollectableItems = saveData.TotalCollectableItems;
             SerializedData.TreasuresCollected = saveData.TreasuresCollected;
+            SerializedData.TotalReadableItems = saveData.TotalReadableItems;
+            SerializedData.ItemsRead = saveData.ItemsRead;
             SerializedData.TotalLostHealth = saveData.TotalLostHealth;
+            SerializedData.InitialHealth = saveData.InitialHealth;
             SerializedData.MaxCombo = saveData.MaxCombo;
             SerializedData.KeysCollected = saveData.KeysCollected;
             SerializedData.TotalKeys = saveData.TotalKeys;
@@ -201,6 +239,7 @@ namespace Game.DataCollection
             SerializedData.UniqueRoomsEntered = saveData.UniqueRoomsEntered;
             SerializedData.RoomsEntered = saveData.RoomsEntered;
             SerializedData.PlayerProfile = saveData.PlayerProfile;
+            SerializedData.PreviousPlayerProfiles = saveData.PreviousPlayerProfiles;
             SerializedData.GivenPlayerProfile = saveData.GivenPlayerProfile;
             SerializedData.TotalQuests = saveData.TotalQuests;
             SerializedData.CompletedQuests = saveData.CompletedQuests;
@@ -240,6 +279,11 @@ namespace Game.DataCollection
         [Serializable]
         public class PlayerSerializedData
         {
+
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
+            [field: SerializeField] public bool UseFixedProfile { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
@@ -279,7 +323,15 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
-            [field: SerializeField] public int TotalTreasure { get; set; }
+            [field: SerializeField] public Dictionary<string, int> TotalEnemiesByType { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
+            [field: SerializeField] public Dictionary<string, int> EnemiesKilledByType { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
+            [field: SerializeField] public int TotalCollectableItems { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
@@ -287,7 +339,19 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
+            [field: SerializeField] public int TotalReadableItems { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
+            [field: SerializeField] public int ItemsRead { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
             [field: SerializeField] public int TotalLostHealth { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
+            [field: SerializeField] public int InitialHealth { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif
@@ -328,6 +392,10 @@ namespace Game.DataCollection
             [FirestoreProperty]
 #endif
             [field: SerializeField] public YeePlayerProfile GivenPlayerProfile { get; set; }
+#if !UNITY_WEBGL || UNITY_EDITOR
+            [FirestoreProperty]
+#endif
+            [field: SerializeField] public List<YeePlayerProfile> PreviousPlayerProfiles { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
             [FirestoreProperty]
 #endif

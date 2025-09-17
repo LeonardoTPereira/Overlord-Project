@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 467251272708411622}
   - component: {fileID: 467251272708411640}
   - component: {fileID: 467251272708411623}
+  - component: {fileID: 4739961106097857966}
   m_Layer: 5
   m_Name: GameOverText
   m_TagString: Untagged
@@ -128,7 +129,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.84538615}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.46499634}
+  m_AnchoredPosition: {x: 0, y: -0.46496582}
   m_SizeDelta: {x: 0, y: 0.90998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &467251272708411640
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46.7
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -228,6 +229,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4739961106097857966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467251272708411621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 467251272708411623}
+  _enText: You did it!!!
+  _ptText: "Voc\xEA Conseguiu!!!"
 --- !u!1 &467251272824743374
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +255,7 @@ GameObject:
   - component: {fileID: 467251272824743375}
   - component: {fileID: 467251272824743361}
   - component: {fileID: 467251272824743360}
+  - component: {fileID: 8846053617750359278}
   m_Layer: 5
   m_Name: GameOverTextExplanation
   m_TagString: Untagged
@@ -263,7 +280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.78774726}
-  m_AnchoredPosition: {x: 0, y: -0.45999146}
+  m_AnchoredPosition: {x: 0, y: -0.45996094}
   m_SizeDelta: {x: 0, y: -0.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &467251272824743361
@@ -325,7 +342,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.1
+  m_fontSize: 72
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -367,6 +384,28 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8846053617750359278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467251272824743374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 467251272824743360}
+  _enText: Please click on "Quiz" to answer a few questions about the level you just
+    played.  At the end, you will be returned to the level selection and can continue
+    playing :)  If you want to stop, we just ask that you submit the quiz before
+    closing this window, if possible. Your answers help us a lot!
+  _ptText: "Por favor, clique em \"Question\xE1rio\" para responder algumas perguntas
+    sobre o n\xEDvel que voc\xEA acabou de jogar.   Ao final, voc\xEA voltar\xE1
+    para a sele\xE7\xE3o de n\xEDveis e poder\xE1 continuar jogando :)  Caso queira
+    parar, pedimos apenas que envie o question\xE1rio antes de fechar essa janela,
+    se poss\xEDvel. Sua resposta nos ajuda muito!"
 --- !u!1 &467251272860351228
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +654,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07456038, y: 0.24563856}
   m_AnchorMax: {x: 0.9295727, y: 0.947}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &467251273382931762
@@ -637,6 +676,7 @@ GameObject:
   - component: {fileID: 467251273789561331}
   - component: {fileID: 467251273789561333}
   - component: {fileID: 467251273789561332}
+  - component: {fileID: 4279102285694351834}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -719,7 +759,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.45
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -761,3 +801,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4279102285694351834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467251273789561330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b8e666e4305a64e99d0792d364d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 467251273789561332}
+  _enText: Quiz
+  _ptText: "Question\xE1rio"

@@ -4,6 +4,7 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using System;
 using UnityEngine;
+using Game.NPCs;
 
 namespace Game.GameManager.Player
 {
@@ -28,6 +29,7 @@ namespace Game.GameManager.Player
             BombController.PlayerHitEventHandler += HurtPlayer;
             PlayerController.PlayerDeathEventHandler += KillPlayer;
             KeyBhv.KeyCollectEventHandler += GetKey;
+            NpcController.KeyCollectEventHandler += GetKey;
         }
 
         public void OnDisable()
@@ -40,6 +42,7 @@ namespace Game.GameManager.Player
             BombController.PlayerHitEventHandler -= HurtPlayer;
             PlayerController.PlayerDeathEventHandler -= KillPlayer;
             KeyBhv.KeyCollectEventHandler -= GetKey;
+            NpcController.KeyCollectEventHandler -= GetKey;
         }
 
         private void GetKey(object sender, KeyCollectEventArgs eventArgs)

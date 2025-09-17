@@ -20,5 +20,9 @@ MonoBehaviour:
   moveSpeed: 10
   projectileBehaviorIndex: 0
   projectileName: 
-  description: "Atira uma flecha \xE0 sua frente"
+  description: 
+  ptProjectileName: Flecha
+  ptDescription: "Atira uma flecha \xE0 sua frente"
+  enProjectileName: 
+  enDescription: 
   color: {r: 0, g: 0, b: 0, a: 0}

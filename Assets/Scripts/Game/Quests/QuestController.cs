@@ -49,7 +49,9 @@ namespace Game.Quests
         
         private void OnDungeonLoaded(object sender, EventArgs eventArgs)
         {
-            StartCoroutine(InitializeQuests(selectedLevels.GetCurrentLevel().QuestLines));
+            QuestLineList originalQuestLines = (sender as DungeonSceneManager).currentQuestLines;
+            Debug.Log("Does questline have main quest? "+ (originalQuestLines.QuestLines.Find( x => x.IsMainQuest == true) != null) );
+            StartCoroutine(InitializeQuests(originalQuestLines));
         }
 
         private IEnumerator<WaitForEndOfFrame> InitializeQuests(QuestLineList originalQuestLines)
@@ -74,13 +76,13 @@ namespace Game.Quests
                     UpdateGetItemQuest(getItemEventArgs);
                     break;
                 case QuestDamageEnemyEventArgs damageQuestArgs:
-                    UpdateDamageQuest( damageQuestArgs );
+                    UpdateDamageQuest(damageQuestArgs);
                     break;
                 case QuestExploreRoomEventArgs exploreQuestArgs:
-                    UpdateExploreQuest( exploreQuestArgs );
+                    UpdateExploreQuest(exploreQuestArgs);
                     break;
                 case QuestReadEventArgs readQuestArgs:
-                    UpdateReadQuest( readQuestArgs );
+                    UpdateReadQuest(readQuestArgs);
                     break;
                 case QuestExchangeDialogueEventArgs exchangeDialogueEventArgs:
                     var npc = questLines.NpcSos.Find(_ => _.NpcName == exchangeDialogueEventArgs.NpcName);
