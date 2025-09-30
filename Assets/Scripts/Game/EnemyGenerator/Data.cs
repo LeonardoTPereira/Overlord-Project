@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 namespace Game.EnemyGenerator
 {
-    /// This struct holds the most relevant data of the evolutionary process.
+    /// <summary>
+    /// Holds the most relevant data of the evolutionary process.
+    /// </summary>
     [Serializable]
-    public struct Data
+    public class GeneticAlgorithmData
     {
-        public Parameters parameters { get; set; }
-        public double duration { get; set; }
-        public List<Individual> initial { get; set; }
-        public List<Individual> intermediate { get; set; }
-        public List<Individual> final { get; set; }
+        public EnemyGeneratorGeneticAlgorithmSettings geneticAlgorithmSettings;
+        public double duration;
+        public List<Individual> initialPopulation;
+        public List<Individual> intermediatePopulation;
+        public List<Individual> finalPopulation;
     }
 }

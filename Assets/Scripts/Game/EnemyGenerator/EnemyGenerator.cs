@@ -4,38 +4,31 @@ using Util;
 
 namespace Game.EnemyGenerator
 {
-    /// This class holds the evolutionary enemy generation algorithm.
+    //EnemyGeneticAlgorithm
     public class EnemyGenerator
     {
-        /// The number of parents to be selected for crossover.
         private static readonly int CROSSOVER_PARENTS = 2;
 
-        /// The evolutionary parameters.
-        private Parameters _parameters;
-        /// The found MAP-Elites population.
+        private EnemyGeneratorGeneticAlgorithmSettings _parameters;
+        private SearchSpaceConfig _searchSpace;
         private Population _solution;
-        /// The evolutionary process' collected data.
-        private Data _data;
-
-        /// Return the found MAP-Elites population.
+        private GeneticAlgorithmData _data;
+        private readonly IEnemyFitness _fitnessFunction;
         public Population Solution { get => _solution; }
+        public GeneticAlgorithmData Data { get => _data; }
 
-        /// Return the collected data from the evolutionary process.
-        public Data Data { get => _data; }
-
-        /// Enemy Generator constructor.
-        public EnemyGenerator(
-            Parameters parameters
-        )
+        public EnemyGenerator(EnemyGeneratorGeneticAlgorithmSettings parameters, SearchSpaceConfig searchSpace, IEnemyFitness fitnessFunction)
         {
             _parameters = parameters;
-            _data = new Data
+            _searchSpace = searchSpace;
+            _fitnessFunction = fitnessFunction;
+            _data = new GeneticAlgorithmData
             {
-                parameters = _parameters
+                geneticAlgorithmSettings = _parameters
             };
+            _fitnessFunction = fitnessFunction;
         }
 
-        /// Generate and return a set of enemies.
         public Population Evolve()
         {
             DateTime start = DateTime.Now;
@@ -45,84 +38,70 @@ namespace Game.EnemyGenerator
             return _solution;
         }
 
-        /// Perform the enemy evolution process.
         private void Evolution()
         {
-
-            // Initialize the MAP-Elites population
+            
             Population pop = new Population(
-                SearchSpace.AllMovementTypes().Length,
-                SearchSpace.AllWeaponTypes().Length
+                _parameters.numberOfMovements,
+                _parameters.numberOfWeapons,
+                _fitnessFunction
             );
-
-            // Generate the initial population
-            while (pop.Count() < _parameters.Population)
+            while (pop.Count() < _parameters.initialPopulationSize)
             {
-                Individual ind = Individual.GetRandom();
-                Difficulty.Calculate(ref ind);
-                Fitness.Calculate(ref ind, _parameters.Difficulty);
+                Individual ind = Individual.GetRandom(_searchSpace);
+                _fitnessFunction.SetSearchSpace(_searchSpace);
+                _fitnessFunction.Calculate(ref ind, _parameters.difficulty);
                 pop.PlaceIndividual(ind);
             }
+            _data.initialPopulation = new List<Individual>(pop.ToList());
 
-            // Save the initial population
-            _data.initial = new List<Individual>(pop.ToList());
-
-            var g = 0;
-            // Evolve the population
-            while (!HasReachedStopCriteria(g, pop.MinimumElitesOfEachType(), pop.NIndividualsBetterThan(_parameters.MinimumElite, _parameters.AcceptableFitness)))
+            var currentGeneration = 0;
+            while (!HasReachedStopCriteria(currentGeneration, pop.MinimumElitesOfEachType(), pop.NIndividualsBetterThan(_parameters.numberOfDesiredElitesPerEnemy, _parameters.minimumAcceptableFitnessPerEnemy)))
             {
                 List<Individual> intermediate = new List<Individual>();
-                while (intermediate.Count < _parameters.Intermediate)
+                while (intermediate.Count < _parameters.intermediatePopulationSize)
                 {
-                    // Apply the crossover operation
-                    Individual[] parents = Selection.Select(CROSSOVER_PARENTS, _parameters.Competitors, pop);
-                    Individual[] offspring = Crossover.Apply(parents[0], parents[1]);
-                    // Apply the mutation operation
-                    if (_parameters.Mutation > RandomSingleton.GetInstance().RandomPercent())
+                    Individual[] parents = Selection.Select(CROSSOVER_PARENTS, _parameters.numberOfCompetitors, pop, _fitnessFunction);
+                    Individual[] offspring = Crossover.Apply(parents[0], parents[1], _searchSpace);
+
+                    if (_parameters.mutationRate > RandomSingleton.GetInstance().RandomPercent())
                     {
                         parents[0] = offspring[0];
-                        offspring[0] = Mutation.Apply(parents[0], _parameters.GeneMutation);
+                        offspring[0] = Mutation.Apply(parents[0], _parameters.geneMutationRate, _searchSpace);
                         parents[1] = offspring[1];
-                        offspring[1] = Mutation.Apply(parents[1], _parameters.GeneMutation);
+                        offspring[1] = Mutation.Apply(parents[1], _parameters.geneMutationRate, _searchSpace);
                     }
-                    // Add the new individuals in the intermediate population
+
                     for (int i = 0; i < offspring.Length; i++)
                     {
-                        Difficulty.Calculate(ref offspring[i]);
-                        Fitness.Calculate(ref offspring[i], _parameters.Difficulty);
+                        //Difficulty.Calculate(ref offspring[i]);
+                        _fitnessFunction.Calculate(ref offspring[i], _parameters.difficulty);
                         intermediate.Add(offspring[i]);
                     }
                 }
 
-                // Place the intermediate population in the MAP-Elites
                 foreach (Individual individual in intermediate)
                 {
-                    individual.Generation = g;
+                    individual.Generation = currentGeneration;
                     pop.PlaceIndividual(individual);
                 }
 
-                // Save the intermediate population
-                if (g == _parameters.Generations / 2)
+                if (currentGeneration == _parameters.maxGenerations / 2)
                 {
-                    _data.intermediate = new List<Individual>(pop.ToList());
+                    _data.intermediatePopulation = new List<Individual>(pop.ToList());
                 }
-                g++;
+                currentGeneration++;
             }
-            //pop.Debug();
-            // Get the final population (solution)
+
             _solution = pop;
-
-            // Save the final population
-            _data.final = new List<Individual>(_solution.ToList());
-
+            _data.finalPopulation = new List<Individual>(_solution.ToList());
         }
 
         private bool HasReachedStopCriteria(int generation, int totalElitesPerType, float elitesWithAcceptableFitnessPerType)
         {
-            if (totalElitesPerType < _parameters.MinimumElite) return false;
-            if (elitesWithAcceptableFitnessPerType >= _parameters.MinimumElite) return true;
-            return generation > _parameters.Generations;
+            if (totalElitesPerType < _parameters.numberOfDesiredElitesPerEnemy) return false;
+            if (elitesWithAcceptableFitnessPerType >= _parameters.numberOfDesiredElitesPerEnemy) return true;
+            return generation > _parameters.maxGenerations;
         }
     }
-
 }

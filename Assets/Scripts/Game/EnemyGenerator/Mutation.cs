@@ -1,4 +1,6 @@
 using Util;
+using System;
+using Codice.Client.Common;
 
 namespace Game.EnemyGenerator
 {
@@ -6,55 +8,59 @@ namespace Game.EnemyGenerator
     public static class Mutation
     {
         /// Reproduce a new individual by mutating a parent.
-        public static Individual Apply(Individual parent, int chance)
+        public static Individual Apply(Individual parent, int chance, SearchSpaceConfig searchSpace)
         {
             var individual = parent.Clone();
             // Apply mutation on enemy attributes
             var enemy = individual.Enemy;
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rHealth;
-                enemy.Health = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.Status1.Min, searchSpace.Status1.Max);
+                enemy.Status1 = RandomSingleton.GetInstance().Next((int)min, (int)max + 1);
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rStrength;
-                enemy.Strength = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.Status2.Min, searchSpace.Status2.Max);
+                enemy.Status2 = RandomSingleton.GetInstance().Next((int)min, (int)max + 1);
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rAttackSpeed;
-                enemy.AttackSpeed = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.Status3.Min, searchSpace.Status3.Max);
+                enemy.Status3 = RandomSingleton.GetInstance().Next(min, max + 1);
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                enemy.Movement = RandomSingleton.GetInstance().RandomElementFromArray(SearchSpace.Instance.rMovementType);
+                enemy.Movement = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.MovementSet.GetAllMovementTypes());
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rMovementSpeed;
-                enemy.MovementSpeed = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.Status4.Min, searchSpace.Status4.Max);
+                enemy.Status4 = RandomSingleton.GetInstance().Next(min, max + 1);
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rActiveTime;
-                enemy.ActiveTime = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.Status5.Min, searchSpace.Status5.Max);
+                enemy.Status5 = RandomSingleton.GetInstance().Next(min, max + 1);
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rRestTime;
-                enemy.RestTime = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.Status6.Min, searchSpace.Status6.Max);
+                enemy.Status6 = RandomSingleton.GetInstance().Next(min, max + 1);
             }
             // Apply mutation on weapon attributes
             var weapon = individual.Weapon;
-            if (chance > RandomSingleton.GetInstance().RandomPercent())
+            var test = RandomSingleton.GetInstance().RandomPercent();
+            if (chance > test)
+            {                
+            }
+            if (chance > test)
             {
-                weapon.Weapon = RandomSingleton.GetInstance().RandomElementFromArray(SearchSpace.Instance.rWeaponType);
+                weapon.Weapon = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.WeaponSet.GetAllWeaponTypes());
             }
             if (chance > RandomSingleton.GetInstance().RandomPercent())
             {
-                var (min, max) = SearchSpace.Instance.rProjectileSpeed;
-                weapon.ProjectileSpeed = RandomSingleton.GetInstance().Next(min, max + 1);
+                var (min, max) = (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max);
+                weapon.WeaponStatus1 = RandomSingleton.GetInstance().Next(min, max + 1);
             }
             return individual;
         }

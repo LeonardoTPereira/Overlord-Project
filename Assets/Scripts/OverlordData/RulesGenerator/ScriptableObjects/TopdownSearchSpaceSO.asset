@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9f3ed0a708377458992e2a54a86334, type: 3}
+  m_Name: TopdownSearchSpaceSO
+  m_EditorClassIdentifier: 
+  Status1:
+    statusName: Status1
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 2
+    Max: 7
+  Status2:
+    statusName: Status2
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 2
+    Max: 5
+  Status3:
+    statusName: Status3
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 0.75
+    Max: 4
+  Status4:
+    statusName: Status4
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 0.8
+    Max: 3.2
+  Status5:
+    statusName: Status5
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 1.5
+    Max: 10
+  Status6:
+    statusName: Status6
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 0.3
+    Max: 1.5
+  WeaponStatus1:
+    statusName: WeaponStatus1
+    minLimit: 0.1
+    maxLimit: 10
+    Min: 1
+    Max: 4
+  MovementSet: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22, type: 2}
+  WeaponSet: {fileID: 11400000, guid: f7837c202c5349b42879b78afca7a448, type: 2}

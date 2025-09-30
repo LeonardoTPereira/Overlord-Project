@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
 using Util;
+using Overlord.GenerationController.Facade;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace PlatformGame.Enemy
 {
@@ -15,6 +17,11 @@ namespace PlatformGame.Enemy
             if (Instance != null)
                 Destroy(this);
             Instance = this;
+        }
+
+        private void Start()
+        {
+            //RulesGeneratorFacade.Instance.SetEnemyMovementType(new TopdownMovementType());
         }
 
         public enum MovementEnum

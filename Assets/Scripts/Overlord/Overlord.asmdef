@@ -1,0 +1,16 @@
+{
+    "name": "Overlord",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2715b4b7e32907244ae6b3c27a78ae85"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

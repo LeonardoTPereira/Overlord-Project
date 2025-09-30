@@ -2,122 +2,66 @@
 using ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Overlord.GenerationController.Facade;
 
 namespace Game.EnemyGenerator
 {
     public class EnemyGeneratorManager : MonoBehaviour
     {
-#if UNITY_EDITOR
-        [field: Foldout("Scriptable Objects")]
-        [field: Header("Enemy Components")]
-#endif
-        [field: SerializeField] public EnemyComponentsSO EnemyComponents { get; set; }
+        [DisplayInspector]
+        public SearchSpaceConfig _searchSpaceConfig;
 
-        [field: SerializeField] public bool IsEnable { get; set; } = false;
+        public bool ActivateManualDifficulty;
+        [ConditionalField(nameof(ActivateManualDifficulty))] public DifficultyLevels difficulties;
 
-        /// Evolutionary parameters
-        [SerializeField] private int maxGenerations = 500;
-        [SerializeField] private int initialPopulationSize = 35;
-        [SerializeField] private int intermediatePopulationSize = 100;
-        [SerializeField] private int mutationRate = 20;
-        [SerializeField] private int geneMutationRate = 30;
-        [SerializeField] private int numberOfCompetitors = 2;
-        [SerializeField] private int numberOfDesiredElitesPerEnemy = 3;
-        [SerializeField] private float minimumAcceptableFitnessPerEnemy = 0.5f;
+        [SerializeField] private EnemyGeneratorGeneticAlgorithmSettings _geneticSettings;
 
-        /// Singleton
-        public static EnemyGeneratorManager Instance { get; set; } = null;
+        private EnemyGenerator _generator;
+        private RulesGeneratorFacade _rulesFacade;
+        private IEnemyFitness _fitnessFunction;
 
-        private EnemyGenerator generator;
-
-        private DifficultyLevels difficulty;
+        public static EnemyGeneratorManager Instance { get; private set; } = null;
 
         private void Awake()
         {
-            //Singleton
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else if (Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
+            Instance = this;
         }
 
         public void Start()
         {
-            if (IsEnable)
+            _rulesFacade = RulesGeneratorFacade.Instance;
+            _rulesFacade.SetEnemyMovementType(_searchSpaceConfig.MovementSet);
+            if (ActivateManualDifficulty)
             {
-                EvolveEnemies(DifficultyLevels.Easy);
+                GetEnemyList(difficulties);
             }
         }
 
-        private float GetDesiredDifficulty()
+        public List<EnemySO> GetEnemyList(DifficultyLevels difficultyLevels)
         {
-            switch (difficulty)
-            {
-                case DifficultyLevels.VeryEasy:
-                    return EnemyUtil.veryEasyDifficulty;
-                case DifficultyLevels.Easy:
-                    return EnemyUtil.easyDifficulty;
-                case DifficultyLevels.Medium:
-                    return EnemyUtil.mediumDifficulty;
-                case DifficultyLevels.Hard:
-                    return EnemyUtil.hardDifficulty;
-                case DifficultyLevels.VeryHard:
-                    return EnemyUtil.veryHardDifficulty;
-                default:
-                    return EnemyUtil.mediumDifficulty;
-            }
+            SetGeneticAlgorithmSettings(difficultyLevels);
+            EvolveEnemies();
+            EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
+            return enemyFactory.GetEnemiesSOFromSolution(_generator.Solution.ToList());
         }
 
-        public List<EnemySO> EvolveEnemies(DifficultyLevels difficultyLevels)
+        private void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
         {
-            difficulty = difficultyLevels;
-            var goal = GetDesiredDifficulty();
-            var prs = new Parameters(
-                maxGenerations, // Number of generations
-                initialPopulationSize, // Initial population size
-                intermediatePopulationSize, // Intermediate population size
-                mutationRate, // Mutation chance
-                geneMutationRate, // Mutation chance of a single gene
-                numberOfCompetitors, // Number of tournament competitors
-                numberOfDesiredElitesPerEnemy,
-                minimumAcceptableFitnessPerEnemy,
-                goal // Aimed difficulty of enemies
-            );
-            generator = new EnemyGenerator(prs);
-            generator.Evolve();
-            return CreateSoBestEnemies();
+            _geneticSettings.numberOfMovements = _searchSpaceConfig.MovementSet.GetEnemyMovementCount();
+            _geneticSettings.numberOfWeapons = _searchSpaceConfig.WeaponSet.GetEnemyWeaponCount();
+            _geneticSettings.difficulty = EnemyDifficultyFactor.GetDifficultyFactor(difficultyLevels);
+            _fitnessFunction = new TopdownGame.Overlord.Inheritance.RulesGenerator.TopdownFitness();
         }
-
-        private List<EnemySO> CreateSoBestEnemies()
+        
+        private void EvolveEnemies()
         {
-            var enemyList = new List<EnemySO>();
-            foreach (var individual in generator.Solution.ToList())
-            {
-                var weaponIndex = (int)individual.Weapon.Weapon;
-                var movementIndex = (int)individual.Enemy.Movement;
-                var behaviorIndex = 0; // Behaviors are not implemented yet
-
-                EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
-                enemySo.Init(
-                    individual.Enemy.Health,
-                    individual.Enemy.Strength,
-                    individual.Enemy.MovementSpeed,
-                    individual.Enemy.ActiveTime,
-                    individual.Enemy.RestTime,
-                    EnemyComponents.weaponSet.Items[weaponIndex],
-                    EnemyComponents.movementSet.Items[movementIndex],
-                    EnemyComponents.behaviorSet.Items[behaviorIndex],
-                    individual.FitnessValue,
-                    individual.Enemy.AttackSpeed,
-                    individual.Weapon.ProjectileSpeed
-                );
-                enemyList.Add(enemySo);
-            }
-            return enemyList;
+            _generator = new EnemyGenerator(_geneticSettings, _searchSpaceConfig, _fitnessFunction);
+            _generator.Evolve();
         }
     }
 }

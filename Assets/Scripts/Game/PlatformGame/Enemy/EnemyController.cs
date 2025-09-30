@@ -104,11 +104,6 @@ namespace PlatformGame.Enemy
                 enemyMovementIndex == Enums.MovementEnum.Follow)
                 _enemyAttack.SetAttackJump(false);
         }
-        private Vector2 FollowPlayer(Vector2 playerPos, Vector2 enemyPos, ref Vector2 directionMask, bool updateMask = false) //temp for test
-        {
-            Vector2 direction = playerPos - enemyPos;
-            return direction.normalized;
-        }
 
         private void DisableInput()
         {

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Overlord.RulesGenerator.EnemyGeneration;
+using Overlord.GenerationController.Facade;
 
 namespace Game.EnemyGenerator
 {
@@ -22,14 +24,14 @@ namespace Game.EnemyGenerator
         /// The MAP-Elites map (a matrix of individuals).
         public Individual[,] map { get; }
 
+        private IEnemyFitness _fitnessFunction;
+
         /// MAP-Elites Population constructor.
-        public Population(
-            int _movement,
-            int _weapons
-        )
+        public Population(int _movement, int _weapons, IEnemyFitness fitnessFunction)
         {
             dimension = (_movement, _weapons);
             map = new Individual[dimension.movement, dimension.weapon];
+            _fitnessFunction = fitnessFunction;
         }
 
         /// Return the number of Elites of the population.
@@ -77,10 +79,10 @@ namespace Game.EnemyGenerator
         )
         {
             // Calculate the individual slot (Elite)
-            int m = (int)_individual.Enemy.Movement;
-            int w = (int)_individual.Weapon.Weapon;
+            int m = Convert.ToInt32(_individual.Enemy.Movement);
+            int w = Convert.ToInt32(_individual.Weapon.Weapon);
             // If the new individual deserves to survive
-            if (Fitness.IsBest(_individual, map[m, w]))
+            if (_fitnessFunction.IsBest(_individual, map[m, w]))
             {
                 // Then, place the individual in the MAP-Elites population
                 map[m, w] = _individual;
@@ -105,6 +107,16 @@ namespace Game.EnemyGenerator
         }
 
         /// Print all the individuals of the MAP-Elites population.
+        /*
+        public enum WeaponType
+        {
+            Barehand,    // Enemy attacks the player with barehands (Melee).
+            Sword,       // Enemy uses a short sword to damage the player (Melee).
+            Bow,         // Enemy shots projectiles towards the player (Range).
+            BombThrower, // Enemy shots bombs towards the player (Range).
+            Shield,      // Enemy uses a shield to defend itself (Defense).
+            CureSpell,   // Enemy uses magic to cure other enemies (Defense).
+        }
         public void Debug()
         {
             for (int m = 0; m < dimension.movement; m++)
@@ -112,7 +124,7 @@ namespace Game.EnemyGenerator
                 for (int w = 0; w < dimension.weapon; w++)
                 {
                     string log = "Elite ";
-                    log += ((MovementType)m) + "-";
+                    log += RulesGeneratorFacade.Instance.GetEnemyMovementType().GetMovementName(m) + "-";
                     log += ((WeaponType)w);
                     UnityEngine.Debug.Log(log);
                     if (map[m, w] is null)
@@ -127,7 +139,7 @@ namespace Game.EnemyGenerator
                 }
             }
         }
-
+        */
         public int NIndividualsBetterThan(int amount, float acceptableFitness)
         {
             var betterThanNCounter = 0;

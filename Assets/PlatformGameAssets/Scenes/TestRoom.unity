@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8e26000d23cca45a736fae52594025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTestActive: 1
+  IsTestActive: 0
   Health: 6
   Damage: 4
   MovementSpeed: 3.2
@@ -491,17 +491,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
-    type: 2}
-  <IsEnable>k__BackingField: 0
-  maxGenerations: 500
-  initialPopulationSize: 35
-  intermediatePopulationSize: 100
-  mutationRate: 20
-  geneMutationRate: 30
-  numberOfCompetitors: 2
-  numberOfDesiredElitesPerEnemy: 3
-  minimumAcceptableFitnessPerEnemy: 0.5
+  _searchSpaceConfig:
+    Status1:
+      Min: 1
+      Max: 6
+    Status2:
+      Min: 1
+      Max: 4
+    Status3:
+      Min: 0.75
+      Max: 4
+    Status4:
+      Min: 0.8
+      Max: 3.2
+    Status5:
+      Min: 1.5
+      Max: 10
+    Status6:
+      Min: 0.3
+      Max: 1.5
+    WeaponStatus1:
+      Min: 1
+      Max: 4
+    MovementSet: {fileID: 0}
+    WeaponSet: {fileID: 0}
+  ActivateManualDifficulty: 0
+  difficulties: 0
+  _geneticSettings:
+    numberOfMovements: 7
+    numberOfWeapons: 6
+    maxGenerations: 500
+    initialPopulationSize: 35
+    intermediatePopulationSize: 100
+    mutationRate: 20
+    geneMutationRate: 30
+    numberOfCompetitors: 2
+    numberOfDesiredElitesPerEnemy: 3
+    minimumAcceptableFitnessPerEnemy: 0.5
+    difficulty: 0
 --- !u!4 &1134739708
 Transform:
   m_ObjectHideFlags: 0
@@ -598,6 +625,7 @@ GameObject:
   - component: {fileID: 1379288480}
   - component: {fileID: 1379288479}
   - component: {fileID: 1379288478}
+  - component: {fileID: 1379288481}
   m_Layer: 0
   m_Name: EnemyLoader (1)
   m_TagString: Untagged
@@ -617,17 +645,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c9df50145a33842ac643226f5f75eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemyComponents>k__BackingField: {fileID: 11400000, guid: 6514d919c1d3d5141a9dff11a25b7e92,
-    type: 2}
-  <IsEnable>k__BackingField: 0
-  maxGenerations: 500
-  initialPopulationSize: 35
-  intermediatePopulationSize: 100
-  mutationRate: 20
-  geneMutationRate: 30
-  numberOfCompetitors: 2
-  numberOfDesiredElitesPerEnemy: 3
-  minimumAcceptableFitnessPerEnemy: 0.5
+  _searchSpaceConfig:
+    Status1:
+      Min: 2.0315485
+      Max: 7.0315485
+    Status2:
+      Min: 2.0315485
+      Max: 5.0315475
+    Status3:
+      Min: 0.75
+      Max: 4
+    Status4:
+      Min: 0.8
+      Max: 3.2
+    Status5:
+      Min: 1.5
+      Max: 10
+    Status6:
+      Min: 0.3
+      Max: 1.5
+    WeaponStatus1:
+      Min: 1
+      Max: 4
+    MovementSet: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22, type: 2}
+    WeaponSet: {fileID: 11400000, guid: d3e1c5a83d33b964a93da76f9ee88c7e, type: 2}
+  ActivateManualDifficulty: 0
+  difficulties: 1
+  _geneticSettings:
+    numberOfMovements: 7
+    numberOfWeapons: 6
+    maxGenerations: 500
+    initialPopulationSize: 35
+    intermediatePopulationSize: 100
+    mutationRate: 20
+    geneMutationRate: 30
+    numberOfCompetitors: 2
+    numberOfDesiredElitesPerEnemy: 3
+    minimumAcceptableFitnessPerEnemy: 0.5
+    difficulty: 0
 --- !u!114 &1379288479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,7 +696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Difficulty>k__BackingField: 4
-  <TotalEnemies>k__BackingField: 20
+  <TotalEnemies>k__BackingField: 90
   <RoomPrefab>k__BackingField: {fileID: 556261465001929205, guid: 44eec1c14eb48ee4884e20a5aa556596,
     type: 3}
   <RoomSize>k__BackingField:
@@ -691,6 +746,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1379288481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379288477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef265ce7e4dbd84bbe17dd95e0cf9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponSet: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec, type: 2}
 --- !u!1 &1620907213
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,6 +911,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4593138444518420330, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364038198673818798, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364038198673818798, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.5749512
+      objectReference: {fileID: 0}
     - target: {fileID: 6364038200235750146, guid: 57b3cbb8aea5e1f47a7b5df6efa059a4,
         type: 3}
       propertyPath: m_Name
