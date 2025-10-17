@@ -88,7 +88,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public void ChangeRoomsPercentageToValue(int roomsCount)
         {
-            NumOfRoomsToExplore = NumOfRoomsToExplore * roomsCount / 100;        
+            NumOfRoomsToExplore = NumOfRoomsToExplore * roomsCount / 100 - 1;        
         }
     }
 }
