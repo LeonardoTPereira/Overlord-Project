@@ -86,7 +86,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var gotoQuest = CreateInstance<GotoQuestSo>();
 
             if (GameManagerSingleton.Instance.IsInPortuguese)
-                gotoQuest.Init("V� para a sala marcada", false, questSos.Count > 0 ? questSos[^1] : null);
+                gotoQuest.Init("Vá para a sala marcada", false, questSos.Count > 0 ? questSos[^1] : null);
             else
                 gotoQuest.Init("Go to the marked room", false, questSos.Count > 0 ? questSos[^1] : null);
 

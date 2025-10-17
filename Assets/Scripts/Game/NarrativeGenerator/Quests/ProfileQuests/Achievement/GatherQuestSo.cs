@@ -62,7 +62,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             foreach (var itemByAmount in OriginalItemsToGatherByType)
             {
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
-                stringBuilder.Append($"{itemByAmount.Value} {itemByAmount.Key.ItemName}s {spriteString}, ");
+                stringBuilder.Append($"{itemByAmount.Key.Value} {itemByAmount.Key.ItemName}s {spriteString}, ");
             }
             if ( stringBuilder.Length > 2)
             {
