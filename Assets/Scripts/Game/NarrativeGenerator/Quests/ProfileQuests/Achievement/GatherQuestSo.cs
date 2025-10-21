@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
+using Game.GameManager;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -59,6 +60,15 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string GetItemAmountString()
         {
             var stringBuilder = new StringBuilder();
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                stringBuilder.Append("Colete ");
+            }
+            else
+            {
+                stringBuilder.Append("Collect ");
+            }
+            
             foreach (var itemByAmount in OriginalItemsToGatherByType)
             {
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
@@ -74,6 +84,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override string GetItemString()
         {
             var stringBuilder = new StringBuilder();
+
             foreach (var itemByAmount in OriginalItemsToGatherByType)
             {
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();

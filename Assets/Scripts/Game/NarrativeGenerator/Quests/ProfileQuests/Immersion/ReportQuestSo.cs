@@ -2,6 +2,7 @@ using Util;
 using System;
 using System.Collections.Generic;
 using Game.NPCs;
+using Game.GameManager;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -71,7 +72,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"{Npc.NpcName}.\n";
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                QuestText = $"Reporte para {Npc.NpcName}.\n";
+                return;
+            }
+            QuestText = $"Report to {Npc.NpcName}.\n";
         }
     }
 }

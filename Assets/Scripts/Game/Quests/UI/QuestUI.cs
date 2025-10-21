@@ -57,11 +57,13 @@ public class QuestUI : MonoBehaviour
             if (questLine.GetCurrentQuest() != null)
             {
                 questLine.GetCurrentQuest().CreateQuestString();
-                questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "")+" "+questLine.GetCurrentQuest().ToString();
+                //questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "")+" "+questLine.GetCurrentQuest().ToString();
+                questContents[0] += "\n - " + " " + questLine.GetCurrentQuest().ToString();
             }
             foreach (var quest in questLine.GetCompletedQuests())
             {
-                questContents[1] += "\n - "+quest.GetType().Name.Replace("QuestSo", "")+" "+quest.ToString();
+                //questContents[1] += "\n - "+quest.GetType().Name.Replace("QuestSo", "")+" "+quest.ToString();
+                questContents[1] += "\n - " + " " + quest.ToString();
             }
         }
         _controller.PopulateLabels(questContents);
