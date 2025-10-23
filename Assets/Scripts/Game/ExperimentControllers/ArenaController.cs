@@ -109,6 +109,4 @@ namespace Game.ExperimentControllers
             room.SpawnEnemies();
         }
     }
-
-
 }
