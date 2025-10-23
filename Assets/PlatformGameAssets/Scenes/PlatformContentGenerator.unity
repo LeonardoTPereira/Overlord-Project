@@ -425,9 +425,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.04592902
+    y: 0
     width: 1
-    height: 0.9065762
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -536,7 +536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.098000005}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.50216675, y: -2.5000038}
+  m_AnchoredPosition: {x: 0.50216675, y: -2.5}
   m_SizeDelta: {x: -1.75, y: 3.5009995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5677077938739565800
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.55
+  m_fontSize: 70.9
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -989,7 +989,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.65
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1061,12 +1061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousPanel: {fileID: 0}
   button: {fileID: 5677077940624548724}
-  levelToLoad:
-    Scene: {fileID: 102900000, guid: 6ab9f7015ab81b644a9b23f3eb5d80e2, type: 3}
-    SceneName: LevelSelector
-    sceneIndex: 8
-    sceneEnabled: 0
-  settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
+  settings: {fileID: 11400000, guid: c1acbe553922a014091bc3b5a5346807, type: 2}
   <Selected>k__BackingField: {fileID: 11400000, guid: e5e228bcc52c0e04a8167376fa2f41e5,
     type: 2}
   <chosenProjectile>k__BackingField: {fileID: 11400000, guid: adc39a0d43679ab4584a553a907ec5c1,
@@ -1307,7 +1302,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.9
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

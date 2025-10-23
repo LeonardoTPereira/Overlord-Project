@@ -29,7 +29,7 @@ namespace Game.LevelSelection
 
         protected override void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name != "LevelSelector") return;
+            if (scene.name != "LevelSelector" || scene.name != "PlatformExperimentLevelSelector") return;
             if (AllLevelsCompleted())
             {
                 InvokeCompletedLevelsEvent();

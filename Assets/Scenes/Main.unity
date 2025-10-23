@@ -906,7 +906,7 @@ PrefabInstance:
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: IsInPortuguese
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
