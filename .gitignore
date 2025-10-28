@@ -48,6 +48,7 @@
 *.opendb
 *.VC.db
 *.userprefs
+*.VSCodeCounter
 
 # Unity3D generated meta files
 *.pidb.meta

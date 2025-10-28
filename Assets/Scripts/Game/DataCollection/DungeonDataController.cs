@@ -10,13 +10,14 @@ using Game.NPCs;
 using Game.Quests;
 using System;
 using UnityEngine;
+using Overlord.ProfileAnalyst;
 
 namespace Game.DataCollection
 {
     public class DungeonDataController : MonoBehaviour
     {
         public DungeonData CurrentDungeon;
-        private PlayerProfile _inputProfile;
+        private YeePlayerProfile _inputProfile;
         
         private void Awake()
         {

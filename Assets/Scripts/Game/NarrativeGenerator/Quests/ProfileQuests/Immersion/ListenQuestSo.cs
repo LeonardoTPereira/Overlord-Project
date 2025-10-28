@@ -1,7 +1,9 @@
-using Util;
-using System;
+using Game.GameManager;
 using Game.NPCs;
+using System;
 using System.Collections.Generic;
+using System.Text;
+using Util;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -73,7 +75,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"{Npc.NpcName}.\n";
+            var stringBuilder = new StringBuilder();
+
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                QuestText = $"Fale com {Npc.NpcName}.\n";
+                return;
+            }
+            QuestText = $"Listen to {Npc.NpcName}.\n";
         }
     }
 }

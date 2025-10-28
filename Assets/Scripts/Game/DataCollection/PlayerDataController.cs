@@ -14,6 +14,7 @@ using Game.SaveLoadSystem;
 using Game.NPCs;
 using System;
 using UnityEngine;
+using Overlord.ProfileAnalyst;
 
 namespace Game.DataCollection
 {
@@ -52,7 +53,7 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
             QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
-            QuestGeneratorManager.GameplayProfileSelectedEventHandler += OnPlayerProfileUpdated;
+            PlayerProfileManager.GameplayProfileSelectedEventHandler += OnPlayerProfileUpdated;
         }
 
         private void OnDisable()
@@ -81,7 +82,7 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
             QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
-            QuestGeneratorManager.GameplayProfileSelectedEventHandler -= OnPlayerProfileUpdated;
+            PlayerProfileManager.GameplayProfileSelectedEventHandler -= OnPlayerProfileUpdated;
         }
 
         private void Awake()

@@ -9,8 +9,7 @@ namespace Game.Maestro
     {
         [SerializeField] private PlayerProfileToQuestLinesDictionary questLinesForProfile =
             new PlayerProfileToQuestLinesDictionary();
-
-        
+                
         public PlayerProfileToQuestLinesDictionary QuestLinesForProfile => questLinesForProfile;
 
         public void Add(string profile,  QuestLineList questLine)

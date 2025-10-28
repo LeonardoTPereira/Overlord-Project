@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Overlord.ProfileAnalyst;
 using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
@@ -194,7 +195,7 @@ namespace Game.NarrativeGenerator.Quests
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.NextSymbolChances = ProfileCalculator.StartSymbolWeights;
+                lastSelectedQuest.NextSymbolChances = YeeProfileCalculator.StartSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();

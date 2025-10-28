@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using Game.Events;
+using Util;
 
 namespace Game.GameManager
 {
@@ -14,6 +15,7 @@ namespace Game.GameManager
     {
         // TODO: Replace type code with class 
         public bool IsInPortuguese = false;
+        public Enums.GameType GameType;
         public static GameManagerSingleton Instance { get; private set; }
         [field: SerializeField] public ProjectileTypeSO playerProjectile { get; set; }
 

@@ -2,6 +2,7 @@ using ScriptableObjects;
 using System.Collections.Generic;
 using Util;
 using System;
+using Game.GameManager;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -66,7 +67,13 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         public override void CreateQuestString()
         {
-            QuestText = $"{ItemToRead.ItemName}.\n";
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                QuestText = $"Leia {ItemToRead.ItemName}.\n";
+                return;
+            }
+
+            QuestText = $"Read the {ItemToRead.ItemName}.\n";
         }
     }
 }

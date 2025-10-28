@@ -32,29 +32,29 @@ namespace ScriptableObjects
                 switch (text)
                 {
                     case 0:
-                        return "Ningu�m sabe por que Valentine est� t�o mal-humorado, mas alguns dizem foi por causa do que aconteceu no �ltimo Dia dos Namorados.";
+                        return "Ninguém sabe por que Valentine está tão mal-humorado, mas alguns dizem foi por causa do que aconteceu no último Dia dos Namorados.";
                     case 1:
-                        return "[...] Dizem que ainda est�o procurando uma cura para a maldi��o que tirou seus dias de calma [...]";
+                        return "[...] Dizem que ainda estão procurando uma cura para a maldição que tirou seus dias de calma [...]";
                     case 2:
-                        return "A Porta Perdida de Alas - Uma Hist�ria Completa";
+                        return "A Porta Perdida de Alas - Uma História Completa";
                     case 3:
-                        return "As lendas dizem que Alasdoor j� foi apenas uma porta muito grande.";
+                        return "As lendas dizem que Alasdoor já foi apenas uma porta muito grande.";
                     case 4:
-                        return "Voc� achou que isso seria uma parte importante da hist�ria? Achou errado, ordin�rio!"; // Culture shock's reference
+                        return "Você achou que isso seria uma parte importante da história? Achou errado, ordinário!"; // Culture shock's reference
                     case 5:
-                        return "O tri�ngulo que voc� procura, voc� sabe o que ele significa?";
+                        return "O triângulo que você procura, você sabe o que ele significa?";
                     case 6:
-                        return "A feiticeira respons�vel pelo feiti�o est� escondida em algum lugar da floresta.";
+                        return "A feiticeira responsável pelo feitiço está escondida em algum lugar da floresta.";
                     case 7:
-                        return "Ningu�m conhece seu nome real, apenas que ela � uma bruxa poderosa.";
+                        return "Ninguém conhece seu nome real, apenas que ela é uma bruxa poderosa.";
                     case 8:
-                        return "INGREDIENTES: FARINHA ENRIQUECIDA, �LEO DE PALMA, SAL, FLOCOS DE CENOURA DESIDRATADA, CONT�M MENOS DE 2% DE EXTRATO DE LEVEDURA AUTOLISADO, �CIDO C�TRICO, SUCO CONCENTRADO DE REPOLHO VERDE E L�TEX NATURAL.";
+                        return "INGREDIENTES: FARINHA ENRIQUECIDA, ÓLEO DE PALMA, SAL, FLOCOS DE CENOURA DESIDRATADA, CONTÉM MENOS DE 2% DE EXTRATO DE LEVEDURA AUTOLISADO, ÁCIDO CÍTRICO, SUCO CONCENTRADO DE REPOLHO VERDE E LÁTEX NATURAL.";
                     case 9:
-                        return "As paredes parecem ter se fechado atr�s de mim. Como entrei neste lugar?";
+                        return "As paredes parecem ter se fechado atrás de mim. Como entrei neste lugar?";
                     case 10:
-                        return "A receita secreta pode estar escondida em algum lugar deste calabou�o. Eu prometi ao meu pai que a encontraria... mas nem consigo ver a sa�da.";
+                        return "A receita secreta pode estar escondida em algum lugar deste calabouço. Eu prometi ao meu pai que a encontraria... mas nem consigo ver a saída.";
                     default:
-                        return "Acho que voc� n�o deveria estar lendo isso.";
+                        return "Acho que você não deveria estar lendo isso.";
                 }
             }
             else

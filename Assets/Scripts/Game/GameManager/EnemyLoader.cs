@@ -146,6 +146,7 @@ namespace Game.GameManager
                 Debug.LogError("Enemy list for Dungeon is Null");
             }
         }
+
         public static MovementType GetMovementType(MovementEnum moveTypeEnum)
         {
             switch (moveTypeEnum)

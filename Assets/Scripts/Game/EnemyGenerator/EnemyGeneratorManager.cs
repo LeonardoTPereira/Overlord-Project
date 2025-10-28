@@ -47,6 +47,7 @@ namespace Game.EnemyGenerator
             SetGeneticAlgorithmSettings(difficultyLevels);
             EvolveEnemies();
             EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
+            var test = _generator.Solution.ToList();
             return enemyFactory.GetEnemiesSOFromSolution(_generator.Solution.ToList());
         }
 

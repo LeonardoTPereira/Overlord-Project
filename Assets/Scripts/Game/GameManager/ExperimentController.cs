@@ -1,4 +1,5 @@
-﻿using Game.Events;
+﻿using Overlord.ProfileAnalyst;
+using Game.Events;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
@@ -31,7 +32,7 @@ namespace Game.GameManager
         // [SerializeField, MustBeAssigned]
         // private PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLinesDictionarySo;
 
-        private PlayerProfile selectedProfile;
+        private YeePlayerProfile selectedProfile;
         private List<QuestLineList> _questLinesListForProfile;
 
         public static bool UseFixedProfile => _useFixedProfile;

@@ -171,9 +171,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.044025157
+    y: 0
     width: 1
-    height: 0.9103773
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -972,7 +972,7 @@ MonoBehaviour:
   - {fileID: 3382516356014073530}
   - {fileID: 6435992424789036167}
   - {fileID: 8446094776650353115}
-  settings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
+  settings: {fileID: 11400000, guid: c1acbe553922a014091bc3b5a5346807, type: 2}
 --- !u!114 &1437280578
 MonoBehaviour:
   m_ObjectHideFlags: 0

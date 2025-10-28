@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.LevelManager.DungeonLoader;
-using Game.NarrativeGenerator;
+using Overlord.ProfileAnalyst;
 using UnityEngine;
 using Util;
 #if !UNITY_WEBGL || UNITY_EDITOR
@@ -265,7 +265,7 @@ namespace Game.DataCollection
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
-        [field: SerializeField] public PlayerProfile InputProfile { get; set; }
+        [field: SerializeField] public YeePlayerProfile InputProfile { get; set; }
 
         private float _startTime;
         private int _currentCombo;
@@ -411,6 +411,8 @@ namespace Game.DataCollection
 
         public void OnRoomExit()
         {
+            var test = _currentRoom;
+            var test2 = _currentRoom;
             _currentRoom.ExitRoom();
         }
 

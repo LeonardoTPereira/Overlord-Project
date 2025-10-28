@@ -43,7 +43,7 @@ namespace Game.NPCs
         {
             var questDialogue = new StringBuilder();
             questDialogue.Append(DialogueQuestCheckPoint.CreateQuestCheckPoint(checkPointQuest, speaker));
-            questDialogue.Append($"<checkpoint={checkPointQuest.NpcInCharge}, {checkPointQuest.Id}>");
+            questDialogue.Append($"<checkpoint={checkPointQuest.NpcInCharge.NpcName}, {checkPointQuest.Id}>");
             return questDialogue.ToString();
         }
         
@@ -51,7 +51,7 @@ namespace Game.NPCs
         {
             var questExchangeDialogue = new StringBuilder();
 
-            questExchangeDialogue.Append($"{quest.NpcInCharge} sent you to deliver me this {quest.GetItemString()}? ");
+            questExchangeDialogue.Append($"{quest.NpcInCharge.NpcName} sent you to deliver me this {quest.GetItemString()}? ");
             var spriteString = quest.ExchangeData.ReceivedItem.GetToolSpriteString();
             questExchangeDialogue.Append($"Take this {quest.ExchangeData.ReceivedItem.ItemName} {spriteString} for your troubles.");
             questExchangeDialogue.Append($"<trade={npc.NpcName}, {quest.Id}>");

@@ -7,7 +7,6 @@ using Game.NPCs;
 using Game.GameManager;
 using System.Linq;
 using System.Text;
-using Game.GameManager;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using MyBox;

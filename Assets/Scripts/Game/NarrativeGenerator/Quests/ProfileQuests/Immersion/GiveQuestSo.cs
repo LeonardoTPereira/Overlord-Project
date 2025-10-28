@@ -105,9 +105,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
 
             if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
-                QuestText = $"o item {GiveQuestData.ItemToGive.ItemName} {spriteString} para {GiveQuestData.NpcToReceive.NpcName}.\n";
+                QuestText = $"Entregue o item {GiveQuestData.ItemToGive.ItemName} {spriteString} para {GiveQuestData.NpcToReceive.NpcName}.\n";
             else
-                QuestText = $"the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
+                QuestText = $"Give the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";
         }
     }
 }

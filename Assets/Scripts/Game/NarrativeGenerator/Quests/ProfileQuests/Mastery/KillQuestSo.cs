@@ -117,6 +117,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         public override void CreateQuestString()
         {
             var stringBuilder = new StringBuilder();
+
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                stringBuilder.Append("Derrote ");
+            }
+            else
+            {
+                stringBuilder.Append("Kill ");
+            }
+
             foreach (var enemyByAmount in OriginalEnemiesToKillByType.EnemiesByTypeDictionary)
             {
                 var spriteString = enemyByAmount.Key.GetEnemySpriteString( GameManagerSingleton.Instance.IsInPortuguese );

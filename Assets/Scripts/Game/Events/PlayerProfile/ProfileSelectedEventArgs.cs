@@ -1,4 +1,4 @@
-﻿using Game.NarrativeGenerator;
+﻿using Overlord.ProfileAnalyst;
 using System;
 
 namespace Game.Events
@@ -7,13 +7,13 @@ namespace Game.Events
 
     public class ProfileSelectedEventArgs : EventArgs
     {
-        private PlayerProfile playerProfile;
+        private YeePlayerProfile playerProfile;
 
-        public ProfileSelectedEventArgs(PlayerProfile playerProfile)
+        public ProfileSelectedEventArgs(YeePlayerProfile playerProfile)
         {
             PlayerProfile = playerProfile;
         }
 
-        public PlayerProfile PlayerProfile { get => playerProfile; set => playerProfile = value; }
+        public YeePlayerProfile PlayerProfile { get => playerProfile; set => playerProfile = value; }
     }
 }

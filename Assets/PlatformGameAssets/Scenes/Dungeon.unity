@@ -1260,7 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 1512521591}
+  m_BoundingShape2D: {fileID: 0}
   m_Damping: 0.5
   m_MaxWindowSize: -1
 --- !u!1001 &1329829065
@@ -1763,17 +1763,7 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1512521593}
-    m_ColliderPaths:
-    - - X: 468636256
-        Y: 288717696
-      - X: -605305088
-        Y: 288717696
-      - X: -605305088
-        Y: -146858848
-      - X: 468636256
-        Y: -146858848
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 46.863598, y: -14.685885}
@@ -1859,7 +1849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1533688676
 Transform:
   m_ObjectHideFlags: 0
@@ -2587,7 +2577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937769441}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.941587, y: 14.361759, z: -10}
+  m_LocalPosition: {x: 15.4, y: 18.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2762,7 +2752,7 @@ MonoBehaviour:
   - {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236, type: 3}
   roomBehavior: {fileID: 556261465001929205, guid: 2278f8e3e0ad0bd46ac3187aeb09d236,
     type: 3}
-  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+  <CurrentGeneratorSettings>k__BackingField: {fileID: 11400000, guid: c1acbe553922a014091bc3b5a5346807,
     type: 2}
 --- !u!114 &1990492721
 MonoBehaviour:
@@ -5140,7 +5130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hasCheckbox: 1
-  questionsData: {fileID: 11400000, guid: 85849b9c8b4ee7d448ad7292254525ca, type: 2}
+  enQuestionsData: {fileID: 0}
+  ptQuestionsData: {fileID: 0}
   questionPrefab: {fileID: 1682351134811150, guid: af976e41556f4834fb617eed26a59437,
     type: 3}
   checkboxPrefab: {fileID: 1682351134811150, guid: e568e9770b129f645a7613baee9c23a1,
@@ -8511,7 +8502,7 @@ MonoBehaviour:
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1937769443}
 --- !u!1 &5992177252708405646
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,14 +5,16 @@ using UnityEngine;
 using Firebase.Firestore;
 #endif
 
-namespace Game.NarrativeGenerator
+namespace Overlord.ProfileAnalyst
 {
     #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreData]
     #endif
     [Serializable]
-    public class PlayerProfile
+    public class YeePlayerProfile: IPlayerProfile
     {
+        public string PlayerProfilingType => "Yee";
+        public bool IsFixedFromExperiment { get; set; }
         [Serializable]
         public enum PlayerProfileCategory
         {
@@ -44,7 +46,7 @@ namespace Game.NarrativeGenerator
         #endif 
         [field: SerializeField] public float AchievementPreference { get; set; }
         
-        public PlayerProfile()
+        public YeePlayerProfile()
         {
             PlayerProfileEnum = PlayerProfileCategory.Null;
             AchievementPreference = -1;

@@ -842,6 +842,12 @@ PrefabInstance:
       propertyPath: selectedLevels
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _playerProfileToQuestLines
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+        type: 2}
     - target: {fileID: 3829912036086566211, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: m_RootOrder
@@ -900,7 +906,7 @@ PrefabInstance:
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: IsInPortuguese
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566212, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -938,6 +944,22 @@ PrefabInstance:
       propertyPath: dungeonEntrances.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6110972009190716361, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 6110972009190716361, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _playerDataController
+      value: 
+      objectReference: {fileID: 3829912036038089748}
+    - target: {fileID: 6110972009190716361, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: dungeonDataController
+      value: 
+      objectReference: {fileID: 3829912036038089746}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
 --- !u!1 &3829912036038089744 stripped
@@ -959,6 +981,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 6fc744b0-8ce3-48b1-8c9b-484fe5df9d1f
+--- !u!114 &3829912036038089746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 699963817, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3829912036038089743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829912036038089744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853568197a854080bcc7901b42468a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3829912036038089748 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 699963818, guid: c1496f6ed7dad834a8f8428a619dfdd6,

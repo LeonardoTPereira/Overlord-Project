@@ -152,6 +152,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             var stringBuilder = new StringBuilder();
             string spriteString;
+
+            if (GameManagerSingleton.Instance.IsInPortuguese)
+            {
+                stringBuilder.Append("Troque ");
+            }
+            else
+            {
+                stringBuilder.Append("Trade ");
+            }
+
             foreach (var itemByAmount in OriginalItemsToExchangeByType)
             {                
                 stringBuilder.Append($"{itemByAmount.Value.QuestIds.Count} {itemByAmount.Key.ItemName}s, ");
