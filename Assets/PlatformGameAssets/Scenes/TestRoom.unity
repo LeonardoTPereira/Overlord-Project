@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 498340299}
   - component: {fileID: 498340298}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInPortuguese: 0
+  GameType: 0
   <playerProjectile>k__BackingField: {fileID: 0}
   experimentSelectorScreen:
     Scene: {fileID: 0}

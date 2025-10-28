@@ -411,6 +411,8 @@ namespace Game.DataCollection
 
         public void OnRoomExit()
         {
+            var test = _currentRoom;
+            var test2 = _currentRoom;
             _currentRoom.ExitRoom();
         }
 

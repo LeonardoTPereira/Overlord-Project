@@ -44,8 +44,6 @@ namespace Game.LevelManager.DungeonLoader
             PlayBackgroundMusic();
             SetGameOverCurrentLevel();
             LoadSecondaryScenes();
-
-
             StartCoroutine(_dungeonLoader.OnStartMap(_currentDungeonSo.BiomeName));
         }
 

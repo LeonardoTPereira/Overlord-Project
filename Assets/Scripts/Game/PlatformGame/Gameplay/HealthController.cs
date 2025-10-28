@@ -27,6 +27,11 @@ namespace Gameplay
             Health = maxHealth;
         }
 
+        public int GetHealth()
+        {
+            return Health;
+        }
+
         public virtual void TakeDamage(int damage)
         {
             if (!_canTakeDamage) return;
