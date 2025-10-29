@@ -1,5 +1,4 @@
 ﻿using Game.Dialogues;
-using Game.EnemyGenerator;
 using Game.Events;
 using Game.GameManager;
 using Game.LevelManager;
@@ -16,6 +15,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.ExperimentControllers
 {

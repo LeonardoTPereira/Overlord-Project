@@ -3,7 +3,7 @@ using UnityEngine;
 using Util;
 using static Codice.Client.Common.Connection.AskCredentialsToUser;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// This class holds the crossover operator.
     public static class Crossover

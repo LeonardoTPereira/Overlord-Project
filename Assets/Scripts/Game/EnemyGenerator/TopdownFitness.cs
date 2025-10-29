@@ -1,4 +1,4 @@
-using Game.EnemyGenerator;
+using Overlord.RulesGenerator.EnemyGeneration;
 using Overlord.GenerationController.Facade;
 using System;
 using System.Linq;

@@ -1,7 +1,6 @@
 //TODO: Organizar os scripts relacionados abaixo em um numero menor de namespaces
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.EnemyGenerator;
 using Game.Events;
 using Game.ExperimentControllers;
 using Game.LevelGenerator;
@@ -19,6 +18,7 @@ using UnityEngine;
 using Util;
 using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.NarrativeGenerator
 {

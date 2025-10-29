@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Util;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     //EnemyGeneticAlgorithm
     public class EnemyGenerator

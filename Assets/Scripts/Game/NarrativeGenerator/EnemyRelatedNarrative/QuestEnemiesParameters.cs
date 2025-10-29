@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Game.EnemyGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.RulesGenerator.EnemyGeneration;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.EnemyRelatedNarrative

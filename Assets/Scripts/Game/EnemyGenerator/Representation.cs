@@ -1,9 +1,7 @@
 using System;
 using Util;
-using Overlord.RulesGenerator.EnemyGeneration;
-using Overlord.GenerationController.Facade;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// This class represents an individual.
     ///
@@ -90,9 +88,9 @@ namespace Game.EnemyGenerator
             WeaponData w = new WeaponData(weaponType, projectileSpeed);
             // Combine the genes to create a new individual
             Individual individual = new Individual(e, w);
-            individual.DifficultyLevel = Common.UNKNOWN;
-            individual.Generation = Common.UNKNOWN;
-            individual.FitnessValue = Common.UNKNOWN;
+            individual.DifficultyLevel = -1;
+            individual.Generation = -1;
+            individual.FitnessValue = -1;
             return individual;
         }
     }

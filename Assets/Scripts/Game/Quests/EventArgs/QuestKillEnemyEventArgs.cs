@@ -1,5 +1,4 @@
-﻿using Game.EnemyGenerator;
-using ScriptableObjects;
+﻿using ScriptableObjects;
 
 namespace Game.Quests
 {

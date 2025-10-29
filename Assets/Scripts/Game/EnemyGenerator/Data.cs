@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// <summary>
     /// Holds the most relevant data of the evolutionary process.

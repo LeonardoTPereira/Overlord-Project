@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Overlord.RulesGenerator.EnemyGeneration;
 using Overlord.GenerationController.Facade;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// Alias for the coordinate of MAP-Elites matrix.
     using Coordinate = System.ValueTuple<int, int>;

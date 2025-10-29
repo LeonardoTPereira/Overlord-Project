@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Game.EnemyGenerator;
-
-public interface IEnemyFitness
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
-    void SetSearchSpace(SearchSpaceConfig searchSpace);
-    void Calculate(ref Individual _individual, float goal);
-    bool IsBest(Individual _i1, Individual _i2);
+    /// This interface defines the fitness function for enemy generation.
+    public interface IEnemyFitness
+    {
+        void SetSearchSpace(SearchSpaceConfig searchSpace);
+        void Calculate(ref Individual _individual, float goal);
+        bool IsBest(Individual _i1, Individual _i2);
+    }
 }

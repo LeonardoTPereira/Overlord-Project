@@ -3,8 +3,9 @@ using ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
 using Overlord.GenerationController.Facade;
+using System.Linq;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     public class EnemyGeneratorManager : MonoBehaviour
     {
