@@ -1,5 +1,4 @@
-﻿using MyBox;
-using ScriptableObjects;
+using MyBox;
 using System.Collections.Generic;
 using UnityEngine;
 using Overlord.GenerationController.Facade;
@@ -19,7 +18,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 
         private EnemyGenerator _generator;
         private RulesGeneratorFacade _rulesFacade;
-        private IEnemyFitness _fitnessFunction;
+        protected IEnemyFitness _fitnessFunction;
 
         public static EnemyGeneratorManager Instance { get; private set; } = null;
 
@@ -39,27 +38,25 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             _rulesFacade.SetEnemyMovementType(_searchSpaceConfig.MovementSet);
             if (ActivateManualDifficulty)
             {
-                GetEnemyList(difficulties);
+                //GetEnemyList(difficulties);
             }
         }
 
-        public List<EnemySO> GetEnemyList(DifficultyLevels difficultyLevels)
+        public List<Individual> GetEnemies(DifficultyLevels difficultyLevels)
         {
             SetGeneticAlgorithmSettings(difficultyLevels);
             EvolveEnemies();
-            EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
-            var test = _generator.Solution.ToList();
-            return enemyFactory.GetEnemiesSOFromSolution(_generator.Solution.ToList());
+            return _generator.Solution.ToList();
         }
 
-        private void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
+        public virtual void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
         {
             _geneticSettings.numberOfMovements = _searchSpaceConfig.MovementSet.GetEnemyMovementCount();
             _geneticSettings.numberOfWeapons = _searchSpaceConfig.WeaponSet.GetEnemyWeaponCount();
             _geneticSettings.difficulty = EnemyDifficultyFactor.GetDifficultyFactor(difficultyLevels);
-            _fitnessFunction = new TopdownGame.Overlord.Inheritance.RulesGenerator.TopdownFitness();
+            _fitnessFunction = new GenericEnemyFitness();
         }
-        
+
         private void EvolveEnemies()
         {
             _generator = new EnemyGenerator(_geneticSettings, _searchSpaceConfig, _fitnessFunction);
