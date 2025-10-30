@@ -63,7 +63,9 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             UnityEngine.Debug.Log("");
         }
 
-        /// Return a random individual.
+        /// Return a random individual. 
+        /// The name of the variables (health, strength, etc.) are related to other games, 
+        /// so you can consider them as generic attributes (stat1, stat2, etc.).
         public static Individual GetRandom(SearchSpaceConfig searchSpace)
         {
             // Create a random enemy
