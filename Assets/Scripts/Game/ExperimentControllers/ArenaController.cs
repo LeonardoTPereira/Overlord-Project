@@ -16,6 +16,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
 using Overlord.RulesGenerator.EnemyGeneration;
+using Topdown.Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.ExperimentControllers
 {

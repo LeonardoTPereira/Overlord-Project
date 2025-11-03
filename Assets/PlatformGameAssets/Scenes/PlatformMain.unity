@@ -841,6 +841,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
+      propertyPath: _playerProfileToQuestLines
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
       propertyPath: <CurrentGeneratorSettings>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: c1acbe553922a014091bc3b5a5346807,

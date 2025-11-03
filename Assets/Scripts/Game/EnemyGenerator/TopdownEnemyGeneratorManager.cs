@@ -1,11 +1,9 @@
 ﻿using MyBox;
 using ScriptableObjects;
 using System.Collections.Generic;
-using UnityEngine;
-using Overlord.GenerationController.Facade;
-using System.Linq;
+using Overlord.RulesGenerator.EnemyGeneration;
 
-namespace Overlord.RulesGenerator.EnemyGeneration
+namespace Topdown.Overlord.RulesGenerator.EnemyGeneration
 {
     public class TopdownEnemyGeneratorManager : EnemyGeneratorManager
     {
