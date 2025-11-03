@@ -25,21 +25,21 @@ namespace Game.NarrativeGenerator
     [RequireComponent(typeof(PlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
     public class QuestGeneratorManager : MonoBehaviour
     {
-        [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
-        public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
-
-        [SerializeReference, SerializeField] private QuestLineList questLines;        
-
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
-        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
-        private LevelGeneratorManager _levelGeneratorManager;
-
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+
+        public static event ProfileSelectedEvent ProfileSelectedEventHandler;
+        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
-        
+
+        [MustBeAssigned, SerializeReference, SerializeField]
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
+        [SerializeReference, SerializeField] private QuestLineList questLines;
+
+        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
+        private LevelGeneratorManager _levelGeneratorManager;
+                
         public void OnEnable()
         {
             PlayerProfileManager.ProfileSelected += HandleProfileSelected;
@@ -74,7 +74,6 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateNarrative(YeePlayerProfile playerProfile)
         {
-            //SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestLine(playerProfile);
             questLines.TargetProfile = playerProfile;
             await CreateContentsForQuestLine();
