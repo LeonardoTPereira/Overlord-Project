@@ -38,7 +38,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             _rulesFacade.SetEnemyMovementType(_searchSpaceConfig.MovementSet);
             if (ActivateManualDifficulty)
             {
-                //GetEnemyList(difficulties);
+                GetEnemies(difficulties);
             }
         }
 
