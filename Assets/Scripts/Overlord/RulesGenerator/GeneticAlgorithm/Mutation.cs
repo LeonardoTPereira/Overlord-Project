@@ -2,7 +2,7 @@ using Util;
 using System;
 using Codice.Client.Common;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// This class holds the mutation operator.
     public static class Mutation

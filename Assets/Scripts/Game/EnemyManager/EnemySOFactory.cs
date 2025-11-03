@@ -6,7 +6,7 @@ using UnityEngine;
 using Util;
 using System.IO;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     public class EnemySOFactory: MonoBehaviour
     {

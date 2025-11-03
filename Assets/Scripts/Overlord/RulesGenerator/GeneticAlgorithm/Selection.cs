@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Util;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// Alias for the coordinate of MAP-Elites matrix.
     using Coordinate = System.ValueTuple<int, int>;
@@ -77,7 +77,7 @@ namespace Game.EnemyGenerator
             }
             // Find the tournament winner and its coordinate in the population
             Individual winner = null;
-            Coordinate coordinate = (Common.UNKNOWN, Common.UNKNOWN);
+            Coordinate coordinate = (-1, -1);
             for (int i = 0; i < _competitors; i++)
             {
                 if (fitnessFunction.IsBest(competitors[i], winner))

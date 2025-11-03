@@ -1,7 +1,6 @@
 //TODO: Organizar os scripts relacionados abaixo em um numero menor de namespaces
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.EnemyGenerator;
 using Game.Events;
 using Game.ExperimentControllers;
 using Game.LevelGenerator;
@@ -19,10 +18,11 @@ using UnityEngine;
 using Util;
 using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator;
+using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.NarrativeGenerator
 {
-    [RequireComponent(typeof(PlayerProfileManager), typeof(EnemyGeneratorManager), typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(PlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
     public class QuestGeneratorManager : MonoBehaviour
     {
         [MustBeAssigned, SerializeReference, SerializeField]
@@ -33,7 +33,7 @@ namespace Game.NarrativeGenerator
         [SerializeReference, SerializeField] private QuestLineList questLines;        
 
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
-        private EnemyGeneratorManager _enemyGeneratorManager;
+        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
 
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
@@ -68,7 +68,7 @@ namespace Game.NarrativeGenerator
         
         private void Start()
         {
-            _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
+            _enemyGeneratorManager = GetComponent<TopdownEnemyGeneratorManager>();
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
@@ -92,7 +92,7 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateContentsForQuestLine()
         {
-            questLines.EnemySos = _enemyGeneratorManager.GetEnemyList(questLines.EnemyParametersForQuestLines.Difficulty);
+            questLines.EnemySos = _enemyGeneratorManager.GetEnemySOList(questLines.EnemyParametersForQuestLines.Difficulty);
             questLines.NpcSos = CurrentGeneratorSettings.PlaceholderNpcs;
             questLines.ItemSos = new List<ItemSo>(CurrentGeneratorSettings.PlaceholderItems.Items);
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();

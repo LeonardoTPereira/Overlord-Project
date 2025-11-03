@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Overlord.RulesGenerator;
 using Overlord.RulesGenerator.EnemyGeneration;
-using Game.EnemyGenerator;
 
 namespace Overlord.GenerationController.Facade
 {    

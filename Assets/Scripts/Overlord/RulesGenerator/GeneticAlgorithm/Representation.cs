@@ -1,9 +1,7 @@
 using System;
 using Util;
-using Overlord.RulesGenerator.EnemyGeneration;
-using Overlord.GenerationController.Facade;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     /// This class represents an individual.
     ///
@@ -65,7 +63,9 @@ namespace Game.EnemyGenerator
             UnityEngine.Debug.Log("");
         }
 
-        /// Return a random individual.
+        /// Return a random individual. 
+        /// The name of the variables (health, strength, etc.) are related to other games, 
+        /// so you can consider them as generic attributes (stat1, stat2, etc.).
         public static Individual GetRandom(SearchSpaceConfig searchSpace)
         {
             // Create a random enemy
@@ -90,9 +90,9 @@ namespace Game.EnemyGenerator
             WeaponData w = new WeaponData(weaponType, projectileSpeed);
             // Combine the genes to create a new individual
             Individual individual = new Individual(e, w);
-            individual.DifficultyLevel = Common.UNKNOWN;
-            individual.Generation = Common.UNKNOWN;
-            individual.FitnessValue = Common.UNKNOWN;
+            individual.DifficultyLevel = -1;
+            individual.Generation = -1;
+            individual.FitnessValue = -1;
             return individual;
         }
     }

@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using Overlord.RulesGenerator.EnemyGeneration;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     [System.Serializable]
     public class EnemyGeneratorGeneticAlgorithmSettings

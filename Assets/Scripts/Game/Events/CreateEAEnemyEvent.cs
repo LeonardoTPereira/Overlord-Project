@@ -1,4 +1,4 @@
-using Game.EnemyGenerator;
+using Overlord.RulesGenerator.EnemyGeneration;
 using System;
 
 namespace Game.Events

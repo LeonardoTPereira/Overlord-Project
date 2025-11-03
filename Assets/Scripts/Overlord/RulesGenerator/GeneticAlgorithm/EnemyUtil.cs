@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.EnemyGenerator
+namespace Overlord.RulesGenerator.EnemyGeneration
 {
     [Serializable]
     public enum DifficultyLevels
