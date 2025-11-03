@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Overlord.ProfileAnalyst
 {
-    public class PlayerProfileManager : MonoBehaviour
+    public class TopdownPlayerProfileManager : MonoBehaviour
     {
         public static event Action<IPlayerProfile> ProfileSelected;
 

@@ -22,7 +22,7 @@ using Overlord.RulesGenerator.EnemyGeneration;
 
 namespace Game.NarrativeGenerator
 {
-    [RequireComponent(typeof(PlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
     public class QuestGeneratorManager : MonoBehaviour
     {
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
@@ -42,12 +42,12 @@ namespace Game.NarrativeGenerator
                 
         public void OnEnable()
         {
-            PlayerProfileManager.ProfileSelected += HandleProfileSelected;
+            TopdownPlayerProfileManager.ProfileSelected += HandleProfileSelected;
         }
 
         public void OnDisable()
         {
-            PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
+            TopdownPlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
         private async void HandleProfileSelected(IPlayerProfile profile)

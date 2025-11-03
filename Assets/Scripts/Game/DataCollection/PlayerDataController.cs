@@ -53,7 +53,7 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler += OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
             QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
-            PlayerProfileManager.GameplayProfileSelectedEventHandler += OnPlayerProfileUpdated;
+            TopdownPlayerProfileManager.GameplayProfileSelectedEventHandler += OnPlayerProfileUpdated;
         }
 
         private void OnDisable()
@@ -82,7 +82,7 @@ namespace Game.DataCollection
             FormBhv.PostTestFormQuestionAnsweredEventHandler -= OnPostTestFormAnswered;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
             QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
-            PlayerProfileManager.GameplayProfileSelectedEventHandler -= OnPlayerProfileUpdated;
+            TopdownPlayerProfileManager.GameplayProfileSelectedEventHandler -= OnPlayerProfileUpdated;
         }
 
         private void Awake()
