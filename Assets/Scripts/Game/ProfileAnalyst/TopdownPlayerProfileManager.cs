@@ -3,17 +3,16 @@ using Game.Events;
 using Game.ExperimentControllers;
 using Game.GameManager;
 using Game.LevelSelection;
-using Game.NarrativeGenerator;
 using MyBox;
 using System;
 using UnityEngine;
+using Overlord.ProfileAnalyst;
+using Game.Overlord.ProfileAnalyst;
 
-namespace Overlord.ProfileAnalyst
+namespace Topdown.Overlord.ProfileAnalyst
 {
-    public class TopdownPlayerProfileManager : MonoBehaviour
+    public class TopdownPlayerProfileManager : PlayerProfileManager
     {
-        public static event Action<IPlayerProfile> ProfileSelected;
-
         [field: SerializeField, MustBeAssigned] private PlayerDataController _playerDataController;
         [field: SerializeField, MustBeAssigned] private DungeonDataController dungeonDataController;
         [field: SerializeField, MustBeAssigned] private GeneratorSettings generatorSettings;
@@ -44,16 +43,15 @@ namespace Overlord.ProfileAnalyst
 
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
-            var profile = _profileCalculator.CreateProfileFromNarrative(e);
-            ProfileSelected?.Invoke(profile);
+            var playerProfile = _profileCalculator.CreateProfileFromNarrative(e);
+            InvokeEventOnSelectedProfile(playerProfile);
         }
 
         private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
             var playerProfile = _profileCalculator.CreateProfileFromFormAnswers(e.AnswerValue, generatorSettings);
             playerProfile.IsFixedFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
-
-            ProfileSelected?.Invoke(playerProfile);
+            InvokeEventOnSelectedProfile(playerProfile);
             //ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs((YeePlayerProfile)playerProfile));
         }
 
@@ -62,7 +60,7 @@ namespace Overlord.ProfileAnalyst
             foreach (var formAnsweredArgs in e.Answers)
             {
                 var playerProfile = _profileCalculator.CreateProfileFromFormAnswers(formAnsweredArgs.AnswerValue, generatorSettings);
-                ProfileSelected?.Invoke(playerProfile);
+                InvokeEventOnSelectedProfile(playerProfile);
             }
         }
 
@@ -73,7 +71,7 @@ namespace Overlord.ProfileAnalyst
             {
                 playerProfile = (YeePlayerProfile)_profileCalculator.CreateProfileFromGameplay(_playerDataController.CurrentPlayer, _playerDataController.CurrentPlayer.CurrentDungeon);
             }
-            ProfileSelected?.Invoke(playerProfile);
+            InvokeEventOnSelectedProfile(playerProfile);
             GameplayProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
     }

@@ -2,8 +2,9 @@ using Game.DataCollection;
 using Game.Events;
 using Game.ExperimentControllers;
 using System.Collections.Generic;
+using Overlord.ProfileAnalyst;
 
-namespace Overlord.ProfileAnalyst
+namespace Game.Overlord.ProfileAnalyst
 {
     public interface IPlayerProfileCalculator
     {

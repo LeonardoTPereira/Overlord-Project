@@ -18,8 +18,8 @@ using UnityEngine;
 using Util;
 using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator;
-using Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.RulesGenerator.EnemyGeneration;
+using Topdown.Overlord.ProfileAnalyst;
 
 namespace Game.NarrativeGenerator
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Overlord.ProfileAnalyst;
+using Game.Overlord.ProfileAnalyst;
 using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;

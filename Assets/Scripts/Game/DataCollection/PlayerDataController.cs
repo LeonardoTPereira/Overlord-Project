@@ -14,7 +14,7 @@ using Game.SaveLoadSystem;
 using Game.NPCs;
 using System;
 using UnityEngine;
-using Overlord.ProfileAnalyst;
+using Topdown.Overlord.ProfileAnalyst;
 
 namespace Game.DataCollection
 {

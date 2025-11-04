@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +7,11 @@ namespace Overlord.ProfileAnalyst
 {
     public class PlayerProfileManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        public static event Action<IPlayerProfile> ProfileSelected;
+
+        protected virtual void InvokeEventOnSelectedProfile(IPlayerProfile profile)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            ProfileSelected?.Invoke(profile);
         }
     }
 }

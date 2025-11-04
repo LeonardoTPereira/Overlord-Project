@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Util;
 using static Util.Enums;
+using Overlord.ProfileAnalyst;
 
-namespace Overlord.ProfileAnalyst
+namespace Game.Overlord.ProfileAnalyst
 {
     public class YeeProfileCalculator: IPlayerProfileCalculator
     {
