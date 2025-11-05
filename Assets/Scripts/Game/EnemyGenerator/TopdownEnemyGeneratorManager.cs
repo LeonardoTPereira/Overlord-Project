@@ -7,7 +7,7 @@ namespace Topdown.Overlord.RulesGenerator.EnemyGeneration
 {
     public class TopdownEnemyGeneratorManager : EnemyGeneratorManager
     {
-        public static TopdownEnemyGeneratorManager Instance { get; private set; } = null;
+        public static new TopdownEnemyGeneratorManager Instance { get; private set; } = null;
 
         private void Awake()
         {

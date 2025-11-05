@@ -1,12 +1,10 @@
 namespace Overlord.ProfileAnalyst
 {
+    // Responsável por receber algum input (ou nenhum) e retornar um perfil de jogador
     public interface IPlayerProfileCalculator
     {
-        public IPlayerProfile CreateProfile(PlayerProfileSO playerProfileSO);
+        public IPlayerProfile CreateProfileFromPlayerProfileSO(PlayerProfileSO playerProfileSO);
 
-        // Each of the following can be commented if not needed. Each is a form to collect input for the profile calculation.
-        //public IPlayerProfile CreateProfileFromFormAnswers(List<int> answers, GeneratorSettings settings);
-        //public IPlayerProfile CreateProfileFromNarrative(NarrativeCreatorEventArgs eventArgs);
-        //public IPlayerProfile CreateProfileFromGameplay(PlayerData playerData, DungeonData dungeonData);
+        public IPlayerProfile GetRandomPlayerProfile();
     }
 }

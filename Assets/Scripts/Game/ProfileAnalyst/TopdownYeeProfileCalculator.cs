@@ -2,26 +2,15 @@
 using Game.Events;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator;
+using Overlord.ProfileAnalyst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Util;
-using static Util.Enums;
-using Overlord.ProfileAnalyst;
 
 namespace Game.Overlord.ProfileAnalyst
 {
-    public class TopdownYeeProfileCalculator: IPlayerProfileCalculator
+    public class TopdownYeeProfileCalculator: YeeProfileCalculator
     {
-        private static Dictionary<string, float> _questWeightsByType;
-        public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
-
-        public IPlayerProfile CreateProfile(PlayerProfileSO playerProfileSO)
-        {
-            // Implement if needed
-            throw new NotImplementedException();
-        }
-
         public IPlayerProfile CreateProfileFromFormAnswers(List<int> answers, GeneratorSettings settings)
         {
             // if (settings.EnableRandomProfileToPlayer)
@@ -41,7 +30,7 @@ namespace Game.Overlord.ProfileAnalyst
             // }
             return CreateProfileWithWeights();
         }
-        
+
         public IPlayerProfile CreateProfileFromNarrative(NarrativeCreatorEventArgs eventArgs)
         {
             _questWeightsByType = eventArgs.QuestWeightsbyType;
@@ -125,73 +114,23 @@ namespace Game.Overlord.ProfileAnalyst
             _questWeightsByType.Add(YeePlayerProfile.PlayerProfileCategory.Creativity.ToString(), (int) weightsFromAnswers[0]);
         }
 
-        private static float[] CalculateStartSymbolWeights ( List<int> answers )
+        private static float[] CalculateStartSymbolWeights(List<int> answers)
         {
-            
-            float immersionPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[2] );
-            float achievementPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[0] );
-            float masteryPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[3] );
-            float creativityPreference = QuestWeightsCalculator.GetWeightFromPreTest( answers[1] );
+
+            float immersionPreference = QuestWeightsCalculator.GetWeightFromPreTest(answers[2]);
+            float achievementPreference = QuestWeightsCalculator.GetWeightFromPreTest(answers[0]);
+            float masteryPreference = QuestWeightsCalculator.GetWeightFromPreTest(answers[3]);
+            float creativityPreference = QuestWeightsCalculator.GetWeightFromPreTest(answers[1]);
 
             float normalizeConst = immersionPreference + achievementPreference + masteryPreference + creativityPreference;
 
-            float talkWeight = (100*(immersionPreference/normalizeConst));
-            float getWeight = (100*(achievementPreference/normalizeConst));
-            float killWeight = (100*(masteryPreference/normalizeConst));
-            float exploreWeight = (100*(creativityPreference/normalizeConst));
+            float talkWeight = (100 * (immersionPreference / normalizeConst));
+            float getWeight = (100 * (achievementPreference / normalizeConst));
+            float killWeight = (100 * (masteryPreference / normalizeConst));
+            float exploreWeight = (100 * (creativityPreference / normalizeConst));
 
-            float [] startSymbolWeights = {talkWeight, getWeight, killWeight, exploreWeight};
+            float[] startSymbolWeights = { talkWeight, getWeight, killWeight, exploreWeight };
             return startSymbolWeights;
-        }
-
-        private static void CalculateStartSymbolWeights ( YeePlayerProfile playerProfile )
-        {
-            float creativityPreference = RemoveZeros( playerProfile.CreativityPreference );
-            float achievementPreference = RemoveZeros( playerProfile.AchievementPreference );
-            float masteryPreference = RemoveZeros( playerProfile.MasteryPreference );
-            float immersionPreference = RemoveZeros( playerProfile.ImmersionPreference );
-
-            float normalizeConst = creativityPreference + achievementPreference;
-            normalizeConst += masteryPreference + immersionPreference;
-            
-            float talkWeight = RemoveZeros( (100*immersionPreference/normalizeConst) );
-            float getWeight = RemoveZeros( (100*achievementPreference/normalizeConst) );
-            float killWeight = RemoveZeros( (100*masteryPreference/normalizeConst) );
-            float exploreWeight = RemoveZeros( (100*creativityPreference/normalizeConst) );
-
-            StartSymbolWeights = new Dictionary<string, Func<int, float>>
-            {
-                {Constants.ImmersionQuest, _ => talkWeight},
-                {Constants.AchievementQuest, _ => getWeight},
-                {Constants.MasteryQuest, _ => killWeight},
-                {Constants.CreativityQuest, _ => exploreWeight}
-            };
-        }
-
-        private static float RemoveZeros ( float playerPreference )
-        {
-            if ( playerPreference > 1 )
-            {
-                return playerPreference;
-            }
-            return (float) QuestWeights.Hated;
-        }
-        
-        private static YeePlayerProfile CreateProfileWithWeights()
-        {
-            var playerProfile = new YeePlayerProfile
-            {
-                AchievementPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Achievement.ToString()],
-                MasteryPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Mastery.ToString()],
-                CreativityPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Creativity.ToString()],
-                ImmersionPreference = _questWeightsByType[YeePlayerProfile.PlayerProfileCategory.Immersion.ToString()]
-            };
-
-            CalculateStartSymbolWeights ( playerProfile );
-            var favoriteQuest = _questWeightsByType.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-            playerProfile.SetProfileFromFavoriteQuest(favoriteQuest);
-            playerProfile.Normalize();
-            return playerProfile;
         }
     }
 }

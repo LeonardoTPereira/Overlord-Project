@@ -13,15 +13,20 @@ namespace Topdown.Overlord.ProfileAnalyst
 {
     public class TopdownPlayerProfileManager : PlayerProfileManager
     {
+        public bool IsUsingManualPlayerProfileSO = false;
+
         [field: SerializeField, MustBeAssigned] private PlayerDataController _playerDataController;
         [field: SerializeField, MustBeAssigned] private DungeonDataController dungeonDataController;
         [field: SerializeField, MustBeAssigned] private GeneratorSettings generatorSettings;
         public static event ProfileSelectedEvent GameplayProfileSelectedEventHandler;
 
-        private IPlayerProfileCalculator _profileCalculator = new TopdownYeeProfileCalculator();        // Change it with another player profile calculator if needed
+        protected new IPlayerProfileCalculator _profileCalculator = new TopdownYeeProfileCalculator();        // Change it with another player profile calculator if needed
 
         private void OnEnable()
         {
+            if (IsUsingManualPlayerProfileSO)
+                _profileCalculator = new YeeProfileCalculator();
+
             Game.NarrativeGenerator.NarrativeGenerator.NarrativeCreatorEventHandler += SelectPlayerProfile;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += SelectPlayerProfile;
@@ -38,11 +43,15 @@ namespace Topdown.Overlord.ProfileAnalyst
             ProfileTester.PreTestFormQuestionAnsweredEventHandler -= SelectPlayerProfile;
             LevelSelectManager.CompletedAllLevelsEventHandler -= SelectPlayerProfile;
             ExperimentController.StartExperimentGeneratorEventHandler -= SelectPlayerProfile;
-
         }
 
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
+            if (IsUsingManualPlayerProfileSO)
+            {
+                SetPlayerProfileFromManualPlayerProfileSO();
+                return;
+            }
             if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
                 var playerProfile = yeeProfileCalculator.CreateProfileFromNarrative(e);
@@ -52,6 +61,11 @@ namespace Topdown.Overlord.ProfileAnalyst
 
         private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
+            if (IsUsingManualPlayerProfileSO)
+            {
+                SetPlayerProfileFromManualPlayerProfileSO();
+                return;
+            }
             if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
                 var playerProfile = yeeProfileCalculator.CreateProfileFromFormAnswers(e.AnswerValue, generatorSettings);
@@ -63,6 +77,11 @@ namespace Topdown.Overlord.ProfileAnalyst
 
         private void SelectPlayerProfile(object sender, ProfileTesterEventArgs e)
         {
+            if (IsUsingManualPlayerProfileSO)
+            {
+                SetPlayerProfileFromManualPlayerProfileSO();
+                return;
+            }
             if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
                 foreach (var formAnsweredArgs in e.Answers)
@@ -75,6 +94,11 @@ namespace Topdown.Overlord.ProfileAnalyst
 
         private void SelectPlayerProfile(object sender, EventArgs eventArgs)
         {
+            if (IsUsingManualPlayerProfileSO)
+            {
+                SetPlayerProfileFromManualPlayerProfileSO();
+                return;
+            }
             if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
                 YeePlayerProfile playerProfile = _playerDataController.CurrentPlayer.SerializedData.PlayerProfile;

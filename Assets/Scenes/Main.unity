@@ -960,6 +960,23 @@ PrefabInstance:
       propertyPath: dungeonDataController
       value: 
       objectReference: {fileID: 3829912036038089746}
+    - target: {fileID: 6724841689270762820, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: playerProfileSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c4e5c25b7807cda4d9d2bd002b317f35,
+        type: 2}
+    - target: {fileID: 6724841689270762820, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 6724841689270762820, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: IsUsingManualPlayerProfileSO
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
 --- !u!1 &3829912036038089744 stripped
