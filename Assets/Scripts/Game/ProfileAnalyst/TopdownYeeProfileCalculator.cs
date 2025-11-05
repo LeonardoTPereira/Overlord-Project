@@ -11,10 +11,16 @@ using Overlord.ProfileAnalyst;
 
 namespace Game.Overlord.ProfileAnalyst
 {
-    public class YeeProfileCalculator: IPlayerProfileCalculator
+    public class TopdownYeeProfileCalculator: IPlayerProfileCalculator
     {
         private static Dictionary<string, float> _questWeightsByType;
         public static Dictionary<string, Func<int, float>> StartSymbolWeights { get; private set; }
+
+        public IPlayerProfile CreateProfile(PlayerProfileSO playerProfileSO)
+        {
+            // Implement if needed
+            throw new NotImplementedException();
+        }
 
         public IPlayerProfile CreateProfileFromFormAnswers(List<int> answers, GeneratorSettings settings)
         {
