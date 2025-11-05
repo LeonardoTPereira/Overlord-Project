@@ -18,7 +18,7 @@ namespace Topdown.Overlord.ProfileAnalyst
         [field: SerializeField, MustBeAssigned] private GeneratorSettings generatorSettings;
         public static event ProfileSelectedEvent GameplayProfileSelectedEventHandler;
 
-        private IPlayerProfileCalculator _profileCalculator = new YeeProfileCalculator();        // Change it with another player profile calculator if needed
+        private IPlayerProfileCalculator _profileCalculator = new TopdownYeeProfileCalculator();        // Change it with another player profile calculator if needed
 
         private void OnEnable()
         {
@@ -43,36 +43,48 @@ namespace Topdown.Overlord.ProfileAnalyst
 
         private void SelectPlayerProfile(object sender, NarrativeCreatorEventArgs e)
         {
-            var playerProfile = _profileCalculator.CreateProfileFromNarrative(e);
-            InvokeEventOnSelectedProfile(playerProfile);
+            if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
+            {
+                var playerProfile = yeeProfileCalculator.CreateProfileFromNarrative(e);
+                InvokeEventOnSelectedProfile(playerProfile);
+            }
         }
 
         private void SelectPlayerProfile(object sender, FormAnsweredEventArgs e)
         {
-            var playerProfile = _profileCalculator.CreateProfileFromFormAnswers(e.AnswerValue, generatorSettings);
-            playerProfile.IsFixedFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
-            InvokeEventOnSelectedProfile(playerProfile);
-            //ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs((YeePlayerProfile)playerProfile));
+            if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
+            {
+                var playerProfile = yeeProfileCalculator.CreateProfileFromFormAnswers(e.AnswerValue, generatorSettings);
+                playerProfile.IsFixedFromExperiment = sender.GetType() == typeof(RealTimeLevelSelectManager);
+                InvokeEventOnSelectedProfile(playerProfile);
+                //ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs((YeePlayerProfile)playerProfile));
+            }
         }
 
         private void SelectPlayerProfile(object sender, ProfileTesterEventArgs e)
         {
-            foreach (var formAnsweredArgs in e.Answers)
+            if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
-                var playerProfile = _profileCalculator.CreateProfileFromFormAnswers(formAnsweredArgs.AnswerValue, generatorSettings);
-                InvokeEventOnSelectedProfile(playerProfile);
+                foreach (var formAnsweredArgs in e.Answers)
+                {
+                    var playerProfile = yeeProfileCalculator.CreateProfileFromFormAnswers(formAnsweredArgs.AnswerValue, generatorSettings);
+                    InvokeEventOnSelectedProfile(playerProfile);
+                }
             }
         }
 
         private void SelectPlayerProfile(object sender, EventArgs eventArgs)
         {
-            YeePlayerProfile playerProfile = _playerDataController.CurrentPlayer.SerializedData.PlayerProfile;
-            if (!ExperimentController.UseFixedProfile)
+            if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
-                playerProfile = (YeePlayerProfile)_profileCalculator.CreateProfileFromGameplay(_playerDataController.CurrentPlayer, _playerDataController.CurrentPlayer.CurrentDungeon);
+                YeePlayerProfile playerProfile = _playerDataController.CurrentPlayer.SerializedData.PlayerProfile;
+                if (!ExperimentController.UseFixedProfile)
+                {
+                    playerProfile = (YeePlayerProfile)yeeProfileCalculator.CreateProfileFromGameplay(_playerDataController.CurrentPlayer, _playerDataController.CurrentPlayer.CurrentDungeon);
+                }
+                InvokeEventOnSelectedProfile(playerProfile);
+                GameplayProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             }
-            InvokeEventOnSelectedProfile(playerProfile);
-            GameplayProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
         }
     }
 }
