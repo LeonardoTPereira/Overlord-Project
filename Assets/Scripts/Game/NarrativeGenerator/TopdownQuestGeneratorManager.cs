@@ -8,6 +8,7 @@ using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
 using Game.GameManager;
+using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
@@ -21,10 +22,10 @@ using Overlord.NarrativeGenerator;
 using Topdown.Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.ProfileAnalyst;
 
-namespace Game.NarrativeGenerator
+namespace Topdown.Overlord.NarrativeGenerator
 {
     [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
-    public class QuestGeneratorManager : MonoBehaviour
+    public class TopdownQuestGeneratorManager : MonoBehaviour
     {
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }

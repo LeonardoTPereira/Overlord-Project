@@ -1,7 +1,7 @@
 ﻿using Game.Events;
 using Game.ExperimentControllers;
 using Game.LevelSelection;
-using Game.NarrativeGenerator;
+using Topdown.Overlord.NarrativeGenerator;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
@@ -27,14 +27,14 @@ namespace Game.MenuManager
         protected void OnEnable()
         {
             button.interactable = false;
-            QuestGeneratorManager.QuestLineCreatedEventHandler += EnableNextButton;
+            TopdownQuestGeneratorManager.QuestLineCreatedEventHandler += EnableNextButton;
             WeaponSelectionButtonBhv.SelectWeaponButtonEvent += PrepareWeapon;
         }
 
         protected void OnDisable()
         {
             WeaponSelectionButtonBhv.SelectWeaponButtonEvent -= PrepareWeapon;
-            QuestGeneratorManager.QuestLineCreatedEventHandler -= EnableNextButton;
+            TopdownQuestGeneratorManager.QuestLineCreatedEventHandler -= EnableNextButton;
         }
 
         private void PrepareWeapon(object sender, LoadWeaponButtonEventArgs eventArgs)

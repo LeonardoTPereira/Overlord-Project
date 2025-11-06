@@ -1,5 +1,3 @@
-using MyBox;
-using Overlord.RulesGenerator.EnemyGeneration;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "YeePlayerProfileSO", menuName = "Overlord-Project/Profile-Analyst/YeePlayerProfileSO")]

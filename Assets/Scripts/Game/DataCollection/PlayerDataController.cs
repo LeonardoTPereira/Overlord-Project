@@ -6,7 +6,7 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;
-using Game.NarrativeGenerator;
+using Topdown.Overlord.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
@@ -41,7 +41,7 @@ namespace Game.DataCollection
             NpcController.KeyCollectEventHandler += OnGetKey;
             EnemyController.KillEnemyEventHandler += OnKillEnemy;
             NpcController.NpcInteraction += OnInteractNPC;
-            QuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
+            TopdownQuestGeneratorManager.ProfileSelectedEventHandler += OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler += OnExperimentProfileSelected;
             FormBhv.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler += OnPreTestFormAnswered;
@@ -73,7 +73,7 @@ namespace Game.DataCollection
             FormBhv.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             RealTimeLevelSelectManager.PreTestFormQuestionAnsweredEventHandler -= OnPreTestFormAnswered;
             DoorBhv.KeyUsedEventHandler -= OnKeyUsed;
-            QuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
+            TopdownQuestGeneratorManager.ProfileSelectedEventHandler -= OnProfileSelected;
             ExperimentController.ProfileSelectedEventHandler -= OnExperimentProfileSelected;
             EnemyController.KillEnemyEventHandler -= OnKillEnemy;
             NpcController.NpcInteraction -= OnInteractNPC;

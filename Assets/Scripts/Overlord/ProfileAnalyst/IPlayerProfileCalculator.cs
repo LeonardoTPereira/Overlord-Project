@@ -4,7 +4,6 @@ namespace Overlord.ProfileAnalyst
     public interface IPlayerProfileCalculator
     {
         public IPlayerProfile CreateProfileFromPlayerProfileSO(PlayerProfileSO playerProfileSO);
-
         public IPlayerProfile GetRandomPlayerProfile();
     }
 }

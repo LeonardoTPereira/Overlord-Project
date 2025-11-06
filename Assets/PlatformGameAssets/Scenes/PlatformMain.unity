@@ -809,6 +809,52 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd,
         type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: questLines
+      value: 
+      objectReference: {fileID: 11400000, guid: b3275fac148b33742814c670be890ee8,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _playerProfileToQuestLines
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <SelectedLevels>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <MustCreateNarrative>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <CurrentGeneratorSettings>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: c1acbe553922a014091bc3b5a5346807,
+        type: 2}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: playerProfileSO
+      value: 
+      objectReference: {fileID: 11400000, guid: df4063952f9a1924fb3626d14de6cfee,
+        type: 2}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: c1acbe553922a014091bc3b5a5346807,
+        type: 2}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: IsUsingManualPlayerProfileSO
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3829912035921256731, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: _weaponSet

@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 using Util;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
+using Topdown.Overlord.NarrativeGenerator;
 
 
 namespace Game.GameManager
@@ -51,8 +52,8 @@ namespace Game.GameManager
 
         private void OnEnable()
         {
-            QuestGeneratorManager.FixedLevelProfileEventHandler += LoadDataForExperiment;
-            QuestGeneratorManager.QuestLineCreatedEventHandler += SetQuestLinesForProfile;
+            TopdownQuestGeneratorManager.FixedLevelProfileEventHandler += LoadDataForExperiment;
+            TopdownQuestGeneratorManager.QuestLineCreatedEventHandler += SetQuestLinesForProfile;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
 
             PlayerController.PlayerDeathEventHandler += OnRunComplete;
@@ -61,8 +62,8 @@ namespace Game.GameManager
 
         private void OnDisable()
         {
-            QuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
-            QuestGeneratorManager.QuestLineCreatedEventHandler -= SetQuestLinesForProfile;
+            TopdownQuestGeneratorManager.FixedLevelProfileEventHandler -= LoadDataForExperiment;
+            TopdownQuestGeneratorManager.QuestLineCreatedEventHandler -= SetQuestLinesForProfile;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 
             PlayerController.PlayerDeathEventHandler -= OnRunComplete;

@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4018679261465369150}
-  - component: {fileID: 6209667157427603688}
+  - component: {fileID: 574168996671532539}
+  - component: {fileID: 255090764062436453}
   - component: {fileID: 4018679261465369146}
   - component: {fileID: 4018679261465369149}
-  - component: {fileID: 4018679261465369148}
   - component: {fileID: 4018679261465369151}
   - component: {fileID: 8570000027862450538}
   m_Layer: 0
@@ -37,7 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6209667157427603688
+--- !u!114 &574168996671532539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,9 +46,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 4018679261465369121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3b8fbcbe31d5d4b834c1deefc969f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 905b11cc29b8604438e80f227d3feab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GetRandomProfile: 0
+  playerProfileSO: {fileID: 0}
+  IsUsingManualPlayerProfileSO: 0
+  _playerDataController: {fileID: 0}
+  dungeonDataController: {fileID: 0}
+  generatorSettings: {fileID: 0}
+--- !u!114 &255090764062436453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018679261465369121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c059f09159b89614c81d1b6db1b52d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MustCreateNarrative>k__BackingField: 0
+  <SelectedLevels>k__BackingField: {fileID: 0}
+  <CurrentGeneratorSettings>k__BackingField: {fileID: 0}
+  _playerProfileToQuestLines: {fileID: 0}
+  questLines: {fileID: 0}
 --- !u!114 &4018679261465369146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,26 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4018679261465369148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4018679261465369121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70525adb7a52ee0439c81de57524ccd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerProfileToQuestLines: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
-    type: 2}
-  questLines: {fileID: 0}
-  <MustCreateNarrative>k__BackingField: 1
-  <SelectedLevels>k__BackingField: {fileID: 0}
-  <CurrentPlayerDataController>k__BackingField: {fileID: 0}
-  <CurrentDungeonDataController>k__BackingField: {fileID: 0}
-  <CurrentGeneratorSettings>k__BackingField: {fileID: 0}
 --- !u!114 &4018679261465369151
 MonoBehaviour:
   m_ObjectHideFlags: 0

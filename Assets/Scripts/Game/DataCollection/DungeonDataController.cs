@@ -3,7 +3,6 @@ using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
-using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
@@ -11,6 +10,7 @@ using Game.Quests;
 using System;
 using UnityEngine;
 using Overlord.ProfileAnalyst;
+using Topdown.Overlord.NarrativeGenerator;
 
 namespace Game.DataCollection
 {
@@ -44,7 +44,7 @@ namespace Game.DataCollection
             DungeonPlayer.ExitRoomEventHandler += OnRoomExit;
             QuestLine.QuestCompletedEventHandler += OnQuestEvent;
             // QuestLine.QuestLineOpenedEventHandler += OnQuestlineOpenedEvent;
-            QuestGeneratorManager.FixedLevelProfileEventHandler += OnLevelWithFixedProfileCreated;
+            TopdownQuestGeneratorManager.FixedLevelProfileEventHandler += OnLevelWithFixedProfileCreated;
         }
 
         private void OnDisable()
@@ -67,7 +67,7 @@ namespace Game.DataCollection
             DungeonPlayer.ExitRoomEventHandler -= OnRoomExit;
             QuestLine.QuestCompletedEventHandler -= OnQuestEvent;
             // QuestLine.QuestLineOpenedEventHandler -= OnQuestlineOpenedEvent;
-            QuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
+            TopdownQuestGeneratorManager.FixedLevelProfileEventHandler -= OnLevelWithFixedProfileCreated;
         }
 
         private void OnPlayerDamage(object sender, PlayerIsDamagedEventArgs eventArgs)
