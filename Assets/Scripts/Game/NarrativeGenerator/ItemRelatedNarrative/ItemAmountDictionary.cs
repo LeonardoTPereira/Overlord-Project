@@ -4,6 +4,7 @@ using ScriptableObjects;
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
 {
     [Serializable]
+    // SerializableDictionaryBase<T, QuestIdList> -> <ItemSo, QuestIdList> -> <ItemSo, List<int>>
     public class ItemAmountDictionary : KeyByQuestIdsDictionary<ItemSo>
     {
         public ItemAmountDictionary()
