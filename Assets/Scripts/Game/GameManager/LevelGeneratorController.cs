@@ -3,7 +3,7 @@ using Game.ExperimentControllers;
 using Game.LevelGenerator;
 using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.MenuManager;
-using Game.NarrativeGenerator;
+using Topdown.Overlord.NarrativeGenerator;
 using MyBox;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,11 +47,11 @@ namespace Game.GameManager
 
         public void OnEnable()
         {
-            QuestGeneratorManager.FixedLevelProfileEventHandler += CreateLevelFromNarrative;
+            TopdownQuestGeneratorManager.FixedLevelProfileEventHandler += CreateLevelFromNarrative;
         }
         public void OnDisable()
         {
-            QuestGeneratorManager.FixedLevelProfileEventHandler -= CreateLevelFromNarrative;
+            TopdownQuestGeneratorManager.FixedLevelProfileEventHandler -= CreateLevelFromNarrative;
         }
 
         public void CreateLevelFromNarrative(object sender, ProfileSelectedEventArgs eventArgs)

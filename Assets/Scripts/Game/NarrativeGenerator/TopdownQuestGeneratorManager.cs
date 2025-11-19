@@ -8,6 +8,7 @@ using Game.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
 using Game.GameManager;
+using Game.NarrativeGenerator;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
@@ -18,36 +19,37 @@ using UnityEngine;
 using Util;
 using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator;
-using Overlord.RulesGenerator.EnemyGeneration;
+using Topdown.Overlord.RulesGenerator.EnemyGeneration;
+using Topdown.Overlord.ProfileAnalyst;
 
-namespace Game.NarrativeGenerator
+namespace Topdown.Overlord.NarrativeGenerator
 {
-    [RequireComponent(typeof(PlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
-    public class QuestGeneratorManager : MonoBehaviour
+    [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
+    public class TopdownQuestGeneratorManager : MonoBehaviour
     {
-        [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
-        public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
-
-        [SerializeReference, SerializeField] private QuestLineList questLines;        
-
         [field:SerializeField] public bool MustCreateNarrative { get; set; }
-        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
-        private LevelGeneratorManager _levelGeneratorManager;
-
         [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+
+        public static event ProfileSelectedEvent ProfileSelectedEventHandler;
+        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
-        
+
+        [MustBeAssigned, SerializeReference, SerializeField]
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
+        [SerializeReference, SerializeField] private QuestLineList questLines;
+
+        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
+        private LevelGeneratorManager _levelGeneratorManager;
+                
         public void OnEnable()
         {
-            PlayerProfileManager.ProfileSelected += HandleProfileSelected;
+            TopdownPlayerProfileManager.ProfileSelected += HandleProfileSelected;
         }
 
         public void OnDisable()
         {
-            PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
+            TopdownPlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
         private async void HandleProfileSelected(IPlayerProfile profile)
@@ -74,7 +76,6 @@ namespace Game.NarrativeGenerator
 
         private async Task CreateNarrative(YeePlayerProfile playerProfile)
         {
-            //SetQuestLineListForProfile(playerProfile);
             CreateGeneratorParametersForQuestLine(playerProfile);
             questLines.TargetProfile = playerProfile;
             await CreateContentsForQuestLine();

@@ -1,7 +1,7 @@
 ﻿using Game.Events;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
-using Game.NarrativeGenerator;
+using Topdown.Overlord.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,13 +20,13 @@ namespace Game.ExperimentControllers
 
         private void OnEnable()
         {
-            QuestGeneratorManager.QuestLineCreatedEventHandler += LoadQuestData;
+            TopdownQuestGeneratorManager.QuestLineCreatedEventHandler += LoadQuestData;
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
         private void OnDisable()
         {
-            QuestGeneratorManager.QuestLineCreatedEventHandler -= LoadQuestData;
+            TopdownQuestGeneratorManager.QuestLineCreatedEventHandler -= LoadQuestData;
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 

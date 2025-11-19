@@ -4,7 +4,7 @@ using System.Linq;
 using System;
 using Util;
 
-namespace Game.NarrativeGenerator
+namespace Overlord.ProfileAnalyst
 {
     public static class QuestWeightsCalculator
     {

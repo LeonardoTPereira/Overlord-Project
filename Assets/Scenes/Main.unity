@@ -838,9 +838,63 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 699963818, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
+      propertyPath: ExperimentController
+      value: 
+      objectReference: {fileID: 3829912036038089747}
     - target: {fileID: 1293693493, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
       propertyPath: selectedLevels
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _playerProfileToQuestLines
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <SelectedLevels>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <MustCreateNarrative>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <CurrentGeneratorSettings>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: playerProfileSO
+      value: 
+      objectReference: {fileID: 11400000, guid: df4063952f9a1924fb3626d14de6cfee,
+        type: 2}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _playerDataController
+      value: 
+      objectReference: {fileID: 3829912036038089748}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: dungeonDataController
+      value: 
+      objectReference: {fileID: 3829912036038089746}
+    - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: IsUsingManualPlayerProfileSO
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -960,6 +1014,23 @@ PrefabInstance:
       propertyPath: dungeonDataController
       value: 
       objectReference: {fileID: 3829912036038089746}
+    - target: {fileID: 6724841689270762820, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: playerProfileSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c4e5c25b7807cda4d9d2bd002b317f35,
+        type: 2}
+    - target: {fileID: 6724841689270762820, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 6724841689270762820, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: IsUsingManualPlayerProfileSO
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1496f6ed7dad834a8f8428a619dfdd6, type: 3}
 --- !u!1 &3829912036038089744 stripped
@@ -991,6 +1062,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 853568197a854080bcc7901b42468a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3829912036038089747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3829912036086566238, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3829912036038089743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103c2899cce79bc45a67e3e1fa8336de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3829912036038089748 stripped
