@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 using Game.GameManager;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

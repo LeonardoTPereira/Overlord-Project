@@ -8,6 +8,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.Quests;
 using UnityEngine;
 using ScriptableObjects;
+using Overlord.NarrativeGenerator.Quests;
 
 #if UNITY_EDITOR
 using MyBox;

@@ -4,6 +4,7 @@ using ScriptableObjects;
 using Util;
 using UnityEngine;
 using Game.GameManager;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

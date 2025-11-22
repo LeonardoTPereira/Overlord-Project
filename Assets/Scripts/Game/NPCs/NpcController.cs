@@ -10,6 +10,7 @@ using Game.Quests;
 using UnityEngine;
 using Game.NPCs.PTBR;
 using Game.GameManager;
+using Overlord.NarrativeGenerator.Quests;
 
 #if UNITY_EDITOR
 using MyBox;

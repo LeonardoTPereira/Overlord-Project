@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Game.ExperimentControllers;
 using Game.NPCs;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Overlord.NarrativeGenerator.Quests
 {
     public interface ISymbol 
     {

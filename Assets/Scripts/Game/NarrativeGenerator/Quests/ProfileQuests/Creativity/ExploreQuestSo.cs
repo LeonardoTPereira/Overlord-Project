@@ -1,6 +1,7 @@
 using Util;
 using System;
 using System.Collections.Generic;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

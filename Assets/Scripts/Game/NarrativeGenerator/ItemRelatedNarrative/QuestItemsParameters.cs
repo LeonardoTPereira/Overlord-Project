@@ -4,6 +4,7 @@ using System.Linq;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.ItemRelatedNarrative
 {

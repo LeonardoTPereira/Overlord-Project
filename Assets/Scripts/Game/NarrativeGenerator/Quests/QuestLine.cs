@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.Overlord.ProfileAnalyst;
 using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
@@ -12,6 +11,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 using Util;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests
 {

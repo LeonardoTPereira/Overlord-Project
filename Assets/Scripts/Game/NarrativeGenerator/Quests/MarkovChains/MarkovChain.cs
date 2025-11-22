@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Game.NarrativeGenerator;
+using Overlord.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.NarrativeGenerator.Quests.QuestGrammarNonTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarNonTerminals;
 using Util;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Overlord.NarrativeGenerator.Quests
 {
     public class MarkovChain
     {

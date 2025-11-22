@@ -1,12 +1,8 @@
-using UnityEngine;
 using System;
-using System.Collections.Generic;
-using Game.NarrativeGenerator;
-using Game.NPCs;
 using Util;
-using ScriptableObjects;
+using Overlord.NarrativeGenerator.Quests;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
     public class EmptyQuestSo : QuestSo, ISymbol

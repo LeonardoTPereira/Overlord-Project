@@ -1,4 +1,4 @@
-﻿using Game.Dialogues;
+﻿using Overlord.NarrativeGenerator.Quests;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;

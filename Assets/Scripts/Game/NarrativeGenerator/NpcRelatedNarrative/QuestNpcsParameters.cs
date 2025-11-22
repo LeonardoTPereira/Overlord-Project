@@ -6,6 +6,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative
 {

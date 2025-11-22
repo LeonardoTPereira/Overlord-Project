@@ -10,6 +10,7 @@ using Game.NPCs;
 using MyBox;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.GameManager;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

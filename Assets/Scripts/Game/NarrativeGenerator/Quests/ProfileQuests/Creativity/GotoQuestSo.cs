@@ -6,6 +6,7 @@ using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using MyBox;
 using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

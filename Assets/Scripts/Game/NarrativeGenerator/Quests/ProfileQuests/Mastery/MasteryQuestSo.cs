@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.Quests;
 using MyBox;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals

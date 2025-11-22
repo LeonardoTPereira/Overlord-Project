@@ -8,7 +8,7 @@ using UnityEngine;
 using Game.NPCs;
 using Game.GameManager;
 using System.Linq;
-
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

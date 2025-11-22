@@ -2,7 +2,7 @@ using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using MyBox;
-using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NPCs
 {

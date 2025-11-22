@@ -7,6 +7,7 @@ using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 using MyBox;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

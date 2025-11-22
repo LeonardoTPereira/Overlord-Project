@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Util;
 using System;
 using Game.GameManager;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
