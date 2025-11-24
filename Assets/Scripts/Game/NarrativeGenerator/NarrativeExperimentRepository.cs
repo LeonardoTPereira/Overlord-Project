@@ -41,7 +41,7 @@ namespace Overlord.NarrativeGenerator
 
         private void SetQuestLineListForProfile(QuestLineList questLines)
         {
-            _questLinesForProfile = new List<QuestLineList> { Selector.CreateMissions(_generatorSettings) };
+            _questLinesForProfile = new List<QuestLineList> { TopdownQuestSelector.CreateMissions(_generatorSettings) };
             /*
             if (_playerProfile is YeePlayerProfile playerProfile)
             {

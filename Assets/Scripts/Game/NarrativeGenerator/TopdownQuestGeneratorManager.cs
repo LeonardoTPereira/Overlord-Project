@@ -54,7 +54,7 @@ namespace Topdown.Overlord.NarrativeGenerator
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = Selector.CreateMissions(CurrentGeneratorSettings);
+                    questLines = TopdownQuestSelector.CreateMissions(CurrentGeneratorSettings);
                     await CreateNarrative(yeeProfile);
                 }
                 else

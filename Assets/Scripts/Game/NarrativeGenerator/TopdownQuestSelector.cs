@@ -12,7 +12,7 @@ using System.Net.NetworkInformation;
 
 namespace Game.NarrativeGenerator
 {
-    public static class Selector
+    public static class TopdownQuestSelector
     {
         private static Dictionary<string,bool> _wasQuestAdded;
         private static GeneratorSettings _generatorSettings;
