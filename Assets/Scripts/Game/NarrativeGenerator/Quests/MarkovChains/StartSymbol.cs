@@ -16,7 +16,7 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarNonTerminals
             throw new System.NotImplementedException();
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Util.Enums.Language language)
         {
             throw new System.NotImplementedException();
         }

@@ -15,6 +15,7 @@ using Game.NPCs;
 using System;
 using UnityEngine;
 using Topdown.Overlord.ProfileAnalyst;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
 namespace Game.DataCollection
 {

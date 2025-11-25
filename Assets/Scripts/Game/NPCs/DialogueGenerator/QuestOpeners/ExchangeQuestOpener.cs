@@ -7,7 +7,7 @@ namespace Game.NPCs
         protected override string[] lowSocialDialogues
         {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Ugh, eu não tenho tempo para essa missão. Se faça útil e faça isso por mim. Vá trocar um {questSo.GetItemString()} com {questSo.GetTargetNpc()}. Talvez você ganhe algo em troca.",
                     "Olha, eu não estou afim de lidar com {questSo.GetTargetNpc()} hoje. Você cuida da troca e {questSo.GetTargetNpc()} vai te recompensar. Tudo o que você precisa fazer é levar um {questSo.GetItemString()} até eles.",
@@ -30,7 +30,7 @@ namespace Game.NPCs
         protected override string[] averageSocialDialogues
         {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Se você topar, eu preciso que você troque um {questSo.GetItemString()} com {questSo.GetTargetNpc()}. Ele precisa disso para um novo feitiço que estão aprendendo e vai te recompensar generosamente por isso.",
                     "Você estaria disposto a fazer uma troca para mim? Dê um {questSo.GetItemString()} para {questSo.GetTargetNpc()}, e ouvi dizer que ele tem uma boa recompensa pronta.",
@@ -49,7 +49,7 @@ namespace Game.NPCs
         protected override string[] highSocialDialogues
         {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Ah, você é exatamente a pessoa que eu preciso! Você poderia levar um {questSo.GetItemString()} até {questSo.GetTargetNpc()}? Tenho certeza de que vão te recompensar grandemente!",
                     "Eu ouvi dizer que {questSo.GetTargetNpc()} está morrendo de vontade de colocar as mãos em um {questSo.GetItemString()}. Leve até ele, e ele vão ficar muito feliz — inclusive, acho que é de seu interesse saber que ele sempre dá as melhores recompensas!",

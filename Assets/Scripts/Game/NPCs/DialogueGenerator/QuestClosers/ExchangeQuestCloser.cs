@@ -8,7 +8,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                 {
                     return new string[] {
                     "Hmph. Acho que devo te agradecer por fazer essa tarefa. Você pegou a recompensa, certo? Não espere mais favores de mim.",
@@ -46,7 +46,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Obrigado por lidar com essa troca! {questSo.GetTargetNpc()} sempre dá boas recompensas, e tenho certeza de que você mereceu.",
                     "Agradeço por cuidar disso! {questSo.GetTargetNpc()} nem sempre é fácil de lidar, mas aposto que a recompensa valeu a pena.",
@@ -73,7 +73,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Você é incrível! Obrigado por ajudar com essa troca. {questSo.GetTargetNpc()} tem as melhores recompensas, não é? Espero que você tenha conseguido algo incrível!",
                     "Não sei como te agradecer o suficiente por isso! {questSo.GetTargetNpc()} realmente sabe fazer um bom negócio, e tenho certeza de que te deram algo que valeu seu tempo!",

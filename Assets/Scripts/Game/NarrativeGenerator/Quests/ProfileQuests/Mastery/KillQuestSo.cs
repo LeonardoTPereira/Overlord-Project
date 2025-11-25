@@ -6,9 +6,9 @@ using System;
 using System.Text;
 using Util;
 using UnityEngine;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     [Serializable]
     public class KillQuestSo : MasteryQuestSo
@@ -70,19 +70,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public override string GetEnemyAmountString()
+        public override string GetEnemyAmountString(Language language)
         {
-            CreateQuestString();
+            CreateQuestString(language);
             return QuestText;
         }
 
-        public override string GetEnemyString()
+        public override string GetEnemyString(Language language)
         {
             var stringBuilder = new StringBuilder();
             foreach (var enemyByAmount in EnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                var spriteString = enemyByAmount.Key.GetEnemySpriteString( GameManagerSingleton.Instance.IsInPortuguese );
-                stringBuilder.Append($"{enemyByAmount.Key.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )}s {spriteString}, ");
+                var spriteString = enemyByAmount.Key.GetEnemySpriteString(language);
+                stringBuilder.Append($"{enemyByAmount.Key.RealTypeName(language)}s {spriteString}, ");
             }
 
             if (stringBuilder.Length == 0)
@@ -115,23 +115,19 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
             var stringBuilder = new StringBuilder();
 
-            if (GameManagerSingleton.Instance.IsInPortuguese)
-            {
+            if (language == Language.Portuguese)
                 stringBuilder.Append("Derrote ");
-            }
             else
-            {
                 stringBuilder.Append("Kill ");
-            }
 
             foreach (var enemyByAmount in OriginalEnemiesToKillByType.EnemiesByTypeDictionary)
             {
-                var spriteString = enemyByAmount.Key.GetEnemySpriteString( GameManagerSingleton.Instance.IsInPortuguese );
-                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )}s {spriteString}, ");
+                var spriteString = enemyByAmount.Key.GetEnemySpriteString(language);
+                stringBuilder.Append($"{enemyByAmount.Value.QuestIds.Count} {enemyByAmount.Key.RealTypeName(language)}s {spriteString}, ");
             }
 
             if (stringBuilder.Length == 0)

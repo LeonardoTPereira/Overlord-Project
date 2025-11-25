@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                         "Bem, você realmente fez isso. Acho que você não é completamente inútil, afinal. Obrigado pelo relatório.",
                         "Huh, você explorou todas aquelas áreas. Certo, acho que você serve para alguma coisa. Obrigado, acho.",
@@ -39,7 +39,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Obrigado por explorar essas áreas e trazer as informações de volta. Elas serão inestimáveis para nossos próximos passos.",
                     "Eu realmente aprecio você ter tirado o tempo para investigar essas áreas. Suas descobertas farão uma enorme diferença.",
@@ -71,7 +71,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Oh, uau! Você realmente se superou! Explorou todas essas áreas e ainda trouxe todos os detalhes? Não consigo acreditar! Você é um verdadeiro tesouro, sabia disso?",
                     "Muito obrigado por fazer isso! Você cobriu tantas áreas, e estou absolutamente empolgado para ouvir o que descobriu. Quero dizer, quem mais poderia ter feito isso?",

@@ -7,6 +7,7 @@ using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Overlord.RulesGenerator.EnemyGeneration;
 using UnityEngine;
 using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
 namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 {

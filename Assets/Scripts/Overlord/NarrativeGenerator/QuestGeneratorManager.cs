@@ -1,9 +1,11 @@
+using Game.ExperimentControllers;
 using MyBox;
 using Overlord.ProfileAnalyst;
 using Overlord.RulesGenerator.EnemyGeneration;
 using System.Threading.Tasks;
 using UnityEngine;
-using Game.ExperimentControllers;
+using Util;
+using static Util.Enums;
 
 namespace Overlord.NarrativeGenerator
 {
@@ -11,6 +13,8 @@ namespace Overlord.NarrativeGenerator
     public class QuestGeneratorManager : MonoBehaviour
     {
         [field: SerializeField] public bool MustCreateNarrative { get; set; }
+        [SerializeField]
+        public Language language = Language.Portuguese;
 
         public void OnEnable()
         {

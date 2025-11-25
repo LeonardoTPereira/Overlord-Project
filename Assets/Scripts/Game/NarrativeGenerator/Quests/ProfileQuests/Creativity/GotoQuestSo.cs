@@ -5,10 +5,9 @@ using System.Linq;
 using Game.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using MyBox;
-using UnityEngine;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GotoQuestSo : CreativityQuestSo
     {
@@ -72,11 +71,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             IsCompleted = true;
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
-            if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
                 QuestText = $"Vá para a sala marcada no mapa! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
-            else
+            else if (language == Language.English)
                 QuestText = $"Go to the room highlighted in the map! <goto={SelectedRoomCoordinates.X},{SelectedRoomCoordinates.Y}>";
         }
 

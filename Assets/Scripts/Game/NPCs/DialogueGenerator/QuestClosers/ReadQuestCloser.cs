@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Hmph, eu não achava que você realmente ia se dar ao trabalho de ler isso. Mas, tudo bem. As informações sobre aquelas ruínas amaldiçoadas? Sim, é exatamente o que precisávamos. Agora podemos seguir em frente. Eu acho... obrigado.",
                     "Você realmente leu isso? Não foi ruim. O pergaminho sobre criaturas mágicas? Tinha algumas informações boas. Fraquezas, hábitos, esse tipo de coisa. Enfim, obrigado, eu acho.",
@@ -39,7 +39,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Você realmente leu tudo isso? Impressionante! Os detalhes do livro sobre os rituais antigos são exatamente o que eu estava procurando. Isso vai facilitar muito nosso próximo passo—obrigado pelo seu esforço!",
                     "Ah, você realmente leu isso! O pergaminho sobre criaturas mágicas tinha uns detalhes fascinantes, não tinha? Agora sabemos mais sobre suas fraquezas. Não tenho palavras para agradecer por isso.",
@@ -71,7 +71,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Ah, então você realmente leu isso! Eu estava me perguntando o que você ia encontrar aí. As informações sobre artefatos antigos são exatamente o que eu precisava—obrigado por passar por todo esse trabalho!",
                     "Uau, você realmente foi lá e leu isso! A história do antigo reino? Coisa fascinante, né? Eu tinha a sensação de que isso ia nos dar uma luz sobre nosso próximo passo. Eu realmente agradeço!",

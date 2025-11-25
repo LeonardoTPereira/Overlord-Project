@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Bem, você realmente foi até lá e voltou. Acho que devo te agradecer por isso, mas não espere que eu fique todo animado.",
                     "Você foi até aquelas coordenadas e voltou inteiro. Tudo bem, obrigado, acho. Agora não me faça pedir de novo.",
@@ -39,7 +39,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Você realmente foi até lá e voltou com as informações? Muito bem! Fico feliz que você tenha conseguido esse relatório. Era exatamente o que eu precisava!",
                     "Não acredito que você foi até aquelas coordenadas e voltou em segurança! Você fez um trabalho fantástico, e eu agradeço pela atualização.",
@@ -71,7 +71,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Uau, você realmente foi até lá? Quero dizer, eu sabia que você estava à altura da tarefa, mas não esperava que voltasse tão rápido! Não consigo dizer o quanto essas informações são úteis. Estamos mais perto de resolver isso!",
                     "Você fez a jornada até aquelas coordenadas e voltou com todos os detalhes? Isso é impressionante! Vou admitir, não tinha certeza se você conseguiria, mas aqui estamos—obrigado! Essas informações são exatamente o que precisávamos.",

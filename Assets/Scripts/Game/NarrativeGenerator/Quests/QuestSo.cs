@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Util;
 using Game.NPCs;
+using static Util.Enums;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,8 +45,9 @@ namespace Overlord.NarrativeGenerator.Quests
         public string QuestName { get => questName; set => questName = value; }
         public bool EndsStoryLine { get => endsStoryLine; set => endsStoryLine = value; }
         public int Id { get; set; }
+        public Language Language { get; set; }
 
-        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
+        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
         {
             return null;
         }
@@ -138,7 +140,7 @@ namespace Overlord.NarrativeGenerator.Quests
             return "";
         }
 
-        public virtual string GetItemAmountString()
+        public virtual string GetItemAmountString(Language language)
         {
             Debug.LogWarning(" Called base quest so, this should never happen! _ get item amount string");
             return "";
@@ -156,13 +158,13 @@ namespace Overlord.NarrativeGenerator.Quests
             return "";
         }
 
-        public virtual string GetEnemyAmountString()
+        public virtual string GetEnemyAmountString(Language language)
         {
             Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy amount string");
             return "";
         }
 
-        public virtual string GetEnemyString()
+        public virtual string GetEnemyString(Language language)
         {
             Debug.LogWarning(" Called base quest so, this should never happen! _ get enemy string");
             return "";
@@ -181,6 +183,6 @@ namespace Overlord.NarrativeGenerator.Quests
 
         public abstract bool HasAvailableElementWithId<T>(T questElement, int questId);
         public abstract void RemoveElementWithId<T>(T questElement, int questId);
-        public abstract void CreateQuestString();
+        public abstract void CreateQuestString(Language language);
     }
 }

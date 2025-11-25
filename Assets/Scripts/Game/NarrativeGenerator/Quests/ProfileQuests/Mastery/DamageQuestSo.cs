@@ -4,9 +4,8 @@ using ScriptableObjects;
 using Util;
 using UnityEngine;
 using Game.GameManager;
-using Overlord.NarrativeGenerator.Quests;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class DamageQuestSo : MasteryQuestSo
     {
@@ -70,12 +69,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Enums.Language language)
         {
-            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
-                QuestText = $"{DamageData.Enemy.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )} e cause {DamageData.Damage} de dano nele.\n";
-            else
-                QuestText = $"{DamageData.Enemy.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese )} and give {DamageData.Damage} damage to it.\n";
+            if (language == Enums.Language.Portuguese)
+                QuestText = $"{DamageData.Enemy.RealTypeName(language)} e cause {DamageData.Damage} de dano nele.\n";
+            else if (language == Enums.Language.English)
+                QuestText = $"{DamageData.Enemy.RealTypeName(language)} and give {DamageData.Damage} damage to it.\n";
         }
     }
 }

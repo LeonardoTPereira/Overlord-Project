@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Util;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ListenQuestSo : ImmersionQuestSo
     {
@@ -74,11 +74,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             IsCompleted = true;
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
             var stringBuilder = new StringBuilder();
 
-            if (GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
             {
                 QuestText = $"Fale com {Npc.NpcName}.\n";
                 return;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using UnityEngine;
 using Overlord.NarrativeGenerator.Quests;

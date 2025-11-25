@@ -3,6 +3,7 @@ using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using MyBox;
 using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
 namespace Game.NPCs
 {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Overlord.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarNonTerminals;
 using Util;
 

@@ -1,8 +1,7 @@
 using System;
 using Util;
-using Overlord.NarrativeGenerator.Quests;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     // [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/GetQuest"), Serializable]
     public class EmptyQuestSo : QuestSo, ISymbol
@@ -22,7 +21,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Enums.Language l)
         {
             throw new NotImplementedException();
         }

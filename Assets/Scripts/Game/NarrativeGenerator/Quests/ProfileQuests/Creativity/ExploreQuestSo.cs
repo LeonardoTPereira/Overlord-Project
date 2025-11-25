@@ -1,9 +1,9 @@
 using Util;
 using System;
 using System.Collections.Generic;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExploreQuestSo : CreativityQuestSo
     {
@@ -79,11 +79,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
-            if (GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
                 QuestText = $"Visite {NumOfRoomsToExplore} ou mais salas.\n";
-            else
+            else if (language == Language.English)
                 QuestText = $"Visit a total of {NumOfRoomsToExplore} rooms.\n";
         }
 

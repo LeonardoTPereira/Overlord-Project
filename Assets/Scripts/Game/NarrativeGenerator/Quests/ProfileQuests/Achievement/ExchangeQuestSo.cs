@@ -8,9 +8,9 @@ using UnityEngine;
 using Game.NPCs;
 using Game.GameManager;
 using System.Linq;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ExchangeQuestSo : AchievementQuestSo
     {
@@ -116,7 +116,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return Npc.NpcName;
         }
 
-        public override string GetItemAmountString()
+        public override string GetItemAmountString(Util.Enums.Language l)
         {
             var stringBuilder = new StringBuilder();
             string spriteString;
@@ -148,12 +148,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return itemsToTrade;
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
             var stringBuilder = new StringBuilder();
-            string spriteString;
 
-            if (GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
             {
                 stringBuilder.Append("Troque ");
             }
@@ -171,7 +170,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 stringBuilder.Remove(stringBuilder.Length - 2, 2);
             }
 
-            if (GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
             {
                 stringBuilder.Append($" com {Npc.NpcName}.\n");
                 stringBuilder.Append($"Você receberá dele o {ExchangeData.ReceivedItem.ItemName}");

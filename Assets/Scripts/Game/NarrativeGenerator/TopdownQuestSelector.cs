@@ -3,12 +3,13 @@ using System.Linq;
 using System;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using MyBox;
 using UnityEngine;
 using Util;
 using System.Net.NetworkInformation;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator
 {
@@ -16,11 +17,13 @@ namespace Game.NarrativeGenerator
     {
         private static Dictionary<string,bool> _wasQuestAdded;
         private static GeneratorSettings _generatorSettings;
+        private static Enums.Language _language;
 
-        public static QuestLineList CreateMissions(in GeneratorSettings generatorSettings)
+        public static QuestLineList CreateMissions(in GeneratorSettings generatorSettings, Enums.Language language)
         {
             _generatorSettings = generatorSettings;
             _wasQuestAdded = new Dictionary<string,bool>();
+            _language = language;
             return DrawMissions();
         }
 

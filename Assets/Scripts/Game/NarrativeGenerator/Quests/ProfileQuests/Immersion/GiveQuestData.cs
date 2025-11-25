@@ -1,7 +1,7 @@
 ﻿using Game.NPCs;
 using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GiveQuestData
     {

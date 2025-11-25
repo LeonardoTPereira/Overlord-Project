@@ -10,9 +10,9 @@ using Game.NPCs;
 using MyBox;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using Game.GameManager;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class AchievementQuestSo : QuestSo
     {
@@ -34,14 +34,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
         {
             switch ( SymbolType )
             {
                 case Constants.GatherQuest:
-                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones, generatorSettings.ItemsToGather, npcInCharge);
+                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones, generatorSettings.ItemsToGather, npcInCharge, language);
                 case Constants.ExchangeQuest:
-                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools, npcInCharge);
+                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools, npcInCharge, language);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;
@@ -60,12 +60,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language l)
         {
             throw new NotImplementedException();
         }
 
-        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems, RangedInt itemRange, NpcSo npcInCharge)
+        private static GatherQuestSo CreateAndSaveGatherQuestSo( List<QuestSo> questSos, TreasureRuntimeSetSo possibleItems, RangedInt itemRange, NpcSo npcInCharge, Language language)
         {
             var getItemQuest = CreateInstance<GatherQuestSo>();
             var selectedItems = new ItemAmountDictionary();
@@ -76,7 +76,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 selectedItems.AddItemWithId(selectedItem, questId);
             }
-            getItemQuest.Init(ItemsToString(selectedItems), false, questSos.Count > 0 
+            getItemQuest.Init(ItemsToString(selectedItems, language), false, questSos.Count > 0 
                 ? questSos[^1] : null, selectedItems);
             getItemQuest.NpcInCharge = npcInCharge;            
             if (questSos.Count > 0)
@@ -88,7 +88,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
         }
 
         private static ExchangeQuestSo CreateAndSaveExchangeQuestSo( List<QuestSo> questSos, List<NpcSo> possibleNpcSos, 
-            TreasureRuntimeSetSo itemsToGive, TreasureRuntimeSetSo itemsToReceive, NpcSo npcInCharge)
+            TreasureRuntimeSetSo itemsToGive, TreasureRuntimeSetSo itemsToReceive, NpcSo npcInCharge, Language language)
         {
             var exchangeQuest = CreateInstance<ExchangeQuestSo>();
             var exchangedItems = new ItemAmountDictionary();
@@ -102,10 +102,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             npcCopy.Remove(npcInCharge);
 
             var selectedNpc = npcCopy.GetRandom();
-
-            if (GameManagerSingleton.Instance.IsInPortuguese)
+                        
+            if (language == Language.Portuguese)
                 exchangeQuest.Init($"Troque o item {selectedItem} com {selectedNpc} para receber uma recompensa!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);
-            else
+            else if (language == Language.English)
                 exchangeQuest.Init($"Exchange {selectedItem} with {selectedNpc} for a reward!", false, questSos.Count > 0 ? questSos[^1] : null, selectedNpc, exchangedItems, receivedItem);
             exchangeQuest.NpcInCharge = npcInCharge;
 
@@ -119,14 +119,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
 
         }
 
-        private static string ItemsToString(ItemAmountDictionary selectedItems)
+        private static string ItemsToString(ItemAmountDictionary selectedItems, Language language)
         {
             var stringBuilder = new StringBuilder();
             for (var i = 0; i < selectedItems.Count; i++)
             {
                 var itemAmountPair = selectedItems.ElementAt(i);
 
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (language == Language.Portuguese)
                 {
                     stringBuilder.Append($"Junte {itemAmountPair.Value} {itemAmountPair.Key}");
                     if (itemAmountPair.Value.QuestIds.Count > 1)
@@ -139,7 +139,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                         stringBuilder.Append(" e ");
                     }
                 }
-                else
+                else if (language == Language.English)
                 {
                     stringBuilder.Append($"$Gather {itemAmountPair.Value} {itemAmountPair.Key}");
                     if (itemAmountPair.Value.QuestIds.Count > 1)

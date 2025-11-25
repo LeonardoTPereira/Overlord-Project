@@ -9,10 +9,10 @@ using System.Linq;
 using System.Text;
 using Game.ExperimentControllers;
 using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Overlord.NarrativeGenerator.Quests;
 using MyBox;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class MasteryQuestSo : QuestSo
     {
@@ -30,14 +30,14 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
         {
             switch ( SymbolType )
             {
                 case Constants.KillQuest:
-                    return CreateAndSaveKillQuestSo(questSos, npcInCharge, generatorSettings.PossibleWeapons, generatorSettings.EnemiesToKill);
+                    return CreateAndSaveKillQuestSo(questSos, npcInCharge, generatorSettings.PossibleWeapons, generatorSettings.EnemiesToKill, language);
                 case Constants.DamageQuest:
-                    return CreateAndSaveDamageQuestSo(questSos, npcInCharge, generatorSettings.PossibleWeapons);
+                    return CreateAndSaveDamageQuestSo(questSos, npcInCharge, generatorSettings.PossibleWeapons, language);
                 default:
                     Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);
                 break;
@@ -56,12 +56,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             throw new NotImplementedException();
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Enums.Language l)
         {
             throw new NotImplementedException();
         }
 
-        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, WeaponTypeRuntimeSetSO enemyTypes, RangedInt enemiesToKill)
+        private static KillQuestSo CreateAndSaveKillQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, WeaponTypeRuntimeSetSO enemyTypes, RangedInt enemiesToKill, Language language)
         {
             var killQuest = CreateInstance<KillQuestSo>();
             var selectedEnemyTypes = new EnemiesByType ();
@@ -72,7 +72,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             {
                 selectedEnemyTypes.EnemiesByTypeDictionary.AddItemWithId(selectedEnemyType, questId);
             }
-            killQuest.Init(KillEnemyTypesToString(selectedEnemyTypes), false, questSos.Count > 0 
+            killQuest.Init(KillEnemyTypesToString(selectedEnemyTypes, language), false, questSos.Count > 0 
                 ? questSos[^1] : null, selectedEnemyTypes);
             killQuest.NpcInCharge = npcInCharge;
             if (questSos.Count > 0)
@@ -84,12 +84,12 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return killQuest;
         }
 
-        private static DamageQuestSo CreateAndSaveDamageQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, WeaponTypeRuntimeSetSO enemyTypes)
+        private static DamageQuestSo CreateAndSaveDamageQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, WeaponTypeRuntimeSetSO enemyTypes, Language language)
         {
             var damageQuest = ScriptableObject.CreateInstance<DamageQuestSo>();
             var selectedEnemyType = enemyTypes.GetRandomItem();
             var totalDamage = RandomSingleton.GetInstance().Random.Next(100) + 20;
-            damageQuest.Init(selectedEnemyType.RealTypeName( GameManagerSingleton.Instance.IsInPortuguese ), false, 
+            damageQuest.Init(selectedEnemyType.RealTypeName(language), false, 
                 questSos.Count > 0 ? questSos[^1] : null, selectedEnemyType, totalDamage);
             
             if (questSos.Count > 0)
@@ -101,16 +101,16 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return damageQuest;
         }
 
-        private static string KillEnemyTypesToString(EnemiesByType  selectedEnemyTypes)
+        private static string KillEnemyTypesToString(EnemiesByType  selectedEnemyTypes, Language language)
         {
             var stringBuilder = new StringBuilder();
             for (var i = 0; i < selectedEnemyTypes.EnemiesByTypeDictionary.Count; i++)
             {
                 var typeAmountPair = selectedEnemyTypes.EnemiesByTypeDictionary.ElementAt(i);
 
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (language == Language.Portuguese)
                     stringBuilder.Append($"Derrote {typeAmountPair.Value} {typeAmountPair.Key}");
-                else
+                else if (language == Language.English)
                     stringBuilder.Append($"Kill {typeAmountPair.Value} {typeAmountPair.Key}");
 
                 if (typeAmountPair.Value.QuestIds.Count > 1)
@@ -119,7 +119,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
                 }
                 if (i < (selectedEnemyTypes.EnemiesByTypeDictionary.Count - 1))
                 {
-                    if (GameManagerSingleton.Instance.IsInPortuguese)
+                    if (language == Language.Portuguese)
                         stringBuilder.Append(" e ");
                     else
                         stringBuilder.Append(" and ");

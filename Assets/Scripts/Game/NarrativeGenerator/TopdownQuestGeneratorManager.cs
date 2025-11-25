@@ -54,7 +54,7 @@ namespace Topdown.Overlord.NarrativeGenerator
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = TopdownQuestSelector.CreateMissions(CurrentGeneratorSettings);
+                    questLines = TopdownQuestSelector.CreateMissions(CurrentGeneratorSettings, language);
                     await CreateNarrative(yeeProfile);
                 }
                 else
@@ -72,7 +72,7 @@ namespace Topdown.Overlord.NarrativeGenerator
 #if UNITY_EDITOR
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
-                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings);
+                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings, language);
                 narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
             }
 #endif

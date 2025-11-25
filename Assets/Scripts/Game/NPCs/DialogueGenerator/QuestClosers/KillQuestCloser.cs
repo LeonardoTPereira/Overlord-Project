@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Bem, você foi e matou eles. Não achei que fosse capaz, mas aqui está você. Obrigado, acho.",
                     "Você matou os inimigos e voltou para relatar? Certo. Eu aceito. Só não me faça pedir de novo.",
@@ -39,7 +39,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Obrigado por lidar com aqueles inimigos. Eu não tinha certeza se você voltaria, mas conseguiu. Seu relatório é exatamente o que precisávamos.",
                     "Não acredito que você realmente os derrotou e voltou com todas as informações! Ótimo trabalho—isso vai ajudar muito.",
@@ -71,7 +71,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Ah, você realmente fez isso agora! Você foi lá, lidou com aqueles inimigos e voltou com todos os detalhes. Isso é mais do que eu poderia esperar. Honestamente, você nos salvou de muitas dores de cabeça. Eu te devo uma!",
                     "Bem, bem, bem! Você realmente foi lá e matou aqueles inimigos sem suar, e depois voltou com um relatório completo. Você realmente se superou. Você tem talento para esse tipo de coisa, não é?",

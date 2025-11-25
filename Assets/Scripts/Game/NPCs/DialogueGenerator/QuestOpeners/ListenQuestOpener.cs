@@ -5,7 +5,7 @@ namespace Game.NPCs
     {
         protected override string [] lowSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Chega de perguntas! {questSo.GetTargetNpc()} tem as respostas. Vai lá e escute o que ele tem a dizer.",
                     "Ugh, vai lá ouvir {questSo.GetTargetNpc()}, vai? Ele não vai parar de falar até alguém ouvir.",
@@ -43,7 +43,7 @@ namespace Game.NPCs
 
         protected override string [] averageSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese) 
                     return new string [] {
                     "Você tem se perguntado sobre as origens dessa masmorra? Vai lá ouvir {questSo.GetTargetNpc()} — ele viu coisas que podem te ajudar a entender mais.",
                     "Pode ser útil ouvir {questSo.GetTargetNpc()}. Ele tem conhecimentos que podem te ajudar.",
@@ -65,7 +65,7 @@ namespace Game.NPCs
 
         protected override string [] highSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese) 
                     return new string [] {
                     "Eu acho que seria útil você ouvir {questSo.GetTargetNpc()}. Ele tem uma sabedoria tranquila.",
                     "Por favor, tire um tempo para ouvir {questSo.GetTargetNpc()}. Acho que você vai achar realmente proveitoso.",

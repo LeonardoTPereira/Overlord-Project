@@ -21,8 +21,6 @@ namespace ScriptableObjects
         [field: SerializeField] public bool HasSprite = true;
         [field: SerializeField] public bool IsPlatformGame = false;
 
-
-
         public string RealTypeName(bool isInPortuguese)
         {
             if (IsPlatformGame)
@@ -61,6 +59,19 @@ namespace ScriptableObjects
                 }
             }
             return EnemyTypeName;
+        }
+
+        public string RealTypeName(Language language)
+        {
+            switch (language)
+            {                 
+                case Language.Portuguese:
+                    return RealTypeName(true);
+                case Language.English:
+                    return RealTypeName(false);
+                default:
+                    return RealTypeName(false);
+            }
         }
 
         public bool IsHealer()
@@ -102,6 +113,19 @@ namespace ScriptableObjects
             stringBuilder.Append($"<sprite=\"Enemies\" name=\"{RealTypeName(isInPortuguese)}\">");
             Debug.Log(stringBuilder.ToString());
             return stringBuilder.ToString();
+        }
+
+        public object GetEnemySpriteString(Language language)
+        {
+            switch (language)
+            {
+                case Language.Portuguese:
+                    return GetEnemySpriteString(true);
+                case Language.English:
+                    return GetEnemySpriteString(false);
+                default:
+                    return GetEnemySpriteString(false);
+            }
         }
     }
 }

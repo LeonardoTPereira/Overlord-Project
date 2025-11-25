@@ -1,7 +1,7 @@
 ﻿using Game.NarrativeGenerator.ItemRelatedNarrative;
 using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public struct ExchangeQuestData
     {

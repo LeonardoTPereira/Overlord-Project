@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
 
 namespace Game.LevelGenerator.EvolutionaryAlgorithm

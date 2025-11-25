@@ -1,4 +1,4 @@
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Overlord.NarrativeGenerator.Quests;
 using UnityEngine;
 

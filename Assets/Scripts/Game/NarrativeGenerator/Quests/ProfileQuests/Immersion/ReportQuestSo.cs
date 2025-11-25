@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using Game.NPCs;
 using Game.GameManager;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class ReportQuestSo : ImmersionQuestSo
     {
@@ -71,9 +71,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             IsCompleted = true;
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
-            if (GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
             {
                 QuestText = $"Reporte para {Npc.NpcName}.\n";
                 return;

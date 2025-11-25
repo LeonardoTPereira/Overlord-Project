@@ -5,7 +5,7 @@ namespace Game.NPCs
     {
         protected override string [] lowSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Tem um livro por aí que você precisa encontrar. Não me pergunte onde—apenas vá lá e leia.",
                     "Eu não sou seu bibliotecário, mas tem um pergaminho que você precisa desenterrar e ler. Vai lá e encontra logo.",
@@ -27,7 +27,7 @@ namespace Game.NPCs
 
         protected override string [] averageSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Você sabia que ao redor dessa masmorra há livros mágicos e escritos espalhados? Ouvi falar de um bem aqui perto. Você pode me dizer o que tem nele?",
                     "Estou tentando dominar essa nova técnica mágica e ouvi dizer que tem um livro sobre isso. Se encontrar, pode me dizer o que ele diz?",
@@ -61,7 +61,7 @@ namespace Game.NPCs
 
         protected override string [] highSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Oh! Eu acabei de lembrar, tem esse livro fascinante—acho que está escondido na biblioteca—ou talvez nas antigas ruínas? Enfim, você tem que encontrar e ler! É muito importante!",
                     "Então, tem esse pergaminho, antigo e misterioso, que dizem conter segredos que ninguém jamais entendeu totalmente! Você consegue encontrá-lo e lê-lo para mim? Eu mal posso esperar para saber o que diz!",

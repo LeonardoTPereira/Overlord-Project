@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System;
 using Game.NPCs;
 using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GiveQuestSo : ImmersionQuestSo
     {
@@ -69,7 +70,7 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return GiveQuestData.NpcToReceive.NpcName;
         }
 
-        public override string GetItemAmountString()
+        public override string GetItemAmountString(Util.Enums.Language l)
         {
             return " 1 "+GetItemString();
         }
@@ -101,11 +102,11 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             HasItem = true;
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Language language)
         {
             var spriteString = GiveQuestData.ItemToGive.GetToolSpriteString();
 
-            if (Game.GameManager.GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
                 QuestText = $"Entregue o item {GiveQuestData.ItemToGive.ItemName} {spriteString} para {GiveQuestData.NpcToReceive.NpcName}.\n";
             else
                 QuestText = $"Give the item {GiveQuestData.ItemToGive.ItemName} {spriteString} to {GiveQuestData.NpcToReceive.NpcName}.\n";

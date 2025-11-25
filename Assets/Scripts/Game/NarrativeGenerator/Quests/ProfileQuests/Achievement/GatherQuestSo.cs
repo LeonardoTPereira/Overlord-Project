@@ -2,13 +2,12 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Text;
-using System.Collections.Generic;
 using Game.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 using Game.GameManager;
-using Overlord.NarrativeGenerator.Quests;
+using static Util.Enums;
 
-namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
+namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
     public class GatherQuestSo : AchievementQuestSo
     {
@@ -58,10 +57,10 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             return cloneQuest;
         }
 
-        public override string GetItemAmountString()
+        public override string GetItemAmountString(Language language)
         {
             var stringBuilder = new StringBuilder();
-            if (GameManagerSingleton.Instance.IsInPortuguese)
+            if (language == Language.Portuguese)
             {
                 stringBuilder.Append("Colete ");
             }
@@ -114,9 +113,9 @@ namespace Game.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override void CreateQuestString()
+        public override void CreateQuestString(Util.Enums.Language l)
         {
-            QuestText = this.GetItemAmountString();
+            QuestText = this.GetItemAmountString(l);
         }
     }
 }

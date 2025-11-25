@@ -5,12 +5,16 @@ using Fog.Dialogue;
 using Game.Dialogues;
 using Game.Events;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.Quests;
 using UnityEngine;
 using Game.NPCs.PTBR;
-using Game.GameManager;
 using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using static Util.Enums;
+using Overlord.NarrativeGenerator;
+
+using Topdown.Overlord.NarrativeGenerator;
+
 
 #if UNITY_EDITOR
 using MyBox;
@@ -20,7 +24,6 @@ using Util;
 
 namespace Game.NPCs
 {
-
     public class NpcController : QuestDialogueInteraction
     {
         // Just for debuging and easy seeing in inspector
@@ -28,7 +31,7 @@ namespace Game.NPCs
         public bool IsMainQuestNpc = false;
 
         public static event EventHandler NpcInteraction;
-        private bool isInPortuguese = false;
+        private bool _isInPortuguese = false;
         [field: SerializeField] public NpcSo Npc { get; set; }
         public List<ExchangeQuestData> ExchangeDataList { get; set; }
         public List<GiveQuestData> GiveDataList { get; set; }
@@ -38,7 +41,12 @@ namespace Game.NPCs
 
         protected override void Awake()
         {
-            isInPortuguese = GameManagerSingleton.Instance.IsInPortuguese;
+            var questGeneratorManager = FindObjectOfType<QuestGeneratorManager>();
+            if (questGeneratorManager == null)
+                questGeneratorManager = FindObjectOfType<TopdownQuestGeneratorManager>();
+            if (questGeneratorManager.language == Language.Portuguese)
+                _isInPortuguese = true;
+
             base.Awake();
             ExchangeDataList = new List<ExchangeQuestData>();
             GiveDataList = new List<GiveQuestData>();
@@ -137,7 +145,7 @@ namespace Game.NPCs
             dialogue.StopDialogueFromQuest(-1);
 
             string closerLine;
-            if (isInPortuguese)
+            if (_isInPortuguese)
                 closerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
             else
                 closerLine = NpcDialogueGenerator.CreateMainQuestLineCloser(eventArgs.QuestLine, Npc);
@@ -164,7 +172,7 @@ namespace Game.NPCs
             IsMainQuestNpc = true;
 
             string openerLine;
-            if (isInPortuguese)
+            if (_isInPortuguese)
                 openerLine = PTBR_NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
             else
                 openerLine = NpcDialogueGenerator.CreateMainQuestLineOpener(eventArgs.QuestLine, Npc);
@@ -188,7 +196,7 @@ namespace Game.NPCs
             if (targetNpc != Npc) return;
 
             string openerLine;
-            if (isInPortuguese)
+            if (_isInPortuguese)
                 openerLine = PTBR_NpcDialogueGenerator.CreateExchangeDialogue(exchangeEventArgs.ExchangeQuestData, Npc);
             else
                 openerLine = NpcDialogueGenerator.CreateExchangeDialogue(exchangeEventArgs.ExchangeQuestData, Npc);
@@ -205,7 +213,7 @@ namespace Game.NPCs
             if (targetNpc != Npc) return;
 
             string openerLine;
-            if (isInPortuguese)
+            if (_isInPortuguese)
                 openerLine = PTBR_NpcDialogueGenerator.CreateGiveDialogue(giveEventArgs.GiveQuestData, Npc);
             else
                 openerLine = NpcDialogueGenerator.CreateGiveDialogue(giveEventArgs.GiveQuestData, Npc);
@@ -247,7 +255,7 @@ namespace Game.NPCs
         
         protected override void CreateIntroDialogue()
         {
-            if (isInPortuguese)
+            if (_isInPortuguese)
                 DialogueLine = PTBR_NpcDialogueGenerator.CreateGreeting(Npc);
             else
                 DialogueLine = NpcDialogueGenerator.CreateGreeting(Npc);
