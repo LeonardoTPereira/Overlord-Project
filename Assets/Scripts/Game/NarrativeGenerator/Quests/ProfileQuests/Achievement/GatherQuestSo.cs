@@ -62,17 +62,17 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
             var stringBuilder = new StringBuilder();
             if (language == Language.Portuguese)
             {
-                stringBuilder.Append("Colete ");
+                stringBuilder.Append("Colete um(a)");
             }
             else
             {
-                stringBuilder.Append("Collect ");
+                stringBuilder.Append("Collect a");
             }
             
             foreach (var itemByAmount in OriginalItemsToGatherByType)
             {
                 var spriteString = itemByAmount.Key.GetGemstoneSpriteString();
-                stringBuilder.Append($"{itemByAmount.Key.Value} {itemByAmount.Key.ItemName}s {spriteString}, ");
+                stringBuilder.Append($" {itemByAmount.Key.ItemName} {spriteString}, ");
             }
             if ( stringBuilder.Length > 2)
             {
