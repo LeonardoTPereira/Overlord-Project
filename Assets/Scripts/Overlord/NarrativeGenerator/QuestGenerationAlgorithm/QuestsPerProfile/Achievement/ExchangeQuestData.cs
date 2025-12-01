@@ -1,4 +1,4 @@
-﻿using Game.NarrativeGenerator.ItemRelatedNarrative;
+﻿using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using ScriptableObjects;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals

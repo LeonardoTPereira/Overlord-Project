@@ -1,7 +1,8 @@
 ﻿using Game.EnemyManager;
 using Game.LevelManager.DungeonLoader;
 using Game.Maestro;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.RulesGenerator.EnemyGeneration;
 using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using System;
@@ -17,14 +18,11 @@ namespace Game.GameManager
     [Serializable]
     public class EnemyLoader : MonoBehaviour
     {
-        private static List<EnemySO> _enemyListForCurrentDungeon;
-
         [field: SerializeField] public GameObject EnemyPrefab { get; set; }
         [field: SerializeField] public GameObject BareHandEnemyPrefab { get; set; }
         [field: SerializeField] public GameObject ShooterEnemyPrefab { get; set; }
         [field: SerializeField] public GameObject BomberEnemyPrefab { get; set; }
         [field: SerializeField] public GameObject HealerEnemyPrefab { get; set; }
-
 
         public static void DistributeEnemiesInDungeon(Map map, QuestLineList questLines)
         {
@@ -59,20 +57,13 @@ namespace Game.GameManager
 
         public static void LoadEnemies(List<EnemySO> enemyList)
         {
-            _enemyListForCurrentDungeon = EnemySelector.FilterEnemies(enemyList);
+            EnemiesForCurrentDungeon.UpdateEnemiesForCurrentDungeon(enemyList);
             ApplyDelegates();
         }
-
-        public static EnemySO GetRandomEnemyOfType(WeaponTypeSo enemyType)
-        {
-            List<EnemySO> currentEnemies = GetEnemiesFromType(enemyType);
-            Debug.Log("ENEMY COUNT: " + currentEnemies.Count);
-            return currentEnemies[RandomSingleton.GetInstance().Next(0, currentEnemies.Count)];
-        }
-
+         
         public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSo enemyType, int questId)
         {
-            EnemySO currentEnemy = GetRandomEnemyOfType(enemyType);
+            EnemySO currentEnemy = EnemiesForCurrentDungeon.GetRandomEnemyOfType(enemyType);
             GameObject enemy;
             if (currentEnemy.weapon.Type == WeaponTypeEnum.BareHand)
             {
@@ -125,18 +116,11 @@ namespace Game.GameManager
             return enemy;
         }
 
-        private static List<EnemySO> GetEnemiesFromType(WeaponTypeSo weaponType)
-        {
-            Debug.Log(weaponType.ToString());
-            //TODO create these lists only once per type on dungeon load
-            return _enemyListForCurrentDungeon.Where(enemy => enemy.weapon == weaponType).ToList();
-        }
-
         private static void ApplyDelegates()
         {
-            if (_enemyListForCurrentDungeon != null)
+            if (EnemiesForCurrentDungeon.CurrentEnemies != null)
             {
-                foreach (var movement in _enemyListForCurrentDungeon.Select(x => x.movement))
+                foreach (var movement in EnemiesForCurrentDungeon.CurrentEnemies.Select(x => x.movement))
                 {
                     movement.movementType = GetMovementType(movement.enemyMovementIndex);
                 }

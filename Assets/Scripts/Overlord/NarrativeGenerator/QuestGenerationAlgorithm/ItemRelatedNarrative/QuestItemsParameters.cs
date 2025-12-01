@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+//using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
-namespace Game.NarrativeGenerator.ItemRelatedNarrative
+namespace Overlord.NarrativeGenerator.ItemRelatedNarrative
 {
     [Serializable]
     public class QuestItemsParameters
@@ -25,6 +24,7 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
             TotalItemValue = 0;
         }
 
+        /*
         public void CalculateItemsFromQuests(IEnumerable<QuestLine> questLines)
         {
             foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
@@ -32,6 +32,13 @@ namespace Game.NarrativeGenerator.ItemRelatedNarrative
                 AddItemWhenAchievementQuest(quest);
                 AddItemWhenImmersionQuest(quest);
             }
+        }
+        */
+
+        public void CalculateItemsFromQuests(QuestSo quest)
+        {
+            AddItemWhenAchievementQuest(quest);
+            AddItemWhenImmersionQuest(quest);            
         }
 
         private void AddItemWhenAchievementQuest(QuestSo quest)

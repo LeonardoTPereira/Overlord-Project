@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Game.NarrativeGenerator.ItemRelatedNarrative
+namespace Overlord.NarrativeGenerator.ItemRelatedNarrative
 {
     [Serializable]
     public class ItemsAmount : ICloneable

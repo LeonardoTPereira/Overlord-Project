@@ -8,8 +8,8 @@ using Game.ExperimentControllers;
 using UnityEngine;
 using Game.NPCs;
 using MyBox;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
-using Game.GameManager;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
+//using Game.GameManager;
 using static Util.Enums;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals

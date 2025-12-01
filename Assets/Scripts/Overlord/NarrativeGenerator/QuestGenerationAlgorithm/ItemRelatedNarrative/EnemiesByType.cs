@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.EnemyManager;
-using Game.GameManager;
-using Game.NarrativeGenerator.Quests;
+//using Game.GameManager;
+using Overlord.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
+using Overlord.RulesGenerator.EnemyGeneration;
 
-namespace Game.NarrativeGenerator.EnemyRelatedNarrative
+namespace Overlord.NarrativeGenerator.EnemyRelatedNarrative
 {
     [Serializable]
     public class EnemiesByType
@@ -65,7 +65,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
                 EnemiesByTypeDictionary.Remove(selectedType);
             }
         }
-
+                
         public EnemyByAmountDictionary GetEnemiesForRoom()
         {
             var enemiesBySo = new EnemyByAmountDictionary();
@@ -73,7 +73,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
             {
                 foreach (var questId in enemyType.Value.QuestIds)
                 {
-                    var selectedEnemy = EnemyLoader.GetRandomEnemyOfType(enemyType.Key);
+                    var selectedEnemy = EnemiesForCurrentDungeon.GetRandomEnemyOfType(enemyType.Key);
                     if (!enemiesBySo.ContainsKey(selectedEnemy))
                     {
                         var questIdList = new QuestIdList();
@@ -83,7 +83,7 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
                 }
             }
             return enemiesBySo;
-        }
+        }        
         
         public bool TryAddHealer(ref EnemiesByType enemies)
         {
@@ -114,5 +114,6 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
         {
             EnemiesByTypeDictionary[weaponTypeSo].QuestIds.Remove(questId);
         }
+        
     }
 }

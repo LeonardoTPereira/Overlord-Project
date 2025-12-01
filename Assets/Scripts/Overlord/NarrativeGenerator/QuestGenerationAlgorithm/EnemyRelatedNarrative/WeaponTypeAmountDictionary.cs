@@ -1,7 +1,7 @@
 ﻿using System;
 using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.EnemyRelatedNarrative
+namespace Overlord.NarrativeGenerator.EnemyRelatedNarrative
 {
     [Serializable]
     public class WeaponTypeAmountDictionary : KeyByQuestIdsDictionary<WeaponTypeSo>

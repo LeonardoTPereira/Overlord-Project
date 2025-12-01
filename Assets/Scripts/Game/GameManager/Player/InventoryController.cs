@@ -1,6 +1,6 @@
 ﻿using Game.Events;
 using Game.LevelManager.DungeonManager;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;

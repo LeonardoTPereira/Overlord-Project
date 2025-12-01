@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Game.ExperimentControllers;
 using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using UnityEngine;
 using Util;

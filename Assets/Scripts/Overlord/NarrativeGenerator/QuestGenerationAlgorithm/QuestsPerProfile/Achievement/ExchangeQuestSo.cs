@@ -2,11 +2,11 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Text;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
-using Game.GameManager;
+//using Game.GameManager;
 using System.Linq;
 using static Util.Enums;
 

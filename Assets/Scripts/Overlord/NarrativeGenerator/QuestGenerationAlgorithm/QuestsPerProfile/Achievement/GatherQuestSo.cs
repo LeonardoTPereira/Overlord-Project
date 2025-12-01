@@ -2,9 +2,8 @@ using ScriptableObjects;
 using Util;
 using System;
 using System.Text;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
-using Game.GameManager;
 using static Util.Enums;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals

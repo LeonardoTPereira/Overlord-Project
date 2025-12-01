@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.GameManager;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using ScriptableObjects;
 using System;
 using System.Text;

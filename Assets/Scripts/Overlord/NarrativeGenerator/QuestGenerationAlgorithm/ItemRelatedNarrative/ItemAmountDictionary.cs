@@ -1,7 +1,7 @@
 ﻿using System;
 using ScriptableObjects;
 
-namespace Game.NarrativeGenerator.ItemRelatedNarrative
+namespace Overlord.NarrativeGenerator.ItemRelatedNarrative
 {
     [Serializable]
     // SerializableDictionaryBase<T, QuestIdList> -> <ItemSo, QuestIdList> -> <ItemSo, List<int>>

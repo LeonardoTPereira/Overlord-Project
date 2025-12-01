@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Overlord.NarrativeGenerator.Quests
 {
     [Serializable]
     public class QuestIdList

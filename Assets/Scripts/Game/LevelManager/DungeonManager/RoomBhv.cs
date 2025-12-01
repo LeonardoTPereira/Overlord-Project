@@ -5,7 +5,7 @@ using Game.EnemyManager;
 using Game.Events;
 using Game.GameManager;
 using Game.LevelManager.DungeonLoader;
-using Game.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests;
 using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
@@ -13,6 +13,7 @@ using Util;
 using Game.Quests;
 using UnityEngine.Tilemaps;
 using PlatformGame.Player;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 
 namespace Game.LevelManager.DungeonManager
 {

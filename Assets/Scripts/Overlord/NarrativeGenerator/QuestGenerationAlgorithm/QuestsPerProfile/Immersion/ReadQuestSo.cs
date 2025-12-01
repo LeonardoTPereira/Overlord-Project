@@ -1,69 +1,63 @@
+using ScriptableObjects;
+using System.Collections.Generic;
 using Util;
 using System;
-using System.Collections.Generic;
-using Game.NPCs;
-using Game.GameManager;
 using static Util.Enums;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
-    public class ReportQuestSo : ImmersionQuestSo
+    public class ReadQuestSo : ImmersionQuestSo
     {
-        public override string SymbolType => Constants.ReportQuest;
+        public override string SymbolType => Constants.ReadQuest;
 
         public override Dictionary<string, Func<int,float>> NextSymbolChances
         {
             get => _nextSymbolChances;
             set => _nextSymbolChances = value;
         }
-        
-        public NpcSo Npc { get; set; }
-        public bool HasCreatedDialogue { get; set; }
+
+        public ItemSo ItemToRead {get; set; }
+        public int QuestId { get; set; }
 
         public override void Init()
         {
             base.Init();
-            Npc = null;
+            ItemToRead = null;
         }
 
-        public void Init(string questName, bool endsStoryLine, QuestSo previous, NpcSo npc)
+        public void Init(string questName, bool endsStoryLine, QuestSo previous, ItemSo itemToRead)
         {
             base.Init(questName, endsStoryLine, previous);
-            Npc = npc;
-            HasCreatedDialogue = false;
+            ItemToRead = itemToRead;
+            QuestId = GetInstanceID();
         }
 
         public override void Init(QuestSo copiedQuest)
         {
             base.Init(copiedQuest);
-            var reportQuest = copiedQuest as ReportQuestSo;
-            if (reportQuest != null)
+            var readQuest = copiedQuest as ReadQuestSo;
+            if (readQuest != null)
             {
-                Npc = reportQuest.Npc;
-                HasCreatedDialogue = reportQuest.HasCreatedDialogue;
+                ItemToRead = readQuest.ItemToRead;
             }
             else
             {
                 throw new ArgumentException(
-                    $"Expected argument of type {typeof(ReportQuestSo)}, got type {copiedQuest.GetType()}");
+                    $"Expected argument of type {typeof(ReadQuestSo)}, got type {copiedQuest.GetType()}");
             }
         }
 
         public override QuestSo Clone()
         {
-            var cloneQuest = CreateInstance<ReportQuestSo>();
+            var cloneQuest = CreateInstance<ReadQuestSo>();
             cloneQuest.Init(this);
             return cloneQuest;
-        }
-        
-        public override string GetTargetNpc()
-        {
-            return Npc.NpcName;
         }
 
         public override bool HasAvailableElementWithId<T>(T questElement, int questId)
         {
-            return !IsCompleted && Id == questId;
+            if (questId != Id) return false;
+            return !IsCompleted && ItemToRead.ItemName == (questElement as ItemSo)?.ItemName;
         }
 
         public override void RemoveElementWithId<T>(T questElement, int questId)
@@ -75,10 +69,10 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
         {
             if (language == Language.Portuguese)
             {
-                QuestText = $"Reporte para {Npc.NpcName}.\n";
+                QuestText = $"Leia {ItemToRead.ItemName}.\n";
                 return;
             }
-            QuestText = $"Report to {Npc.NpcName}.\n";
+            QuestText = $"Read the {ItemToRead.ItemName}.\n";
         }
     }
 }

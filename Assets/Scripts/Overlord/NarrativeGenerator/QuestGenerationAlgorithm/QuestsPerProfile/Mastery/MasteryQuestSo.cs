@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.NPCs;
-using Game.GameManager;
 using System.Linq;
 using System.Text;
 using Game.ExperimentControllers;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using MyBox;
 using static Util.Enums;
 

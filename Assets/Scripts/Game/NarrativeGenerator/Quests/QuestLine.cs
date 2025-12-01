@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.ExperimentControllers;
-using Game.LevelGenerator.LevelSOs;
+//using Game.LevelGenerator.LevelSOs;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using Game.Quests;
@@ -13,6 +13,7 @@ using UnityEngine;
 using Util;
 using static Util.Enums;
 using Overlord.NarrativeGenerator.Quests;
+using Game.LevelGenerator.LevelSOs;
 
 namespace Game.NarrativeGenerator.Quests
 {

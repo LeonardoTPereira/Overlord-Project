@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Game.LevelGenerator.LevelSOs;
 using Overlord.ProfileAnalyst;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using System.Linq;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -109,27 +111,32 @@ namespace Game.NarrativeGenerator.Quests
             }
         }
 
-
         public void CalculateDifficultyFromProfile(float masteryPreference)
         {
             EnemyParametersForQuestLines.CalculateDifficultyFromProfile(masteryPreference/100f);
         }
 
-        public void CalculateMonsterFromQuests()
-        {
-            EnemyParametersForQuestLines.CalculateMonsterFromQuests(QuestLines);
-        }
-
         public void CalculateItemsFromQuests()
         {
-            ItemParametersForQuestLines.CalculateItemsFromQuests(QuestLines);
+            foreach (var quest in QuestLines.SelectMany(QuestLines => QuestLines.Quests))
+            {
+                ItemParametersForQuestLines.CalculateItemsFromQuests(quest);
+            }
+        }
+
+        public void CalculateMonsterFromQuests()
+        {
+            foreach (var quest in QuestLines.SelectMany(QuestLines => QuestLines.Quests))
+            {
+                EnemyParametersForQuestLines.CalculateMonsterFromQuests(quest);
+            }
         }
 
         public void CalculateDungeonParametersFromQuests(float explorationPreference, float achievementPreference)
         {
             DungeonParametersForQuestLines.CalculateDungeonParametersFromQuests(QuestLines
                 , explorationPreference/100f, achievementPreference/100f);
-        }
+        }      
 
         public void SetRandomMainQuest(List<int> rewardedKeys)
         {
