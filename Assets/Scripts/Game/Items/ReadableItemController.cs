@@ -1,8 +1,10 @@
+using Fog.Dialogue;
+using Overlord.NarrativeGenerator;
 using ScriptableObjects;
 using System;
-using Fog.Dialogue;
-using Game.GameManager;
+using Topdown.Overlord.NarrativeGenerator;
 using UnityEngine;
+using static Util.Enums;
 
 namespace Game
 {
@@ -13,6 +15,15 @@ namespace Game
 
         [SerializeField] private QuestDialogueInteraction _questDialogue;
         private ReadableItemSo itemSo;
+        private Language _language;
+
+        private void Awake()
+        {
+            var questGeneratorManager = FindObjectOfType<QuestGeneratorManager>();
+            if (questGeneratorManager == null)
+                questGeneratorManager = FindObjectOfType<TopdownQuestGeneratorManager>();
+            _language = questGeneratorManager.language;
+        }
 
         private void OnEnable()
         {
@@ -27,7 +38,7 @@ namespace Game
         public void SetItemInfo(ReadableItemSo item, int questId)
         {
             _questDialogue.DialogueObj = item;
-            _questDialogue.DialogueLine = item.SetRandomText(GameManagerSingleton.Instance.IsInPortuguese);
+            _questDialogue.DialogueLine = item.SetRandomText(_language);
             _questDialogue.QuestId = questId;
 
             itemSprite.sprite = item.sprite;

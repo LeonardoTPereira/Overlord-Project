@@ -1,10 +1,11 @@
 ﻿using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.NarrativeGenerator
 {

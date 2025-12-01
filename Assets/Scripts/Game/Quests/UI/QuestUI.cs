@@ -1,11 +1,13 @@
 using Game.NarrativeGenerator.Quests;
 using Game.Quests;
+using Overlord.NarrativeGenerator;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Topdown.Overlord.NarrativeGenerator;
 
 public class QuestUI : MonoBehaviour
 {
@@ -15,10 +17,14 @@ public class QuestUI : MonoBehaviour
     private VisualElement _root;
 
     private QuestLineList currentQuestLines;
+    private QuestGeneratorManager _questGeneratorManager;
 
     private void Awake()
     {
         QuestController questController = FindObjectOfType<QuestController>();
+        _questGeneratorManager = FindObjectOfType<QuestGeneratorManager>();
+        if ( _questGeneratorManager == null )
+            _questGeneratorManager = FindObjectOfType<TopdownQuestGeneratorManager>();
         if ( questController == null )
             Destroy(gameObject);
         currentQuestLines = questController.QuestLines;
@@ -57,7 +63,7 @@ public class QuestUI : MonoBehaviour
         {
             if (questLine.GetCurrentQuest() != null)
             {
-                questLine.GetCurrentQuest().CreateQuestString();
+                questLine.GetCurrentQuest().CreateQuestString(_questGeneratorManager.language);
                 //questContents[0] += "\n - "+questLine.GetCurrentQuest().GetType().Name.Replace("QuestSo", "") + " " + RemoveAngleBracketContent(questLine.GetCurrentQuest().ToString());
                 questContents[0] += "\n - " + " " + RemoveAngleBracketContent(questLine.GetCurrentQuest().ToString());
             }

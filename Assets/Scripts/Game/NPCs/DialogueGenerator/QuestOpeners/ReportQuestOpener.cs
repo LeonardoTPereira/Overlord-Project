@@ -6,7 +6,7 @@ namespace Game.NPCs
     {
         protected override string [] lowSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Eu odeio ser o portador de más notícias... Ou de qualquer notícia... Seja útil e entregue este envelope para {questSo.GetTargetNpc()}.",
                     "O que {questSo.GetTargetNpc()} me pediu para fazer vai se atrasar. Se os ver por aí, avise-os. Não vou sair do meu caminho para fazer isso.",
@@ -40,7 +40,7 @@ namespace Game.NPCs
 
         protected override string [] averageSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese) 
                     return new string [] {
                     "Preciso que alguém avise {questSo.GetTargetNpc()} que não vou conseguir devolver o livro dele tão cedo. Você pode fazer esse favor e contar para ele?",
                     "{questSo.GetTargetNpc()} me emprestou um livro mágico, mas acho que vou precisar de mais algumas semanas para aprender os feitiços. Se os ver por aí, você pode perguntar se está tudo bem?",
@@ -74,7 +74,7 @@ namespace Game.NPCs
 
         protected override string [] highSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese) 
+                if (_language == Util.Enums.Language.Portuguese) 
                     return new string [] {
                     "PARE O MUNDO, A MAIOR FOFOCA ACABOU DE CHEGAR! Eu imploro, você pode contar para {questSo.GetTargetNpc()} sobre isso??",
                     "Oh, você é exatamente a pessoa que eu preciso! Tenho essa informação vital, e realmente preciso que você a leve até {questSo.GetTargetNpc()}. Eles vão ficar tão gratos de ouvir isso de você!",

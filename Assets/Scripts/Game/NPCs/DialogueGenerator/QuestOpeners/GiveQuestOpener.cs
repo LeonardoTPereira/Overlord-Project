@@ -6,7 +6,7 @@ namespace Game.NPCs
     {
         protected override string [] lowSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Leve {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. Eu faria isso, mas tenho coisas mais importantes para fazer.",
                     "Ugh, tá bom. Você está aqui, então seja útil e entregue {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()}. Não perca.",
@@ -36,7 +36,7 @@ namespace Game.NPCs
 
         protected override string [] averageSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Você poderia levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()} para mim? Ele está esperando isso, e eu ficaria grato pela ajuda!",
                     "Aqui está um item que {questSo.GetTargetNpc()} precisa. Você pode entregá-lo para ele? Eu confio que você vai fazer isso com segurança.",
@@ -58,7 +58,7 @@ namespace Game.NPCs
 
         protected override string [] highSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Oh, oi! Justo a pessoa que eu esperava ver! Então, {questSo.GetTargetNpc()} me disse um tempo atrás que ele precisa de {questSo.GetItemAmountString()}. Mas, você sabe como é, eu sempre me distraio e esqueço no meio do caminho. Você pode entregar para ele por mim? Por favor?",
                     "Ai meu Deus, eu estava querendo levar {questSo.GetItemAmountString()} para {questSo.GetTargetNpc()} há séculos! Bem, ok, talvez não séculos, mas parece que foi. Enfim, você pode entregar? Você é muito melhor nisso!",

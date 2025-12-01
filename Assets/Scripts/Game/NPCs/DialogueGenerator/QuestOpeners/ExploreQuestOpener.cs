@@ -5,7 +5,7 @@ namespace Game.NPCs
     {
         protected override string [] lowSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Já faz um tempo desde que deixei minhas funções aqui como {speaker.Job}. Nem sei se essa masmorra tem {questSo.GetRoomAmount()} cômodos. ... Você pode confirmar isso?",
                     "Ótimo, outra coisa que eu não posso fazer. Vá procurar {questSo.GetRoomAmount()} cômodos nesta masmorra e me avise o que encontrou.",
@@ -25,7 +25,7 @@ namespace Game.NPCs
 
         protected override string [] averageSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Meu melhor amigo costumava ser cartógrafo. Ele vai me visitar em breve e eu estava pensando em preparar uma surpresa. Você pode ajudar? Eu queria fazer um mapa para explorarmos juntos, mas antes preciso confirmar o tamanho. Você poderia verificar se há pelo menos {questSo.GetRoomAmount()} cômodos aqui?",
                     "Às vezes eu fico imaginando como seria ser cartógrafo. Talvez eu devesse tentar fazer um mapa para mim mesmo. Não sei se {questSo.GetRoomAmount()} seria um mapa muito grande... Você poderia explorar {questSo.GetRoomAmount()} cômodos e me contar como são para eu poder começar meu mapa?",
@@ -45,7 +45,7 @@ namespace Game.NPCs
 
         protected override string[] highSocialDialogues {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Ei, você poderia me fazer um pequeno favor e explorar {questSo.GetRoomAmount()} cômodos nesta área? Eu iria eu mesmo, mas quem sabe o que tem lá! Eu só ia entrar em pânico!",
                     "Então, uma história engraçada—eu estava querendo olhar aqueles {questSo.GetRoomAmount()} cômodos, mas sempre aparece algo! Você pode cuidar disso para mim? Tenho certeza que são fascinantes!",

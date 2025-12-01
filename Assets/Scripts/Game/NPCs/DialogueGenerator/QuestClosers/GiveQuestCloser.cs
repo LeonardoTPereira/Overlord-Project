@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Bem, você realmente conseguiu. Encontrou o item e entregou para eles. Acho que isso vale um 'obrigado.'",
                     "Huh. Você passou por todo esse trabalho e realmente entregou o item. Tudo bem, suponho que devo agradecer.",
@@ -39,7 +39,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Obrigado por pegar aquele item e entregá-lo a eles. Não posso dizer o quanto isso vai ajudar.",
                     "Eu realmente aprecio você ter cuidado disso por mim. Entregar esse item para eles não foi uma tarefa pequena. Você fez um ótimo trabalho!",
@@ -71,7 +71,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Uau, você realmente fez isso! Você reuniu o item e o entregou, nada menos! Quero dizer, eu sabia que você tinha isso em você, mas ainda assim! Foi uma tarefa e tanto, e estou tão grato que você fez acontecer!",
                     "Oh meu Deus, você foi além, não foi? Não só reuniu o item, mas realmente o entregou! Você está facilitando a vida de todos por aqui. Muito obrigado!",

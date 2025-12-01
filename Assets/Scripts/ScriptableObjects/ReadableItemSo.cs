@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using UnityEngine;
+using static Util.Enums;
 
 namespace ScriptableObjects
 {
@@ -21,6 +22,11 @@ namespace ScriptableObjects
             var itemNum = 0;
             stringBuilder.Append($"<sprite=\"Scrolls\" name=\"{ItemName}\">");
             return stringBuilder.ToString();
+        }
+
+        public string SetRandomText(Language language)
+        {
+            return SetRandomText(language == Language.Portuguese);
         }
 
         public string SetRandomText(bool isInPortuguese)

@@ -9,8 +9,8 @@ using Game.LevelSelection;
 using Game.Maestro;
 using Game.GameManager;
 using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
@@ -25,40 +25,36 @@ using Topdown.Overlord.ProfileAnalyst;
 namespace Topdown.Overlord.NarrativeGenerator
 {
     [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
-    public class TopdownQuestGeneratorManager : MonoBehaviour
+    public class TopdownQuestGeneratorManager : QuestGeneratorManager
     {
-        [field:SerializeField] public bool MustCreateNarrative { get; set; }
-        [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
+        [field: SerializeField, MustBeAssigned] public SelectedLevels SelectedLevels { get; set; }
 
-        public static event ProfileSelectedEvent ProfileSelectedEventHandler;
-        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;
-        public static event ProfileSelectedEvent FixedLevelProfileEventHandler;
+        public static event ProfileSelectedEvent ProfileSelectedEventHandler;       // Topdown  event
+        public static event QuestLineCreatedEvent QuestLineCreatedEventHandler;     // Topdown  event
+        public static event ProfileSelectedEvent FixedLevelProfileEventHandler;     // Topdown  event
 
         [MustBeAssigned, SerializeReference, SerializeField]
         private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
+
         [SerializeReference, SerializeField] private QuestLineList questLines;
 
         private TopdownEnemyGeneratorManager _enemyGeneratorManager;
         private LevelGeneratorManager _levelGeneratorManager;
                 
-        public void OnEnable()
+        private void Start()
         {
-            TopdownPlayerProfileManager.ProfileSelected += HandleProfileSelected;
+            _enemyGeneratorManager = GetComponent<TopdownEnemyGeneratorManager>();
+            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
         }
 
-        public void OnDisable()
-        {
-            TopdownPlayerProfileManager.ProfileSelected -= HandleProfileSelected;
-        }
-
-        private async void HandleProfileSelected(IPlayerProfile profile)
+        protected override async void HandleProfileSelected(IPlayerProfile profile)
         {
             if (profile is YeePlayerProfile yeeProfile)
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = Selector.CreateMissions(CurrentGeneratorSettings);
+                    questLines = TopdownQuestSelector.CreateMissions(CurrentGeneratorSettings, language);
                     await CreateNarrative(yeeProfile);
                 }
                 else
@@ -67,14 +63,8 @@ namespace Topdown.Overlord.NarrativeGenerator
                 }
             }
         }
-        
-        private void Start()
-        {
-            _enemyGeneratorManager = GetComponent<TopdownEnemyGeneratorManager>();
-            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
-        }
 
-        private async Task CreateNarrative(YeePlayerProfile playerProfile)
+        protected override async Task CreateNarrative(YeePlayerProfile playerProfile)
         {
             CreateGeneratorParametersForQuestLine(playerProfile);
             questLines.TargetProfile = playerProfile;
@@ -82,7 +72,7 @@ namespace Topdown.Overlord.NarrativeGenerator
 #if UNITY_EDITOR
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
-                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings);
+                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings, language);
                 narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
             }
 #endif

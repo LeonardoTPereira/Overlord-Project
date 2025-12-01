@@ -7,7 +7,7 @@ namespace Game.NPCs
         protected override string [] lowSocialDialogues {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Ugh, aquela área tem sido uma dor de cabeça para mim. Lá nas coordenadas {questSo.GetRoomCoordinates()}? Vai lá dar uma olhada e ver o que está causando todo esse alvoroço, pode ser?",
                     "Aquele lugar em {questSo.GetRoomCoordinates()} ainda não foi explorado, e eu estou ocupado demais para lidar com isso. Acho que agora é seu problema.",
@@ -30,7 +30,7 @@ namespace Game.NPCs
         protected override string [] averageSocialDialogues{
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Estou pensando em entrar em um concurso de pintura, mas ainda estou decidindo o que pintar. Ouvi dizer que há um lugar bonito nas coordenadas {questSo.GetRoomCoordinates()}. Você pode ir lá e dar uma olhada para mim?",
                     "Você se importaria de dar uma olhada em uma área para mim? Ouvi dizer que há algo interessante nas coordenadas {questSo.GetRoomCoordinates()}, mas eu não posso ir pessoalmente.",
@@ -62,7 +62,7 @@ namespace Game.NPCs
 
         protected override string [] highSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Oh, você está aqui! Fantástico! Então, tem esse ponto nas coordenadas {questSo.GetRoomCoordinates()} que tem me incomodado de curiosidade há séculos. Você poderia dar uma olhada? Eu iria eu mesmo, mas, sabe, motivos!",
                     "Ei, eu fiquei olhando esse mapa por horas, e tem algo intrigante nas coordenadas {questSo.GetRoomCoordinates()}. Você poderia explorar para mim? Ah, e não se esqueça de tirar umas notas—eu adoro detalhes!",

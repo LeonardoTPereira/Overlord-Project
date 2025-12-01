@@ -8,7 +8,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Não acredito que {questSo.GetOwnerNpc()} está mandando bobalhões que nem você virem aqui tirar a minha paz."
                     };
@@ -22,7 +22,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "{questSo.GetOwnerNpc()} te enviou aqui pra ouvir o que eu tenho a dizer?"
                     };
@@ -36,7 +36,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "{questSo.GetOwnerNpc()} disse pra você vir aqui?! Estou tão feliz! Adoro poder conversar :)"
                     };

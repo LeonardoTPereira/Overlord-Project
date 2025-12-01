@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Eu não ligo pro que {questSo.GetOwnerNpc()} tem a \"reportar\". Diga pra {questSo.GetOwnerNpc()} não falar mais comigo."
                     };
@@ -21,7 +21,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Oh? Você está com informações vindas de {questSo.GetOwnerNpc()}? ... Entendo, muito bem. Você pode dizer que a mensagem foi recebida."
                     };
@@ -35,7 +35,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "{questSo.GetOwnerNpc()} disse o queeeee? Muito obrigada por me avisar! Pode dizer um muito obrigado a {questSo.GetOwnerNpc()} também!"
                     };

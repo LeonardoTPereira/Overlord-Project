@@ -23,7 +23,8 @@ namespace Overlord.ProfileAnalyst
 
         protected void SetRandomPlayerProfile()
         {
-
+            var playerProfile = _profileCalculator.GetRandomPlayerProfile();
+            InvokeEventOnSelectedProfile(playerProfile);
         }
 
         protected virtual void InvokeEventOnSelectedProfile(IPlayerProfile profile)

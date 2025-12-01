@@ -2,7 +2,7 @@
 using ScriptableObjects;
 using System;
 using System.Linq;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using UnityEngine;
 using Util;
 

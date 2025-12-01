@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Huh. Você encontrou as coisas. Não achei que você conseguiria. Obrigado, acho.",
                     "Bem, você conseguiu reunir tudo. Vou te dar crédito por isso. Agora, me deixe em paz.",
@@ -33,7 +33,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Você conseguiu! Eu realmente aprecio você ter reunido tudo isso. Isso será de grande ajuda daqui para frente.",
                     "Você realmente se superou! Obrigado por conseguir tudo o que pedi—isso será muito útil.",
@@ -57,7 +57,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Oh, uau, você realmente encontrou todos eles! Estou tão feliz que você conseguiu localizá-los! Você não faz ideia de como as coisas vão ficar mais fáceis agora. Você é um salvador!",
                     "Olhe para tudo isso! Não acredito que você encontrou tudo—bem, na verdade, acredito, conhecendo você! Você realmente se superou, não é? Vou começar a usar isso imediatamente!",

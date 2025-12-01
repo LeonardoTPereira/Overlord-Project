@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.Overlord.ProfileAnalyst;
 using Game.ExperimentControllers;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
+//using Game.LevelGenerator.LevelSOs;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
 using Game.Quests;
 #if UNITY_EDITOR
@@ -12,6 +11,9 @@ using UnityEditor;
 #endif
 using UnityEngine;
 using Util;
+using static Util.Enums;
+using Overlord.NarrativeGenerator.Quests;
+using Game.LevelGenerator.LevelSOs;
 
 namespace Game.NarrativeGenerator.Quests
 {
@@ -35,15 +37,23 @@ namespace Game.NarrativeGenerator.Quests
         public static event QuestElementEvent AllowCheckPointEventHandler;
         public static event QuestElementEvent AllowGiveEventHandler;
 
+        private Language _language;
+
         public void Init()
         {
             Quests = new List<QuestSo>();
             CurrentQuestIndex = 0;
         }
 
+        public void Init(Language language)
+        {
+            Init();
+            _language = language;
+        }
+
         public void Init(QuestLine questLine)
         {
-            Quests = new List<QuestSo>();
+            Init();
             foreach (var copyQuest in questLine.Quests.Select(quest => quest.Clone()))
             {
                 if (Quests.Count > 0)
@@ -59,7 +69,6 @@ namespace Game.NarrativeGenerator.Quests
             RewardKeys.AddRange(questLine.RewardKeys);
 
             NpcInCharge = questLine.NpcInCharge;
-            CurrentQuestIndex = 0;
         }
 
         public void SaveAsset(string directory)
@@ -195,12 +204,12 @@ namespace Game.NarrativeGenerator.Quests
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.NextSymbolChances = TopdownYeeProfileCalculator.StartSymbolWeights;
+                lastSelectedQuest.NextSymbolChances = YeeProfileCalculator.StartSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 nonTerminalSymbol.SetNextSymbol(questChain);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings, _language);
             }
         }
 
@@ -217,7 +226,7 @@ namespace Game.NarrativeGenerator.Quests
             foreach (string missingQuest in missingQuests)
             {
                 questChain.SetSymbol(missingQuest);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings, _language);
             }
         }
 
@@ -235,7 +244,7 @@ namespace Game.NarrativeGenerator.Quests
                         gotoQuest.SelectRoomCoordinates(dungeonParts);
                         break;
                 }
-                quest.CreateQuestString();
+                quest.CreateQuestString(_language);
             }
         }
     }

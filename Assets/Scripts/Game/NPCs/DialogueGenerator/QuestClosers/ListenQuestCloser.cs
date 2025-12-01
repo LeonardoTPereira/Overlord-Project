@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Certo, tudo bem... obrigado por ouvir {questSo.GetTargetNpc()}. Isso me economiza o trabalho, eu acho.",
                     "Hmph. Acho que devo te agradecer por lidar com {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} realmente fala demais, não?",
@@ -35,7 +35,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Obrigado por ouvir {questSo.GetTargetNpc()}. {questSo.GetTargetNpc()} precisavam disso, e eu sei que fez a diferença.",
                     "Significa muito que você tenha ouvido {questSo.GetTargetNpc()}. Não muitos teriam dedicado seu tempo.",
@@ -61,7 +61,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Oh, muito obrigado por ouvir {questSo.GetTargetNpc()}! Eles têm as histórias mais fascinantes, não têm?",
                     "Você ouviu {questSo.GetTargetNpc()}? Maravilhoso! Não são uma verdadeira fonte de informações?",

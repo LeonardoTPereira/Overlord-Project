@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.NarrativeGenerator.ItemRelatedNarrative;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using Game.NPCs;
 using UnityEngine;
 using Util;

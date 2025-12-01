@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Não quero nada que você tenha a oferecer. O quê? {questSo.GetOwnerNpc()} te enviou? Affe, ta bom então."
                     };
@@ -21,7 +21,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "{questSo.GetOwnerNpc()} te enviou aqui pra trocar alguns itens comigo?"
                     };
@@ -35,7 +35,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Uuuuuh, eu lembro sim do {questSo.GetOwnerNpc()} mencionando sobre uma troca. Eu fiquei tão animado que até esqueci o que ele ofereceu. Estou feliz que você está aqui pra ajudar c:"
                     };

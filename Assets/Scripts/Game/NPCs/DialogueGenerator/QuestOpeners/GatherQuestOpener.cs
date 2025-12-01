@@ -7,7 +7,7 @@ namespace Game.NPCs
         protected override string[] lowSocialDialogues
         {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Nossa, eu me pergunto como esse lugar ficou tão bagunçado em primeiro lugar. Seja útil e colete os {questSo.GetItemAmountString()} que estão por aí.",
                     "Eu preciso de {questSo.GetItemAmountString()} para um feitiço. Que feitiço? Não é da sua conta. Você pode até ficar com os {questSo.GetItemString()}.",
@@ -30,7 +30,7 @@ namespace Game.NPCs
         protected override string[] averageSocialDialogues
         {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Esse lugar está uma bagunça! Você poderia, por favor, coletar os {questSo.GetItemAmountString()} que estão por aí?",
                     "Eu estou começando a estudar {questSo.GetItemString()}. Você poderia me trazer {questSo.GetItemAmountString()} para eu dar uma olhada? Você pode ficar com eles, eu só preciso estudar um pouco…",
@@ -55,7 +55,7 @@ namespace Game.NPCs
         protected override string[] highSocialDialogues
         {
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Ah, sabe, eu venho pensando nisso há um tempo, e eu só preciso perguntar—você poderia coletar {questSo.GetItemAmountString()} para mim? Eles são tão brilhantes e raros! Eu faria isso, mas, bem, você é muito melhor nisso!",
                     "Você não vai acreditar, mas eu ouvi dizer que existem exatamente {questSo.GetItemAmountString()} por aí, esperando para serem encontrados! Você se importaria de coletá-los para mim? Imagina as possibilidades quando tivermos eles!",

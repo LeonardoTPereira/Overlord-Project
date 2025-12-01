@@ -5,7 +5,7 @@ namespace Game.NPCs
     {
         protected override string [] lowSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Não há nada que eu desgoste mais do que {questSo.GetEnemyString()}. Vou te dizer o que, se você se livrar de {questSo.GetEnemyAmountString()}, talvez eu te dê uma recompensa.",
                     "Esses {questSo.GetEnemyString()} estão atrapalhando meu caminho. Seja útil e mate {questSo.GetEnemyAmountString()}.",
@@ -35,7 +35,7 @@ namespace Game.NPCs
 
         protected override string [] averageSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "ATCHOOO, a-- ATCHOOO .... Oh, desculpe por isso. Na verdade, sou alérgico a {questSo.GetEnemyString()}. Como funciona isso, você pergunta? Bem, melhor perguntar para o meu médico do que para mim... Você poderia se livrar de {questSo.GetEnemyAmountString()}? Isso me ajudaria muito...",
                     "Isso é um pouco embaraçoso, mas na verdade eu sou assustado com {questSo.GetEnemyString()}. Você poderia se livrar de alguns deles para mim? Acho que se você matar {questSo.GetEnemyAmountString()} eu me sentiria bem mais seguro!",
@@ -63,7 +63,7 @@ namespace Game.NPCs
 
         protected override string [] highSocialDialogues{
             get {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string [] {
                     "Há muito tempo, um bando de {questSo.GetEnemyString()} matou minha mãe. Não sou muito fã de caçar monstros, mas acredito que devemos fazer algo para que as pessoas não se machuquem. Eu não tenho forças para isso, mas ficaria muito grato se você conseguisse se livrar de {questSo.GetEnemyAmountString()}.",
                     "Estamos desesperados por ajuda. Os {questSo.GetEnemyString()} devem ser parados! Você pode lidar com {questSo.GetEnemyAmountString()} para nós?",

@@ -5,6 +5,7 @@ using Game.NarrativeGenerator.Quests;
 using Overlord.ProfileAnalyst;
 using System.Collections.Generic;
 using UnityEditor;
+using Util;
 
 namespace Overlord.NarrativeGenerator
 {
@@ -14,13 +15,16 @@ namespace Overlord.NarrativeGenerator
         private List<QuestLineList> _questLinesForProfile;
         private IPlayerProfile _playerProfile;
         private GeneratorSettings _generatorSettings;
+        private Enums.Language _language;
 
         public NarrativeExperimentRepository(IPlayerProfile playerProfile, 
-            PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines, GeneratorSettings generatorSettings)
+            PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines, GeneratorSettings generatorSettings,
+            Enums.Language language)
         {
             _playerProfile = playerProfile;
             _playerProfileToQuestLines = playerProfileToQuestLines;
             _generatorSettings = generatorSettings;
+            _language = language;
         }
 
         public void Save(QuestLineList questLines, string profileName)
@@ -41,7 +45,7 @@ namespace Overlord.NarrativeGenerator
 
         private void SetQuestLineListForProfile(QuestLineList questLines)
         {
-            _questLinesForProfile = new List<QuestLineList> { Selector.CreateMissions(_generatorSettings) };
+            _questLinesForProfile = new List<QuestLineList> { TopdownQuestSelector.CreateMissions(_generatorSettings, _language) };
             /*
             if (_playerProfile is YeePlayerProfile playerProfile)
             {

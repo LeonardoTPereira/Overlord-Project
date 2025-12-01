@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Text;
 using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Overlord.RulesGenerator.EnemyGeneration;
 using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
-namespace Game.NarrativeGenerator.EnemyRelatedNarrative
+namespace Overlord.NarrativeGenerator.EnemyRelatedNarrative
 {
     [Serializable]
     public class QuestEnemiesParameters
@@ -50,14 +51,21 @@ namespace Game.NarrativeGenerator.EnemyRelatedNarrative
 	        };
         }
 
+        /*
         public void CalculateMonsterFromQuests(IEnumerable<QuestLine> questLines)
         {
             foreach (var quest in questLines.SelectMany(questLine => questLine.Quests))
             {
                 AddEnemiesWhenEnemyQuest(quest);
             }
+        }        
+        */
+
+        public void CalculateMonsterFromQuests(QuestSo quest)
+        {
+            AddEnemiesWhenEnemyQuest(quest);            
         }
-        
+
         private void AddEnemiesWhenEnemyQuest(QuestSo quest)
         {
             if (quest is KillQuestSo killQuestSo)

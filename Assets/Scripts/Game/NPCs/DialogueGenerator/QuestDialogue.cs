@@ -1,14 +1,24 @@
-using System.Linq;
+using Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.Quests;
 using System.Text;
-using Game.NarrativeGenerator.Quests;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using MyBox;
+using Topdown.Overlord.NarrativeGenerator;
 using UnityEngine;
+using static Util.Enums;
 
 namespace Game.NPCs
 {
-    public class QuestDialogue
+    public class QuestDialogue : MonoBehaviour
     {
+        protected Language _language;
+
+        protected void SetQuestLanguage()
+        {
+            var questGeneratorManager = FindObjectOfType<QuestGeneratorManager>();
+            if (questGeneratorManager == null)
+                questGeneratorManager = FindObjectOfType<TopdownQuestGeneratorManager>();
+            _language = questGeneratorManager.language;
+        }
+
         protected virtual string [] lowSocialDialogues {
             get { return new string[0]; }
             }
@@ -23,6 +33,7 @@ namespace Game.NPCs
 
         public string CreateQuestDialogue(QuestSo closedQuest, NpcSo speaker)
         {
+            SetQuestLanguage();
             switch (speaker.SocialFactor)
             {
                 case < 3:
@@ -37,7 +48,7 @@ namespace Game.NPCs
         protected string GetQuestDialogue( string[] dialogues, QuestSo quest, NpcSo speaker )
         {
             var createdDialogue = new StringBuilder();
-            int randomDialogue = Random.Range( 0, dialogues.Length );
+            int randomDialogue = UnityEngine.Random.Range( 0, dialogues.Length );
 
             if ( dialogues.Length == 0 )
             {
@@ -50,12 +61,12 @@ namespace Game.NPCs
                     .Replace("{speaker.NpcName}", speaker.NpcName)
                     .Replace("{speaker.Job}", speaker.Job.ToString())
                     .Replace("{questSo.GetTargetNpc()}", quest.GetTargetNpc())
-                    .Replace("{questSo.GetItemAmountString()}", quest.GetItemAmountString())
+                    .Replace("{questSo.GetItemAmountString()}", quest.GetItemAmountString(_language))
                     .Replace("{questSo.GetItemString()}", quest.GetItemString())
                     .Replace("{questSo.GetRoomAmount()}", quest.GetRoomAmount())
                     .Replace("{questSo.GetRoomCoordinates()}", quest.GetRoomCoordinates())
-                    .Replace("{questSo.GetEnemyAmountString()}", quest.GetEnemyAmountString())
-                    .Replace("{questSo.GetEnemyString()}", quest.GetEnemyString())
+                    .Replace("{questSo.GetEnemyAmountString()}", quest.GetEnemyAmountString(_language))
+                    .Replace("{questSo.GetEnemyString()}", quest.GetEnemyString(_language))
                     .Replace("{questSo.GetOwnerNpc()}",quest.GetOwnerNpc())
                 );
             return createdDialogue.ToString();

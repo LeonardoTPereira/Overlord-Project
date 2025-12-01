@@ -1,5 +1,5 @@
 ﻿using Game.DataCollection;
-using Game.EnemyManager;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Game.LevelManager;
 using System;
 using UnityEngine;

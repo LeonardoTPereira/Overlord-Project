@@ -127,5 +127,11 @@
             TopDown,
             Platformer
         }
+
+        public enum Language
+        {
+            English,
+            Portuguese
+        }
     }
 }

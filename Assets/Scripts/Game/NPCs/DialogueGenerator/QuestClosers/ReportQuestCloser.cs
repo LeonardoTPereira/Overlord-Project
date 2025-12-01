@@ -7,7 +7,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Ugh, então você realmente fez isso... Bem, acho que o outro NPC já sabe agora. Não espere que eu seja todo agradecido, mas... tudo bem, obrigado.",
                     "Demorou, né? Pelo menos agora a informação está com {questSo.GetTargetNpc()}. Eu não achei que você fosse seguir até o fim, mas aqui estamos.",
@@ -39,7 +39,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Obrigado por passar isso para {questSo.GetTargetNpc()}. Tenho certeza de que vai facilitar as coisas para todo mundo. Bom trabalho!",
                     "Bom trabalho! {questSo.GetTargetNpc()} tem a informação agora. Agradeço por ter tirado um tempo para reportar isso.",
@@ -71,7 +71,7 @@ namespace Game.NPCs
         {
             get
             {
-                if (GameManagerSingleton.Instance.IsInPortuguese)
+                if (_language == Util.Enums.Language.Portuguese)
                     return new string[] {
                     "Oh, fantástico! Você realmente fez um grande favor para nós, levando essa informação até {questSo.GetTargetNpc()}. Tenho certeza de que {questSo.GetTargetNpc()} adorou saber o que você descobriu. Ótimo trabalho!",
                     "Olha só você! Passando informações importantes assim—agora {questSo.GetTargetNpc()} pode começar a trabalhar nisso. Tenho certeza de que vai ajudar muito. Milhões de muitos obrigados!",

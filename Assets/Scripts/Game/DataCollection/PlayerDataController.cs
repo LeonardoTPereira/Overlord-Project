@@ -1,4 +1,4 @@
-﻿using Game.Dialogues;
+﻿using Overlord.NarrativeGenerator.Quests;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
@@ -15,6 +15,7 @@ using Game.NPCs;
 using System;
 using UnityEngine;
 using Topdown.Overlord.ProfileAnalyst;
+using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
 namespace Game.DataCollection
 {
