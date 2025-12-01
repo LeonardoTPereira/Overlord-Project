@@ -17,19 +17,8 @@ namespace Overlord.NarrativeGenerator
         [field: SerializeField] public bool MustCreateNarrative { get; set; }
         [SerializeField] public Language language = Language.Portuguese;
 
-        [field: Foldout("Prefabs for Game", true)]
-        [field: SerializeField] public List<NpcSo> PlaceholderNpcs { get; set; }
-        [field: SerializeField] public TreasureRuntimeSetSo PlaceholderItems { get; set; }
-        [field: SerializeField] public TreasureRuntimeSetSo Gemstones { get; set; }
-        [field: SerializeField] public TreasureRuntimeSetSo Tools { get; set; }
-        [field: SerializeField] public TreasureRuntimeSetSo ReadableItems { get; set; }
-        [field: SerializeField] public WeaponTypeRuntimeSetSO PossibleWeapons { get; set; }
-
-        [field: Foldout("Quest Terminal Parameters", true)]
-
-        [field: MinMaxRange(1, 10), SerializeField] public RangedInt EnemiesToKill { get; set; }
-        [field: MinMaxRange(1, 10), SerializeField] public RangedInt ItemsToGather { get; set; }
-        [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
+        [DisplayInspector]
+        [field: SerializeField] protected NarrativeSettings _narrativeSettings;
 
         public void OnEnable()
         {

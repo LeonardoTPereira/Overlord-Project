@@ -11,7 +11,6 @@ namespace Overlord.Maestro.ExperimentControllers
     [CreateAssetMenu(fileName = "GeneratorSettings", menuName = "Settings/GeneratorSettings")]
     public class GeneratorSettings : ScriptableObject
     {
-
         [field: SerializeField] public Enums.GameType GameType { get; set; }
 
         [field: Foldout("Room Generator Parameters", true)]
