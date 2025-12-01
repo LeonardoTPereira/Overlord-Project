@@ -49,7 +49,7 @@ namespace Overlord.NarrativeGenerator.Quests
         public int Id { get; set; }
         public Language Language { get; set; }
 
-        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
+        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in NarrativeSettings generatorSettings, Language language)
         {
             return null;
         }

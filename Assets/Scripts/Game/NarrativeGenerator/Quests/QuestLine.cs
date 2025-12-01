@@ -13,6 +13,7 @@ using static Util.Enums;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.LevelGenerator.LevelSOs;
 using Overlord.NarrativeGenerator.NPCs;
+using Overlord.NarrativeGenerator;
 using Overlord.Maestro.ExperimentControllers;
 
 namespace Game.NarrativeGenerator.Quests
@@ -198,7 +199,7 @@ namespace Game.NarrativeGenerator.Quests
             return completedQuests;
         }
 
-        public void PopulateQuestLine(in GeneratorSettings generatorSettings, NpcSo npcInCharge )
+        public void PopulateQuestLine(in NarrativeSettings narrativeSettings, NpcSo npcInCharge )
         {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
@@ -209,11 +210,11 @@ namespace Game.NarrativeGenerator.Quests
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
                 nonTerminalSymbol.SetNextSymbol(questChain);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings, _language);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in narrativeSettings, _language);
             }
         }
 
-        public void CompleteMissingQuests(in GeneratorSettings generatorSettings, NpcSo npcInCharge, Dictionary<string,bool> addedQuests )
+        public void CompleteMissingQuests(in NarrativeSettings narrativeSettings, NpcSo npcInCharge, Dictionary<string,bool> addedQuests )
         {
             List<string> missingQuests = new List<string>();
             foreach (KeyValuePair<string, bool> quest in addedQuests)
@@ -226,7 +227,7 @@ namespace Game.NarrativeGenerator.Quests
             foreach (string missingQuest in missingQuests)
             {
                 questChain.SetSymbol(missingQuest);
-                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in generatorSettings, _language);
+                questChain.GetLastSymbol().DefineQuestSo(Quests, npcInCharge, in narrativeSettings, _language);
             }
         }
 

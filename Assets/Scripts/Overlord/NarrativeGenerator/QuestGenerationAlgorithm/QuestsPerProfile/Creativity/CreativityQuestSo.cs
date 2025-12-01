@@ -5,7 +5,6 @@ using UnityEngine;
 using MyBox;
 using static Util.Enums;
 using Overlord.NarrativeGenerator.NPCs;
-using Overlord.Maestro.ExperimentControllers;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -27,12 +26,12 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
+        public override QuestSo DefineQuestSo(List<QuestSo> questSos, NpcSo npcInCharge, in NarrativeSettings narrativeSettings, Language language)
         {
             switch ( SymbolType )
             {
                 case Constants.ExploreQuest:
-                    return CreateAndSaveExploreQuestSo(questSos, npcInCharge, generatorSettings.RoomsToExplore, language);
+                    return CreateAndSaveExploreQuestSo(questSos, npcInCharge, narrativeSettings.RoomsToExplore, language);
                 case Constants.GotoQuest:
                     return CreateAndSaveGotoQuestSo(questSos, npcInCharge, language);
                 default:

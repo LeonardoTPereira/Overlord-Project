@@ -10,18 +10,19 @@ using System.Net.NetworkInformation;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.NPCs;
 using Overlord.Maestro.ExperimentControllers;
+using Overlord.NarrativeGenerator;
 
 namespace Game.NarrativeGenerator
 {
     public static class TopdownQuestSelector
     {
         private static Dictionary<string,bool> _wasQuestAdded;
-        private static GeneratorSettings _generatorSettings;
+        private static NarrativeSettings _narrativeSettings;
         private static Enums.Language _language;
 
-        public static QuestLineList CreateMissions(in GeneratorSettings generatorSettings, Enums.Language language)
+        public static QuestLineList CreateMissions(in NarrativeSettings narrativeSettings, Enums.Language language)
         {
-            _generatorSettings = generatorSettings;
+            _narrativeSettings = narrativeSettings;
             _wasQuestAdded = new Dictionary<string,bool>();
             _language = language;
             return DrawMissions();
@@ -38,7 +39,7 @@ namespace Game.NarrativeGenerator
             while ( _wasQuestAdded.ContainsValue(false) && i < 100 )
             {
                 i++;
-                var selectedNpc = _generatorSettings.PlaceholderNpcs.GetRandom();
+                var selectedNpc = _narrativeSettings.PlaceholderNpcs.GetRandom();
                 ContinueQuestLineForNpc(selectedNpc, questLineList);
             }
             return questLineList;
@@ -46,7 +47,7 @@ namespace Game.NarrativeGenerator
 
         private static void CreateQuestLineForEachNpc(QuestLineList questLineList)
         {
-            foreach (var npcInCharge in _generatorSettings.PlaceholderNpcs)
+            foreach (var npcInCharge in _narrativeSettings.PlaceholderNpcs)
             {
                CreateQuestLineForNpc(npcInCharge, questLineList);
             }
@@ -55,7 +56,7 @@ namespace Game.NarrativeGenerator
         private static void CreateQuestLineForNpc ( NpcSo npcInCharge, QuestLineList questLineList)
         {
             var questLine = CreateQuestLine();
-            questLine.PopulateQuestLine(_generatorSettings, npcInCharge);
+            questLine.PopulateQuestLine(_narrativeSettings, npcInCharge);
             UpdateListContents(questLine);
             questLine.Quests[^1].EndsStoryLine = true;
             questLine.NpcInCharge = npcInCharge;
@@ -68,7 +69,7 @@ namespace Game.NarrativeGenerator
             if (questLine != null)
             {
                 questLine.Quests[^1].EndsStoryLine = false;
-                questLine.CompleteMissingQuests(_generatorSettings, npcInCharge, _wasQuestAdded );
+                questLine.CompleteMissingQuests(_narrativeSettings, npcInCharge, _wasQuestAdded );
                 UpdateListContents(questLine);
                 questLine.Quests[^1].EndsStoryLine = true;
             }

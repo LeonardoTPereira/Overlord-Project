@@ -10,7 +10,6 @@ using Util;
 using System.Linq;
 using Overlord.NarrativeGenerator.NPCs;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

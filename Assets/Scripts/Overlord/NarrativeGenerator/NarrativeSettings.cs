@@ -1,7 +1,6 @@
 using MyBox;
 using Overlord.NarrativeGenerator.NPCs;
 using ScriptableObjects;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,3 +23,4 @@ namespace Overlord.NarrativeGenerator
         [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
     }
 }
+

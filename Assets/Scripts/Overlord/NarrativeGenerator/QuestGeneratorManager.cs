@@ -39,7 +39,7 @@ namespace Overlord.NarrativeGenerator
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = Selector.CreateMissions(CurrentGeneratorSettings);
+                    questLines = Selector.CreateMissions(_narrativeSettings);
                     await CreateNarrative(yeeProfile);
                 }
                 else

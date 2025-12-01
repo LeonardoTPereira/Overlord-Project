@@ -811,6 +811,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
+      propertyPath: language
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
       propertyPath: questLines
       value: 
       objectReference: {fileID: 11400000, guid: b3275fac148b33742814c670be890ee8,

@@ -34,14 +34,14 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in NarrativeSettings narrativeSettings, Language language)
         {
             switch ( SymbolType )
             {
                 case Constants.GatherQuest:
-                    return CreateAndSaveGatherQuestSo(questSos, generatorSettings.Gemstones, generatorSettings.ItemsToGather, npcInCharge, language);
+                    return CreateAndSaveGatherQuestSo(questSos, narrativeSettings.Gemstones, narrativeSettings.ItemsToGather, npcInCharge, language);
                 case Constants.ExchangeQuest:
-                    return CreateAndSaveExchangeQuestSo(questSos, generatorSettings.PlaceholderNpcs, generatorSettings.Gemstones, generatorSettings.Tools, npcInCharge, language);
+                    return CreateAndSaveExchangeQuestSo(questSos, narrativeSettings.PlaceholderNpcs, narrativeSettings.Gemstones, narrativeSettings.Tools, npcInCharge, language);
                 default:
                     Debug.LogError("help something went wrong! - Achievement doesn't contain symbol: "+SymbolType);
                 break;

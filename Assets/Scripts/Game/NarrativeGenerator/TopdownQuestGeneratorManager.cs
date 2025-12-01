@@ -6,7 +6,6 @@ using Game.LevelGenerator;
 using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
-using Game.GameManager;
 using Game.NarrativeGenerator;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
@@ -54,7 +53,7 @@ namespace Topdown.Overlord.NarrativeGenerator
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = TopdownQuestSelector.CreateMissions(CurrentGeneratorSettings, language);
+                    questLines = TopdownQuestSelector.CreateMissions(_narrativeSettings, language);
                     await CreateNarrative(yeeProfile);
                 }
                 else
@@ -72,7 +71,7 @@ namespace Topdown.Overlord.NarrativeGenerator
 #if UNITY_EDITOR
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
-                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings, language);
+                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, _narrativeSettings, language);
                 narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
             }
 #endif
@@ -84,8 +83,8 @@ namespace Topdown.Overlord.NarrativeGenerator
         private async Task CreateContentsForQuestLine()
         {
             questLines.EnemySos = _enemyGeneratorManager.GetEnemySOList(questLines.EnemyParametersForQuestLines.Difficulty);
-            questLines.NpcSos = CurrentGeneratorSettings.PlaceholderNpcs;
-            questLines.ItemSos = new List<ItemSo>(CurrentGeneratorSettings.PlaceholderItems.Items);
+            questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
+            questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
         }
 
