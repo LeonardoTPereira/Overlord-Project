@@ -11,7 +11,7 @@ namespace Game.NPCs
     {
         protected Language _language;
 
-        private void Awake()
+        protected void SetQuestLanguage()
         {
             var questGeneratorManager = FindObjectOfType<QuestGeneratorManager>();
             if (questGeneratorManager == null)
@@ -33,6 +33,7 @@ namespace Game.NPCs
 
         public string CreateQuestDialogue(QuestSo closedQuest, NpcSo speaker)
         {
+            SetQuestLanguage();
             switch (speaker.SocialFactor)
             {
                 case < 3:
