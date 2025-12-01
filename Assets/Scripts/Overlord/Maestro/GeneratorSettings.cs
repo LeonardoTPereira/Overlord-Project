@@ -1,12 +1,12 @@
-﻿using Game.NPCs;
-using MyBox;
+﻿using MyBox;
+using Overlord.NarrativeGenerator.NPCs;
 using ScriptableObjects;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
-namespace Game.ExperimentControllers
+namespace Overlord.Maestro.ExperimentControllers
 {
     [CreateAssetMenu(fileName = "GeneratorSettings", menuName = "Settings/GeneratorSettings")]
     public class GeneratorSettings : ScriptableObject

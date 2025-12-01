@@ -3,7 +3,7 @@ using Game.Audio;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;

@@ -1,7 +1,9 @@
-using Game.ExperimentControllers;
 using MyBox;
+using Overlord.NarrativeGenerator.NPCs;
 using Overlord.ProfileAnalyst;
 using Overlord.RulesGenerator.EnemyGeneration;
+using ScriptableObjects;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using Util;
@@ -13,8 +15,21 @@ namespace Overlord.NarrativeGenerator
     public class QuestGeneratorManager : MonoBehaviour
     {
         [field: SerializeField] public bool MustCreateNarrative { get; set; }
-        [SerializeField]
-        public Language language = Language.Portuguese;
+        [SerializeField] public Language language = Language.Portuguese;
+
+        [field: Foldout("Prefabs for Game", true)]
+        [field: SerializeField] public List<NpcSo> PlaceholderNpcs { get; set; }
+        [field: SerializeField] public TreasureRuntimeSetSo PlaceholderItems { get; set; }
+        [field: SerializeField] public TreasureRuntimeSetSo Gemstones { get; set; }
+        [field: SerializeField] public TreasureRuntimeSetSo Tools { get; set; }
+        [field: SerializeField] public TreasureRuntimeSetSo ReadableItems { get; set; }
+        [field: SerializeField] public WeaponTypeRuntimeSetSO PossibleWeapons { get; set; }
+
+        [field: Foldout("Quest Terminal Parameters", true)]
+
+        [field: MinMaxRange(1, 10), SerializeField] public RangedInt EnemiesToKill { get; set; }
+        [field: MinMaxRange(1, 10), SerializeField] public RangedInt ItemsToGather { get; set; }
+        [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
 
         public void OnEnable()
         {

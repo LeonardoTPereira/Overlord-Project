@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.NarrativeGenerator.Quests;
 using Game.SaveLoadSystem;
 using UnityEngine;

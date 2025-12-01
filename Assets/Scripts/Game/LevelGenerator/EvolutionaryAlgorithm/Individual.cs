@@ -1,7 +1,8 @@
+using Game.LevelGenerator;
 using System;
 using System.IO;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     /// This class represents an individual.
     ///
@@ -83,7 +84,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 linearCoefficient += children;
             }
             int total = dungeon.Rooms.Count;
-            linearCoefficient /= (total - leafs);
+            linearCoefficient /= total - leafs;
         }
 
         /// Print the individual attributes and the dungeon map.

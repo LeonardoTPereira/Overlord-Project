@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Game.Events;
+using Game.LevelGenerator;
 using Game.Maestro;
 using Util;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     /// This struct represents a MAP-Elites population.
     ///

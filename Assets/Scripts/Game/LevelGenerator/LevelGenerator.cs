@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
-using Game.ExperimentControllers;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.Maestro.ExperimentControllers;
 using UnityEngine;
 using Util;
 

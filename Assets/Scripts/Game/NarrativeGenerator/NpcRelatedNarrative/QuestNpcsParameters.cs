@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.NPCs;
 using UnityEngine;
 using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative
 {

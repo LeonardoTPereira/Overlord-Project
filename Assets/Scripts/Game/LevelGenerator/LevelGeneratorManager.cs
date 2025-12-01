@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
 using Game.ExperimentControllers;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
+using Overlord.LevelGenerator.LevelSOs;
 using UnityEngine;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 
 
 namespace Game.LevelGenerator

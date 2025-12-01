@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
-using Game.NPCs;
+using Overlord.Maestro.ExperimentControllers;
+using Overlord.NarrativeGenerator.NPCs;
 using static Util.Enums;
 
 namespace Overlord.NarrativeGenerator.Quests

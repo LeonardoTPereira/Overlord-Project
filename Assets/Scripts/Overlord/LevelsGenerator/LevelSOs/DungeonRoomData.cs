@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Util;
 
-namespace Game.LevelGenerator.LevelSOs
+namespace Overlord.LevelGenerator.LevelSOs
 {
     [Serializable]
     public class DungeonRoomData

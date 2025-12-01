@@ -14,6 +14,8 @@ using static Util.Enums;
 using Overlord.NarrativeGenerator;
 
 using Topdown.Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.NPCs;
+
 
 
 #if UNITY_EDITOR

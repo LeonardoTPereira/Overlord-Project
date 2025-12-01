@@ -8,6 +8,7 @@ using System;
 using UnityEngine;
 using Overlord.ProfileAnalyst;
 using Game.Overlord.ProfileAnalyst;
+using Overlord.Maestro.ExperimentControllers;
 
 namespace Topdown.Overlord.ProfileAnalyst
 {

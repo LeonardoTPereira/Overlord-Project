@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
     public class FitnessPlot : MonoBehaviour

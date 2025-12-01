@@ -1,6 +1,6 @@
 ﻿using MyBox;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     public struct FitnessRange
     {

@@ -2,6 +2,7 @@ using System.Text;
 using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using MyBox;
+using Overlord.NarrativeGenerator.NPCs;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 

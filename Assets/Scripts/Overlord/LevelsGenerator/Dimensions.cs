@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.LevelManager
+namespace Overlord.LevelManager
 {
     [Serializable]
     public class Dimensions

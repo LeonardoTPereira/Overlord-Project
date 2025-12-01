@@ -5,10 +5,10 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
 using Game.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.Quests
 {

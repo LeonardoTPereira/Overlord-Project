@@ -1,6 +1,6 @@
 ﻿using System;
 using Game.NarrativeGenerator.Quests;
-using Game.NPCs;
+using Overlord.NarrativeGenerator.NPCs;
 using ScriptableObjects.SerializableDictionaryLite;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative

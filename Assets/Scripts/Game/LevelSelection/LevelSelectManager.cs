@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Audio;
-using Game.ExperimentControllers;
+using Overlord.Maestro.ExperimentControllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;

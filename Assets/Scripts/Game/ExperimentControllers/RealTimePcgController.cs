@@ -1,5 +1,5 @@
 ﻿using Game.Events;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Topdown.Overlord.NarrativeGenerator;
 using Game.NarrativeGenerator.Quests;

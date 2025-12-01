@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.ExperimentControllers;
 //using Game.LevelGenerator.LevelSOs;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.NPCs;
 using Game.Quests;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,7 +11,9 @@ using UnityEngine;
 using Util;
 using static Util.Enums;
 using Overlord.NarrativeGenerator.Quests;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.Maestro.ExperimentControllers;
 
 namespace Game.NarrativeGenerator.Quests
 {

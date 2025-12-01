@@ -1,11 +1,11 @@
 using Util;
 using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
 using UnityEngine;
-using Game.NPCs;
 using MyBox;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.Maestro.ExperimentControllers;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

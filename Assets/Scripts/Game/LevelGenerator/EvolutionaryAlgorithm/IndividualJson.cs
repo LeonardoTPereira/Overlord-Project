@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using UnityEngine;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
     public class IndividualJson

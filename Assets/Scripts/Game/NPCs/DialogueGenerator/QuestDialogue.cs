@@ -1,4 +1,5 @@
 using Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.NPCs;
 using Overlord.NarrativeGenerator.Quests;
 using System.Text;
 using Topdown.Overlord.NarrativeGenerator;

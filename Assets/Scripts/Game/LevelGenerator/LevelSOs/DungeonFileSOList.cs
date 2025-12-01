@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Game.LevelGenerator.LevelSOs
+namespace Overlord.LevelGenerator.LevelSOs
 {
     [System.Serializable]
     public class DungeonFileSOList

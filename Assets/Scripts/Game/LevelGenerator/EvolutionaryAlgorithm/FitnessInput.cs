@@ -5,7 +5,7 @@ using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
     public class FitnessInput

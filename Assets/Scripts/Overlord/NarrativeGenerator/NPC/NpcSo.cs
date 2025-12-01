@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Util;
 
-namespace Game.NPCs
+namespace Overlord.NarrativeGenerator.NPCs
 {
     [CreateAssetMenu(fileName = "NpcSO", menuName = "NpcModule/Npcs", order = 0)]
     [Serializable]

@@ -1,4 +1,4 @@
-﻿using Game.NPCs;
+﻿using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.Quests
 {

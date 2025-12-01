@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Util;
 
 namespace Game.LevelGenerator

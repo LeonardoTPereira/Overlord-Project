@@ -1,10 +1,12 @@
-﻿using Game.ExperimentControllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
-using Game.NPCs;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.Maestro.ExperimentControllers;
+
+
 
 #if UNITY_EDITOR
 using UnityEditor;

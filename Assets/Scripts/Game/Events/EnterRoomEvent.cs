@@ -1,6 +1,5 @@
 ﻿using Game.DataCollection;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.LevelManager;
 using System;
 using UnityEngine;
 using Util;
@@ -9,6 +8,7 @@ using Game.GameManager;
 using PlatformGame.Player;
 using System.Collections;
 using Overlord.ProfileAnalyst;
+using Overlord.LevelManager;
 
 namespace Game.Events
 {

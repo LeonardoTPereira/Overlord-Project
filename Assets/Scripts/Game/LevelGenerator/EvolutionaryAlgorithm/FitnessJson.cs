@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     public class FitnessJson
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.LevelGenerator.LevelSOs
+namespace Overlord.LevelGenerator.LevelSOs
 {
     [CreateAssetMenu(menuName = "DungeonFiles/DungeonFilesDictionarySO")]
     public class DungeonFilesDictionarySO : ScriptableObject

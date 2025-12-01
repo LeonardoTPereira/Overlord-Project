@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.NPCs;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.LevelManager.DungeonLoader
 {

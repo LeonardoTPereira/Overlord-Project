@@ -2,7 +2,7 @@
 using MyBox;
 using Util;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     public static class PopulationFitness
     {

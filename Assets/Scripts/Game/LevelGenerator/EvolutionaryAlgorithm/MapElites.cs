@@ -1,4 +1,4 @@
-﻿namespace Game.LevelGenerator.EvolutionaryAlgorithm
+﻿namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     public class MapElites
     {

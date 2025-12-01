@@ -1,6 +1,6 @@
 ﻿using Game.Events;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     public class ClassicPopulation : Population
     {

@@ -1,13 +1,11 @@
 ﻿using Game.Dialogues;
 using Game.Events;
 using Game.GameManager;
-using Game.LevelManager;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelManager.DungeonManager;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using Overlord.NarrativeGenerator.Quests;
-using Game.NPCs;
 using MyBox;
 using ScriptableObjects;
 using System.Collections;
@@ -17,6 +15,8 @@ using UnityEngine.SceneManagement;
 using Util;
 using Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.RulesGenerator.EnemyGeneration;
+using Overlord.LevelManager;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.ExperimentControllers
 {

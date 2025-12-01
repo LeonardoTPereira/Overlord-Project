@@ -1,4 +1,4 @@
-using Game.NPCs;
+using Overlord.NarrativeGenerator.NPCs;
 using System;
 using System.Collections.Generic;
 using System.Text;

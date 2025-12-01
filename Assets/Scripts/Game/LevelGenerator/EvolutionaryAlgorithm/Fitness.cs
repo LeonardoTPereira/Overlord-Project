@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Game.LevelGenerator;
 using MyBox;
 using Util;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
     public class Fitness

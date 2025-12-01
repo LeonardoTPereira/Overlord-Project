@@ -14,6 +14,7 @@ using Game.Quests;
 using UnityEngine.Tilemaps;
 using PlatformGame.Player;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.LevelManager.DungeonManager
 {

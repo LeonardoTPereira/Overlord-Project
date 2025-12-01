@@ -1,7 +1,7 @@
 ﻿using Game.DataCollection;
 using Game.Events;
-using Game.ExperimentControllers;
 using Game.NarrativeGenerator;
+using Overlord.Maestro.ExperimentControllers;
 using Overlord.ProfileAnalyst;
 using System;
 using System.Collections.Generic;

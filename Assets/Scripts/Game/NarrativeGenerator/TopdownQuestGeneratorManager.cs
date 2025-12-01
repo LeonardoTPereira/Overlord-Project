@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
-using Game.ExperimentControllers;
 using Game.LevelGenerator;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.Maestro;
 using Game.GameManager;
@@ -21,6 +20,7 @@ using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator;
 using Topdown.Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.ProfileAnalyst;
+using Overlord.Maestro.ExperimentControllers;
 
 namespace Topdown.Overlord.NarrativeGenerator
 {

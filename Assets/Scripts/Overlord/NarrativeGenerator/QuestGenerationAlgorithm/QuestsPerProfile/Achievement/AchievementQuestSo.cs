@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Game.ExperimentControllers;
 using UnityEngine;
-using Game.NPCs;
 using MyBox;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 //using Game.GameManager;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.Maestro.ExperimentControllers;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

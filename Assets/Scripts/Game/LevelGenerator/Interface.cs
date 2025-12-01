@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelGenerator.LevelSOs;
-using Game.LevelManager;
+using Overlord.LevelGenerator.LevelSOs;
+using Overlord.LevelManager;
 using UnityEngine;
 using Util;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 
 namespace Game.LevelGenerator
 {

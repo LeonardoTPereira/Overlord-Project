@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
 using System.Linq;
+using Overlord.NarrativeGenerator.NPCs;
+
 
 #if UNITY_EDITOR
 using UnityEditor;

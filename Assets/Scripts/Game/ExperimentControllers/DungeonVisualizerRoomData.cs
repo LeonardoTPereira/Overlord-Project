@@ -1,4 +1,4 @@
-﻿using Game.LevelGenerator.LevelSOs;
+﻿using Overlord.LevelGenerator.LevelSOs;
 using UnityEngine;
 
 namespace Game.ExperimentControllers

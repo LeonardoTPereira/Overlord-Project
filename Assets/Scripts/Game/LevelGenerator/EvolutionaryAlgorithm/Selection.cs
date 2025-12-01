@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     /// This class holds the selector operator.
     public static class Selection

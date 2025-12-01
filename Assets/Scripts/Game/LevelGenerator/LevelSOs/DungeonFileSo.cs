@@ -1,13 +1,12 @@
-﻿using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelManager;
-using Game.LevelManager.DungeonLoader;
+﻿using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelManager;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Util;
 
-namespace Game.LevelGenerator.LevelSOs
+namespace Overlord.LevelGenerator.LevelSOs
 {
     [Serializable, CreateAssetMenu]
     public class DungeonFileSo : ScriptableObject, ISavableGeneratedContent
@@ -22,6 +21,7 @@ namespace Game.LevelGenerator.LevelSOs
         public int TotalEnemies { get; set; }
         public int TotalTreasures { get; set; }
         public int TotalNpcs { get; set; }
+        /*
         private int _currentIndex = 0;
 
         public void ResetIndex()
@@ -31,13 +31,12 @@ namespace Game.LevelGenerator.LevelSOs
 
         public DungeonPart GetNextPart(Enums.GameType gameType)
         {
-
             if (_currentIndex < Parts.Count)
                 return DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(Parts[_currentIndex++], gameType);
 
             return null;
         }
-
+        */
         public void Init(Dimensions dimensions, List<DungeonRoomData> rooms, Fitness fitness, float exploration, float leniency, string biome)
         {
             DungeonSizes = dimensions;

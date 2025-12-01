@@ -1,6 +1,6 @@
 ﻿using Overlord.ProfileAnalyst;
 using Game.Events;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
 using Game.Maestro;

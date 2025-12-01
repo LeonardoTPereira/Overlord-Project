@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 
 namespace Game.LevelGenerator
 {

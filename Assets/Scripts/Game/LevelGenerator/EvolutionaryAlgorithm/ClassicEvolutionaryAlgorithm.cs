@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.ExperimentControllers;
+using Overlord.Maestro.ExperimentControllers;
 using UnityEngine;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
-    public class ClassicEvolutionaryAlgorithm : LevelGenerator
+    public class ClassicEvolutionaryAlgorithm : Game.LevelGenerator.LevelGenerator
     {
         private const int PopSize = 100;
         private const int MaxGenWithoutImprovement = 30;
@@ -57,7 +57,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
 
 
                 var intermediate = new List<Individual>();
-                for (var i = 0; i < (PopSize / 2); ++i)
+                for (var i = 0; i < PopSize / 2; ++i)
                 {
                     var parents = Selection.SelectParents(CROSSOVER_PARENTS, Parameters.Competitors, pop);
                     var offspring = CreateOffspring(parents);
@@ -107,7 +107,7 @@ namespace Game.LevelGenerator.EvolutionaryAlgorithm
                 return true;
             }
 
-            if ((_bestFitnessYet - min) > 0.001f)
+            if (_bestFitnessYet - min > 0.001f)
             {
                 _bestFitnessYet = min;
                 _nGenerationsWithoutImprovement = 0;

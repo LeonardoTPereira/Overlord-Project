@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Game.LevelGenerator;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.LevelGenerator.EvolutionaryAlgorithm
+namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     public static class EnemySparsity
     {
