@@ -25,6 +25,7 @@ namespace Game.DataCollection
         {
             SerializedData ??= new PlayerSerializedData
             {
+                UseFixedProfile = useFixedProfile,
                 PreFormAnswers = new List<int>(),
                 PlayerId = RandomSingleton.GetInstance().Next(0, int.MaxValue) + (int)Time.realtimeSinceStartup,
                 PlayerProfile = new YeePlayerProfile(),

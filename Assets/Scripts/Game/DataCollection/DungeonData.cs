@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.LevelManager.DungeonLoader;
+using Game.GameManager;
 using Overlord.ProfileAnalyst;
 using UnityEngine;
 using Util;
@@ -18,6 +19,11 @@ namespace Game.DataCollection
     [Serializable]
     public class DungeonData : ScriptableObject
     {
+
+#if !UNITY_WEBGL || UNITY_EDITOR
+        [FirestoreProperty]
+#endif
+        [field: SerializeField] public bool PlayerHadFixedProfile { get; set; }
 #if !UNITY_WEBGL || UNITY_EDITOR
         [FirestoreProperty]
 #endif
@@ -287,6 +293,7 @@ namespace Game.DataCollection
             TotalReadableItems += map.TotalReadableItems;
             HeatMap = CreateHeatMap(map);
             TotalAttempts++;
+            PlayerHadFixedProfile = ExperimentController.UseRandomProfile;
             _startTime = Time.realtimeSinceStartup;
             _jsonPath = jsonPath;
             PlayerId = playerId;

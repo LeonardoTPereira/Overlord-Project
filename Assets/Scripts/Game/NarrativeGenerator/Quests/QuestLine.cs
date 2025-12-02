@@ -10,6 +10,7 @@ using Game.Quests;
 using UnityEditor;
 #endif
 using UnityEngine;
+using Game.GameManager;
 using Util;
 using static Util.Enums;
 using Overlord.NarrativeGenerator.Quests;
@@ -200,11 +201,21 @@ namespace Game.NarrativeGenerator.Quests
 
         public void PopulateQuestLine(in GeneratorSettings generatorSettings, NpcSo npcInCharge )
         {
+            Dictionary<string, Func<int, float>> startSymbolWeights = YeeProfileCalculator.StartSymbolWeights;
+            if (ExperimentController.UseRandomProfile)
+            {
+                startSymbolWeights = GetRandomSymbolWeights();
+            }
+            PopulateQuestLineMarkov(generatorSettings, npcInCharge, startSymbolWeights);
+        }
+
+        private void PopulateQuestLineMarkov(in GeneratorSettings generatorSettings, NpcSo npcInCharge, Dictionary<string, Func<int, float>> startSymbolWeights )
+        {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.NextSymbolChances = YeeProfileCalculator.StartSymbolWeights;
+                lastSelectedQuest.NextSymbolChances = startSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
@@ -246,6 +257,17 @@ namespace Game.NarrativeGenerator.Quests
                 }
                 quest.CreateQuestString(_language);
             }
+        }
+
+        private Dictionary<string, Func<int, float>> GetRandomSymbolWeights()
+        {
+            return new Dictionary<string, Func<int, float>>
+            {
+                {Constants.ImmersionQuest, _ => 25f},
+                {Constants.AchievementQuest, _ => 25f},
+                {Constants.MasteryQuest, _ => 25f},
+                {Constants.CreativityQuest, _ => 25f}
+            };
         }
     }
 }
