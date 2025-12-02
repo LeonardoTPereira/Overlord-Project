@@ -27,7 +27,7 @@ namespace Game.GameManager
 
         [Separator("Parameters to Create Dungeons")]
         [SerializeField]
-        protected GeneratorSettings.Parameters parameters;
+        protected DungeonGeneratorGeneticAlgorithmSettings parameters;
         [SerializeField]
         protected FitnessInput fitnessInput;
 

@@ -120,7 +120,7 @@ namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
             return _nGenerationsWithoutImprovement >= MaxGenWithoutImprovement;
         }
 
-        public ClassicEvolutionaryAlgorithm(GeneratorSettings.Parameters parameters, int timesToExecuteEA, 
+        public ClassicEvolutionaryAlgorithm(DungeonGeneratorGeneticAlgorithmSettings parameters, int timesToExecuteEA, 
             bool isVisualizingDungeon, FitnessInput fitnessInput, FitnessPlot fitnessPlot = null) 
             : base(parameters, timesToExecuteEA, isVisualizingDungeon,fitnessInput, fitnessPlot)
         {

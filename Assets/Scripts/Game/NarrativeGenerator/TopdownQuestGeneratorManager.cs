@@ -90,8 +90,8 @@ namespace Topdown.Overlord.NarrativeGenerator
 
         private async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
         {
-            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines, 
-                CurrentGeneratorSettings.DungeonParameters, CurrentGeneratorSettings.TotalRunsOfEA));
+            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines,
+                _levelGeneratorManager.GeneticAlgorithmSettings, CurrentGeneratorSettings.TotalRunsOfEA));
         }
 
         private void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)

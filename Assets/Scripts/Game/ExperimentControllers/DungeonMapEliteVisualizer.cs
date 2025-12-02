@@ -25,7 +25,7 @@ namespace Game.ExperimentControllers
         [SerializeField] private Camera textureCamera;
         [field: SerializeField] private FitnessInput Fitness { get; set; }
         public static EventHandler ContinueGenerationEventHandler;
-        public GeneratorSettings generatorSettings;
+        public DungeonGeneratorGeneticAlgorithmSettings generatorSettings;
 
         private void Awake()
         {
@@ -103,7 +103,7 @@ namespace Game.ExperimentControllers
         private async Task CreateDungeonsForQuestLine()
         {
             _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(
-                generatorSettings.DungeonParameters, Fitness, true));
+                generatorSettings, Fitness, true));
             Debug.Log("Finished");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);

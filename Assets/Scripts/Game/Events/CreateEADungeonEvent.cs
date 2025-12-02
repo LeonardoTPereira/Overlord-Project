@@ -9,18 +9,18 @@ namespace Game.Events
     public delegate Task CreateEaDungeonEvent(object sender, CreateEaDungeonEventArgs e);
     public class CreateEaDungeonEventArgs : EventArgs
     {
-        public GeneratorSettings.Parameters Parameters { get; set; }
+        public DungeonGeneratorGeneticAlgorithmSettings Parameters { get; set; }
         public FitnessInput Fitness { get; set; }
         public int TimesToExecuteEA { get; set; }
         public bool IsVisualizingDungeon { get; set; }
 
-        public CreateEaDungeonEventArgs(GeneratorSettings.Parameters parameters, FitnessInput fitness, bool isVisualizingDungeon)
+        public CreateEaDungeonEventArgs(DungeonGeneratorGeneticAlgorithmSettings parameters, FitnessInput fitness, bool isVisualizingDungeon)
         {
             Parameters = parameters;
             Fitness = fitness;
             IsVisualizingDungeon = isVisualizingDungeon;
         }
-        public CreateEaDungeonEventArgs(QuestLineList questLines, GeneratorSettings.Parameters dungeonParameters,
+        public CreateEaDungeonEventArgs(QuestLineList questLines, DungeonGeneratorGeneticAlgorithmSettings dungeonParameters,
             int timesToExecuteEA = 1, bool isVisualizingDungeon = false)
         {
             var questDungeonParameters = questLines.DungeonParametersForQuestLines;

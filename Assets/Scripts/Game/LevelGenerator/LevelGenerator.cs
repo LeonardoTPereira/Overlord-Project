@@ -18,7 +18,7 @@ namespace Game.LevelGenerator
         private static readonly int INTERMEDIATE_POPULATION = 100;
 
         /// The evolutionary parameters.
-        protected GeneratorSettings.Parameters Parameters;
+        protected DungeonGeneratorGeneticAlgorithmSettings Parameters;
 
         protected FitnessInput FitnessInput;
         /// The found MAP-Elites population.
@@ -39,7 +39,7 @@ namespace Game.LevelGenerator
 
 
         /// Level Generator constructor.
-        public LevelGenerator(GeneratorSettings.Parameters parameters, int timesToExecuteEA, 
+        public LevelGenerator(DungeonGeneratorGeneticAlgorithmSettings parameters, int timesToExecuteEA, 
             bool isVisualizingDungeon, FitnessInput fitnessInput, FitnessPlot plotter = null) {
             Parameters = parameters;
             FitnessInput = fitnessInput;

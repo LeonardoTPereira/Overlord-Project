@@ -342,6 +342,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d5a4ecc5-c8ec-4576-9324-bb5f6682e073
     m_ActionName: UI/ToggleQuestUI[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ed876f53-7dfb-48ff-bcb2-777afe6872c1
+    m_ActionName: Player/PlatformAction[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 84765105-d790-43d8-b27a-9732aa4d3983
+    m_ActionName: Player/PlatformOpenQuest[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 631d900e-7438-4370-a146-d9427dd2c53e
+    m_ActionName: Player/Pause[/Keyboard/p,/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -359,6 +371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GeneticAlgorithmSettings: {fileID: 11400000, guid: 1d9b719c28936d04b948ea4f2320900f,
+    type: 2}
 --- !u!114 &494183442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +394,7 @@ MonoBehaviour:
     desiredItems: 10
     desiredNpcs: 3
     desiredLinearity: 2
-  generatorSettings: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad, type: 2}
+  generatorSettings: {fileID: 11400000, guid: 1d9b719c28936d04b948ea4f2320900f, type: 2}
 --- !u!1 &1830005868
 GameObject:
   m_ObjectHideFlags: 0
