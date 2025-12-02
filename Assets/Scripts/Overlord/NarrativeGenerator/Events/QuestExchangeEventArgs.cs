@@ -1,6 +1,6 @@
 ﻿using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 
-namespace Game.Quests
+namespace Overlord.NarrativeGenerator.Events
 {
     public class QuestExchangeEventArgs : QuestElementEventArgs
     {

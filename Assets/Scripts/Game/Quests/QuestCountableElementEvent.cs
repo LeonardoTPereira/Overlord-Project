@@ -1,4 +1,6 @@
-﻿namespace Game.Quests
+﻿using Overlord.NarrativeGenerator.Events;
+
+namespace Game.Quests
 {
     public class QuestCountableElementEventArgs : QuestElementEventArgs
     {

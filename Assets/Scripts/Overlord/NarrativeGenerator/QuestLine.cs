@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 //using Game.LevelGenerator.LevelSOs;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.Quests;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
 using Util;
 using static Util.Enums;
-using Overlord.NarrativeGenerator.Quests;
 using Overlord.LevelGenerator.LevelSOs;
 using Overlord.NarrativeGenerator.NPCs;
-using Overlord.NarrativeGenerator;
-using Overlord.Maestro.ExperimentControllers;
+using Overlord.NarrativeGenerator.Events;
 
-namespace Game.NarrativeGenerator.Quests
+namespace Overlord.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLine", menuName = "Overlord-Project/QuestLine", order = 0)]
     [Serializable]

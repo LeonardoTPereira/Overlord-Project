@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     class PathFinding
     {
@@ -107,7 +107,7 @@ namespace Game.LevelGenerator
                                 int test = dungeon.KeyIds.IndexOf(current.Key);
                                 if (test == -1)
                                 {
-                                    System.Console.WriteLine("There's a missing key here! What????");
+                                    Console.WriteLine("There's a missing key here! What????");
                                     Console.ReadKey();
                                     map[x, y] = 100;
                                 }
@@ -159,7 +159,7 @@ namespace Game.LevelGenerator
                 proposedLocations.Add(new Location { X = _x + 1, Y = _y });
             }
             return proposedLocations.Where(
-                    l => (_map[l.X, l.Y] >= 0 && _map[l.X, l.Y] != 101)
+                    l => _map[l.X, l.Y] >= 0 && _map[l.X, l.Y] != 101
                 ).ToList();
         }
 

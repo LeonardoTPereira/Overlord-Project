@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     /// This class holds the dungeon levels measurement-related functions.
     class Metric
@@ -27,7 +27,7 @@ namespace Game.LevelGenerator
                 }
             }
             // Calculate and return the dungeon leniency
-            return (float)safe / (float)dungeon.Rooms.Count;
+            return safe / (float)dungeon.Rooms.Count;
         }
 
         /// Calculate and return the coefficient of exploration.

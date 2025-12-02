@@ -1,4 +1,4 @@
-﻿namespace Game.LevelGenerator
+﻿namespace Overlord.LevelGenerator
 {
     /// This class represents the grid of rooms of levels.
     public class RoomGrid

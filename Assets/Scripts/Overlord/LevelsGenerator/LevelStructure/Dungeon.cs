@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyBox;
-using Overlord.LevelManager;
 using UnityEngine;
+using Overlord.LevelManager;
 using Util;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     public class Dungeon
     {
@@ -424,22 +423,22 @@ namespace Game.LevelGenerator
         public void Fix(int enemies) {
             if (GetNumberOfEnemies() != enemies)
             {
-                Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
+                UnityEngine.Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
             }
             FixRooms();
             if (GetNumberOfEnemies() != enemies)
             {
-                Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
+                UnityEngine.Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
             }
             FixMissions();
             if (GetNumberOfEnemies() != enemies)
             {
-                Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
+                UnityEngine.Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
             }
             FixLocksAndKeys();
             if (GetNumberOfEnemies() != enemies)
             {
-                Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
+                UnityEngine.Debug.LogError($"Requested {enemies} Enemies, found {GetNumberOfEnemies()}");
             }
         }
 

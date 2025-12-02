@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Overlord.ProfileAnalyst;
-using Game.NarrativeGenerator.Quests;
 using MyBox;
 using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {

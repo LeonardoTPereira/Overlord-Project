@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 //Thanks to https://bitbucket.org/dandago/experimental/src/7adeb5f8cdfb054b540887d53cabf27e22a10059/AStarPathfinding/?at=master
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     /// Class with location, heuristic and real distances of the room and the
     /// room that was used to go to the current one (parent).
@@ -286,7 +286,7 @@ namespace Game.LevelGenerator
                 proposedLocations.Add(new Location { X = _x + 1, Y = _y });
             }
             return proposedLocations.Where(
-                    l => (_map[l.X, l.Y] >= 0 && _map[l.X, l.Y] != 101)
+                    l => _map[l.X, l.Y] >= 0 && _map[l.X, l.Y] != 101
                 ).ToList();
         }
 

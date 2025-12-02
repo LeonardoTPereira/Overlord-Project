@@ -1,6 +1,6 @@
-﻿using Game.NarrativeGenerator.Quests;
-using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+﻿using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.Maestro.ExperimentControllers;
+using Overlord.NarrativeGenerator.Quests;
 using System;
 using System.Threading.Tasks;
 

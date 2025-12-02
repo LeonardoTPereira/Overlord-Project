@@ -9,7 +9,6 @@ using Game.Maestro;
 using Game.NarrativeGenerator;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEditor;
@@ -20,6 +19,7 @@ using Overlord.NarrativeGenerator;
 using Topdown.Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.ProfileAnalyst;
 using Overlord.Maestro.ExperimentControllers;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Topdown.Overlord.NarrativeGenerator
 {

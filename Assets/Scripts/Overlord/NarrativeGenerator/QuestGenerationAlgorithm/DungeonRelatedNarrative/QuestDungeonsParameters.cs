@@ -1,5 +1,4 @@
-﻿using Game.NarrativeGenerator.Quests;
-using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
+﻿using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using UnityEngine;
 using static Util.Enums;
 using Overlord.NarrativeGenerator.Quests;
 
-namespace Game.NarrativeGenerator
+namespace Overlord.NarrativeGenerator
 {
     [Serializable]
     public class QuestDungeonsParameters
@@ -108,7 +107,7 @@ namespace Game.NarrativeGenerator
 
         private bool NeedsSpace(QuestSo questSo)
         {
-            return (questSo as ReadQuestSo != null) || (questSo as GiveQuestSo != null);
+            return questSo as ReadQuestSo != null || questSo as GiveQuestSo != null;
         }
     }
 }

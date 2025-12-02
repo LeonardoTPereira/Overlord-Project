@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using static Util.Enums;
 
-namespace Game.NarrativeGenerator
+namespace Overlord.NarrativeGenerator
 {
     public static class DungeonLinearityConverter
     {

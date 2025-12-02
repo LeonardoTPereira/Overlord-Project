@@ -1,3 +1,4 @@
+using Overlord.NarrativeGenerator.Events;
 using ScriptableObjects;
 using Util;
 

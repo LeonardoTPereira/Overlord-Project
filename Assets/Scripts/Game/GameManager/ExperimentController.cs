@@ -5,7 +5,6 @@ using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
 using Game.Maestro;
 using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests;
 using System;
 using MyBox;
 using System.Collections;
@@ -16,6 +15,7 @@ using Util;
 using Game.GameManager.Player;
 using Game.LevelManager.DungeonManager;
 using Topdown.Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.Quests;
 
 
 namespace Game.GameManager

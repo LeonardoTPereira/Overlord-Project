@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
-using Overlord.LevelGenerator.LevelSOs;
+using Overlord.ExperimentControllers;
 using UnityEngine;
 using Util;
 
-namespace Game.LevelGenerator.LevelSOs
+namespace Overlord.LevelGenerator.LevelSOs
 {
     public class DungeonSOTester : MonoBehaviour
     {

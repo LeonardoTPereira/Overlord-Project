@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
-using Game.NarrativeGenerator.Quests;
 using Game.Quests;
 using UnityEngine;
 using ScriptableObjects;
 using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Events;
+
 
 #if UNITY_EDITOR
 using MyBox;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Quests
+namespace Overlord.NarrativeGenerator.Events
 {
     public delegate void QuestElementEvent(object sender, QuestElementEventArgs e);
     public class QuestElementEventArgs : EventArgs

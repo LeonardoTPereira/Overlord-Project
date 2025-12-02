@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Util;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     class DFS : PathFinding
     {
@@ -22,7 +22,7 @@ namespace Game.LevelGenerator
 
                 // Add the current square to the closed list
                 ClosedList.Add(current);
-                if (((map[current.X, current.Y] >= 0) && (map[current.X, current.Y] < 100)) || (map[current.X, current.Y] == 102))
+                if (map[current.X, current.Y] >= 0 && map[current.X, current.Y] < 100 || map[current.X, current.Y] == 102)
                 {
                     NVisitedRooms++;
                 }

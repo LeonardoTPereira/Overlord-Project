@@ -1,4 +1,3 @@
-using Game.NarrativeGenerator.Quests;
 using Game.Quests;
 using Overlord.NarrativeGenerator;
 using System;
@@ -8,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Topdown.Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.Quests;
 
 public class QuestUI : MonoBehaviour
 {

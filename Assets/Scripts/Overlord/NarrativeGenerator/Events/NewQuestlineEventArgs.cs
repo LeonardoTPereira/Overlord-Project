@@ -1,7 +1,7 @@
-using Game.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.NPCs;
+using Overlord.NarrativeGenerator.Quests;
 
-namespace Game.Quests
+namespace Overlord.NarrativeGenerator.Events
 {
     public delegate void QuestLineCompletedEvent(object sender, NewQuestLineEventArgs e);
     public delegate void QuestLineOpenedEvent(object sender, NewQuestLineEventArgs e);

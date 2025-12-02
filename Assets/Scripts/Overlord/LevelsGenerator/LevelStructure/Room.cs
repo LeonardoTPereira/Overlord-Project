@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     /// The types of rooms that a dungeon may have.
     ///
@@ -88,7 +88,7 @@ namespace Game.LevelGenerator
         {
             Depth = 0;
             Type = _type;
-            RoomID = _id == -1 ? Room.GetNextId() : _id;
+            RoomID = _id == -1 ? GetNextId() : _id;
             Key = Type == RoomType.Key ? RoomID : Key;
             Key = Type == RoomType.Locked ? _key : Key;
             IsGoal = false;
@@ -149,7 +149,7 @@ namespace Game.LevelGenerator
         ) {
             var cx = 0;
             var cy = 0;
-            var rot = (Rotation / DEGREE_90) % 2;
+            var rot = Rotation / DEGREE_90 % 2;
             switch (_dir)
             {
                 case Common.Direction.Right:

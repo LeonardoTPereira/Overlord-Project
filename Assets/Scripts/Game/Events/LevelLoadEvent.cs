@@ -1,6 +1,6 @@
 ﻿using Overlord.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
 using System;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.Events
 {

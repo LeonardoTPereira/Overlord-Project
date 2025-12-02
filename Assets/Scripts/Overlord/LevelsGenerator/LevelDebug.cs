@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     public static class LevelDebug
     {

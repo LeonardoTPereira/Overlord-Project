@@ -1,8 +1,8 @@
 ﻿using System;
 using Overlord.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
 using Game.SaveLoadSystem;
 using UnityEngine;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.LevelSelection
 {

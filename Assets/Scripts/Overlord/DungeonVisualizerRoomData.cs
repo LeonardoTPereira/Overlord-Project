@@ -1,7 +1,7 @@
 ﻿using Overlord.LevelGenerator.LevelSOs;
 using UnityEngine;
 
-namespace Game.ExperimentControllers
+namespace Overlord.ExperimentControllers
 {
     public class DungeonVisualizerRoomData : MonoBehaviour
     {

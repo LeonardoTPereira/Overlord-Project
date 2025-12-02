@@ -1,5 +1,6 @@
 ﻿using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
 using Game.NPCs;
+using Overlord.NarrativeGenerator.Events;
 
 namespace Game.Quests
 {

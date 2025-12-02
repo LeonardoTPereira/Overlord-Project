@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     /// This class holds the project common functions and constants.
     public static class Common

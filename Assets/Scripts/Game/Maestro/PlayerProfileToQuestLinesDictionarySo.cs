@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests;
 using UnityEngine;
 
 namespace Game.Maestro

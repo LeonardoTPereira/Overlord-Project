@@ -13,7 +13,7 @@ using Overlord.NarrativeGenerator.NPCs;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-namespace Game.NarrativeGenerator.Quests
+namespace Overlord.NarrativeGenerator.Quests
 {
     [CreateAssetMenu(fileName = "QuestLineList", menuName = "Overlord-Project/QuestLineList", order = 0)]
     [Serializable]

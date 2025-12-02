@@ -1,5 +1,4 @@
-﻿using Game.LevelGenerator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,7 +42,7 @@ namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 
             if (coefficientOfVariation < 0)
             {
-                Debug.LogWarning("Negative Sparsity");
+                UnityEngine.Debug.LogWarning("Negative Sparsity");
             }
 
             return 1f/coefficientOfVariation;

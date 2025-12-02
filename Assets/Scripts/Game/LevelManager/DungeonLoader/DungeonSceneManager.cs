@@ -7,11 +7,11 @@ using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;
-using Game.NarrativeGenerator.Quests;
 using Game.SaveLoadSystem;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.LevelManager.DungeonLoader
 {

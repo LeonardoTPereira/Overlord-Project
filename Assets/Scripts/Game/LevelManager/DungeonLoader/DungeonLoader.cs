@@ -6,11 +6,11 @@ using Game.Events;
 using Game.GameManager;
 using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonManager;
-using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 using Util;
 using Overlord.LevelManager;
 using Overlord.Maestro.ExperimentControllers;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.LevelManager.DungeonLoader
 {

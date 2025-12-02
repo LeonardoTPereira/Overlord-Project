@@ -5,6 +5,7 @@ using Overlord.LevelManager;
 using UnityEngine;
 using Util;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator;
 
 namespace Game.LevelGenerator
 {
