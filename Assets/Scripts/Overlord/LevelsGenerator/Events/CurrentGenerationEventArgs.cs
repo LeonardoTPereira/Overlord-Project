@@ -1,7 +1,7 @@
 ﻿using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using System;
 
-namespace Game.Events
+namespace Overlord.LevelGenerator.Events
 {
     public delegate void CurrentGenerationEvent(object sender, CurrentGenerationEventArgs e);
 

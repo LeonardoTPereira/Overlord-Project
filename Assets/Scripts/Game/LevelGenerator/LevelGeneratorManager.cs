@@ -1,5 +1,6 @@
 ﻿using Game.Events;
 using Game.ExperimentControllers;
+using Game.LevelGenerator;
 using MyBox;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.LevelSOs;
@@ -8,12 +9,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator.Manager
 {
     public class LevelGeneratorManager : MonoBehaviour
     {
         /// Level generator
-        private LevelGenerator _generator;
+        private GeneticAlgorithmManager _generator;
         private FitnessInput _fitnessInput;
 
         /// Attributes to communicate to Game Manager

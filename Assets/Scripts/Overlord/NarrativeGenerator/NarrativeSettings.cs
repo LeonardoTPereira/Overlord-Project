@@ -8,9 +8,9 @@ namespace Overlord.NarrativeGenerator
 {
     [CreateAssetMenu(fileName = "NarrativeSettingsSO", menuName = "Overlord-Project/Narrative-Generator/NarrativeSettingsSO")]
     public class NarrativeSettings : ScriptableObject
-    {
-        [field: Foldout("Prefabs for Game", true)]
+    {        
         [field: SerializeField] public List<NpcSo> PlaceholderNpcs { get; set; }
+        [field: Foldout("Item Sets", true)]
         [field: SerializeField] public TreasureRuntimeSetSo PlaceholderItems { get; set; }
         [field: SerializeField] public TreasureRuntimeSetSo Gemstones { get; set; }
         [field: SerializeField] public TreasureRuntimeSetSo Tools { get; set; }

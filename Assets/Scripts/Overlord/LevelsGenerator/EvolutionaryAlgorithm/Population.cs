@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Game.Events;
-using Game.LevelGenerator;
-using Game.Maestro;
+using Overlord.Events;
+using Overlord.Maestro;
 using Util;
 
 namespace Overlord.LevelGenerator.EvolutionaryAlgorithm

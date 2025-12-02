@@ -1,8 +1,10 @@
 ﻿using Game.Events;
 using Game.LevelGenerator;
+using Overlord.LevelGenerator;
+using Overlord.LevelGenerator.Events;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.LevelSOs;
-using Overlord.Maestro.ExperimentControllers;
+using Overlord.LevelGenerator.Manager;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +43,7 @@ namespace Game.ExperimentControllers
         private void OnEnable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler += PrintCurrentPopulation;
-            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler += PrintCurrentPopulation;
+            GeneticAlgorithmManager.CurrentGenerationEventHandler += PrintCurrentPopulation;
         }
 
         private void PrintCurrentPopulation(object sender, CurrentGenerationEventArgs e)
@@ -63,7 +65,7 @@ namespace Game.ExperimentControllers
         private void OnDisable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler -= PrintCurrentPopulation;
-            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+            GeneticAlgorithmManager.CurrentGenerationEventHandler -= PrintCurrentPopulation;
         }
 
         public async void Create(InputAction.CallbackContext context)

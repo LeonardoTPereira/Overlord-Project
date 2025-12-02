@@ -4,7 +4,7 @@ using System.Linq;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Util;
 
-namespace Game.Maestro
+namespace Overlord.Maestro
 {
     public class BiomeMap
     {

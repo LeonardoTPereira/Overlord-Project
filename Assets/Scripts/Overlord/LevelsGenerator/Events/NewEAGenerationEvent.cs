@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Events
+namespace Overlord.LevelGenerator.Events
 {
     public delegate void NewEAGenerationEvent(object sender, NewEAGenerationEventArgs e);
 

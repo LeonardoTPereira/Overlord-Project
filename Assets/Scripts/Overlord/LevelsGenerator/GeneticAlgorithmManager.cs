@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.Events;
+using Overlord.LevelGenerator.Events;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
-using Overlord.Maestro.ExperimentControllers;
 using UnityEngine;
 using Util;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     /// This class holds the evolutionary level generation algorithm.
-    public class LevelGenerator
+    public class GeneticAlgorithmManager
     {
         /// The number of parents to be selected for crossover.
         protected static readonly int CROSSOVER_PARENTS = 2;
@@ -39,7 +38,7 @@ namespace Game.LevelGenerator
 
 
         /// Level Generator constructor.
-        public LevelGenerator(DungeonGeneratorGeneticAlgorithmSettings parameters, int timesToExecuteEA, 
+        public GeneticAlgorithmManager(DungeonGeneratorGeneticAlgorithmSettings parameters, int timesToExecuteEA, 
             bool isVisualizingDungeon, FitnessInput fitnessInput, FitnessPlot plotter = null) {
             Parameters = parameters;
             FitnessInput = fitnessInput;

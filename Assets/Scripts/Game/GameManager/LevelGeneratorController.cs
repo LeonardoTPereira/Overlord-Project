@@ -1,5 +1,4 @@
 ﻿using Game.Events;
-using Game.LevelGenerator;
 using Game.MenuManager;
 using Topdown.Overlord.NarrativeGenerator;
 using MyBox;
@@ -10,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.Maestro.ExperimentControllers;
+using Overlord.LevelGenerator.Manager;
 
 namespace Game.GameManager
 {

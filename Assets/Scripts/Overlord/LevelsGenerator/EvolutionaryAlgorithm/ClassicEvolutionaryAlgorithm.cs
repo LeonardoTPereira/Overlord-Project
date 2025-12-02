@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Overlord.Maestro.ExperimentControllers;
 using UnityEngine;
 
 namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
-    public class ClassicEvolutionaryAlgorithm : Game.LevelGenerator.LevelGenerator
+    public class ClassicEvolutionaryAlgorithm : GeneticAlgorithmManager
     {
         private const int PopSize = 100;
         private const int MaxGenWithoutImprovement = 30;

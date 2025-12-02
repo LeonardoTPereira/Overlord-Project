@@ -1,5 +1,7 @@
-﻿using System.Collections;
-using Game.Events;
+﻿using Overlord.Events;
+using Overlord.LevelGenerator;
+using Overlord.LevelGenerator.Events;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,12 +25,12 @@ namespace Game.MenuManager
 
         private void OnEnable()
         {
-            LevelGenerator.LevelGenerator.NewEaGenerationEventHandler += UpdateProgressBar;
+            GeneticAlgorithmManager.NewEaGenerationEventHandler += UpdateProgressBar;
         }
 
         private void OnDisable()
         {
-            LevelGenerator.LevelGenerator.NewEaGenerationEventHandler -= UpdateProgressBar;
+            GeneticAlgorithmManager.NewEaGenerationEventHandler -= UpdateProgressBar;
         }
 
         private void UpdateProgressBar(object sender, NewEAGenerationEventArgs eventArgs)

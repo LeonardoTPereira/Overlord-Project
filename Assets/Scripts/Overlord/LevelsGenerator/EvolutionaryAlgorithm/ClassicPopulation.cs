@@ -1,4 +1,4 @@
-﻿using Game.Events;
+﻿using Overlord.Events;
 
 namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {

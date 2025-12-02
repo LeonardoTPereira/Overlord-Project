@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
-using Game.LevelGenerator;
 using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
-using Game.Maestro;
 using Game.NarrativeGenerator;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
@@ -20,6 +18,8 @@ using Topdown.Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.ProfileAnalyst;
 using Overlord.Maestro.ExperimentControllers;
 using Overlord.NarrativeGenerator.Quests;
+using Game.Maestro;
+using Overlord.LevelGenerator.Manager;
 
 namespace Topdown.Overlord.NarrativeGenerator
 {
@@ -34,7 +34,7 @@ namespace Topdown.Overlord.NarrativeGenerator
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;     // Topdown  event
 
         [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;   // Topdown  attribute
 
         [SerializeReference, SerializeField] private QuestLineList questLines;
 

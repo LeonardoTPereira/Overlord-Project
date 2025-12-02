@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Overlord.LevelGenerator;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Util;
 
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator
 {
     /// This class holds the mutation operator.
     public static class Mutation
