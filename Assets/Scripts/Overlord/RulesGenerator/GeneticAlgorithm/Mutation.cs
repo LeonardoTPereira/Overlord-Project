@@ -1,6 +1,8 @@
 using Util;
 using System;
+#if UNITY_EDITOR
 using Codice.Client.Common;
+#endif
 
 namespace Overlord.RulesGenerator.EnemyGeneration
 {
