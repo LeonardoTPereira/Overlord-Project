@@ -3,7 +3,9 @@ using Game.NarrativeGenerator;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.ProfileAnalyst;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using Util;
 
 namespace Overlord.NarrativeGenerator
@@ -30,6 +32,7 @@ namespace Overlord.NarrativeGenerator
         {
             SetQuestLineListForProfile(questLines);
 
+#if UNITY_EDITOR
             string target = "Assets/Resources/Experiment";
             string questLineFile = $"{target}/{profileName}";
 
@@ -40,6 +43,7 @@ namespace Overlord.NarrativeGenerator
 
             EditorUtility.SetDirty(_playerProfileToQuestLines);
             AssetDatabase.SaveAssetIfDirty(_playerProfileToQuestLines);
+#endif
         }
 
         private void SetQuestLineListForProfile(QuestLineList questLines)

@@ -103,7 +103,7 @@ namespace Topdown.Overlord.ProfileAnalyst
             if (_profileCalculator is TopdownYeeProfileCalculator yeeProfileCalculator)
             {
                 YeePlayerProfile playerProfile = _playerDataController.CurrentPlayer.SerializedData.PlayerProfile;
-                if (!ExperimentController.UseFixedProfile)
+                if (!ExperimentController.UseRandomProfile)
                 {
                     playerProfile = (YeePlayerProfile)yeeProfileCalculator.CreateProfileFromGameplay(_playerDataController.CurrentPlayer, _playerDataController.CurrentPlayer.CurrentDungeon);
                 }

@@ -99,7 +99,7 @@ namespace Game.DataCollection
         private void OnGameStart(object sender, EventArgs eventArgs)
         {
             CurrentPlayer = ScriptableObject.CreateInstance<PlayerData>();
-            CurrentPlayer.Init( ExperimentController.UseFixedProfile );
+            CurrentPlayer.Init( ExperimentController.UseRandomProfile );
         }
 
         private void OnMapStart(object sender, StartMapEventArgs eventArgs)

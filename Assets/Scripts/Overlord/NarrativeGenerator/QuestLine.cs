@@ -12,6 +12,7 @@ using static Util.Enums;
 using Overlord.LevelGenerator.LevelSOs;
 using Overlord.NarrativeGenerator.NPCs;
 using Overlord.NarrativeGenerator.Events;
+using Overlord.ProfileAnalyst;
 
 namespace Overlord.NarrativeGenerator.Quests
 {
@@ -35,7 +36,7 @@ namespace Overlord.NarrativeGenerator.Quests
         public static event QuestElementEvent AllowCheckPointEventHandler;
         public static event QuestElementEvent AllowGiveEventHandler;
 
-        private Language _language;
+        protected Language _language;
 
         public void Init()
         {
@@ -198,11 +199,22 @@ namespace Overlord.NarrativeGenerator.Quests
 
         public void PopulateQuestLine(in NarrativeSettings narrativeSettings, NpcSo npcInCharge )
         {
+            Dictionary<string, Func<int, float>> startSymbolWeights = YeeProfileCalculator.StartSymbolWeights;
+
+            if (PlayerProfileManager.GetRandomProfile)
+            {
+                startSymbolWeights = GetRandomSymbolWeights();
+            }
+            PopulateQuestLineMarkov(narrativeSettings, npcInCharge, startSymbolWeights);
+        }
+
+        protected void PopulateQuestLineMarkov(in NarrativeSettings narrativeSettings, NpcSo npcInCharge, Dictionary<string, Func<int, float>> startSymbolWeights )
+        {
             var questChain = new MarkovChain();
             while (questChain.GetLastSymbol().CanDrawNext)
             {
                 var lastSelectedQuest = questChain.GetLastSymbol();
-                lastSelectedQuest.NextSymbolChances = YeeProfileCalculator.StartSymbolWeights;
+                lastSelectedQuest.NextSymbolChances = startSymbolWeights;
                 lastSelectedQuest.SetNextSymbol(questChain);
 
                 var nonTerminalSymbol = questChain.GetLastSymbol();
@@ -244,6 +256,17 @@ namespace Overlord.NarrativeGenerator.Quests
                 }
                 quest.CreateQuestString(_language);
             }
+        }
+
+        protected Dictionary<string, Func<int, float>> GetRandomSymbolWeights()
+        {
+            return new Dictionary<string, Func<int, float>>
+            {
+                {Constants.ImmersionQuest, _ => 25f},
+                {Constants.AchievementQuest, _ => 25f},
+                {Constants.MasteryQuest, _ => 25f},
+                {Constants.CreativityQuest, _ => 25f}
+            };
         }
     }
 }

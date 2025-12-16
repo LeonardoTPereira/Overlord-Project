@@ -3,7 +3,7 @@ using Game.Events;
 using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
-using Game.Maestro;
+using Game.Maestro.ExperimentControllers;
 using Game.NarrativeGenerator;
 using System;
 using MyBox;
@@ -17,14 +17,8 @@ using Game.LevelManager.DungeonManager;
 using Topdown.Overlord.NarrativeGenerator;
 using Overlord.NarrativeGenerator.Quests;
 
-
 namespace Game.GameManager
 {
-    // TODO: Pula tela de level selection e carrega o nível gerado -> ao inves de carregar tela de level select,
-
-    // TODO: 
-    // Questão do loop -> Testar
-
     public class ExperimentController : MonoBehaviour
     {
         public static event EventHandler StartExperimentGeneratorEventHandler;
@@ -36,17 +30,17 @@ namespace Game.GameManager
         private YeePlayerProfile selectedProfile;
         private List<QuestLineList> _questLinesListForProfile;
 
-        public static bool UseFixedProfile => _useFixedProfile;
-        private static bool _useFixedProfile;
+        public static bool UseRandomProfile => _useRandomProfile;
+        private static bool _useRandomProfile;
         private static bool _updatedProfile = false;
         private static bool _firstRunCompleted = false;
 
-        [SerializeField]
-        private DungeonSceneLoader[] dungeonEntrances;
+        [SerializeField] private DungeonSceneLoader[] dungeonEntrances;
+        [SerializeField] private GeneratorSettings generatorSettings;
 
         private void Awake()
         {
-            SetUseFixedProfile();
+            SetUseRandomProfile();
             _questLinesListForProfile = null;
         }
 
@@ -126,9 +120,10 @@ namespace Game.GameManager
             ProfileSelectedEventHandler?.Invoke(null, new ProfileSelectedEventArgs(selectedProfile));
         }
 
-        private static void SetUseFixedProfile()
+        private void SetUseRandomProfile()
         {
-            _useFixedProfile = RandomSingleton.GetInstance().Random.Next(0, 100) < 50;
+            _useRandomProfile = generatorSettings.EnableRandomProfileToPlayer && RandomSingleton.GetInstance().Random.Next(0, 100) > generatorSettings.ProbabilityToGetTrueProfile;
+            Debug.Log("Set Use Random Profile to "+_useRandomProfile);
         }
 
         private void OnRunComplete(object sender, EventArgs eventArgs)

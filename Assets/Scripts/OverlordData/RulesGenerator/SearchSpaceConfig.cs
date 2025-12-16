@@ -1,5 +1,7 @@
 using MyBox;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using Overlord.UI;
 
@@ -19,7 +21,7 @@ public class SearchSpaceConfig : ScriptableObject
     [DisplayInspector]
     public EnemyWeaponsSOInterface WeaponSet;
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(SearchSpaceConfig))]
 public class SearchSpaceConfigEditor : Editor
 {
@@ -27,7 +29,7 @@ public class SearchSpaceConfigEditor : Editor
     {
         serializedObject.Update();
 
-        // Cabeçalho
+        // Cabeï¿½alho
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Status", GUILayout.Width(75));
         GUILayout.Label("Min", GUILayout.Width(40));
@@ -55,3 +57,4 @@ public class SearchSpaceConfigEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

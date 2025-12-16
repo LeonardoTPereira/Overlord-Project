@@ -17,7 +17,7 @@ MonoBehaviour:
   <RoomSize>k__BackingField: {x: 20, y: 20}
   <UseLevelSelect>k__BackingField: 1
   <GenerateInRealTime>k__BackingField: 1
-  <EnableRandomProfileToPlayer>k__BackingField: 0
+  <EnableRandomProfileToPlayer>k__BackingField: 1
   <ProbabilityToGetTrueProfile>k__BackingField: 50
   <TotalRunsOfEA>k__BackingField: 1
   <PlaceholderNpcs>k__BackingField:

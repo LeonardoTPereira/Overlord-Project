@@ -3,7 +3,9 @@ using Overlord.GenerationController.Facade;
 using System;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
 using static Codice.Client.Common.Connection.AskCredentialsToUser;
+#endif
 
 namespace TopdownGame.Overlord.Inheritance.RulesGenerator
 {

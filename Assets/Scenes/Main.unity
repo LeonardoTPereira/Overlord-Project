@@ -1131,6 +1131,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3829912036086566238, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
+      propertyPath: generatorSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 3829912036086566238, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
       propertyPath: dungeonEntrances.Array.size
       value: 0
       objectReference: {fileID: 0}

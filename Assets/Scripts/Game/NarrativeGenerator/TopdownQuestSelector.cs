@@ -80,7 +80,7 @@ namespace Game.NarrativeGenerator
 
         private static QuestLine CreateQuestLine()
         {
-            var questLine = ScriptableObject.CreateInstance<QuestLine>();
+            var questLine = ScriptableObject.CreateInstance<TopdownQuestLine>();
             questLine.Init();
             return questLine;
         }

@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 using Util;
+#if UNITY_EDITOR
 using static Codice.Client.Common.Connection.AskCredentialsToUser;
+#endif
 
 namespace Overlord.RulesGenerator.EnemyGeneration
 {

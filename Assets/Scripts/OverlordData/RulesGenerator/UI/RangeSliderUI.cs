@@ -27,7 +27,7 @@ namespace Overlord.UI
     [CustomPropertyDrawer(typeof(MinMaxSliderRange))]
     public class RangeSliderUI : PropertyDrawer
     {
-        const float NumberWidth = 40f; // menor para dar mais espaço ao slider
+        const float NumberWidth = 40f; // menor para dar mais espaï¿½o ao slider
         const float NameWidth = 75f;
         const float InnerSpacing = 4f;
 
@@ -91,5 +91,5 @@ namespace Overlord.UI
             return EditorGUIUtility.singleLineHeight + 2f;
         }
     }
-}
 #endif
+}

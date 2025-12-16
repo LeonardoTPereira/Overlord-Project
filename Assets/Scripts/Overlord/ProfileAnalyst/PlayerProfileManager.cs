@@ -6,7 +6,7 @@ namespace Overlord.ProfileAnalyst
 {
     public class PlayerProfileManager : MonoBehaviour
     {
-        public bool GetRandomProfile = false;
+        public static bool GetRandomProfile = false;
 
         [DisplayInspector]
         public YeePlayerProfileSO playerProfileSO;
