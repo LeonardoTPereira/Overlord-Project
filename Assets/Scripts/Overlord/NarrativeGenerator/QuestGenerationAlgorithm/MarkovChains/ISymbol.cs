@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Overlord.Maestro.ExperimentControllers;
 using Overlord.NarrativeGenerator.NPCs;
 using static Util.Enums;
 

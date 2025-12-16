@@ -9,8 +9,8 @@ using Game.LevelManager.DungeonManager;
 using UnityEngine;
 using Util;
 using Overlord.LevelManager;
-using Overlord.Maestro.ExperimentControllers;
 using Overlord.NarrativeGenerator.Quests;
+using Game.Maestro.ExperimentControllers;
 
 namespace Game.LevelManager.DungeonLoader
 {

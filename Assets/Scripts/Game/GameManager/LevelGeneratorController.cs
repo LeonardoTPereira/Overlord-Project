@@ -8,7 +8,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
-using Overlord.Maestro.ExperimentControllers;
 using Overlord.LevelGenerator.Manager;
 
 namespace Game.GameManager

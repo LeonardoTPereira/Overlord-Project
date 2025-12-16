@@ -9,7 +9,6 @@ using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using MyBox;
 using static Util.Enums;
 using Overlord.NarrativeGenerator.NPCs;
-using Overlord.Maestro.ExperimentControllers;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

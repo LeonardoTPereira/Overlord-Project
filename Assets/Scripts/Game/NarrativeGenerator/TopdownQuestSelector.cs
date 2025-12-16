@@ -8,7 +8,6 @@ using Util;
 using System.Net.NetworkInformation;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.NPCs;
-using Overlord.Maestro.ExperimentControllers;
 using Overlord.NarrativeGenerator;
 
 namespace Game.NarrativeGenerator

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
-namespace Overlord.Maestro.ExperimentControllers
+namespace Game.Maestro.ExperimentControllers
 {
     [CreateAssetMenu(fileName = "GeneratorSettings", menuName = "Settings/GeneratorSettings")]
     public class GeneratorSettings : ScriptableObject
