@@ -7,15 +7,14 @@ using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;
 using Topdown.Overlord.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests;
 using Game.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.Quests;
 using Game.SaveLoadSystem;
 using Game.NPCs;
 using System;
 using UnityEngine;
 using Topdown.Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
+using Overlord.NarrativeGenerator.Events;
 
 namespace Game.DataCollection
 {

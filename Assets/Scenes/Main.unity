@@ -848,9 +848,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
+      propertyPath: language
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _narrativeSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: bcc2a14d6fff8144f925a92377492277,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <Tools>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 04f66858849a0f04dbd7abdaa38d2b06,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <Gemstones>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 585a41803b1604e468b3f7c208ebbe21,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
       propertyPath: _playerProfileToQuestLines
       value: 
       objectReference: {fileID: 11400000, guid: 50b4d97584eb09546af01b74b7bca4f0,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <ReadableItems>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 221106eeab139a54f81f3ce747e35f54,
         type: 2}
     - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -858,6 +887,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 706ff28979181224c984c0358ea8acbd,
         type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <PossibleWeapons>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <PlaceholderItems>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <EnemiesToKill>k__BackingField.Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <EnemiesToKill>k__BackingField.Min
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <ItemsToGather>k__BackingField.Max
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <ItemsToGather>k__BackingField.Min
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <RoomsToExplore>k__BackingField.Max
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <RoomsToExplore>k__BackingField.Min
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: <MustCreateNarrative>k__BackingField
@@ -868,6 +939,29 @@ PrefabInstance:
       propertyPath: <CurrentGeneratorSettings>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 500aa46dd0ecb4f4e9a7a73772c2a4ad,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <PlaceholderNpcs>k__BackingField.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <PlaceholderNpcs>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <PlaceholderNpcs>k__BackingField.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8,
+        type: 2}
+    - target: {fileID: 101859279751321412, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: <PlaceholderNpcs>k__BackingField.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206,
         type: 2}
     - target: {fileID: 366049833845069530, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
@@ -895,6 +989,48 @@ PrefabInstance:
         type: 3}
       propertyPath: IsUsingManualPlayerProfileSO
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d9b719c28936d04b948ea4f2320900f,
+        type: 2}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: GeneticAlgorithmSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d9b719c28936d04b948ea4f2320900f,
+        type: 2}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings.<Time>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings.<Mutation>k__BackingField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings.<Population>k__BackingField
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings.<Competitors>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings.<MinimumElite>k__BackingField
+      value: 57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _eaSettings.<AcceptableFitness>k__BackingField
+      value: 2.41
       objectReference: {fileID: 0}
     - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}

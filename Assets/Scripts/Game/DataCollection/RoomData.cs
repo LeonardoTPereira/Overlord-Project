@@ -1,9 +1,9 @@
 ﻿using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
-using Game.LevelManager;
 using System;
 using UnityEditor;
 using UnityEngine;
 using Util;
+using Overlord.LevelManager;
 
 namespace Game.DataCollection
 {

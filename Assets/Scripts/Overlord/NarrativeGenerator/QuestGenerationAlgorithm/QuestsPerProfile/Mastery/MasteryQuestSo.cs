@@ -3,13 +3,12 @@ using Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Game.NPCs;
 using System.Linq;
 using System.Text;
-using Game.ExperimentControllers;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using MyBox;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -29,14 +28,14 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
             } 
         }
 
-        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
+        public override QuestSo DefineQuestSo ( List<QuestSo> questSos, NpcSo npcInCharge, in NarrativeSettings narrativeSettings, Language language)
         {
             switch ( SymbolType )
             {
                 case Constants.KillQuest:
-                    return CreateAndSaveKillQuestSo(questSos, npcInCharge, generatorSettings.PossibleWeapons, generatorSettings.EnemiesToKill, language);
+                    return CreateAndSaveKillQuestSo(questSos, npcInCharge, narrativeSettings.PossibleWeapons, narrativeSettings.EnemiesToKill, language);
                 case Constants.DamageQuest:
-                    return CreateAndSaveDamageQuestSo(questSos, npcInCharge, generatorSettings.PossibleWeapons, language);
+                    return CreateAndSaveDamageQuestSo(questSos, npcInCharge, narrativeSettings.PossibleWeapons, language);
                 default:
                     Debug.LogError("help something went wrong! - Mastery doesn't contain symbol: "+SymbolType);
                 break;

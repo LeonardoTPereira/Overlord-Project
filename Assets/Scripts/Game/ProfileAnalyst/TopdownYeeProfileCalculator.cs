@@ -1,6 +1,6 @@
 ﻿using Game.DataCollection;
 using Game.Events;
-using Game.ExperimentControllers;
+using Game.Maestro.ExperimentControllers;
 using Game.NarrativeGenerator;
 using Overlord.ProfileAnalyst;
 using System;

@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Util;
 using PlatformGame.Dungeon;
+using Overlord.LevelManager.DungeonLoader;
 
 namespace Game.LevelManager.DungeonLoader
 {
     public static class DungeonPartFactory
-    {
-       
-
+    {       
         public static DungeonPart CreateDungeonRoomFromEARoom(Coordinates coordinates, string partCode, List<int> keyIDs, int treasure, int totalEnemies, int items, int npcs)
         {
             return new DungeonRoom(coordinates, partCode, keyIDs, treasure, totalEnemies, npcs);

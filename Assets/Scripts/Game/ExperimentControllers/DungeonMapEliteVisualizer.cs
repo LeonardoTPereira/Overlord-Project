@@ -1,7 +1,10 @@
 ﻿using Game.Events;
 using Game.LevelGenerator;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator;
+using Overlord.LevelGenerator.Events;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.Manager;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +27,7 @@ namespace Game.ExperimentControllers
         [SerializeField] private Camera textureCamera;
         [field: SerializeField] private FitnessInput Fitness { get; set; }
         public static EventHandler ContinueGenerationEventHandler;
-        public GeneratorSettings generatorSettings;
+        public DungeonGeneratorGeneticAlgorithmSettings generatorSettings;
 
         private void Awake()
         {
@@ -40,7 +43,7 @@ namespace Game.ExperimentControllers
         private void OnEnable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler += PrintCurrentPopulation;
-            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler += PrintCurrentPopulation;
+            GeneticAlgorithmManager.CurrentGenerationEventHandler += PrintCurrentPopulation;
         }
 
         private void PrintCurrentPopulation(object sender, CurrentGenerationEventArgs e)
@@ -62,7 +65,7 @@ namespace Game.ExperimentControllers
         private void OnDisable()
         {
             ClassicEvolutionaryAlgorithm.CurrentGenerationEventHandler -= PrintCurrentPopulation;
-            LevelGenerator.LevelGenerator.CurrentGenerationEventHandler -= PrintCurrentPopulation;
+            GeneticAlgorithmManager.CurrentGenerationEventHandler -= PrintCurrentPopulation;
         }
 
         public async void Create(InputAction.CallbackContext context)
@@ -102,7 +105,7 @@ namespace Game.ExperimentControllers
         private async Task CreateDungeonsForQuestLine()
         {
             _generatedDungeons = await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(
-                generatorSettings.DungeonParameters, Fitness, true));
+                generatorSettings, Fitness, true));
             Debug.Log("Finished");
             _maxEnemies = GetMaxEnemies(_generatedDungeons);
             var center = GetDungeonCenter(_generatedDungeons[_currentDungeon]);

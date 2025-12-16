@@ -1,8 +1,8 @@
-﻿using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
+﻿using Overlord.LevelGenerator.LevelSOs;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.LevelManager.DungeonLoader
 {

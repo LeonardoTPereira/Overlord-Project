@@ -1,25 +1,29 @@
-﻿using System;
+﻿using Game.Events;
+using Game.ExperimentControllers;
+using Game.LevelGenerator;
+using MyBox;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator.LevelSOs;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Game.Events;
-using Game.ExperimentControllers;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
-using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
 using UnityEngine;
 
-
-namespace Game.LevelGenerator
+namespace Overlord.LevelGenerator.Manager
 {
     public class LevelGeneratorManager : MonoBehaviour
     {
         /// Level generator
-        private LevelGenerator _generator;
+        private GeneticAlgorithmManager _generator;
         private FitnessInput _fitnessInput;
 
         /// Attributes to communicate to Game Manager
         // Flags if the dungeon has been generated for Unity's Game Manager to handle things after
         private FitnessPlot _fitnessPlot;
+
+        [field: Foldout("EA Parameters", true)]
+        [DisplayInspector]
+        public DungeonGeneratorGeneticAlgorithmSettings GeneticAlgorithmSettings;
 
         private void Start()
         {

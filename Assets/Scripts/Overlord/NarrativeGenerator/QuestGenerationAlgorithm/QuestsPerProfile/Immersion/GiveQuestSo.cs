@@ -2,9 +2,9 @@ using ScriptableObjects;
 using Util;
 using System.Collections.Generic;
 using System;
-using Game.NPCs;
 using Overlord.NarrativeGenerator.Quests;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 
 namespace Game.Maestro
 {

@@ -5,10 +5,10 @@ using System.Text;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using System.Collections.Generic;
 using UnityEngine;
-using Game.NPCs;
 //using Game.GameManager;
 using System.Linq;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

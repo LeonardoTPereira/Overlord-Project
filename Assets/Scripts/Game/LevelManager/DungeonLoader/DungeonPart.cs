@@ -1,6 +1,6 @@
 ﻿using Util;
 
-namespace Game.LevelManager.DungeonLoader
+namespace Overlord.LevelManager.DungeonLoader
 {
     public abstract class DungeonPart
     {

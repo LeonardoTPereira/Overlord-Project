@@ -3,10 +3,9 @@ using Util;
 using MyBox;
 using System;
 using System.Collections.Generic;
-using Game.ExperimentControllers;
 using UnityEngine;
-using Game.NPCs;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {
@@ -30,18 +29,18 @@ namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
             }
         }
 
-        public override QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
+        public override QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in NarrativeSettings narrativeSettings, Language language)
         {
             switch ( SymbolType )
             {
                 case Constants.ListenQuest:
-                    return CreateAndSaveListenQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs, language);
+                    return CreateAndSaveListenQuestSo(questSos, npcInCharge, narrativeSettings.PlaceholderNpcs, language);
                 case Constants.ReadQuest:
-                    return CreateAndSaveReadQuestSo(questSos, npcInCharge, generatorSettings.ReadableItems, language);
+                    return CreateAndSaveReadQuestSo(questSos, npcInCharge, narrativeSettings.ReadableItems, language);
                 case Constants.GiveQuest:
-                    return CreateAndSaveGiveQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs, generatorSettings.Tools, language);
+                    return CreateAndSaveGiveQuestSo(questSos, npcInCharge, narrativeSettings.PlaceholderNpcs, narrativeSettings.Tools, language);
                 case Constants.ReportQuest:
-                    return CreateAndSaveReportQuestSo(questSos, npcInCharge, generatorSettings.PlaceholderNpcs, language);
+                    return CreateAndSaveReportQuestSo(questSos, npcInCharge, narrativeSettings.PlaceholderNpcs, language);
                 default:
                     Debug.LogError("help something went wrong! - Immersion doesn't contain symbol: "+SymbolType);
                 break;

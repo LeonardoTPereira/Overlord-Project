@@ -1,8 +1,8 @@
 using Util;
 using System;
 using System.Collections.Generic;
-using Game.NPCs;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals
 {

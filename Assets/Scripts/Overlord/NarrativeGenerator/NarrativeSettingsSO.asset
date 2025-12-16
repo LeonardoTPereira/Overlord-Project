@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58086b4d5c70c24e9ba19e0fe52749b, type: 3}
+  m_Name: NarrativeSettingsSO
+  m_EditorClassIdentifier: 
+  <PlaceholderNpcs>k__BackingField:
+  - {fileID: 11400000, guid: eaf3ad49de3e0614e8d53f8b0b9e9c5b, type: 2}
+  - {fileID: 11400000, guid: dd5d3fb2e5364d64c939466d6e7e53a8, type: 2}
+  - {fileID: 11400000, guid: 454819c97aa7ddc46a66b7fd7938c206, type: 2}
+  <PlaceholderItems>k__BackingField: {fileID: 11400000, guid: bed5e43498753414cb9f589c45d84eb8,
+    type: 2}
+  <Gemstones>k__BackingField: {fileID: 11400000, guid: 585a41803b1604e468b3f7c208ebbe21,
+    type: 2}
+  <Tools>k__BackingField: {fileID: 11400000, guid: 04f66858849a0f04dbd7abdaa38d2b06,
+    type: 2}
+  <ReadableItems>k__BackingField: {fileID: 11400000, guid: 221106eeab139a54f81f3ce747e35f54,
+    type: 2}
+  <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: aa056caad00310f4793208ebc1ee05ec,
+    type: 2}
+  <EnemiesToKill>k__BackingField:
+    Min: 4
+    Max: 10
+  <ItemsToGather>k__BackingField:
+    Min: 1
+    Max: 5
+  <RoomsToExplore>k__BackingField:
+    Min: 40
+    Max: 90

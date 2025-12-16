@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.ExperimentControllers;
-using Game.LevelGenerator.LevelSOs;
-using Overlord.NarrativeGenerator.ItemRelatedNarrative;
+﻿using Game.ExperimentControllers;
+using Overlord.LevelGenerator.LevelSOs;
+using Overlord.LevelManager;
+using Overlord.LevelManager.DungeonLoader;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using ScriptableObjects;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
+using static Util.Enums;
 
 namespace Game.LevelManager.DungeonLoader
 {
@@ -54,11 +57,21 @@ namespace Game.LevelManager.DungeonLoader
         private void ReadMapFile(DungeonFileSo dungeonFileSo)
         {
             Dimensions = dungeonFileSo.DungeonSizes;
+            
+            for (int roomIndex = 0; roomIndex < dungeonFileSo.Parts.Count; roomIndex++)
+            {
+                DungeonPart currentDungeonPart;
+                currentDungeonPart = DungeonPartFactory.CreateDungeonPartFromDungeonFileSO(dungeonFileSo.Parts[roomIndex], _gameType);
+                ProcessDungeonPart(currentDungeonPart);
+            }
+            
+            /*
             dungeonFileSo.ResetIndex();
             while (dungeonFileSo.GetNextPart(_gameType) is { } currentDungeonPart)
             {
                 ProcessDungeonPart(currentDungeonPart);
             }
+            */
             foreach (var room in dungeonFileSo.Parts)
             {
                 if ((room.Keys?.Count??0) > 0)

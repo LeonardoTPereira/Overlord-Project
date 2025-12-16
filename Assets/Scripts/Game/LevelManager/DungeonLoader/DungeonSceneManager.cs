@@ -3,15 +3,15 @@ using Game.Audio;
 using Game.Events;
 using Game.GameManager;
 using Game.GameManager.Player;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelManager.DungeonManager;
 using Game.LevelSelection;
 using Game.MenuManager;
-using Game.NarrativeGenerator.Quests;
 using Game.SaveLoadSystem;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.LevelManager.DungeonLoader
 {

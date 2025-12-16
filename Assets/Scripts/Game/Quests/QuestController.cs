@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.LevelManager.DungeonLoader;
 using Game.LevelSelection;
-using Game.NarrativeGenerator.Quests;
 using Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals;
-using Game.NPCs;
 using ScriptableObjects;
 using UnityEngine;
 using Util;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Events;
 
 namespace Game.Quests
 {

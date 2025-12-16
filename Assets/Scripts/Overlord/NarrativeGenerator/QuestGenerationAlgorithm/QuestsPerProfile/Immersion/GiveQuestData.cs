@@ -1,4 +1,4 @@
-﻿using Game.NPCs;
+﻿using Overlord.NarrativeGenerator.NPCs;
 using ScriptableObjects;
 
 namespace Overlord.NarrativeGenerator.Quests.QuestGrammarTerminals

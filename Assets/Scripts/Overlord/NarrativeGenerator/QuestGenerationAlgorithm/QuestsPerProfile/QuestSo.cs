@@ -1,10 +1,9 @@
-﻿using Game.ExperimentControllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
-using Game.NPCs;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.NPCs;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -47,7 +46,7 @@ namespace Overlord.NarrativeGenerator.Quests
         public int Id { get; set; }
         public Language Language { get; set; }
 
-        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in GeneratorSettings generatorSettings, Language language)
+        public virtual QuestSo DefineQuestSo (List<QuestSo> questSos, NpcSo npcInCharge, in NarrativeSettings generatorSettings, Language language)
         {
             return null;
         }

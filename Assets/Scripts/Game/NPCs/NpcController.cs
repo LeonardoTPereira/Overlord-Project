@@ -4,7 +4,6 @@ using System.Linq;
 using Fog.Dialogue;
 using Game.Dialogues;
 using Game.Events;
-using Game.NarrativeGenerator.Quests;
 using Game.Quests;
 using UnityEngine;
 using Game.NPCs.PTBR;
@@ -14,6 +13,10 @@ using static Util.Enums;
 using Overlord.NarrativeGenerator;
 
 using Topdown.Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.NarrativeGenerator.Events;
+
+
 
 
 #if UNITY_EDITOR

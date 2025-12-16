@@ -1,4 +1,5 @@
-﻿using Game.NPCs;
+﻿using Overlord.NarrativeGenerator.Events;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.Quests
 {

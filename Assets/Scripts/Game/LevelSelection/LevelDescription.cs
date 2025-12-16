@@ -1,5 +1,4 @@
-﻿using Game.LevelGenerator.LevelSOs;
-using Game.NarrativeGenerator.Quests;
+﻿using Overlord.LevelGenerator.LevelSOs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;

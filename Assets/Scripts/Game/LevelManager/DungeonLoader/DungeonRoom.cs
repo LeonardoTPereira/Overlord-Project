@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NPCs;
 using UnityEngine;
 using Util;
 using Enums = Util.Enums;
+using Overlord.LevelManager;
+using Overlord.LevelManager.DungeonLoader;
+using Overlord.NarrativeGenerator.NPCs;
 
 namespace Game.LevelManager.DungeonLoader
 {

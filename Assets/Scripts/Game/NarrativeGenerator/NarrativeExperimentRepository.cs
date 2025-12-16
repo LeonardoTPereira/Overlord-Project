@@ -1,7 +1,6 @@
-using Game.ExperimentControllers;
 using Game.Maestro;
 using Game.NarrativeGenerator;
-using Game.NarrativeGenerator.Quests;
+using Overlord.NarrativeGenerator.Quests;
 using Overlord.ProfileAnalyst;
 using System.Collections.Generic;
 #if UNITY_EDITOR
@@ -16,16 +15,16 @@ namespace Overlord.NarrativeGenerator
         private readonly PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
         private List<QuestLineList> _questLinesForProfile;
         private IPlayerProfile _playerProfile;
-        private GeneratorSettings _generatorSettings;
+        private NarrativeSettings _narrativeSettings;
         private Enums.Language _language;
 
         public NarrativeExperimentRepository(IPlayerProfile playerProfile, 
-            PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines, GeneratorSettings generatorSettings,
+            PlayerProfileToQuestLinesDictionarySo playerProfileToQuestLines, NarrativeSettings narrativeSettings,
             Enums.Language language)
         {
             _playerProfile = playerProfile;
             _playerProfileToQuestLines = playerProfileToQuestLines;
-            _generatorSettings = generatorSettings;
+            _narrativeSettings = narrativeSettings;
             _language = language;
         }
 
@@ -49,7 +48,7 @@ namespace Overlord.NarrativeGenerator
 
         private void SetQuestLineListForProfile(QuestLineList questLines)
         {
-            _questLinesForProfile = new List<QuestLineList> { TopdownQuestSelector.CreateMissions(_generatorSettings, _language) };
+            _questLinesForProfile = new List<QuestLineList> { TopdownQuestSelector.CreateMissions(_narrativeSettings, _language) };
             /*
             if (_playerProfile is YeePlayerProfile playerProfile)
             {

@@ -1,7 +1,9 @@
-using Game.ExperimentControllers;
 using MyBox;
+using Overlord.NarrativeGenerator.NPCs;
 using Overlord.ProfileAnalyst;
 using Overlord.RulesGenerator.EnemyGeneration;
+using ScriptableObjects;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using Util;
@@ -13,8 +15,10 @@ namespace Overlord.NarrativeGenerator
     public class QuestGeneratorManager : MonoBehaviour
     {
         [field: SerializeField] public bool MustCreateNarrative { get; set; }
-        [SerializeField]
-        public Language language = Language.Portuguese;
+        [SerializeField] public Language language = Language.Portuguese;
+
+        [DisplayInspector]
+        [field: SerializeField] protected NarrativeSettings _narrativeSettings;
 
         public void OnEnable()
         {
@@ -35,7 +39,7 @@ namespace Overlord.NarrativeGenerator
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = Selector.CreateMissions(CurrentGeneratorSettings);
+                    questLines = Selector.CreateMissions(_narrativeSettings);
                     await CreateNarrative(yeeProfile);
                 }
                 else

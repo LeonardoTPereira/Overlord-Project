@@ -1,4 +1,5 @@
-﻿using ScriptableObjects;
+﻿using Overlord.NarrativeGenerator.Events;
+using ScriptableObjects;
 
 namespace Game.Quests
 {

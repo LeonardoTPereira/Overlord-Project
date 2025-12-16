@@ -3,7 +3,6 @@ using Game.LevelManager.DungeonLoader;
 using Game.Maestro;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.RulesGenerator.EnemyGeneration;
-using Game.NarrativeGenerator.Quests;
 using ScriptableObjects;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using Util;
 using static Util.Enums;
+using Overlord.NarrativeGenerator.Quests;
 
 namespace Game.GameManager
 {

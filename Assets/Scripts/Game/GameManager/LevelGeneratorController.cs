@@ -1,7 +1,4 @@
 ﻿using Game.Events;
-using Game.ExperimentControllers;
-using Game.LevelGenerator;
-using Game.LevelGenerator.EvolutionaryAlgorithm;
 using Game.MenuManager;
 using Topdown.Overlord.NarrativeGenerator;
 using MyBox;
@@ -10,6 +7,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Overlord.LevelGenerator.EvolutionaryAlgorithm;
+using Overlord.LevelGenerator.Manager;
 
 namespace Game.GameManager
 {
@@ -27,7 +26,7 @@ namespace Game.GameManager
 
         [Separator("Parameters to Create Dungeons")]
         [SerializeField]
-        protected GeneratorSettings.Parameters parameters;
+        protected DungeonGeneratorGeneticAlgorithmSettings parameters;
         [SerializeField]
         protected FitnessInput fitnessInput;
 

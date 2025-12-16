@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.NarrativeGenerator.Quests;
-using Game.NPCs;
 using MyBox;
+using Overlord.NarrativeGenerator.NPCs;
+using Overlord.NarrativeGenerator.Quests;
 using UnityEngine;
 
 namespace Game.NarrativeGenerator.NpcRelatedNarrative

@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
-using Game.ExperimentControllers;
-using Game.LevelGenerator;
-using Game.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
-using Game.Maestro;
-using Game.GameManager;
 using Game.NarrativeGenerator;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
-using Game.NarrativeGenerator.Quests;
 using MyBox;
 using ScriptableObjects;
 using UnityEditor;
@@ -21,6 +16,10 @@ using Overlord.ProfileAnalyst;
 using Overlord.NarrativeGenerator;
 using Topdown.Overlord.RulesGenerator.EnemyGeneration;
 using Topdown.Overlord.ProfileAnalyst;
+using Overlord.NarrativeGenerator.Quests;
+using Game.Maestro;
+using Overlord.LevelGenerator.Manager;
+using Game.Maestro.ExperimentControllers;
 
 namespace Topdown.Overlord.NarrativeGenerator
 {
@@ -35,7 +34,7 @@ namespace Topdown.Overlord.NarrativeGenerator
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;     // Topdown  event
 
         [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;   // Topdown  attribute
 
         [SerializeReference, SerializeField] private QuestLineList questLines;
 
@@ -54,7 +53,7 @@ namespace Topdown.Overlord.NarrativeGenerator
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
                 {
-                    questLines = TopdownQuestSelector.CreateMissions(CurrentGeneratorSettings, language);
+                    questLines = TopdownQuestSelector.CreateMissions(_narrativeSettings, language);
                     await CreateNarrative(yeeProfile);
                 }
                 else
@@ -72,7 +71,7 @@ namespace Topdown.Overlord.NarrativeGenerator
 #if UNITY_EDITOR
             if (!CurrentGeneratorSettings.GenerateInRealTime)
             {
-                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings, language);
+                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, _narrativeSettings, language);
                 narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
             }
 #endif
@@ -84,15 +83,15 @@ namespace Topdown.Overlord.NarrativeGenerator
         private async Task CreateContentsForQuestLine()
         {
             questLines.EnemySos = _enemyGeneratorManager.GetEnemySOList(questLines.EnemyParametersForQuestLines.Difficulty);
-            questLines.NpcSos = CurrentGeneratorSettings.PlaceholderNpcs;
-            questLines.ItemSos = new List<ItemSo>(CurrentGeneratorSettings.PlaceholderItems.Items);
+            questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
+            questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
         }
 
         private async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
         {
-            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines, 
-                CurrentGeneratorSettings.DungeonParameters, CurrentGeneratorSettings.TotalRunsOfEA));
+            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines,
+                _levelGeneratorManager.GeneticAlgorithmSettings, CurrentGeneratorSettings.TotalRunsOfEA));
         }
 
         private void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)
