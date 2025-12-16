@@ -12,7 +12,7 @@ using Overlord.LevelGenerator.Manager;
 
 namespace Game.GameManager
 {
-    [RequireComponent(typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(TopdownLevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
         public static event CreateEaDungeonEvent CreateEaDungeonEventHandler;

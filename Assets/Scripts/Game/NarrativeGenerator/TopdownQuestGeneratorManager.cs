@@ -23,7 +23,7 @@ using Game.Maestro.ExperimentControllers;
 
 namespace Topdown.Overlord.NarrativeGenerator
 {
-    [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(TopdownLevelGeneratorManager))]
     public class TopdownQuestGeneratorManager : QuestGeneratorManager
     {
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
@@ -39,12 +39,12 @@ namespace Topdown.Overlord.NarrativeGenerator
         [SerializeReference, SerializeField] private QuestLineList questLines;
 
         private TopdownEnemyGeneratorManager _enemyGeneratorManager;
-        private LevelGeneratorManager _levelGeneratorManager;
+        private TopdownLevelGeneratorManager _levelGeneratorManager;
                 
         private void Start()
         {
             _enemyGeneratorManager = GetComponent<TopdownEnemyGeneratorManager>();
-            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
+            _levelGeneratorManager = GetComponent<TopdownLevelGeneratorManager>();
         }
 
         protected override async void HandleProfileSelected(IPlayerProfile profile)

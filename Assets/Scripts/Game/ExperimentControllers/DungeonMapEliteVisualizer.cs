@@ -19,7 +19,7 @@ namespace Game.ExperimentControllers
 {
     public class DungeonMapEliteVisualizer : MonoBehaviour
     {
-        private LevelGeneratorManager _levelGeneratorManager;
+        private TopdownLevelGeneratorManager _levelGeneratorManager;
         private DungeonSOTester _dungeonSoTester;
         private List<DungeonFileSo> _generatedDungeons;
         private int _currentDungeon;
@@ -36,7 +36,7 @@ namespace Game.ExperimentControllers
 
         private void Start()
         {
-            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
+            _levelGeneratorManager = GetComponent<TopdownLevelGeneratorManager>();
             _dungeonSoTester = GetComponent<DungeonSOTester>();
         }
 

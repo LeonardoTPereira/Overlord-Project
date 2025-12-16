@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Overlord.LevelGenerator.Manager
 {
-    public class LevelGeneratorManager : MonoBehaviour
+    public class TopdownLevelGeneratorManager : MonoBehaviour
     {
         /// Level generator
         private GeneticAlgorithmManager _generator;
