@@ -1,51 +1,42 @@
-﻿using Game.ExperimentControllers;
 using MyBox;
-using Overlord.Events;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.LevelSOs;
-using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using UnityEngine;
+using Overlord.Events;
 
 namespace Overlord.LevelGenerator.Manager
 {
-    public class TopdownLevelGeneratorManager : LevelGeneratorManager
+    public class LevelGeneratorManager : MonoBehaviour
     {
-        private void Start()
-        {
-            _fitnessPlot = GetComponent<FitnessPlot>();
-        }
+        /// Level generator
+        protected GeneticAlgorithmManager _generator;
+        protected FitnessInput _fitnessInput;
 
-        private void OnEnable()
-        {
-            DungeonMapEliteVisualizer.ContinueGenerationEventHandler += ContinueGenerationEvent;
-        }
+        /// Attributes to communicate to Game Manager
+        // Flags if the dungeon has been generated for Unity's Game Manager to handle things after
+        protected FitnessPlot _fitnessPlot;
 
-        private void ContinueGenerationEvent(object sender, EventArgs e)
-        {
-            _generator.waitGeneration = false;
-        }
+        [field: Foldout("EA Parameters", true)]
+        [DisplayInspector]
+        public DungeonGeneratorGeneticAlgorithmSettings GeneticAlgorithmSettings;
 
-        private void OnDisable()
-        {
-            DungeonMapEliteVisualizer.ContinueGenerationEventHandler -= ContinueGenerationEvent;
-        }
-
-        // The "Main" behind the Dungeon Generator
-        public new async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
+        public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
         {
             var parameters = eventArgs.Parameters;
-            Debug.Log("Parameters: "+parameters);
+            Debug.Log("Parameters: " + parameters);
             _fitnessInput = eventArgs.Fitness;
             // Start the generation process
-            _generator = new ClassicEvolutionaryAlgorithm(parameters, eventArgs.TimesToExecuteEA, 
-                eventArgs.IsVisualizingDungeon ,_fitnessInput,_fitnessPlot);
+            _generator = new ClassicEvolutionaryAlgorithm(parameters, eventArgs.TimesToExecuteEA,
+                eventArgs.IsVisualizingDungeon, _fitnessInput, _fitnessPlot);
             await _generator.Evolve();
             return GetListOfGeneratedDungeons();
         }
 
-        protected new List<DungeonFileSo> GetListOfGeneratedDungeons()
+        protected List<DungeonFileSo> GetListOfGeneratedDungeons()
         {
             List<Individual> solutions = new List<Individual>();
             // Write all the generated dungeons in ScriptableObjects   

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
+using Overlord.Events;
 using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.NarrativeGenerator;

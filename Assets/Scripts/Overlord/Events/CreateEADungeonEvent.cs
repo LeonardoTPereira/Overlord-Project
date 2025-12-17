@@ -3,7 +3,7 @@ using Overlord.NarrativeGenerator.Quests;
 using System;
 using System.Threading.Tasks;
 
-namespace Game.Events
+namespace Overlord.Events
 {
     public delegate Task CreateEaDungeonEvent(object sender, CreateEaDungeonEventArgs e);
     public class CreateEaDungeonEventArgs : EventArgs
