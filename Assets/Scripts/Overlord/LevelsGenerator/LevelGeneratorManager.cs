@@ -1,9 +1,7 @@
 using MyBox;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.LevelSOs;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
 using UnityEngine;
 using Overlord.Events;
@@ -23,6 +21,11 @@ namespace Overlord.LevelGenerator.Manager
         [field: Foldout("EA Parameters", true)]
         [DisplayInspector]
         public DungeonGeneratorGeneticAlgorithmSettings GeneticAlgorithmSettings;
+
+        private void Start()
+        {
+            _fitnessPlot = GetComponent<FitnessPlot>();
+        }
 
         public async Task<List<DungeonFileSo>> EvolveDungeonPopulation(CreateEaDungeonEventArgs eventArgs)
         {

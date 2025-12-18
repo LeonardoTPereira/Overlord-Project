@@ -4,6 +4,8 @@ using Overlord.ProfileAnalyst;
 using Overlord.RulesGenerator.EnemyGeneration;
 using ScriptableObjects;
 using System.Collections.Generic;
+using Overlord.NarrativeGenerator.Quests;
+using Overlord.LevelGenerator.Manager;
 using System.Threading.Tasks;
 using UnityEngine;
 using Util;
@@ -11,7 +13,7 @@ using static Util.Enums;
 
 namespace Overlord.NarrativeGenerator
 {
-    [RequireComponent(typeof(PlayerProfileManager), typeof(EnemyGeneratorManager)/*, typeof(LevelGeneratorManager)*/)]
+    [RequireComponent(typeof(PlayerProfileManager), typeof(EnemyGeneratorManager), typeof(LevelGeneratorManager))]
     public class QuestGeneratorManager : MonoBehaviour
     {
         [field: SerializeField] public bool MustCreateNarrative { get; set; }
@@ -19,6 +21,11 @@ namespace Overlord.NarrativeGenerator
 
         [DisplayInspector]
         [field: SerializeField] protected NarrativeSettings _narrativeSettings;
+
+        [SerializeReference, SerializeField] protected QuestLineList questLines;
+
+        protected EnemyGeneratorManager _enemyGeneratorManager;
+        protected LevelGeneratorManager _levelGeneratorManager;
 
         public void OnEnable()
         {
@@ -34,39 +41,35 @@ namespace Overlord.NarrativeGenerator
         // Put here anything that should happen when a profile is selected
         protected virtual async void HandleProfileSelected(IPlayerProfile profile)
         {
-            /*
-            if (profile is YeePlayerProfile yeeProfile)
-            {
-                if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
-                {
-                    questLines = Selector.CreateMissions(_narrativeSettings);
-                    await CreateNarrative(yeeProfile);
-                }
-                else
-                {
-                    ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(yeeProfile));
-                }
-            }
-            */
+            //if (profile is YeePlayerProfile yeeProfile)
+            //{
+            //    if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
+            //    {
+            //        questLines = Selector.CreateMissions(_narrativeSettings);
+            //        await CreateNarrative(yeeProfile);
+            //    }
+            //    else
+            //    {
+            //        ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(yeeProfile));
+            //    }
+            //}
         }
 
         protected virtual async Task CreateNarrative(YeePlayerProfile playerProfile)
-        {
-            /*
-            CreateGeneratorParametersForQuestLine(playerProfile);
-            questLines.TargetProfile = playerProfile;
-            await CreateContentsForQuestLine();
-#if UNITY_EDITOR
-            if (!CurrentGeneratorSettings.GenerateInRealTime)
-            {
-                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings);
-                narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
-            }
-#endif
-            SelectedLevels.Init(questLines);
-            FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-            QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));
-            */
+        {            
+//            CreateGeneratorParametersForQuestLine(playerProfile);
+//            questLines.TargetProfile = playerProfile;
+//            await CreateContentsForQuestLine();
+//#if UNITY_EDITOR
+//            if (!CurrentGeneratorSettings.GenerateInRealTime)
+//            {
+//                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings);
+//                narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
+//            }
+//#endif
+//            SelectedLevels.Init(questLines);
+//            FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
+//            QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));            
         }
     }
 }

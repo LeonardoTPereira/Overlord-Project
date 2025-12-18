@@ -890,6 +890,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d4a90420ff190cb45a29927aaf141d22,
         type: 2}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: GeneticAlgorithmSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d9b719c28936d04b948ea4f2320900f,
+        type: 2}
     - target: {fileID: 3829912035921256733, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
       propertyPath: _playerProfileToQuestLines

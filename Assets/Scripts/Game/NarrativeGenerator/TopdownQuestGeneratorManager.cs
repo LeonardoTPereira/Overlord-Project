@@ -35,12 +35,7 @@ namespace Topdown.Overlord.NarrativeGenerator
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;     // Topdown  event
 
         [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;   // Topdown  attribute
-
-        [SerializeReference, SerializeField] private QuestLineList questLines;
-
-        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
-        private TopdownLevelGeneratorManager _levelGeneratorManager;
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;   // Topdown  attribute        
                 
         private void Start()
         {

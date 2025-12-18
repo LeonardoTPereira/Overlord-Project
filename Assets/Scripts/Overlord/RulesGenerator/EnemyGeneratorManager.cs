@@ -1,8 +1,9 @@
 using MyBox;
-using System.Collections.Generic;
-using UnityEngine;
 using Overlord.GenerationController.Facade;
+using ScriptableObjects;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Overlord.RulesGenerator.EnemyGeneration
 {
@@ -47,6 +48,13 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             SetGeneticAlgorithmSettings(difficultyLevels);
             EvolveEnemies();
             return _generator.Solution.ToList();
+        }
+
+        public List<EnemySO> GetEnemySOList(DifficultyLevels difficultyLevels)
+        {
+            List<Individual> enemies = GetEnemies(difficultyLevels);
+            EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
+            return enemyFactory.GetEnemiesSOFromSolution(enemies);
         }
 
         public virtual void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
