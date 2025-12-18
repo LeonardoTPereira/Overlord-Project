@@ -1,11 +1,15 @@
 using MyBox;
+using Overlord.Events;
+using Overlord.LevelGenerator.LevelSOs;
+using Overlord.LevelGenerator.Manager;
+using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
+using Overlord.NarrativeGenerator.ItemRelatedNarrative;
 using Overlord.NarrativeGenerator.NPCs;
+using Overlord.NarrativeGenerator.Quests;
 using Overlord.ProfileAnalyst;
 using Overlord.RulesGenerator.EnemyGeneration;
 using ScriptableObjects;
 using System.Collections.Generic;
-using Overlord.NarrativeGenerator.Quests;
-using Overlord.LevelGenerator.Manager;
 using System.Threading.Tasks;
 using UnityEngine;
 using Util;
@@ -41,35 +45,52 @@ namespace Overlord.NarrativeGenerator
         // Put here anything that should happen when a profile is selected
         protected virtual async void HandleProfileSelected(IPlayerProfile profile)
         {
-            //if (profile is YeePlayerProfile yeeProfile)
-            //{
-            //    if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
-            //    {
-            //        questLines = Selector.CreateMissions(_narrativeSettings);
-            //        await CreateNarrative(yeeProfile);
-            //    }
-            //    else
-            //    {
-            //        ProfileSelectedEventHandler?.Invoke(this, new ProfileSelectedEventArgs(yeeProfile));
-            //    }
-            //}
+            if (profile is YeePlayerProfile yeeProfile)
+            {
+                if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
+                {
+                    questLines = QuestSelector.CreateMissions(_narrativeSettings, language);
+                    await CreateNarrative(yeeProfile);
+                }
+            }
         }
 
         protected virtual async Task CreateNarrative(YeePlayerProfile playerProfile)
-        {            
-//            CreateGeneratorParametersForQuestLine(playerProfile);
-//            questLines.TargetProfile = playerProfile;
-//            await CreateContentsForQuestLine();
-//#if UNITY_EDITOR
-//            if (!CurrentGeneratorSettings.GenerateInRealTime)
-//            {
-//                var narrativeExperimentRepository = new NarrativeExperimentRepository(playerProfile, _playerProfileToQuestLines, CurrentGeneratorSettings);
-//                narrativeExperimentRepository.Save(questLines, playerProfile.PlayerProfileEnum.ToString());
-//            }
-//#endif
-//            SelectedLevels.Init(questLines);
-//            FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
-//            QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));            
+        {
+            CreateGeneratorParametersForQuestLine(playerProfile);
+            questLines.TargetProfile = playerProfile;
+            await CreateContentsForQuestLine();
+        }
+
+        protected async Task CreateContentsForQuestLine()
+        {
+            questLines.EnemySos = _enemyGeneratorManager.GetEnemySOList(questLines.EnemyParametersForQuestLines.Difficulty);
+            questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
+            questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
+            questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
+        }
+
+        protected async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
+        {
+            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines,
+                _levelGeneratorManager.GeneticAlgorithmSettings, _levelGeneratorManager.GeneticAlgorithmSettings.TotalRunsOfEA));
+        }
+
+        protected void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)
+        {
+            questLines.DungeonParametersForQuestLines = new QuestDungeonsParameters();
+            questLines.EnemyParametersForQuestLines = new QuestEnemiesParameters();
+            //questLines.NpcParametersForQuestLines = new QuestNpcsParameters();
+            questLines.ItemParametersForQuestLines = new QuestItemsParameters();
+            questLines.CalculateDifficultyFromProfile(playerProfile.MasteryPreference);
+#if UNITY_EDITOR
+            Debug.Log("Profile: " + playerProfile);
+#endif
+            questLines.CalculateMonsterFromQuests();
+            questLines.CalculateDungeonParametersFromQuests(playerProfile.CreativityPreference
+                , playerProfile.AchievementPreference);
+            //questLines.CalculateNpcsFromQuests();
+            questLines.CalculateItemsFromQuests();
         }
     }
 }

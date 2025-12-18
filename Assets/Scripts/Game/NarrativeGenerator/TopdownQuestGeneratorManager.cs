@@ -75,36 +75,5 @@ namespace Topdown.Overlord.NarrativeGenerator
             FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));
         }
-
-        private async Task CreateContentsForQuestLine()
-        {
-            questLines.EnemySos = _enemyGeneratorManager.GetEnemySOList(questLines.EnemyParametersForQuestLines.Difficulty);
-            questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
-            questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
-            questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
-        }
-
-        private async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
-        {
-            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines,
-                _levelGeneratorManager.GeneticAlgorithmSettings, CurrentGeneratorSettings.TotalRunsOfEA));
-        }
-
-        private void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)
-        {
-            questLines.DungeonParametersForQuestLines = new QuestDungeonsParameters();
-            questLines.EnemyParametersForQuestLines = new QuestEnemiesParameters();
-            //questLines.NpcParametersForQuestLines = new QuestNpcsParameters();
-            questLines.ItemParametersForQuestLines = new QuestItemsParameters();
-            questLines.CalculateDifficultyFromProfile(playerProfile.MasteryPreference);
-#if UNITY_EDITOR
-            Debug.Log("Profile: " + playerProfile);
-#endif
-            questLines.CalculateMonsterFromQuests();
-            questLines.CalculateDungeonParametersFromQuests(playerProfile.CreativityPreference
-                , playerProfile.AchievementPreference);
-            //questLines.CalculateNpcsFromQuests();
-            questLines.CalculateItemsFromQuests();
-        }
     }
 }
