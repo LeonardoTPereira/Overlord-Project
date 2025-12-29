@@ -13,7 +13,10 @@ namespace Overlord.ProfileAnalyst
 
         public static event Action<IPlayerProfile> ProfileSelected;
 
-        protected IPlayerProfileCalculator _profileCalculator = new YeeProfileCalculator();        // Change it with another player profile calculator if needed
+        // Change it with another player profile calculator if needed
+        // However, for different calculators, you may need to override methods in this class
+        // to adapt the input for Content Generators
+        protected IPlayerProfileCalculator _profileCalculator = new YeeProfileCalculator();
 
         protected void SetPlayerProfileFromManualPlayerProfileSO()
         {
