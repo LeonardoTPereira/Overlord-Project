@@ -19,13 +19,6 @@ namespace Topdown.Overlord.RulesGenerator.EnemyGeneration
             Instance = this;
         }
 
-        public List<EnemySO> GetEnemySOList(DifficultyLevels difficultyLevels)
-        {
-            List<Individual> enemies = GetEnemies(difficultyLevels);
-            EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
-            return enemyFactory.GetEnemiesSOFromSolution(enemies);
-        }
-
         public override void SetGeneticAlgorithmSettings(DifficultyLevels difficultyLevels)
         {
             base.SetGeneticAlgorithmSettings(difficultyLevels);

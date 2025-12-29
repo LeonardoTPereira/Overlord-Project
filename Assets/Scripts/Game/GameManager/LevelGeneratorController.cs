@@ -9,10 +9,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.Manager;
+using Overlord.Events;
 
 namespace Game.GameManager
 {
-    [RequireComponent(typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(TopdownLevelGeneratorManager))]
     public class LevelGeneratorController : MonoBehaviour, IMenuPanel
     {
         public static event CreateEaDungeonEvent CreateEaDungeonEventHandler;

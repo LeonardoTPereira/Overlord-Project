@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Events;
+using Overlord.Events;
 using Overlord.LevelGenerator.LevelSOs;
 using Game.LevelSelection;
 using Game.NarrativeGenerator;
@@ -23,7 +24,7 @@ using Game.Maestro.ExperimentControllers;
 
 namespace Topdown.Overlord.NarrativeGenerator
 {
-    [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(LevelGeneratorManager))]
+    [RequireComponent(typeof(TopdownPlayerProfileManager), typeof(TopdownEnemyGeneratorManager), typeof(TopdownLevelGeneratorManager))]
     public class TopdownQuestGeneratorManager : QuestGeneratorManager
     {
         [field: SerializeField, MustBeAssigned] public GeneratorSettings CurrentGeneratorSettings { get; set; }
@@ -34,17 +35,12 @@ namespace Topdown.Overlord.NarrativeGenerator
         public static event ProfileSelectedEvent FixedLevelProfileEventHandler;     // Topdown  event
 
         [MustBeAssigned, SerializeReference, SerializeField]
-        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;   // Topdown  attribute
-
-        [SerializeReference, SerializeField] private QuestLineList questLines;
-
-        private TopdownEnemyGeneratorManager _enemyGeneratorManager;
-        private LevelGeneratorManager _levelGeneratorManager;
+        private PlayerProfileToQuestLinesDictionarySo _playerProfileToQuestLines;   // Topdown  attribute        
                 
         private void Start()
         {
             _enemyGeneratorManager = GetComponent<TopdownEnemyGeneratorManager>();
-            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
+            _levelGeneratorManager = GetComponent<TopdownLevelGeneratorManager>();
         }
 
         protected override async void HandleProfileSelected(IPlayerProfile profile)
@@ -78,37 +74,6 @@ namespace Topdown.Overlord.NarrativeGenerator
             SelectedLevels.Init(questLines);
             FixedLevelProfileEventHandler?.Invoke(this, new ProfileSelectedEventArgs(playerProfile));
             QuestLineCreatedEventHandler?.Invoke(this, new QuestLineCreatedEventArgs(questLines));
-        }
-
-        private async Task CreateContentsForQuestLine()
-        {
-            questLines.EnemySos = _enemyGeneratorManager.GetEnemySOList(questLines.EnemyParametersForQuestLines.Difficulty);
-            questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
-            questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
-            questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
-        }
-
-        private async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()
-        {
-            return await _levelGeneratorManager.EvolveDungeonPopulation(new CreateEaDungeonEventArgs(questLines,
-                _levelGeneratorManager.GeneticAlgorithmSettings, CurrentGeneratorSettings.TotalRunsOfEA));
-        }
-
-        private void CreateGeneratorParametersForQuestLine(YeePlayerProfile playerProfile)
-        {
-            questLines.DungeonParametersForQuestLines = new QuestDungeonsParameters();
-            questLines.EnemyParametersForQuestLines = new QuestEnemiesParameters();
-            //questLines.NpcParametersForQuestLines = new QuestNpcsParameters();
-            questLines.ItemParametersForQuestLines = new QuestItemsParameters();
-            questLines.CalculateDifficultyFromProfile(playerProfile.MasteryPreference);
-#if UNITY_EDITOR
-            Debug.Log("Profile: " + playerProfile);
-#endif
-            questLines.CalculateMonsterFromQuests();
-            questLines.CalculateDungeonParametersFromQuests(playerProfile.CreativityPreference
-                , playerProfile.AchievementPreference);
-            //questLines.CalculateNpcsFromQuests();
-            questLines.CalculateItemsFromQuests();
         }
     }
 }
