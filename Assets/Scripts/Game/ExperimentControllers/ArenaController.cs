@@ -87,7 +87,7 @@ namespace Game.ExperimentControllers
             SceneManager.LoadSceneAsync(GameUI, LoadSceneMode.Additive);
         }
 
-        private WeaponTypeAmountDictionary CreateDictionaryOfRandomEnemies(List<EnemySO> enemies)
+        private WeaponTypeAmountDictionary CreateDictionaryOfRandomEnemies(List<TopdownEnemySO> enemies)
         {
             var weaponDictionary = new WeaponTypeAmountDictionary();
             for (int i = 0; i < TotalEnemies; i++)

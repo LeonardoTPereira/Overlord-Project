@@ -7,7 +7,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 {
     public class EnemyRoomList : MonoBehaviour
     {
-        private static List<EnemySO> _enemyListForCurrentDungeon;
+        private static List<TopdownEnemySO> _enemyListForCurrentDungeon;
 
 
     }

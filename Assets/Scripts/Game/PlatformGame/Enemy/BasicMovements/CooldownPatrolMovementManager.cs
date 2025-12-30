@@ -20,7 +20,7 @@ namespace PlatformGame.Enemy.Movement
         private float _flipCooldown = FLIP_MIN_COOLDOWN;
         private bool _isFlipDefaultCooldown = false;
 
-        public override void InitializeVariables(EnemySO enemySo)
+        public override void InitializeVariables(TopdownEnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
             //_edgeTester = transform.GetChild(0).gameObject.GetComponent<EdgeTester>();

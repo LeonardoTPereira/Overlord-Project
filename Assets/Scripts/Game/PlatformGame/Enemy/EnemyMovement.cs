@@ -26,7 +26,7 @@ namespace PlatformGame.Enemy
 
         [HideInInspector] public MovementManager moveManager;
 
-        public void LoadMovement(EnemySO enemySo)
+        public void LoadMovement(TopdownEnemySO enemySo)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
             // From 0.8f to 3.2f in SearchSpace

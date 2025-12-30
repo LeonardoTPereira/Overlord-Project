@@ -7,7 +7,7 @@ namespace PlatformGame.Enemy.Movement
 {
     public class NoMovementManager : MovementManager
     {
-        public override void InitializeVariables(EnemySO enemySo) { }
+        public override void InitializeVariables(TopdownEnemySO enemySo) { }
         public override void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM) 
         {
             VerifyOrientationAndFlip(moveDirection, groundLM);

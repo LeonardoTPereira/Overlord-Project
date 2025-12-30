@@ -24,7 +24,7 @@ namespace Game.GameManager
         private Animator _animator;
         private Color _originalColor;
         [field: SerializeField] protected ColorPaletteSo enemyColorPalette;
-        public EnemySO EnemyData { get; set; }
+        public TopdownEnemySO EnemyData { get; set; }
         public int QuestId { get; set; }
 
         private Vector2 _directionMask;
@@ -53,7 +53,7 @@ namespace Game.GameManager
 
         private bool _hasGotComponents;
 
-        public EventHandler<EnemySO> EnemyKilledHandler;
+        public EventHandler<TopdownEnemySO> EnemyKilledHandler;
 
         private Coroutine _walkRoutine;
 
@@ -228,7 +228,7 @@ namespace Game.GameManager
             Destroy(gameObject);
         }
 
-        public virtual void LoadEnemyData(EnemySO enemyData, int questId)
+        public virtual void LoadEnemyData(TopdownEnemySO enemyData, int questId)
         {
             if (!_hasGotComponents)
             {

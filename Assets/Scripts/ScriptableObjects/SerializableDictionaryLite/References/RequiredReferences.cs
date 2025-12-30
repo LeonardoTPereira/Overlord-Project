@@ -18,7 +18,7 @@ namespace ScriptableObjects.SerializableDictionaryLite.References
         private AudioClip _audioClip;
 
         [SerializeField] private WeaponTypeSo _weaponTypeSo;
-        [SerializeField] private EnemySO _enemySo;
+        [SerializeField] private TopdownEnemySO _enemySo;
         [SerializeField] private ItemSo _itemSo;
     }
 }

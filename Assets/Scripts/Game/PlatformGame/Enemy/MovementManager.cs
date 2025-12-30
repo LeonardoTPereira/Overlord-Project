@@ -31,7 +31,7 @@ namespace PlatformGame.Enemy.Movement
             OnFlip -= Flip;
         }
 
-        public abstract void InitializeVariables(EnemySO enemySo);
+        public abstract void InitializeVariables(TopdownEnemySO enemySo);
         public abstract void Move(float moveDirection, float speed, bool canMove, LayerMask groundLM);
         public abstract void Test();
 

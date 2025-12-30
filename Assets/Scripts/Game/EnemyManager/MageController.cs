@@ -73,7 +73,7 @@ namespace Game.EnemyManager
             }
         }
 
-        public override void LoadEnemyData(EnemySO enemyData, int questId)
+        public override void LoadEnemyData(TopdownEnemySO enemyData, int questId)
         {
             base.LoadEnemyData(enemyData, questId);
             ProjectilePrefab = enemyData.weapon.Projectile.projectilePrefab;

@@ -9,7 +9,7 @@ namespace PlatformGame.GameManager
 {
     public class PlatformEnemyLoader : EnemyLoader
     {
-        public override GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
+        public override GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, TopdownEnemySO enemySo, int questId)
         {
             GameObject enemy;
             //TODO change to use weaponType in comparison

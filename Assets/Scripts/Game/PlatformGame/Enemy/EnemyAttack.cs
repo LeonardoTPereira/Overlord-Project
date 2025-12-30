@@ -26,7 +26,7 @@ namespace PlatformGame.Enemy
         [SerializeField] protected GameObject weapon;
         [SerializeField] protected float timeToAtack = 0.3f; //This property depends on attack animation.
         
-        public virtual void LoadAttack(EnemySO enemySo){
+        public virtual void LoadAttack(TopdownEnemySO enemySo){
             _weaponController.LoadWeapon(enemySo);
 
             // Value of attack speed is from 0.75f to 4f in SearchSpace.cs

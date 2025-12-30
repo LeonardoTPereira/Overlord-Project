@@ -9,7 +9,7 @@ namespace PlatformGame.Enemy.Movement
     {
         private Rigidbody2D _rb;
 
-        public override void InitializeVariables(EnemySO enemySo)
+        public override void InitializeVariables(TopdownEnemySO enemySo)
         {
             // After, use timer to set enemy freeze for some seconds
             _rb = GetComponent<Rigidbody2D>();

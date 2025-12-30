@@ -4,7 +4,6 @@ using Overlord.LevelGenerator.LevelSOs;
 using Overlord.LevelGenerator.Manager;
 using Overlord.NarrativeGenerator.EnemyRelatedNarrative;
 using Overlord.NarrativeGenerator.ItemRelatedNarrative;
-using Overlord.NarrativeGenerator.NPCs;
 using Overlord.NarrativeGenerator.Quests;
 using Overlord.ProfileAnalyst;
 using Overlord.RulesGenerator.EnemyGeneration;

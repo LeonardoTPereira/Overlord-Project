@@ -14,7 +14,7 @@ namespace PlatformGame.Weapons
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private float launchPower = 5f;
 
-        public override void LoadWeapon(EnemySO enemySo)
+        public override void LoadWeapon(TopdownEnemySO enemySo)
         {
             base.LoadWeapon(enemySo);
             launchPower = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(enemySo.projectileSpeed, _minimumAttackSpeed, _maximumAttackSpeed, 0.75f, 4f);
