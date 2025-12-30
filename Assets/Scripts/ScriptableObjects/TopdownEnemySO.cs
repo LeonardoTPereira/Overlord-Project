@@ -5,7 +5,7 @@ using Util;
 namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "EnemySO", menuName = "Overlord-Project/Enemy/EnemySO")]
-    public class EnemySO : ScriptableObject, ISavableGeneratedContent
+    public class TopdownEnemySO : ScriptableObject, ISavableGeneratedContent
     {
         public int health;
         public int damage;

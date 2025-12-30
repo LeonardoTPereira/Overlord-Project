@@ -1,15 +1,19 @@
 using MyBox;
+using Overlord.Events;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.LevelSOs;
+using Overlord.NarrativeGenerator;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using Overlord.Events;
 
 namespace Overlord.LevelGenerator.Manager
 {
     public class LevelGeneratorManager : MonoBehaviour
     {
+        [field: Foldout("EA Parameters", true)]
+        [DisplayInspector]
+        [field: SerializeField] protected FitnessDesiredValuesSO _fitnessDesiredValues; // Apenas funciona se não utilizar o NarrativeManager (valores obtidos da narrativa sobrescrevem-o)
         /// Level generator
         protected GeneticAlgorithmManager _generator;
         protected FitnessInput _fitnessInput;
@@ -24,6 +28,7 @@ namespace Overlord.LevelGenerator.Manager
 
         private void Start()
         {
+            FitnessInput.DesiredValues = _fitnessDesiredValues;
             _fitnessPlot = GetComponent<FitnessPlot>();
         }
 

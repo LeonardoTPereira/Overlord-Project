@@ -24,9 +24,9 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             _weaponTypeSO = FindObjectOfType<OverlordDataToGameDataConverter>().WeaponSet;
         }
 
-        public List<EnemySO> GetEnemiesSOFromSolution(IEnumerable<Individual> solution)
+        public List<TopdownEnemySO> GetEnemiesSOFromSolution(IEnumerable<Individual> solution)
         {
-            var enemyList = new List<EnemySO>();
+            var enemyList = new List<TopdownEnemySO>();
 
             foreach (var individual in solution)
             {
@@ -53,9 +53,9 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             }
         }
 
-        private EnemySO IndividualEnemySO(Individual individual)
+        private TopdownEnemySO IndividualEnemySO(Individual individual)
         {
-            EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
+            TopdownEnemySO enemySo = ScriptableObject.CreateInstance<TopdownEnemySO>();
 
             enemySo.Init(
                 (int)individual.Enemy.Status1,
@@ -74,7 +74,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             return enemySo;
         }
 
-        public void ExportEnemiesToTextFile(List<EnemySO> enemies, string path)
+        public void ExportEnemiesToTextFile(List<TopdownEnemySO> enemies, string path)
         {
             if (enemies == null || enemies.Count == 0)
             {
@@ -86,7 +86,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 
             for (int i = 0; i < enemies.Count; i++)
             {
-                EnemySO enemy = enemies[i];
+                TopdownEnemySO enemy = enemies[i];
 
                 sb.AppendLine($"Enemy#{i + 1:000}:");
                 sb.AppendLine($"  Health: {enemy.health}");

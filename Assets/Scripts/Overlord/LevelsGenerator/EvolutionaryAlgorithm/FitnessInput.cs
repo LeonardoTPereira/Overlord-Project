@@ -4,20 +4,14 @@ using Overlord.ProfileAnalyst;
 using MyBox;
 using UnityEngine;
 using Overlord.NarrativeGenerator.Quests;
+using Overlord.LevelGenerator.Manager;
 
 namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
 {
     [Serializable]
     public class FitnessInput
     {
-        [Foldout("Desired Fitness Values", true)]
-        [SerializeField, Range(2, 200)] private int desiredRooms = 20;
-        [SerializeField, Range(0, 50)] private int desiredKeys = 4;
-        [SerializeField, Range(0, 50)] private int desiredLocks = 4;
-        [SerializeField, Range(0, 200)] private int desiredEnemies = 40;
-        [SerializeField, Range(0, 200)] private int desiredItems = 10;
-        [SerializeField, Range(0, 200)] private int desiredNpcs = 3;
-        [SerializeField, Range(1.0f, 3.0f)] private float desiredLinearity = 1.5f;
+        static public FitnessDesiredValuesSO DesiredValues;
         public IEnumerable<QuestLine> QuestLines { get; private set; }
         public YeePlayerProfile PlayerProfile { get; private set; }
 
@@ -35,12 +29,12 @@ namespace Overlord.LevelGenerator.EvolutionaryAlgorithm
             PlayerProfile = playerProfile;
         }
         
-        public int DesiredRooms { get => desiredRooms; set => desiredRooms = value; }
-        public int DesiredKeys { get => desiredKeys; set => desiredKeys = value; }
-        public int DesiredLocks { get => desiredLocks; set => desiredLocks = value; }
-        public int DesiredEnemies { get => desiredEnemies; set => desiredEnemies = value; }
-        public int DesiredItems { get => desiredItems; set => desiredItems = value; }
-        public int DesiredNpcs { get => desiredNpcs; set => desiredNpcs = value; }
-        public float DesiredLinearity { get => desiredLinearity; set => desiredLinearity = value; }
+        public int DesiredRooms { get => DesiredValues.desiredRooms; set => DesiredValues.desiredRooms = value; }
+        public int DesiredKeys { get => DesiredValues.desiredKeys; set => DesiredValues.desiredKeys = value; }
+        public int DesiredLocks { get => DesiredValues.desiredLocks; set => DesiredValues.desiredLocks = value; }
+        public int DesiredEnemies { get => DesiredValues.desiredEnemies; set => DesiredValues.desiredEnemies = value; }
+        public int DesiredItems { get => DesiredValues.desiredItems; set => DesiredValues.desiredItems = value; }
+        public int DesiredNpcs { get => DesiredValues.desiredNpcs; set => DesiredValues.desiredNpcs = value; }
+        public float DesiredLinearity { get => DesiredValues.desiredLinearity; set => DesiredValues.desiredLinearity = value; }
     }
 }

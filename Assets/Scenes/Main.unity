@@ -306,7 +306,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 1
+    height: 0.9998596
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -995,6 +995,12 @@ PrefabInstance:
       propertyPath: _eaSettings
       value: 
       objectReference: {fileID: 11400000, guid: 1d9b719c28936d04b948ea4f2320900f,
+        type: 2}
+    - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
+        type: 3}
+      propertyPath: _fitnessDesiredValues
+      value: 
+      objectReference: {fileID: 11400000, guid: 215c2ec375a5fc74190ccfe9a3b881f6,
         type: 2}
     - target: {fileID: 3829912035921256732, guid: c1496f6ed7dad834a8f8428a619dfdd6,
         type: 3}
