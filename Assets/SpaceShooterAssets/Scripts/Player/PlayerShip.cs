@@ -21,6 +21,11 @@ public class PlayerShip : MonoBehaviour
     public int maxBombs = 3;
     public float bombInvincibilityTime = 3f;
 
+    [Header("Invincibility Visuals")]
+    [Range(0f, 1f)]
+    public float blinkMinAlpha = 0.3f;
+    public float blinkInterval = 0.1f;
+
     [Header("Screen Bounds")]
     public Vector2 minBounds;
     public Vector2 maxBounds;
@@ -34,12 +39,11 @@ public class PlayerShip : MonoBehaviour
     private float _fireTimer;
 
     private SpriteRenderer _spriteRenderer;
-    private Collider2D _col;
+    [SerializeField] private Collider2D _col;
 
     void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _col = GetComponent<Collider2D>();
     }
 
     void Start()
@@ -61,7 +65,6 @@ public class PlayerShip : MonoBehaviour
     private bool _isMovingDown;
     private bool _isMovingLeft;
     private bool _isMovingRight;
-
     public void OnMoveUp(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -196,7 +199,7 @@ public class PlayerShip : MonoBehaviour
         DestroyAllWithTag("EnemyBullet");
         DestroyAllWithTag("Obstacle");
 
-        StartCoroutine(InvincibilityCoroutine(bombInvincibilityTime));
+        StartCoroutine(Invincibility(bombInvincibilityTime));
     }
 
     void DestroyAllWithTag(string tag)
@@ -231,10 +234,51 @@ public class PlayerShip : MonoBehaviour
         }
         else
         {
-            StartCoroutine(InvincibilityCoroutine(invincibilityTime));
+            StartCoroutine(Invincibility(invincibilityTime));
         }
     }
 
+    IEnumerator Invincibility(float duration)
+    {
+        if (_isInvincible)
+            yield break;
+
+        _isInvincible = true;
+        _col.enabled = false;
+
+        float timer = 0f;
+        bool faded = false;
+
+        Color baseColor = _spriteRenderer.color;
+
+        while (timer < duration)
+        {
+            faded = !faded;
+            float alpha = faded ? blinkMinAlpha : 1f;
+
+            _spriteRenderer.color = new Color(
+                baseColor.r,
+                baseColor.g,
+                baseColor.b,
+                alpha
+            );
+
+            yield return new WaitForSeconds(blinkInterval);
+            timer += blinkInterval;
+        }
+
+        _spriteRenderer.color = new Color(
+            baseColor.r,
+            baseColor.g,
+            baseColor.b,
+            1f
+        );
+
+        _col.enabled = true;
+        _isInvincible = false;
+    }
+
+    /*
     IEnumerator InvincibilityCoroutine(float duration)
     {
         _isInvincible = true;
@@ -252,7 +296,7 @@ public class PlayerShip : MonoBehaviour
         _col.enabled = true;
         _isInvincible = false;
     }
-
+    */
     void Die()
     {
         // TODO: explosion, game over, respawn logic
