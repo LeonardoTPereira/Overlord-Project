@@ -6,7 +6,7 @@ using System;
 namespace Overlord.NarrativeGenerator.EnemyRelatedNarrative
 {
     [Serializable]
-    public class EnemyByAmountDictionary : SerializableDictionaryBase<TopdownEnemySO, QuestIdList>
+    public class EnemyByAmountDictionary : SerializableDictionaryBase<EnemySO, QuestIdList>
     {
 
     }

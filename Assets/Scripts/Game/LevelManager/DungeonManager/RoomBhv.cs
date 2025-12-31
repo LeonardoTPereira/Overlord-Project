@@ -474,7 +474,7 @@ namespace Game.LevelManager.DungeonManager
             }
         }
         
-        public void RemoveFromDictionary(object sender, TopdownEnemySO killedEnemyWeapon)
+        public void RemoveFromDictionary(object sender, EnemySO killedEnemyWeapon)
         {
             enemiesDictionary.Remove(killedEnemyWeapon);
             if (enemiesDictionary.Count != 0) return;

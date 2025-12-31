@@ -50,7 +50,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             return _generator.Solution.ToList();
         }
 
-        public List<TopdownEnemySO> GetEnemySOList(DifficultyLevels difficultyLevels)
+        public virtual List<EnemySO> GetEnemySOList(DifficultyLevels difficultyLevels)
         {
             List<Individual> enemies = GetEnemies(difficultyLevels);
             EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);

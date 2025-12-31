@@ -9,7 +9,7 @@ namespace PlatformGame.GameManager
 {
     public class PlatformEnemyLoader : EnemyLoader
     {
-        public override GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, TopdownEnemySO enemySo, int questId)
+        public override GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
             //TODO change to use weaponType in comparison
@@ -33,8 +33,10 @@ namespace PlatformGame.GameManager
             {
                 enemy = Instantiate(EnemyPrefab, position, rotation);
             }
-
-            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
+            if (enemySo is TopdownEnemySO topdownEnemySO)
+                enemy.GetComponent<EnemyController>().LoadEnemyData(topdownEnemySO, questId);
+            else
+                Debug.Log("EnemySO is not of type TopdownEnemySO");
             return enemy;
         }
     }

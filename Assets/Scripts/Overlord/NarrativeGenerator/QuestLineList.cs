@@ -20,7 +20,7 @@ namespace Overlord.NarrativeGenerator.Quests
     public class QuestLineList : ScriptableObject, ISavableGeneratedContent
     {
         [field: SerializeField] public List<QuestLine> QuestLines { get; set; }
-        [field: SerializeField] public List<TopdownEnemySO> EnemySos { get; set; }
+        [field: SerializeField] public List<EnemySO> EnemySos { get; set; }
         [field: SerializeField] public List<NpcSo> NpcSos { get; set; }
         [field: SerializeField] public List<ItemSo> ItemSos { get; set; }
         [field: SerializeField] public List<DungeonFileSo> DungeonFileSos { get; set; }
@@ -35,7 +35,7 @@ namespace Overlord.NarrativeGenerator.Quests
         {
             QuestLines = new List<QuestLine>();
             DungeonFileSos = new List<DungeonFileSo>();
-            EnemySos = new List<TopdownEnemySO>();
+            EnemySos = new List<EnemySO>();
             NpcSos = new List<NpcSo>();
             ItemSos = new List<ItemSo>();
             DungeonParametersForQuestLines = new QuestDungeonsParameters();

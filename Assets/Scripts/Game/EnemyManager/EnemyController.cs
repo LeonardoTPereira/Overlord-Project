@@ -24,7 +24,7 @@ namespace Game.GameManager
         private Animator _animator;
         private Color _originalColor;
         [field: SerializeField] protected ColorPaletteSo enemyColorPalette;
-        public TopdownEnemySO EnemyData { get; set; }
+        public EnemySO EnemyData { get; set; }
         public int QuestId { get; set; }
 
         private Vector2 _directionMask;
@@ -53,7 +53,7 @@ namespace Game.GameManager
 
         private bool _hasGotComponents;
 
-        public EventHandler<TopdownEnemySO> EnemyKilledHandler;
+        public EventHandler<EnemySO> EnemyKilledHandler;
 
         private Coroutine _walkRoutine;
 
@@ -129,7 +129,8 @@ namespace Game.GameManager
         {
             while (true)
             {
-                yield return new WaitForSeconds(EnemyData.restTime);
+                if (EnemyData is TopdownEnemySO ed)
+                    yield return new WaitForSeconds(ed.restTime);
                 yield return StartCoroutine(Walk());
                 Wait();
             }
@@ -142,17 +143,19 @@ namespace Game.GameManager
             if (_isRandomMovement)
             {
                 _enemyRigidBody.velocity = GetMovementVector(ref directionMask, true);
-                yield return new WaitForSeconds(EnemyData.activeTime);
+                if (EnemyData is TopdownEnemySO ed)
+                    yield return new WaitForSeconds(ed.activeTime);
             }
             else
             {
                 _enemyRigidBody.velocity = GetMovementVector(ref directionMask, true);
-                while (timeWalked < EnemyData.activeTime)
-                {
-                    _enemyRigidBody.velocity = GetMovementVector(ref directionMask, false);
-                    timeWalked += Time.deltaTime;
-                    yield return null;
-                }
+                if (EnemyData is TopdownEnemySO ed)
+                    while (timeWalked < ed.activeTime)
+                    {
+                        _enemyRigidBody.velocity = GetMovementVector(ref directionMask, false);
+                        timeWalked += Time.deltaTime;
+                        yield return null;
+                    }
             }
         }
 
@@ -180,7 +183,11 @@ namespace Game.GameManager
             else
                 yOffset = 0;
             targetMoveDir = new Vector2((targetMoveDir.x + xOffset), (targetMoveDir.y + yOffset));
-            return new Vector2(targetMoveDir.x * EnemyData.movementSpeed, targetMoveDir.y * EnemyData.movementSpeed);
+
+            if (EnemyData is TopdownEnemySO ed)
+                return new Vector2(targetMoveDir.x * ed.movementSpeed, targetMoveDir.y * ed.movementSpeed);
+            Debug.Log("EnemyData is not a TopdownEnemySO, check the enemy generator's output");
+            return new Vector2();
         }
 
         private void Wait()
@@ -193,7 +200,8 @@ namespace Game.GameManager
             var collisionDirection = Vector3.Normalize(gameObject.transform.position - collision.gameObject.transform.position);
             if (!collision.gameObject.CompareTag("Player")) return;
             OnPlayerHit();
-            collision.gameObject.GetComponent<HealthController>().ApplyDamage(EnemyData.damage, collisionDirection, IndexOnEnemyList);
+            if (EnemyData is TopdownEnemySO ed)
+                collision.gameObject.GetComponent<HealthController>().ApplyDamage(ed.damage, collisionDirection, IndexOnEnemyList);
         }
 
         public void CheckDeath()
@@ -228,14 +236,15 @@ namespace Game.GameManager
             Destroy(gameObject);
         }
 
-        public virtual void LoadEnemyData(TopdownEnemySO enemyData, int questId)
+        public virtual void LoadEnemyData(EnemySO enemyData, int questId)
         {
             if (!_hasGotComponents)
             {
                 GetAllComponents();
             }
             EnemyData = enemyData;
-            _healthController.SetHealth(enemyData.health);
+            if (EnemyData is TopdownEnemySO ed)
+                _healthController.SetHealth(ed.health);
             QuestId = questId;
         }
 

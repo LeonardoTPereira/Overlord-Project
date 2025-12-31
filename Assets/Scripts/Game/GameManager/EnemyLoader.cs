@@ -55,7 +55,7 @@ namespace Game.GameManager
             return enemiesByType;
         }
 
-        public static void LoadEnemies(List<TopdownEnemySO> enemyList)
+        public static void LoadEnemies(List<EnemySO> enemyList)
         {
             EnemiesForCurrentDungeon.UpdateEnemiesForCurrentDungeon(enemyList);
             ApplyDelegates();
@@ -63,7 +63,7 @@ namespace Game.GameManager
          
         public GameObject InstantiateEnemyWithType(Vector3 position, Quaternion rotation, WeaponTypeSo enemyType, int questId)
         {
-            TopdownEnemySO currentEnemy = EnemiesForCurrentDungeon.GetRandomEnemyOfType(enemyType);
+            EnemySO currentEnemy = EnemiesForCurrentDungeon.GetRandomEnemyOfType(enemyType);
             GameObject enemy;
             if (currentEnemy.weapon.Type == WeaponTypeEnum.BareHand)
             {
@@ -89,7 +89,7 @@ namespace Game.GameManager
             return enemy;
         }
 
-        public virtual GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, TopdownEnemySO enemySo, int questId)
+        public virtual GameObject InstantiateEnemyFromScriptableObject(Vector3 position, Quaternion rotation, EnemySO enemySo, int questId)
         {
             GameObject enemy;
             if (enemySo.weapon.Type == WeaponTypeEnum.BareHand)

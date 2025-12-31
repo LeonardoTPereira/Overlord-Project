@@ -7,13 +7,13 @@ using System.IO;
 
 namespace Overlord.RulesGenerator.EnemyGeneration
 {
-    public class EnemySOFactory: MonoBehaviour
+    public class EnemySOFactory : MonoBehaviour
     {
-        private readonly EnemyMovementsSOInterface _movementSet;
-        private readonly EnemyWeaponsSOInterface _weaponSet;
+        protected EnemyMovementsSOInterface _movementSet;
+        protected EnemyWeaponsSOInterface _weaponSet;
         // TODO: Remover totalmente MovementTypeSO e utilizar apenas EnemyMovementsSOInterface _movementSet
-        private readonly List<MovementTypeSO> _movementTypeSOList;
-        private readonly WeaponTypeRuntimeSetSO _weaponTypeSO;
+        protected List<MovementTypeSO> _movementTypeSOList;
+        protected WeaponTypeRuntimeSetSO _weaponTypeSO;
 
         public EnemySOFactory(EnemyMovementsSOInterface movementSet, EnemyWeaponsSOInterface weaponSet)
         {
@@ -24,9 +24,9 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             _weaponTypeSO = FindObjectOfType<OverlordDataToGameDataConverter>().WeaponSet;
         }
 
-        public List<TopdownEnemySO> GetEnemiesSOFromSolution(IEnumerable<Individual> solution)
+        public List<EnemySO> GetEnemiesSOFromSolution(IEnumerable<Individual> solution)
         {
-            var enemyList = new List<TopdownEnemySO>();
+            var enemyList = new List<EnemySO>();
 
             foreach (var individual in solution)
             {
@@ -41,7 +41,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             return enemyList;
         }
 
-        private void ValidateIndices(int weaponIndex, int movementIndex)
+        protected void ValidateIndices(int weaponIndex, int movementIndex)
         {
             if (weaponIndex < 0 || weaponIndex >= _weaponSet.GetAllWeaponTypes().Count)
             {
@@ -53,24 +53,22 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             }
         }
 
-        private TopdownEnemySO IndividualEnemySO(Individual individual)
+        protected EnemySO IndividualEnemySO(Individual individual)
         {
-            TopdownEnemySO enemySo = ScriptableObject.CreateInstance<TopdownEnemySO>();
-
+            EnemySO enemySo = ScriptableObject.CreateInstance<EnemySO>();
             enemySo.Init(
-                (int)individual.Enemy.Status1,
-                (int)individual.Enemy.Status2,
+                individual.Enemy.Status1,
+                individual.Enemy.Status2,
+                individual.Enemy.Status3,
                 individual.Enemy.Status4,
                 individual.Enemy.Status5,
-                individual.Enemy.Status6,
                 _weaponTypeSO.Items[Convert.ToInt32(individual.Weapon.Weapon)],
                 _movementTypeSOList[Convert.ToInt32(individual.Enemy.Movement)],
                 null, // Behavior not implemented yet
                 individual.FitnessValue,
-                individual.Enemy.Status3,
+                individual.Enemy.Status6,
                 individual.Weapon.WeaponStatus1
             );
-
             return enemySo;
         }
 
@@ -113,7 +111,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             }
         }
 
-        private string GetDocumentsFolderPath(string fileName)
+        protected string GetDocumentsFolderPath(string fileName)
         {
             // Path to the Documents folder
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
