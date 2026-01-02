@@ -49,7 +49,7 @@ MonoBehaviour:
     Min: 0
     Max: 0
   WeaponStatus1:
-    statusName: ProjectSpeed
+    statusName: ProjectileSpeed
     minLimit: 0.5
     maxLimit: 3
     Min: 0.5

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Overlord.GenerationController.Facade;
 
 namespace Overlord.RulesGenerator.EnemyGeneration
@@ -80,6 +81,8 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             // Calculate the individual slot (Elite)
             int m = Convert.ToInt32(_individual.Enemy.Movement);
             int w = Convert.ToInt32(_individual.Weapon.Weapon);
+            var test = map;
+
             // If the new individual deserves to survive
             if (_fitnessFunction.IsBest(_individual, map[m, w]))
             {

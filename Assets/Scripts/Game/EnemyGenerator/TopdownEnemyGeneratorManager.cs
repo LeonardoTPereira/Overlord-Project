@@ -23,6 +23,7 @@ namespace Topdown.Overlord.RulesGenerator.EnemyGeneration
         {
             List<Individual> enemies = GetEnemies(difficultyLevels);
             TopdownEnemySOFactory enemyFactory = new TopdownEnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
+            var test = enemyFactory.GetEnemiesSOFromSolution(enemies);
             return enemyFactory.GetEnemiesSOFromSolution(enemies);
         }
 

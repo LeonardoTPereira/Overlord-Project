@@ -21,7 +21,14 @@
             Random1D,
             Follow1D,
             Flee1D,
-            Count
+            Count,
+            Type1,
+            Type2,
+            Type3,
+            Type4,
+            Type5,
+            Type6,
+            Type7
         }
 
         public enum ProjectileEnum

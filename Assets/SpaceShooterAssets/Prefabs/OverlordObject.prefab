@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 169172492858798892}
   - component: {fileID: 5531290809947862105}
   - component: {fileID: 5650807289047973240}
-  - component: {fileID: 1283072912393399192}
+  - component: {fileID: 6218032000539438223}
   m_Layer: 0
   m_Name: OverlordObject
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46165342c895ebe4d9a1a878c9632375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerProfileSO: {fileID: 0}
+  playerProfileSO: {fileID: 11400000, guid: df4063952f9a1924fb3626d14de6cfee, type: 2}
 --- !u!114 &5531290809947862105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,9 +60,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 159fe30c930abcf4bb89a959a7d01acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MustCreateNarrative>k__BackingField: 0
-  language: 1
+  <MustCreateNarrative>k__BackingField: 1
+  language: 0
   _narrativeSettings: {fileID: 0}
+  questLines: {fileID: 0}
 --- !u!114 &5650807289047973240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6554c4b668a1b714e85973e60fa097b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _searchSpaceConfig: {fileID: 0}
+  _searchSpaceConfig: {fileID: 11400000, guid: 37d7cb2117e12984b816ca3524a3925c, type: 2}
   ActivateManualDifficulty: 0
   difficulties: 0
   _geneticSettings:
@@ -90,7 +91,7 @@ MonoBehaviour:
     numberOfDesiredElitesPerEnemy: 3
     minimumAcceptableFitnessPerEnemy: 0.5
     difficulty: 0
---- !u!114 &1283072912393399192
+--- !u!114 &6218032000539438223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1031352765727927965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1efc210d140888459eb5f05e0b133a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9575ca784fb76414d8101084a8b89c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GeneticAlgorithmSettings: {fileID: 0}

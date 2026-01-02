@@ -7,6 +7,10 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 {
     public class GenericEnemyFitness : IEnemyFitness
     {
+        /// The error message of cannot compare individuals.
+        public readonly string CANNOT_COMPARE_INDIVIDUALS =
+            "There is no way of comparing two null individuals.";
+
         SearchSpaceConfig _searchSpace;
 
         public void SetSearchSpace(SearchSpaceConfig searchSpace)
@@ -20,8 +24,22 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             individual.FitnessValue = Math.Abs(goal - fitnessFactor);
         }
 
+        /// Return true if the first individual (`_i1`) is best than the second
+        /// (`_i2`), and false otherwise.
+        ///
+        /// The best is the individual that is closest to the goal in the
+        /// MAP-Elites population. This is, the best is the one that's fitness
+        /// has the lesser value. If `_i1` is null, then `_i2` is the best
+        /// individual. If `_i2` is null, then `_i1` is the best individual. If
+        /// both individuals are null, then the comparison cannot be performed.
         public bool IsBest(Individual _i1, Individual _i2)
         {
+            Debug.Assert(
+                _i1 != null || _i2 != null,
+                CANNOT_COMPARE_INDIVIDUALS
+            );
+            if (_i1 is null) { return false; }
+            if (_i2 is null) { return true; }
             return _i1.FitnessValue > _i2.FitnessValue;
         }
 

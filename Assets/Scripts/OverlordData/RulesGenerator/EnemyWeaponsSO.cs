@@ -26,7 +26,8 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 
         public override List<Enum> GetAllWeaponTypes()
         {
-            return ((TEnum[])Enum.GetValues(typeof(TEnum))).Cast<Enum>().ToList();
+            //return ((TEnum[])Enum.GetValues(typeof(TEnum))).Cast<Enum>().ToList();
+            return _enemyWeapons.Cast<Enum>().ToList();
         }
 
         public override int GetEnemyWeaponCount()

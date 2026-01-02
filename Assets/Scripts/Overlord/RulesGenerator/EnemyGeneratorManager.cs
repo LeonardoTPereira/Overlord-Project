@@ -54,6 +54,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
         {
             List<Individual> enemies = GetEnemies(difficultyLevels);
             EnemySOFactory enemyFactory = new EnemySOFactory(_searchSpaceConfig.MovementSet, _searchSpaceConfig.WeaponSet);
+            var test = enemyFactory.GetEnemiesSOFromSolution(enemies);
             return enemyFactory.GetEnemiesSOFromSolution(enemies);
         }
 
