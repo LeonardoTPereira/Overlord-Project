@@ -218,15 +218,35 @@ public class PlayerShip : MonoBehaviour
         if (_isInvincible)
             return;
 
-        if (other.CompareTag("EnemyBullet") || other.CompareTag("Enemy") || other.CompareTag("Obstacle"))
+        if (/*other.CompareTag("EnemyBullet") || */other.CompareTag("Enemy") || other.CompareTag("Obstacle"))
         {
             TakeDamage();
         }
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
+        if (_isInvincible)
+            return;
+
         _currentLives--;
+
+        if (_currentLives <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            StartCoroutine(Invincibility(invincibilityTime));
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (_isInvincible)
+            return;
+
+        _currentLives -= damage;
 
         if (_currentLives <= 0)
         {
