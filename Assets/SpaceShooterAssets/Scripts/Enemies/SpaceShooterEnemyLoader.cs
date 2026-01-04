@@ -1,4 +1,4 @@
-using Overlord.NarrativeGenerator;
+﻿using Overlord.NarrativeGenerator;
 using Overlord.RulesGenerator.EnemyGeneration;
 using ScriptableObjects;
 using System.Collections.Generic;
@@ -15,6 +15,17 @@ public class SpaceShooterEnemyLoader : MonoBehaviour
     public GameObject enemyPrefab;
 
     private List<EnemySO> enemiesToSpawn;
+
+    // Playable area
+    const float MIN_X = -1.5f;
+    const float MAX_X = 0.5f;
+    const float MIN_Y = -1.0f;
+    const float MAX_Y = 1.0f;
+
+    // Spawn helpers
+    const float OUT_BOTTOM_Y = 1.1f;
+    const float TOP_SPAWN_MIN_Y = 0.7f;
+    const float TOP_SPAWN_MAX_Y = 0.95f;
 
     void Start()
     {
@@ -35,7 +46,8 @@ public class SpaceShooterEnemyLoader : MonoBehaviour
 
     void SpawnEnemy(EnemySO so)
     {
-        var enemyGO = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        Vector2 spawnPos = GetSpawnPosition(so.movement);
+        var enemyGO = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
         var enemy = enemyGO.GetComponent<SpaceShooterEnemy>();
 
@@ -46,7 +58,7 @@ public class SpaceShooterEnemyLoader : MonoBehaviour
     }
 
 
-    SpaceShooterMovement CreateMovement(GameObject go, MovementTypeSO so)
+    public static SpaceShooterMovement CreateMovement(GameObject go, MovementTypeSO so)
     {
         switch (so.enemyMovementIndex)
         {
@@ -104,7 +116,7 @@ public class SpaceShooterEnemyLoader : MonoBehaviour
         }
     }
 
-    SpaceShooterWeapon CreateWeapon(GameObject go, WeaponTypeSo so)
+    public static SpaceShooterWeapon CreateWeapon(GameObject go, WeaponTypeSo so)
     {
         switch (so.Type)
         {
@@ -145,6 +157,49 @@ public class SpaceShooterEnemyLoader : MonoBehaviour
 
             default:
                 return null;
+        }
+    }
+
+    Vector2 GetSpawnPosition(MovementTypeSO movement)
+    {
+        switch (movement.enemyMovementIndex)
+        {
+            // T1: Centro ± D no X, Y entre 0.7 e 0.95
+            case Enums.MovementEnum.Type1:
+                {
+                    float D = 0.75f;
+                    float x = Random.value > 0.5f ? D : -D;
+                    float y = Random.Range(TOP_SPAWN_MIN_Y, TOP_SPAWN_MAX_Y);
+                    return new Vector2(x, y);
+                }
+
+            // T2: Y entre 0.7 e 0.95, X livre no range jogável
+            case Enums.MovementEnum.Type2:
+                {
+                    float x = Random.Range(MIN_X, MAX_X);
+                    float y = Random.Range(TOP_SPAWN_MIN_Y, TOP_SPAWN_MAX_Y);
+                    return new Vector2(x, y);
+                }
+
+            // T3: fora da tela embaixo
+            case Enums.MovementEnum.Type3:
+            case Enums.MovementEnum.Type4:
+            case Enums.MovementEnum.Type7:
+                {
+                    float x = Random.Range(MIN_X, MAX_X);
+                    return new Vector2(x, OUT_BOTTOM_Y);
+                }
+
+            // T5: canto superior direito → inferior esquerdo
+            case Enums.MovementEnum.Type5:
+                return new Vector2(MIN_X, MAX_Y);
+
+            // T6: canto superior esquerdo → inferior direito
+            case Enums.MovementEnum.Type6:
+                return new Vector2(MAX_X, MAX_Y);
+
+            default:
+                return Vector2.zero;
         }
     }
 }

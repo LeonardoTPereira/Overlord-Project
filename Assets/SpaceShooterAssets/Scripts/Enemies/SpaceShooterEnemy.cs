@@ -3,6 +3,7 @@ using ScriptableObjects;
 
 public class SpaceShooterEnemy : MonoBehaviour
 {
+    public bool isTest = false;
     public EnemySO enemySO;
 
     [Header("Runtime Stats")]
@@ -20,6 +21,13 @@ public class SpaceShooterEnemy : MonoBehaviour
 
     void Start()
     {
+        if (isTest)
+        {
+            Init(
+                enemySO,
+                SpaceShooterEnemyLoader.CreateMovement(this.gameObject, enemySO.movement),
+                SpaceShooterEnemyLoader.CreateWeapon(this.gameObject, enemySO.weapon));
+        }
         spawnTime = Time.time;
     }
 
