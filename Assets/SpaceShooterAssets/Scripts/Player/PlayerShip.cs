@@ -226,19 +226,7 @@ public class PlayerShip : MonoBehaviour
 
     public void TakeDamage()
     {
-        if (_isInvincible)
-            return;
-
-        _currentLives--;
-
-        if (_currentLives <= 0)
-        {
-            Die();
-        }
-        else
-        {
-            StartCoroutine(Invincibility(invincibilityTime));
-        }
+        TakeDamage(1);
     }
 
     public void TakeDamage(int damage)
@@ -246,6 +234,7 @@ public class PlayerShip : MonoBehaviour
         if (_isInvincible)
             return;
 
+        Debug.Log("Player took damage!");
         _currentLives -= damage;
 
         if (_currentLives <= 0)

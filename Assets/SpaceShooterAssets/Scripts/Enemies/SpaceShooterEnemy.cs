@@ -63,7 +63,8 @@ public class SpaceShooterEnemy : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<PlayerShip>()?.TakeDamage();
+            col.GetComponentInParent<PlayerShip>()?.TakeDamage();
+            //col.GetComponent<PlayerShip>()?.TakeDamage();
             Die();
         }
     }
