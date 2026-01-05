@@ -10,7 +10,6 @@ public abstract class SpaceShooterMovement: MonoBehaviour
     {
         enemy = e;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log(player.position);
     }
 
     public abstract void Tick();
