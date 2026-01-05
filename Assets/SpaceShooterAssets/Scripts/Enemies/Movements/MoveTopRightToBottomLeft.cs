@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MoveTopRightToBottomLeft : SpaceShooterMovement
 {
-    private Vector2 dir = new Vector2(-1, -1).normalized;
+    private Vector2 dir = new Vector2(-.5f, -1).normalized;
 
     public override void Tick()
     {

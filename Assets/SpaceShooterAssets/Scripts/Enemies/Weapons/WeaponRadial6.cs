@@ -7,6 +7,18 @@ public class WeaponRadial6 : SpaceShooterWeapon
 {
     public GameObject projectile;
 
+    public override void Init(SpaceShooterEnemy e)
+    {
+        base.Init(e);
+        projectile = Resources.Load<GameObject>("SpaceShooterPrefabs/RadialBullet");
+
+        if (projectile == null)
+        {
+            Debug.LogError($"Prefab não encontrado: {projectile}");
+            return;
+        }
+    }
+
     protected override void Shoot()
     {
         int bullets = 6;

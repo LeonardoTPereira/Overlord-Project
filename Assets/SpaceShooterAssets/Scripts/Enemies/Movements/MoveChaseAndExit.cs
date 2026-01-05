@@ -8,6 +8,9 @@ public class MoveChaseAndExit : SpaceShooterMovement
     private Vector2 velocity;
     private bool exiting;
 
+    const float MIN_SPEED = 0.1f;
+    const float MAX_SPEED = 20f;
+
     [SerializeField] private float steerStrength = 3f;
 
     public override void Init(SpaceShooterEnemy e)

@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca701aa6065d14b4c9b976109951f0ed, type: 3}
-  m_Name: Generic List of Enemy Weapons
+  m_Script: {fileID: 11500000, guid: 830d3caac152e7b4caf02fef2a6fd540, type: 3}
+  m_Name: MovementT7
   m_EditorClassIdentifier: 
-  _enemyWeapons: 
+  multiplier: 0
+  enemyMovementIndex: 14

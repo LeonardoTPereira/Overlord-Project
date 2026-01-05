@@ -15,9 +15,9 @@ MonoBehaviour:
   Status1:
     statusName: MoveSpeed
     minLimit: 0.1
-    maxLimit: 10
-    Min: 2
-    Max: 7
+    maxLimit: 1
+    Min: 0.1
+    Max: 0.2
   Status2:
     statusName: BulletRange
     minLimit: 0.1
@@ -29,7 +29,7 @@ MonoBehaviour:
     minLimit: 0.1
     maxLimit: 10
     Min: 0.75
-    Max: 4.5210524
+    Max: 3
   Status4:
     statusName: WaitTime
     minLimit: 0

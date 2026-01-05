@@ -59,7 +59,8 @@ public class SpaceShooterEnemy : MonoBehaviour
             return;
 
         movement.Tick();
-        weapon.Tick();
+        if (gameObject.GetComponent<MoveVerticalOnly>() == null)
+            weapon.Tick();
     }
 
     public void Die()

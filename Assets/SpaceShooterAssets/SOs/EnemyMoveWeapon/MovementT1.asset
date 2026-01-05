@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4339c878b4dbef14baedf53af47d5110, type: 3}
-  m_Name: SpaceShooterMovementListSO
+  m_Script: {fileID: 11500000, guid: 830d3caac152e7b4caf02fef2a6fd540, type: 3}
+  m_Name: MovementT1
   m_EditorClassIdentifier: 
-  _enemyMovements: 000000000100000003000000040000000500000006000000
+  multiplier: 0
+  enemyMovementIndex: 8

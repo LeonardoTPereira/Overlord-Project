@@ -8,6 +8,18 @@ public class WeaponDoubleAimPlayer : SpaceShooterWeapon
     public GameObject projectile;
     public float spreadAngle = 8f; // graus
 
+    public override void Init(SpaceShooterEnemy e)
+    {
+        base.Init(e);
+        projectile = Resources.Load<GameObject>("SpaceShooterPrefabs/AimBullet");
+
+        if (projectile == null)
+        {
+            Debug.LogError($"Prefab não encontrado: {projectile}");
+            return;
+        }
+    }
+
     protected override void Shoot()
     {
         Vector2 baseDir = (player.position - transform.position).normalized;

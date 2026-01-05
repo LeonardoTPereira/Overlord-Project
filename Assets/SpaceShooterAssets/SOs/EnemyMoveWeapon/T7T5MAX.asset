@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45500f27fdb019f4ca5bcf13fa9209a2, type: 3}
+  m_Name: T7T5MAX
+  m_EditorClassIdentifier: 
+  status1: 1
+  status2: 5
+  status3: 3
+  status4: 1.5
+  status5: 0
+  status6: 0
+  weaponStatus1: 2.5
+  fitness: 0
+  weapon: {fileID: 11400000, guid: f1a51b978ef54a645ad1847d58771412, type: 2}
+  movement: {fileID: 11400000, guid: c19452324af36a848b1a6c6a453818db, type: 2}
+  behavior: {fileID: 0}

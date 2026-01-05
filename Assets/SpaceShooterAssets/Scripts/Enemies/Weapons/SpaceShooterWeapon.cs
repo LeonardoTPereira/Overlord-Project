@@ -15,7 +15,7 @@ public abstract class SpaceShooterWeapon : MonoBehaviour
 
     public virtual void Tick()
     {
-        if (Time.time - lastShot >= enemy.attackSpeed)
+        if (Time.time - lastShot >= 3.75f-enemy.attackSpeed)
         {
             Shoot();
             lastShot = Time.time;
