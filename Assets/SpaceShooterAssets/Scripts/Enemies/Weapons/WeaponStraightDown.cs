@@ -26,7 +26,7 @@ public class WeaponStraightDown : SpaceShooterWeapon
     {
         Instantiate(projectile, transform.position, Quaternion.identity)
             .GetComponent<EnemyProjectile>()
-            .Init(dir, enemy.projectileSpeed, enemy.bulletRange);
+            .Init(dir, enemy.projectileSpeed, enemy.projectileSpeed);
     }
 }
 

@@ -6,7 +6,7 @@ using Util;
 
 namespace Overlord.NarrativeGenerator.NPCs
 {
-    [CreateAssetMenu(fileName = "NpcSO", menuName = "NpcModule/Npcs", order = 0)]
+    [CreateAssetMenu(fileName = "NpcSO", menuName = "Overlord-Project/Narrative-Generator/NpcModule/Npcs", order = 0)]
     [Serializable]
     public class NpcSo : ScriptableObject, IDialogueObjSo
     {

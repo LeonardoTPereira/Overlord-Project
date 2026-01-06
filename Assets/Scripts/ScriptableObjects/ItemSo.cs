@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "ItemSO", menuName = "Items/Item"), Serializable]
+    [CreateAssetMenu(fileName = "ItemSO", menuName = "Overlord-Project/Narrative-Generator/Items/Item")]
     public class ItemSo : ScriptableObject
     {
         [SerializeField]

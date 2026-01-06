@@ -6,22 +6,29 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
+    public GameObject DialoguePanel;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
 
     private Queue<string> _sentences;
+    private NaveNPC _npc;
 
     void Start()
     {
+        DialoguePanel.SetActive(false);
         _sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(NaveNPC naveNPC, Dialogue startDialogue, Dialogue endDialogue)
     {
-        nameText.text = dialogue.name;
+        DialoguePanel.SetActive(true);
+        _npc = naveNPC;
+        nameText.text = startDialogue.name;
 
         _sentences.Clear();
-        AddDialogueInSentences(dialogue);
+        AddDialogueInSentences(startDialogue);
+        if (endDialogue != null) 
+            AddDialogueInSentences(endDialogue);
         DisplayNextSentence();
     }
 
@@ -57,6 +64,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        Debug.Log("End of conversation.");
+        _npc.ResetTrigger();
+        DialoguePanel.SetActive(false);
     }
 }

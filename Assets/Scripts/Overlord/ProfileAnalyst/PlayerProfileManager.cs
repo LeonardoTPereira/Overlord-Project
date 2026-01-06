@@ -18,13 +18,13 @@ namespace Overlord.ProfileAnalyst
         // to adapt the input for Content Generators
         protected IPlayerProfileCalculator _profileCalculator = new YeeProfileCalculator();
 
-        protected void SetPlayerProfileFromManualPlayerProfileSO()
+        public void SetPlayerProfileFromManualPlayerProfileSO()
         {
             var playerProfile = _profileCalculator.CreateProfileFromPlayerProfileSO(playerProfileSO);
             InvokeEventOnSelectedProfile(playerProfile);            
         }
 
-        protected void SetRandomPlayerProfile()
+        public void SetRandomPlayerProfile()
         {
             var playerProfile = _profileCalculator.GetRandomPlayerProfile();
             InvokeEventOnSelectedProfile(playerProfile);

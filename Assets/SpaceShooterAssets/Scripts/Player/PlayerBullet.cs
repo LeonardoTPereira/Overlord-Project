@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     public float speed = 12f;
+    public float damage = 1f;
 
     void Update()
     {

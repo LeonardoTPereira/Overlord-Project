@@ -8,7 +8,7 @@ public class SpaceShooterEnemy : MonoBehaviour
 
     [Header("Runtime Stats")]
     public float moveSpeed;
-    public float bulletRange;
+    public float lifePoints;
     public float attackSpeed;
     public float waitTime;
     public float projectileSpeed;
@@ -39,7 +39,7 @@ public class SpaceShooterEnemy : MonoBehaviour
         enemySO = so;
 
         moveSpeed = so.status1;
-        bulletRange = so.status2;
+        lifePoints = so.status2;
         attackSpeed = so.status3;
         waitTime = so.status4;
         projectileSpeed = so.weaponStatus1;
@@ -75,6 +75,16 @@ public class SpaceShooterEnemy : MonoBehaviour
             col.GetComponentInParent<PlayerShip>()?.TakeDamage();
             //col.GetComponent<PlayerShip>()?.TakeDamage();
             Die();
+        }
+        else if (col.CompareTag("PlayerProjectile"))
+        {
+            lifePoints -= col.GetComponent<PlayerBullet>()?.damage ?? 1;
+            Destroy(col.gameObject);
+            if (lifePoints <= 0)
+            {
+                ScoreManager.Instance.AddScore(10);
+                Die();
+            }
         }
     }
 }

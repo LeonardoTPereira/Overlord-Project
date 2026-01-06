@@ -40,6 +40,12 @@ namespace Overlord.NarrativeGenerator
             PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
+        private void Start()
+        {
+            _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
+            _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
+        }
+
         // Event handler for when a player profile is selected
         // Put here anything that should happen when a profile is selected
         protected virtual async void HandleProfileSelected(IPlayerProfile profile)
@@ -47,7 +53,7 @@ namespace Overlord.NarrativeGenerator
             if (profile is YeePlayerProfile yeeProfile)
             {
                 if (yeeProfile.IsFixedFromExperiment || MustCreateNarrative)
-                {
+                {                    
                     questLines = QuestSelector.CreateMissions(_narrativeSettings, language);
                     await CreateNarrative(yeeProfile);
                 }
