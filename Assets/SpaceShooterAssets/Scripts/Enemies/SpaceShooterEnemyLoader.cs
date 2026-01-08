@@ -183,11 +183,16 @@ public class SpaceShooterEnemyLoader : MonoBehaviour
 
             // T3: fora da tela embaixo
             case Enums.MovementEnum.Type3:
-            case Enums.MovementEnum.Type4:
             case Enums.MovementEnum.Type7:
                 {
                     float x = Random.Range(MIN_X, MAX_X);
                     return new Vector2(x, OUT_BOTTOM_Y);
+                }
+            case Enums.MovementEnum.Type4:
+                {
+                    float y = Random.Range(TOP_SPAWN_MIN_Y, TOP_SPAWN_MAX_Y);
+                    float x = Random.Range(MIN_X, MAX_X);
+                    return new Vector2(x, y);
                 }
 
             // T5: canto superior direito → inferior esquerdo
