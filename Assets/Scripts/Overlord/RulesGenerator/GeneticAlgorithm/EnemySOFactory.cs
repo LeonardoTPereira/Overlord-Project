@@ -30,9 +30,8 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 
             foreach (var individual in solution)
             {
-                int weaponIndex = Convert.ToInt32(individual.Weapon.Weapon);
-                int movementIndex = Convert.ToInt32(individual.Enemy.Movement);
-                ValidateIndices(weaponIndex, movementIndex);
+                ValidateIndices(_weaponSet.GetMappedIndex(individual.Weapon.Weapon), 
+                    _movementSet.GetMappedIndex(individual.Enemy.Movement));
 
                 enemyList.Add(IndividualEnemySO(individual));
             }
@@ -47,7 +46,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             {
                 throw new IndexOutOfRangeException($"Weapon index {weaponIndex} is out of range.");
             }
-            if (movementIndex < 0 || movementIndex >= _movementSet.GetAllMovementTypes().Count)
+            if (movementIndex < 0 || movementIndex >= _movementSet.GetEnemyMovementCount())
             {
                 throw new IndexOutOfRangeException($"Movement index {movementIndex} is out of range.");
             }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Util;
 
 namespace ScriptableObjects
@@ -10,6 +11,6 @@ namespace ScriptableObjects
     {
         public float multiplier;
         public Enums.MovementEnum enemyMovementIndex;
-        public MovementType movementType;
+        [NonSerialized] public MovementType movementType;
     }
 }

@@ -21,7 +21,7 @@ public class OverlordDataToGameDataConverter: MonoBehaviour
         if (movementSet == null)
             return result;
 
-        var allMovements = movementSet.GetAllMovementTypes();
+        var allMovements = movementSet.GetAllMovementEnums();
 
         foreach (var movement in allMovements)
         {

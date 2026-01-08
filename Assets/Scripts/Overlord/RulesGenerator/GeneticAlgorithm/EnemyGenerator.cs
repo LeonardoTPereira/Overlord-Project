@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Util;
 
 namespace Overlord.RulesGenerator.EnemyGeneration
@@ -39,13 +40,17 @@ namespace Overlord.RulesGenerator.EnemyGeneration
         }
 
         private void Evolution()
-        {
-            
+        {            
             Population pop = new Population(
                 _parameters.numberOfMovements,
                 _parameters.numberOfWeapons,
                 _fitnessFunction
             );
+            if (_parameters.initialPopulationSize > _parameters.numberOfMovements * _parameters.numberOfWeapons)
+            {
+                UnityEngine.Debug.Log("Initial population size is larger than the search space. Changing it for nxm size (n=numberOfMovements, m=numberOfWeapons)");
+                _parameters.initialPopulationSize = _parameters.numberOfMovements * _parameters.numberOfWeapons;
+            }
             while (pop.Count() < _parameters.initialPopulationSize)
             {
                 Individual ind = Individual.GetRandom(_searchSpace);

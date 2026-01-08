@@ -8,6 +8,26 @@ namespace Overlord.RulesGenerator.EnemyGeneration
     public class EnemyWeaponsSO<TEnum> : EnemyWeaponsSOInterface where TEnum : Enum
     {
         [SerializeField] public List<TEnum> _enemyWeapons;
+        private Dictionary<Enum, int> _weaponIndexMap;
+
+        public override int GetMappedIndex(Enum weapon)
+        {
+            if (_weaponIndexMap == null)
+            {
+                _weaponIndexMap = new Dictionary<Enum, int>();
+                for (int i = 0; i < _enemyWeapons.Count; i++)
+                {
+                    _weaponIndexMap[_enemyWeapons[i]] = i;
+                }
+            }
+
+            if (_weaponIndexMap.TryGetValue(weapon, out int index))
+            {
+                return index;
+            }
+
+            throw new ArgumentException($"Arma '{weapon}' não encontrado na lista de armas do inimigo.");
+        }
 
         public override string GetWeaponName(int index)
         {

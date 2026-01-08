@@ -80,6 +80,7 @@ namespace Overlord.RulesGenerator.EnemyGeneration
         {
             // Calculate the individual slot (Elite)
             int m = Convert.ToInt32(_individual.Enemy.Movement);
+            m = _individual.MovementIndex;
             int w = Convert.ToInt32(_individual.Weapon.Weapon);
             var test = map;
 

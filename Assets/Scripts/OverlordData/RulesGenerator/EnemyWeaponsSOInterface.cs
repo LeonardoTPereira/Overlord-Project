@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyWeaponsSOInterface : ScriptableObject
 {
+    public abstract int GetMappedIndex(Enum weapon);
     public abstract string GetWeaponName(int index);
     public abstract Enum GetEnemyWeaponByIndex(int index);
     public abstract int GetEnemyWeaponCount();

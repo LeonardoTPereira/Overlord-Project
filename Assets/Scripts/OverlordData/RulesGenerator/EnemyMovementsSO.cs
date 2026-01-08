@@ -8,13 +8,33 @@ namespace Overlord.RulesGenerator.EnemyGeneration
     public abstract class EnemyMovementsSO<TEnum> : EnemyMovementsSOInterface where TEnum : Enum
     {
         [SerializeField] public List<TEnum> _enemyMovements;
+        private Dictionary<Enum, int> _movementIndexMap;
+
+        public override int GetMappedIndex(Enum movement)
+        {
+            if (_movementIndexMap == null)
+            {
+                _movementIndexMap = new Dictionary<Enum, int>();
+                for (int i = 0; i < _enemyMovements.Count; i++)
+                {
+                    _movementIndexMap[_enemyMovements[i]] = i;
+                }
+            }
+
+            if (_movementIndexMap.TryGetValue(movement, out int index))
+            {
+                return index;
+            }
+
+            throw new ArgumentException($"Movimento '{movement}' não encontrado na lista de movimentos do inimigo.");
+        }
 
         public override string GetMovementName(int index)
         {
-            if (index < 0 || index >= Enum.GetValues(typeof(TEnum)).Length)
+            if (index < 0 || index >= _enemyMovements.Count)
                 return string.Empty;
 
-            return ((TEnum)(object)index).ToString();
+            return _enemyMovements[index].ToString();
         }
 
         public override Enum GetEnemyMovementByIndex(int index)
@@ -25,6 +45,12 @@ namespace Overlord.RulesGenerator.EnemyGeneration
         }
 
         public override List<Enum> GetAllMovementTypes()
+        {
+            //return ((TEnum[])Enum.GetValues(typeof(TEnum))).Cast<Enum>().ToList();
+            return _enemyMovements.Cast<Enum>().ToList();
+        }
+
+        public override List<Enum> GetAllMovementEnums()
         {
             return ((TEnum[])Enum.GetValues(typeof(TEnum))).Cast<Enum>().ToList();
         }

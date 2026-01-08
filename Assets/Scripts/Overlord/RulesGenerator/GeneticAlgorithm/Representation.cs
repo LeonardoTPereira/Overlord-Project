@@ -16,7 +16,9 @@ namespace Overlord.RulesGenerator.EnemyGeneration
     public class Individual
     {
         public EnemyData Enemy { get; }
+        public int MovementIndex { get; set; }
         public WeaponData Weapon { get; }
+        public int WeaponIndex { get; set; }
         public float DifficultyLevel { get; set; }
         public float FitnessValue { get; set; }
         public int Generation { get; set; }
@@ -75,6 +77,8 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             var strength = RandomSingleton.GetInstance().Next(min, max);
             var (minFloat, maxFloat) = (searchSpace.Status3.Min, searchSpace.Status3.Max);
             var attackSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
+            // Create a random weapon
+            var weaponType = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.WeaponSet.GetAllWeaponTypes());
             var movementType = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.MovementSet.GetAllMovementTypes()); //List<Enum>
             (minFloat, maxFloat) = (searchSpace.Status4.Min, searchSpace.Status4.Max);
             var movementSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
@@ -83,13 +87,13 @@ namespace Overlord.RulesGenerator.EnemyGeneration
             (minFloat, maxFloat) = (searchSpace.Status6.Min, searchSpace.Status6.Max);
             var restTime = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             EnemyData e = new EnemyData(health, strength, attackSpeed, movementType, movementSpeed, activeTime, restTime);
-            // Create a random weapon
-            var weaponType = RandomSingleton.GetInstance().RandomElementFromList<Enum>(searchSpace.WeaponSet.GetAllWeaponTypes());
             (minFloat, maxFloat) = (searchSpace.WeaponStatus1.Min, searchSpace.WeaponStatus1.Max);
             var projectileSpeed = RandomSingleton.GetInstance().Next(minFloat, maxFloat);
             WeaponData w = new WeaponData(weaponType, projectileSpeed);
             // Combine the genes to create a new individual
             Individual individual = new Individual(e, w);
+            individual.MovementIndex = searchSpace.MovementSet.GetMappedIndex(movementType);
+            individual.WeaponIndex = searchSpace.WeaponSet.GetMappedIndex(weaponType);
             individual.DifficultyLevel = -1;
             individual.Generation = -1;
             individual.FitnessValue = -1;
