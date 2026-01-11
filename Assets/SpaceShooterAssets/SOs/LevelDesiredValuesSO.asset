@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681365cc4cbd7e243b812840adfdf905, type: 3}
   m_Name: LevelDesiredValuesSO
   m_EditorClassIdentifier: 
-  desiredRooms: 20
-  desiredKeys: 4
-  desiredLocks: 4
-  desiredEnemies: 40
+  desiredRooms: 8
+  desiredKeys: 2
+  desiredLocks: 2
+  desiredEnemies: 30
   desiredItems: 10
-  desiredNpcs: 3
-  desiredLinearity: 1.5
+  desiredNpcs: 1
+  desiredLinearity: 1

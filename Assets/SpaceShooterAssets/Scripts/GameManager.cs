@@ -19,6 +19,4 @@ public class GameManager : MonoBehaviour
         _playerProfileManager.SetPlayerProfileFromManualPlayerProfileSO();
         Debug.Log("Player profile set. Generating quests.");
     }
-
-
 }

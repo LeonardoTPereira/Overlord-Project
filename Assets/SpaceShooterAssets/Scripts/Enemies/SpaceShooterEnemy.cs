@@ -25,8 +25,8 @@ public class SpaceShooterEnemy : MonoBehaviour
         {
             Init(
                 enemySO,
-                SpaceShooterEnemyLoader.CreateMovement(this.gameObject, enemySO.movement),
-                SpaceShooterEnemyLoader.CreateWeapon(this.gameObject, enemySO.weapon));
+                EnemyLoader.CreateMovement(this.gameObject, enemySO.movement),
+                EnemyLoader.CreateWeapon(this.gameObject, enemySO.weapon));
         }
         spawnTime = Time.time;
     }

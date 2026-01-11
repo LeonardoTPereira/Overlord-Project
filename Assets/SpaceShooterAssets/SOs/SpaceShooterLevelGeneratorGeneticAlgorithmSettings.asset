@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SpaceShooterLevelGeneratorGeneticAlgorithmSettings
   m_EditorClassIdentifier: 
   <TotalRunsOfEA>k__BackingField: 1
-  <Time>k__BackingField: 45
-  <Population>k__BackingField: 100
+  <Time>k__BackingField: 15
+  <Population>k__BackingField: 50
   <Mutation>k__BackingField: 5
   <Competitors>k__BackingField: 2
   <MinimumElite>k__BackingField: 200

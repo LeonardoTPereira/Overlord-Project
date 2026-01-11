@@ -35,7 +35,6 @@ namespace Overlord.RulesGenerator.EnemyGeneration
 
                 enemyList.Add(IndividualEnemySO(individual));
             }
-
             //ExportEnemiesToTextFile(enemyList, GetDocumentsFolderPath("EnemiesExport.txt"));    // DESATIVAR DEPOIS DE TESTES
             return enemyList;
         }

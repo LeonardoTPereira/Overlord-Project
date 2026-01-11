@@ -40,7 +40,7 @@ namespace Overlord.NarrativeGenerator
             PlayerProfileManager.ProfileSelected -= HandleProfileSelected;
         }
 
-        private void Start()
+        private void Awake()
         {
             _enemyGeneratorManager = GetComponent<EnemyGeneratorManager>();
             _levelGeneratorManager = GetComponent<LevelGeneratorManager>();
@@ -73,6 +73,7 @@ namespace Overlord.NarrativeGenerator
             questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
             questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
+            var test = questLines;
         }
 
         protected async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()

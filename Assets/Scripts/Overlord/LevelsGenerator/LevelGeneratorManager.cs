@@ -11,7 +11,7 @@ namespace Overlord.LevelGenerator.Manager
 {
     public class LevelGeneratorManager : MonoBehaviour
     {
-        [field: Foldout("EA Parameters", true)]
+        [field: Foldout("Desired Parameters", true)]
         [DisplayInspector]
         [field: SerializeField] protected FitnessDesiredValuesSO _fitnessDesiredValues; // Apenas funciona se não utilizar o NarrativeManager (valores obtidos da narrativa sobrescrevem-o)
         /// Level generator
@@ -26,7 +26,7 @@ namespace Overlord.LevelGenerator.Manager
         [DisplayInspector]
         public DungeonGeneratorGeneticAlgorithmSettings GeneticAlgorithmSettings;
 
-        private void Start()
+        private void Awake()
         {
             FitnessInput.DesiredValues = _fitnessDesiredValues;
             _fitnessPlot = GetComponent<FitnessPlot>();
@@ -68,7 +68,7 @@ namespace Overlord.LevelGenerator.Manager
             }
 
             Debug.LogWarning($"Needed Enemies: {totalEnemies}, Generated Enemies: {generatedDungeons[0].TotalEnemies}");
-
+            var test = generatedDungeons;
             return generatedDungeons;
         }
     }
