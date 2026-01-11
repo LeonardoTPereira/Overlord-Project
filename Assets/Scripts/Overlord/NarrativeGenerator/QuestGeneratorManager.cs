@@ -25,7 +25,7 @@ namespace Overlord.NarrativeGenerator
         [DisplayInspector]
         [field: SerializeField] protected NarrativeSettings _narrativeSettings;
 
-        [SerializeReference, SerializeField] protected QuestLineList questLines;
+        [SerializeReference, SerializeField] public QuestLineList questLines;
 
         protected EnemyGeneratorManager _enemyGeneratorManager;
         protected LevelGeneratorManager _levelGeneratorManager;

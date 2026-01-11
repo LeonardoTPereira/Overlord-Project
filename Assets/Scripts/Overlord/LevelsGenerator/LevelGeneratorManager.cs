@@ -1,4 +1,5 @@
 using MyBox;
+using Overlord.GenerationController;
 using Overlord.Events;
 using Overlord.LevelGenerator.EvolutionaryAlgorithm;
 using Overlord.LevelGenerator.LevelSOs;
@@ -60,15 +61,16 @@ namespace Overlord.LevelGenerator.Manager
             var totalEnemies = _fitnessInput.DesiredEnemies;
             var totalItems = _fitnessInput.DesiredItems;
             var totalNpcs = _fitnessInput.DesiredNpcs;
+
             foreach (var individual in solutions)
             {
                 var dungeon =
                     Interface.CreateDungeonSoFromIndividual(individual, totalEnemies, totalItems, totalNpcs);
                 generatedDungeons.Add(dungeon);
             }
-
             Debug.LogWarning($"Needed Enemies: {totalEnemies}, Generated Enemies: {generatedDungeons[0].TotalEnemies}");
-            var test = generatedDungeons;
+
+            GenerationStatus.EndedDungeonGeneration = true;
             return generatedDungeons;
         }
     }
