@@ -10,5 +10,8 @@ public class MoveTopRightToBottomLeft : SpaceShooterMovement
     public override void Tick()
     {
         transform.position += (Vector3)(dir * enemy.moveSpeed * Time.deltaTime);
+
+        if (!IsVisible())
+            Destroy(gameObject);
     }
 }
