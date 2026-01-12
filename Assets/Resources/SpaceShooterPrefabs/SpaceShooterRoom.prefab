@@ -194,5 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPosition: {fileID: 6096885690880777232}
-  arrowPrefab: {fileID: 7877566850381265943, guid: da9d5b4c4702e5d44afcd9492e540560,
+  arrowPrefab: {fileID: 2172770104297670668, guid: da9d5b4c4702e5d44afcd9492e540560,
+    type: 3}
+  lockedArrowPrefab: {fileID: 6538162962622153303, guid: a81f5a9b7e0e5da42b249d4612853494,
     type: 3}

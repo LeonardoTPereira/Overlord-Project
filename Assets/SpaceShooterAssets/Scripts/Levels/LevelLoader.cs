@@ -42,7 +42,7 @@ public class LevelLoader : MonoBehaviour
         currentRoom.OnPlayerEnter();
     }
 
-    public List<DungeonRoomData> GetNeighbors(DungeonRoomData room)
+    public List<DungeonRoomData> GetNeighbors(string roomType, DungeonRoomData room)
     {
         List<DungeonRoomData> result = new();
 
@@ -54,9 +54,23 @@ public class LevelLoader : MonoBehaviour
 
         foreach (var d in dirs)
             if (dungeonMap.TryGetValue(pos + d, out var neighbor))
-                if (neighbor.Type.Contains("Corridor") == false)
+                if (neighbor.Type.Contains(roomType) == true)
                     result.Add(neighbor);
 
         return result;
+    }
+
+    public DungeonRoomData GetRoomBeyondCorridor(DungeonRoomData fromRoom, DungeonRoomData corridor)
+    {
+        Vector2Int fromPos = new(fromRoom.Coordinates.X, fromRoom.Coordinates.Y);
+        Vector2Int corridorPos = new(corridor.Coordinates.X, corridor.Coordinates.Y);
+
+        Vector2Int dir = corridorPos - fromPos;
+        Vector2Int targetPos = corridorPos + dir;
+
+        if (dungeonMap.TryGetValue(targetPos, out var targetRoom))
+            return targetRoom;
+
+        return null;
     }
 }

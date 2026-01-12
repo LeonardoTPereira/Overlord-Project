@@ -7,7 +7,9 @@ public class RoomController : MonoBehaviour
     public DungeonRoomData Data { get; private set; }
 
     [SerializeField] private Transform spawnPosition;
-    [SerializeField] private RoomExitArrow arrowPrefab;
+    //[SerializeField] private RoomExitArrow arrowPrefab;
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private GameObject lockedArrowPrefab;
 
     private bool cleared = false;
 
@@ -26,9 +28,28 @@ public class RoomController : MonoBehaviour
 
     private void OnRoomCleared()
     {
+        Debug.Log("Room cleared!");
         cleared = true;
         ShowExits();
         CollectKeys();
+    }
+
+    private void ShowExits()
+    {
+        ShowExitArrows("Corridor", arrowPrefab);
+        ShowExitArrows("LockedCorridor", lockedArrowPrefab);
+    }
+
+    private void ShowExitArrows(string corridorType, GameObject prefab)
+    {
+        foreach (var corridor in LevelLoader.Instance.GetNeighbors(corridorType, Data))
+        {
+            var targetRoom = LevelLoader.Instance.GetRoomBeyondCorridor(Data, corridor);
+            if (targetRoom == null) continue;
+
+            var arrowGO = Instantiate(prefab, transform);
+            arrowGO.GetComponent<RoomExitArrow>().Init(Data, corridor, targetRoom);
+        }
     }
 
     private void CollectKeys()
@@ -38,14 +59,6 @@ public class RoomController : MonoBehaviour
             DungeonRuntimeData.CollectedKeys.Add(Mathf.Abs(key));
     }
 
-    private void ShowExits()
-    {
-        foreach (var neighbor in LevelLoader.Instance.GetNeighbors(Data))
-        {
-            var arrow = Instantiate(arrowPrefab, transform);
-            arrow.Init(Data, neighbor);
-        }
-    }
 
     public Transform GetSpawnPosition() => spawnPosition;
 }
