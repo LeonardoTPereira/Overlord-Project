@@ -37,5 +37,8 @@ public class GameManager : MonoBehaviour
             _questGeneratorManager.questLines,
             _questGeneratorManager.questLines.DungeonFileSos[0]
         );
+        Debug.Log("Loading minimap.");
+        MinimapController.Instance.Build(_questGeneratorManager.questLines.DungeonFileSos[0]);
+
     }
 }

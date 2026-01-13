@@ -7,7 +7,6 @@ public class RoomController : MonoBehaviour
     public DungeonRoomData Data { get; private set; }
 
     [SerializeField] private Transform spawnPosition;
-    //[SerializeField] private RoomExitArrow arrowPrefab;
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private GameObject lockedArrowPrefab;
 
@@ -23,6 +22,8 @@ public class RoomController : MonoBehaviour
         if (!cleared)
         {
             EnemyLoader.Instance.LoadEnemies(Data.TotalEnemies, OnRoomCleared);
+            MinimapController.Instance.RevealRoom(Data);
+            MinimapController.Instance.SetCurrentRoom(Data);
         }
     }
 
@@ -49,6 +50,7 @@ public class RoomController : MonoBehaviour
 
             var arrowGO = Instantiate(prefab, transform);
             arrowGO.GetComponent<RoomExitArrow>().Init(Data, corridor, targetRoom);
+            MinimapController.Instance.RevealRoom(corridor);
         }
     }
 
