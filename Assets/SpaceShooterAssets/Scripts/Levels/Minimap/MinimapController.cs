@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Overlord.LevelGenerator.LevelSOs;
@@ -7,8 +7,10 @@ public class MinimapController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private RectTransform mapRoot;
+    [SerializeField] private RectTransform gridContainer;
     [SerializeField] private MinimapTile tilePrefab;
-    [SerializeField] private float tileSize = 20f;
+
+    [SerializeField] private float tileSize = 16f;
 
     [Header("Icons")]
     [SerializeField] private MinimapIcons icons;
@@ -31,20 +33,46 @@ public class MinimapController : MonoBehaviour
     public void Build(DungeonFileSo dungeon)
     {
         tiles.Clear();
-        mapRoot.DetachChildren();
+        gridContainer.DetachChildren();
+
+        int minX = int.MaxValue, maxX = int.MinValue;
+        int minY = int.MaxValue, maxY = int.MinValue;
+
+        foreach (var part in dungeon.Parts)
+        {
+            minX = Mathf.Min(minX, part.Coordinates.X);
+            maxX = Mathf.Max(maxX, part.Coordinates.X);
+            minY = Mathf.Min(minY, part.Coordinates.Y);
+            maxY = Mathf.Max(maxY, part.Coordinates.Y);
+        }
+
+        currentRoom = new Vector2Int(minX, minY);
+
+        float width = (maxX - minX + 1) * tileSize;
+        float height = (maxY - minY + 1) * tileSize;
+
+        gridContainer.sizeDelta = new Vector2(width, height);
 
         foreach (var part in dungeon.Parts)
         {
             var coord = new Vector2Int(part.Coordinates.X, part.Coordinates.Y);
-            var multipler = new Vector2(tileSize, tileSize);
-            var tile = Instantiate(tilePrefab, mapRoot);
-
+            var tile = Instantiate(tilePrefab, gridContainer);
             tile.Init(part, icons);
-            tile.Rect.anchoredPosition = coord * multipler;
 
+            tile.Rect.sizeDelta = Vector2.one * tileSize;
+
+            Vector2 localPos = new Vector2(
+                (coord.x - currentRoom.x) * tileSize,
+                (coord.y - currentRoom.y) * tileSize
+            );
+
+            tile.Rect.anchoredPosition = localPos;
             tile.SetVisible(false);
+
             tiles[coord] = tile;
         }
+
+        gridContainer.anchoredPosition = -gridContainer.sizeDelta * 0.5f;
     }
 
     public void RevealRoom(DungeonRoomData room)

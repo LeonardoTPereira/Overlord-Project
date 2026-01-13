@@ -12,6 +12,7 @@ public class PlayerShip : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
     public float fireRate = 0.15f;
+    public int damagePerBullet = 1;
 
     [Header("Lives")]
     public int maxLives = 3;

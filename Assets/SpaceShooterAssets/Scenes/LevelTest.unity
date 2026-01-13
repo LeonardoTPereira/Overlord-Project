@@ -3618,6 +3618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapRoot: {fileID: 305258119}
+  gridContainer: {fileID: 1149151069}
   tilePrefab: {fileID: 2100158747716036432, guid: 5bc4d94a99b61644cbabf5b5598c8bd0,
     type: 3}
   tileSize: 10
