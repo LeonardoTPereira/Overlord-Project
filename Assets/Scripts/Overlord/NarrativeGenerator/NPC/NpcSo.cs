@@ -1,4 +1,5 @@
-﻿using ScriptableObjects;
+﻿using Overlord.NarrativeGenerator.Quests;
+using ScriptableObjects;
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,7 +11,6 @@ namespace Overlord.NarrativeGenerator.NPCs
     [Serializable]
     public class NpcSo : ScriptableObject, IDialogueObjSo
     {
-
         [FormerlySerializedAs("_npcName")] [SerializeField] private string npcName;
         [SerializeField] private int age;
         [SerializeField] private Jobs job;
@@ -22,6 +22,8 @@ namespace Overlord.NarrativeGenerator.NPCs
         [SerializeField] private int socialFactor;
         [SerializeField] private Sprite gameSprite;
         [SerializeField] private NpcDialogueData dialogueData;
+        [SerializeField] private GameObject prefab;
+        private Coordinates roomCoordinates;    // Coordinates of the room where the NPC is located. (used only in the spaceshooter game [yet?])
 
         public string NpcName
         {
@@ -86,6 +88,17 @@ namespace Overlord.NarrativeGenerator.NPCs
         {
             get => dialogueData;
             set => dialogueData = value;
+        }
+
+        public GameObject Prefab
+        {
+            get => prefab;
+        }
+
+        public Coordinates RoomCoordinates
+        {
+            get => roomCoordinates;
+            set => roomCoordinates = value;
         }
     }
 }

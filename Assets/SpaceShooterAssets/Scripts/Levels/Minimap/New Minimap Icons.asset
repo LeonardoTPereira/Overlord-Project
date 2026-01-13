@@ -29,3 +29,5 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: e4e57c5aeaf5f9f4bb51df14822b34b0, type: 3}
   - roomType: Normal
     icon: {fileID: 21300000, guid: 1ba2e0fe12221bc49879e8621d2a21fc, type: 3}
+  - roomType: NPC
+    icon: {fileID: 21300000, guid: 0d6c638020cd3c947bf26abfd51df14a, type: 3}

@@ -144,7 +144,7 @@ namespace Overlord.LevelGenerator
             {
                 roomDataDataInFile.Type = Constants.RoomTypeString.Leaf;
                 roomDataDataInFile.Treasures = 1;
-                roomDataDataInFile.Npcs = 1;
+                roomDataDataInFile.NumOfNpcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
             }
@@ -152,7 +152,7 @@ namespace Overlord.LevelGenerator
             {
                 roomDataDataInFile.Type = Constants.RoomTypeString.LockedRoom;
                 roomDataDataInFile.Treasures = 1;
-                roomDataDataInFile.Npcs = 1;
+                roomDataDataInFile.NumOfNpcs = 1;
                 roomDataDataInFile.TotalEnemies = roomGrid.Enemies;
                 roomDataDataInFile.IsLeaf = roomGrid.IsLeafNode();
             }

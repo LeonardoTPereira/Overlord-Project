@@ -30,12 +30,12 @@ namespace Game.LevelManager.DungeonLoader
                     case Enums.GameType.TopDown:
                        return new DungeonRoom(dungeonRoomData.Coordinates, dungeonRoomData.Type,
                             dungeonRoomData.Keys ?? new List<int>(),
-                            dungeonRoomData.Treasures, dungeonRoomData.TotalEnemies, dungeonRoomData.Npcs);
+                            dungeonRoomData.Treasures, dungeonRoomData.TotalEnemies, dungeonRoomData.NumOfNpcs);
 
                     case Enums.GameType.Platformer:
                         return new PlatformDungeonRoom(dungeonRoomData.Coordinates, dungeonRoomData.Type,
                             dungeonRoomData.Keys ?? new List<int>(),
-                            dungeonRoomData.Treasures, dungeonRoomData.TotalEnemies, dungeonRoomData.Npcs);
+                            dungeonRoomData.Treasures, dungeonRoomData.TotalEnemies, dungeonRoomData.NumOfNpcs);
 
                 }
             }

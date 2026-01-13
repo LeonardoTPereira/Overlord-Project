@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SpaceShooterNarrativeSO
   m_EditorClassIdentifier: 
   <PlaceholderNpcs>k__BackingField:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 86ca9a2c7011d224a894ef15c7262c11, type: 2}
+  - {fileID: 11400000, guid: 0fa62cb70aad31441b681c2e47ec440c, type: 2}
+  - {fileID: 11400000, guid: f68d7fdafda4dde46999c3175c538cc1, type: 2}
   <PlaceholderItems>k__BackingField: {fileID: 11400000, guid: a03ad1b54e32f3c439e0d888c4e7b4c5,
     type: 2}
   <Gemstones>k__BackingField: {fileID: 11400000, guid: a03ad1b54e32f3c439e0d888c4e7b4c5,

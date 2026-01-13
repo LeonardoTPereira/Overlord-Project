@@ -1,7 +1,9 @@
 using Overlord.LevelGenerator.LevelSOs;
+using Overlord.NarrativeGenerator.NPCs;
 using Overlord.NarrativeGenerator.Quests;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
 using static Util.Constants;
 
 public class LevelLoader : MonoBehaviour
@@ -14,16 +16,21 @@ public class LevelLoader : MonoBehaviour
 
     private Dictionary<Vector2Int, DungeonRoomData> dungeonMap;
     private RoomController currentRoom;
+    private QuestLineList _currentQuestlineList;
 
     void Awake() => Instance = this;
 
     public void Load(QuestLineList questLineList, DungeonFileSo dungeon)
     {
+        _currentQuestlineList = questLineList;
+
         questLineList.ConvertDataForCurrentDungeon(dungeon.Parts);
 
         dungeonMap = new();
         foreach (var room in dungeon.Parts)
             dungeonMap[new Vector2Int(room.Coordinates.X, room.Coordinates.Y)] = room;
+
+        ResetNpcCoordinates();
 
         var startRoom = dungeon.Parts.Find(r => r.Type == RoomTypeString.Start);
         MoveToRoom(startRoom);
@@ -36,7 +43,7 @@ public class LevelLoader : MonoBehaviour
 
         var roomGO = Instantiate(roomPrefab, roomRoot);
         currentRoom = roomGO.GetComponent<RoomController>();
-        currentRoom.Init(data);
+        currentRoom.Init(_currentQuestlineList, data);
 
         player.position = currentRoom.GetSpawnPosition().position;
         currentRoom.OnPlayerEnter();
@@ -72,5 +79,13 @@ public class LevelLoader : MonoBehaviour
             return targetRoom;
 
         return null;
+    }
+
+    private void ResetNpcCoordinates()
+    {
+        foreach (NpcSo npc in _currentQuestlineList.NpcSos)
+        {
+            npc.RoomCoordinates = new Coordinates(-1, -1);
+        }
     }
 }

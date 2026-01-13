@@ -1096,6 +1096,7 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 2014929204}
   fireRate: 0.15
+  damagePerBullet: 1
   maxLives: 3
   invincibilityTime: 2
   maxBombs: 3
@@ -1759,6 +1760,7 @@ MonoBehaviour:
   _levelGeneratorManager: {fileID: 4866364569642749318}
   _questGeneratorManager: {fileID: 4866364569642749317}
   _playerProfileManager: {fileID: 4866364569642749319}
+  _enemyLoader: {fileID: 0}
 --- !u!4 &942723737
 Transform:
   m_ObjectHideFlags: 0

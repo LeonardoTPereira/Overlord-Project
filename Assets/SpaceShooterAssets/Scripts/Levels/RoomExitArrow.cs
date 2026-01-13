@@ -13,11 +13,14 @@ public class RoomExitArrow : MonoBehaviour
     private float lastKeyTime = -1f;
     private const float doubleTapTime = 0.3f; // ajuste se quiser
 
-    public void Init(DungeonRoomData fromRoom,DungeonRoomData corridorBetweenRoom, DungeonRoomData toRoom)
+    private System.Action _onExitRoom;
+
+    public void Init(DungeonRoomData fromRoom,DungeonRoomData corridorBetweenRoom, DungeonRoomData toRoom, System.Action onExitRoom)
     {
         from = fromRoom;
         corridorBetween = corridorBetweenRoom;
         to = toRoom;
+        _onExitRoom = onExitRoom;
 
         locked = to.Locks != null && !DungeonRuntimeData.HasKey(Mathf.Abs(to.Locks[0]));
 
@@ -33,6 +36,7 @@ public class RoomExitArrow : MonoBehaviour
         {
             if (Time.time - lastKeyTime <= doubleTapTime)
             {
+                _onExitRoom?.Invoke();                  // Chama função para sair da sala (só deleta npc por enquanto)
                 LevelLoader.Instance.MoveToRoom(to);
                 lastKeyTime = -1f; // reseta
             }

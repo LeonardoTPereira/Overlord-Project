@@ -73,7 +73,6 @@ namespace Overlord.NarrativeGenerator
             questLines.NpcSos = _narrativeSettings.PlaceholderNpcs;
             questLines.ItemSos = new List<ItemSo>(_narrativeSettings.PlaceholderItems.Items);
             questLines.DungeonFileSos = await CreateDungeonsForQuestLine();
-            var test = questLines;
         }
 
         protected async Task<List<DungeonFileSo>> CreateDungeonsForQuestLine()

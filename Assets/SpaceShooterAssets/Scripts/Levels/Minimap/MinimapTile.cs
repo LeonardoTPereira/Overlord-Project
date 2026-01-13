@@ -12,7 +12,14 @@ public class MinimapTile : MonoBehaviour
     public void Init(DungeonRoomData data, MinimapIcons icons)
     {
         icon.sprite = icons.GetIcon(data.Type);
+        CheckIfHasNPCs(data, icons);    // this only has meaning in the space shooter project
         currentOverlay.enabled = false;
+    }
+
+    private void CheckIfHasNPCs(DungeonRoomData data, MinimapIcons icons)
+    {
+        if (data.NumOfNpcs > 0)
+            icon.sprite = icons.GetIcon("NPC");
     }
 
     public void SetVisible(bool visible)

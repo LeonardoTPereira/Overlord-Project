@@ -1,3 +1,4 @@
+using Overlord.NarrativeGenerator.NPCs;
 using System;
 using System.Collections.Generic;
 using Util;
@@ -15,8 +16,10 @@ namespace Overlord.LevelGenerator.LevelSOs
 
         
         public int Treasures { get; set; }
-        public int Npcs { get; set ; }
+        public int NumOfNpcs { get; set ; }
         public int TotalEnemies { get; set; }
+
+        public List<NpcSo> Npcs { get; set; }  // Added property to hold NPCs in the room. Obs: done after dungeon generation.
 
         public DungeonRoomData(int x, int y)
         {
@@ -25,7 +28,7 @@ namespace Overlord.LevelGenerator.LevelSOs
             Keys = null;
             Locks = null;
             Treasures = 0;
-            Npcs = 0;
+            NumOfNpcs = 0;
             TotalEnemies = 0;
             IsLeaf = false;
         }
