@@ -76,7 +76,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        _npc.ResetTrigger();
+        if (_npc != null)
+            _npc.ResetTrigger();
         DialoguePanel.SetActive(false);
     }
 }
