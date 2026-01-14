@@ -13,6 +13,18 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> _sentences;
     private NaveNPC _npc;
 
+    public static DialogueManager Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            return;
+        }
+        Destroy(gameObject);
+    }
+
     void Start()
     {
         DialoguePanel.SetActive(false);

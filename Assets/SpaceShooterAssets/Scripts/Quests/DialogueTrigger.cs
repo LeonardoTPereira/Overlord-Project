@@ -11,4 +11,13 @@ public class DialogueTrigger : MonoBehaviour
     {
         FindObjectOfType<DialogueManager>().StartDialogue(nave, startDialogue, endDialogue);
     }
+
+    public void SetEndDialogue(string[] sentence)
+    {
+        endDialogue = new Dialogue
+        {
+            name = startDialogue.name,
+            sentences = sentence
+        };
+    }
 }

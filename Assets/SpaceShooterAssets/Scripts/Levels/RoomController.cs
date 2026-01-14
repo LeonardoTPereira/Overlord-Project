@@ -25,35 +25,6 @@ public class RoomController : MonoBehaviour
             ConfigureNpc(questlineList, data);
     }
 
-    private void ConfigureNpc(QuestLineList questlineList, DungeonRoomData data)
-    {
-        foreach (NpcSo npc in questlineList.NpcSos)
-        {
-            if (npc.RoomCoordinates != null &&
-                npc.RoomCoordinates.X == data.Coordinates.X &&
-                npc.RoomCoordinates.Y == data.Coordinates.Y)
-            {
-                currentNpc = npc;
-                npcPrefab = Instantiate(currentNpc.Prefab, transform);
-                //npcGO.GetComponent<NPCController>().Init(currentNpc, null);
-                return;
-            }
-        }
-        foreach (NpcSo npc in questlineList.NpcSos)
-        {
-            if (npc.RoomCoordinates != null &&
-                npc.RoomCoordinates.X == -1 && 
-                npc.RoomCoordinates.Y == -1)
-            {
-                Coordinates npcCoordinate = new Coordinates(data.Coordinates.X, data.Coordinates.Y);
-                npc.RoomCoordinates = npcCoordinate;
-                currentNpc = npc;
-                npcPrefab = Instantiate(currentNpc.Prefab, transform);
-                return;
-            }
-        }
-    }
-
     public void OnPlayerEnter()
     {
         if (!cleared)
@@ -81,7 +52,10 @@ public class RoomController : MonoBehaviour
     private void OnExitRoom()
     {
         if (npcPrefab != null)
+        {
+            DialogueManager.Instance.EndDialogue();
             Destroy(npcPrefab);
+        }
     }
 
     private void ShowExits()
@@ -110,7 +84,60 @@ public class RoomController : MonoBehaviour
             DungeonRuntimeData.CollectedKeys.Add(Mathf.Abs(key));
     }
 
+    private void ConfigureNpc(QuestLineList questlineList, DungeonRoomData data)
+    {
+        Coordinates roomCoords = data.Coordinates;
 
+        NpcSo npc = questlineList.NpcSos.Find(npc =>
+            HasValidCoordinates(npc) &&
+            npc.RoomCoordinates.X == roomCoords.X &&
+            npc.RoomCoordinates.Y == roomCoords.Y);
+
+        if (npc == null)
+        {
+            npc = questlineList.NpcSos.Find(npc =>
+                HasValidCoordinates(npc) &&
+                npc.RoomCoordinates.X == -1 &&
+                npc.RoomCoordinates.Y == -1);
+
+            if (npc == null)
+                return;
+
+            npc.RoomCoordinates = new Coordinates(roomCoords.X, roomCoords.Y);
+        }
+
+        SpawnNpc(npc);
+        ConfigureQuestDialogue(questlineList, npc);
+    }
+
+    private static bool HasValidCoordinates(NpcSo npc)
+    {
+        return npc.RoomCoordinates != null;
+    }
+
+    private void SpawnNpc(NpcSo npc)
+    {
+        currentNpc = npc;
+        npcPrefab = Instantiate(currentNpc.Prefab, transform);        
+    }
+
+    private void ConfigureQuestDialogue(QuestLineList questlineList, NpcSo npc)
+    {
+        QuestLine questLine = questlineList.QuestLines.Find(q =>
+            q.NpcInCharge != null &&
+            q.NpcInCharge.NpcName == npc.NpcName);
+
+        if (questLine == null)
+            return;
+
+        string[] questEndSentence =
+            QuestLoader.Instance.GetQuestSentence(
+                questLine.GetCurrentQuest().SymbolType);
+
+        npcPrefab
+            .GetComponent<DialogueTrigger>()
+            .SetEndDialogue(questEndSentence);
+    }
 
     public Transform GetSpawnPosition() => spawnPosition;
 }
