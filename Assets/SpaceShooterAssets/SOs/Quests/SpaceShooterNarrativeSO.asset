@@ -27,11 +27,11 @@ MonoBehaviour:
   <PossibleWeapons>k__BackingField: {fileID: 11400000, guid: 1e8603fa0b612b84992abd2a30618b9b,
     type: 2}
   <EnemiesToKill>k__BackingField:
-    Min: 2
-    Max: 8
+    Min: 70
+    Max: 100
   <ItemsToGather>k__BackingField:
-    Min: 6
-    Max: 10
+    Min: 79
+    Max: 100
   <RoomsToExplore>k__BackingField:
-    Min: 40
-    Max: 80
+    Min: 21
+    Max: 46

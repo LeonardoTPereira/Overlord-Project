@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     {
         while (!GenerationStatus.EndedDungeonGeneration)
         {
-            Debug.Log("Waiting for dungeon generation to end...");
+            //Debug.Log("Waiting for dungeon generation to end...");
             yield return null; // espera 1 frame
         }
         DungeonRoomStateManager.Init(_questGeneratorManager.questLines.DungeonFileSos[0].TotalEnemies,

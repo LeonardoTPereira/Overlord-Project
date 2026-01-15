@@ -249,11 +249,11 @@ public class EnemyLoader : MonoBehaviour
 
             // T5: canto superior direito → inferior esquerdo
             case Enums.MovementEnum.Type5:
-                return new Vector2(MAX_X, MIN_Y);
+                return new Vector2(MAX_X, MAX_Y);
 
             // T6: canto superior esquerdo → inferior direito
             case Enums.MovementEnum.Type6:
-                return new Vector2(MIN_X, MIN_Y);
+                return new Vector2(MIN_X, MAX_Y);
 
             default:
                 return Vector2.zero;

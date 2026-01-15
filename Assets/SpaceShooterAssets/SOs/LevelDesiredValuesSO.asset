@@ -15,7 +15,7 @@ MonoBehaviour:
   desiredRooms: 16
   desiredKeys: 3
   desiredLocks: 3
-  desiredEnemies: 17
-  desiredItems: 123
+  desiredEnemies: 21
+  desiredItems: 2
   desiredNpcs: 3
   desiredLinearity: 1

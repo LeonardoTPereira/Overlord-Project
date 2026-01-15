@@ -19,7 +19,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         transform.position += (Vector3)(direction * speed * Time.deltaTime);
 
-        if (Vector3.Distance(startPos, transform.position) > range)
+        if (Vector3.Distance(startPos, transform.position) > 5f)
             Destroy(gameObject);
     }
 

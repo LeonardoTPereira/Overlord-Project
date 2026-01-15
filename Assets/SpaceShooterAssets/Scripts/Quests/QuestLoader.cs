@@ -14,41 +14,31 @@ public class QuestLoader : MonoBehaviour
         }
         Destroy(gameObject);
     }
-    /*
-    //Mastery
-    public const string KillQuest = "kill";
-    public const string DamageQuest = "damage";
-    //Immersion
-    public const string ListenQuest = "listen";
-    public const string ReadQuest = "read";
-    public const string ReportQuest = "report";
-    public const string GiveQuest = "give";
-    //Creativity
-    public const string ExploreQuest = "explore";
-    public const string GotoQuest = "goto";
-    //Achievement
-    public const string GatherQuest = "gather";
-    public const string ExchangeQuest = "exchange";
-    */
+
+
 
     public string[] GetQuestSentence(string questType)
     {
         switch (questType)
         {
+            //Mastery
             case "kill":
             case "damage":
                 return new string[] { "Eliminate the target.", "Defeat the enemy.", "Take down the foe." };
 
+            //Immersion
             case "listen":
             case "read":
             case "report":
             case "give":
                 return new string[] { "Receive the message.", "Obtain the information.", "Get the briefing." };
 
+            //Creativity
             case "explore":
             case "goto":
                 return new string[] { "Investigate the area.", "Scout the location.", "Survey the surroundings." };
 
+            //Achievement
             case "gather":
             case "exchange":
                 return new string[] { "Collect the items.", "Assemble the resources.", "Gather the materials." };

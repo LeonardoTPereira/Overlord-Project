@@ -18,7 +18,7 @@ public class PugoCollectible : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            ScoreManager.Instance.AddScore(_collectibleAmount);
+            ScoreManager.Instance.AddCollectible(_collectibleAmount);
             FindObjectOfType<RoomController>()?.OnCollectedTreasure();
             Destroy(gameObject);
         }

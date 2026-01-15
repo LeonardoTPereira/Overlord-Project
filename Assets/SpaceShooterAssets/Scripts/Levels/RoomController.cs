@@ -53,22 +53,22 @@ public class RoomController : MonoBehaviour
     {
         if (!cleared)
         {
+            _roomProgressData = DungeonRoomStateManager.EnterRoom(
+                Data.Coordinates,
+                Data.TotalEnemies,
+                Data.Treasures,
+                Random.Range(0, Data.Treasures / 1),
+                Random.Range(0, Data.Treasures / 2));
+
             if (Data.NumOfNpcs <= 0)
             {
-                _roomProgressData = DungeonRoomStateManager.EnterRoom(
-                    Data.Coordinates,
-                    Data.TotalEnemies,
-                    Data.Treasures,
-                    Random.Range(0, Data.Treasures/1),
-                    Random.Range(0, Data.Treasures / 2));
-
                 EnemyLoader.Instance.LoadEnemies(_roomProgressData.RemainingEnemies, OnRoomCleared);
-                PointsOrCollectiblesLoader.Instance.LoadCollectibles(_roomProgressData.RemainingCollectibles);
             }
             else
             {
                 OnRoomCleared();
             }
+            PointsOrCollectiblesLoader.Instance.LoadCollectibles(_roomProgressData.RemainingCollectibles);
             MinimapController.Instance.RevealRoom(Data);
             MinimapController.Instance.SetCurrentRoom(Data);
         }
@@ -76,7 +76,6 @@ public class RoomController : MonoBehaviour
 
     private void OnRoomCleared()
     {
-        DungeonRoomStateManager.UpdateRoomState(Data.Coordinates, _roomProgressData);
         Debug.Log("Room cleared!");
         cleared = true;
         ShowExits();
@@ -85,6 +84,7 @@ public class RoomController : MonoBehaviour
 
     private void OnExitRoom()
     {
+        DungeonRoomStateManager.UpdateRoomState(Data.Coordinates, _roomProgressData);
         if (npcPrefab != null)
         {
             DialogueManager.Instance.EndDialogue();

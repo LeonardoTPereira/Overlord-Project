@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50f05c4e03d020342a7691c9d76100f5, type: 3}
   m_Name: YeePlayerProfileSO
   m_EditorClassIdentifier: 
-  Achievement: 1
-  Creativity: 68
-  Immersion: 32
+  Achievement: 100
+  Creativity: 1
+  Immersion: 1
   Mastery: 100

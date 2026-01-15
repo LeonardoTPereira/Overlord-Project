@@ -18,9 +18,9 @@ namespace Overlord.NarrativeGenerator
         [field: SerializeField] public WeaponTypeRuntimeSetSO PossibleWeapons { get; set; }
 
         [field: Foldout("Quest Terminal Parameters", true)]
-        [field: MinMaxRange(1, 10), SerializeField] public RangedInt EnemiesToKill { get; set; }
-        [field: MinMaxRange(1, 10), SerializeField] public RangedInt ItemsToGather { get; set; }
-        [field: MinMaxRange(40, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
+        [field: MinMaxRange(1, 100), SerializeField] public RangedInt EnemiesToKill { get; set; }
+        [field: MinMaxRange(0, 100), SerializeField] public RangedInt ItemsToGather { get; set; }
+        [field: MinMaxRange(1, 100), SerializeField] public RangedInt RoomsToExplore { get; set; }
     }
 }
 

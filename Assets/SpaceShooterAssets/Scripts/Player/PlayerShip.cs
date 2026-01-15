@@ -194,6 +194,7 @@ public class PlayerShip : MonoBehaviour
 
     void UseBomb()
     {
+        StatusManager.Instance.SumBomb(-1);
         _currentBombs--;
 
         DestroyAllWithTag("Enemy");
@@ -235,7 +236,7 @@ public class PlayerShip : MonoBehaviour
         if (_isInvincible)
             return;
 
-        Debug.Log("Player took damage!");
+        StatusManager.Instance.SumLife(-damage);
         _currentLives -= damage;
 
         if (_currentLives <= 0)
@@ -254,7 +255,7 @@ public class PlayerShip : MonoBehaviour
             yield break;
 
         _isInvincible = true;
-        _col.enabled = false;
+        //_col.enabled = false;
 
         float timer = 0f;
         bool faded = false;
@@ -284,29 +285,10 @@ public class PlayerShip : MonoBehaviour
             1f
         );
 
-        _col.enabled = true;
+        //_col.enabled = true;
         _isInvincible = false;
     }
 
-    /*
-    IEnumerator InvincibilityCoroutine(float duration)
-    {
-        _isInvincible = true;
-        _col.enabled = false;
-
-        float timer = 0f;
-        while (timer < duration)
-        {
-            _spriteRenderer.enabled = !_spriteRenderer.enabled;
-            yield return new WaitForSeconds(0.1f);
-            timer += 0.1f;
-        }
-
-        _spriteRenderer.enabled = true;
-        _col.enabled = true;
-        _isInvincible = false;
-    }
-    */
     void Die()
     {
         // TODO: explosion, game over, respawn logic
