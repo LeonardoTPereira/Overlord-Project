@@ -202,7 +202,7 @@ public class EnemyLoader : MonoBehaviour
         }
     }
 
-    Vector2 GetSpawnPosition(MovementTypeSO movement)
+    public Vector2 GetSpawnPosition(MovementTypeSO movement)
     {
         switch (movement.enemyMovementIndex)
         {
