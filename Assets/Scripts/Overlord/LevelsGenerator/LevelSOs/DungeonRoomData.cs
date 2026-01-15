@@ -13,8 +13,7 @@ namespace Overlord.LevelGenerator.LevelSOs
         public List<int> Keys { get; set; }
         public List<int> Locks { get; set; }
         public bool IsLeaf { get; set; }
-
-        
+                
         public int Treasures { get; set; }
         public int NumOfNpcs { get; set ; }
         public int TotalEnemies { get; set; }

@@ -22,7 +22,7 @@ public class RoomExitArrow : MonoBehaviour
         to = toRoom;
         _onExitRoom = onExitRoom;
 
-        locked = to.Locks != null && !DungeonRuntimeData.HasKey(Mathf.Abs(to.Locks[0]));
+        locked = to.Locks != null && !DungeonRoomStateManager.HasKey(Mathf.Abs(to.Locks[0]));
 
         directionKey = GetDirectionKey();
         SetupTransform();

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Util
 {
     [Serializable]
-    public class Coordinates
+    public class Coordinates : IEquatable<Coordinates>
     {
         [SerializeField]
         private int x, y;
@@ -29,6 +29,12 @@ namespace Util
                 return false;
             Coordinates coordinates = (Coordinates)obj;
             return coordinates.X == X && coordinates.Y == Y;
+        }
+
+        public bool Equals(Coordinates other)
+        {
+            if (other == null) return false;
+            return X == other.X && Y == other.Y;
         }
 
         public override string ToString()

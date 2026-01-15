@@ -30,8 +30,8 @@ MonoBehaviour:
     Min: 2
     Max: 8
   <ItemsToGather>k__BackingField:
-    Min: 2
-    Max: 6
+    Min: 6
+    Max: 10
   <RoomsToExplore>k__BackingField:
     Min: 40
     Max: 80

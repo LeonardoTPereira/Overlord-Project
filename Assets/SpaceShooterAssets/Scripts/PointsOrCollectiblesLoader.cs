@@ -8,11 +8,18 @@ public class PointsOrCollectiblesLoader : MonoBehaviour
     [SerializeField] private GameObject objectPrefab;
     [SerializeField] private MovementTypeSO movementType;
 
-    void Start()
+    public static PointsOrCollectiblesLoader Instance { get; private set; }
+    private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    public void SpawnObjects(int amount)
+    public void LoadCollectibles(int amount)
     {
         if (movementType != null)
             for (int i = 0; i < amount; i++)

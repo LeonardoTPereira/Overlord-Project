@@ -82,7 +82,7 @@ public class MinimapController : MonoBehaviour
         if (tiles.TryGetValue(pos, out var tile))
         {
             tile.SetVisible(true);
-            DungeonRuntimeData.VisitedRooms.Add(pos.ToString());
+            DungeonRoomStateManager.VisitedRooms.Add(pos.ToString());
         }
     }
 

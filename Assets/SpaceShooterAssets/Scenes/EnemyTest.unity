@@ -629,7 +629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &255707549
 Transform:
   m_ObjectHideFlags: 0
@@ -1091,6 +1091,7 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 2014929204}
   fireRate: 0.15
+  damagePerBullet: 1
   maxLives: 3
   invincibilityTime: 2
   maxBombs: 3
@@ -1455,7 +1456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 887104674}
-  - component: {fileID: 887104673}
+  - component: {fileID: 887104675}
   m_Layer: 0
   m_Name: EnemyLoader
   m_TagString: Untagged
@@ -1463,23 +1464,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &887104673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 887104672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 892bfc812131929419e0cfb2319233ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useQuestGenerator: 0
-  enemyGenerator: {fileID: 4866364569642749310}
-  questGenerator: {fileID: 4866364569642749317}
-  enemyPrefab: {fileID: 625755037909434248, guid: 38dcdec6752a48c42aeccae1cd20e34a,
-    type: 3}
 --- !u!4 &887104674
 Transform:
   m_ObjectHideFlags: 0
@@ -1495,6 +1479,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &887104675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887104672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c839b9a96f86e714eb543a036a549da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useQuestGenerator: 0
+  enemyGenerator: {fileID: 4866364569642749310}
+  questGenerator: {fileID: 4866364569642749317}
+  enemyPrefab: {fileID: 625755037909434248, guid: 38dcdec6752a48c42aeccae1cd20e34a,
+    type: 3}
 --- !u!1001 &893411251
 PrefabInstance:
   m_ObjectHideFlags: 0

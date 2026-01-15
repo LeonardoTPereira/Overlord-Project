@@ -65,6 +65,7 @@ public class SpaceShooterEnemy : MonoBehaviour
 
     public void Die()
     {
+        FindObjectOfType<RoomController>()?.OnKilledEnemy();
         Destroy(gameObject);
     }
 

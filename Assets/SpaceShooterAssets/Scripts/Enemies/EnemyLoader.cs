@@ -50,6 +50,16 @@ public class EnemyLoader : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        Test();
+    }
+
+    private void Test()
+    {
+
+    }
+
     public void LoadEnemies(int amount, System.Action onCleared)
     {
         enemiesToSpawn = GetRandomEnemyList(amount, questGenerator.questLines.EnemySos);
@@ -60,7 +70,7 @@ public class EnemyLoader : MonoBehaviour
     {
         List<EnemySO> selectedEnemies = new List<EnemySO>();
 
-        for (int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < amount; i++)
         {
             int rnd = Random.Range(0, enemies.Count);
             selectedEnemies.Add(enemies[rnd]);
@@ -239,11 +249,11 @@ public class EnemyLoader : MonoBehaviour
 
             // T5: canto superior direito → inferior esquerdo
             case Enums.MovementEnum.Type5:
-                return new Vector2(MIN_X, MAX_Y);
+                return new Vector2(MAX_X, MIN_Y);
 
             // T6: canto superior esquerdo → inferior direito
             case Enums.MovementEnum.Type6:
-                return new Vector2(MAX_X, MAX_Y);
+                return new Vector2(MIN_X, MIN_Y);
 
             default:
                 return Vector2.zero;

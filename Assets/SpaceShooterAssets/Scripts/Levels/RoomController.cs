@@ -13,8 +13,8 @@ public class RoomController : MonoBehaviour
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private GameObject lockedArrowPrefab;
     private NpcSo currentNpc;
-    private QuestLine currentQuestLine;
     private GameObject npcPrefab;
+    private RoomProgressData _roomProgressData;
 
     private bool cleared = false;
 
@@ -25,16 +25,49 @@ public class RoomController : MonoBehaviour
             ConfigureNpc(questlineList, data);
     }
 
+    public void OnKilledEnemy()
+    {
+        if (_roomProgressData == null) return;
+        _roomProgressData.RemainingEnemies--;
+    }
+
+    public void OnCollectedTreasure()
+    {
+        if (_roomProgressData == null) return;
+        _roomProgressData.RemainingCollectibles--;
+    }
+
+    public void OnToolCollected()
+    {         
+        if (_roomProgressData == null) return;
+        _roomProgressData.RemainingTools--;
+    }
+
+    public void OnLoreItemRead()
+    {
+        if (_roomProgressData == null) return;
+        _roomProgressData.RemainingLoreItems--;
+    }
+
     public void OnPlayerEnter()
     {
         if (!cleared)
         {
             if (Data.NumOfNpcs <= 0)
-                EnemyLoader.Instance.LoadEnemies(Data.TotalEnemies, OnRoomCleared);
+            {
+                _roomProgressData = DungeonRoomStateManager.EnterRoom(
+                    Data.Coordinates,
+                    Data.TotalEnemies,
+                    Data.Treasures,
+                    Random.Range(0, Data.Treasures/1),
+                    Random.Range(0, Data.Treasures / 2));
+
+                EnemyLoader.Instance.LoadEnemies(_roomProgressData.RemainingEnemies, OnRoomCleared);
+                PointsOrCollectiblesLoader.Instance.LoadCollectibles(_roomProgressData.RemainingCollectibles);
+            }
             else
             {
                 OnRoomCleared();
-
             }
             MinimapController.Instance.RevealRoom(Data);
             MinimapController.Instance.SetCurrentRoom(Data);
@@ -43,6 +76,7 @@ public class RoomController : MonoBehaviour
 
     private void OnRoomCleared()
     {
+        DungeonRoomStateManager.UpdateRoomState(Data.Coordinates, _roomProgressData);
         Debug.Log("Room cleared!");
         cleared = true;
         ShowExits();
@@ -81,7 +115,7 @@ public class RoomController : MonoBehaviour
     {
         if (Data.Keys == null) return;
         foreach (var key in Data.Keys)
-            DungeonRuntimeData.CollectedKeys.Add(Mathf.Abs(key));
+            DungeonRoomStateManager.CollectedKeys.Add(Mathf.Abs(key));
     }
 
     private void ConfigureNpc(QuestLineList questlineList, DungeonRoomData data)
