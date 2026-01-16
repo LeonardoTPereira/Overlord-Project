@@ -295,4 +295,26 @@ public class PlayerShip : MonoBehaviour
         Destroy(gameObject);
     }
     #endregion
+
+    #region Add Lives, Bombs, Power
+    public void IncreaseLives(int amount)
+    {
+        _currentLives += amount;
+        if (_currentLives > maxLives)
+            _currentLives = maxLives;
+    }
+
+    public void IncreaseBombs(int amount)
+    {
+        _currentBombs += amount;
+        if (_currentBombs > maxBombs)
+            _currentBombs = maxBombs;
+    }
+
+    public void IncreasePower(int amount)
+    {
+        damagePerBullet += amount;
+    }
+
+    #endregion
 }

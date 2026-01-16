@@ -80,7 +80,8 @@ public class SpaceShooterEnemy : MonoBehaviour
         }
         else if (col.CompareTag("PlayerProjectile"))
         {
-            lifePoints -= col.GetComponent<PlayerBullet>()?.damage ?? 1;
+            //lifePoints -= col.GetComponent<PlayerBullet>()?.damage ?? 1;
+            lifePoints -= FindObjectOfType<PlayerShip>()?.damagePerBullet ?? 1;
             Destroy(col.gameObject);
             if (lifePoints <= 0)
             {

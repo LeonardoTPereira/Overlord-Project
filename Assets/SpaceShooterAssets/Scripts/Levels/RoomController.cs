@@ -155,7 +155,7 @@ public class RoomController : MonoBehaviour
         }
 
         SpawnNpc(npc);
-        ConfigureQuestDialogue(questlineList, npc);
+        QuestManager.Instance.ConfigureQuest(questlineList, npc, npcPrefab);
     }
 
     private static bool HasValidCoordinates(NpcSo npc)
@@ -167,24 +167,6 @@ public class RoomController : MonoBehaviour
     {
         currentNpc = npc;
         npcPrefab = Instantiate(currentNpc.Prefab, transform);        
-    }
-
-    private void ConfigureQuestDialogue(QuestLineList questlineList, NpcSo npc)
-    {
-        QuestLine questLine = questlineList.QuestLines.Find(q =>
-            q.NpcInCharge != null &&
-            q.NpcInCharge.NpcName == npc.NpcName);
-
-        if (questLine == null)
-            return;
-
-        string[] questEndSentence =
-            QuestLoader.Instance.GetQuestSentence(
-                questLine.GetCurrentQuest().SymbolType);
-
-        npcPrefab
-            .GetComponent<DialogueTrigger>()
-            .SetEndDialogue(questEndSentence);
     }
 
     public Transform GetSpawnPosition() => spawnPosition;

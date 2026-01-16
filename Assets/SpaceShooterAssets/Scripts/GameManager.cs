@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviour
             yield return null; // espera 1 frame
         }
         DungeonRoomStateManager.Init(_questGeneratorManager.questLines.DungeonFileSos[0].TotalEnemies,
-                                                    _questGeneratorManager.questLines.DungeonFileSos[0].TotalTreasures);
+                                                    _questGeneratorManager.questLines.DungeonFileSos[0].TotalTreasures,
+                                                    _questGeneratorManager.questLines.DungeonFileSos[0].Parts.Count/2);
 
         Debug.Log("Dungeon generation ended. Loading level and enemies.");
         LevelLoader.Instance.Load(

@@ -10,14 +10,16 @@ public static class DungeonRoomStateManager
 
     public static int TotalEnemiesInLevel;
     public static int TotalCollectiblesInLevel;
+    public static int TotalRoomsInLevel;
 
     public static Dictionary<Coordinates, RoomProgressData> roomStates =
     new Dictionary<Coordinates, RoomProgressData>();
 
-    public static void Init(int totalEnemiesInLevel, int totalCollectiblesInLevel)
+    public static void Init(int totalEnemiesInLevel, int totalCollectiblesInLevel, int totalRoomsInLevel)
     {
         TotalEnemiesInLevel = totalEnemiesInLevel;
         TotalCollectiblesInLevel = totalCollectiblesInLevel;
+        TotalRoomsInLevel = totalRoomsInLevel;
     }
 
     public static bool HasKey(int keyId)
