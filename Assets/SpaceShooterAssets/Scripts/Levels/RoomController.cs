@@ -15,11 +15,13 @@ public class RoomController : MonoBehaviour
     private NpcSo currentNpc;
     private GameObject npcPrefab;
     private RoomProgressData _roomProgressData;
+    private QuestLineList _questlineList;
 
     private bool cleared = false;
 
     public void Init(QuestLineList questlineList, DungeonRoomData data)
     {
+        _questlineList = questlineList;
         Data = data;
         if (data.NumOfNpcs > 0)
             ConfigureNpc(questlineList, data);
@@ -60,14 +62,26 @@ public class RoomController : MonoBehaviour
                 Random.Range(0, Data.Treasures / 1),
                 Random.Range(0, Data.Treasures / 2));
 
-            if (Data.NumOfNpcs <= 0)
+            bool roomHasNpcInQuestList = false;
+            if (_questlineList != null && _questlineList.NpcSos != null)
             {
-                EnemyLoader.Instance.LoadEnemies(_roomProgressData.RemainingEnemies, OnRoomCleared);
+                var matchingNpc = _questlineList.NpcSos.Find(npc =>
+                    HasValidCoordinates(npc) &&
+                    npc.RoomCoordinates.X == Data.Coordinates.X &&
+                    npc.RoomCoordinates.Y == Data.Coordinates.Y);
+
+                roomHasNpcInQuestList = matchingNpc != null;
             }
-            else
+
+            if (Data.NumOfNpcs > 0 && roomHasNpcInQuestList)
             {
                 OnRoomCleared();
             }
+            else
+            {
+                EnemyLoader.Instance.LoadEnemies(_roomProgressData.RemainingEnemies, OnRoomCleared);
+            }
+
             PointsOrCollectiblesLoader.Instance.LoadCollectibles(_roomProgressData.RemainingCollectibles);
             MinimapController.Instance.RevealRoom(Data);
             MinimapController.Instance.SetCurrentRoom(Data);

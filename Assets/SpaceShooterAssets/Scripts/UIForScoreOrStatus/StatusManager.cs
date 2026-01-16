@@ -14,7 +14,7 @@ public class StatusManager : MonoBehaviour
     private int _lifeAmount;
     private int _bombAmount;
     private int _enemiesDefeated;
-    private int _playerPower;
+    private int _playerPower;    
 
     public static StatusManager Instance;
     void Awake()
