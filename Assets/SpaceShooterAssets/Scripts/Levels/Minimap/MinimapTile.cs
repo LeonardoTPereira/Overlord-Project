@@ -1,6 +1,8 @@
+using Overlord.LevelGenerator.LevelSOs;
+using Overlord.NarrativeGenerator;
+using Overlord.NarrativeGenerator.Quests;
 using UnityEngine;
 using UnityEngine.UI;
-using Overlord.LevelGenerator.LevelSOs;
 
 public class MinimapTile : MonoBehaviour
 {
@@ -18,7 +20,19 @@ public class MinimapTile : MonoBehaviour
 
     private void CheckIfHasNPCs(DungeonRoomData data, MinimapIcons icons)
     {
-        if (data.NumOfNpcs > 0)
+        QuestLineList _questlineList = FindObjectOfType<QuestGeneratorManager>().questLines;
+        bool roomHasNpcInQuestList = false;
+        if (_questlineList != null && _questlineList.NpcSos != null)
+        {
+            var matchingNpc = _questlineList.NpcSos.Find(npc =>
+                npc != null &&
+                npc.RoomCoordinates.X == data.Coordinates.X &&
+                npc.RoomCoordinates.Y == data.Coordinates.Y);
+
+            roomHasNpcInQuestList = matchingNpc != null;
+        }
+
+        if (data.NumOfNpcs > 0 && roomHasNpcInQuestList)
             icon.sprite = icons.GetIcon("NPC");
     }
 
