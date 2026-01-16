@@ -34,4 +34,9 @@ public class ScoreManager : MonoBehaviour
         _collectibles += amount;
         collectiblesText.text = _collectibles.ToString();
     }
+
+    public int GetCollectibles()
+    {
+        return _collectibles;
+    }
 }

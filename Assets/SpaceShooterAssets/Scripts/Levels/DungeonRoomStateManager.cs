@@ -8,21 +8,16 @@ public static class DungeonRoomStateManager
     public static HashSet<int> CollectedKeys = new();
     public static HashSet<string> VisitedRooms = new();
 
-    private static int _totalEnemiesInLevel;
-    private static int _totalCollectiblesInLevel;
-
-    public static int TotalEnemiesDefeated { get; private set; }
-    public static int TotalTreasuresCollected { get; private set; }
-    public static int TotalToolsCollected { get; private set; }
-    public static int TotalLoreItemsRead { get; private set; }
+    public static int TotalEnemiesInLevel;
+    public static int TotalCollectiblesInLevel;
 
     public static Dictionary<Coordinates, RoomProgressData> roomStates =
     new Dictionary<Coordinates, RoomProgressData>();
 
     public static void Init(int totalEnemiesInLevel, int totalCollectiblesInLevel)
     {
-        _totalEnemiesInLevel = totalEnemiesInLevel;
-        _totalCollectiblesInLevel = totalCollectiblesInLevel;
+        TotalEnemiesInLevel = totalEnemiesInLevel;
+        TotalCollectiblesInLevel = totalCollectiblesInLevel;
     }
 
     public static bool HasKey(int keyId)

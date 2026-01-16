@@ -9,12 +9,15 @@ public class StatusManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _bombAmountText;
     [SerializeField] private TextMeshProUGUI _enemiesDefeatedText;
     [SerializeField] private TextMeshProUGUI _playerPowerText;
+    [SerializeField] private TextMeshProUGUI _completedQuestsText;
     [SerializeField] private PlayerShip _player;
 
-    private int _lifeAmount;
-    private int _bombAmount;
-    private int _enemiesDefeated;
-    private int _playerPower;    
+    public int LifeAmount { get; set; }
+    public int BombAmount { get; set; }
+    public int EnemiesDefeated { get; set; }
+    public int PlayerPower { get; set; }
+    public int CompletedQuests { get; set; }
+    public int VisitedRooms { get; set; }
 
     public static StatusManager Instance;
     void Awake()
@@ -29,10 +32,10 @@ public class StatusManager : MonoBehaviour
 
     void Start()
     {
-        _lifeAmount = _player.maxLives;
-        _bombAmount = _player.maxBombs;
-        _playerPower = _player.damagePerBullet;
-        _enemiesDefeated = -1;
+        LifeAmount = _player.maxLives;
+        BombAmount = _player.maxBombs;
+        PlayerPower = _player.damagePerBullet;
+        EnemiesDefeated = -1;
         SumLife(0);
         SumPower(0);
         SumBomb(0);
@@ -41,25 +44,40 @@ public class StatusManager : MonoBehaviour
 
     public void SumLife(int amount)
     {
-        _lifeAmount += amount;
-        _lifeAmountText.text = _lifeAmount.ToString();
+        FindObjectOfType<PlayerShip>().IncreaseLives(amount);
+        LifeAmount += amount;
+        _lifeAmountText.text = LifeAmount.ToString();
     }
 
     public void SumBomb(int amount)
     {
-        _bombAmount += amount;
-        _bombAmountText.text = _bombAmount.ToString();
+        FindObjectOfType<PlayerShip>().IncreaseBombs(amount);
+        BombAmount += amount;
+        _bombAmountText.text = BombAmount.ToString();
     }
 
     public void SumPower(int amount)
     {
-        _playerPower += amount;
-        _playerPowerText.text = _playerPower.ToString();
+        FindObjectOfType<PlayerShip>().IncreasePower(amount);
+        PlayerPower += amount;
+        _playerPowerText.text = PlayerPower.ToString();
     }
 
     public void SumEnemyDefeated()
     {
-        _enemiesDefeated ++;
-        _enemiesDefeatedText.text = _enemiesDefeated.ToString();        
+        EnemiesDefeated ++;
+        _enemiesDefeatedText.text = EnemiesDefeated.ToString();        
+    }
+
+    public void AddCompletedQuest()
+    {
+        CompletedQuests++;
+        _completedQuestsText.text = CompletedQuests.ToString();
+    }
+
+    public void RewardPlayer(int amount)
+    {
+        SumLife(amount);
+        SumPower(amount);
     }
 }
