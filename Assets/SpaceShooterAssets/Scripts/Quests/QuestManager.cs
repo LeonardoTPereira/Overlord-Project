@@ -23,12 +23,20 @@ public class QuestManager : MonoBehaviour
 
     void Update()
     {
-        foreach (var quest in _activeQuests)  // TODO: Mudar para um sistema de eventos, pois isso é muito pesado computacionalmente...
+        QuestInstance completedQuest = null;
+
+        foreach (var quest in _activeQuests)
         {
             quest.CheckCompletion();
             if (quest.IsCompleted)
-                CompleteQuest(quest);
+            {
+                completedQuest = quest;
+                break;
+            }
         }
+
+        if (completedQuest != null)
+            CompleteQuest(completedQuest);
     }
 
     public void TryStartQuest(QuestLine questLine)
@@ -77,7 +85,7 @@ public class QuestManager : MonoBehaviour
             .GetComponent<DialogueTrigger>()
             .SetEndDialogue(questEndSentence);
 
-        QuestManager.Instance.NotifyDialogueCompleted(FindObjectOfType<NaveNPC>());
+        NotifyDialogueCompleted(FindObjectOfType<NaveNPC>());
     }
 
     private QuestInstance CreateQuestInstance(QuestLine questLine, QuestCategory category)
@@ -122,8 +130,12 @@ public class QuestManager : MonoBehaviour
 
     private void CompleteQuest(QuestInstance quest)
     {
-        quest.IsCompleted = true;
         _activeQuests.Remove(quest);
+
+        if (quest.UI != null)
+            Destroy(quest.UI.gameObject);
+
+        RebuildQuestUI();
 
         StatusManager.Instance.AddCompletedQuest();
 
@@ -173,18 +185,39 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    private float questUISpacing = 80f;
     private void SpawnQuestUI(QuestInstance quest)
     {
-        var ui = Instantiate(questUIPrefab, questUIParent);
+        int index = _activeQuests.Count - 1;
 
-        RectTransform rt = ui.GetComponent<RectTransform>();
-        rt.anchoredPosition = new Vector2(
-            0,
-           //-_activeQuests.Count * rt.sizeDelta.y
-           -_activeQuests.Count * questUISpacing
-        );
+        var uiObj = Instantiate(questUIPrefab, questUIParent);
+        RectTransform rt = uiObj.GetComponent<RectTransform>();
+        RectTransform[] existingRTs = uiObj.GetComponents<RectTransform>();
 
-        ui.GetComponent<QuestUI>().SetText(quest.Description);
+        for (int i = 0; i < existingRTs.Length; i++)
+        {
+            existingRTs[i].sizeDelta = new Vector2(
+                0,
+                -index * rt.sizeDelta.y
+            );
+            break;
+        }
+
+        QuestUI ui = uiObj.GetComponent<QuestUI>();
+        ui.SetText(quest.Description);
+
+        quest.UI = ui; // 🔗 vínculo
+    }
+        private void RebuildQuestUI()
+    {
+        int index = 0;
+        foreach (Transform child in questUIParent)
+        {
+            RectTransform rt = child.GetComponent<RectTransform>();
+            rt.anchoredPosition = new Vector2(
+                rt.anchoredPosition.x,
+                -index * rt.sizeDelta.y
+            );
+            index++;
+        }
     }
 }

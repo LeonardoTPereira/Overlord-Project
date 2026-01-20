@@ -10,12 +10,12 @@ public class LevelLoader : MonoBehaviour
 {
     public static LevelLoader Instance;
 
-    [SerializeField] private GameObject roomPrefab;
-    [SerializeField] private Transform roomRoot;
-    [SerializeField] private Transform player;
+    [SerializeField] private GameObject _roomPrefab;
+    [SerializeField] private Transform _roomRoot;
+    [SerializeField] private Transform _player;
 
-    private Dictionary<Vector2Int, DungeonRoomData> dungeonMap;
-    private RoomController currentRoom;
+    private Dictionary<Vector2Int, DungeonRoomData> _dungeonMap;
+    private RoomController _currentRoom;
     private QuestLineList _currentQuestlineList;
 
     void Awake() => Instance = this;
@@ -26,9 +26,9 @@ public class LevelLoader : MonoBehaviour
 
         questLineList.ConvertDataForCurrentDungeon(dungeon.Parts);
 
-        dungeonMap = new();
+        _dungeonMap = new();
         foreach (var room in dungeon.Parts)
-            dungeonMap[new Vector2Int(room.Coordinates.X, room.Coordinates.Y)] = room;
+            _dungeonMap[new Vector2Int(room.Coordinates.X, room.Coordinates.Y)] = room;
 
         ResetNpcCoordinates();
 
@@ -38,15 +38,15 @@ public class LevelLoader : MonoBehaviour
 
     public void MoveToRoom(DungeonRoomData data)
     {
-        if (currentRoom != null)
-            Destroy(currentRoom.gameObject);
+        if (_currentRoom != null)
+            Destroy(_currentRoom.gameObject);
 
-        var roomGO = Instantiate(roomPrefab, roomRoot);
-        currentRoom = roomGO.GetComponent<RoomController>();
-        currentRoom.Init(_currentQuestlineList, data);
+        var roomGO = Instantiate(_roomPrefab, _roomRoot);
+        _currentRoom = roomGO.GetComponent<RoomController>();
+        _currentRoom.Init(_currentQuestlineList, data);
 
-        player.position = currentRoom.GetSpawnPosition().position;
-        currentRoom.OnPlayerEnter();
+        _player.position = _currentRoom.GetSpawnPosition().position;
+        _currentRoom.OnPlayerEnter();
     }
 
     public List<DungeonRoomData> GetNeighbors(string roomType, DungeonRoomData room)
@@ -60,7 +60,7 @@ public class LevelLoader : MonoBehaviour
         };
 
         foreach (var d in dirs)
-            if (dungeonMap.TryGetValue(pos + d, out var neighbor))
+            if (_dungeonMap.TryGetValue(pos + d, out var neighbor))
                 if (neighbor.Type.Contains(roomType) == true)
                     result.Add(neighbor);
 
@@ -75,7 +75,7 @@ public class LevelLoader : MonoBehaviour
         Vector2Int dir = corridorPos - fromPos;
         Vector2Int targetPos = corridorPos + dir;
 
-        if (dungeonMap.TryGetValue(targetPos, out var targetRoom))
+        if (_dungeonMap.TryGetValue(targetPos, out var targetRoom))
             return targetRoom;
 
         return null;

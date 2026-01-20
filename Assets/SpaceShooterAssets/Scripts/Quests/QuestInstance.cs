@@ -6,6 +6,7 @@ using UnityEngine;
 public class QuestInstance
 {
     public QuestLine QuestLine;
+    public QuestUI UI;
     public QuestCategory Category;
     public int TargetValue;
     public bool IsCompleted;
