@@ -6,8 +6,8 @@ using PlatformGame.Player;
 using ScriptableObjects;
 using UnityEngine.Serialization;
 using PlatformGame.Weapons;
-using PlatformGame.Util;
 using PlatformGame.Enemy.Movement;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {

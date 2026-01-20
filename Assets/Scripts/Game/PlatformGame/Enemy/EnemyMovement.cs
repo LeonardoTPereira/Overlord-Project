@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 using PlatformGame.Player;
 using ScriptableObjects;
-using PlatformGame.Util;
 using System.ComponentModel;
 using Util;
 using PlatformGame.Enemy.Movement;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {

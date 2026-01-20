@@ -6,8 +6,8 @@ using Gameplay;
 using ScriptableObjects;
 using TMPro;
 using PlatformGame.Weapons;
-using PlatformGame.Util;
 using Game.Quests;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {

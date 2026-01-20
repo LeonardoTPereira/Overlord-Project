@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PlatformGame.Util
+namespace OverlordData.PlatformGame.Util
 {
     public class CalculateSpawnPoints : MonoBehaviour
     {

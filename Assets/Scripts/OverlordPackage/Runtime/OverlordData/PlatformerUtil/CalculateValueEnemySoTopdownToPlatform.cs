@@ -1,4 +1,4 @@
-namespace PlatformGame.Util
+namespace OverlordData.PlatformGame.Util
 {
     public class CalculateValueEnemySoTopdownToPlatform
     {

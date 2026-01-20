@@ -1,0 +1,20 @@
+{
+	"name": "com.regex.overlord-tool",
+	"version": "1.0.0",
+	"displayName": "Overlord",
+	"description": "Overlord is a Unity tool for creating procedural generative content. It enables the creation of levels, quests, and enemies considering distinct player profiles.",
+	"unity": "2020.3",
+	"dependencies": {
+        "com.fellowshipofthegame.dialoguemodule": "https://github.com/FellowshipOfTheGame/DialogueModule.git#upm",
+		"com.malee.reorderablelist": "https://github.com/cfoulston/Unity-Reorderable-List.git#1.0.1",
+		"com.unity.inputsystem": "1.0.2",
+		"com.unity.textmeshpro": "3.0.6"
+	},
+	"samples": [
+		{
+			"displayName": "Example",
+			"description": "Simple example of character moving and 3 test dialogues",
+			"path": "Samples~/Example"
+		}
+	]
+}

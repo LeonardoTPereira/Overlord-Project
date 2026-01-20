@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PlatformGame.Util;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Weapons.Projectiles
 {

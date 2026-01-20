@@ -4,7 +4,7 @@ using Game.LevelManager.DungeonManager;
 using PlatformGame.Enemy;
 using UnityEngine;
 using Util;
-using PlatformGame.Util;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Dungeon
 {
