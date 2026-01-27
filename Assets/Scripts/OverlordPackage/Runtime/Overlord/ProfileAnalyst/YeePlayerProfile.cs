@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
-#if !UNITY_WEBGL || UNITY_EDITOR
-using Firebase.Firestore;
-#endif
+//#if !UNITY_WEBGL || UNITY_EDITOR
+////using Firebase.Firestore;
+//#endif
 
 namespace Overlord.ProfileAnalyst
 {
-    #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreData]
-    #endif
+//    #if !UNITY_WEBGL || UNITY_EDITOR
+//        [FirestoreData]
+//    #endif
     [Serializable]
     public class YeePlayerProfile: IPlayerProfile
     {
@@ -25,25 +25,25 @@ namespace Overlord.ProfileAnalyst
             Null
         }
         
-        #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreProperty]
-        #endif 
+        //#if !UNITY_WEBGL || UNITY_EDITOR
+        //[FirestoreProperty]
+        //#endif 
         [field: SerializeField] public PlayerProfileCategory PlayerProfileEnum { get; set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreProperty]
-        #endif 
+        //#if !UNITY_WEBGL || UNITY_EDITOR
+        //[FirestoreProperty]
+        //#endif 
         [field: SerializeField] public float MasteryPreference { get; set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreProperty]
-        #endif 
+        //#if !UNITY_WEBGL || UNITY_EDITOR
+        //[FirestoreProperty]
+        //#endif 
         [field: SerializeField] public float ImmersionPreference { get; set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreProperty]
-        #endif 
+        //#if !UNITY_WEBGL || UNITY_EDITOR
+        //[FirestoreProperty]
+        //#endif 
         [field: SerializeField] public float CreativityPreference { get; set; }
-        #if !UNITY_WEBGL || UNITY_EDITOR
-        [FirestoreProperty]
-        #endif 
+        //#if !UNITY_WEBGL || UNITY_EDITOR
+        //[FirestoreProperty]
+        //#endif 
         [field: SerializeField] public float AchievementPreference { get; set; }
         
         public YeePlayerProfile()

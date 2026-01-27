@@ -1,10 +1,10 @@
 {
-    "name": "Overlord",
+    "name": "Overlord.Runtime",
     "rootNamespace": "",
     "references": [
+        "Overlord",
         "OverlordData",
         "Project.Util",
-        "MyBox",
         "Project.ScripableObjects"
     ],
     "includePlatforms": [],

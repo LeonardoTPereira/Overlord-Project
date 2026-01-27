@@ -2,9 +2,9 @@
     "name": "OverlordData",
     "rootNamespace": "",
     "references": [
-        "GUID:48c9f6afdac61634db0e0f241c7d4d51",
-        "GUID:e889290e6f4967a4ba72b88171c97a6d",
-        "GUID:a37419e4b8e996d4da23a301a44013e3"
+        "MyBox",
+        "Project.ScripableObjects",
+        "Project.Util"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
