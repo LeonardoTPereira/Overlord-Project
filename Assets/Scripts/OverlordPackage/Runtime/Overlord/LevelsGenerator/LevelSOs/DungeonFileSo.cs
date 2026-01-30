@@ -8,7 +8,8 @@ using Util;
 
 namespace Overlord.LevelGenerator.LevelSOs
 {
-    [Serializable, CreateAssetMenu]
+    [CreateAssetMenu(fileName = "DungeonFileSo", menuName = "Overlord-Project/Levels-Generator/Util/DungeonFile")]
+    [Serializable]
     public class DungeonFileSo : ScriptableObject, ISavableGeneratedContent
     {
         const string Foldername = "Assets/Resources/Experiment/Dungeons";

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "NarrativeFilesRuntimeSetSO", menuName = "Overlord-Project/Narrative-Generator/Other/NarrativeFilesSet")]
     public class NarrativeFilesRuntimeSetSO : RuntimeSetSO<NarrativeFilesSO>
     {
         public NarrativeFilesSO GetNarrativesFromProfile(string profile)

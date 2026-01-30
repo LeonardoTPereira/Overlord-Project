@@ -2,7 +2,7 @@
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "BehaviorTypeRuntimeSetSO", menuName = "Overlord-Project/Rules-Generator/Util/BehaviorTypeSet")]
     public class BehaviorTypeRuntimeSetSO : RuntimeSetSO<BehaviorTypeSO>
     {
     }

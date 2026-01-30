@@ -3,7 +3,7 @@ using static Util.Enums;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "LevelConfigSO", menuName = "Overlord-Project/Levels-Generator/Util/LevelConfig")]
     public class LevelConfigSO : ScriptableObject
     {
         public DungeonSize dungeonSize;
@@ -14,4 +14,3 @@ namespace ScriptableObjects
         public string fileName;
     }
 }
-

@@ -5,7 +5,7 @@ using static Util.Enums;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "ReadableItemSO", menuName = "Items/Readable Item"), Serializable]
+    [CreateAssetMenu(fileName = "ReadableItemSO", menuName = "Overlord-Project/Narrative-Generator/Items/Readable Item"), Serializable]
     public class ReadableItemSo : ItemSo, IDialogueObjSo
     {
         [SerializeField] private NpcDialogueData dialogueData;

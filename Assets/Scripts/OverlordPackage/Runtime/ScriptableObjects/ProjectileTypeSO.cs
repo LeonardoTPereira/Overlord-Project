@@ -5,7 +5,7 @@ namespace ScriptableObjects
 {
     public delegate void ProjectileBehavior(Vector2 shootDirection);
 
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "ProjectileBehaviorSO", menuName = "TopdownGame/Enemies/ProjectileBehavior")]
     public class ProjectileTypeSO : ScriptableObject
     {
         public int multiplier;

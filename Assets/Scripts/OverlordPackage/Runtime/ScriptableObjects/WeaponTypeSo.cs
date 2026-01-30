@@ -5,7 +5,7 @@ using static Util.Enums;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "WeaponTypeSo", menuName = "Overlord-Project/Rules-Generator/Util/WeaponType")]
     [Serializable]
     public class WeaponTypeSo : ScriptableObject
     {

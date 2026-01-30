@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "NarrativeFilesSO", menuName = "Overlord-Project/Narrative-Generator/Other/NarrativeFiles")]
     public class NarrativeFilesSO : ScriptableObject
     {
         [SerializeField] private List<string> narrativeFolders;

@@ -2,7 +2,7 @@
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "UsableItemSO", menuName = "Overlord-Project/Rules-Generator/Other/UsableItem")]
     public class UsableItemSO : ItemSo
     {
         /*TODO implement strategies*/
