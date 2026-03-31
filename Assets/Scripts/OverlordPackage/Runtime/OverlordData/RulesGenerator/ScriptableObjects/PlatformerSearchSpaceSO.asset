@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c9f3ed0a708377458992e2a54a86334, type: 3}
-  m_Name: TopdownSearchSpaceSO
+  m_Name: PlatformerSearchSpaceSO
   m_EditorClassIdentifier: 
   Status1:
     statusName: Health

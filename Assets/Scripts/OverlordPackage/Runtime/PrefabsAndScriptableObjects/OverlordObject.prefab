@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46165342c895ebe4d9a1a878c9632375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerProfileSO: {fileID: 11400000, guid: df4063952f9a1924fb3626d14de6cfee, type: 2}
+  playerProfileSO: {fileID: 11400000, guid: f52aa182bd19edb47b16ea28807d29a8, type: 2}
 --- !u!114 &3185488196629989491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MustCreateNarrative>k__BackingField: 1
   language: 0
-  _narrativeSettings: {fileID: 11400000, guid: 763bc532616cc1f4a8f04550b423ea8e, type: 2}
+  _narrativeSettings: {fileID: 11400000, guid: 9dbda58786fc85f4faafe4f7f48eb035, type: 2}
   questLines: {fileID: 0}
 --- !u!114 &3358986337261961554
 MonoBehaviour:
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6554c4b668a1b714e85973e60fa097b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _searchSpaceConfig: {fileID: 11400000, guid: 37d7cb2117e12984b816ca3524a3925c, type: 2}
+  _searchSpaceConfig: {fileID: 11400000, guid: 003dd600a079de24dbca892d23726e76, type: 2}
   ActivateManualDifficulty: 0
   difficulties: 0
   _geneticSettings:
@@ -104,9 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9575ca784fb76414d8101084a8b89c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fitnessDesiredValues: {fileID: 11400000, guid: 215c2ec375a5fc74190ccfe9a3b881f6,
+  _fitnessDesiredValues: {fileID: 11400000, guid: 95a9606a1331ae64ca683abce5bc0886,
     type: 2}
-  GeneticAlgorithmSettings: {fileID: 11400000, guid: f3e7a524f3e593446962d745e209a304,
+  GeneticAlgorithmSettings: {fileID: 11400000, guid: b53aedb7bbbce924c92eda6ef25e9f65,
     type: 2}
 --- !u!114 &6986832399410117844
 MonoBehaviour:
