@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
-using PlatformGame.Util;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Weapons
 {
@@ -17,7 +17,7 @@ namespace PlatformGame.Weapons
 
         [HideInInspector] public bool HasAttackJump;
 
-        public virtual void LoadWeapon(EnemySO enemySo)
+        public virtual void LoadWeapon(TopdownEnemySO enemySo)
         {
             // Strengh setted from 1 to 4 in SearchSpace.cs
             weaponDamage = Mathf.RoundToInt(CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform((float)enemySo.damage, (float)_minimumDamage,(float)_maximumDamage, 1f, 4f));

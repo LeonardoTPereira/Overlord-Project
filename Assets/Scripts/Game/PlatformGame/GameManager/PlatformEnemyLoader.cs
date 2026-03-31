@@ -33,8 +33,10 @@ namespace PlatformGame.GameManager
             {
                 enemy = Instantiate(EnemyPrefab, position, rotation);
             }
-
-            enemy.GetComponent<EnemyController>().LoadEnemyData(enemySo, questId);
+            if (enemySo is TopdownEnemySO topdownEnemySO)
+                enemy.GetComponent<EnemyController>().LoadEnemyData(topdownEnemySO, questId);
+            else
+                Debug.Log("EnemySO is not of type TopdownEnemySO");
             return enemy;
         }
     }

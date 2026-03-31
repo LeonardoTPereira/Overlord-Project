@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 using PlatformGame.Player;
 using ScriptableObjects;
-using PlatformGame.Util;
 using System.ComponentModel;
 using Util;
 using PlatformGame.Enemy.Movement;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
@@ -26,7 +26,7 @@ namespace PlatformGame.Enemy
 
         [HideInInspector] public MovementManager moveManager;
 
-        public void LoadMovement(EnemySO enemySo)
+        public void LoadMovement(TopdownEnemySO enemySo)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
             // From 0.8f to 3.2f in SearchSpace

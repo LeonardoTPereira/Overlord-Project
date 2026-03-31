@@ -1,0 +1,19 @@
+{
+    "name": "Overlord.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "Overlord",
+        "OverlordData",
+        "Project.Util",
+        "Project.ScripableObjects"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

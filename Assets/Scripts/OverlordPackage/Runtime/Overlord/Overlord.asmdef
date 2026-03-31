@@ -1,0 +1,19 @@
+{
+    "name": "Overlord",
+    "rootNamespace": "",
+    "references": [
+        "OverlordData",
+        "Project.Util",
+        "MyBox",
+        "Project.ScripableObjects"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

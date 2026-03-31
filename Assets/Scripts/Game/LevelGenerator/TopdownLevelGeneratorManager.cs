@@ -6,11 +6,6 @@ namespace Overlord.LevelGenerator.Manager
 {
     public class TopdownLevelGeneratorManager : LevelGeneratorManager
     {
-        private void Start()
-        {
-            _fitnessPlot = GetComponent<FitnessPlot>();
-        }
-
         private void OnEnable()
         {
             DungeonMapEliteVisualizer.ContinueGenerationEventHandler += ContinueGenerationEvent;

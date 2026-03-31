@@ -13,7 +13,7 @@ namespace PlatformGame.Enemy.Movement
         private LayerMask _mask;
         private EdgeTester _edgeTester;
 
-        public override void InitializeVariables(EnemySO enemySo)
+        public override void InitializeVariables(TopdownEnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
             _edgeTester = transform.GetChild(0).gameObject.GetComponent<EdgeTester>();

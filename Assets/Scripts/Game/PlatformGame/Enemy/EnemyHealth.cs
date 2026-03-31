@@ -6,8 +6,8 @@ using Gameplay;
 using ScriptableObjects;
 using TMPro;
 using PlatformGame.Weapons;
-using PlatformGame.Util;
 using Game.Quests;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy
 {
@@ -17,9 +17,9 @@ namespace PlatformGame.Enemy
         [SerializeField] private int _maximumHealth = 6;
 
         private EnemyAnimation _enemyAnimation;
-        private EnemySO enemySo;        
+        private TopdownEnemySO enemySo;        
 
-        public EventHandler<EnemySO> EnemyKilledHandler;
+        public EventHandler<TopdownEnemySO> EnemyKilledHandler;
 
         private int _questID;
 
@@ -29,7 +29,7 @@ namespace PlatformGame.Enemy
             _enemyAnimation = GetComponent<EnemyAnimation>();
         }
 
-        public void LoadHealth(EnemySO enemySo, int questID)
+        public void LoadHealth(TopdownEnemySO enemySo, int questID)
         {
             _questID = questID;
             maxHealth = (int)Mathf.Round(CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform((float)enemySo.health, (float)_minimumHealth, (float)_maximumHealth, 1.0f, 6.0f));

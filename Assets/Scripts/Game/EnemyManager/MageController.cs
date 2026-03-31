@@ -59,7 +59,8 @@ namespace Game.EnemyManager
                 {
                     var bombController = bullet.GetComponent<BombController>();
                     bombController.ShootDirection = target;
-                    bombController.Damage = EnemyData.damage;
+                    if (EnemyData is TopdownEnemySO ed)
+                        bombController.Damage = ed.damage;
                     bombController.EnemyThatShot = IndexOnEnemyList;
                 }
                 else
@@ -82,7 +83,8 @@ namespace Game.EnemyManager
             {
                 if (ProjectilePrefab.name == "EnemyBomb")
                 {
-                    EnemyData.attackSpeed /= 2.0f;
+                    if (EnemyData is TopdownEnemySO edd)
+                        edd.attackSpeed /= 2.0f;
                     SetColors(enemyColorPalette.MainColorA, enemyColorPalette.DetailColorA);
                 }
                 else
@@ -95,8 +97,11 @@ namespace Game.EnemyManager
             {
                 SetColors(enemyColorPalette.MainColorC, enemyColorPalette.DetailColorC);
             }
-            CooldownTime = 1.0f / EnemyData.attackSpeed;
-            ProjectileSpeed = enemyData.projectileSpeed * 4;
+            if (EnemyData is TopdownEnemySO ed)
+            {
+                CooldownTime = 1.0f / ed.attackSpeed;
+                ProjectileSpeed = ed.projectileSpeed * 4;
+            }
         }
 
         private void SetColors(Color mainColor, Color detailColor)

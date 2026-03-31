@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PlatformGame.Util;
 using UnityEngine.Events;
 using ScriptableObjects;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy.Movement
 {
@@ -20,7 +20,7 @@ namespace PlatformGame.Enemy.Movement
         private float _flipCooldown = FLIP_MIN_COOLDOWN;
         private bool _isFlipDefaultCooldown = false;
 
-        public override void InitializeVariables(EnemySO enemySo)
+        public override void InitializeVariables(TopdownEnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
             //_edgeTester = transform.GetChild(0).gameObject.GetComponent<EdgeTester>();

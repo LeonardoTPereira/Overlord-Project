@@ -22,6 +22,8 @@ TagManager:
   - EnemyProjectile
   - PlayerMelee
   - Floor
+  - EdgeTester
+  - Obstacle
   layers:
   - Default
   - TransparentFX

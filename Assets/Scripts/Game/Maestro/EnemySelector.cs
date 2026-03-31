@@ -53,7 +53,7 @@ namespace Game.Maestro
             return hasMeleeOrRanged && !hasHealer && selected.TryAddHealer(ref enemies);
         }
 
-        private static bool IsBadEnemy(EnemySO enemy)
+        private static bool IsBadEnemy(TopdownEnemySO enemy)
         {
             var movement = enemy.movement.enemyMovementIndex;
             // All melees that cannot move are bad enemies
@@ -67,9 +67,9 @@ namespace Game.Maestro
         }
 
         /// Filter a list of enemies by removing bad enemies.
-        public static List<EnemySO> FilterEnemies(List<EnemySO> enemies)
+        public static List<TopdownEnemySO> FilterEnemies(List<TopdownEnemySO> enemies)
         {
-            var selected = new List<EnemySO>();
+            var selected = new List<TopdownEnemySO>();
             foreach (var enemy in enemies)
             {
                 if (!IsBadEnemy(enemy))

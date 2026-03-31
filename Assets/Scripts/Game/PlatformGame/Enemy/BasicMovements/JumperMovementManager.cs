@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PlatformGame.Util;
 using UnityEngine.Events;
 using ScriptableObjects;
+using OverlordData.PlatformGame.Util;
 
 namespace PlatformGame.Enemy.Movement
 {
@@ -20,7 +20,7 @@ namespace PlatformGame.Enemy.Movement
         private float _jumpForce = MIN_JUMP_FORCE;
         private float _jumpCooldown = 2f;
 
-        public override void InitializeVariables(EnemySO enemySo)
+        public override void InitializeVariables(TopdownEnemySO enemySo)
         {
             _rb = GetComponent<Rigidbody2D>();
             _jumpCooldown = CalculateValueEnemySoTopdownToPlatform.TopdownToPlatform(4f - enemySo.movementSpeed, MIN_JUMP_COOLDOWN, MAX_JUMP_COOLDOWN, .8f, 3.2f);

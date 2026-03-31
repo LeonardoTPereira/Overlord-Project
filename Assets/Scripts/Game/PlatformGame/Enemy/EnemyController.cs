@@ -79,7 +79,7 @@ namespace PlatformGame.Enemy
             _enemyRigidBody.velocity = Vector2.zero;
         }
 
-        public void LoadEnemyData(EnemySO enemySo, int questId)
+        public void LoadEnemyData(TopdownEnemySO enemySo, int questId)
         {
             EnemyTestManager etm = EnemyTestManager.Instance;
 

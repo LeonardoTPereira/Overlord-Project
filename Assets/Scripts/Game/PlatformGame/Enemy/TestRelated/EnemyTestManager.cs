@@ -53,9 +53,9 @@ namespace PlatformGame.Enemy
         public float ProjectileSpeed;
         public Enums.MovementEnum Movement;
 
-        public EnemySO GenerateTestPlataformEnemySO()
+        public TopdownEnemySO GenerateTestPlataformEnemySO()
         {
-            EnemySO enemySo = new EnemySO();
+            TopdownEnemySO enemySo = new TopdownEnemySO();
             MovementTypeSO moveTypeSo = new MovementTypeSO();
 
             enemySo.movement = moveTypeSo;

@@ -1,0 +1,19 @@
+{
+    "name": "Project.ScripableObjects",
+    "rootNamespace": "",
+    "references": [
+        "Project.Util",
+        "RotaryHeart",
+        "Fog.Dialogue",
+        "MyBox"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
